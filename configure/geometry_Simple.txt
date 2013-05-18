@@ -1,0 +1,6 @@
+# The Segment which includes World should be put at the first line!!
+	VerboseLevel    1
+#	Name     Type         FileName
+	World           Simple              subgeo_CdcGeneral_simple.txt
+#	World           Simple              subgeo_CdcGeneral_small.txt
+#	Cdc             Cdc                 subgeo_cdc_wire_small.txt

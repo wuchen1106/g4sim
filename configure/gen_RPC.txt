@@ -1,0 +1,31 @@
+#General setting  
+  Type:      simple
+  Particle:  gamma #(e+/e-/chargedgeantino/gamma/...)
+
+#Default Direction
+#            Theta    Phi
+#            deg      deg
+  Direction: 0        0
+#Default Momentum Amplitude
+#          MeV
+  MomAmp:  105
+#Default Position   x   y   z
+#                   mm  mm  mm
+  Position:         0   0   0
+
+  EnergyMode:     histo #(root/histo/none)
+#Histogram file name
+  EMHFN:          RPC_Mg.root
+#Histogram name
+  EMHHN:          hRPC
+
+  PositionMode:   uniform #(uniform/root/none)
+#Uniform In Volume:
+#                 Type    Segment  Volume
+	UIV:            Simple  World    Target
+
+  DirectionMode:  uniform #(none/uniform)
+
+#ROOT file name
+#	RFN:            electrons.root
+# RTN:            t

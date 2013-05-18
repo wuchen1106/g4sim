@@ -1,0 +1,7 @@
+# The Segment which includes World should be put at the first line!!
+	VerboseLevel    1
+#ServiceName      ServiceType         FileName
+#  World           Simple              subgeo_CdcGeneral_default.txt
+#  Cdc             Formulized          subgeo_cdc_layer.txt
+  World           Simple              subgeo_CdcGeneral_small.txt
+  Cdc             Formulized          subgeo_cdc_layer_small.txt

@@ -1,0 +1,3 @@
+/stacking/setEleCut 1.5 MeV
+/stacking/setPosCut 1.5 MeV
+/stacking/setGamCut 1.5 MeV

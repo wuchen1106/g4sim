@@ -1,0 +1,6 @@
+#Setup MagField
+  TYPE: Uniform
+
+#Intensity     Theta Phi 
+#         T    deg   deg
+  UniF:   1    0     0

@@ -1,0 +1,32 @@
+#General setting  
+	Type:      simple
+	Particle:  neutron #(e+/e-/chargedgeantino/gamma/...)
+
+#Default Direction
+#	           Theta    Phi
+#	           deg      deg
+	Direction: 0        0
+#Default Momentum Amplitude
+#	         MeV
+	MomAmp:  10
+#Default Position   x   y   z
+#	                  mm  mm  mm
+	Position:         0   0   -1e2
+#	Position:         0   0   0
+
+	EnergyMode:     histo #(root/histo/none)
+#Histogram file name
+	EMHFN:          LEN.root
+#Histogram name
+	EMHHN:          LEN_hist
+
+	PositionMode:   none  #(uniform/root/none)
+#Uniform In Volume:
+#	                Type    SubDet   Volume
+#	UIV:            Simple  World    Target
+
+	DirectionMode:  none  #(none/uniform)
+
+#ROOT file name
+#	RFN:            electrons_60.root
+#	RTN:            t

@@ -1,0 +1,99 @@
+#general info
+#	checkoverlap
+	CellMaterial:              ChamberGas
+	MotherLogicalVolume:       CDCContainer
+	SensitiveDetector:         CdcSD
+	SDVolumeName:              CdcCell
+#	DigitizeModule:            CdcDigitizer
+#	DigitizeModule:            none
+
+#wire info
+	SignalWireMaterial:        Tungsten
+	FieldWireMaterial:         Aluminium
+	SignalWireRadius:          15  #micrometer
+	FieldWireRadius:           63  #micrometer
+
+#layer info
+	LayerNo:              29
+#	layer      WireNo   Length   R        StartPhi  First RotateCell
+#	                    mm       mm       rad     0:F/1:S
+	F                            365
+	S  0   0   474      1500     370      0         0      0
+	F                            375
+	S  1   1   474      1500     380      0         1      0
+	F                            385
+	S  2   2   474      1500     390      0         0      0
+	F                            395
+	S  3   3   474      1500     400      0         1      0
+	F                            405
+	S  4   4   474      1500     410      0         0      0
+	F                            415
+	S  5   5   474      1500     420      0         1      0
+	F                            425
+	S  6   6   474      1500     430      0         0      0
+	F                            435
+	S  7   7   562      1500     440      0         1      8
+	F                            445
+	S  8   8   562      1500     450      0         0      8
+	F                            455
+	S  9   9   562      1500     460      0         1      8
+	F                            465
+	S  10  10  562      1500     470      0         0      8
+	F                            475
+	S  11  11  562      1500     480      0         1      8
+	F                            485
+	S  12  12  614      1500     490      0         0      0
+	F                            495
+	S  13  13  614      1500     500      0         1      0
+	F                            505
+	S  14  14  614      1500     510      0         0      0
+	F                            515
+	S  15  15  614      1500     520      0         1      0
+	F                            525
+	S  16  16  614      1500     530      0         0      0
+	F                            535
+	S  17  17  690      1500     540      0         1      -8
+	F                            545
+	S  18  18  690      1500     550      0         0      -8
+	F                            555
+	S  19  19  690      1500     560      0         1      -8
+	F                            565
+	S  20  20  690      1500     570      0         0      -8
+	F                            575
+	S  21  21  690      1500     580      0         1      -8
+	F                            585
+	S  22  22  730      1500     590      0         0      0
+	F                            595
+	S  23  23  730      1500     600      0         1      0
+	F                            605
+	S  24  24  730      1500     610      0         0      0
+	F                            615
+	S  25  25  730      1500     620      0         1      0
+	F                            625
+	S  26  26  730      1500     630      0         0      0
+	F                            635
+	S  27  27  730      1500     640      0         1      0
+	F                            645
+	S  28  28  730      1500     650      0         0      0
+	LF                           655
+
+#Tubs info
+#	No   RMin  RMax  Length StartAng SpanAng posX posY posZ Name           MotVolume    Material     SDName RepNo Space DirTheta DirPhi Ephi Etheta Epsi
+#	     mm    mm    mm     deg      deg     mm   mm   mm                                                         mm    deg      deg    deg  deg    deg
+	T 0  359.6 660.4 1520   0.       360     0.   0.   0.   CDCContainer  World        ChamberGas   none   1     0     0        0      0    0      0
+#	T 1  660   660.4 1500   0.       360     0.   0.   0.   OutCylinder   CDCContainer CarbonFiber  none   1     0     0        0      0    0      0
+#	T 2  359.6 360   1500   0.       360     0.   0.   0.   InnerCylinder CDCContainer CarbonFiber  none   1     0     0        0      0    0      0
+#	T 3  359.6 660.4 10     0.       360     0.   0.   0.   EndPlate      CDCContainer Aluminium    none   2     1510  0        0      0    0      0
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name             red green blue
+#	vis_layer        0    1    0
+#	vis_cell         0    1    0
+#	vis_FieldWire    0    1    0
+#	vis_SignalWire   1    0    0
+#	vis_CDCContainer 0    1    1
+#	vis_OutCylinder  0    1    1
+#	vis_InnerCylinder 0    1    1
+#	vis_EndPlate     0    0    1
