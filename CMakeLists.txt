@@ -4,17 +4,36 @@ cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 project(G4SIM)
 
 #----------------------------------------------------------------------------
-# Find Geant4 and ROOT package, no UI and Vis drivers activated
+# Find Geant4 package, activating all available UI and Vis drivers by default
+# You can set WITH_GEANT4_UIVIS to OFF via the command line or ccmake/cmake-gui
+# to build a batch mode only executable
 #
-SET(CMAKE_MODULE_PATH cmake)
+option(WITH_GEANT4_UIVIS "Build example with Geant4 UI and Vis drivers" ON)
+if(WITH_GEANT4_UIVIS)
+	find_package(Geant4 REQUIRED ui_all vis_all)
+else()
+	find_package(Geant4 REQUIRED)
+endif()
 find_package(Geant4 REQUIRED)
-find_package(ROOT REQUIRED)
+
+#----------------------------------------------------------------------------
+# set viriables for ROOT
+#
+include(FindROOT.cmake)
 
 #----------------------------------------------------------------------------
 # Setup Geant4 and ROOT include directories and compile definitions
 #
 include(${Geant4_USE_FILE} ${ROOT_USE_FILE})
 
+#----------------------------------------------------------------------------
+# Locate link files for this project
+#
+#set(LINK_DIRECTORIES
+#		${ROOT_LIBRARY_DIR}
+#	 )
+#link_directories( ${LINK_DIRECTORIES})
+	 
 #----------------------------------------------------------------------------
 # Locate sources and headers for this project
 #

@@ -1,0 +1,31 @@
+#General setting  
+	Type:      simple
+	Particle:  anti_proton #(e+/e-/chargedgeantino/gamma/...)
+
+#Default Direction
+#	           Theta    Phi
+#	           deg      deg
+	Direction: 0        0
+#Default Momentum Amplitude
+#	         MeV
+	MomAmp:  100
+#Default Position   x   y   z
+#	                  mm  mm  mm
+	Position:         0   0   -1.5
+
+	EnergyMode:     none #(root/histo/none)
+#Histogram file name
+	EMHFN:          RMC_Al.root
+#Histogram name
+	EMHHN:          hRMC
+
+	PositionMode:   none #(uniform/root/none)
+#Uniform In Volume:
+#	                Type   SubDet   Volume
+	UIV:            Simple World    Target
+
+	DirectionMode:  none #(none/uniform)
+
+#ROOT file name
+	RFN:            electrons_60.root
+	RTN:            t

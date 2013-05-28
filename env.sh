@@ -1,8 +1,9 @@
 #!/bin/sh
-unset MYG4SIMROOT
 if [ -z $MYG4SIMROOT ]; then
 	MYG4SIMROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 fi
+
+export G4SIMEXEC=$MYG4SIMROOT/g4sim
 
 #Configuration directory
 export CONFIGUREROOT=$MYG4SIMROOT/configure/
