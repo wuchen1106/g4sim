@@ -5,8 +5,8 @@
 #	No   x   y   z      posX   posY   posZ   Name     MotVolume Material   SDName    RepNo Space DirTheta DirPhi Ephi Etheta Epsi
 #	     mm  mm  mm     mm     mm     mm                                                   mm    deg      deg    deg  deg    deg
 	B 0  3   3   3      0.     0.     0.     World    None      Vacuum     none      1     0     0        0      0    0      0
-	B 1  3   3   2      0.     0.     0.     Target   World     Aluminium  none      1     0     0        0      0    0      0
-	B 1  3   3   0.1    0.     0.     0.     Monitor  World     Aluminium  MonitorSD 2     2.1   0        0      0    0      0
+	B 1  3   3   0.1    0.     0.     0.     Target   World     Aluminium  none      1     0     0        0      0    0      0
+	B 1  3   3   0.1    0.     0.     0.     Monitor  World     Vacuum     MonitorSD 2     0.2   0        0      0    0      0
 
 #visual settings
 	VerboseLevel:    5
