@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <title>G4sim by wuchen1106</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>G4sim</h1>
+        <h2>Simulation toolkit based on Geant4 and ROOT</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/wuchen1106/g4sim/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/wuchen1106/g4sim/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/wuchen1106/g4sim" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h1>
+<a name="g4sim" class="anchor" href="#g4sim"><span class="octicon octicon-link"></span></a>g4sim</h1>
+
+<p>Simulation toolkit based on Geant4 and ROOT </p>
+
+<h3>
+<a name="1-installation" class="anchor" href="#1-installation"><span class="octicon octicon-link"></span></a>1. Installation</h3>
+
+<p>Prerequirements:<br>
+1.  CMake installed<br>
+2.  Geant4 installed<br>
+3.  ROOT installed  </p>
+
+<pre><code>$ cmake .
+$ make
+</code></pre>
+
+<h3>
+<a name="2-how-to-use" class="anchor" href="#2-how-to-use"><span class="octicon octicon-link"></span></a>2. How to use</h3>
+
+<p>Prerequirements:  </p>
+
+<ol>
+<li><p>Geant4 environment is set already. If not, then<br><code>source /path/to/geant4/bin/geant4.sh</code><br><code>source /path/to/geant4/share/Geant4-*/geant4make/geant4make.sh</code></p></li>
+<li><p>ROOT environment is set already. If not, then<br><code>source /path/to/root/bin/thisroot.sh</code></p></li>
+<li><p>g4sim basic environment is set already. If not, then<br><code>source /path/to/g4sim/env.sh</code></p></li>
+</ol><p>To start:  </p>
+
+<pre><code>$ source setup/test.sh       # Choose anyone you like, or write another by yourself
+$ ./g4sim [macros/run.mac]         # Choose any Geant4 macro file you want.
+                                   # without macro file it would enter interactive mode.
+</code></pre>
+
+<p>To explain:  </p>
+
+<ol>
+<li><p>Interactive mode would apply <strong>macros/vis.mac</strong>, which would call <code>vis/open OGL</code>.
+    If you don't have <code>-DGEANT4_USE_RAYTRACER_X11=ON</code> when configure Geant4
+    then you may want to change these command.</p></li>
+<li><p>A file like in <strong>setup</strong> directory would set up a specific environment for a certain study purpose</p></li>
+</ol><h3>
+<a name="2-examples" class="anchor" href="#2-examples"><span class="octicon octicon-link"></span></a>2. Examples</h3>
+
+<ol>
+<li>Study the penetrating rate of anti-proton through Aluminium target</li>
+</ol>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
