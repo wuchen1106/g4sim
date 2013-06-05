@@ -76,11 +76,21 @@ void ProcessCountingSvc::Initialize(){
 		m_charge.clear();
 		m_process.clear();
 		m_ASDI_msc.clear();
+		m_ASDI_hPairProd.clear();
+		m_ASDI_Transportation.clear();
+		m_ASDI_hBrems.clear();
 		m_ASDI_eBrem.clear();
 		m_ASDI_eIoni.clear();
 		m_PSDI_eIoni.clear();
 		m_PSDI_eBrem.clear();
 		m_PSDI_msc.clear();
+		m_PSDI_hPairProd.clear();
+		m_PSDI_hIoni.clear();
+		m_PSDI_hadElastic.clear();
+		m_PSDI_ionIoni.clear();
+		m_PSDI_Decay.clear();
+		m_PSDI_Transportation.clear();
+		m_PSDI_hBrems.clear();
 		m_volume.clear();
 		VolName = "";
 }
@@ -116,11 +126,25 @@ void ProcessCountingSvc::SetBranch(){
 	if( flag_particleName ) myRoot->SetBranch("ProcessCounting_particleName", &m_particleName);
 	if( flag_process ) myRoot->SetBranch("ProcessCounting_process", &m_process);
 	if( flag_ASDI_msc ) myRoot->SetBranch("ProcessCounting_ASDI_msc", &m_ASDI_msc);
+	if( flag_ASDI_hPairProd ) myRoot->SetBranch("ProcessCounting_ASDI_hPairProd", &m_ASDI_hPairProd);
+	if( flag_ASDI_hIoni ) myRoot->SetBranch("ProcessCounting_ASDI_hIoni", &m_ASDI_hIoni);
+	if( flag_ASDI_hadElastic ) myRoot->SetBranch("ProcessCounting_ASDI_hadElastic", &m_ASDI_hadElastic);
+	if( flag_ASDI_ionIoni ) myRoot->SetBranch("ProcessCounting_ASDI_ionIoni", &m_ASDI_ionIoni);
+	if( flag_ASDI_Decay ) myRoot->SetBranch("ProcessCounting_ASDI_Decay", &m_ASDI_Decay);
+	if( flag_ASDI_Transportation ) myRoot->SetBranch("ProcessCounting_ASDI_Transportation", &m_ASDI_Transportation);
+	if( flag_ASDI_hBrems ) myRoot->SetBranch("ProcessCounting_ASDI_hBrems", &m_ASDI_hBrems);
 	if( flag_ASDI_eBrem ) myRoot->SetBranch("ProcessCounting_ASDI_eBrem", &m_ASDI_eBrem);
 	if( flag_ASDI_eIoni ) myRoot->SetBranch("ProcessCounting_ASDI_eIoni", &m_ASDI_eIoni);
 	if( flag_PSDI_eBrem ) myRoot->SetBranch("ProcessCounting_PSDI_eBrem", &m_PSDI_eBrem);
 	if( flag_PSDI_eIoni ) myRoot->SetBranch("ProcessCounting_PSDI_eIoni", &m_PSDI_eIoni);
 	if( flag_PSDI_msc ) myRoot->SetBranch("ProcessCounting_PSDI_msc", &m_PSDI_msc);
+	if( flag_PSDI_hPairProd ) myRoot->SetBranch("ProcessCounting_PSDI_hPairProd", &m_PSDI_hPairProd);
+	if( flag_PSDI_hIoni ) myRoot->SetBranch("ProcessCounting_PSDI_hIoni", &m_PSDI_hIoni);
+	if( flag_PSDI_hadElastic ) myRoot->SetBranch("ProcessCounting_PSDI_hadElastic", &m_PSDI_hadElastic);
+	if( flag_PSDI_ionIoni ) myRoot->SetBranch("ProcessCounting_PSDI_ionIoni", &m_PSDI_ionIoni);
+	if( flag_PSDI_Decay ) myRoot->SetBranch("ProcessCounting_PSDI_Decay", &m_PSDI_Decay);
+	if( flag_PSDI_Transportation ) myRoot->SetBranch("ProcessCounting_PSDI_Transportation", &m_PSDI_Transportation);
+	if( flag_PSDI_hBrems ) myRoot->SetBranch("ProcessCounting_PSDI_hBrems", &m_PSDI_hBrems);
 	if( flag_volume ) myRoot->SetBranch("ProcessCounting_volume", &m_volume);
 }
 
@@ -169,6 +193,7 @@ void ProcessCountingSvc::ReadOutputCard(G4String filename){
 			else if( name == "tid" ) flag_tid = true;
 			else if( name == "nSec" ) flag_nSec = true;
 			else if( name == "time" ) {flag_time = true; buf_card>>unitName_time; unit_time = MyString2Anything::get_U(unitName_time);}
+			else if( name == "time" ) {flag_time = true; buf_card>>unitName_time; unit_time = MyString2Anything::get_U(unitName_time);}
 			else if( name == "stepL" ) {flag_stepL = true; buf_card>>unitName_stepL; unit_stepL = MyString2Anything::get_U(unitName_stepL);}
 			else if( name == "prePx" ) {flag_prePx = true; buf_card>>unitName_prePx; unit_prePx = MyString2Anything::get_U(unitName_prePx);}
 			else if( name == "prePy" ) {flag_prePy = true; buf_card>>unitName_prePy; unit_prePy = MyString2Anything::get_U(unitName_prePy);}
@@ -192,11 +217,25 @@ void ProcessCountingSvc::ReadOutputCard(G4String filename){
 			else if( name == "charge" ) flag_charge = true;
 			else if( name == "process" ) flag_process = true;
 			else if( name == "ASDI_msc" ) flag_ASDI_msc = true;
+			else if( name == "ASDI_hPairProd" ) flag_ASDI_hPairProd = true;
+			else if( name == "ASDI_hIoni" ) flag_ASDI_hIoni = true;
+			else if( name == "ASDI_hadElastic" ) flag_ASDI_hadElastic = true;
+			else if( name == "ASDI_ionIoni" ) flag_ASDI_ionIoni = true;
+			else if( name == "ASDI_Decay" ) flag_ASDI_Decay = true;
+			else if( name == "ASDI_Transportation" ) flag_ASDI_Transportation = true;
+			else if( name == "ASDI_hBrems" ) flag_ASDI_hBrems = true;
 			else if( name == "ASDI_eBrem" ) flag_ASDI_eBrem = true;
 			else if( name == "ASDI_eIoni" ) flag_ASDI_eIoni = true;
 			else if( name == "PSDI_eBrem" ) flag_PSDI_eBrem = true;
 			else if( name == "PSDI_eIoni" ) flag_PSDI_eIoni = true;
 			else if( name == "PSDI_msc" ) flag_PSDI_msc = true;
+			else if( name == "PSDI_hPairProd" ) flag_PSDI_hPairProd = true;
+			else if( name == "PSDI_hIoni" ) flag_PSDI_hIoni = true;
+			else if( name == "PSDI_hadElastic" ) flag_PSDI_hadElastic = true;
+			else if( name == "PSDI_ionIoni" ) flag_PSDI_ionIoni = true;
+			else if( name == "PSDI_Decay" ) flag_PSDI_Decay = true;
+			else if( name == "PSDI_Transportation" ) flag_PSDI_Transportation = true;
+			else if( name == "PSDI_hBrems" ) flag_PSDI_hBrems = true;
 			else if( name == "volume" ) flag_volume = true;
 			else{
 				std::cout<<"In ProcessCountingSvc::ReadOutputCard, unknown name: "<<name<<" in file "<<filename<<std::endl;
@@ -290,11 +329,25 @@ void ProcessCountingSvc::ReSet(){
 	flag_particleName = false;
 	flag_process = false;
 	flag_ASDI_msc = false;
+	flag_ASDI_hPairProd = false;
+	flag_ASDI_hIoni = false;
+	flag_ASDI_hadElastic = false;
+	flag_ASDI_ionIoni = false;
+	flag_ASDI_Decay = false;
+	flag_ASDI_Transportation = false;
+	flag_ASDI_hBrems = false;
 	flag_ASDI_eBrem = false;
 	flag_ASDI_eIoni = false;
 	flag_PSDI_eIoni = false;
 	flag_PSDI_eBrem = false;
 	flag_PSDI_msc = false;
+	flag_PSDI_hPairProd = false;
+	flag_PSDI_hIoni = false;
+	flag_PSDI_hadElastic = false;
+	flag_PSDI_ionIoni = false;
+	flag_PSDI_Decay = false;
+	flag_PSDI_Transportation = false;
+	flag_PSDI_hBrems = false;
 	flag_volume = false;
 	m_Switch = false;
   m_maxnTracks = 0;
@@ -336,11 +389,25 @@ void ProcessCountingSvc::ShowOutCard(){
 	std::cout<<"output charge?        "<<(flag_charge?" yes":" no")<<std::endl;
 	std::cout<<"output process?       "<<(flag_process?" yes":" no")<<std::endl;
 	std::cout<<"output ASDI_msc?      "<<(flag_ASDI_msc?" yes":" no")<<std::endl;
+	std::cout<<"output ASDI_hPairProd?"<<(flag_ASDI_hPairProd?" yes":" no")<<std::endl;
+	std::cout<<"output ASDI_hIoni?    "<<(flag_ASDI_hIoni?" yes":" no")<<std::endl;
+	std::cout<<"output ASDI_hadElastic?    "<<(flag_ASDI_hadElastic?" yes":" no")<<std::endl;
+	std::cout<<"output ASDI_ionIoni?    "<<(flag_ASDI_ionIoni?" yes":" no")<<std::endl;
+	std::cout<<"output ASDI_Decay?    "<<(flag_ASDI_Decay?" yes":" no")<<std::endl;
+	std::cout<<"output ASDI_Transportation?    "<<(flag_ASDI_Transportation?" yes":" no")<<std::endl;
+	std::cout<<"output ASDI_hBrems?   "<<(flag_ASDI_hBrems?" yes":" no")<<std::endl;
 	std::cout<<"output ASDI_eBrem?    "<<(flag_ASDI_eBrem?" yes":" no")<<std::endl;
 	std::cout<<"output ASDI_eIoni?    "<<(flag_ASDI_eIoni?" yes":" no")<<std::endl;
 	std::cout<<"output PSDI_eIoni?    "<<(flag_PSDI_eIoni?" yes":" no")<<std::endl;
 	std::cout<<"output PSDI_eBrem?    "<<(flag_PSDI_eBrem?" yes":" no")<<std::endl;
 	std::cout<<"output PSDI_msc?      "<<(flag_PSDI_msc?" yes":" no")<<std::endl;
+	std::cout<<"output PSDI_hPairProd?"<<(flag_PSDI_hPairProd?" yes":" no")<<std::endl;
+	std::cout<<"output PSDI_hIoni?    "<<(flag_PSDI_hIoni?" yes":" no")<<std::endl;
+	std::cout<<"output PSDI_hadElastic?    "<<(flag_PSDI_hadElastic?" yes":" no")<<std::endl;
+	std::cout<<"output PSDI_ionIoni?    "<<(flag_PSDI_ionIoni?" yes":" no")<<std::endl;
+	std::cout<<"output PSDI_Decay?    "<<(flag_PSDI_Decay?" yes":" no")<<std::endl;
+	std::cout<<"output PSDI_Transportation?    "<<(flag_PSDI_Transportation?" yes":" no")<<std::endl;
+	std::cout<<"output PSDI_hBrems?   "<<(flag_PSDI_hBrems?" yes":" no")<<std::endl;
 	std::cout<<"output volume?        "<<(flag_volume?" yes":" no")<<std::endl;
 	std::cout<<"Switch on?            "<<(m_Switch?"yes":"no")<<std::endl;
 	std::cout<<"minp =                "<<m_minp/MeV<<"MeV"<<std::endl;
@@ -368,11 +435,25 @@ void ProcessCountingSvc::InitialStep(const G4Step* aStep){
 	//std::cout<<"--------------------In ProcessCountingSvc::InitialStep()-----------------------"<<std::endl;
 	//std::cout<<"size = "<<m_ASDI_msc.size()<<std::endl;
 	m_ASDI_msc.push_back(0);
+	m_ASDI_hPairProd.push_back(0);
+	m_ASDI_hIoni.push_back(0);
+	m_ASDI_hadElastic.push_back(0);
+	m_ASDI_ionIoni.push_back(0);
+	m_ASDI_Decay.push_back(0);
+	m_ASDI_Transportation.push_back(0);
+	m_ASDI_hBrems.push_back(0);
 	m_ASDI_eBrem.push_back(0);
 	m_ASDI_eIoni.push_back(0);
 	m_PSDI_eBrem.push_back(0);
 	m_PSDI_eIoni.push_back(0);
 	m_PSDI_msc.push_back(0);
+	m_PSDI_hPairProd.push_back(0);
+	m_PSDI_hIoni.push_back(0);
+	m_PSDI_hadElastic.push_back(0);
+	m_PSDI_ionIoni.push_back(0);
+	m_PSDI_Decay.push_back(0);
+	m_PSDI_Transportation.push_back(0);
+	m_PSDI_hBrems.push_back(0);
 }
 
 void ProcessCountingSvc::AddASDI(G4String name){
@@ -381,7 +462,14 @@ void ProcessCountingSvc::AddASDI(G4String name){
 	if ( name == "msc" || name == "CoulombScat" ) m_ASDI_msc[i]++;
 	else if ( name == "eIoni" ) m_ASDI_eIoni[i]++;
 	else if ( name == "eBrem" ) m_ASDI_eBrem[i]++;
-	//std::cout<<"In AddASDI: Process Name = \""<<name<<"\""<<std::endl;
+	else if ( name == "hIoni" ) m_ASDI_hIoni[i]++;
+	else if ( name == "hadElastic" ) m_ASDI_hadElastic[i]++;
+	else if ( name == "ionIoni" ) m_ASDI_ionIoni[i]++;
+	else if ( name == "Decay" ) m_ASDI_Decay[i]++;
+	else if ( name == "Transportation" ) m_ASDI_Transportation[i]++;
+	else if ( name == "hBrems" ) m_ASDI_hBrems[i]++;
+	else if ( name == "hPairProd" ) m_ASDI_hPairProd[i]++;
+	else std::cout<<"In AddASDI: Process Name = \""<<name<<"\""<<std::endl;
 }
 
 void ProcessCountingSvc::AddPSDI(G4String name){
@@ -390,7 +478,14 @@ void ProcessCountingSvc::AddPSDI(G4String name){
 	if ( name == "msc" || name == "CoulombScat" ) m_PSDI_msc[i]++;
 	else if ( name == "eIoni" ) m_PSDI_eIoni[i]++;
 	else if ( name == "eBrem" ) m_PSDI_eBrem[i]++;
-	//std::cout<<"In AddPSDI: Process Name = \""<<name<<"\""<<std::endl;
+	else if ( name == "hIoni" ) m_PSDI_hIoni[i]++;
+	else if ( name == "hadElastic" ) m_PSDI_hadElastic[i]++;
+	else if ( name == "ionIoni" ) m_PSDI_ionIoni[i]++;
+	else if ( name == "Decay" ) m_PSDI_Decay[i]++;
+	else if ( name == "Transportation" ) m_PSDI_Transportation[i]++;
+	else if ( name == "hBrems" ) m_PSDI_hBrems[i]++;
+	else if ( name == "hPairProd" ) m_PSDI_hPairProd[i]++;
+	else std::cout<<"In AddPSDI: Process Name = \""<<name<<"\""<<std::endl;
 }
 
 void ProcessCountingSvc::SetValue(const G4Step* aStep){
