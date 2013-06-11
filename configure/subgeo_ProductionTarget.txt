@@ -1,0 +1,27 @@
+#general info
+#	checkoverlap
+
+#Box info
+#	No   x   y   z      posX   posY   posZ   Name     MotVolume Material   SDName    RepNo Space DirTheta DirPhi Ephi Etheta Epsi
+#	     mm  mm  mm     mm     mm     mm                                                   mm    deg      deg    deg  deg    deg
+
+#Tubs info
+#	No   RMin  RMax  Length StartAng SpanAng posX posY posZ Name     MotVolume Material   SDName    RepNo Space DirTheta DirPhi Ephi Etheta Epsi
+#	     mm    mm    mm     deg      deg     mm   mm   mm                                                 mm    deg      deg    deg  deg    deg
+	T 0  0     55    200    0.       360.    0.   0.   0.   World    None      Vacuum     none      1     0     0        0      0    0      0
+	T 1  0     54    160    0.       360.    0.   0.   0.   Target   World     Tungsten   none      1     0     0        0      0    0      0
+	T 2  54.5  54.6  0.1    0.       360.    0.   0.   0.   Monitor1 World     Vacuum     MonitorSD 1     0     0        0      0    0      0
+	T 3  0     54.6  0.1    0.       360.    0.   0.   0.   Monitor2 World     Vacuum     MonitorSD 2     160.1 0        0      0    0      0
+
+#Sphere info
+#	No    RMin  RMax  StartPhi SpanPhi StartThe SpanThe posX posY posZ Name     MotVolume Material     SDName RepNo Space DirTheta DirPhi Ephi Etheta Epsi
+#	      mm    mm    deg      deg     deg      deg     mm   mm   mm                                                mm    deg      deg    deg  deg    deg
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name              red  green blue
+	vis_World         0    0    1
+	vis_Monitor       0    1    0
+	vis_Monitor2      0    1    0
+	vis_Target        0.8  0.8  0.8

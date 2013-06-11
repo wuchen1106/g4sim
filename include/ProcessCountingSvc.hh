@@ -80,6 +80,7 @@ class ProcessCountingSvc
     bool flag_process;
     bool flag_ASDI_msc;
     bool flag_ASDI_hPairProd;
+    bool flag_ASDI_ProtonInelastic;
     bool flag_ASDI_hBrems;
     bool flag_ASDI_hIoni;
     bool flag_ASDI_hadElastic;
@@ -91,6 +92,7 @@ class ProcessCountingSvc
     bool flag_PSDI_eBrem;
     bool flag_PSDI_msc;
     bool flag_PSDI_hPairProd;
+    bool flag_PSDI_ProtonInelastic;
     bool flag_PSDI_hBrems;
     bool flag_PSDI_hIoni;
     bool flag_PSDI_hadElastic;
@@ -141,6 +143,7 @@ class ProcessCountingSvc
     std::vector<std::string> m_process;
     std::vector<int> m_ASDI_msc;
     std::vector<int> m_ASDI_hPairProd;
+    std::vector<int> m_ASDI_ProtonInelastic;
     std::vector<int> m_ASDI_hBrems;
     std::vector<int> m_ASDI_hIoni;
     std::vector<int> m_ASDI_hadElastic;
@@ -153,6 +156,7 @@ class ProcessCountingSvc
     std::vector<int> m_PSDI_eIoni;
     std::vector<int> m_PSDI_msc;
     std::vector<int> m_PSDI_hPairProd;
+    std::vector<int> m_PSDI_ProtonInelastic;
     std::vector<int> m_PSDI_hBrems;
     std::vector<int> m_PSDI_hIoni;
     std::vector<int> m_PSDI_hadElastic;

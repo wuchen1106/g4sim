@@ -75,7 +75,7 @@ PhysicsList::PhysicsList(int ver):  G4VModularPhysicsList()
   G4cout << "<<< Geant4 Physics List simulation engine: My Own  physics list based on QGSP_BERT 3.4"<<G4endl;
   G4cout <<G4endl;
 
-  defaultCutValue = 1e-3*um;
+  defaultCutValue = 1e-3*m;
   SetVerboseLevel(ver);
 
   // EM Physics
