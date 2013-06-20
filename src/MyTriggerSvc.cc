@@ -105,6 +105,9 @@ void MyTriggerSvc::SetMyTrigger( G4String filename ){
 				buf_card>>unit;
 				minEleMom = para*MyString2Anything::get_U(unit);
 			}
+			else if ( name == "minAntipNum" ){
+				minAntipNum = para;
+			}
 			else{
 				std::cout<<"In MyTriggerSvc::SetMyTrigger, unknown name: "<<name<<" in file "<<filename<<std::endl;
 				std::cout<<"Will ignore this line!"<<std::endl;
@@ -148,6 +151,9 @@ void MyTriggerSvc::SetMyTrigger( G4String filename ){
 	if ( minEleMom != -1 ){
 		myMcTruthSvc = McTruthSvc::GetMcTruthSvc();
 	}
+	if ( minAntipNum != -1 ){
+		myMcTruthSvc = McTruthSvc::GetMcTruthSvc();
+	}
 }
 
 bool MyTriggerSvc::TriggerIt( const G4Event* evt ){
@@ -180,6 +186,15 @@ bool MyTriggerSvc::TriggerIt( const G4Event* evt ){
 		}
 		if (!foundit) return false;
 	}
+	if ( minAntipNum != -1 ){
+		bool foundit = false;
+		int nTracks = myMcTruthSvc->get_nTracks();
+		for ( int i = 0; i < nTracks; i++ ){
+			int pid = myMcTruthSvc->get_pid(i);
+			if ( pid == -2212 ) foundit = true;
+		}
+		if (!foundit) return false;
+	}
 	//std::cout<<"Passed Cut!"<<std::endl;
 	MYTRI_LINECONT( "Passed Cut!" )
 
@@ -191,13 +206,15 @@ void MyTriggerSvc::ReSet(){
 	minCdcCellHits = -1;
 	minTriggerHits = -1;
 	minEleMom = -1;
+	minAntipNum = -1;
 }
 
 void MyTriggerSvc::ShowOutCard(){
 	std::cout<<"*************************Trigger settings"<<"***************************"<<std::endl;
 	std::cout<<"minTriggerHits = "<<minTriggerHits<<std::endl;
-	std::cout<<"minCdcHits = "<<minCdcHits<<std::endl;
+	std::cout<<"minCdcHits =     "<<minCdcHits<<std::endl;
 	std::cout<<"minCdcCellHits = "<<minCdcCellHits<<std::endl;
-	std::cout<<"minEleMom= "<<minEleMom/MeV<<", MeV"<<std::endl;
+	std::cout<<"minEleMom=       "<<minEleMom/MeV<<", MeV"<<std::endl;
+	std::cout<<"minAntipNum=     "<<minAntipNum<<std::endl;
 	std::cout<<"******************************************************************************"<<std::endl;
 }

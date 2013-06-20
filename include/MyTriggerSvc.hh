@@ -41,6 +41,7 @@ class MyTriggerSvc
 		int minCdcCellHits;
 		int minTriggerHits;
 		double minEleMom;
+		int minAntipNum;
 
 		MyDetectorManager* pMyDetectorManager;
 		CdcLayerSD* myCdcLayerSD;
