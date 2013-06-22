@@ -21,6 +21,7 @@
 #include "G4Tubs.hh"
 #include "G4Hype.hh"
 #include "G4TwistedTubs.hh"
+#include "G4Cons.hh"
 #include "G4Sphere.hh"
 #include "G4PVPlacement.hh"
 #include "G4RotationMatrix.hh"
@@ -136,6 +137,18 @@ void SimpleGeometrySvc::ConstructVolumes(){
 			dphi = m_GeometryParameter->get_TwistedTubs_dphi(SolidIndex);
 			G4TwistedTubs* sol_TwistedTubs=new G4TwistedTubs(name,twistedangle,endinnerrad,endouterrad,halfLength,dphi);
 			log_Vol = new G4LogicalVolume(sol_TwistedTubs, pttoMaterial, name,0,0,0);
+		}
+		else if ( SolidType == "Cons" ){
+			G4double RMax1, RMin1, RMax2, RMin2, halfLength, StartAng, SpanAng;
+			RMax1 = m_GeometryParameter->get_Cons_RMax1(SolidIndex);
+			RMin1 = m_GeometryParameter->get_Cons_RMin1(SolidIndex);
+			RMax2 = m_GeometryParameter->get_Cons_RMax2(SolidIndex);
+			RMin2 = m_GeometryParameter->get_Cons_RMin2(SolidIndex);
+			halfLength = m_GeometryParameter->get_Cons_Length(SolidIndex)/2;
+			StartAng = m_GeometryParameter->get_Cons_StartAng(SolidIndex);
+			SpanAng = m_GeometryParameter->get_Cons_SpanAng(SolidIndex);
+			G4Cons* sol_Cons=new G4Cons(name,RMin1,RMax1,RMin2,RMax2,halfLength,StartAng,SpanAng);
+			log_Vol = new G4LogicalVolume(sol_Cons, pttoMaterial, name,0,0,0);
 		}
 		else {
 			std::cout<<"SolidType "<<SolidType<<" is not supported yet!"<<std::endl;
