@@ -95,6 +95,15 @@ class SimpleGeometryParameterMessenger : public MyVGeometryParameterMessenger
 		G4UIcmdWithAString*        set_TwistedTubs_Length_cmd;
 		G4UIcmdWithAString*        set_TwistedTubs_dphi_cmd;
 
+		//Cons info
+		G4UIcmdWithAString*        set_Cons_RMax1_cmd;
+		G4UIcmdWithAString*        set_Cons_RMin1_cmd;
+		G4UIcmdWithAString*        set_Cons_RMax2_cmd;
+		G4UIcmdWithAString*        set_Cons_RMin2_cmd;
+		G4UIcmdWithAString*        set_Cons_Length_cmd;
+		G4UIcmdWithAString*        set_Cons_StartAng_cmd;
+		G4UIcmdWithAString*        set_Cons_SpanAng_cmd;
+
 		//other settings
 		G4UIcmdWithAString*        set_vis_cmd;
 		G4UIcmdWithAString*        set_r_cmd;

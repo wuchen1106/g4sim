@@ -88,6 +88,7 @@ void SimpleGeometryParameter::Preset(){
 	SphereNo = 0;
 	HypeNo = 0;
 	TwistedTubsNo = 0;
+	ConsNo = 0;
 
 	//General info about volume
   PosX.clear();
@@ -146,6 +147,16 @@ void SimpleGeometryParameter::Preset(){
   TwistedTubs_Length.clear();
   TwistedTubs_dphi.clear();
   TwistedTubs_GenIndex.clear();
+
+	//Cons info
+  Cons_RMax1.clear();
+  Cons_RMin1.clear();
+  Cons_RMax2.clear();
+  Cons_RMin2.clear();
+  Cons_Length.clear();
+  Cons_StartAng.clear();
+  Cons_SpanAng.clear();
+  Cons_GenIndex.clear();
 }
 
 int SimpleGeometryParameter::GetValue(G4String s_card){
@@ -159,7 +170,7 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 	buf_card>>name;
 	std::string s_para;
 	int iVol = VolNo;
-	if( name == "B" || name == "T" || name == "Sph" || name == "H" || name == "TT" ){
+	if( name == "B" || name == "T" || name == "Sph" || name == "H" || name == "TT" || name == "C" ){
 		if( name == "B" ){
 			SolidType.push_back("Box");
 			SolidIndex.push_back(Box_X.size());
@@ -271,6 +282,35 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 			TwistedTubs_dphi.push_back(tTwistedTubs_dphi);
 			TwistedTubs_GenIndex.push_back(iVol);
 			TwistedTubsNo++;
+		}
+		else if( name == "C" ){
+			SolidType.push_back("Cons");
+			SolidIndex.push_back(Cons_Length.size());
+			std::string dump;
+			G4double tCons_RMax1;
+			G4double tCons_RMin1;
+			G4double tCons_RMax2;
+			G4double tCons_RMin2;
+			G4double tCons_Length;
+			G4double tCons_StartAng;
+			G4double tCons_SpanAng;
+			buf_card>>dump>>tCons_RMin1>>tCons_RMax1>>tCons_RMin2>>tCons_RMax2>>tCons_Length>>tCons_StartAng>>tCons_SpanAng;
+			tCons_RMax1 *= mm;
+			tCons_RMin1 *= mm;
+			tCons_RMax2 *= mm;
+			tCons_RMin2 *= mm;
+			tCons_Length *= mm;
+			tCons_StartAng *= deg;
+			tCons_SpanAng *= deg;
+			Cons_RMax1.push_back(tCons_RMax1);
+			Cons_RMin1.push_back(tCons_RMin1);
+			Cons_RMax2.push_back(tCons_RMax2);
+			Cons_RMin2.push_back(tCons_RMin2);
+			Cons_Length.push_back(tCons_Length);
+			Cons_StartAng.push_back(tCons_StartAng);
+			Cons_SpanAng.push_back(tCons_SpanAng);
+			Cons_GenIndex.push_back(iVol);
+			ConsNo++;
 		}
 		G4double tPosX;
 		G4double tPosY;
@@ -699,6 +739,80 @@ void SimpleGeometryParameter::DumpInfo() {
 						 <<std::setiosflags(std::ios::left)<<std::setw(12)<<TwistedTubs_endouterrad[i]/mm
 						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<TwistedTubs_Length[i]/mm
 						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<TwistedTubs_dphi[i]/deg
+						 <<std::setiosflags(std::ios::left)<<std::setw(15)<<Name[index]
+						 <<std::setiosflags(std::ios::left)<<std::setw(15)<<MotherName[index]
+						 <<std::setiosflags(std::ios::left)<<std::setw(15)<<Material[index]
+						 <<std::setiosflags(std::ios::left)<<std::setw(15)<<SDName[index]
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<PosX[index]/mm
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<PosY[index]/mm
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<PosZ[index]/mm
+						 <<std::setiosflags(std::ios::left)<<std::setw(6) <<RepNo[index]
+						 <<std::setiosflags(std::ios::left)<<std::setw(6) <<Space[index]/mm
+						 <<std::setiosflags(std::ios::left)<<std::setw(9) <<DirTheta[index]
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<DirPhi[index]
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Ephi[index]/deg
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Etheta[index]/deg
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Epsi[index]/deg
+						 <<std::endl;
+	}
+
+	for( G4int i = 0; i < ConsNo; i++ ){
+		if ( i == 0 ){
+			std::cout<<"=>Cons info:"<<std::endl;
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<"No."
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"RMin1"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"RMax1"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"RMin2"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"RMax2"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Length"
+							 <<std::setiosflags(std::ios::left)<<std::setw(9) <<"StartAng"
+							 <<std::setiosflags(std::ios::left)<<std::setw(8) <<"SpanAng"
+							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<"Name"
+							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<"MotherName"
+							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<"Matierial"
+							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<"SDName"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"PosX"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"PosY"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"PosZ"
+							 <<std::setiosflags(std::ios::left)<<std::setw(6) <<"RepNo"
+							 <<std::setiosflags(std::ios::left)<<std::setw(6) <<"Space"
+							 <<std::setiosflags(std::ios::left)<<std::setw(9) <<"DirTheta"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"DirPhi"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Ephi"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Etheta"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Epsi"
+							 <<std::endl;
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<""
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
+							 <<std::setiosflags(std::ios::left)<<std::setw(9) <<"deg"
+							 <<std::setiosflags(std::ios::left)<<std::setw(8) <<"deg"
+							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<""
+							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<""
+							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<""
+							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<""
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
+							 <<std::setiosflags(std::ios::left)<<std::setw(6) <<""
+							 <<std::setiosflags(std::ios::left)<<std::setw(6) <<"mm"
+							 <<std::setiosflags(std::ios::left)<<std::setw(9) <<"deg"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
+							 <<std::endl;
+		}
+		int index = Cons_GenIndex[i];
+		std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<i
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Cons_RMin1[i]/mm
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Cons_RMax1[i]/mm
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Cons_RMin2[i]/mm
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Cons_RMax2[i]/mm
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Cons_Length[i]/mm
+						 <<std::setiosflags(std::ios::left)<<std::setw(9) <<Cons_StartAng[i]/deg
+						 <<std::setiosflags(std::ios::left)<<std::setw(8) <<Cons_SpanAng[i]/deg
 						 <<std::setiosflags(std::ios::left)<<std::setw(15)<<Name[index]
 						 <<std::setiosflags(std::ios::left)<<std::setw(15)<<MotherName[index]
 						 <<std::setiosflags(std::ios::left)<<std::setw(15)<<Material[index]
