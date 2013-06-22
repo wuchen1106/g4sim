@@ -40,7 +40,7 @@ CdcGeometrySvc::CdcGeometrySvc(G4String name, G4String opt )
 {
 	if ( opt == "" ){//called directly by user. set up parameter class.
 		CdcGeometryParameter *pointer = new CdcGeometryParameter(name);
-//		std::cout<<"======>In CdcGeometrySvc, new CdcGeometryParameter at ("<<(void*)pointer<<")!"<<std::endl;
+		//		std::cout<<"======>In CdcGeometrySvc, new CdcGeometryParameter at ("<<(void*)pointer<<")!"<<std::endl;
 		set_GeometryParameter(pointer);
 	}
 }
@@ -76,8 +76,8 @@ void CdcGeometrySvc::ConstructVolumes(){
 	//get general info
 	bool checkOverlap = m_GeometryParameter->get_checkoverlap();
 	G4String MVol_name = m_GeometryParameter->get_MotherLogicalVolume();
-  G4String SD_name = m_GeometryParameter->get_SensitiveDetector();
-  G4String SDVolumeName = m_GeometryParameter->get_SDVolumeName();
+	G4String SD_name = m_GeometryParameter->get_SensitiveDetector();
+	G4String SDVolumeName = m_GeometryParameter->get_SDVolumeName();
 	G4String CellMatName=m_GeometryParameter->get_CellMaterial();
 	//get wire info
 	G4double signalWireR=m_GeometryParameter->get_SignalWireRadius();
@@ -97,7 +97,7 @@ void CdcGeometrySvc::ConstructVolumes(){
 
 	//loop in layers
 	G4int    layerNo = m_GeometryParameter->get_LayerNo();      
-//	for( int layerId = 0; layerId < 1; layerId++ ){
+	//	for( int layerId = 0; layerId < 1; layerId++ ){
 	for( int layerId = 0; layerId < layerNo; layerId++ ){
 		//set useful variables
 		G4LogicalVolume* log_cell;// would be used as the mother volume of wires
@@ -150,13 +150,13 @@ void CdcGeometrySvc::ConstructVolumes(){
 		G4double theta_RMin = atan(RMin*sin(alpha_RMin)/layer_halfzlen);
 		G4double theta_RMax = atan(RMax*sin(alpha_RMax)/layer_halfzlen);
 		G4double theta_RMid = atan(RMid*sin(alpha_RMid)/layer_halfzlen);
-//    std::cout<<"twisteddangle = "<<twisteddangle/deg<<std::endl;
-//    std::cout<<"alpha_RMin = "<<alpha_RMin/deg<<std::endl;
-//    std::cout<<"alpha_RMid = "<<alpha_RMid/deg<<std::endl;
-//    std::cout<<"alpha_RMax = "<<alpha_RMax/deg<<std::endl;
-//    std::cout<<"theta_RMin = "<<theta_RMin/deg<<std::endl;
-//    std::cout<<"theta_RMid = "<<theta_RMid/deg<<std::endl;
-//    std::cout<<"theta_RMax = "<<theta_RMax/deg<<std::endl;
+		//    std::cout<<"twisteddangle = "<<twisteddangle/deg<<std::endl;
+		//    std::cout<<"alpha_RMin = "<<alpha_RMin/deg<<std::endl;
+		//    std::cout<<"alpha_RMid = "<<alpha_RMid/deg<<std::endl;
+		//    std::cout<<"alpha_RMax = "<<alpha_RMax/deg<<std::endl;
+		//    std::cout<<"theta_RMin = "<<theta_RMin/deg<<std::endl;
+		//    std::cout<<"theta_RMid = "<<theta_RMid/deg<<std::endl;
+		//    std::cout<<"theta_RMax = "<<theta_RMax/deg<<std::endl;
 		//====>Get logical volumes for SignalWire and FieldWire of this layer
 		//SignalWire
 		startAngle=0.*deg;
@@ -166,13 +166,13 @@ void CdcGeometrySvc::ConstructVolumes(){
 		halfzlen = layer_halfzlen;
 		double halfzlen_sw = layer_halfzlen/cos(theta_RMid) - 2*signalWireR*tan(theta_RMid);
 		if ( get_VerboseLevel() >=10 ){
-		  std::cout<<"sol_SignalWire: innerR = "<<innerR/mm
-		  	       <<"mm, outR = "<<outR/mm
-		  	       <<"mm, halfzlen = "<<halfzlen_sw/mm
-		  	       <<"mm, startAngle = "<<startAngle/rad
-		  	       <<"rad, spanAngle = "<<spanAngle/rad
-		  	       <<"rad"
-		  	       <<std::endl;
+			std::cout<<"sol_SignalWire: innerR = "<<innerR/mm
+				<<"mm, outR = "<<outR/mm
+				<<"mm, halfzlen = "<<halfzlen_sw/mm
+				<<"mm, startAngle = "<<startAngle/rad
+				<<"rad, spanAngle = "<<spanAngle/rad
+				<<"rad"
+				<<std::endl;
 		}
 		G4Tubs* sol_SignalWire=new G4Tubs(SignalWireName,innerR,outR,halfzlen_sw,startAngle,spanAngle);
 		log_SignalWire = new G4LogicalVolume(sol_SignalWire, SignalWireMat,SignalWireName,0,0,0);
@@ -182,12 +182,12 @@ void CdcGeometrySvc::ConstructVolumes(){
 		double halfzlen_fw_mid = layer_halfzlen/cos(theta_RMid) - 2*fieldWireR*tan(theta_RMid);
 		if ( get_VerboseLevel() >=10 ){
 			std::cout<<"sol_FieldWire_mid: innerR = "<<innerR/mm
-							 <<"mm, outR = "<<outR/mm
-							 <<"mm, halfzlen = "<<halfzlen_fw_mid/mm
-							 <<"mm, startAngle = "<<startAngle/rad
-							 <<"rad, spanAngle = "<<spanAngle/rad
-							 <<"rad"
-							 <<std::endl;
+				<<"mm, outR = "<<outR/mm
+				<<"mm, halfzlen = "<<halfzlen_fw_mid/mm
+				<<"mm, startAngle = "<<startAngle/rad
+				<<"rad, spanAngle = "<<spanAngle/rad
+				<<"rad"
+				<<std::endl;
 		}
 		G4Tubs* sol_FieldWire_mid =new G4Tubs(FieldWireName,innerR,outR,halfzlen_fw_mid,startAngle,spanAngle);
 		log_FieldWire_mid = new G4LogicalVolume(sol_FieldWire_mid, FieldWireMat,FieldWireName,0,0,0);
@@ -195,12 +195,12 @@ void CdcGeometrySvc::ConstructVolumes(){
 		double halfzlen_fw_in = layer_halfzlen/cos(theta_RMin) - 2*fieldWireR*tan(theta_RMin);
 		if ( get_VerboseLevel() >=10 ){
 			std::cout<<"sol_FieldWire_in: innerR = "<<innerR/mm
-							 <<"mm, outR = "<<outR/mm
-							 <<"mm, halfzlen = "<<halfzlen_fw_in/mm
-							 <<"mm, startAngle = "<<startAngle/rad
-							 <<"rad, spanAngle = "<<spanAngle/rad
-							 <<"rad"
-							 <<std::endl;
+				<<"mm, outR = "<<outR/mm
+				<<"mm, halfzlen = "<<halfzlen_fw_in/mm
+				<<"mm, startAngle = "<<startAngle/rad
+				<<"rad, spanAngle = "<<spanAngle/rad
+				<<"rad"
+				<<std::endl;
 		}
 		G4Tubs* sol_FieldWire_in =new G4Tubs(FieldWireName,innerR,outR,halfzlen_fw_in,startAngle,spanAngle);
 		log_FieldWire_in = new G4LogicalVolume(sol_FieldWire_in, FieldWireMat,FieldWireName,0,0,0);
@@ -209,12 +209,12 @@ void CdcGeometrySvc::ConstructVolumes(){
 			double halfzlen_fw_out = layer_halfzlen/cos(theta_RMax) - 2*fieldWireR*tan(theta_RMax);
 			if ( get_VerboseLevel() >=10 ){
 				std::cout<<"sol_FieldWire_out: innerR = "<<innerR/mm
-								 <<"mm, outR = "<<outR/mm
-								 <<"mm, halfzlen = "<<halfzlen_fw_out/mm
-								 <<"mm, startAngle = "<<startAngle/rad
-								 <<"rad, spanAngle = "<<spanAngle/rad
-								 <<"rad"
-								 <<std::endl;
+					<<"mm, outR = "<<outR/mm
+					<<"mm, halfzlen = "<<halfzlen_fw_out/mm
+					<<"mm, startAngle = "<<startAngle/rad
+					<<"rad, spanAngle = "<<spanAngle/rad
+					<<"rad"
+					<<std::endl;
 			}
 			G4Tubs* sol_FieldWire_out =new G4Tubs(FieldWireName,innerR,outR,halfzlen_fw_out,startAngle,spanAngle);
 			log_FieldWire_out = new G4LogicalVolume(sol_FieldWire_out, FieldWireMat,FieldWireName,0,0,0);
@@ -287,35 +287,35 @@ void CdcGeometrySvc::ConstructVolumes(){
 			endouterrad = RMax - dr_RMax;
 		}
 		if ( get_VerboseLevel() >=10 ){
-		  std::cout<<"sol_cell: twisteddangle = "<<twisteddangle/rad
-		  	       <<"rad, endinnerrad = "<<endinnerrad/mm
-		  	       <<"mm, endouterrad = "<<endouterrad/mm
-		  	       <<"mm, halfzlen = "<<halfzlen/mm
-		  	       <<"mm, dphi = "<<cell_dphi/rad
-		  	       <<"rad"
-		  	       <<std::endl;
+			std::cout<<"sol_cell: twisteddangle = "<<twisteddangle/rad
+				<<"rad, endinnerrad = "<<endinnerrad/mm
+				<<"mm, endouterrad = "<<endouterrad/mm
+				<<"mm, halfzlen = "<<halfzlen/mm
+				<<"mm, dphi = "<<cell_dphi/rad
+				<<"rad"
+				<<std::endl;
 		}
 		G4TwistedTubs* sol_cell = new G4TwistedTubs(CellName, twisteddangle, endinnerrad, endouterrad, halfzlen, cell_dphi);
 		G4double twistedangle4subt;
 		G4double endinnerrad4subt;
 		G4double endouterrad4subt;
 		if ( layer_type == 5 ){
-		  twistedangle4subt = alpha_RMax*2;
+			twistedangle4subt = alpha_RMax*2;
 			endinnerrad4subt = (RMax - dr_RMax);
 			endouterrad4subt = endouterrad;
 		}
 		else if ( layer_type == 4 ){
-		  twistedangle4subt = alpha_RMin*2;
+			twistedangle4subt = alpha_RMin*2;
 			endinnerrad4subt = endinnerrad;
 			endouterrad4subt = (RMin + dr_RMin);
 		}
 		else if ( layer_type == 3 ){
-		  twistedangle4subt = alpha_RMax*2;
+			twistedangle4subt = alpha_RMax*2;
 			endinnerrad4subt = endouterrad;
 			endouterrad4subt = (RMax - dr_RMax)/cos(alpha_RMax);
 		}
 		else if ( layer_type == 2 ){
-		  twistedangle4subt = alpha_RMin*2;
+			twistedangle4subt = alpha_RMin*2;
 			endinnerrad4subt = (RMin + dr_RMin)*cos(alpha_RMid)/cos(alpha_RMin);
 			endouterrad4subt = endinnerrad;
 		}
@@ -323,10 +323,10 @@ void CdcGeometrySvc::ConstructVolumes(){
 		if ( layer_type != 0 && layer_type != 1 ){
 			if ( get_VerboseLevel() >=10 ){
 				std::cout<<"sol_Subtraction4Cell: twistedangle = "<<twistedangle4subt/rad
-								 <<"rad, endinnerrad = "<<endinnerrad4subt/mm
-								 <<"mm, endouterrad = "<<endouterrad4subt/mm
-								 <<"mm, halfzlen = "<<halfzlen/mm
-								 <<std::endl;
+					<<"rad, endinnerrad = "<<endinnerrad4subt/mm
+					<<"mm, endouterrad = "<<endouterrad4subt/mm
+					<<"mm, halfzlen = "<<halfzlen/mm
+					<<std::endl;
 			}
 			G4TwistedTubs* sol_Subtraction4Cell = new G4TwistedTubs("Subtraction4Cell", twistedangle4subt, endinnerrad4subt, endouterrad4subt, halfzlen, 180*deg );
 			G4SubtractionSolid* sol_SubtractedCell = new G4SubtractionSolid(CellName,sol_cell,sol_Subtraction4Cell);
@@ -337,7 +337,7 @@ void CdcGeometrySvc::ConstructVolumes(){
 		else{
 			log_cell = new G4LogicalVolume(sol_cell, CellMat, CellName,0,0,0);
 		}
-	  G4VSensitiveDetector* aSD = MyDetectorManager::GetMyDetectorManager()->GetSD(SDVolumeName, SD_name, const_cast<CdcGeometrySvc*>(this) );
+		G4VSensitiveDetector* aSD = MyDetectorManager::GetMyDetectorManager()->GetSD(SDVolumeName, SD_name, const_cast<CdcGeometrySvc*>(this) );
 		log_cell->SetSensitiveDetector( aSD );
 		//visual option
 		vis = m_GeometryParameter->get_vis_cell();
@@ -459,7 +459,7 @@ void CdcGeometrySvc::ConstructVolumes(){
 		//  together with wires that belong to Cdc container
 		G4LogicalVolume* log_CdcContainer = get_logicalVolume(MVol_name);
 		int cellNo = m_GeometryParameter->get_layer_cell_num(layerId);
-//		for ( int cellId = 0; cellId < 1; cellId++ ){
+		//		for ( int cellId = 0; cellId < 1; cellId++ ){
 		for ( int cellId = 0; cellId < cellNo; cellId++ ){
 			//place cell
 			G4double SPhi = m_GeometryParameter->get_layer_cell_phi(layerId,cellId);
@@ -499,4 +499,4 @@ void CdcGeometrySvc::ConstructVolumes(){
 			}
 		}
 	}//end loop in layers
-}
+	}
