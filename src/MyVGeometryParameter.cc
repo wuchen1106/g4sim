@@ -71,6 +71,7 @@ int MyVGeometryParameter::GetValue(G4String s_card){
 void MyVGeometryParameter::DumpInfo() {
 	std::cout<<"*********************************"<<m_Name<<" Geometry Info***********************************"<<std::endl;
 	std::cout<<"------General info:--------"<<std::endl;
+	std::cout<<" Initialized from \""<<m_filename<<"\""<<std::endl;
 	std::cout<<" checkoverlap? "<<(checkoverlap?"yes":"no")<<std::endl;
 	std::cout<<" VerboseLevel = "<<fVerboseLevel<<std::endl;
 }

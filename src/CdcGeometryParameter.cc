@@ -68,6 +68,7 @@ CdcGeometryParameter::~CdcGeometryParameter(){
 //---------------------------InitFromFile---------------------------------
 //will be called in CdcGeometrySvc::SetCdc
 void CdcGeometryParameter::InitFromFile( G4String file_name ){
+	set_filename(file_name);
 
 	//Remember to preset first!
 	Preset();

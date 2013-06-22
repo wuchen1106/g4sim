@@ -14,60 +14,60 @@
 	FieldWireRadius:           63  #micrometer
 
 #layer info
-	LayerNo:              29
+	LayerNo:              18
 #	type layerNo sublayerNo      WireNo   Length   R        StartPhi  First RotateCell
 #	                                      mm       mm       rad     0:F/1:S
 	F                                              510
 	S     0       0              474      1500     518      0         1      5
 	F                                              526                 
-	S     1       0              474      1500     534      0         0      -5
+	S     1       0              474      1500     534      0         0     -5
 	F                                              542                 
 	S     2       0              474      1500     550      0         1      5
 	F                                              558                 
-	S     3       0              474      1500     566      0         0      -5
+	S     3       0              474      1500     566      0         0     -5
 	F                                              574                 
 	S     4       0              474      1500     582      0         1      5
 	F                                              590                 
-	S     5       0              474      1500     598      0         0      -5
+	S     5       0              474      1500     598      0         0     -5
 	F                                              606                 
 	S     6       0              474      1500     614      0         1      5
 	F                                              622                 
-	S     7       0              562      1500     630      0         0      -5
+	S     7       0              562      1500     630      0         0     -5
 	F                                              638                 
 	S     8       0              562      1500     646      0         1      5
 	F                                              654                 
-	S     9       0              562      1500     662      0         0      -5
+	S     9       0              562      1500     662      0         0     -5
 	F                                              670                 
 	S     10      0              562      1500     678      0         1      5
 	F                                              686                 
-	S     11      0              562      1500     694      0         0      -5
+	S     11      0              562      1500     694      0         0     -5
 	F                                              702                 
 	S     12      0              614      1500     710      0         1      6
 	F                                              718                 
-	S     13      0              614      1500     726      0         0      -6
+	S     13      0              614      1500     726      0         0     -6
 	F                                              734                 
 	S     14      0              614      1500     742      0         1      6
 	F                                              750                 
-	S     15      0              614      1500     758      0         0      -6
+	S     15      0              614      1500     758      0         0     -6
 	F                                              766                 
 	S     16      0              614      1500     774      0         1      6
 	F                                              782
-	S     17      0              690      1500     790      0         0      -6
-	F                                              798
+	S     17      0              690      1500     790      0         0     -6
+	LF                                             798
 
 #Tubs info
 #	No   RMin  RMax  Length StartAng SpanAng posX posY posZ Name           MotVolume    Material     SDName RepNo Space DirTheta DirPhi Ephi Etheta Epsi
 #	     mm    mm    mm     deg      deg     mm   mm   mm                                                         mm    deg      deg    deg  deg    deg
-	T 0  501.6 807   2500   0.       360     0.   0.   0.   CDCContainer   World        ChamberGas   none   1     0     0        0      0    0      0
+	T 0  501.6 807   1910   0.       360     0.   0.   0.   CDCContainer   World        ChamberGas   none   1     0     0        0      0    0      0
 	T 1  806   807   1910   0.       360     0.   0.   0.   OutCylinder    CDCContainer CarbonFiber  none   1     0     0        0      0    0      0
 	T 2  501.6 502   1500   0.       360     0.   0.   0.   InnerCylinder  CDCContainer CarbonFiber  none   1     0     0        0      0    0      0
 #	T 3  359.6 660.4 10     0.       360     0.   0.   0.   EndPlate       CDCContainer Aluminium    none   2     1510  0        0      0    0      0
 
 #Cons info
-#	No   RMin1 RMax1 RMin2 RMax2 Length StartAng SpanAng posX posY posZ Name             MotVolume     Material     SDName RepNo Space DirTheta DirPhi Ephi Etheta Epsi
-#	     mm    mm    mm    mm    mm     deg      deg     mm   mm   mm                                                            mm    deg      deg    deg  deg    deg
-	C 0  805   807   501.6 503.6 300    0.       360     0.   0.   -955 UpstreamEndPlate CDCContainer  ChamberGas   none   1     0     0        0      0    0      0
-	C 1  501.6 503.6 805   807   300    0.       360     0.   0.   955  UpstreamEndPlate CDCContainer  ChamberGas   none   1     0     0        0      0    0      0
+#	No   RMin1 RMax1 RMin2 RMax2 Length StartAng SpanAng posX posY posZ  Name             MotVolume     Material     SDName RepNo Space DirTheta DirPhi Ephi Etheta Epsi
+#	     mm    mm    mm    mm    mm     deg      deg     mm   mm   mm                                                             mm    deg      deg    deg  deg    deg
+	C 0  804   806   501.6 503.6 205    0.       360     0.   0.  -852.5 USEndPlate CDCContainer  ChamberGas   none   1     0     0        0      0    0      0
+	C 1  501.6 503.6 804   806   205    0.       360     0.   0.   852.5 DSEndPlate CDCContainer  ChamberGas   none   1     0     0        0      0    0      0
 
 #visual settings
 	VerboseLevel:    5
@@ -78,6 +78,7 @@
 #	vis_FieldWire     0    1    0
 #	vis_SignalWire    1    0    0
 #	vis_CDCContainer  0    1    1
-	vis_OutCylinder   0    1    1
-	vis_InnerCylinder 0    1    1
-	vis_EndPlate      0    0    1
+	vis_OutCylinder   196  219  241
+	vis_InnerCylinder 196  219  241
+	vis_USEndPlate    0    0    1
+	vis_DSEndPlate    0    0    1

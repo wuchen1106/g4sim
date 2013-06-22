@@ -40,6 +40,8 @@ SimpleGeometryParameter::~SimpleGeometryParameter(){
 //will be called in SimpleGeometrySvc::SetSimpleGeometry
 void SimpleGeometryParameter::InitFromFile( G4String file_name ){
 
+	set_filename(file_name);
+
 	//Remember to preset first!
 	Preset();
 
@@ -783,6 +785,8 @@ void SimpleGeometryParameter::DumpInfo() {
 							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Epsi"
 							 <<std::endl;
 			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<""
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
 							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
 							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
 							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"

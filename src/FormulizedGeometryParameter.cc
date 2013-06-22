@@ -40,6 +40,7 @@ FormulizedGeometryParameter::~FormulizedGeometryParameter(){
 //---------------------------InitFromFile---------------------------------
 //will be called in FormulizedGeometrySvc::SetFormulizedGeometry
 void FormulizedGeometryParameter::InitFromFile( G4String file_name ){
+	set_filename(file_name);
 
 	//Remember to preset first!
 	Preset();
