@@ -27,7 +27,6 @@ Prerequirements:
 
 To start:  
 
-	$ source setup/test.sh       # Choose anyone you like, or write another by yourself
 	$ ./g4sim [macros/run.mac]         # Choose any Geant4 macro file you want.
 	                                   # without macro file it would enter interactive mode.
 	                                   
