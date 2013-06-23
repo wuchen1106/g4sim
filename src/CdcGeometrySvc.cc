@@ -61,15 +61,13 @@ G4VPhysicalVolume* CdcGeometrySvc::SetGeometry(){
 	m_GeometryParameter->Dump();
 	ConstructVolumes();
 	G4VPhysicalVolume *current = PlaceVolumes();
-	G4VPhysicalVolume *former = FormulizedGeometrySvc::PlaceVolumes();
-	return ( !current? former : current );
+	return current;
 }
 
 //-------------------------Special functions-----------------------------
 //=> ConstructVolumes
 void CdcGeometrySvc::ConstructVolumes(){
 	FormulizedGeometrySvc::ConstructVolumes();
-	std::cout<<"###########In CdcGeometrySvc::ConstructVolumes"<<std::endl;
 	bool vis;
 	double r, g, b;
 
@@ -500,4 +498,12 @@ void CdcGeometrySvc::ConstructVolumes(){
 			}
 		}
 	}//end loop in layers
-	}
+}
+
+//=>Place Volumes
+G4VPhysicalVolume* CdcGeometrySvc::PlaceVolumes(){
+	G4VPhysicalVolume* world_pvol = 0;
+	G4VPhysicalVolume *former = FormulizedGeometrySvc::PlaceVolumes();
+	if (!world_pvol) world_pvol=former;
+	return world_pvol;
+}

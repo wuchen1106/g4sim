@@ -367,8 +367,6 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 		status = -1;
 	}
 	else{
-		std::cout<<"#############In SimpleGeometryParameter::GetValue()"<<std::endl;
-		std::cout<<"Is \""<<name<<"\" vis setting?"<<std::endl;
 		bool foundornot = false;
 		if ( name.substr(0,4) == "vis_" ){
 			std::stringstream buf_temp;
@@ -391,11 +389,7 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 			buf_temp.clear();
 		}
 		if (!foundornot){
-			std::cout<<"No..."<<std::endl;
 			status = 1;
-		}
-		else{
-			std::cout<<"Yes!!"<<std::endl;
 		}
 	}
 	buf_card.str("");

@@ -34,7 +34,7 @@ class CdcGeometrySvc : public FormulizedGeometrySvc
 		//Special functions
 		void ConstructVolumes();
 
-		G4VPhysicalVolume* PlaceVolumes(){return 0;}
+		G4VPhysicalVolume* PlaceVolumes();
 
 		//=>Access
 		CdcGeometryParameter* get_GeometryParameter(){ return m_GeometryParameter; }

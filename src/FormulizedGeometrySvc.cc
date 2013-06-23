@@ -54,17 +54,16 @@ G4VPhysicalVolume* FormulizedGeometrySvc::SetGeometry(){
 	m_GeometryParameter->Dump();
 	ConstructVolumes();
 	G4VPhysicalVolume *current = PlaceVolumes();
-	G4VPhysicalVolume *former = SimpleGeometrySvc::PlaceVolumes();
-	return ( !current? former : current );
+	return current;
 }
 
 //-------------------------Special functions-----------------------------
 //=> ConstructVolumes
 void FormulizedGeometrySvc::ConstructVolumes(){
 	SimpleGeometrySvc::ConstructVolumes();
-	std::cout<<"###########In FormulizedGeometrySvc::ConstructVolumes"<<std::endl;
 	bool vis;
 	double r, g, b;
+	std::stringstream buffer;
 	G4Material* pttoMaterial;
 	G4String name, mat_name, SDName; 
 	G4String SolidType;
@@ -81,28 +80,31 @@ void FormulizedGeometrySvc::ConstructVolumes(){
 		RepNo = m_GeometryParameter->get_RepNo(i_Vol);
 		motVolName = m_GeometryParameter->get_MotherName(i_Vol);
 		G4LogicalVolume* log_container = get_logicalVolume(motVolName);
+		SolidIndex = m_GeometryParameter->get_SolidIndex(i_Vol);
+		SolidType = m_GeometryParameter->get_SolidType(i_Vol);
+		SDName = m_GeometryParameter->get_SDName(i_Vol);
+		mat_name = m_GeometryParameter->get_material(i_Vol);
+		name = m_GeometryParameter->get_name(i_Vol);
+		pttoMaterial = G4Material::GetMaterial(mat_name);
+		if (!pttoMaterial){
+			std::cout<<"Material "<<mat_name<<" is not defined!"<<std::endl;
+			G4Exception("FormulizedGeometrySvc::ConstructVolumes()",
+					"InvalidSetup", FatalException,
+					"unknown material name");
+		}
 		for ( int i = 0; i < RepNo; i++ ){
-			SolidIndex = m_GeometryParameter->get_SolidIndex(i_Vol);
-			SolidType = m_GeometryParameter->get_SolidType(i_Vol);
-			SDName = m_GeometryParameter->get_SDName(i_Vol);
-			mat_name = m_GeometryParameter->get_material(i_Vol);
-			name = m_GeometryParameter->get_name(i_Vol);
-			std::cout<<"Constructing \""<<name<<"\"..."<<std::endl;
-			pttoMaterial = G4Material::GetMaterial(mat_name);
-			if (!pttoMaterial){
-				std::cout<<"Material "<<mat_name<<" is not defined!"<<std::endl;
-				G4Exception("FormulizedGeometrySvc::ConstructVolumes()",
-						"InvalidSetup", FatalException,
-						"unknown material name");
-			}
 			G4LogicalVolume* log_Vol;
+			buffer.str("");
+			buffer.clear();
+			buffer<<name<<"_"<<i;
+			G4String iname = buffer.str();
 			if ( SolidType == "Box" ){
 				G4double halfX, halfY, halfZ;
 				halfX = m_GeometryParameter->get_Box_X(SolidIndex,i)/2;
 				halfY = m_GeometryParameter->get_Box_Y(SolidIndex,i)/2;
 				halfZ = m_GeometryParameter->get_Box_Z(SolidIndex,i)/2;
-				G4Box* sol_Box=new G4Box(name,halfX,halfY,halfZ);
-				log_Vol = new G4LogicalVolume(sol_Box, pttoMaterial, name,0,0,0);
+				G4Box* sol_Box=new G4Box(iname,halfX,halfY,halfZ);
+				log_Vol = new G4LogicalVolume(sol_Box, pttoMaterial, iname,0,0,0);
 			}
 			else if ( SolidType == "Tubs" ){
 				G4double RMax, RMin, halfLength, StartAng, SpanAng;
@@ -111,8 +113,8 @@ void FormulizedGeometrySvc::ConstructVolumes(){
 				halfLength = m_GeometryParameter->get_Tubs_Length(SolidIndex,i)/2;
 				StartAng = m_GeometryParameter->get_Tubs_StartAng(SolidIndex,i);
 				SpanAng = m_GeometryParameter->get_Tubs_SpanAng(SolidIndex,i);
-				G4Tubs* sol_Tubs=new G4Tubs(name,RMin,RMax,halfLength,StartAng,SpanAng);
-				log_Vol = new G4LogicalVolume(sol_Tubs, pttoMaterial, name,0,0,0);
+				G4Tubs* sol_Tubs=new G4Tubs(iname,RMin,RMax,halfLength,StartAng,SpanAng);
+				log_Vol = new G4LogicalVolume(sol_Tubs, pttoMaterial, iname,0,0,0);
 			}
 			else if ( SolidType == "Sphere" ){
 				G4double RMax, RMin, StartPhi, SpanPhi, StartTheta, SpanTheta;
@@ -122,8 +124,8 @@ void FormulizedGeometrySvc::ConstructVolumes(){
 				SpanPhi = m_GeometryParameter->get_Sphere_SpanPhi(SolidIndex,i);
 				StartTheta = m_GeometryParameter->get_Sphere_StartTheta(SolidIndex,i);
 				SpanTheta = m_GeometryParameter->get_Sphere_SpanTheta(SolidIndex,i);
-				G4Sphere* sol_Sphere=new G4Sphere(name,RMin,RMax,StartPhi,SpanPhi,StartTheta,SpanTheta);
-				log_Vol = new G4LogicalVolume(sol_Sphere, pttoMaterial, name,0,0,0);
+				G4Sphere* sol_Sphere=new G4Sphere(iname,RMin,RMax,StartPhi,SpanPhi,StartTheta,SpanTheta);
+				log_Vol = new G4LogicalVolume(sol_Sphere, pttoMaterial, iname,0,0,0);
 			}
 			else {
 				std::cout<<"SolidType "<<SolidType<<" is not supported yet!"<<std::endl;
@@ -131,7 +133,7 @@ void FormulizedGeometrySvc::ConstructVolumes(){
 						"InvalidSetup", FatalException,
 						"unknown SolidType");
 			}
-			G4VSensitiveDetector* aSD = MyDetectorManager::GetMyDetectorManager()->GetSD(name, SDName, const_cast<FormulizedGeometrySvc*>(this) ); //This series of volumes will share the same SD object
+			G4VSensitiveDetector* aSD = MyDetectorManager::GetMyDetectorManager()->GetSD(iname, SDName, const_cast<FormulizedGeometrySvc*>(this) ); //This series of volumes will share the same SD object
 			log_Vol->SetSensitiveDetector(aSD);
 			//visual
 			vis = m_GeometryParameter->get_vis(i_Vol);
@@ -147,6 +149,34 @@ void FormulizedGeometrySvc::ConstructVolumes(){
 				visAttributes->SetColour(r,g,b);
 				log_Vol->SetVisAttributes(visAttributes);
 			}
+		}
+	}
+}
+
+//=>Place Volumes
+G4VPhysicalVolume* FormulizedGeometrySvc::PlaceVolumes(){
+	std::stringstream buffer;
+	G4VPhysicalVolume* world_pvol = 0;
+	bool checkOverlap = m_GeometryParameter->get_checkoverlap();
+	int nVol = m_GeometryParameter->get_VolNo();
+	for ( int i_Vol = 0; i_Vol < nVol; i_Vol++ ){
+		G4double PosX, PosY, PosZ;
+		G4String name, motVolName; 
+		G4int SRepNo;
+		G4int RepNo;
+		name = m_GeometryParameter->get_name(i_Vol);
+		motVolName = m_GeometryParameter->get_MotherName(i_Vol);
+		SRepNo = m_GeometryParameter->get_SRepNo(i_Vol);
+		RepNo = m_GeometryParameter->get_RepNo(i_Vol);
+		G4LogicalVolume* log_container;
+		if ( name == "World" ) log_container = 0;
+		else log_container = get_logicalVolume(motVolName);
+		for ( int i = 0; i < RepNo; i++ ){
+			buffer.str("");
+			buffer.clear();
+			buffer<<name<<"_"<<i;
+			G4String iname = buffer.str();
+			G4LogicalVolume* log_Vol = get_logicalVolume(iname);
 			PosX  = m_GeometryParameter->get_PosX(i_Vol,i);
 			PosY  = m_GeometryParameter->get_PosY(i_Vol,i);
 			PosZ  = m_GeometryParameter->get_PosZ(i_Vol,i);
@@ -155,19 +185,20 @@ void FormulizedGeometrySvc::ConstructVolumes(){
 			G4double Etheta = m_GeometryParameter->get_Etheta(i_Vol,i);
 			G4double Epsi = m_GeometryParameter->get_Epsi(i_Vol,i);
 			G4RotationMatrix* rotateMatrix=new G4RotationMatrix(Ephi,Etheta,Epsi);
-			new G4PVPlacement(rotateMatrix,                //rotation
-				pos,                              //position
-				log_Vol,                          //its logical volume
-				name,                             //its name
-				log_container,                    //its mother volume
-				false,                            //no boolean operation
-				i+SRepNo,                                //copy number
-				checkOverlap);                    //overlaps checking
+			if ( iname == "World" ) rotateMatrix = 0;
+			G4VPhysicalVolume* phy_Vol =
+				new G4PVPlacement(rotateMatrix,                //rotation
+					pos,                              //position
+					log_Vol,                          //its logical volume
+					iname,                             //its name
+					log_container,                    //its mother volume
+					false,                            //no boolean operation
+					i+SRepNo,                                //copy number
+					checkOverlap);                    //overlaps checking
+			if ( iname == "World" ) world_pvol = phy_Vol;
 		}
 	}
-}
-
-//=>Place Volumes
-G4VPhysicalVolume* FormulizedGeometrySvc::PlaceVolumes(){
-	return 0;
+	G4VPhysicalVolume *former = SimpleGeometrySvc::PlaceVolumes();
+	if (!world_pvol) world_pvol=former;
+	return world_pvol;
 }
