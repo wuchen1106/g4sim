@@ -1,5 +1,5 @@
 TYPE Elements
-#	symbol name         z    a(g/mol)
+#	symbol  name         z    a(g/mol)
 	H       Hydrogen     1.   1.00794 
 #	He      Helium       2    4.002602
 	C       Carbon       6.   12.0107

@@ -8,6 +8,7 @@
 //#define DEBUG_MYTRI //MyTriggerSvc
 //#define DEBUG_MYDETM //MyDetectorManager
 #define DEBUG_EM //G4EventManager
+//#define DEBUG_MAT // MaterialSvc
 //#define DEBUG_CDCSD //CdcSD
 //#define DEBUG_MTA //MyTrackingAction
 //#define DEBUG_SA //SteppingAction
@@ -60,6 +61,16 @@
 	#define EM_LINEINFO()
 	#define EM_LINEVAR( var )
 	#define EM_LINECONT( var )
+#endif
+
+#ifdef DEBUG_MAT
+	#define MAT_LINEINFO() if (1) {std::cout << __FILE__ << ":" << __FUNCTION__ << "[" << __LINE__ << "] @"; SHOWTIME(); std::cout<<": " << std::endl;}
+	#define MAT_LINEVAR( var ) if (1) {std::cout << __FILE__ << ":" << __FUNCTION__ << "[" << __LINE__ << "] @"; SHOWTIME(); std::cout<<": "<< #var << " = " << var << std::endl;}
+	#define MAT_LINECONT( var ) if (1) {std::cout << __FILE__ << ":" << __FUNCTION__ << "[" << __LINE__ << "] @"; SHOWTIME(); std::cout<<": "<< var << std::endl;}
+#else
+	#define MAT_LINEINFO()
+	#define MAT_LINEVAR( var )
+	#define MAT_LINECONT( var )
 #endif
 
 #ifdef DEBUG_MTA
