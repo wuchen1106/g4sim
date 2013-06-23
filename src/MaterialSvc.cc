@@ -15,6 +15,7 @@
 #include <fstream>
 #include <string.h>
 #include <iostream>
+#include <iomanip>
 
 #include "DEBUG.hh"
 
@@ -57,6 +58,21 @@ void MaterialSvc::SetMaterial( G4String file_name ){
 	}
 	std::stringstream buf_card;
 	std::string s_card;
+	std::cout<<"########IN MaterialSvc::SetMaterial##########"<<std::endl;
+	std::cout<<std::setiosflags(std::ios::left)<<std::setw(20) << "Material Name"
+						 <<std::setiosflags(std::ios::left)<<std::setw(15)<< "Z"
+						 <<std::setiosflags(std::ios::left)<<std::setw(15)<< "A"
+						 <<std::setiosflags(std::ios::left)<<std::setw(15)<< "Ionization"
+						 <<std::setiosflags(std::ios::left)<<std::setw(15)<< "Density"
+						 <<std::setiosflags(std::ios::left)<<std::setw(15)<< "Radlen"
+						 <<std::endl;
+	std::cout<<std::setiosflags(std::ios::left)<<std::setw(20) << ""
+						 <<std::setiosflags(std::ios::left)<<std::setw(15)<< ""
+						 <<std::setiosflags(std::ios::left)<<std::setw(15)<< "g/mole"
+						 <<std::setiosflags(std::ios::left)<<std::setw(15)<< "eV"
+						 <<std::setiosflags(std::ios::left)<<std::setw(15)<< "g/cm3"
+						 <<std::setiosflags(std::ios::left)<<std::setw(15)<< "mm"
+						 <<std::endl;
 	while(getline(fin_card,s_card)){
 		buf_card.str("");
 		buf_card.clear();
@@ -120,16 +136,16 @@ void MaterialSvc::AddMaterial( G4String content ){
 		buf_card>>z;
 		buf_card>>a;
 		buf_card>>density;
-		density = rel_dens*density*g/cm3;
 		buf_card>>rel_dens;
+		density = rel_dens*density*g/cm3;
 		//    std::cout<<"name = "<<name<<", a = "<<a<<", z = "<<z<<", density = "<<density<<", rel_dens = "<<rel_dens<<std::endl;
 		aMaterial = new G4Material(name.c_str(), z, a*g/mole, density);
 	}
 	else if ( fMode == "Molecule_Materials" ){
 		buf_card>>name;
 		buf_card>>density;
-		density = rel_dens*density*g/cm3;
 		buf_card>>rel_dens;
+		density = rel_dens*density*g/cm3;
 		buf_card>>ncomponents;
 		for ( int i = 0; i < ncomponents; i++ ){
 			buf_card>>element[i];
@@ -148,8 +164,8 @@ void MaterialSvc::AddMaterial( G4String content ){
 	else if ( fMode == "MixEle_Materials" ){
 		buf_card>>name;
 		buf_card>>density;
-		density = rel_dens*density*g/cm3;
 		buf_card>>rel_dens;
+		density = rel_dens*density*g/cm3;
 		buf_card>>ncomponents;
 		double sum_frac = 0;
 		for ( int i = 0; i < ncomponents; i++ ){
@@ -271,7 +287,12 @@ void MaterialSvc::AddMaterial( G4String content ){
 		Ionization = aMaterial->GetIonisation()->GetMeanExcitationEnergy();
 		Density = aMaterial->GetDensity();
 		Radlen = aMaterial->GetRadlen();
-		std::cout<<"#In MaterialSvc# New Material: \""<<aMaterial->GetName()<<std::endl;
-		std::cout<<"                 Z: "<<Z<<" A: "<<(A/(g/mole))<<"g/mole, Ionization: "<<(Ionization/eV)<<"eV, Density: "<<Density/(g/cm3)<<"g/cm3 Radlen: "<<Radlen/cm<<"cm"<<std::endl;
+		std::cout<<std::setiosflags(std::ios::left)<<std::setw(20) << aMaterial->GetName()
+						 <<std::setiosflags(std::ios::left)<<std::setw(15)<< Z
+						 <<std::setiosflags(std::ios::left)<<std::setw(15)<< A/(g/mole)
+						 <<std::setiosflags(std::ios::left)<<std::setw(15)<< Ionization/eV
+						 <<std::setiosflags(std::ios::left)<<std::setw(15)<< Density/(g/cm3)
+						 <<std::setiosflags(std::ios::left)<<std::setw(15)<< Radlen/mm
+						 <<std::endl;
 	}
 }
