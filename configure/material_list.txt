@@ -16,8 +16,10 @@ TYPE Simple_Materials
 
 TYPE Molecule_Materials
 #	name           density(g/cm3) rel_dens ncomponents element natoms
+#	               (in document)  (change to STP)
 	Scintillator   1.032          1        2           Carbon  8      Hydrogen 8
-	Ethane         1.342e-3       1        2           Carbon  2      Hydrogen 6
+	Ethane         1.282e-3       0.96646  2           Carbon  2      Hydrogen 6
+	Isobutane      2.51e-3        0.96646  2           Carbon  4      Hydrogen 10
 	Vacuum         1.2e-15        1        3           Nitrogen 78    Oxygen 21 Argon 1
 #	Plastic        0.95           1        2           Carbon  1      Hydrogen 2
 
@@ -26,5 +28,6 @@ TYPE MixEle_Materials
 	CarbonFiber    1.57           1        3           Carbon  0.697    Hydrogen 0.0061 Oxygen 0.2969
 
 TYPE Mixture_Materials
-#	name           rel_dens  ncomponents material massFrac
-	ChamberGas     1         2           Ethane   0.5      Helium 0.5
+#	name           rel_dens  ncomponents material  volFrac
+	ChamberGas     1         2           Ethane    0.5      Helium 0.5
+	ChamberGas9010 1         2           Isobutane 0.1      Helium 0.9

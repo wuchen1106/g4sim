@@ -56,12 +56,12 @@
 	LF                                             798
 
 #Tubs info
-#	No   RMin  RMax  Length StartAng SpanAng posX posY posZ Name           MotVolume    Material     SDName RepNo Space DirTheta DirPhi Ephi Etheta Epsi
-#	     mm    mm    mm     deg      deg     mm   mm   mm                                                         mm    deg      deg    deg  deg    deg
-	T 0  501.6 807   1910   0.       360     0.   0.   0.   CDCContainer   World        ChamberGas   none   1     0     0        0      0    0      0
-	T 1  806   807   1910   0.       360     0.   0.   0.   OutCylinder    CDCContainer CarbonFiber  none   1     0     0        0      0    0      0
-	T 2  501.6 502   1500   0.       360     0.   0.   0.   InnerCylinder  CDCContainer CarbonFiber  none   1     0     0        0      0    0      0
-#	T 3  359.6 660.4 10     0.       360     0.   0.   0.   EndPlate       CDCContainer Aluminium    none   2     1510  0        0      0    0      0
+#	No   RMin  RMax  Length StartAng SpanAng posX posY posZ Name           MotVolume    Material       SDName RepNo Space DirTheta DirPhi Ephi Etheta Epsi
+#	     mm    mm    mm     deg      deg     mm   mm   mm                                                           mm    deg      deg    deg  deg    deg
+	T 0  501.6 807   1910   0.       360     0.   0.   0.   CDCContainer   World        ChamberGas9010 none   1     0     0        0      0    0      0
+	T 1  806   807   1910   0.       360     0.   0.   0.   OutCylinder    CDCContainer CarbonFiber    none   1     0     0        0      0    0      0
+	T 2  501.6 502   1500   0.       360     0.   0.   0.   InnerCylinder  CDCContainer CarbonFiber    none   1     0     0        0      0    0      0
+#	T 3  359.6 660.4 10     0.       360     0.   0.   0.   EndPlate       CDCContainer Aluminium      none   2     1510  0        0      0    0      0
 
 #Cons info
 #	No   RMin1 RMax1 RMin2 RMax2 Length StartAng SpanAng posX posY posZ  Name             MotVolume     Material     SDName RepNo Space DirTheta DirPhi Ephi Etheta Epsi
