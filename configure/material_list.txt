@@ -28,6 +28,10 @@ TYPE MixEle_Materials
 	CarbonFiber    1.57           1        3           Carbon  0.697    Hydrogen 0.0061 Oxygen 0.2969
 
 TYPE Mixture_Materials
+#	name           rel_dens  ncomponents material  massFrac
+#	ChamberGas     1         2           Ethane    0.5      Helium 0.5
+
+TYPE VolMix_Materials
 #	name           rel_dens  ncomponents material  volFrac
 	ChamberGas     1         2           Ethane    0.5      Helium 0.5
 	ChamberGas9010 1         2           Isobutane 0.1      Helium 0.9

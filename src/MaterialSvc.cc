@@ -94,7 +94,7 @@ void MaterialSvc::AddMaterial( G4String content ){
 	double density = 0;
 	int ncomponents = 0;
 	int natoms[50];
-	double massFrac[50];
+	double comFrac[50];
 	double rel_dens = 0;
 	G4String material[50];
 	G4String element[50];
@@ -146,12 +146,12 @@ void MaterialSvc::AddMaterial( G4String content ){
 		double sum_frac = 0;
 		for ( int i = 0; i < ncomponents; i++ ){
 			buf_card>>element[i];
-			buf_card>>massFrac[i];
-			sum_frac = sum_frac + massFrac[i];
+			buf_card>>comFrac[i];
+			sum_frac = sum_frac + comFrac[i];
 		}
 		//    std::cout<<"name = "<<name<<", density = "<<density<<", rel_dens = "<<rel_dens<<", ncomponents = "<<ncomponents<<std::endl;
 		//    for ( int i = 0; i < ncomponents; i++ ){
-		//      std::cout<<"  "<<i<<": "<<"element = "<<element[i]<<", massFrac = "<<massFrac[i]<<std::endl;
+		//      std::cout<<"  "<<i<<": "<<"element = "<<element[i]<<", comFrac = "<<comFrac[i]<<std::endl;
 		//    }
 		if ( sum_frac == 0 ){
 			std::cout<<"Please check mass fractions for "<<name<<std::endl;
@@ -162,13 +162,13 @@ void MaterialSvc::AddMaterial( G4String content ){
 			std::cout<<"the total fraction for "<<name<<" is not 1!!!"<<std::endl;
 			std::cout<<"MaterialSvc will normalize it to 1!"<<std::endl;
 			for ( int i = 0; i < ncomponents; i++ ){
-				massFrac[i] = massFrac[i]/sum_frac;
+				comFrac[i] = comFrac[i]/sum_frac;
 			}
 		}
 		aMaterial = new G4Material(name.c_str(), density*rel_dens*g/cm3, ncomponents);
 		for ( int i = 0; i < ncomponents; i++ ){
 			G4Element* new_ele = G4Element::GetElement(element[i]);
-			aMaterial->AddElement(new_ele, massFrac[i]);
+			aMaterial->AddElement(new_ele, comFrac[i]);
 		}
 	}
 	else if ( fMode == "Mixture_Materials" ){
@@ -178,8 +178,8 @@ void MaterialSvc::AddMaterial( G4String content ){
 		double sum_frac = 0;
 		for ( int i = 0; i < ncomponents; i++ ){
 			buf_card>>material[i];
-			buf_card>>massFrac[i];
-			sum_frac += massFrac[i];
+			buf_card>>comFrac[i];
+			sum_frac += comFrac[i];
 		}
 		//    std::cout<<"name = "<<name<<", rel_dens = "<<rel_dens<<", ncomponents = "<<ncomponents<<std::endl;
 		if ( sum_frac == 0 ){
@@ -191,14 +191,14 @@ void MaterialSvc::AddMaterial( G4String content ){
 			std::cout<<"the total fraction for "<<name<<" is not 1!!!"<<std::endl;
 			std::cout<<"MaterialSvc will normalize it to 1!"<<std::endl;
 			for ( int i = 0; i < ncomponents; i++ ){
-				massFrac[i] = massFrac[i]/sum_frac;
+				comFrac[i] = comFrac[i]/sum_frac;
 			}
 		}
 		for ( int i = 0; i < ncomponents; i++ ){
 			G4Material* new_mat_com = G4Material::GetMaterial(material[i]);
 			G4double i_density = new_mat_com->GetDensity();
-			//      std::cout<<"  "<<i<<": "<<"material = "<<material[i]<<", massFrac = "<<massFrac[i]<<", density = "<<(i_density/(g/cm3))<<std::endl;
-			density += massFrac[i]/(i_density/(g/cm3));
+			//      std::cout<<"  "<<i<<": "<<"material = "<<material[i]<<", comFrac = "<<comFrac[i]<<", density = "<<(i_density/(g/cm3))<<std::endl;
+			density += comFrac[i]/(i_density/(g/cm3));
 		}
 		if ( density!=0 ){
 			density = 1/density;
@@ -206,7 +206,43 @@ void MaterialSvc::AddMaterial( G4String content ){
 		aMaterial = new G4Material(name.c_str(), density*rel_dens*g/cm3, ncomponents);
 		for ( int i = 0; i < ncomponents; i++ ){
 			G4Material* new_mat_com = G4Material::GetMaterial(material[i]);
-			aMaterial->AddMaterial(new_mat_com, massFrac[i]);
+			aMaterial->AddMaterial(new_mat_com, comFrac[i]);
+		}
+	}
+	else if ( fMode == "VolMix_Materials" ){
+		buf_card>>name;
+		buf_card>>rel_dens;
+		buf_card>>ncomponents;
+		double sum_frac = 0;
+		for ( int i = 0; i < ncomponents; i++ ){
+			buf_card>>material[i];
+			buf_card>>comFrac[i];
+			sum_frac += comFrac[i];
+		}
+		//    std::cout<<"name = "<<name<<", rel_dens = "<<rel_dens<<", ncomponents = "<<ncomponents<<std::endl;
+		if ( sum_frac == 0 ){
+			std::cout<<"Please check mass fractions for "<<name<<std::endl;
+			G4Exception("MaterialSvc::AddMaterial()","Run0031",
+					FatalException, "total fraction is zero.");
+		}
+		if ( sum_frac != 1 ){
+			std::cout<<"the total fraction for "<<name<<" is not 1!!!"<<std::endl;
+			std::cout<<"MaterialSvc will normalize it to 1!"<<std::endl;
+			for ( int i = 0; i < ncomponents; i++ ){
+				comFrac[i] = comFrac[i]/sum_frac;
+			}
+		}
+		for ( int i = 0; i < ncomponents; i++ ){
+			G4Material* new_mat_com = G4Material::GetMaterial(material[i]);
+			G4double i_density = new_mat_com->GetDensity();
+			//      std::cout<<"  "<<i<<": "<<"material = "<<material[i]<<", comFrac = "<<comFrac[i]<<", density = "<<(i_density/(g/cm3))<<std::endl;
+			density += comFrac[i]*(i_density/(g/cm3));
+		}
+		aMaterial = new G4Material(name.c_str(), density*rel_dens*g/cm3, ncomponents);
+		for ( int i = 0; i < ncomponents; i++ ){
+			G4Material* new_mat_com = G4Material::GetMaterial(material[i]);
+			G4double i_density = new_mat_com->GetDensity();
+			aMaterial->AddMaterial(new_mat_com, comFrac[i]*i_density/density);
 		}
 	}
 	else{
