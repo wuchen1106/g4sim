@@ -46,13 +46,13 @@
 
 #include <CLHEP/Units/PhysicalConstants.h>
 
-#include "SimpleGeometryParameter.hh"
+#include "FormulizedGeometryParameter.hh"
 #include "CdcGeometryParameterMessenger.hh"
 
 #include "CdcGeometryParameter.hh"
 
 CdcGeometryParameter::CdcGeometryParameter(G4String name, G4String opt )
-	: SimpleGeometryParameter(name, "S") // Use a not-empty opt to stop inherited class from creating new GeometryParameterMessenger
+	: FormulizedGeometryParameter(name, "S") // Use a not-empty opt to stop inherited class from creating new GeometryParameterMessenger
 {
 	if ( opt == "" ){
 		CdcGeometryParameterMessenger *pointer = new CdcGeometryParameterMessenger(this, name);
@@ -91,7 +91,7 @@ void CdcGeometryParameter::InitFromFile( G4String file_name ){
 	if (CheckInfo()){
 		DEBUG("CdcGeometryParameter::InitFromFile(), insufficient simple solid info");
 	}
-	CalculateCdc();
+	Calculate();
 }
 
 void CdcGeometryParameter::Dump(){
@@ -102,7 +102,7 @@ void CdcGeometryParameter::Dump(){
 
 bool CdcGeometryParameter::CheckInfo(){
 	bool flag = false;// false means no problem
-	flag = SimpleGeometryParameter::CheckInfo();
+	flag = FormulizedGeometryParameter::CheckInfo();
 	if (flag) return flag;// if something is wrong with its Parent Class, then return the status.
 
 	//examine
@@ -114,7 +114,7 @@ bool CdcGeometryParameter::CheckInfo(){
 }
 
 void CdcGeometryParameter::Preset(){
-	SimpleGeometryParameter::Preset();// Call its Parent class to preset
+	FormulizedGeometryParameter::Preset();// Call its Parent class to preset
 	vis_cell = false;
 	vis_layer = false;
 	vis_SignalWire = false;
@@ -124,7 +124,7 @@ void CdcGeometryParameter::Preset(){
 
 
 int CdcGeometryParameter::GetValue(G4String s_card){
-	if (!SimpleGeometryParameter::GetValue(s_card)) return 0; // if found by Parent Class, then return.
+	if (!FormulizedGeometryParameter::GetValue(s_card)) return 0; // if found by Parent Class, then return.
 	int status = 0;// 0 means found the value
 	std::stringstream buf_card;
 	buf_card.str("");
@@ -204,9 +204,10 @@ int CdcGeometryParameter::GetValue(G4String s_card){
 	return status;
 }
 
-//--------------------------CalculateCdc---------------------------------
+//--------------------------Calculate---------------------------------
 //
-void CdcGeometryParameter::CalculateCdc(){
+void CdcGeometryParameter::Calculate(){
+	FormulizedGeometryParameter::Calculate();
 	layer_angle4rotate.resize(LayerNo);
 	layer_type.resize(LayerNo);
 	layer_cell_startNo.resize(LayerNo+1);
@@ -258,7 +259,7 @@ void CdcGeometryParameter::CalculateCdc(){
 //---------------------------DumpInfo---------------------------------
 //output information
 void CdcGeometryParameter::DumpInfo() {
-	SimpleGeometryParameter::DumpInfo();// dump info of its Parent Class first
+	FormulizedGeometryParameter::DumpInfo();// dump info of its Parent Class first
 	std::cout<<"------CdcGeometry info :--------"<<std::endl;
 	std::cout<<"=>General info:"<<std::endl;
 	std::cout<<" MotherLogicalVolume:  "<<MotherLogicalVolume<<std::endl;

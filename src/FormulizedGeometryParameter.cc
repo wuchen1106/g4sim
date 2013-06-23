@@ -28,7 +28,7 @@ FormulizedGeometryParameter::FormulizedGeometryParameter(G4String name, G4String
 {
 	if ( opt == "" ){
 		FormulizedGeometryParameterMessenger *pointer = new FormulizedGeometryParameterMessenger(this, name);
-//		std::cout<<"======>In FormulizedGeometryParameter, new FormulizedGeometryParameterMessenger at ("<<(void*)pointer<<")!"<<std::endl;
+		//		std::cout<<"======>In FormulizedGeometryParameter, new FormulizedGeometryParameterMessenger at ("<<(void*)pointer<<")!"<<std::endl;
 		set_GeometryParameterMessenger(pointer);
 	}
 }
@@ -72,6 +72,7 @@ void FormulizedGeometryParameter::Dump(){
 
 //-----------------------------------Special functions---------------------------------------------
 void FormulizedGeometryParameter::Calculate(){
+	SimpleGeometryParameter::Calculate();
 	for ( int VolId = 0; VolId < VolNo; VolId++ ){
 		std::vector<G4double> tPosX; tPosX.clear();
 		std::vector<G4double> tPosY; tPosY.clear();
@@ -125,11 +126,11 @@ void FormulizedGeometryParameter::Calculate(){
 			Box_Z.push_back(tBox_Z);
 		}
 		else if ( SolidType[VolId] == "Tubs" ){
-      std::vector<G4double> tTubs_RMax; tTubs_RMax.clear();
-      std::vector<G4double> tTubs_RMin; tTubs_RMin.clear();
-      std::vector<G4double> tTubs_Length; tTubs_Length.clear();
-      std::vector<G4double> tTubs_StartAng; tTubs_StartAng.clear();
-      std::vector<G4double> tTubs_SpanAng; tTubs_SpanAng.clear();
+			std::vector<G4double> tTubs_RMax; tTubs_RMax.clear();
+			std::vector<G4double> tTubs_RMin; tTubs_RMin.clear();
+			std::vector<G4double> tTubs_Length; tTubs_Length.clear();
+			std::vector<G4double> tTubs_StartAng; tTubs_StartAng.clear();
+			std::vector<G4double> tTubs_SpanAng; tTubs_SpanAng.clear();
 			TF1 *formulaTubs_RMax = new TF1("Tubs_RMax", fTubs_RMax[VolId]);
 			TF1 *formulaTubs_RMin = new TF1("Tubs_RMin", fTubs_RMin[VolId]);
 			TF1 *formulaTubs_Length = new TF1("Tubs_Length", fTubs_Length[VolId]);
@@ -154,12 +155,12 @@ void FormulizedGeometryParameter::Calculate(){
 			Tubs_SpanAng.push_back(tTubs_SpanAng);
 		}
 		else if ( SolidType[VolId] == "Sphere" ){
-      std::vector<G4double> tSphere_RMax; tSphere_RMax.clear();
-      std::vector<G4double> tSphere_RMin; tSphere_RMin.clear();
-      std::vector<G4double> tSphere_StartPhi; tSphere_StartPhi.clear();
-      std::vector<G4double> tSphere_SpanPhi; tSphere_SpanPhi.clear();
-      std::vector<G4double> tSphere_StartTheta; tSphere_StartTheta.clear();
-      std::vector<G4double> tSphere_SpanTheta; tSphere_SpanTheta.clear();
+			std::vector<G4double> tSphere_RMax; tSphere_RMax.clear();
+			std::vector<G4double> tSphere_RMin; tSphere_RMin.clear();
+			std::vector<G4double> tSphere_StartPhi; tSphere_StartPhi.clear();
+			std::vector<G4double> tSphere_SpanPhi; tSphere_SpanPhi.clear();
+			std::vector<G4double> tSphere_StartTheta; tSphere_StartTheta.clear();
+			std::vector<G4double> tSphere_SpanTheta; tSphere_SpanTheta.clear();
 			TF1 *formulaSphere_RMax = new TF1("Sphere_RMax", fSphere_RMax[VolId]);
 			TF1 *formulaSphere_RMin = new TF1("Sphere_RMin", fSphere_RMin[VolId]);
 			TF1 *formulaSphere_StartPhi = new TF1("Sphere_StartPhi", fSphere_StartPhi[VolId]);
@@ -210,69 +211,69 @@ void FormulizedGeometryParameter::Preset(){
 	TubsNo = 0;
 	SphereNo = 0;
 	//General info about volume
-  fPosX.clear();
-  fPosY.clear();
-  fPosZ.clear();
-  fEphi.clear();
-  fEtheta.clear();
-  fEpsi.clear();
-  PosX.clear();
-  PosY.clear();
-  PosZ.clear();
-  Ephi.clear();
-  Etheta.clear();
-  Epsi.clear();
-  Name.clear();
-  MotherName.clear();
-  SDName.clear();
-  Material.clear();
-  SRepNo.clear();
-  RepNo.clear();
-  SolidType.clear();
-  SolidIndex.clear();
+	fPosX.clear();
+	fPosY.clear();
+	fPosZ.clear();
+	fEphi.clear();
+	fEtheta.clear();
+	fEpsi.clear();
+	PosX.clear();
+	PosY.clear();
+	PosZ.clear();
+	Ephi.clear();
+	Etheta.clear();
+	Epsi.clear();
+	Name.clear();
+	MotherName.clear();
+	SDName.clear();
+	Material.clear();
+	SRepNo.clear();
+	RepNo.clear();
+	SolidType.clear();
+	SolidIndex.clear();
 
 	//Box info
-  fBox_X.clear();
-  fBox_Y.clear();
-  fBox_Z.clear();
-  Box_X.clear();
-  Box_Y.clear();
-  Box_Z.clear();
-  Box_GenIndex.clear();
+	fBox_X.clear();
+	fBox_Y.clear();
+	fBox_Z.clear();
+	Box_X.clear();
+	Box_Y.clear();
+	Box_Z.clear();
+	Box_GenIndex.clear();
 
 	//Tubs info
-  fTubs_RMax.clear();
-  fTubs_RMin.clear();
-  fTubs_Length.clear();
-  fTubs_StartAng.clear();
-  fTubs_SpanAng.clear();
-  Tubs_RMax.clear();
-  Tubs_RMin.clear();
-  Tubs_Length.clear();
-  Tubs_StartAng.clear();
-  Tubs_SpanAng.clear();
-  Tubs_GenIndex.clear();
+	fTubs_RMax.clear();
+	fTubs_RMin.clear();
+	fTubs_Length.clear();
+	fTubs_StartAng.clear();
+	fTubs_SpanAng.clear();
+	Tubs_RMax.clear();
+	Tubs_RMin.clear();
+	Tubs_Length.clear();
+	Tubs_StartAng.clear();
+	Tubs_SpanAng.clear();
+	Tubs_GenIndex.clear();
 
 	//Sphere info
-  fSphere_RMax.clear();
-  fSphere_RMin.clear();
-  fSphere_StartPhi.clear();
-  fSphere_SpanPhi.clear();
-  fSphere_StartTheta.clear();
-  fSphere_SpanTheta.clear();
-  Sphere_RMax.clear();
-  Sphere_RMin.clear();
-  Sphere_StartPhi.clear();
-  Sphere_SpanPhi.clear();
-  Sphere_StartTheta.clear();
-  Sphere_SpanTheta.clear();
-  Sphere_GenIndex.clear();
+	fSphere_RMax.clear();
+	fSphere_RMin.clear();
+	fSphere_StartPhi.clear();
+	fSphere_SpanPhi.clear();
+	fSphere_StartTheta.clear();
+	fSphere_SpanTheta.clear();
+	Sphere_RMax.clear();
+	Sphere_RMin.clear();
+	Sphere_StartPhi.clear();
+	Sphere_SpanPhi.clear();
+	Sphere_StartTheta.clear();
+	Sphere_SpanTheta.clear();
+	Sphere_GenIndex.clear();
 
 	//visual settings
-  vVis.clear();
-  vR.clear();
-  vG.clear();
-  vB.clear();
+	vVis.clear();
+	vR.clear();
+	vG.clear();
+	vB.clear();
 }
 
 int FormulizedGeometryParameter::GetValue(G4String s_card){
@@ -373,6 +374,8 @@ int FormulizedGeometryParameter::GetValue(G4String s_card){
 		status = -1;
 	}
 	else{
+		std::cout<<"#############In FormulizedGeometryParameter::GetValue()"<<std::endl;
+		std::cout<<"Is \""<<name<<"\" vis setting?"<<std::endl;
 		bool foundornot = false;
 		if ( name.substr(0,4) == "vis_" ){
 			if(notReSetVis) ReSetVis();
@@ -396,7 +399,11 @@ int FormulizedGeometryParameter::GetValue(G4String s_card){
 			buf_temp.clear();
 		}
 		if (!foundornot){
+			std::cout<<"No..."<<std::endl;
 			status = 1;
+		}
+		else{
+			std::cout<<"Yes!!"<<std::endl;
 		}
 	}
 	buf_card.str("");
@@ -427,122 +434,122 @@ void FormulizedGeometryParameter::DumpInfo() {
 		if ( i == 0 ){
 			std::cout<<"=>Box info:"<<std::endl;
 			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<"No."
-							 <<std::setiosflags(std::ios::left)<<std::setw(6) <<"RepNo"
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"x"
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"y"
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"z"
-							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<"Name"
-							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<"MotherName"
-							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<"Matierial"
-							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<"SDName"
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"PosX"
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"PosY"
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"PosZ"
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Ephi"
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Etheta"
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Epsi"
-							 <<std::endl;
+				<<std::setiosflags(std::ios::left)<<std::setw(6) <<"RepNo"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"x"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"y"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"z"
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<"Name"
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<"MotherName"
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<"Matierial"
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<"SDName"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"PosX"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"PosY"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"PosZ"
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<"Ephi"
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<"Etheta"
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<"Epsi"
+				<<std::endl;
 			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<""
-							 <<std::setiosflags(std::ios::left)<<std::setw(6) <<""
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
-							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<""
-							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<""
-							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<""
-							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<""
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
-							 <<std::setiosflags(std::ios::left)<<std::setw(6) <<""
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
-							 <<std::endl;
+				<<std::setiosflags(std::ios::left)<<std::setw(6) <<""
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"mm"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"mm"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"mm"
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<""
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<""
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<""
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<""
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"mm"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"mm"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"mm"
+				<<std::setiosflags(std::ios::left)<<std::setw(6) <<""
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
+				<<std::endl;
 		}
 		int index = Box_GenIndex[i];
 		int repNo = RepNo[index];
 		for ( G4int j = 0; j < repNo; j++ ){
 			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<i
-							 <<std::setiosflags(std::ios::left)<<std::setw(6) <<j+SRepNo[index]
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Box_X[i][j]/mm
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Box_Y[i][j]/mm
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Box_Z[i][j]/mm
-							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<Name[index]
-							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<MotherName[index]
-							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<Material[index]
-							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<SDName[index]
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<PosX[index][j]/mm
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<PosY[index][j]/mm
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<PosZ[index][j]/mm
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Ephi[index][j]/deg
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Etheta[index][j]/deg
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Epsi[index][j]/deg
-							 <<std::endl;
+				<<std::setiosflags(std::ios::left)<<std::setw(6) <<j+SRepNo[index]
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<Box_X[i][j]/mm
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<Box_Y[i][j]/mm
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<Box_Z[i][j]/mm
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<Name[index]
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<MotherName[index]
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<Material[index]
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<SDName[index]
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<PosX[index][j]/mm
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<PosY[index][j]/mm
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<PosZ[index][j]/mm
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<Ephi[index][j]/deg
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<Etheta[index][j]/deg
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<Epsi[index][j]/deg
+				<<std::endl;
 		}
 	}
 
 	for( G4int i = 0; i < TubsNo; i++ ){
 		if ( i == 0 ){
-		std::cout<<"=>Tubs info:"<<std::endl;
-		std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<"No."
-						 <<std::setiosflags(std::ios::left)<<std::setw(6) <<"RepNo"
-						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"RMin"
-						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"RMax"
-						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Length"
-						 <<std::setiosflags(std::ios::left)<<std::setw(9) <<"StartAng"
-						 <<std::setiosflags(std::ios::left)<<std::setw(8) <<"SpanAng"
-						 <<std::setiosflags(std::ios::left)<<std::setw(15)<<"Name"
-						 <<std::setiosflags(std::ios::left)<<std::setw(15)<<"MotherName"
-						 <<std::setiosflags(std::ios::left)<<std::setw(15)<<"Matierial"
-						 <<std::setiosflags(std::ios::left)<<std::setw(15)<<"SDName"
-						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"PosX"
-						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"PosY"
-						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"PosZ"
-						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Ephi"
-						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Etheta"
-						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Epsi"
-						 <<std::endl;
-		std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<""
-						 <<std::setiosflags(std::ios::left)<<std::setw(6) <<""
-						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
-						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
-						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
-						 <<std::setiosflags(std::ios::left)<<std::setw(9) <<"deg"
-						 <<std::setiosflags(std::ios::left)<<std::setw(8) <<"deg"
-						 <<std::setiosflags(std::ios::left)<<std::setw(15)<<""
-						 <<std::setiosflags(std::ios::left)<<std::setw(15)<<""
-						 <<std::setiosflags(std::ios::left)<<std::setw(15)<<""
-						 <<std::setiosflags(std::ios::left)<<std::setw(15)<<""
-						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
-						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
-						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
-						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
-						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
-						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
-						 <<std::endl;
+			std::cout<<"=>Tubs info:"<<std::endl;
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<"No."
+				<<std::setiosflags(std::ios::left)<<std::setw(6) <<"RepNo"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"RMin"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"RMax"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"Length"
+				<<std::setiosflags(std::ios::left)<<std::setw(9) <<"StartAng"
+				<<std::setiosflags(std::ios::left)<<std::setw(8) <<"SpanAng"
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<"Name"
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<"MotherName"
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<"Matierial"
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<"SDName"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"PosX"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"PosY"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"PosZ"
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<"Ephi"
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<"Etheta"
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<"Epsi"
+				<<std::endl;
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<""
+				<<std::setiosflags(std::ios::left)<<std::setw(6) <<""
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"mm"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"mm"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"mm"
+				<<std::setiosflags(std::ios::left)<<std::setw(9) <<"deg"
+				<<std::setiosflags(std::ios::left)<<std::setw(8) <<"deg"
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<""
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<""
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<""
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<""
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"mm"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"mm"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"mm"
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
+				<<std::endl;
 		}
 		int index = Tubs_GenIndex[i];
 		int repNo = RepNo[index];
 		for ( G4int j = 0; j < repNo; j++ ){
 			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<i
-							 <<std::setiosflags(std::ios::left)<<std::setw(6) <<j+SRepNo[index]
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Tubs_RMin[i][j]/mm
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Tubs_RMax[i][j]/mm
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Tubs_Length[i][j]/mm
-							 <<std::setiosflags(std::ios::left)<<std::setw(9) <<Tubs_StartAng[i][j]/deg
-							 <<std::setiosflags(std::ios::left)<<std::setw(8) <<Tubs_SpanAng[i][j]/deg
-							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<Name[index]
-							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<MotherName[index]
-							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<Material[index]
-							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<SDName[index]
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<PosX[index][j]/mm
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<PosY[index][j]/mm
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<PosZ[index][j]/mm
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Ephi[index][j]/deg
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Etheta[index][j]/deg
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Epsi[index][j]/deg
-							 <<std::endl;
+				<<std::setiosflags(std::ios::left)<<std::setw(6) <<j+SRepNo[index]
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<Tubs_RMin[i][j]/mm
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<Tubs_RMax[i][j]/mm
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<Tubs_Length[i][j]/mm
+				<<std::setiosflags(std::ios::left)<<std::setw(9) <<Tubs_StartAng[i][j]/deg
+				<<std::setiosflags(std::ios::left)<<std::setw(8) <<Tubs_SpanAng[i][j]/deg
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<Name[index]
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<MotherName[index]
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<Material[index]
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<SDName[index]
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<PosX[index][j]/mm
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<PosY[index][j]/mm
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<PosZ[index][j]/mm
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<Ephi[index][j]/deg
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<Etheta[index][j]/deg
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<Epsi[index][j]/deg
+				<<std::endl;
 		}
 	}
 
@@ -550,66 +557,66 @@ void FormulizedGeometryParameter::DumpInfo() {
 		if ( i == 0 ){
 			std::cout<<"=>Sphere info:"<<std::endl;
 			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<"No."
-							 <<std::setiosflags(std::ios::left)<<std::setw(6) <<"RepNo"
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"RMin"
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"RMax"
-							 <<std::setiosflags(std::ios::left)<<std::setw(9) <<"StartPhi"
-							 <<std::setiosflags(std::ios::left)<<std::setw(8) <<"SpanPhi"
-							 <<std::setiosflags(std::ios::left)<<std::setw(11)<<"StartTheta"
-							 <<std::setiosflags(std::ios::left)<<std::setw(10)<<"SpanTheta"
-							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<"Name"
-							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<"MotherName"
-							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<"Matierial"
-							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<"SDName"
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"PosX"
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"PosY"
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"PosZ"
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Ephi"
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Etheta"
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Epsi"
-							 <<std::endl;
+				<<std::setiosflags(std::ios::left)<<std::setw(6) <<"RepNo"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"RMin"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"RMax"
+				<<std::setiosflags(std::ios::left)<<std::setw(9) <<"StartPhi"
+				<<std::setiosflags(std::ios::left)<<std::setw(8) <<"SpanPhi"
+				<<std::setiosflags(std::ios::left)<<std::setw(11)<<"StartTheta"
+				<<std::setiosflags(std::ios::left)<<std::setw(10)<<"SpanTheta"
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<"Name"
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<"MotherName"
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<"Matierial"
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<"SDName"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"PosX"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"PosY"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"PosZ"
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<"Ephi"
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<"Etheta"
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<"Epsi"
+				<<std::endl;
 			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<""
-							 <<std::setiosflags(std::ios::left)<<std::setw(6) <<""
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
-							 <<std::setiosflags(std::ios::left)<<std::setw(9) <<"deg"
-							 <<std::setiosflags(std::ios::left)<<std::setw(8) <<"deg"
-							 <<std::setiosflags(std::ios::left)<<std::setw(11)<<"deg"
-							 <<std::setiosflags(std::ios::left)<<std::setw(10)<<"deg"
-							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<""
-							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<""
-							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<""
-							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<""
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
-							 <<std::endl;
+				<<std::setiosflags(std::ios::left)<<std::setw(6) <<""
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"mm"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"mm"
+				<<std::setiosflags(std::ios::left)<<std::setw(9) <<"deg"
+				<<std::setiosflags(std::ios::left)<<std::setw(8) <<"deg"
+				<<std::setiosflags(std::ios::left)<<std::setw(11)<<"deg"
+				<<std::setiosflags(std::ios::left)<<std::setw(10)<<"deg"
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<""
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<""
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<""
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<""
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"mm"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"mm"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"mm"
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
+				<<std::endl;
 		}
 		int index = Sphere_GenIndex[i];
 		int repNo = RepNo[index];
 		for ( G4int j = 0; j < repNo; j++ ){
 			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<i
-							 <<std::setiosflags(std::ios::left)<<std::setw(6) <<j+SRepNo[index]
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Sphere_RMin[i][j]/mm
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Sphere_RMax[i][j]/mm
-							 <<std::setiosflags(std::ios::left)<<std::setw(9) <<Sphere_StartPhi[i][j]/deg
-							 <<std::setiosflags(std::ios::left)<<std::setw(8) <<Sphere_SpanPhi[i][j]/deg
-							 <<std::setiosflags(std::ios::left)<<std::setw(11)<<Sphere_StartTheta[i][j]/deg
-							 <<std::setiosflags(std::ios::left)<<std::setw(10)<<Sphere_SpanTheta[i][j]/deg
-							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<Name[index]
-							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<MotherName[index]
-							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<Material[index]
-							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<SDName[index]
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<PosX[index][j]/mm
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<PosY[index][j]/mm
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<PosZ[index][j]/mm
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Ephi[index][j]/deg
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Etheta[index][j]/deg
-							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Epsi[index][j]/deg
-							 <<std::endl;
+				<<std::setiosflags(std::ios::left)<<std::setw(6) <<j+SRepNo[index]
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<Sphere_RMin[i][j]/mm
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<Sphere_RMax[i][j]/mm
+				<<std::setiosflags(std::ios::left)<<std::setw(9) <<Sphere_StartPhi[i][j]/deg
+				<<std::setiosflags(std::ios::left)<<std::setw(8) <<Sphere_SpanPhi[i][j]/deg
+				<<std::setiosflags(std::ios::left)<<std::setw(11)<<Sphere_StartTheta[i][j]/deg
+				<<std::setiosflags(std::ios::left)<<std::setw(10)<<Sphere_SpanTheta[i][j]/deg
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<Name[index]
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<MotherName[index]
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<Material[index]
+				<<std::setiosflags(std::ios::left)<<std::setw(15)<<SDName[index]
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<PosX[index][j]/mm
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<PosY[index][j]/mm
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<PosZ[index][j]/mm
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<Ephi[index][j]/deg
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<Etheta[index][j]/deg
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<Epsi[index][j]/deg
+				<<std::endl;
 		}
 	}
 }

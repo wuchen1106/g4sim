@@ -31,12 +31,12 @@
 #include <sstream>
 #include <iostream>
 
-#include "SimpleGeometrySvc.hh"
+#include "FormulizedGeometrySvc.hh"
 #include "CdcGeometryParameter.hh"
 #include "MyDetectorManager.hh"
 
 CdcGeometrySvc::CdcGeometrySvc(G4String name, G4String opt )
-	: SimpleGeometrySvc(name, "S") // Use a not-empty opt to stop inherited class from creating new GeometryParameter
+	: FormulizedGeometrySvc(name, "S") // Use a not-empty opt to stop inherited class from creating new GeometryParameter
 {
 	if ( opt == "" ){//called directly by user. set up parameter class.
 		CdcGeometryParameter *pointer = new CdcGeometryParameter(name);
@@ -52,23 +52,24 @@ CdcGeometrySvc::~CdcGeometrySvc(){
 //------------------------Modify-------------------------------
 void CdcGeometrySvc::set_GeometryParameter( CdcGeometryParameter* val ){
 	m_GeometryParameter = val;
-	SimpleGeometrySvc::set_GeometryParameter(m_GeometryParameter);
+	FormulizedGeometrySvc::set_GeometryParameter(m_GeometryParameter);
 }
 
 //---------------------------SetGeometry---------------------------------
 //
 G4VPhysicalVolume* CdcGeometrySvc::SetGeometry(){
 	m_GeometryParameter->Dump();
-	SimpleGeometrySvc::ConstructVolumes();
 	ConstructVolumes();
 	G4VPhysicalVolume *current = PlaceVolumes();
-	G4VPhysicalVolume *former = SimpleGeometrySvc::PlaceVolumes();
+	G4VPhysicalVolume *former = FormulizedGeometrySvc::PlaceVolumes();
 	return ( !current? former : current );
 }
 
 //-------------------------Special functions-----------------------------
 //=> ConstructVolumes
 void CdcGeometrySvc::ConstructVolumes(){
+	FormulizedGeometrySvc::ConstructVolumes();
+	std::cout<<"###########In CdcGeometrySvc::ConstructVolumes"<<std::endl;
 	bool vis;
 	double r, g, b;
 

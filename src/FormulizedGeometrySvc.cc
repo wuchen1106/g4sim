@@ -52,7 +52,6 @@ void FormulizedGeometrySvc::set_GeometryParameter( FormulizedGeometryParameter* 
 //virtual function
 G4VPhysicalVolume* FormulizedGeometrySvc::SetGeometry(){
 	m_GeometryParameter->Dump();
-	SimpleGeometrySvc::ConstructVolumes();
 	ConstructVolumes();
 	G4VPhysicalVolume *current = PlaceVolumes();
 	G4VPhysicalVolume *former = SimpleGeometrySvc::PlaceVolumes();
@@ -62,6 +61,8 @@ G4VPhysicalVolume* FormulizedGeometrySvc::SetGeometry(){
 //-------------------------Special functions-----------------------------
 //=> ConstructVolumes
 void FormulizedGeometrySvc::ConstructVolumes(){
+	SimpleGeometrySvc::ConstructVolumes();
+	std::cout<<"###########In FormulizedGeometrySvc::ConstructVolumes"<<std::endl;
 	bool vis;
 	double r, g, b;
 	G4Material* pttoMaterial;
@@ -86,6 +87,7 @@ void FormulizedGeometrySvc::ConstructVolumes(){
 			SDName = m_GeometryParameter->get_SDName(i_Vol);
 			mat_name = m_GeometryParameter->get_material(i_Vol);
 			name = m_GeometryParameter->get_name(i_Vol);
+			std::cout<<"Constructing \""<<name<<"\"..."<<std::endl;
 			pttoMaterial = G4Material::GetMaterial(mat_name);
 			if (!pttoMaterial){
 				std::cout<<"Material "<<mat_name<<" is not defined!"<<std::endl;

@@ -29,6 +29,8 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 
 		virtual void InitFromFile(G4String);  //Get necessary parameters from given file
 
+		virtual void Calculate();
+
 		virtual void Dump();
 
 		//=> Special functions

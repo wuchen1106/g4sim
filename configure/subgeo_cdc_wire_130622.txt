@@ -66,8 +66,14 @@
 #Cons info
 #	No   RMin1 RMax1 RMin2 RMax2 Length StartAng SpanAng posX posY posZ  Name             MotVolume     Material     SDName RepNo Space DirTheta DirPhi Ephi Etheta Epsi
 #	     mm    mm    mm    mm    mm     deg      deg     mm   mm   mm                                                             mm    deg      deg    deg  deg    deg
-	C 0  804   806   501.6 503.6 205    0.       360     0.   0.  -852.5 USEndPlate CDCContainer  ChamberGas   none   1     0     0        0      0    0      0
-	C 1  501.6 503.6 804   806   205    0.       360     0.   0.   852.5 DSEndPlate CDCContainer  ChamberGas   none   1     0     0        0      0    0      0
+#	C 0  804   806   501.6 503.6 205    0.       360     0.   0.  -852.5 USEndPlate CDCContainer  ChamberGas   none   1     0     0        0      0    0      0
+#	C 1  501.6 503.6 804   806   205    0.       360     0.   0.   852.5 DSEndPlate CDCContainer  ChamberGas   none   1     0     0        0      0    0      0
+
+#fTubs info
+#	No      RMin      RMax      Length StartAng SpanAng posX posY posZ           Name       MotVolume    Material     SDName     RepNo Ephi Etheta Epsi
+#	        mm        mm        mm     deg      deg     mm   mm   mm                                                             deg  deg    deg
+	fT   0  502+16*x  518+16*x  20     0.       360.    0.   0.   -751-12.058*x  USEndPlate CDCContainer Aluminium    none       18    0    0      0
+	fT   1  502+16*x  518+16*x  20     0.       360.    0.   0.   751+12.058*x   DSEndPlate CDCContainer Aluminium    none       18    0    0      0
 
 #visual settings
 	VerboseLevel:    5

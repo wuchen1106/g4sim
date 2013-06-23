@@ -19,11 +19,11 @@
 
 #include "globals.hh"
 
-#include "SimpleGeometrySvc.hh"
+#include "FormulizedGeometrySvc.hh"
 
 class CdcGeometryParameter;
 
-class CdcGeometrySvc : public SimpleGeometrySvc
+class CdcGeometrySvc : public FormulizedGeometrySvc
 {
   public:
     CdcGeometrySvc(G4String name, G4String opt = "");

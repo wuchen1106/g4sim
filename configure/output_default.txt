@@ -185,6 +185,7 @@ CDCLayer_FILTERSECTION
 CDCLayer_FILTERSECTION
 
 TRIGGERSECTION
-  minCdcHits        -1           // minimum required CDCLayer nHits. Would be set invalid if minCdcHits = -1
-  minTriggerHits    -1           // minimum required Trigger nHits. Would be set invalid if minCdcHits = -1
+	minCdcHits        -1           // minimum required CDCLayer nHits. Would be set invalid if minCdcHits = -1
+	minTriggerHits    -1           // minimum required Trigger nHits. Would be set invalid if minCdcHits = -1
+	minAntipNum       1            // minimum required Anti-Proton number. Would be set invalid if minCdcHits = -1
 TRIGGERSECTION

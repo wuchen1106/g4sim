@@ -57,7 +57,6 @@ void SimpleGeometrySvc::set_GeometryParameter( SimpleGeometryParameter* val ){
 //virtual function
 G4VPhysicalVolume* SimpleGeometrySvc::SetGeometry(){
 	m_GeometryParameter->Dump();
-	MyVGeometrySvc::ConstructVolumes();
 	ConstructVolumes();
 	G4VPhysicalVolume *current = PlaceVolumes();
 	G4VPhysicalVolume *former = MyVGeometrySvc::PlaceVolumes();
@@ -67,6 +66,8 @@ G4VPhysicalVolume* SimpleGeometrySvc::SetGeometry(){
 //-------------------------Special functions-----------------------------
 //=> ConstructVolumes
 void SimpleGeometrySvc::ConstructVolumes(){
+	MyVGeometrySvc::ConstructVolumes();
+	std::cout<<"###########In SimpleGeometrySvc::ConstructVolumes"<<std::endl;
 	bool vis;
 	double r, g, b;
 	G4Material* pttoMaterial;
@@ -89,6 +90,7 @@ void SimpleGeometrySvc::ConstructVolumes(){
 					"unknown material name");
 		}
 		G4LogicalVolume* log_Vol;
+		std::cout<<"Constructing \""<<name<<"\"..."<<std::endl;
 		if ( SolidType == "Box" ){
 			G4double halfX, halfY, halfZ;
 			halfX = m_GeometryParameter->get_Box_X(SolidIndex)/2;
@@ -161,12 +163,14 @@ void SimpleGeometrySvc::ConstructVolumes(){
 		//visual
 		vis = m_GeometryParameter->get_vis(i_Vol);
 		if (!vis){
+			std::cout<<"Invisable!"<<std::endl;
 			log_Vol->SetVisAttributes(G4VisAttributes::Invisible);
 		}
 		else{
 			r = m_GeometryParameter->get_r(i_Vol);
 			g = m_GeometryParameter->get_g(i_Vol);
 			b = m_GeometryParameter->get_b(i_Vol);
+			std::cout<<"("<<r<<","<<g<<","<<b<<std::endl;
 			G4VisAttributes* visAttributes = new G4VisAttributes;
 			visAttributes->SetVisibility(true);
 			visAttributes->SetColour(r,g,b);
