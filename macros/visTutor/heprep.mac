@@ -1,6 +1,6 @@
 # $Id: heprep.mac,v 1.2 2003-12-01 21:09:28 perl Exp $
 #
-# Macro file for "g4sim.cc"
+# Macro file for "main.cc"
 #
 # can be run in batch, without graphic
 # or interactively: Idle> /control/execute heprep.mac

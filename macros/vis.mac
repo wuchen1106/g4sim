@@ -1,4 +1,4 @@
-# Macro file for the initialization phase of "g4sim.cc"
+# Macro file for the initialization phase of "main.cc"
 # when running in interactive mode
 #
 # Sets some default verbose

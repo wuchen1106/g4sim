@@ -1,5 +1,4 @@
 ====================================
-examples/novice/g4sim/visTutor/History
 ====================================
 
 24th November 2008 Laurent Garnier
@@ -16,21 +15,21 @@ examples/novice/g4sim/visTutor/History
 - exNo3Tree1.mac: changed name in comments in header from ...Tree0 to ...Tree1.
 
 27-11-03 Gabriele Cosmo 
-- removed script g4simVis5.mac of OPACS and renamed scripts 6/7/8/9 to
+- removed script Vis5.mac of OPACS and renamed scripts 6/7/8/9 to
   5/6/7/8 respectively. Added scripts to gui.mac.
 
-14-11-01 Satoshi Tanaka (g4simVisTutor-V03-02-02)
-- g4simVis8.mac : Batch visualization with the DAWNFILE driver
-- g4simVis9.mac : Multi-page PostScript file generation (old g4simVis8.mac)
+14-11-01 Satoshi Tanaka (VisTutor-V03-02-02)
+- Vis8.mac : Batch visualization with the DAWNFILE driver
+- Vis9.mac : Multi-page PostScript file generation (old Vis8.mac)
 
-08-11-01 Satoshi Tanaka (g4simVisTutor-V03-02-01a)
+08-11-01 Satoshi Tanaka (VisTutor-V03-02-01a)
 - /vis/viewer/viewpointThetaPhi ==> /vis/viewer/set/viewpointThetaPhi
 
-07-11-01 Satoshi Tanaka (g4simVisTutor-V03-02-01)
+07-11-01 Satoshi Tanaka (VisTutor-V03-02-01)
 - Macros are rewritten with /vis/viewer/flush
 - Comments are updated.
 
-18-09-01 Satoshi Tanaka (g4simVisTutor-V03-02-00)
+18-09-01 Satoshi Tanaka (VisTutor-V03-02-00)
 - Updation for automatic visualization at Hebden Bridge mini-workshop.
 - /vis/viewer/flush and /vis/flushAll are not included yet.
   (To be included in the next tag.) 

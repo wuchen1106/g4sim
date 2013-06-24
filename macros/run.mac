@@ -1,7 +1,7 @@
 #/control/execute configure/verbose_default.mac
 #/control/execute configure/verbose_test.mac
 #/tracking/verbose                   1
-#/g4sim/event/printModulo      10000
+#/XXX/event/printModulo      10000
 #/stacking/setEleCut 95 MeV
 #/stacking/setPosCut 95 MeV
 #/stacking/setGamCut 95 MeV

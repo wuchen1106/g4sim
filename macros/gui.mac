@@ -29,10 +29,10 @@
 #
 # Vis menu :
 /gui/addMenu vis Vis
-/gui/addButton vis DAWNFILE  "/control/execute macros/visTutor/g4simVis0.mac"
-/gui/addButton vis OpenInventor "/control/execute macros/visTutor/g4simVis5.mac"
-/gui/addButton vis TimeSlicing "/control/execute macros/visTutor/g4simVis12.mac"
-/gui/addButton vis EmShower "/control/execute macros/visTutor/g4simVis13.mac"
+/gui/addButton vis DAWNFILE  "/control/execute macros/visTutor/Vis0.mac"
+/gui/addButton vis OpenInventor "/control/execute macros/visTutor/Vis5.mac"
+/gui/addButton vis TimeSlicing "/control/execute macros/visTutor/Vis12.mac"
+/gui/addButton vis EmShower "/control/execute macros/visTutor/Vis13.mac"
 #
 # Viewer menu :
 /gui/addMenu viewer Viewer
@@ -44,4 +44,4 @@
 /gui/addButton viewer "Update scene" "/vis/scene/notifyHandlers"
 #
 # To limit the output flow in the "dump" widget :
-/g4sim/event/printModulo 100
+#/XXX/event/printModulo 100

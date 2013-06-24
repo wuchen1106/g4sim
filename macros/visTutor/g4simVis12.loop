@@ -1,4 +1,0 @@
-# g4simVis12.loop
-/vis/ogl/set/startTime {startTime} ns {timeRange} ns
-# Print eps file
-#/vis/ogl/printEPS
