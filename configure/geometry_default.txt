@@ -5,8 +5,8 @@
 
 #for Cdc:
 #18 stereo layers
-	World           Simple              subgeo_CdcGeneral_130622.txt
-	Cdc             Cdc                 subgeo_cdc_wire_130622.txt
+#	World           Simple              subgeo_CdcGeneral_130622.txt
+#	Cdc             Cdc                 subgeo_cdc_wire_130622.txt
 #Wire structure A(6)S(4)A(4)S(6) (default)
 #	World           Simple              subgeo_CdcGeneral_default.txt
 #	Cdc             Cdc                 subgeo_cdc_wire.txt
@@ -17,7 +17,7 @@
 #	World           Simple              subgeo_CdcGeneral_default.txt
 #	Cdc             Formulized          subgeo_cdc_layer_default.txt
 #For test
-#	CDC             Cdc                 subgeo_cdc_test.txt
+	CDC             Cdc                 subgeo_cdc_test.txt
 
 #for ProductionTarget:
 #	World           Simple              subgeo_ProductionTarget.txt

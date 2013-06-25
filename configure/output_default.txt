@@ -144,7 +144,7 @@ CdcCell_SECTION
 CdcCell_SECTION
 
 CdcCell_FILTERSECTION
-#	Switch                        //if commented, then program wil not generate any hit
+	Switch                        //if commented, then program wil not generate any hit
 	neutralCut                    //if not commented, then neutral tracks will not be recorded
 	maxn          0               //maximum hits cut
 	ntracks       0                //maximum tracks cut

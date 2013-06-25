@@ -18,11 +18,11 @@
 #	layer    WireNo   Length   R        StartPhi  First RotateCell
 #	                  mm       mm       rad     0:F/1:S
 	F                          200
-	S  0  0  12       1500     350      0         0      0
+	S  0  0  8        1500     350      0         0      0
 	F                          500
-	S  1  1  12       1500     650      0         1      1
+	S  1  1  8        1500     650      0         1      0
 	F                          800
-	S  2  2  12       1500     950      0         0      1
+	S  2  2  8        1500     950      0         0      0
 	LF                         1100
 
 #Tubs info
