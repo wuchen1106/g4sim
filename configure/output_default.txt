@@ -173,7 +173,7 @@ CDCLayer_SECTION
 CDCLayer_SECTION
 
 CDCLayer_FILTERSECTION
-#	Switch                        //if commented, then program wil not generate any hit
+	Switch                        //if commented, then program wil not generate any hit
 	neutralCut                    //if not commented, then neutral tracks will not be recorded
 	FirstLoop                     //if not commented, then only the first loop would be recorded
 	maxn          0               //maximum hits cut, 0 means no limit
@@ -187,5 +187,5 @@ CDCLayer_FILTERSECTION
 TRIGGERSECTION
 	minCdcHits        -1           // minimum required CDCLayer nHits. Would be set invalid if minCdcHits = -1
 	minTriggerHits    -1           // minimum required Trigger nHits. Would be set invalid if minCdcHits = -1
-	minAntipNum       1            // minimum required Anti-Proton number. Would be set invalid if minCdcHits = -1
+	minAntipNum       -1            // minimum required Anti-Proton number. Would be set invalid if minCdcHits = -1
 TRIGGERSECTION
