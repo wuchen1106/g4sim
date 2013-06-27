@@ -33,41 +33,41 @@
 
 PrimaryGeneratorAction::PrimaryGeneratorAction()
 {
-  //create a messenger for this class
-  gunMessenger = new PrimaryGeneratorMessenger(this);
+	//create a messenger for this class
+	gunMessenger = new PrimaryGeneratorMessenger(this);
 
-  // default particle kinematic
-  G4String file_name = getenv("GENFILEROOT");
+	// default particle kinematic
+	G4String file_name = getenv("GENFILEROOT");
 	size_t sLast = file_name.last('/');
 	if(sLast==std::string::npos){ // file name only
 		G4String dir_name = getenv("CONFIGUREROOT");
 		if (dir_name[dir_name.size()-1] != '/') dir_name.append("/");
 		file_name = dir_name + file_name;
 	}
-  ReadCard(file_name);
-  if (fType == "simple"){
+	ReadCard(file_name);
+	if (fType == "simple"){
 		G4int n_particle = 1;
 		particleGun  = new G4ParticleGun(n_particle);
-  }
-  else {
-    G4Exception("PrimaryGeneratorAction::PrimaryGeneratorAction()","Run0031",
-        FatalException, "unknown generator type.");
-  }
+	}
+	else {
+		G4Exception("PrimaryGeneratorAction::PrimaryGeneratorAction()","Run0031",
+				FatalException, "unknown generator type.");
+	}
 
-  G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
-  G4ParticleDefinition* particle = particleTable->FindParticle(ParticleName);
-  if (!particle){
-    std::cout<<"ERROR: In PrimaryGeneratorAction::PrimaryGeneratorAction() Cannot find particle "<<ParticleName<<"!!!"<<std::endl;
-    G4Exception("PrimaryGeneratorAction::PrimaryGeneratorAction()","Run0031",
-        FatalException, "Cannot find particle.");
-  }
-  particleGun->SetParticleDefinition(particle);
-  G4ThreeVector dir(1,0,0);
-  dir.setTheta(Theta);
-  dir.setPhi(Phi);
-  particleGun->SetParticleMomentumDirection(dir);
-  particleGun->SetParticleMomentum(Pa);
-  particleGun->SetParticlePosition(G4ThreeVector(x,y,z));
+	G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
+	G4ParticleDefinition* particle = particleTable->FindParticle(ParticleName);
+	if (!particle){
+		std::cout<<"ERROR: In PrimaryGeneratorAction::PrimaryGeneratorAction() Cannot find particle "<<ParticleName<<"!!!"<<std::endl;
+		G4Exception("PrimaryGeneratorAction::PrimaryGeneratorAction()","Run0031",
+				FatalException, "Cannot find particle.");
+	}
+	particleGun->SetParticleDefinition(particle);
+	G4ThreeVector dir(1,0,0);
+	dir.setTheta(Theta);
+	dir.setPhi(Phi);
+	particleGun->SetParticleMomentumDirection(dir);
+	particleGun->SetParticleMomentum(Pa);
+	particleGun->SetParticlePosition(G4ThreeVector(x,y,z));
 
 	if (EnergyMode == "histo"){
 		BuildHistoFromFile();
@@ -82,73 +82,73 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 
 PrimaryGeneratorAction::~PrimaryGeneratorAction()
 {
-  delete particleGun;
-  delete gunMessenger;
-  delete EM_hist;
-  delete m_TChain;
+	delete particleGun;
+	delete gunMessenger;
+	delete EM_hist;
+	delete m_TChain;
 }
 
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
-  //this function is called at the begining of event
-  // 
-  if (UseRoot){
-    root_get_para();
+	//this function is called at the begining of event
+	// 
+	if (UseRoot){
+		root_get_para();
 	}
 
-  if ( EnergyMode == "histo"){
-    G4double mom = EM_hist->GetRandom() * MeV;
-    particleGun->SetParticleMomentum(mom);
-  }
-  else if ( EnergyMode == "root" ){
-    particleGun->SetParticleMomentum(G4ThreeVector(root_para[3] * MeV, root_para[4] * MeV, root_para[5] * MeV));
-  }
-  else if ( EnergyMode == "RMC" ){
-  	particleGun->SetParticleMomentum(100*MeV+2*MeV*G4UniformRand());
+	if ( EnergyMode == "histo"){
+		G4double mom = EM_hist->GetRandom() * MeV;
+		particleGun->SetParticleMomentum(mom);
 	}
-  else if ( EnergyMode != "none" ){
-    std::cout<<"ERROR: unknown EnergyMode: "<<EnergyMode<<"!!!"<<std::endl;
-    G4Exception("PrimaryGeneratorAction::GeneratePrimaries()",
-                "InvalidSetup", FatalException,
-                "unknown EnergyMode");
-  }
+	else if ( EnergyMode == "root" ){
+		particleGun->SetParticleMomentum(G4ThreeVector(root_para[3] * MeV, root_para[4] * MeV, root_para[5] * MeV));
+	}
+	else if ( EnergyMode == "RMC" ){
+		particleGun->SetParticleMomentum(100*MeV+2*MeV*G4UniformRand());
+	}
+	else if ( EnergyMode != "none" ){
+		std::cout<<"ERROR: unknown EnergyMode: "<<EnergyMode<<"!!!"<<std::endl;
+		G4Exception("PrimaryGeneratorAction::GeneratePrimaries()",
+				"InvalidSetup", FatalException,
+				"unknown EnergyMode");
+	}
 
-  if ( DirectionMode == "uniform" ){
-    SetUniformDirection();
-  }
-  else if ( DirectionMode != "none" ){
-    std::cout<<"ERROR: unknown DirectionMode: "<<DirectionMode<<"!!!"<<std::endl;
-    G4Exception("PrimaryGeneratorAction::GeneratePrimaries()",
-                "InvalidSetup", FatalException,
-                "unknown DirectionMode");
-  }
+	if ( DirectionMode == "uniform" ){
+		SetUniformDirection();
+	}
+	else if ( DirectionMode != "none" ){
+		std::cout<<"ERROR: unknown DirectionMode: "<<DirectionMode<<"!!!"<<std::endl;
+		G4Exception("PrimaryGeneratorAction::GeneratePrimaries()",
+				"InvalidSetup", FatalException,
+				"unknown DirectionMode");
+	}
 
-  if ( PositionMode == "uniform" ){
-    SetUniformPosition();
-  }
-  else if ( PositionMode == "root" ){
-    particleGun->SetParticlePosition(G4ThreeVector(root_para[0] * mm, root_para[1] * mm, (root_para[2])*mm));
-  }
-  else if ( PositionMode != "none" ){
-    std::cout<<"ERROR: unknown PositionMode: "<<PositionMode<<"!!!"<<std::endl;
-    G4Exception("PrimaryGeneratorAction::GeneratePrimaries()",
-                "InvalidSetup", FatalException,
-                "unknown PositionMode");
-  }
-  particleGun->GeneratePrimaryVertex(anEvent);
+	if ( PositionMode == "uniform" ){
+		SetUniformPosition();
+	}
+	else if ( PositionMode == "root" ){
+		particleGun->SetParticlePosition(G4ThreeVector(root_para[0] * mm, root_para[1] * mm, (root_para[2])*mm));
+	}
+	else if ( PositionMode != "none" ){
+		std::cout<<"ERROR: unknown PositionMode: "<<PositionMode<<"!!!"<<std::endl;
+		G4Exception("PrimaryGeneratorAction::GeneratePrimaries()",
+				"InvalidSetup", FatalException,
+				"unknown PositionMode");
+	}
+	particleGun->GeneratePrimaryVertex(anEvent);
 }
 
 void PrimaryGeneratorAction::SetUniformDirection(){
-  G4double dir_x = 0., dir_y = 0., dir_z = 0.;
-  G4bool dir_OK = false;
-  while( !dir_OK ){
-    dir_x=G4UniformRand()-0.5;
-    dir_y=G4UniformRand()-0.5;
-    dir_z=G4UniformRand()-0.5;
-    if ( dir_x*dir_x + dir_y*dir_y + dir_z*dir_z <= 0.025 && dir_x*dir_x + dir_y*dir_y + dir_z*dir_z != 0) dir_OK = true;
-  }
-  G4ThreeVector dir_3Vec(dir_x, dir_y, dir_z);
-  particleGun->SetParticleMomentumDirection(dir_3Vec);
+	G4double dir_x = 0., dir_y = 0., dir_z = 0.;
+	G4bool dir_OK = false;
+	while( !dir_OK ){
+		dir_x=G4UniformRand()-0.5;
+		dir_y=G4UniformRand()-0.5;
+		dir_z=G4UniformRand()-0.5;
+		if ( dir_x*dir_x + dir_y*dir_y + dir_z*dir_z <= 0.025 && dir_x*dir_x + dir_y*dir_y + dir_z*dir_z != 0) dir_OK = true;
+	}
+	G4ThreeVector dir_3Vec(dir_x, dir_y, dir_z);
+	particleGun->SetParticleMomentumDirection(dir_3Vec);
 }
 
 void PrimaryGeneratorAction::SetUniformPosition(){
@@ -156,23 +156,23 @@ void PrimaryGeneratorAction::SetUniformPosition(){
 	if (!pMyVGeometryParameter){
 		std::cout<<"ERROR: in PrimaryGeneratorAction::SetUniformPosition cannot find : "<<UP_SubDet<<"!!!"<<std::endl;
 		G4Exception("PrimaryGeneratorAction::SetUniformPosition()",
-								"InvalidInput", FatalException,
-								"cannot ");
+				"InvalidInput", FatalException,
+				"cannot ");
 	}
-  if ( UP_Type == "Simple" ){
-  	SimpleGeometryParameter* pSimpleGeometryParameter = dynamic_cast<SimpleGeometryParameter*> (pMyVGeometryParameter);
-  	if (!pSimpleGeometryParameter){
+	if ( UP_Type == "Simple" ){
+		SimpleGeometryParameter* pSimpleGeometryParameter = dynamic_cast<SimpleGeometryParameter*> (pMyVGeometryParameter);
+		if (!pSimpleGeometryParameter){
 			std::cout<<"ERROR: in PrimaryGeneratorAction::SetUniformPosition cannot convert : "<<UP_SubDet<<" from MyVGeometryParameter to SimpleGeometryParameter!!!"<<std::endl;
 			G4Exception("PrimaryGeneratorAction::SetUniformPosition()",
-									"InvalidInput", FatalException,
-									"cannot convert from MyVGeometryParameter to SimpleGeometryParameter");
+					"InvalidInput", FatalException,
+					"cannot convert from MyVGeometryParameter to SimpleGeometryParameter");
 		}
 		int index = pSimpleGeometryParameter->get_VolIndex(UP_Volume);
 		if ( index == -1 ){
 			std::cout<<"ERROR: in PrimaryGeneratorAction::SetUniformPosition cannot find : "<<UP_Volume<<"!!!"<<std::endl;
 			G4Exception("PrimaryGeneratorAction::SetUniformPosition()",
-									"InvalidInput", FatalException,
-									"cannot convert volume");
+					"InvalidInput", FatalException,
+					"cannot convert volume");
 		}
 		G4String sol_type = pSimpleGeometryParameter->get_SolidType(index);
 		if ( sol_type == "Tubs" ){
@@ -203,6 +203,7 @@ void PrimaryGeneratorAction::SetUniformPosition(){
 			pos.setPhi(iphi);
 			pos.setRho(ir);
 			pos.setZ(iz);
+			pos += G4ThreeVector(xp,yp,zp);
 			G4ThreeVector dir(1, 0, 0);
 			dir.setTheta(theta);
 			dir.setPhi(phi);
@@ -213,91 +214,91 @@ void PrimaryGeneratorAction::SetUniformPosition(){
 		else{
 			std::cout<<"ERROR: in PrimaryGeneratorAction::SetUniformPosition unsupported solid type: "<<sol_type<<"!!!"<<std::endl;
 			G4Exception("PrimaryGeneratorAction::SetUniformPosition()",
-									"InvalidInput", FatalException,
-									"unsupported solid type");
+					"InvalidInput", FatalException,
+					"unsupported solid type");
 		}
-  }
+	}
 	else{
-    std::cout<<"ERROR: in PrimaryGeneratorAction::SetUniformPosition unsopported parameter class type: "<<UP_Type<<"!!!"<<std::endl;
-    G4Exception("PrimaryGeneratorAction::SetUniformPosition()",
-                "InvalidInput", FatalException,
-                "unsopported parameter class type");
+		std::cout<<"ERROR: in PrimaryGeneratorAction::SetUniformPosition unsopported parameter class type: "<<UP_Type<<"!!!"<<std::endl;
+		G4Exception("PrimaryGeneratorAction::SetUniformPosition()",
+				"InvalidInput", FatalException,
+				"unsopported parameter class type");
 	}
 }
 
 void PrimaryGeneratorAction::BuildHistoFromFile(){
-  G4String dir_name = getenv("CONFIGUREDATAROOT");
+	G4String dir_name = getenv("CONFIGUREDATAROOT");
 	if (dir_name[dir_name.size()-1] != '/') dir_name.append("/");
-  G4String full_infile_name = dir_name +  EM_hist_filename;
+	G4String full_infile_name = dir_name +  EM_hist_filename;
 
 	if (fp) delete fp;
 	fp = new TFile(full_infile_name.c_str());
-  if (fp==NULL) {
-    std::cout<<"ERROR: Can not find file: "<<full_infile_name<<"!!!"<<std::endl;
-    G4Exception("PrimaryGeneratorAction::BuildHistoFromFile()",
-                "InvalidInput", FatalException,
-                "Can not find file");
-  }
+	if (fp==NULL) {
+		std::cout<<"ERROR: Can not find file: "<<full_infile_name<<"!!!"<<std::endl;
+		G4Exception("PrimaryGeneratorAction::BuildHistoFromFile()",
+				"InvalidInput", FatalException,
+				"Can not find file");
+	}
 	TH1F* h = (TH1F*)fp->Get(EM_hist_histname.c_str());
 	if(h==NULL){
-    std::cout<<"ERROR: Can not find file: "<<full_infile_name<<"!!!"<<std::endl;
-    G4Exception("PrimaryGeneratorAction::BuildHistoFromFile()",
-                "InvalidInput", FatalException,
-                "Can not find file");
+		std::cout<<"ERROR: Can not find file: "<<full_infile_name<<"!!!"<<std::endl;
+		G4Exception("PrimaryGeneratorAction::BuildHistoFromFile()",
+				"InvalidInput", FatalException,
+				"Can not find file");
 	}
 	EM_hist = h;
 }
 
 void PrimaryGeneratorAction::root_get_para(){
-  int iEvent = (int) fmod(root_index,root_num);
-  m_TChain->GetEntry(iEvent);
-  root_index++;
+	int iEvent = (int) fmod(root_index,root_num);
+	m_TChain->GetEntry(iEvent);
+	root_index++;
 }
 
 void PrimaryGeneratorAction::root_build(){
-  G4String dir_name = getenv("CONFIGUREDATAROOT");
+	G4String dir_name = getenv("CONFIGUREDATAROOT");
 	if (dir_name[dir_name.size()-1] != '/') dir_name.append("/");
-  std::string m_TFile_name = dir_name + root_filename;
-  if (m_TChain) delete m_TChain;
-  m_TChain = new TChain("t");
-  m_TChain->Add(m_TFile_name.c_str());
-  root_num = m_TChain->GetEntries();
-  m_TChain->SetBranchAddress("x", &root_para[0]);
-  m_TChain->SetBranchAddress("y", &root_para[1]);
-  m_TChain->SetBranchAddress("z", &root_para[2]);
-  m_TChain->SetBranchAddress("px", &root_para[3]);
-  m_TChain->SetBranchAddress("py", &root_para[4]);
-  m_TChain->SetBranchAddress("pz", &root_para[5]);
+	std::string m_TFile_name = dir_name + root_filename;
+	if (m_TChain) delete m_TChain;
+	m_TChain = new TChain("t");
+	m_TChain->Add(m_TFile_name.c_str());
+	root_num = m_TChain->GetEntries();
+	m_TChain->SetBranchAddress("x", &root_para[0]);
+	m_TChain->SetBranchAddress("y", &root_para[1]);
+	m_TChain->SetBranchAddress("z", &root_para[2]);
+	m_TChain->SetBranchAddress("px", &root_para[3]);
+	m_TChain->SetBranchAddress("py", &root_para[4]);
+	m_TChain->SetBranchAddress("pz", &root_para[5]);
 }
 
 void PrimaryGeneratorAction::ReadCard(G4String file_name){
-  std::ifstream fin_card(file_name);
-  if ( !fin_card ){
-    std::cout<<"generator file \""<<file_name<<"\" is not available!!!"<<std::endl;
-    G4Exception("PrimaryGeneratorAction::PrimaryGeneratorAction()","Run0031",
-        FatalException, "generator file is not available.");
-  }
-  std::stringstream buf_card;
-  std::string s_card;
-  while(getline(fin_card,s_card)){
-    buf_card.str("");
-    buf_card.clear();
-    buf_card<<s_card;
-    const char* c = s_card.c_str();
-    int length = strlen(c);
-    int offset = 0;
-    for ( ; offset < length; offset++ ){
-      if ( c[offset] != ' ' ) break;
-    }
-    if ( c[offset] == '#' ) continue;
-    else if ( c[offset] == '/' && c[offset+1] == '/' ) continue;
-    else if ( length - offset == 0 ) continue;
-    std::string keyword;
-    buf_card>>keyword;
-    if ( keyword == "Type:" ){
-      buf_card>>fType;
-      continue;
-    }
+	std::ifstream fin_card(file_name);
+	if ( !fin_card ){
+		std::cout<<"generator file \""<<file_name<<"\" is not available!!!"<<std::endl;
+		G4Exception("PrimaryGeneratorAction::PrimaryGeneratorAction()","Run0031",
+				FatalException, "generator file is not available.");
+	}
+	std::stringstream buf_card;
+	std::string s_card;
+	while(getline(fin_card,s_card)){
+		buf_card.str("");
+		buf_card.clear();
+		buf_card<<s_card;
+		const char* c = s_card.c_str();
+		int length = strlen(c);
+		int offset = 0;
+		for ( ; offset < length; offset++ ){
+			if ( c[offset] != ' ' ) break;
+		}
+		if ( c[offset] == '#' ) continue;
+		else if ( c[offset] == '/' && c[offset+1] == '/' ) continue;
+		else if ( length - offset == 0 ) continue;
+		std::string keyword;
+		buf_card>>keyword;
+		if ( keyword == "Type:" ){
+			buf_card>>fType;
+			continue;
+		}
 		else if ( keyword == "Particle:" ){
 			buf_card>>ParticleName;
 		}
@@ -317,46 +318,46 @@ void PrimaryGeneratorAction::ReadCard(G4String file_name){
 			z *= mm;
 		}
 		else if ( keyword == "EnergyMode:" ){
-      buf_card>>EnergyMode;
-      continue;
-    }
+			buf_card>>EnergyMode;
+			continue;
+		}
 		else if ( keyword == "PositionMode:" ){
-      buf_card>>PositionMode;
-      continue;
-    }
+			buf_card>>PositionMode;
+			continue;
+		}
 		else if ( keyword == "DirectionMode:" ){
-      buf_card>>DirectionMode;
-      continue;
-    }
+			buf_card>>DirectionMode;
+			continue;
+		}
 		else if ( keyword == "EMHFN:" ){
-      buf_card>>EM_hist_filename;
-      continue;
-    }
+			buf_card>>EM_hist_filename;
+			continue;
+		}
 		else if ( keyword == "EMHHN:" ){
-      buf_card>>EM_hist_histname;
-      continue;
-    }
+			buf_card>>EM_hist_histname;
+			continue;
+		}
 		else if ( keyword == "RFN:" ){
-      buf_card>>root_filename;
-      continue;
-    }
+			buf_card>>root_filename;
+			continue;
+		}
 		else if ( keyword == "RTN:" ){
-      buf_card>>root_treename;
-      continue;
-    }
+			buf_card>>root_treename;
+			continue;
+		}
 		else if ( keyword == "UIV:" ){
-      buf_card>>UP_Type>>UP_SubDet>>UP_Volume;
-      continue;
-    }
+			buf_card>>UP_Type>>UP_SubDet>>UP_Volume;
+			continue;
+		}
 		else{
 			std::cout<<"In MyFieldSvc::SetField, unknown name: "<<keyword<<" in file "<<file_name<<std::endl;
 			std::cout<<"Will ignore this line!"<<std::endl;
 		}
-  }
-  fin_card.close();
-  buf_card.str("");
-  buf_card.clear();
-  Dump();
+	}
+	fin_card.close();
+	buf_card.str("");
+	buf_card.clear();
+	Dump();
 }
 void PrimaryGeneratorAction::Dump(){
 	std::cout<<"---------------PrimaryGeneratorAction---------------------"<<std::endl;
