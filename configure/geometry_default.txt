@@ -17,10 +17,10 @@
 #	World           Simple              subgeo_CdcGeneral_default.txt
 #	Cdc             Formulized          subgeo_cdc_layer_default.txt
 #For test
-	CDC             Cdc                 subgeo_cdc_test.txt
+#	CDC             Cdc                 subgeo_cdc_test.txt
 
 #for ProductionTarget:
-#	World           Simple              subgeo_ProductionTarget.txt
+	World           Simple              subgeo_ProductionTarget.txt
 
 #for AntiProtonStudy:
 #	World           Simple              subgeo_AntiProtonStudy.txt

@@ -1,26 +1,28 @@
 #General setting  
 	Type:      simple
-	Particle:  chargedgeantino #(e+/e-/chargedgeantino/gamma/...)
+	Particle:  proton #(e+/e-/chargedgeantino/gamma/...)
 
 #Default Direction
 #	           Theta    Phi
 #	           deg      deg
-	Direction: 80        0
+	Direction: 0        0
 #Default Momentum Amplitude
 #	         MeV
-	MomAmp:  105
+#	MomAmp:  105
+#	MomAmp:  7944.78729048504562
+#	MomAmp:  1.25e4
+	MomAmp:  1e5
 #Default Position     x   y   z
 #	                  mm  mm  mm
 	Position:         0   0   0
 
 	EnergyMode:     none #(root/histo/none)
-	PositionMode:   none #(uniform/root/none)
+	PositionMode:   uniform #(uniform/root/none)
 	DirectionMode:  none #(none/uniform)
 
 #Uniform In Volume:
 #	                Type   SubDet   Volume
-	UIV:            Simple World    Target
-
+	UIV:            Simple World    Source
 
 #Histogram file name
 	EMHFN:          spectrum.root

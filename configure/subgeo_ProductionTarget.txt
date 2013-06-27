@@ -8,10 +8,13 @@
 #Tubs info
 #	No   RMin  RMax  Length StartAng SpanAng posX posY posZ Name     MotVolume Material   SDName    RepNo Space DirTheta DirPhi Ephi Etheta Epsi
 #	     mm    mm    mm     deg      deg     mm   mm   mm                                                 mm    deg      deg    deg  deg    deg
-	T 0  0     55    200    0.       360.    0.   0.   0.   World    None      Vacuum     none      1     0     0        0      0    0      0
-	T 1  0     54    160    0.       360.    0.   0.   0.   Target   World     Tungsten   none      1     0     0        0      0    0      0
-	T 2  54.5  54.6  0.1    0.       360.    0.   0.   0.   Monitor1 World     Vacuum     MonitorSD 1     0     0        0      0    0      0
-	T 3  0     54.6  0.1    0.       360.    0.   0.   0.   Monitor2 World     Vacuum     MonitorSD 2     160.1 0        0      0    0      0
+#	T 0  0     7     200    0.       360.    0.   0.   0.   World    None      Vacuum     none      1     0     0        0      0    0      0
+#	T 1  0     6     160    0.       360.    0.   0.   0.   Target   World     Tungsten   none      1     0     0        0      0    0      0
+	T 0  0     7     700    0.       360.    0.   0.   0.   World    None      Vacuum     none      1     0     0        0      0    0      0
+	T 1  0     6     600    0.       360.    0.   0.   0.   Target   World     Graphite   none      1     0     0        0      0    0      0
+	T 2  6     6.1   0.1    0.       360.    0.   0.   0.   Monitor1 World     Vacuum     MonitorSD 1     0     0        0      0    0      0
+	T 3  0     6.1   0.1    0.       360.    0.   0.   0.   Monitor2 World     Vacuum     MonitorSD 2     600.1 0        0      0    0      0
+	T 4  0     2     1      0.       360.    0.   0.   -349 Source   World     Vacuum     none      1     0     0        0      0    0      0
 
 #Sphere info
 #	No    RMin  RMax  StartPhi SpanPhi StartThe SpanThe posX posY posZ Name     MotVolume Material     SDName RepNo Space DirTheta DirPhi Ephi Etheta Epsi
@@ -25,3 +28,4 @@
 	vis_Monitor       0    1    0
 	vis_Monitor2      0    1    0
 	vis_Target        0.8  0.8  0.8
+	vis_Source        1    0    0
