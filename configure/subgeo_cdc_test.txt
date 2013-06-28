@@ -19,9 +19,9 @@
 #	layer    WireNo   Length   R        StartPhi  First RotateCell
 #	                  mm       mm       rad     0:F/1:S
 	F                          200
-	S  0  0  8        1500     350      0         0      0
+	S  0  0  8        1500     350      0         0      0.5
 	F                          500
-	S  1  1  8        1500     650      0         1      0
+	S  1  1  8        1500     650      0         1      0.5
 	F                          800
 	S  2  2  8        1500     950      0         0      0
 	LF                         1100
@@ -29,7 +29,7 @@
 #Tubs info
 #	No   RMin  RMax  Length StartAng SpanAng posX posY posZ  Name          MotVolume  Material     SDName RepNo Space DirTheta DirPhi Ephi Etheta Epsi
 #	     mm    mm    mm     deg      deg     mm   mm   mm                                                       mm    deg      deg    deg  deg    deg
-	T 0  0     1300  1500   0.       360     0.   0.   0.    World         None       ChamberGas   none   1     0     0        0      0    0      0
+	T 0  0     2000  3000   0.       360     0.   0.   0.    World         None       ChamberGas   none   1     0     0        0      0    0      0
 #	T 0  0     381.4 1500   0.       360     0.   0.   0.    For_Test      World      Vacuum       none   1     0     0        0      0    0      0
 #	T 0  0     382.4 201    0.       360     0.   0.   475.  For_Test      World      Vacuum       none   1     0     0        0      0    0      0
 #	T 0  0     394.957 10.3 0.       360     0.   0. 750.    For_Test      World      Vacuum       none   1     0     0        0      0    0      0
