@@ -2,7 +2,8 @@
 	checkoverlap
 	CellMaterial:              ChamberGas
 	MotherLogicalVolume:       World
-	SensitiveDetector:         CdcIonSD
+	SensitiveDetector:         CdcSD
+#	SensitiveDetector:         CdcIonSD
 	SDVolumeName:              CdcCell
 #	DigitizeModule:            CdcDigitizer
 #	DigitizeModule:            none

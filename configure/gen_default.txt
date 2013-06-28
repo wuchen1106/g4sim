@@ -1,6 +1,6 @@
 #General setting  
 	Type:      simple
-	Particle:  proton #(e+/e-/chargedgeantino/gamma/...)
+	Particle:  chargedgeantino #(e+/e-/chargedgeantino/gamma/...)
 
 #Default Direction
 #	           Theta    Phi
@@ -8,17 +8,17 @@
 	Direction: 0        0
 #Default Momentum Amplitude
 #	         MeV
-#	MomAmp:  105
+	MomAmp:  105
 #	MomAmp:  7944.78729048504562
 #	MomAmp:  1.25e4
-	MomAmp:  1e5
+#	MomAmp:  1e5
 #Default Position     x   y   z
 #	                  mm  mm  mm
 	Position:         0   0   0
 
 	EnergyMode:     none #(root/histo/none)
-	PositionMode:   uniform #(uniform/root/none)
-	DirectionMode:  none #(none/uniform)
+	PositionMode:   none #(uniform/root/none)
+	DirectionMode:  uniform #(none/uniform)
 
 #Uniform In Volume:
 #	                Type   SubDet   Volume

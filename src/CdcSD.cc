@@ -361,134 +361,146 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	field->GetFieldValue(point, fieldVal);
 	G4ThreeVector Bfield(fieldVal[0], fieldVal[1], fieldVal[2]);
 
-	CDCSD_LINEVAR(layerId)
-		CDCSD_LINEVAR(cellId)
-		CDCSD_LINEVAR(pointIn_pos.x())
-		CDCSD_LINEVAR(pointIn_pos.y())
-		CDCSD_LINEVAR(pointIn_pos.z())
-		//*************************filter***********************
-		//switch
-		if (!Switch) return false;
-	CDCSD_LINEINFO()
+	CDCSD_LINEVAR(layerId);
+	CDCSD_LINEVAR(cellId);
+	CDCSD_LINEVAR(pointIn_pos.x());
+	CDCSD_LINEVAR(pointIn_pos.y());
+	CDCSD_LINEVAR(pointIn_pos.z());
+	//*************************filter***********************
+	//switch
+	if (!Switch) return false;
+	CDCSD_LINEINFO();
 
-		//ntracks
-		if ( trackID != prevTrackID ){
-			prevTrackID = trackID;
-			nTracks++;
-		}
+	//ntracks
+	if ( trackID != prevTrackID ){
+		prevTrackID = trackID;
+		nTracks++;
+	}
 	if ( nTracks > ntracks && ntracks) return false;
-	CDCSD_LINEINFO()
+	CDCSD_LINEINFO();
 
-		//maxn
-		if ( maxn && cdc_nHits >= maxn ) return false;
-	CDCSD_LINEINFO()
+	//maxn
+	if ( maxn && cdc_nHits >= maxn ) return false;
+	CDCSD_LINEINFO();
 
-		//minp
-		if ( minp && pointIn_pa < minp ) return false;
-	CDCSD_LINEINFO()
+	//minp
+	if ( minp && pointIn_pa < minp ) return false;
+	CDCSD_LINEINFO();
 
-		//time_window
-		if(isnan(globalT)){
-			G4cout<<"CdcSD:error, globalT is nan "<<G4endl;
-			return false;
-		}
-	CDCSD_LINEINFO()
-		if ( globalT < mint && mint ) return false;
-	CDCSD_LINEINFO()
-		if ( globalT > maxt && maxt ) return false;
-	CDCSD_LINEINFO()
+	//time_window
+	if(isnan(globalT)){
+		G4cout<<"CdcSD:error, globalT is nan "<<G4endl;
+		return false;
+	}
+	CDCSD_LINEINFO();
+	if ( globalT < mint && mint ) return false;
+	CDCSD_LINEINFO();
+	if ( globalT > maxt && maxt ) return false;
+	CDCSD_LINEINFO();
 
-		//neutralCut
-		if ( charge == 0 && neutralCut ) return false;
-	CDCSD_LINEINFO()
+	//neutralCut
+	if ( charge == 0 && neutralCut ) return false;
+	CDCSD_LINEINFO();
 
-		//edep
-		if( edep <= minedep ) return false;
-	CDCSD_LINEINFO()
+	//edep
+	if( edep <= minedep ) return false;
+	CDCSD_LINEINFO();
 
-		if ( get_VerboseLevel() >= 5 ){
-			std::cout<<"in layer["<<layerId<<"], the track hit cell["<<cellId<<"]"<<std::endl;
-		}
+	if ( get_VerboseLevel() >= 5 ){
+		std::cout<<"in layer["<<layerId<<"], the track hit cell["<<cellId<<"]"<<std::endl;
+	}
 
 	//*************************calculate hitPosition****************************
 	G4ThreeVector hitPosition(0.,0.,0.);
 	G4double driftD = 0;
-	//status = FindClosestPoint(hitPosition, driftD, pointIn_pos, pointOut_pos, pointIn_mom, Bfield, layerId, cellId, charge);
-	//if (status){
-	//	std::cout<<"In CdcSD::ProcessHits(), cannot find closest point!!! will not generate hit!"<<std::endl;
-	//	return false;
-	//}
-	hitPosition = pointIn_pos;
-	G4double driftT = 0;//should be calculated in future
-	CDCSD_LINEINFO()
+	status = FindClosestPoint(hitPosition, driftD, pointIn_pos, pointOut_pos, pointIn_mom, Bfield, layerId, cellId, charge);
+	if (status){
+		std::cout<<"In CdcSD::ProcessHits(), cannot find closest point!!! will not generate hit!"<<std::endl;
+		return false;
+	}
+	//hitPosition = pointIn_pos;
+	G4double driftV = 0.025*mm/ns;
+	G4double driftT = driftD/driftV+pointIn_time;//should be calculated in future
+	CDCSD_LINEINFO();
 
-		//*******************generate or modify hit************************
-		if (hitPointer[layerId][cellId] == -1){
-			CDCSD_LINEINFO()
-				CdcHit* newHit = new CdcHit();
-			newHit->SetTrackID(trackID);
-			newHit->SetLayerNo(layerId);
-			newHit->SetCellNo(cellId);
-			newHit->SetEdep(edep);
-			newHit->SetPos(hitPosition);
-			newHit->SetDriftD(driftD);
-			newHit->SetTheta(theta);
-			newHit->SetPosFlag(0);
-			newHit->SetEnterAngle(0);
-			newHit->SetDriftT (driftT);
-			newHit->SetGlobalT(globalT);
-			hitsCollection->insert(newHit);
-			G4int NbHits = hitsCollection->entries();
-			hitPointer[layerId][cellId]=NbHits-1;
-			//Set for root objects
-			if(flag_x) m_x.push_back(hitPosition.x()/unit_x);
-			if(flag_y) m_y.push_back(hitPosition.y()/unit_y);
-			if(flag_z) m_z.push_back(hitPosition.z()/unit_z);
-			if(flag_t) m_t.push_back(globalT/unit_t);
-			if(flag_px) m_px.push_back(pointIn_mom.x()/unit_px);
-			if(flag_py) m_py.push_back(pointIn_mom.y()/unit_py);
-			if(flag_pz) m_pz.push_back(pointIn_mom.z()/unit_pz);
-			if(flag_e) m_e.push_back(total_e/unit_e);
-			if(flag_edep) m_edep.push_back(edep/unit_edep);
-			if(flag_layerID) m_layerID.push_back(layerId);
-			if(flag_cellID) m_cellID.push_back(cellId);
-			if(flag_tid) m_tid.push_back(trackID);
-			if(flag_pid) m_pid.push_back(pid);
-			cdc_nHits++;
+	//*******************generate or modify hit************************
+	if (hitPointer[layerId][cellId] == -1){
+		CDCSD_LINEINFO();
+		CdcHit* newHit = new CdcHit();
+		newHit->SetTrackID(trackID);
+		newHit->SetLayerNo(layerId);
+		newHit->SetCellNo(cellId);
+		newHit->SetEdep(edep);
+		newHit->SetPos(hitPosition);
+		newHit->SetDriftD(driftD);
+		newHit->SetTheta(theta);
+		newHit->SetPosFlag(0);
+		newHit->SetEnterAngle(0);
+		newHit->SetDriftT (driftT);
+		newHit->SetGlobalT(globalT);
+		hitsCollection->insert(newHit);
+		G4int NbHits = hitsCollection->entries();
+		hitPointer[layerId][cellId]=NbHits-1;
+		//Set for root objects
+		if(flag_x) m_x.push_back(hitPosition.x()/unit_x);
+		if(flag_y) m_y.push_back(hitPosition.y()/unit_y);
+		if(flag_z) m_z.push_back(hitPosition.z()/unit_z);
+		if(flag_t) m_t.push_back(globalT/unit_t);
+		if(flag_px) m_px.push_back(pointIn_mom.x()/unit_px);
+		if(flag_py) m_py.push_back(pointIn_mom.y()/unit_py);
+		if(flag_pz) m_pz.push_back(pointIn_mom.z()/unit_pz);
+		if(flag_e) m_e.push_back(total_e/unit_e);
+		if(flag_edep) m_edep.push_back(edep/unit_edep);
+		if(flag_layerID) m_layerID.push_back(layerId);
+		if(flag_cellID) m_cellID.push_back(cellId);
+		if(flag_tid) m_tid.push_back(trackID);
+		if(flag_pid) m_pid.push_back(pid);
+		cdc_nHits++;
+	}
+	else{
+		CDCSD_LINEINFO();
+		G4int pointer=hitPointer[layerId][cellId];
+		G4double edepTemp = (*hitsCollection)[pointer]->GetEdep();
+		(*hitsCollection)[pointer]->SetEdep(edepTemp  + edep);
+		if(flag_edep) m_edep[pointer] = (edepTemp + edep)/unit_edep;
+		G4double preDriftT = (*hitsCollection)[pointer]->GetDriftT();
+		G4double preDriftD = (*hitsCollection)[pointer]->GetDriftD();
+		if ( get_VerboseLevel() >= 5 ){
+			std::cout<<"  preDriftD = "<<preDriftD/cm
+				     <<"cm, curDriftT = "<<preDriftT/ns
+				     <<"ns, curDriftD = "<<driftD/cm
+				     <<"cm, curDriftT = "<<driftT/ns
+				     <<"ns"
+				     <<std::endl;
 		}
-		else{
-			CDCSD_LINEINFO()
-				G4int pointer=hitPointer[layerId][cellId];
-			G4double edepTemp = (*hitsCollection)[pointer]->GetEdep();
-			(*hitsCollection)[pointer]->SetEdep(edepTemp  + edep);
-			if(flag_edep) m_edep[pointer] = (edepTemp + edep)/unit_edep;
-			//G4double preDriftT = (*hitsCollection)[pointer]->GetDriftT();
-			//if (driftT < preDriftT)
-			G4double preDriftD = (*hitsCollection)[pointer]->GetDriftD();
-			if (driftD < preDriftD) {
-				(*hitsCollection)[pointer]->SetTrackID(trackID);
-				(*hitsCollection)[pointer]->SetDriftD(driftD);
-				(*hitsCollection)[pointer]->SetDriftT(driftT);
-				(*hitsCollection)[pointer]->SetPos(hitPosition);
-				(*hitsCollection)[pointer]->SetGlobalT(globalT);
-				(*hitsCollection)[pointer]->SetTheta(theta);
-				(*hitsCollection)[pointer]->SetPosFlag(0);
-				(*hitsCollection)[pointer]->SetEnterAngle(0);
-				//Set for root objects
-				if(flag_x) m_x[pointer] = hitPosition.x()/unit_x;
-				if(flag_y) m_y[pointer] = hitPosition.y()/unit_y;
-				if(flag_z) m_z[pointer] = hitPosition.z()/unit_z;
-				if(flag_t) m_t[pointer] = globalT/unit_t;
-				if(flag_px) m_px[pointer] = pointIn_mom.x()/unit_px;
-				if(flag_py) m_py[pointer] = pointIn_mom.y()/unit_py;
-				if(flag_pz) m_pz[pointer] = pointIn_mom.z()/unit_pz;
-				if(flag_e) m_e[pointer] = total_e/unit_e;
-				if(flag_layerID) m_layerID[pointer] = layerId;
-				if(flag_cellID) m_cellID[pointer] = cellId;
-				if(flag_tid) m_tid[pointer] = trackID;
-				if(flag_pid) m_pid[pointer] = pid;
+//		if (driftD < preDriftD) {
+		if (driftT < preDriftT) {
+			if ( get_VerboseLevel() >= 5 ){
+				std::cout<<"    Update Hit!!!"<<std::endl;
 			}
+			(*hitsCollection)[pointer]->SetTrackID(trackID);
+			(*hitsCollection)[pointer]->SetDriftD(driftD);
+			(*hitsCollection)[pointer]->SetDriftT(driftT);
+			(*hitsCollection)[pointer]->SetPos(hitPosition);
+			(*hitsCollection)[pointer]->SetGlobalT(globalT);
+			(*hitsCollection)[pointer]->SetTheta(theta);
+			(*hitsCollection)[pointer]->SetPosFlag(0);
+			(*hitsCollection)[pointer]->SetEnterAngle(0);
+			//Set for root objects
+			if(flag_x) m_x[pointer] = hitPosition.x()/unit_x;
+			if(flag_y) m_y[pointer] = hitPosition.y()/unit_y;
+			if(flag_z) m_z[pointer] = hitPosition.z()/unit_z;
+			if(flag_t) m_t[pointer] = globalT/unit_t;
+			if(flag_px) m_px[pointer] = pointIn_mom.x()/unit_px;
+			if(flag_py) m_py[pointer] = pointIn_mom.y()/unit_py;
+			if(flag_pz) m_pz[pointer] = pointIn_mom.z()/unit_pz;
+			if(flag_e) m_e[pointer] = total_e/unit_e;
+			if(flag_layerID) m_layerID[pointer] = layerId;
+			if(flag_cellID) m_cellID[pointer] = cellId;
+			if(flag_tid) m_tid[pointer] = trackID;
+			if(flag_pid) m_pid[pointer] = pid;
 		}
+	}
 	return true;
 }
 
@@ -605,8 +617,8 @@ int CdcSD::FindClosestPoint(G4ThreeVector &closestPoint_pos, double &driftD, G4T
 		//now wire_pos is the position of the projection of pointIn on the wire
 		wire_pos.setZ(pointIn_pos.z());
 
-		//pIC_D means the vector from pointIn to the centre of the curvature
-		//pOC_D means the vector from pointOut to the centre of the curvature
+		//pIC_D means the vector from pointIn to the centre of the curvature; z=0!!!
+		//pOC_D means the vector from pointOut to the centre of the curvature; z!=0!!!
 		G4ThreeVector pT_vec = pointIn_mom.cross(B_direction);
 		pT_vec.setMag(pT);
 		G4ThreeVector pIC_D = (pT_vec/eV) / (B_amplitude/tesla) / charge / (c_light/(m/s)) * m;
@@ -614,6 +626,19 @@ int CdcSD::FindClosestPoint(G4ThreeVector &closestPoint_pos, double &driftD, G4T
 
 		//wC_D means the vector from wire_pos to centre of the curvature
 		G4ThreeVector wC_D = ( pointIn_pos + pIC_D ) - wire_pos;
+		if ( get_VerboseLevel() >= 5 ){
+			std::cout<<"    [X(rho/cm,phi/deg,z/cm)]: pIC_D("<<pIC_D.rho()/cm
+				<<","<<pIC_D.phi()/deg
+				<<","<<pIC_D.z()/cm
+				<<"), pOC_D("<<pOC_D.rho()/cm
+				<<","<<pOC_D.phi()/deg
+				<<","<<pOC_D.z()/cm
+				<<"), wC_D("<<wC_D.rho()/cm
+				<<","<<wC_D.phi()/deg
+				<<","<<wC_D.z()/cm
+				<<")"
+				<<std::endl;
+		}
 
 		//how much phi has the partical traveled within this step.
 		G4double traveled_dphi; 
@@ -628,7 +653,7 @@ int CdcSD::FindClosestPoint(G4ThreeVector &closestPoint_pos, double &driftD, G4T
 		//toTravel_derection indicates whether the partical has to travel more than 180 deg or not
 		G4double toTravel_dphi;
 		G4double theta_pIHit = wC_D.theta(pIC_D);// 0~180 degree
-		G4double theta_pOHit = wC_D.theta(pOC_D);// 0~180 degree
+		G4double theta_pOHit = wC_D.theta(pOC_D.perpPart());// 0~180 degree
 		G4double toTravel_derection = (pointIn_mom.cross(pIC_D)).z() * (pIC_D.cross(wC_D)).z();//+: 0~180; -: 180~360
 		if ( toTravel_derection < 0 ) toTravel_dphi = 360 * deg - theta_pIHit;
 		else toTravel_dphi = theta_pIHit;
@@ -654,11 +679,14 @@ int CdcSD::FindClosestPoint(G4ThreeVector &closestPoint_pos, double &driftD, G4T
 			closestPoint_pos.setZ( pointIn_pos.z() + toTravel_dz );
 		}
 		closestPoint_pos.rotate( axis4rotate, -theta4rotate );
-		driftD = pIC_D.mag() - wC_D.mag();
+		driftD = (closestPoint_pos - wire_pos).mag();
+		//driftD = pIC_D.mag() - wC_D.mag();
 
 		if ( get_VerboseLevel() >= 5 ){
 			std::cout<<"    traveled_dphi = "<<traveled_dphi/deg
 				<<"deg, toTravel_dphi = "<<toTravel_dphi/deg
+				<<"deg, theta_pIHit = "<<theta_pIHit/deg
+				<<"deg, theta_pOHit = "<<theta_pOHit/deg
 				<<"deg, type: "<<hit_type
 				<<std::endl;
 		}
