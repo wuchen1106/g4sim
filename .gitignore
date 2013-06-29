@@ -23,5 +23,5 @@ G4History.macro
 currentEvent.rndm
 currentRun.rndm
 g4sim
-logfile.txt
+logfile
 output/

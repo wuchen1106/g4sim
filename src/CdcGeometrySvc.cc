@@ -321,7 +321,7 @@ void CdcGeometrySvc::ConstructVolumes(){
 
 		if ( layer_type != 0 && layer_type != 1 ){
 			if ( get_VerboseLevel() >=10 ){
-				std::cout<<"sol_Subtraction4Cell: twistedangle = "<<twistedangle4subt/rad
+				std::cout<<"sol_Subtraction4Cell: twisteddangle = "<<twistedangle4subt/rad
 					<<"rad, endinnerrad = "<<endinnerrad4subt/mm
 					<<"mm, endouterrad = "<<endouterrad4subt/mm
 					<<"mm, halfzlen = "<<halfzlen/mm
@@ -463,8 +463,9 @@ void CdcGeometrySvc::ConstructVolumes(){
 			//place cell
 			G4double SPhi = m_GeometryParameter->get_layer_cell_phi(layerId,cellId);
 			G4double phi = SPhi - wireR2Phi;
+			phi += twisteddangle;// Upstream end plate as standard	
 			G4RotationMatrix* rotateMatrix=new G4RotationMatrix();
-			rotateMatrix->rotateZ(-phi);	
+			rotateMatrix->rotateZ(-phi);
 			int ReplicaNo = m_GeometryParameter->get_ReplicaNo( layerId, cellId );
 			if ( get_VerboseLevel() >=10 ){
 				std::cout<<"Placing cell: phi = "<<phi/deg<<"deg"<<std::endl;
