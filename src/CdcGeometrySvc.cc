@@ -463,7 +463,6 @@ void CdcGeometrySvc::ConstructVolumes(){
 			//place cell
 			G4double SPhi = m_GeometryParameter->get_layer_cell_phi(layerId,cellId);
 			G4double phi = SPhi - wireR2Phi;
-			phi += twisteddangle;// Upstream end plate as standard	
 			G4RotationMatrix* rotateMatrix=new G4RotationMatrix();
 			rotateMatrix->rotateZ(-phi);
 			int ReplicaNo = m_GeometryParameter->get_ReplicaNo( layerId, cellId );

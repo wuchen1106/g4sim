@@ -5,7 +5,7 @@
 //Created: 6 Oct, 2012
 //Modified: 21 Oct, 2012
 //Comment: The units are "mm"(default), "um"(for wire radius) and "rad". 
-//Comment: for SPhi, Datum plain is forward end plate of CDC
+//Comment: for SPhi, Datum plain is backward end plate of CDC
 //Comment: about layer_type:
 //         phi direction: 
 //                0_________2pi
@@ -157,7 +157,7 @@ class CdcGeometryParameter : public FormulizedGeometryParameter
 		//phi at the middle
 		G4double get_layer_cell_phi( G4int layerId, G4int cellId ){
 			if( !check_layerId(layerId) || !check_cellId(layerId, cellId) ) return 0;
-			G4double phi = layer_SPhi[layerId] - layer_angle4rotate[layerId] + (cellId + ( 1. - layer_firstWire[layerId] )/2. )*layer_cell_dphi[layerId];
+			G4double phi = layer_SPhi[layerId] + layer_angle4rotate[layerId]/2. + (cellId + ( 1. - layer_firstWire[layerId] )/2. )*layer_cell_dphi[layerId];
 			return phi;
 		}
 
