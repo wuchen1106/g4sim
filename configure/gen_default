@@ -1,11 +1,11 @@
 #General setting  
 	Type:      simple
-	Particle:  chargedgeantino #(e+/e-/chargedgeantino/gamma/...)
+	Particle:  e- #(e+/e-/chargedgeantino/gamma/...)
 
 #Default Direction
 #	           Theta    Phi
 #	           deg      deg
-	Direction: 0        0
+	Direction: 80       0
 #Default Momentum Amplitude
 #	         MeV
 	MomAmp:  105
@@ -18,7 +18,7 @@
 
 	EnergyMode:     none #(root/histo/none)
 	PositionMode:   none #(uniform/root/none)
-	DirectionMode:  uniform #(none/uniform)
+	DirectionMode:  none #(none/uniform)
 
 #Uniform In Volume:
 #	                Type   SubDet   Volume
@@ -31,4 +31,4 @@
 
 #ROOT file name
 	RFN:            spectrum.root
-	RTN:            t
+	RTN:          :  t

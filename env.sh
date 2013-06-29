@@ -10,15 +10,15 @@ export CONFIGUREROOT=$MYG4SIMROOT/configure/
 export CONFIGUREDATAROOT=$MYG4SIMROOT/configure/data/
 
 #for detector construction
-export MATERIALLISTROOT=material_list.txt
-export GEOCARDROOT=geometry_default.txt
+export MATERIALLISTROOT=material_list
+export GEOCARDROOT=geometry_default
 #for magField
-export MAGFIELDCARDROOT=MagField_default.txt
+export MAGFIELDCARDROOT=MagField_default
 #for generator
-export GENFILEROOT=gen_default.txt
+export GENFILEROOT=gen_default
 #for output
 export OFILENAMEROOT=$MYG4SIMROOT/output/raw_g4sim.root
 export RUNNAMEROOT=TEST
-export OUTCARDROOT=output_default.txt
+export OUTCARDROOT=output_default
 #for log
-export LOGFILEROOT=$MYG4SIMROOT/runlog/logfile.txt
+export LOGFILEROOT=$MYG4SIMROOT/runlog/logfile

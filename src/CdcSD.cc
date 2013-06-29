@@ -530,7 +530,7 @@ int CdcSD::FindClosestPoint(G4ThreeVector &closestPoint_pos, double &driftD, G4T
 	G4ThreeVector wire_pos(1.,1.,1.);
 	wire_pos.setMag(wire_pos_R);
 	wire_pos.setTheta(pi/2);
-	wire_pos.setPhi(wire_pos_phi-alpha);//careful with the sign
+	wire_pos.setPhi(wire_pos_phi);//careful with the sign
 	G4double layer_halfzlen = m_GeometryParameter->get_layer_length(layerId)/2.; //In Geant4, soild has central-symmetry 
 	G4double alpha_RMid = alpha/2;
 	G4double wire_theta = atan(wire_pos_R*sin(alpha_RMid)/layer_halfzlen);
@@ -713,7 +713,7 @@ int CdcSD::FindClosestPoint(G4ThreeVector &closestPoint_pos, double &driftD, G4T
 		pointIn_mom_B.rotate(axis4rotate_B, theta4rotate_B);
 		//calculate l_helix
 		//  l_helix>0: right hand helix; l_helix<0: left hand helix;
-		G4double l_helix = - 2*pi*(pointIn_mom_B.z()/eV) / (c_light/(m/s)) / charge / (B_amplitude/tesla) * m;
+		G4double l_helix = - (pointIn_mom_B.z()/eV) / (c_light/(m/s)) / charge / (B_amplitude/tesla) * m;
 		//calculate traveled_dphi( with sign )
 		G4double traveled_dphi;
 		if ( l_helix != 0 ){
@@ -795,7 +795,7 @@ int CdcSD::FindClosestPoint(G4ThreeVector &closestPoint_pos, double &driftD, G4T
 		if ( get_VerboseLevel() >= 5 ){
 			std::cout<<"    type_left = "<<type_left<<", type_right == "<<type_right<<std::endl;
 		}
-		G4int nTry = 100;
+		G4int nTry = 500;
 		G4double root_left = NewtonRootFinding(a,phi_left,nTry,fTolerance);
 		G4double root_right = NewtonRootFinding(a,phi_right,nTry,fTolerance);
 		G4double b[4];
