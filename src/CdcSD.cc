@@ -25,6 +25,7 @@
 #include "CLHEP/Geometry/Point3D.h"
 
 #include "TVector3.h"
+#include "TRandom.h"
 
 #include <iostream>
 
@@ -63,7 +64,7 @@ typedef HepGeom::Vector3D<double> HepVector3D;
 	//  G4DigiManager::GetDMpointer()->AddNewModule(cdcDM);
 
 	//define fTolerance
-	fTolerance = 2.2E-13;
+	fTolerance = 2.2E-6;
 }
 
 CdcSD::~CdcSD(){
@@ -104,6 +105,11 @@ void CdcSD::Initialize(G4HCofThisEvent* HCE)
 	m_pz.clear();
 	m_e.clear();
 	m_edep.clear();
+	m_nTry.clear();
+	m_status.clear();
+	m_error.clear();
+	m_driftD_smeared.clear();
+	m_driftD.clear();
 	m_layerID.clear();
 	m_cellID.clear();
 	m_tid.clear();
@@ -128,6 +134,11 @@ void CdcSD::SetBranch(){
 	if( flag_pz ) myRoot->SetBranch(volName+"_pz", &m_pz);
 	if( flag_e ) myRoot->SetBranch(volName+"_e", &m_e);
 	if( flag_edep ) myRoot->SetBranch(volName+"_edep", &m_edep);
+	if( flag_nTry ) myRoot->SetBranch(volName+"_nTry", &m_nTry);
+	if( flag_status ) myRoot->SetBranch(volName+"_status", &m_status);
+	if( flag_error ) myRoot->SetBranch(volName+"_error", &m_error);
+	if( flag_driftD_smeared ) myRoot->SetBranch(volName+"_driftD_smeared", &m_driftD_smeared);
+	if( flag_driftD ) myRoot->SetBranch(volName+"_driftD", &m_driftD);
 	if( flag_layerID ) myRoot->SetBranch(volName+"_layerID", &m_layerID);
 	if( flag_cellID ) myRoot->SetBranch(volName+"_cellID", &m_cellID);
 	if( flag_tid ) myRoot->SetBranch(volName+"_tid", &m_tid);
@@ -189,6 +200,11 @@ void CdcSD::ReadOutputCard(G4String filename){
 			else if( name == "pz" ) {flag_pz = true; buf_card>>unitName_pz; unit_pz = MyString2Anything::get_U(unitName_pz);}
 			else if( name == "e" ) {flag_e = true; buf_card>>unitName_e; unit_e = MyString2Anything::get_U(unitName_e);}
 			else if( name == "edep" ) {flag_edep = true; buf_card>>unitName_edep; unit_edep = MyString2Anything::get_U(unitName_edep);}
+			else if( name == "nTry" ) {flag_nTry = true;}
+			else if( name == "status" ) {flag_status = true;}
+			else if( name == "error" ) {flag_error = true;}
+			else if( name == "driftD_smeared" ) {flag_driftD_smeared = true; buf_card>>unitName_driftD_smeared; unit_driftD_smeared = MyString2Anything::get_U(unitName_driftD_smeared);}
+			else if( name == "driftD" ) {flag_driftD = true; buf_card>>unitName_driftD; unit_driftD = MyString2Anything::get_U(unitName_driftD);}
 			else if( name == "cellID" ) flag_cellID = true;
 			else if( name == "layerID" ) flag_layerID = true;
 			else if( name == "tid" ) flag_tid = true;
@@ -264,6 +280,11 @@ void CdcSD::ReSet(){
 	flag_pz = false;
 	flag_e = false;
 	flag_edep = false;
+	flag_nTry = false;
+	flag_status = false;
+	flag_error = false;
+	flag_driftD = false;
+	flag_driftD_smeared = false;
 	flag_cellID = false;
 	flag_layerID = false;
 	flag_tid = false;
@@ -294,6 +315,11 @@ void CdcSD::ShowOutCard(){
 	std::cout<<"output pz?     "<<(flag_pz?" yes":" no")<<", unit: "<<unitName_pz<<std::endl;
 	std::cout<<"output e?      "<<(flag_e?" yes":" no")<<", unit: "<<unitName_e<<std::endl;
 	std::cout<<"output edep?   "<<(flag_edep?" yes":" no")<<", unit: "<<unitName_edep<<std::endl;
+	std::cout<<"output nTry?   "<<(flag_nTry?" yes":" no")<<std::endl;
+	std::cout<<"output status?   "<<(flag_status?" yes":" no")<<std::endl;
+	std::cout<<"output error?   "<<(flag_error?" yes":" no")<<std::endl;
+	std::cout<<"output driftD?   "<<(flag_driftD?" yes":" no")<<", unit: "<<unitName_driftD<<std::endl;
+	std::cout<<"output driftD_smeared?   "<<(flag_driftD_smeared?" yes":" no")<<", unit: "<<unitName_driftD_smeared<<std::endl;
 	std::cout<<"output layerID?"<<(flag_layerID?" yes":" no")<<std::endl;
 	std::cout<<"output cellID? "<<(flag_cellID?" yes":" no")<<std::endl;
 	std::cout<<"output tid?    "<<(flag_tid?" yes":" no")<<std::endl;
@@ -413,14 +439,23 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	//*************************calculate hitPosition****************************
 	G4ThreeVector hitPosition(0.,0.,0.);
 	G4double driftD = 0;
-	status = FindClosestPoint(hitPosition, driftD, pointIn_pos, pointOut_pos, pointIn_mom, Bfield, layerId, cellId, charge);
+	G4double error = 0;
+	G4int nTry = 0;
+	status = FindClosestPoint(hitPosition, driftD, pointIn_pos, pointOut_pos, pointIn_mom, Bfield, layerId, cellId, charge, error, nTry);
 	if (status){
 		std::cout<<"In CdcSD::ProcessHits(), cannot find closest point!!! will not generate hit!"<<std::endl;
 		return false;
 	}
+	double driftD_err = 0.2*mm;
+	double driftD_smeared;
+	while (1) {
+		driftD_smeared = gRandom->Gaus(driftD, driftD_err);
+		if (driftD_smeared>0) break;
+	}
+	// TODO: Should move this part to Digitizer
 	//hitPosition = pointIn_pos;
 	G4double driftV = 0.025*mm/ns;
-	G4double driftT = driftD/driftV+pointIn_time;//should be calculated in future
+	G4double driftT = driftD_smeared/driftV+pointIn_time;
 	CDCSD_LINEINFO();
 
 	//*******************generate or modify hit************************
@@ -451,6 +486,11 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 		if(flag_pz) m_pz.push_back(pointIn_mom.z()/unit_pz);
 		if(flag_e) m_e.push_back(total_e/unit_e);
 		if(flag_edep) m_edep.push_back(edep/unit_edep);
+		if(flag_error) m_error.push_back(error);
+		if(flag_status) m_status.push_back(status);
+		if(flag_nTry) m_nTry.push_back(nTry);
+		if(flag_driftD) m_driftD.push_back(driftD/unit_driftD);
+		if(flag_driftD_smeared) m_driftD_smeared.push_back(driftD_smeared/unit_driftD_smeared);
 		if(flag_layerID) m_layerID.push_back(layerId);
 		if(flag_cellID) m_cellID.push_back(cellId);
 		if(flag_tid) m_tid.push_back(trackID);
@@ -495,6 +535,11 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 			if(flag_py) m_py[pointer] = pointIn_mom.y()/unit_py;
 			if(flag_pz) m_pz[pointer] = pointIn_mom.z()/unit_pz;
 			if(flag_e) m_e[pointer] = total_e/unit_e;
+			if(flag_nTry) m_nTry[pointer] = nTry;
+			if(flag_status) m_status[pointer] = status;
+			if(flag_error) m_error[pointer] = error;
+			if(flag_driftD_smeared) m_driftD_smeared[pointer] = driftD_smeared/unit_driftD_smeared;
+			if(flag_driftD) m_driftD[pointer] = driftD/unit_driftD;
 			if(flag_layerID) m_layerID[pointer] = layerId;
 			if(flag_cellID) m_cellID[pointer] = cellId;
 			if(flag_tid) m_tid[pointer] = trackID;
@@ -520,8 +565,12 @@ void CdcSD::EndOfEvent(G4HCofThisEvent*){
 
 //-----------------------------------FindClosestPoint----------------------------------------------
 //private
-int CdcSD::FindClosestPoint(G4ThreeVector &closestPoint_pos, double &driftD, G4ThreeVector pointIn_pos, G4ThreeVector pointOut_pos, G4ThreeVector pointIn_mom, G4ThreeVector Bfield, int layerId, int cellId, int charge){
+int CdcSD::FindClosestPoint(G4ThreeVector &closestPoint_pos, double &driftD,
+		G4ThreeVector pointIn_pos, G4ThreeVector pointOut_pos, G4ThreeVector pointIn_mom, G4ThreeVector Bfield, int layerId, int cellId, int charge,
+		G4double &error_max, G4int &nTry){
 
+	nTry = 0;
+	error_max = 0;
 	//Get position of signal wire
 	G4double wire_pos_R, wire_pos_phi;
 	G4double alpha = m_GeometryParameter->get_layer_angle4rotate(layerId)/2;
@@ -544,6 +593,11 @@ int CdcSD::FindClosestPoint(G4ThreeVector &closestPoint_pos, double &driftD, G4T
 	G4double B_amplitude = Bfield.mag();
 	G4double pT = (pointIn_mom.cross(B_direction)).mag();
 
+	G4ThreeVector w2PI = pointIn_pos - wire_pos; // vector from wire(centre) to pointIn
+	G4double DpI = (w2PI - w2PI.dot(wire_direction)*wire_direction ).mag(); // distance form pointIn to wire
+	G4ThreeVector w2PO = pointOut_pos - wire_pos; // vector from wire(centre) to pointOut
+	G4double DpO = (w2PO - w2PO.dot(wire_direction)*wire_direction ).mag(); // distance form pointOut to wire
+
 	if ( get_VerboseLevel() >= 5 ){
 		std::cout<<"  position of pointIn(rho,phi,z):"<<pointIn_pos.rho()/cm<<"cm, "<<pointIn_pos.phi()/deg<<"deg, "<<pointIn_pos.z()/cm<<"cm"<<std::endl;
 		std::cout<<"  position of pointOut(rho,phi,z):"<<pointOut_pos.rho()/cm<<"cm, "<<pointOut_pos.phi()/deg<<"deg, "<<pointOut_pos.z()/cm<<"cm"<<std::endl;
@@ -551,6 +605,7 @@ int CdcSD::FindClosestPoint(G4ThreeVector &closestPoint_pos, double &driftD, G4T
 		std::cout<<"  momentum of pointIn(r,theta,phi):"<<pointIn_mom.mag()/MeV<<"MeV, "<<pointIn_mom.theta()/deg<<"deg, "<<pointIn_mom.phi()/deg<<"deg, pT = "<<pT/MeV<<"MeV"<<std::endl;
 		std::cout<<"  position of wire(rho,phi,z):"<<wire_pos.rho()/cm<<"cm, "<<wire_pos.phi()/deg<<"deg, "<<wire_pos.z()/cm<<"cm"<<std::endl;
 		std::cout<<"  direction of wire(theta, phi):"<<wire_direction.theta()/deg<<"deg, "<<wire_direction.phi()/deg<<"deg"<<std::endl;
+		std::cout<<"  DpI = "<<DpI/cm<<"cm, DpO = "<<DpO/cm<<std::endl;
 	}
 
 	//************************************1, r = 0******************************
@@ -564,15 +619,13 @@ int CdcSD::FindClosestPoint(G4ThreeVector &closestPoint_pos, double &driftD, G4T
 			std::cout<<"WARNING!!! In CdcSD::FindClosestPoint(), momentum is zero!"<<std::endl;
 			return 1;
 		}
-		G4double theta = mom_direction.theta(wire_direction);
-		G4ThreeVector w2PI = pointIn_pos - wire_pos;
-		G4double DpI = (w2PI - w2PI.dot(wire_direction)*wire_direction ).mag();
-		if (theta == 0){
+		G4double theta = mom_direction.theta(wire_direction); // angle between momentum and wire
+		if (theta == 0){ // momentum parallels with wire, then no need to go on
 			closestPoint_pos = pointIn_pos;
 			driftD = DpI;
 			return 0;
 		}
-		G4double d = (mom_direction.cross(wire_direction)).dot(w2PI);
+		G4double d = (mom_direction.cross(wire_direction)).dot(w2PI); // distance from wire to (whole) track
 		G4double l = sqrt(DpI*DpI-d*d)/cos(theta);
 		G4ThreeVector point1 = pointIn_pos + l*mom_direction;
 		G4ThreeVector point2 = pointIn_pos - l*mom_direction;
@@ -592,8 +645,6 @@ int CdcSD::FindClosestPoint(G4ThreeVector &closestPoint_pos, double &driftD, G4T
 			}
 			else{
 				closestPoint_pos = pointOut_pos;
-				G4ThreeVector w2PO = pointOut_pos - wire_pos;
-				G4double DpO = (w2PO - w2PO.dot(wire_direction)*wire_direction ).mag();
 				driftD = DpO;
 			}
 		}
@@ -678,8 +729,9 @@ int CdcSD::FindClosestPoint(G4ThreeVector &closestPoint_pos, double &driftD, G4T
 			closestPoint_pos += ( pIC_D - pHC_D );
 			closestPoint_pos.setZ( pointIn_pos.z() + toTravel_dz );
 		}
+		driftD = (closestPoint_pos - wire_pos).perp();
+		// rotate back to lab coordinates
 		closestPoint_pos.rotate( axis4rotate, -theta4rotate );
-		driftD = (closestPoint_pos - wire_pos).mag();
 		//driftD = pIC_D.mag() - wC_D.mag();
 
 		if ( get_VerboseLevel() >= 5 ){
@@ -795,9 +847,12 @@ int CdcSD::FindClosestPoint(G4ThreeVector &closestPoint_pos, double &driftD, G4T
 		if ( get_VerboseLevel() >= 5 ){
 			std::cout<<"    type_left = "<<type_left<<", type_right == "<<type_right<<std::endl;
 		}
-		G4int nTry = 500;
-		G4double root_left = NewtonRootFinding(a,phi_left,nTry,fTolerance);
-		G4double root_right = NewtonRootFinding(a,phi_right,nTry,fTolerance);
+		G4int nTry_max = 100;
+		double error = 0;
+		G4double root_left = NewtonRootFinding(a,phi_left,nTry_max,fTolerance,error);
+		if (error_max<fabs(error)) error_max = fabs(error);
+		G4double root_right = NewtonRootFinding(a,phi_right,nTry_max,fTolerance,error);
+		if (error_max<fabs(error)) error_max = fabs(error);
 		G4double b[4];
 		b[0] = theta_helix;
 		b[1] = k;
@@ -821,12 +876,14 @@ int CdcSD::FindClosestPoint(G4ThreeVector &closestPoint_pos, double &driftD, G4T
 				if ( type == 1 || type == 2 ) break;
 				else if (type == 0) right = mid;
 				else left = mid;
-				if ( iTry++ >= nTry ){
-					std::cout<<"WARNING: in CdcSD::FindClosestPoint(), iTry reached maximum limit "<<iTry<<std::endl;
+				if ( iTry++ >= nTry_max ){
+					//std::cout<<"WARNING: in CdcSD::FindClosestPoint(), iTry reached maximum limit "<<iTry<<std::endl;
 					break;
 				}
 			}
-			G4double root_mid = NewtonRootFinding(a,mid,nTry,fTolerance);
+			if (nTry<iTry) nTry = iTry;
+			G4double root_mid = NewtonRootFinding(a,mid,nTry_max,fTolerance,error);
+			if (error_max<fabs(error)) error_max = fabs(error);
 			G4double dist2_root = calculateDist2(b,root_mid);
 			int index = findSmallest(dist2_left, dist2_right, dist2_root);
 			if ( index == 0 ) phi = phi_left;
@@ -896,13 +953,13 @@ int CdcSD::check_type(G4double a[6], G4double phi){
 	else if (f1>=0 && f2>0) type = 3;
 	return type;
 }
-double CdcSD::NewtonRootFinding(G4double a[6], G4double phi, G4int nTry, G4double torl){
+double CdcSD::NewtonRootFinding(G4double a[6], G4double phi, G4int nTry_max, G4double torl, G4double &error){
 	G4double delta = 10e10;
 	G4int iTry = 0;
 	while( fabs(delta) > torl ){
 		iTry++;
-		if( iTry > nTry ){
-			std::cout<<"WARNING: in CdcSD::NewtonRootFinding(), iTry reached maximum limit "<<iTry<<std::endl;
+		if( iTry > nTry_max ){
+			//std::cout<<"WARNING: in CdcSD::NewtonRootFinding(), iTry reached maximum limit "<<iTry<<std::endl;
 			break;
 		}
 		//d(D^2/r^2)/d(phi)) = a[0] + a[1]*sin(2*phi) + a[2]*sin(phi) + a[3]*cos(phi) + a[4]*phi*cos(phi) + a[5]*phi
@@ -910,11 +967,12 @@ double CdcSD::NewtonRootFinding(G4double a[6], G4double phi, G4int nTry, G4doubl
 		delta = a[0] + a[1]*sin(2*phi) + a[2]*sin(phi) + a[3]*cos(phi) + a[4]*phi*cos(phi) + a[5]*phi;
 		G4double k = 2*a[1]*cos(2*phi) + (a[2]+a[4])*cos(phi) - a[3]*sin(phi) - a[4]*phi*sin(phi) + a[5];
 		if ( k == 0 ){
-			std::cout<<"WARNING: in CdcSD::NewtonRootFinding(), k = 0!!!"<<std::endl;
+			//std::cout<<"WARNING: in CdcSD::NewtonRootFinding(), k = 0!!!"<<std::endl;
 			phi += pi/50;
 		}
 		else phi -= delta/k;
 	}
+	error = delta;
 	return phi;
 }
 double CdcSD::calculateDist2(G4double b[4], G4double phi){

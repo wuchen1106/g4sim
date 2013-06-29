@@ -137,6 +137,11 @@ CdcCell_SECTION
 	pz                 GeV
 	e                  GeV
 	edep               GeV
+	driftD_smeared     cm
+	driftD             cm
+	error
+	status
+	nTry
 	layerID
 	cellID
 	tid
