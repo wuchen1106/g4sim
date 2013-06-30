@@ -20,6 +20,8 @@
 #include "G4UnitsTable.hh"
 #include "G4ios.hh"
 #include "G4RunManager.hh"
+#include "G4VPhysicalVolume.hh"
+#include "G4RotationMatrix.hh"
 
 #include "CLHEP/Geometry/Vector3D.h"
 #include "CLHEP/Geometry/Point3D.h"
@@ -398,13 +400,26 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 
 	// get layerId and cellId
 	const G4VTouchable *touchable = prePoint->GetTouchable();
-	G4int ReplicaNo = touchable->GetVolume(0)->GetCopyNo();
+	G4int ReplicaNo = touchable->GetReplicaNumber(0);
 	G4int layerId, cellId;
 	status = m_GeometryParameter->get_layerIdcellId(ReplicaNo, &layerId, &cellId);
 	if(status){
 		std::cout<<"In CdcSD::ProcessHits(), unknown ReplicaNo = "<<ReplicaNo<<"!!! Will not generate hit"<<std::endl;
 		return false;
 	}
+	G4VPhysicalVolume *phy_vol = touchable->GetVolume(0);
+	//G4RotationMatrix  rot_mat = phy_vol->GetObjectRotationValue();
+	//double phiX_touchable = rot_mat.phiX();
+	//double phiY_touchable = rot_mat.phiY();
+	//double phiZ_touchable = rot_mat.phiZ();
+	//std::cout<<"### ("<<layerId
+	//	     <<","<<cellId
+	//	     <<") phiX_touchable = "<<phiX_touchable/deg
+	//	     <<") phiY_touchable = "<<phiY_touchable/deg
+	//	     <<") phiZ_touchable = "<<phiZ_touchable/deg
+	//	     <<"deg, phi = "<<m_GeometryParameter->get_layer_cell_phi(layerId,cellId)/deg
+	//	     <<"deg!"
+	//	     <<std::endl;
 
 	//fieldVal means the field value at pointIn_pos
 	G4double fieldVal[3];
