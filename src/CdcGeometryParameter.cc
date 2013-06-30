@@ -191,7 +191,7 @@ int CdcGeometryParameter::GetValue(G4String s_card){
 			tlayer_length *= mm;
 			tlayer_RMid *= mm;
 			tlayer_SPhi *= rad;
-			layer_cell_num.push_back(twire_num/2);
+			layer_cell_num.push_back(twire_num);
 			layer_length.push_back(tlayer_length);
 			layer_RMid.push_back(tlayer_RMid);
 			layer_SPhi.push_back(tlayer_SPhi);
