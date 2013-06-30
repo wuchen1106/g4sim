@@ -109,7 +109,7 @@ Monitor_SECTION
 	edep           MeV
 	stepL          cm
 	volID
-#	volName
+	volName
 	tid
 	pid
 	charge
@@ -131,6 +131,12 @@ CdcCell_SECTION
 	x                  cm
 	y                  cm
 	z                  cm
+	pIx                cm
+	pIy                cm
+	pIz                cm
+	pOx                cm
+	pOy                cm
+	pOz                cm
 	t                  ns
 	px                 GeV
 	py                 GeV
@@ -152,7 +158,7 @@ CdcCell_FILTERSECTION
 	Switch                        //if commented, then program wil not generate any hit
 	neutralCut                    //if not commented, then neutral tracks will not be recorded
 	maxn          0               //maximum hits cut
-	ntracks       0                //maximum tracks cut
+	ntracks       0               //maximum tracks cut
 	minp          0      MeV      //minimum momentum cut
 	mint          0      ns       //left end of time window, 0 means no lower limit
 	maxt          0      ns       //right end of time window, 0 means no upper limit

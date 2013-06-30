@@ -99,6 +99,12 @@ void CdcSD::Initialize(G4HCofThisEvent* HCE)
 	m_x.clear();
 	m_y.clear();
 	m_z.clear();
+	m_pIx.clear();
+	m_pIy.clear();
+	m_pIz.clear();
+	m_pOx.clear();
+	m_pOy.clear();
+	m_pOz.clear();
 	m_t.clear();
 	m_px.clear();
 	m_py.clear();
@@ -128,6 +134,12 @@ void CdcSD::SetBranch(){
 	if( flag_x ) myRoot->SetBranch(volName+"_x", &m_x);
 	if( flag_y ) myRoot->SetBranch(volName+"_y", &m_y);
 	if( flag_z ) myRoot->SetBranch(volName+"_z", &m_z);
+	if( flag_pIx ) myRoot->SetBranch(volName+"_pIx", &m_pIx);
+	if( flag_pIy ) myRoot->SetBranch(volName+"_pIy", &m_pIy);
+	if( flag_pIz ) myRoot->SetBranch(volName+"_pIz", &m_pIz);
+	if( flag_pOx ) myRoot->SetBranch(volName+"_pOx", &m_pOx);
+	if( flag_pOy ) myRoot->SetBranch(volName+"_pOy", &m_pOy);
+	if( flag_pOz ) myRoot->SetBranch(volName+"_pOz", &m_pOz);
 	if( flag_t ) myRoot->SetBranch(volName+"_t", &m_t);
 	if( flag_px ) myRoot->SetBranch(volName+"_px", &m_px);
 	if( flag_py ) myRoot->SetBranch(volName+"_py", &m_py);
@@ -194,6 +206,12 @@ void CdcSD::ReadOutputCard(G4String filename){
 			else if( name == "x" ) {flag_x = true; buf_card>>unitName_x; unit_x = MyString2Anything::get_U(unitName_x);}
 			else if( name == "y" ) {flag_y = true; buf_card>>unitName_y; unit_y = MyString2Anything::get_U(unitName_y);}
 			else if( name == "z" ) {flag_z = true; buf_card>>unitName_z; unit_z = MyString2Anything::get_U(unitName_z);}
+			else if( name == "pIx" ) {flag_pIx = true; buf_card>>unitName_pIx; unit_pIx = MyString2Anything::get_U(unitName_pIx);}
+			else if( name == "pIy" ) {flag_pIy = true; buf_card>>unitName_pIy; unit_pIy = MyString2Anything::get_U(unitName_pIy);}
+			else if( name == "pIz" ) {flag_pIz = true; buf_card>>unitName_pIz; unit_pIz = MyString2Anything::get_U(unitName_pIz);}
+			else if( name == "pOx" ) {flag_pOx = true; buf_card>>unitName_pOx; unit_pOx = MyString2Anything::get_U(unitName_pOx);}
+			else if( name == "pOy" ) {flag_pOy = true; buf_card>>unitName_pOy; unit_pOy = MyString2Anything::get_U(unitName_pOy);}
+			else if( name == "pOz" ) {flag_pOz = true; buf_card>>unitName_pOz; unit_pOz = MyString2Anything::get_U(unitName_pOz);}
 			else if( name == "t" ) {flag_t = true; buf_card>>unitName_t; unit_t = MyString2Anything::get_U(unitName_t);}
 			else if( name == "px" ) {flag_px = true; buf_card>>unitName_px; unit_px = MyString2Anything::get_U(unitName_px);}
 			else if( name == "py" ) {flag_py = true; buf_card>>unitName_py; unit_py = MyString2Anything::get_U(unitName_py);}
@@ -274,6 +292,12 @@ void CdcSD::ReSet(){
 	flag_x = false;
 	flag_y = false;
 	flag_z = false;
+	flag_pIx = false;
+	flag_pIy = false;
+	flag_pIz = false;
+	flag_pOx = false;
+	flag_pOy = false;
+	flag_pOz = false;
 	flag_t = false;
 	flag_px = false;
 	flag_py = false;
@@ -309,6 +333,12 @@ void CdcSD::ShowOutCard(){
 	std::cout<<"output x?      "<<(flag_x?" yes":" no")<<", unit: "<<unitName_x<<std::endl;
 	std::cout<<"output y?      "<<(flag_y?" yes":" no")<<", unit: "<<unitName_y<<std::endl;
 	std::cout<<"output z?      "<<(flag_z?" yes":" no")<<", unit: "<<unitName_z<<std::endl;
+	std::cout<<"output x?      "<<(flag_pIx?" yes":" no")<<", unit: "<<unitName_pIx<<std::endl;
+	std::cout<<"output y?      "<<(flag_pIy?" yes":" no")<<", unit: "<<unitName_pIy<<std::endl;
+	std::cout<<"output z?      "<<(flag_pIz?" yes":" no")<<", unit: "<<unitName_pIz<<std::endl;
+	std::cout<<"output x?      "<<(flag_pOx?" yes":" no")<<", unit: "<<unitName_pOx<<std::endl;
+	std::cout<<"output y?      "<<(flag_pOy?" yes":" no")<<", unit: "<<unitName_pOy<<std::endl;
+	std::cout<<"output z?      "<<(flag_pOz?" yes":" no")<<", unit: "<<unitName_pOz<<std::endl;
 	std::cout<<"output t?      "<<(flag_t?" yes":" no")<<", unit: "<<unitName_t<<std::endl;
 	std::cout<<"output px?     "<<(flag_px?" yes":" no")<<", unit: "<<unitName_px<<std::endl;
 	std::cout<<"output py?     "<<(flag_py?" yes":" no")<<", unit: "<<unitName_py<<std::endl;
@@ -480,6 +510,12 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 		if(flag_x) m_x.push_back(hitPosition.x()/unit_x);
 		if(flag_y) m_y.push_back(hitPosition.y()/unit_y);
 		if(flag_z) m_z.push_back(hitPosition.z()/unit_z);
+		if(flag_pIx) m_pIx.push_back(pointIn_pos.x()/unit_pIx);
+		if(flag_pIy) m_pIy.push_back(pointIn_pos.y()/unit_pIy);
+		if(flag_pIz) m_pIz.push_back(pointIn_pos.z()/unit_pIz);
+		if(flag_pOx) m_pOx.push_back(pointOut_pos.x()/unit_pOx);
+		if(flag_pOy) m_pOy.push_back(pointOut_pos.y()/unit_pOy);
+		if(flag_pOz) m_pOz.push_back(pointOut_pos.z()/unit_pOz);
 		if(flag_t) m_t.push_back(globalT/unit_t);
 		if(flag_px) m_px.push_back(pointIn_mom.x()/unit_px);
 		if(flag_py) m_py.push_back(pointIn_mom.y()/unit_py);
@@ -530,6 +566,12 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 			if(flag_x) m_x[pointer] = hitPosition.x()/unit_x;
 			if(flag_y) m_y[pointer] = hitPosition.y()/unit_y;
 			if(flag_z) m_z[pointer] = hitPosition.z()/unit_z;
+			if(flag_pIx) m_pIx[pointer] = pointIn_pos.x()/unit_pIx;
+			if(flag_pIy) m_pIy[pointer] = pointIn_pos.y()/unit_pIy;
+			if(flag_pIz) m_pIz[pointer] = pointIn_pos.z()/unit_pIz;
+			if(flag_pOx) m_pOx[pointer] = pointOut_pos.x()/unit_pOx;
+			if(flag_pOy) m_pOy[pointer] = pointOut_pos.y()/unit_pOy;
+			if(flag_pOz) m_pOz[pointer] = pointOut_pos.z()/unit_pOz;
 			if(flag_t) m_t[pointer] = globalT/unit_t;
 			if(flag_px) m_px[pointer] = pointIn_mom.x()/unit_px;
 			if(flag_py) m_py[pointer] = pointIn_mom.y()/unit_py;
