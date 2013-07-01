@@ -101,6 +101,12 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 		particleGun->SetParticleMomentum(mom);
 	}
 	else if ( EnergyMode == "root" ){
+		std::cout<<"PGA EM = root!"
+			     <<", ("<<root_para[3]
+			     <<","<<root_para[4]
+			     <<","<<root_para[5]
+			     <<") MeV"
+			     <<std::endl;
 		particleGun->SetParticleMomentum(G4ThreeVector(root_para[3] * MeV, root_para[4] * MeV, root_para[5] * MeV));
 	}
 	else if ( EnergyMode == "RMC" ){
@@ -127,6 +133,12 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 		SetUniformPosition();
 	}
 	else if ( PositionMode == "root" ){
+		std::cout<<"PGA PM = root!"
+			     <<", ("<<root_para[0]
+			     <<","<<root_para[1]
+			     <<","<<root_para[2]
+			     <<") mm"
+			     <<std::endl;
 		particleGun->SetParticlePosition(G4ThreeVector(root_para[0] * mm, root_para[1] * mm, (root_para[2])*mm));
 	}
 	else if ( PositionMode != "none" ){

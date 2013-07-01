@@ -1,6 +1,6 @@
 #General setting  
 	Type:      simple
-	Particle:  e- #(e+/e-/chargedgeantino/gamma/...)
+	Particle:  chargedgeantino #(e+/e-/chargedgeantino/gamma/...)
 
 #Default Direction
 #	           Theta    Phi
@@ -16,9 +16,9 @@
 #	                  mm  mm  mm
 	Position:         0   0   0
 
-	EnergyMode:     none #(root/histo/none)
-	PositionMode:   none #(uniform/root/none)
-	DirectionMode:  uniform #(none/uniform)
+	EnergyMode:     root #(root/histo/none)
+	PositionMode:   root #(uniform/root/none)
+	DirectionMode:  none #(none/uniform)
 
 #Uniform In Volume:
 #	                Type   SubDet   Volume
@@ -30,5 +30,5 @@
 	EMHHN:          t_pa
 
 #ROOT file name
-	RFN:            spectrum.root
-	RTN:          :  t
+	RFN:            electrons.root
+	RTN:            t
