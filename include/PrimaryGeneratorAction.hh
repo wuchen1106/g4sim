@@ -33,6 +33,8 @@ public:
   void set_PositionMode(G4String val) { PositionMode= val; }
   void set_EM_hist_filename(G4String val) { EM_hist_filename= val; }
   void set_EM_hist_histname(G4String val) { EM_hist_histname= val; }
+  void set_DM_hist_filename(G4String val) { DM_hist_filename= val; }
+  void set_DM_hist_histname(G4String val) { DM_hist_histname= val; }
   void set_root_filename(G4String val) { root_filename= val; }
   void set_root_treename(G4String val) { root_treename= val; }
 
@@ -64,6 +66,9 @@ private:
   TH1F*                      EM_hist;
   G4String                   EM_hist_filename;
   G4String                   EM_hist_histname;
+  TH1F*                      DM_hist;
+  G4String                   DM_hist_filename;
+  G4String                   DM_hist_histname;
 
   //For PositionMode
   G4String                   UP_SubDet;

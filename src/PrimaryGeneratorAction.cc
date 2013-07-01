@@ -69,7 +69,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 	particleGun->SetParticleMomentum(Pa);
 	particleGun->SetParticlePosition(G4ThreeVector(x,y,z));
 
-	if (EnergyMode == "histo"){
+	if (EnergyMode == "histo" || DirectionMode == "histo" ){
 		BuildHistoFromFile();
 	}
 	UseRoot = false;
@@ -85,6 +85,7 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
 	delete particleGun;
 	delete gunMessenger;
 	delete EM_hist;
+	delete DM_hist;
 	delete m_TChain;
 }
 
@@ -121,6 +122,14 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
 	if ( DirectionMode == "uniform" ){
 		SetUniformDirection();
+	}
+	else if ( DirectionMode == "histo" ){
+		G4double theta = DM_hist->GetRandom() * rad;
+		G4double phi = G4UniformRand() * 360. *deg;
+		G4ThreeVector dir_3Vec(1, 1, 1);
+		dir_3Vec.setTheta(theta);
+		dir_3Vec.setPhi(phi);
+		particleGun->SetParticleMomentumDirection(dir_3Vec);
 	}
 	else if ( DirectionMode != "none" ){
 		std::cout<<"ERROR: unknown DirectionMode: "<<DirectionMode<<"!!!"<<std::endl;
@@ -241,8 +250,9 @@ void PrimaryGeneratorAction::SetUniformPosition(){
 void PrimaryGeneratorAction::BuildHistoFromFile(){
 	G4String dir_name = getenv("CONFIGUREDATAROOT");
 	if (dir_name[dir_name.size()-1] != '/') dir_name.append("/");
-	G4String full_infile_name = dir_name +  EM_hist_filename;
 
+	// EnergyMode
+	G4String full_infile_name = dir_name +  EM_hist_filename;
 	if (fp) delete fp;
 	fp = new TFile(full_infile_name.c_str());
 	if (fp==NULL) {
@@ -259,6 +269,25 @@ void PrimaryGeneratorAction::BuildHistoFromFile(){
 				"Can not find file");
 	}
 	EM_hist = h;
+
+	// DirectionMode
+	full_infile_name = dir_name +  DM_hist_filename;
+	if (fp) delete fp;
+	fp = new TFile(full_infile_name.c_str());
+	if (fp==NULL) {
+		std::cout<<"ERROR: Can not find file: "<<full_infile_name<<"!!!"<<std::endl;
+		G4Exception("PrimaryGeneratorAction::BuildHistoFromFile()",
+				"InvalidInput", FatalException,
+				"Can not find file");
+	}
+	TH1F* hDM = (TH1F*)fp->Get(DM_hist_histname.c_str());
+	if(hDM==NULL){
+		std::cout<<"ERROR: Can not find file: "<<full_infile_name<<"!!!"<<std::endl;
+		G4Exception("PrimaryGeneratorAction::BuildHistoFromFile()",
+				"InvalidInput", FatalException,
+				"Can not find file");
+	}
+	DM_hist = hDM;
 }
 
 void PrimaryGeneratorAction::root_get_para(){
@@ -349,6 +378,14 @@ void PrimaryGeneratorAction::ReadCard(G4String file_name){
 			buf_card>>EM_hist_histname;
 			continue;
 		}
+		else if ( keyword == "DMHFN:" ){
+			buf_card>>DM_hist_filename;
+			continue;
+		}
+		else if ( keyword == "DMHHN:" ){
+			buf_card>>DM_hist_histname;
+			continue;
+		}
 		else if ( keyword == "RFN:" ){
 			buf_card>>root_filename;
 			continue;
@@ -386,6 +423,8 @@ void PrimaryGeneratorAction::Dump(){
 	std::cout<<"DirectionMode:                                "<<DirectionMode<<std::endl;
 	std::cout<<"File Name for EnergyMode = histo:             "<<EM_hist_filename<<std::endl;
 	std::cout<<"Histogram Name for EnergyMode = histo:        "<<EM_hist_histname<<std::endl;
+	std::cout<<"File Name for DirectionMode = histo:          "<<DM_hist_filename<<std::endl;
+	std::cout<<"Histogram Name for DirectionMode = histo:     "<<DM_hist_histname<<std::endl;
 	std::cout<<"File Name for EnergyMode/PositionMode = root: "<<root_filename<<std::endl;
 	std::cout<<"Tree Name for EnergyMode/PositionMode = root: "<<root_treename<<std::endl;
 	std::cout<<"---------------------------------------------------------"<<std::endl;

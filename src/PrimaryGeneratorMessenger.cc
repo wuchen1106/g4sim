@@ -61,6 +61,20 @@ PrimaryGeneratorMessenger::PrimaryGeneratorMessenger(
   EM_hist_histname_cmd->SetDefaultValue("default_hist_for_mom");
   EM_hist_histname_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
+  DM_hist_filename_cmd = new G4UIcmdWithAString("/g4sim/gun/DM_hist_filename",this);
+  DM_hist_filename_cmd->SetGuidance("Choose name of input file for histogram to generate momentum direction (theta):");
+  DM_hist_filename_cmd->SetGuidance("  default name: default_file_for_mom");
+  DM_hist_filename_cmd->SetParameterName("name",true);
+  DM_hist_filename_cmd->SetDefaultValue("default_file_for_mom");
+  DM_hist_filename_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+  DM_hist_histname_cmd = new G4UIcmdWithAString("/g4sim/gun/DM_hist_histname",this);
+  DM_hist_histname_cmd->SetGuidance("Choose name of input hist for histogram to generate momentum direction (theta):");
+  DM_hist_histname_cmd->SetGuidance("  default name: default_hist_for_mom");
+  DM_hist_histname_cmd->SetParameterName("name",true);
+  DM_hist_histname_cmd->SetDefaultValue("default_hist_for_mom");
+  DM_hist_histname_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
   root_filename_cmd = new G4UIcmdWithAString("/g4sim/gun/root_filename",this);
   root_filename_cmd->SetGuidance("root_filename");
   root_filename_cmd->SetParameterName("root_filename",false);
@@ -90,6 +104,8 @@ PrimaryGeneratorMessenger::~PrimaryGeneratorMessenger()
   delete PositionMode_cmd;
   delete EM_hist_filename_cmd;
   delete EM_hist_histname_cmd;
+  delete DM_hist_filename_cmd;
+  delete DM_hist_histname_cmd;
   delete root_filename_cmd;
   delete histo_build_cmd;
   delete root_build_cmd;
@@ -107,6 +123,8 @@ void PrimaryGeneratorMessenger::SetNewValue(
   if( command == root_filename_cmd )    { Action->set_root_filename(newValue);}
   if( command == EM_hist_filename_cmd )    { Action->set_EM_hist_filename(newValue);}
   if( command == EM_hist_histname_cmd )    { Action->set_EM_hist_histname(newValue);}
+  if( command == DM_hist_filename_cmd )    { Action->set_DM_hist_filename(newValue);}
+  if( command == DM_hist_histname_cmd )    { Action->set_DM_hist_histname(newValue);}
   if( command == histo_build_cmd)    { Action->BuildHistoFromFile();}
   if( command == root_build_cmd)    { Action->root_build();}
 }
