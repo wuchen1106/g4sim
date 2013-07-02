@@ -1,6 +1,6 @@
 #General setting  
 	Type:      simple
-	Particle:  chargedgeantino #(e+/e-/chargedgeantino/gamma/...)
+	Particle:  e- #(e+/e-/chargedgeantino/gamma/...)
 
 #Default Direction
 #	           Theta    Phi
@@ -16,18 +16,21 @@
 #	                  mm  mm  mm
 	Position:         0   0   0
 
-	EnergyMode:     root #(root/histo/none)
-	PositionMode:   root #(uniform/root/none)
-	DirectionMode:  none #(none/uniform)
+	EnergyMode:     none #(root/histo/none)
+	PositionMode:   uniform #(uniform/root/none)
+	DirectionMode:  histo #(none/uniform/histo)
 
 #Uniform In Volume:
 #	                Type   SubDet   Volume
-	UIV:            Simple World    Source
+	UIV:            Simple World    Target
 
 #Histogram file name
 	EMHFN:          spectrum.root
-#Histogram name
 	EMHHN:          t_pa
+
+#Histogram file name
+	DMHFN:          ph2e.root
+	DMHHN:          theta
 
 #ROOT file name
 	RFN:            electrons.root

@@ -252,42 +252,46 @@ void PrimaryGeneratorAction::BuildHistoFromFile(){
 	if (dir_name[dir_name.size()-1] != '/') dir_name.append("/");
 
 	// EnergyMode
-	G4String full_infile_name = dir_name +  EM_hist_filename;
-	if (fp) delete fp;
-	fp = new TFile(full_infile_name.c_str());
-	if (fp==NULL) {
-		std::cout<<"ERROR: Can not find file: "<<full_infile_name<<"!!!"<<std::endl;
-		G4Exception("PrimaryGeneratorAction::BuildHistoFromFile()",
-				"InvalidInput", FatalException,
-				"Can not find file");
+	if (EnergyMode=="histo"){
+		G4String full_infile_name = dir_name +  EM_hist_filename;
+		if (fp) delete fp;
+		fp = new TFile(full_infile_name.c_str());
+		if (fp==NULL) {
+			std::cout<<"ERROR: Can not find file: "<<full_infile_name<<"!!!"<<std::endl;
+			G4Exception("PrimaryGeneratorAction::BuildHistoFromFile()",
+					"InvalidInput", FatalException,
+					"Can not find file");
+		}
+		TH1F* h = (TH1F*)fp->Get(EM_hist_histname.c_str());
+		if(h==NULL){
+			std::cout<<"ERROR: Can not find file: "<<full_infile_name<<"!!!"<<std::endl;
+			G4Exception("PrimaryGeneratorAction::BuildHistoFromFile()",
+					"InvalidInput", FatalException,
+					"Can not find file");
+		}
+		EM_hist = h;
 	}
-	TH1F* h = (TH1F*)fp->Get(EM_hist_histname.c_str());
-	if(h==NULL){
-		std::cout<<"ERROR: Can not find file: "<<full_infile_name<<"!!!"<<std::endl;
-		G4Exception("PrimaryGeneratorAction::BuildHistoFromFile()",
-				"InvalidInput", FatalException,
-				"Can not find file");
-	}
-	EM_hist = h;
 
 	// DirectionMode
-	full_infile_name = dir_name +  DM_hist_filename;
-	if (fp) delete fp;
-	fp = new TFile(full_infile_name.c_str());
-	if (fp==NULL) {
-		std::cout<<"ERROR: Can not find file: "<<full_infile_name<<"!!!"<<std::endl;
-		G4Exception("PrimaryGeneratorAction::BuildHistoFromFile()",
-				"InvalidInput", FatalException,
-				"Can not find file");
+	if (DirectionMode=="histo"){
+		G4String full_infile_name = dir_name +  DM_hist_filename;
+		if (fp) delete fp;
+		fp = new TFile(full_infile_name.c_str());
+		if (fp==NULL) {
+			std::cout<<"ERROR: Can not find file: "<<full_infile_name<<"!!!"<<std::endl;
+			G4Exception("PrimaryGeneratorAction::BuildHistoFromFile()",
+					"InvalidInput", FatalException,
+					"Can not find file");
+		}
+		TH1F* h = (TH1F*)fp->Get(DM_hist_histname.c_str());
+		if(h==NULL){
+			std::cout<<"ERROR: Can not find file: "<<full_infile_name<<"!!!"<<std::endl;
+			G4Exception("PrimaryGeneratorAction::BuildHistoFromFile()",
+					"InvalidInput", FatalException,
+					"Can not find file");
+		}
+		DM_hist = h;
 	}
-	TH1F* hDM = (TH1F*)fp->Get(DM_hist_histname.c_str());
-	if(hDM==NULL){
-		std::cout<<"ERROR: Can not find file: "<<full_infile_name<<"!!!"<<std::endl;
-		G4Exception("PrimaryGeneratorAction::BuildHistoFromFile()",
-				"InvalidInput", FatalException,
-				"Can not find file");
-	}
-	DM_hist = hDM;
 }
 
 void PrimaryGeneratorAction::root_get_para(){
