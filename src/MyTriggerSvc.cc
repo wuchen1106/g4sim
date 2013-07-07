@@ -148,7 +148,7 @@ void MyTriggerSvc::SetMyTrigger( G4String filename ){
 		myTriggerSD = dynamic_cast<MonitorSD*> (myVSD);
 		std::cout<<"myTriggerSD @ ["<<(void*)myTriggerSD<<"]"<<std::endl;
 	}
-	if ( minEleMom != -1 ){
+	if ( minEleMom != -1*MeV ){
 		myMcTruthSvc = McTruthSvc::GetMcTruthSvc();
 	}
 	if ( minAntipNum != -1 ){
@@ -171,7 +171,7 @@ bool MyTriggerSvc::TriggerIt( const G4Event* evt ){
 		int nHits_Trigger = myTriggerSD->Get_nHits();
 		if ( nHits_Trigger < minTriggerHits ) return false;
 	}
-	if ( minEleMom != -1 ){
+	if ( minEleMom != -1*MeV ){
 		bool foundit = false;
 		int nTracks = myMcTruthSvc->get_nTracks();
 		for ( int i = 0; i < nTracks; i++ ){
@@ -205,7 +205,7 @@ void MyTriggerSvc::ReSet(){
 	minCdcHits = -1;
 	minCdcCellHits = -1;
 	minTriggerHits = -1;
-	minEleMom = -1;
+	minEleMom = -1*MeV;
 	minAntipNum = -1;
 }
 
