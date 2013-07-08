@@ -482,7 +482,7 @@ void ProcessCountingSvc::AddASDI(G4String name){
 	else if ( name == "hBrems" ) m_ASDI_hBrems[i]++;
 	else if ( name == "hPairProd" ) m_ASDI_hPairProd[i]++;
 	else if ( name == "ProtonInelastic" ) m_ASDI_ProtonInelastic[i]++;
-	else std::cout<<"In AddASDI: Process Name = \""<<name<<"\""<<std::endl;
+	//else std::cout<<"In AddASDI: Process Name = \""<<name<<"\""<<std::endl;
 }
 
 void ProcessCountingSvc::AddPSDI(G4String name){
@@ -499,7 +499,7 @@ void ProcessCountingSvc::AddPSDI(G4String name){
 	else if ( name == "hBrems" ) m_PSDI_hBrems[i]++;
 	else if ( name == "hPairProd" ) m_PSDI_hPairProd[i]++;
 	else if ( name == "ProtonInelastic" ) m_PSDI_ProtonInelastic[i]++;
-	else std::cout<<"In AddPSDI: Process Name = \""<<name<<"\""<<std::endl;
+	//else std::cout<<"In AddPSDI: Process Name = \""<<name<<"\""<<std::endl;
 }
 
 void ProcessCountingSvc::SetValue(const G4Step* aStep){

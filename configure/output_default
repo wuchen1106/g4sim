@@ -289,6 +289,6 @@ TRIGGERSECTION
 	minCdcHits        -1           // minimum required CDCLayer nHits. Would be set invalid if minCdcHits = -1
 	minCdcCellHits    -1           // minimum required CDCCell nHits. Would be set invalid if minCdcCellHits = -1
 	minTriggerHits    -1           // minimum required Trigger nHits. Would be set invalid if minTriggerHits = -1
-	minEleMom         95 MeV       // minimum required Electron momentum. Would be set invalid if minEleMom = -1 MeV
+	minEleMom         -1 MeV       // minimum required Electron momentum. Would be set invalid if minEleMom = -1 MeV
 	minAntipNum       -1           // minimum required Anti-Proton number. Would be set invalid if minAntipNum = -1
 TRIGGERSECTION
