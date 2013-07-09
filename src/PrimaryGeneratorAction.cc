@@ -97,6 +97,7 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
 	delete particleGun;
 	delete gunMessenger;
 	delete EM_hist;
+	delete h_i;
 	delete DM_hist;
 	delete m_TChain;
 }
@@ -160,7 +161,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 		//	     <<","<<root_para[2]
 		//	     <<") mm"
 		//	     <<std::endl;
-		particleGun->SetParticlePosition(G4ThreeVector(root_para[0] * mm, root_para[1] * mm, (root_para[2])*mm));
+		int i = h_i->GetRandom();
+		double delta_z = (2*i-17+1)/2*50;
+		particleGun->SetParticlePosition(G4ThreeVector(root_para[0] * mm, root_para[1] * mm, (root_para[2]+delta_z)*mm));
 	}
 	else if ( PositionMode != "none" ){
 		std::cout<<"ERROR: unknown PositionMode: "<<PositionMode<<"!!!"<<std::endl;
@@ -338,6 +341,23 @@ void PrimaryGeneratorAction::root_build(){
 }
 
 void PrimaryGeneratorAction::root_set_Position(){
+	G4String full_infile_name = "/home/chen/MyWorkArea/g4sim/configure/data/RMC_mu.root";
+	if (fp) delete fp;
+	fp = new TFile(full_infile_name.c_str());
+	if (fp==NULL) {
+		std::cout<<"ERROR: Can not find file: "<<full_infile_name<<"!!!"<<std::endl;
+		G4Exception("PrimaryGeneratorAction::BuildHistoFromFile()",
+				"InvalidInput", FatalException,
+				"Can not find file");
+	}
+	TH1F* h = (TH1F*)fp->Get("iplate");
+	if(h==NULL){
+		std::cout<<"ERROR: Can not find file: "<<full_infile_name<<"!!!"<<std::endl;
+		G4Exception("PrimaryGeneratorAction::BuildHistoFromFile()",
+				"InvalidInput", FatalException,
+				"Can not find file");
+	}
+	h_i = h;
 	m_TChain->SetBranchAddress("x", &root_para[0]);
 	m_TChain->SetBranchAddress("y", &root_para[1]);
 	m_TChain->SetBranchAddress("z", &root_para[2]);

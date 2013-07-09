@@ -1,6 +1,6 @@
 #General setting  
 	Type:      simple
-	Particle:  mu- #(e+/e-/chargedgeantino/gamma/...)
+	Particle:  e- #(e+/e-/chargedgeantino/gamma/...)
 
 #Default Direction
 #	           Theta    Phi
@@ -37,5 +37,5 @@
 	DMHHN:          theta
 
 #ROOT file name
-	RFN:            bm.root
+	RFN:            RMC_e.root
 	RTN:            t

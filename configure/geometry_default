@@ -9,7 +9,7 @@
 #for Cdc:
 #18 stereo layers
 	World           Simple              subgeo_CdcGeneral_130622
-#	Cdc             Cdc                 subgeo_cdc_wire_130629_singleLayer
+	Cdc             Cdc                 subgeo_cdc_wire_130629_singleLayer
 #Wire structure A(6)S(4)A(4)S(6) (default)
 #	World           Simple              subgeo_CdcGeneral_default
 #	Cdc             Cdc                 subgeo_cdc_wire

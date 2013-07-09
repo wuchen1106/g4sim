@@ -12,7 +12,7 @@
 #	No   RMin  RMax  Length StartAng SpanAng posX posY posZ Name     MotVolume Material     SDName    RepNo Space DirTheta DirPhi Ephi Etheta Epsi
 #	     mm    mm    mm     deg      deg     mm   mm   mm                                                   mm    deg      deg    deg  deg    deg
 #	T 0  850   1150  1.5e3  0.       360.    0.   0.   0.   Solenoid World     Vacuum       none      1     0     0        0      0    0      0
-#	T 1  471.6 501.6 300    0.       360.    0.   0.   0.   Trigger  World     Scintillator MonitorSD 2     1.2e3 0        0      0    0      0
+	T 1  471.6 501.6 300    0.       360.    0.   0.   0.   Trigger  World     Scintillator MonitorSD 2     1.2e3 0        0      0    0      0
 	T 2  0.    100   0.2    0.       360.    0.   0.   0.   Target   World     Aluminium    none      17    50    0        0      0    0      0
 #	T 3  0.    101   0.1    0.       360.    0.   0.   0.   MonitorE World     Vacuum       MonitorSD 2     800.3 0        0      0    0      0
 #	T 4  100.  101   800.2  0.       360.    0.   0.   0.   MonitorB World     Vacuum       MonitorSD 1     0     0        0      0    0      0
@@ -28,7 +28,7 @@
 #	Name             red green blue
 #	vis_World        0    0    1
 #	vis_Solenoid     0.91 0.62 0.33   
-#	vis_Trigger      0    1    0
+	vis_Trigger      0    1    0
 	vis_Target       0.8  0.8  0.8
 #	vis_MonitorE     0    1    0
 #	vis_MonitorB     0    1    0
