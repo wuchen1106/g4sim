@@ -69,7 +69,6 @@ private:
     
   //For EnergyMode
   TH1F*                      EM_hist;
-  TH1F*                      h_i;
   G4String                   EM_hist_filename;
   G4String                   EM_hist_histname;
   TH1F*                      DM_hist;
