@@ -1,0 +1,39 @@
+#General setting  
+	Type:      simple
+	Particle:  e- #(e+/e-/chargedgeantino/gamma/...)
+
+#Default Direction
+#	           Theta    Phi
+#	           deg      deg
+	Direction: 80       0
+#Default Momentum Amplitude
+#	         MeV
+	MomAmp:  105
+#	MomAmp:  7944.78729048504562
+#	MomAmp:  1.25e4
+#	MomAmp:  1e5
+#Default Position     x   y   z
+#	                  mm  mm  mm
+	Position:         0   0   0
+
+	EnergyMode:     none #(root/histo/none)
+	PositionMode:   uniform #(uniform/root/none)
+	DirectionMode:  histo #(none/uniform)
+
+#Uniform In Volume:
+#	                Type   SubDet   Volume
+	UIV:            Simple World    Target
+
+#Histogram file name
+	EMHFN:          RMC_Al.root
+#Histogram name
+	EMHHN:          hRMC
+
+#Histogram file name
+	DMHFN:          RMC_electrons.root
+#Histogram name
+	DMHHN:          theta
+
+#ROOT file name
+	RFN:            spectrum.root
+	RTN:            t
