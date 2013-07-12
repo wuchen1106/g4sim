@@ -8,7 +8,7 @@
 #Tubs info
 #	No   RMin  RMax  Length StartAng SpanAng posX posY posZ    Name     MotVolume Material     SDName    RepNo Space DirTheta DirPhi Ephi Etheta Epsi
 #	     mm    mm    mm     deg      deg     mm   mm   mm                                                      mm    deg      deg    deg  deg    deg
-	T 0  0     540   1500   0.       360.    0.   0    0       World    None      Vacuum       none      1     0     0        0      0    0      0
+	T 0  0     540   2000   0.       360.    0.   0    0       World    None      Vacuum       none      1     0     0        0      0    0      0
 	T 1  0.    100   0.2    0.       360.    0.   0.   0.      Target   World     Aluminium    none      17    50    0        0      0    0      0
 #	T 1  0.    100   0.034  0.       360.    0.   0.   0.      Target   World     Aluminium    none      100   0.034 0        0      0    0      0
 #	T 1  0.    100   3.4    0.       360.    0.   0.   0.      Target   World     Aluminium    none      1     0     0        0      0    0      0

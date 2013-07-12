@@ -84,8 +84,8 @@ int main(int argc,char** argv)
   //
   runManager->SetUserInitialization(new DetectorConstruction);
   //
-  runManager->SetUserInitialization(new PhysicsList);
-  //runManager->SetUserInitialization(new QGSP_BERT);
+  //runManager->SetUserInitialization(new PhysicsList);
+  runManager->SetUserInitialization(new QGSP_BERT);
 
   // Set user action classes
   //

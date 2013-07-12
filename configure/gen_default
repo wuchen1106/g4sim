@@ -14,7 +14,7 @@
 #	MomAmp:  1e5
 #Default Position     x   y   z
 #	                  mm  mm  mm
-	Position:         0   0   0
+	Position:         0   0   -750
 
 	EnergyMode:     histo #(root/histo/none)
 	PositionMode:   root #(uniform/root/none)
