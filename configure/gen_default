@@ -1,6 +1,6 @@
 #General setting  
 	Type:      simple
-	Particle:  gamma #(e+/e-/chargedgeantino/gamma/...)
+	Particle:  e- #(e+/e-/chargedgeantino/gamma/...)
 
 #Default Direction
 #	           Theta    Phi
@@ -16,9 +16,9 @@
 #	                  mm  mm  mm
 	Position:         0   0   -750
 
-	EnergyMode:     histo #(root/histo/none)
+	EnergyMode:     root #(root/histo/none)
 	PositionMode:   root #(uniform/root/none)
-	DirectionMode:  uniform #(none/uniform/histo)
+	DirectionMode:  none #(none/uniform/histo)
 	TimeMode:       root #(none/root)
 #Default Time
 #	         ns
@@ -37,5 +37,5 @@
 	DMHHN:          theta
 
 #ROOT file name
-	RFN:            RMC_mu.root
+	RFN:            RMC_e.root
 	RTN:            t
