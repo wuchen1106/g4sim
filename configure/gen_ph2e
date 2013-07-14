@@ -29,7 +29,7 @@
 	UIV:            Simple World    Target
 
 #Histogram file name
-	EMHFN:          RMC_Al.root
+	EMHFN:          RMC_Al_bind.root
 	EMHHN:          hRMC
 
 #Histogram file name
