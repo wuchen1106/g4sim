@@ -7,5 +7,6 @@
 #/stacking/setGamCut 95 MeV
 #/run/beamOn 417
 #/control/getEnv MYG4SIMROOT
+#/control/execute {MYG4SIMROOT}/configure/verbose_default.mac
 #/control/execute {MYG4SIMROOT}/configure/setCut_default.mac
-/run/beamOn 50512
+/run/beamOn 20000

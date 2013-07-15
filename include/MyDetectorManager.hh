@@ -14,6 +14,7 @@
 
 //supported SD
 #include "CdcSD.hh"
+#include "CdcSimpleSD.hh"
 #include "CdcIonSD.hh"
 #include "MonitorSD.hh"
 #include "CdcLayerSD.hh"

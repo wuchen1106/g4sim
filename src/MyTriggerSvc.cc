@@ -14,6 +14,7 @@
 #include "MyDetectorManager.hh"
 #include "CdcLayerSD.hh"
 #include "CdcSD.hh"
+#include "CdcSimpleSD.hh"
 #include "MonitorSD.hh"
 #include "MyString2Anything.hh"
 #include "McTruthSvc.hh"

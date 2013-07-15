@@ -16,6 +16,7 @@
 
 //supported SD
 #include "CdcSD.hh"
+#include "CdcSimpleSD.hh"
 #include "CdcIonSD.hh"
 #include "MonitorSD.hh"
 #include "CdcLayerSD.hh"
@@ -236,6 +237,10 @@ G4VSensitiveDetector* MyDetectorManager::GetSD(G4String VolName, G4String SDName
 		G4String FullSDName = newVolName + "/" + newSDName;
 		if ( newSDName == "CdcSD" ){
 			aG4SD = new CdcSD( FullSDName, pPara );
+			fSDman->AddNewDetector( aG4SD );
+		}
+		else if ( newSDName == "CdcSimpleSD" ){
+			aG4SD = new CdcSimpleSD( FullSDName, pPara );
 			fSDman->AddNewDetector( aG4SD );
 		}
 		else if ( newSDName == "CdcIonSD" ){

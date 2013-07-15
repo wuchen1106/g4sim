@@ -8,13 +8,13 @@
 
 #Tubs info
 #	No   RMin  RMax  Length StartAng SpanAng posX posY posZ Name          MotVolume    Material     SDName RepNo Space DirTheta DirPhi Ephi Etheta Epsi
-#	     mm    mm    mm     deg      deg     mm   mm   mm                                                  mm    deg      deg    deg  deg    deg
+#	     mm    mm    mm     deg      deg     mm   mm   mm                                                        mm    deg      deg    deg  deg    deg
 #	T 0  539.6 840.4 1520   0.       360     0.   0.   0.   CDCContainer  World        ChamberGas   none   1     0     0        0      0    0      0
 #	T 1  840   840.4 1500   0.       360     0.   0.   0.   OutCylinder   CDCContainer CarbonFiber  none   1     0     0        0      0    0      0
 #	T 2  539.6 540   1500   0.       360     0.   0.   0.   InnerCylinder CDCContainer CarbonFiber  none   1     0     0        0      0    0      0
 #	T 3  539.6 840.4 10     0.       360     0.   0.   0.   EndPlate      CDCContainer Aluminium    none   2     1510  0        0      0    0      0
 #	T 4  0.    100   0.2    0.       360.    0.   0.   0.   Target        World        Aluminium MonitorSD 17    50    0        0      0    0      0
-	T 0  0     1000  1000   0.       360     0.   0.   0.   World         None         Vacuum       none   1     0     0        0      0    0      0
+#	T 0  0     1000  1000   0.       360     0.   0.   0.   World         None         Vacuum       none   1     0     0        0      0    0      0
 
 #fTubs info
 #	No      RMin      RMax      Length StartAng SpanAng posX posY posZ Name     MotVolume    Material     SDName     RepNo Ephi Etheta Epsi
@@ -23,8 +23,10 @@
 #	fT   0  550+10*x  560+10*x  1500   0.       360.    0.   0.   0.   CDCLayer CDCContainer ChamberGas   CdcLayerSD 29    0    0      0
 
 #Sphere info
-#	No    RMin  RMax  StartPhi SpanPhi StartThe SpanThe posX posY posZ Name     MotVolume Material     SDName RepNo Space DirTheta DirPhi
-#	      mm    mm    deg      deg     deg      deg     mm   mm   mm                                                mm    deg      deg
+#	No    RMin  RMax  StartPhi SpanPhi StartThe SpanThe posX posY posZ Name     MotVolume Material     SDName RepNo Space DirTheta DirPhi Ephi Etheta Epsi
+#	      mm    mm    deg      deg     deg      deg     mm   mm   mm                                                mm    deg      deg    deg  deg    deg
+	Sph 0 0     1000  0        360.    0.       180.    0.   0.   0.   World    None      Vacuum       none   1     0     0        0      0    0      0
+	Sph 1 0     3     0        360.    0.       180.    0.   0.   0.   Target   World     Aluminium    none   1     0     0        0      0    0      0
 
 #Hype info
 #	No   iRadius oRadius iStereo oStereo Length posX posY posZ Name          MotVolume    Material     SDName RepNo Space DirTheta DirPhi Ephi Etheta Epsi
@@ -36,11 +38,11 @@
 #	     deg    mm      mm      mm     deg  mm   mm   mm                                                        mm    deg      deg    deg  deg    deg
 #	TT 0 30     3.94956855197099230e+02 600     1500   25   0    0    0    TTubs_test    World        Vacuum       none   1     0     0        0      0    0      0
 #	TT 0 15     384.791 500     1500   10   0    0    0    TTubs_test    World        Vacuum       none   1     0     0        0      0    0      0
-	TT 0 -17.5   194.993 494.958 1500   45   0    0    0    TTubs         World        Vacuum       none   1     0     0        0      0    0      0
+#	TT 0 -17.5   194.993 494.958 1500   45   0    0    0    TTubs         World        Vacuum       none   1     0     0        0      0    0      0
 
 #visual settings
 	VerboseLevel:    5
 	VISSETTING  #Keep this line to call Reset
 #	Name             red green blue
-	vis_World        0    0    1
-	vis_TTubs        0    1    0
+#	vis_World        0    0    1
+	vis_Target       1    0    0

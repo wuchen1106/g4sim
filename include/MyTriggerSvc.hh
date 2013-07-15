@@ -14,6 +14,7 @@ class G4Event;
 class MyDetectorManager;
 class CdcLayerSD;
 class CdcSD;
+class CdcSimpleSD;
 class MonitorSD;
 class McTruthSvc;
 
@@ -46,6 +47,7 @@ class MyTriggerSvc
 		MyDetectorManager* pMyDetectorManager;
 		CdcLayerSD* myCdcLayerSD;
 		CdcSD* myCdcSD;
+		CdcSimpleSD* myCdcSimpleSD;
 		MonitorSD* myTriggerSD;
 		McTruthSvc* myMcTruthSvc;
 
