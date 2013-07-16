@@ -1,24 +1,23 @@
 #General setting  
 	Type:      simple
-	Particle:  gamma #(e+/e-/chargedgeantino/gamma/...)
+	Particle:  proton #(e+/e-/chargedgeantino/gamma/...)
 
 #Default Direction
 #	           Theta    Phi
 #	           deg      deg
-	Direction: 10        0
+	Direction: 0         0
 #Default Momentum Amplitude
 #	         MeV
-	MomAmp:  0.511
-#	MomAmp:  7944.78729048504562
+	MomAmp:  7944.78729048504562
 #	MomAmp:  1.25e4
 #	MomAmp:  1e5
 #Default Position     x   y   z
 #	                  mm  mm  mm
-	Position:         0   0   0
+	Position:         0   0   -90
 
-	EnergyMode:     histo #(root/histo/none)
-	PositionMode:   uniform #(uniform/root/none)
-	DirectionMode:  uniform #(none/uniform/histo)
+	EnergyMode:     none #(root/histo/none)
+	PositionMode:   none #(uniform/root/none)
+	DirectionMode:  none #(none/uniform/histo)
 	TimeMode:       none #(none/root)
 #Default Time
 #	         ns
@@ -29,13 +28,13 @@
 	UIV:            Simple World    Target
 
 #Histogram file name
-	EMHFN:          RPC_Mg.root
-	EMHHN:          hRPC
+	EMHFN:          RMC_Al.root
+	EMHHN:          hRMC
 
 #Histogram file name
 	DMHFN:          ph2e.root
 	DMHHN:          theta
 
 #ROOT file name
-	RFN:            RMC_mu.root
+	RFN:            BM.root
 	RTN:            t

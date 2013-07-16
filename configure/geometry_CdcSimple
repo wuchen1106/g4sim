@@ -4,6 +4,6 @@
 #ServiceName        ServiceType         FileName
 
 #for Cdc:
-#18 stereo layers
+#18 stereo layers with simple SD
 	World           Simple              subgeo_CdcGeneral_130622
-	Cdc             Cdc                 subgeo_cdc_wire_130629singleLayer
+	Cdc             Cdc                 subgeo_cdc_wire_130629simple

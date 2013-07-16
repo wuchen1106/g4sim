@@ -58,29 +58,29 @@
 #Tubs info
 #	Type No  RMin       RMax       Length     StartAng SpanAng posX posY posZ Name            MotVolume       Material        SDName RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
 #	         mm         mm         mm         deg      deg     mm   mm   mm                                                                mm         deg    deg    deg    deg    deg   
-	T    -3  501.6      816        1500.0     0        360     0    0    0    CDCContainer    World           ChamberGas9010  none   1     0          0      0      0      0      0     
-	T    -2  501.6      502        1540.0     0        360     0    0    0    InnerCylinder   CDCContainer    CarbonFiber     none   1     0          0      0      0      0      0     
-	T    -1  502        510.00000  20         0        360     0    0    0    EndPlate_in     CDCContainer    Aluminium       none   2     1520.0     0      0      0      0      0     
-	T    0   510.00000  526.00000  20         0        360     0    0    0    EndPlate_0      CDCContainer    Aluminium       none   2     1520.0     0      0      0      0      0     
-	T    1   526.00000  542.00000  20         0        360     0    0    0    EndPlate_1      CDCContainer    Aluminium       none   2     1520.0     0      0      0      0      0     
-	T    2   542.00000  558.00000  20         0        360     0    0    0    EndPlate_2      CDCContainer    Aluminium       none   2     1520.0     0      0      0      0      0     
-	T    3   558.00000  574.00000  20         0        360     0    0    0    EndPlate_3      CDCContainer    Aluminium       none   2     1520.0     0      0      0      0      0     
-	T    4   574.00000  590.00000  20         0        360     0    0    0    EndPlate_4      CDCContainer    Aluminium       none   2     1520.0     0      0      0      0      0     
-	T    5   590.00000  606.00000  20         0        360     0    0    0    EndPlate_5      CDCContainer    Aluminium       none   2     1520.0     0      0      0      0      0     
-	T    6   606.00000  622.00000  20         0        360     0    0    0    EndPlate_6      CDCContainer    Aluminium       none   2     1520.0     0      0      0      0      0     
-	T    7   622.00000  638.00000  20         0        360     0    0    0    EndPlate_7      CDCContainer    Aluminium       none   2     1520.0     0      0      0      0      0     
-	T    8   638.00000  654.00000  20         0        360     0    0    0    EndPlate_8      CDCContainer    Aluminium       none   2     1520.0     0      0      0      0      0     
-	T    9   654.00000  670.00000  20         0        360     0    0    0    EndPlate_9      CDCContainer    Aluminium       none   2     1520.0     0      0      0      0      0     
-	T    10  670.00000  686.00000  20         0        360     0    0    0    EndPlate_10     CDCContainer    Aluminium       none   2     1520.0     0      0      0      0      0     
-	T    11  686.00000  702.00000  20         0        360     0    0    0    EndPlate_11     CDCContainer    Aluminium       none   2     1520.0     0      0      0      0      0     
-	T    12  702.00000  718.00000  20         0        360     0    0    0    EndPlate_12     CDCContainer    Aluminium       none   2     1520.0     0      0      0      0      0     
-	T    13  718.00000  734.00000  20         0        360     0    0    0    EndPlate_13     CDCContainer    Aluminium       none   2     1520.0     0      0      0      0      0     
-	T    14  734.00000  750.00000  20         0        360     0    0    0    EndPlate_14     CDCContainer    Aluminium       none   2     1520.0     0      0      0      0      0     
-	T    15  750.00000  766.00000  20         0        360     0    0    0    EndPlate_15     CDCContainer    Aluminium       none   2     1520.0     0      0      0      0      0     
-	T    16  766.00000  782.00000  20         0        360     0    0    0    EndPlate_16     CDCContainer    Aluminium       none   2     1520.0     0      0      0      0      0     
-	T    17  782.00000  798.00000  20         0        360     0    0    0    EndPlate_17     CDCContainer    Aluminium       none   2     1520.0     0      0      0      0      0     
-	T    18  798.00000  806        20         0        360     0    0    0    EndPlate_out    CDCContainer    Aluminium       none   2     1520.0     0      0      0      0      0     
-	T    19  806        816        1540.0     0        360     0    0    0    OuterCylinder   CDCContainer    Aluminium       none   1     0          0      0      0      0      0     
+	T    -3  501.6      816        1910       0        360     0    0    0    CDCContainer    World           ChamberGas9010  none   1     0          0      0      0      0      0     
+	T    -2  501.6      502        1540.00000 0        360     0    0    0    InnerCylinder   CDCContainer    CarbonFiber     none   1     0          0      0      0      0      0     
+	T    -1  502        510.00000  20         0        360     0    0    0    EndPlate_in     CDCContainer    Aluminium       none   2     1520.00000 0      0      0      0      0     
+	T    0   510.00000  526.00000  20         0        360     0    0    0    EndPlate_0      CDCContainer    Aluminium       none   2     1520.00000 0      0      0      0      0     
+	T    1   526.00000  542.00000  20         0        360     0    0    0    EndPlate_1      CDCContainer    Aluminium       none   2     1531.38888 0      0      0      0      0     
+	T    2   542.00000  558.00000  20         0        360     0    0    0    EndPlate_2      CDCContainer    Aluminium       none   2     1542.77776 0      0      0      0      0     
+	T    3   558.00000  574.00000  20         0        360     0    0    0    EndPlate_3      CDCContainer    Aluminium       none   2     1554.16664 0      0      0      0      0     
+	T    4   574.00000  590.00000  20         0        360     0    0    0    EndPlate_4      CDCContainer    Aluminium       none   2     1565.55552 0      0      0      0      0     
+	T    5   590.00000  606.00000  20         0        360     0    0    0    EndPlate_5      CDCContainer    Aluminium       none   2     1576.94440 0      0      0      0      0     
+	T    6   606.00000  622.00000  20         0        360     0    0    0    EndPlate_6      CDCContainer    Aluminium       none   2     1588.33328 0      0      0      0      0     
+	T    7   622.00000  638.00000  20         0        360     0    0    0    EndPlate_7      CDCContainer    Aluminium       none   2     1599.72216 0      0      0      0      0     
+	T    8   638.00000  654.00000  20         0        360     0    0    0    EndPlate_8      CDCContainer    Aluminium       none   2     1611.11104 0      0      0      0      0     
+	T    9   654.00000  670.00000  20         0        360     0    0    0    EndPlate_9      CDCContainer    Aluminium       none   2     1622.49992 0      0      0      0      0     
+	T    10  670.00000  686.00000  20         0        360     0    0    0    EndPlate_10     CDCContainer    Aluminium       none   2     1633.88880 0      0      0      0      0     
+	T    11  686.00000  702.00000  20         0        360     0    0    0    EndPlate_11     CDCContainer    Aluminium       none   2     1645.27768 0      0      0      0      0     
+	T    12  702.00000  718.00000  20         0        360     0    0    0    EndPlate_12     CDCContainer    Aluminium       none   2     1656.66656 0      0      0      0      0     
+	T    13  718.00000  734.00000  20         0        360     0    0    0    EndPlate_13     CDCContainer    Aluminium       none   2     1668.05544 0      0      0      0      0     
+	T    14  734.00000  750.00000  20         0        360     0    0    0    EndPlate_14     CDCContainer    Aluminium       none   2     1679.44432 0      0      0      0      0     
+	T    15  750.00000  766.00000  20         0        360     0    0    0    EndPlate_15     CDCContainer    Aluminium       none   2     1690.83320 0      0      0      0      0     
+	T    16  766.00000  782.00000  20         0        360     0    0    0    EndPlate_16     CDCContainer    Aluminium       none   2     1702.22208 0      0      0      0      0     
+	T    17  782.00000  798.00000  20         0        360     0    0    0    EndPlate_17     CDCContainer    Aluminium       none   2     1713.61096 0      0      0      0      0     
+	T    18  798.00000  806        20         0        360     0    0    0    EndPlate_out    CDCContainer    Aluminium       none   2     1713.61096 0      0      0      0      0     
+	T    19  806        816        1733.61096 0        360     0    0    0    OuterCylinder   CDCContainer    Aluminium       none   1     0          0      0      0      0      0     
 
 #visual settings
 	VerboseLevel:    5

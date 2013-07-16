@@ -6,36 +6,5 @@
 #For test
 #	World           Simple              subgeo_test
 
-#for Cdc:
-#18 stereo layers
-#	World           Simple              subgeo_CdcGeneral_130622
-#	Cdc             Cdc                 subgeo_cdc_wire_130629_singleLayer
-#Wire structure A(6)S(4)A(4)S(6) (default)
-#	World           Simple              subgeo_CdcGeneral_default
-#	Cdc             Cdc                 subgeo_cdc_wire
-#Layer structure A(6)S(4)A(4)S(6) (small)
-#	World           Simple              subgeo_CdcGeneral_small
-#	Cdc             Formulized          subgeo_cdc_layer_small
-#Layer structure A(6)S(4)A(4)S(6) (default)
-#	World           Simple              subgeo_CdcGeneral_default
-#	Cdc             Formulized          subgeo_cdc_layer_default
-#For test
-#	CDC             Cdc                 subgeo_cdc_test
-
-#for ProductionTarget:
-#	World           Simple              subgeo_ProductionTarget
-
-#for AntiProtonStudy:
-#	World           Simple              subgeo_AntiProtonStudy
-
-#for BEStudy:
-#	World           Simple              subgeo_BEStudy
-
-#for GammaStudy:
-#	World           Formulized          subgeo_GammaStudy
-
-#for MuonStudy:
+#for Stopping target only:
 	World           Simple              subgeo_StTgt
-
-#for Low Energy Neutron Study:
-#	World           Simple              subgeo_LEN
