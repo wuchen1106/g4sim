@@ -30,7 +30,7 @@
 
 #Histogram file name
 	EMHFN:          RMC_Al_bind.root
-	EMHHN:          hRMC
+	EMHHN:          RMC
 
 #Histogram file name
 	DMHFN:          ph2e.root
