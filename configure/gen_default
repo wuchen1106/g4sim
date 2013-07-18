@@ -1,23 +1,24 @@
 #General setting  
 	Type:      simple
-	Particle:  proton #(e+/e-/chargedgeantino/gamma/...)
+	Particle:  e- #(e+/e-/chargedgeantino/gamma/...)
 
 #Default Direction
 #	           Theta    Phi
 #	           deg      deg
-	Direction: 0         0
+	Direction: 10        0
 #Default Momentum Amplitude
 #	         MeV
-	MomAmp:  7944.78729048504562
+	MomAmp:  104.97
+#	MomAmp:  7944.78729048504562
 #	MomAmp:  1.25e4
 #	MomAmp:  1e5
 #Default Position     x   y   z
 #	                  mm  mm  mm
-	Position:         0   0   -90
+	Position:         0   0   -750
 
 	EnergyMode:     none #(root/histo/none)
-	PositionMode:   none #(uniform/root/none)
-	DirectionMode:  none #(none/uniform/histo)
+	PositionMode:   uniform #(uniform/root/none)
+	DirectionMode:  uniform #(none/uniform/histo)
 	TimeMode:       none #(none/root)
 #Default Time
 #	         ns
@@ -36,5 +37,5 @@
 	DMHHN:          theta
 
 #ROOT file name
-	RFN:            BM.root
+	RFN:            RMC_mu.root
 	RTN:            t
