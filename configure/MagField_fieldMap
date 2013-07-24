@@ -1,0 +1,5 @@
+#Setup MagField
+
+	TYPE: fieldMap
+#			Name         Scale 
+	fMap:   uniform.dat  1
