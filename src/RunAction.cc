@@ -48,6 +48,7 @@
 #include "G4VPhysicalVolume.hh"
 
 #include "DetectorConstruction.hh"
+#include "MyGlobalField.hh"
 
 #include "MyAnalysisSvc.hh"
 
@@ -83,7 +84,17 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
 	MyAnalysisSvc::GetMyAnalysisSvc()->BeginOfRunAction();
 
 	//t_begin = (double)clock();
-	//t_begin = (double)clock();
+
+    FieldList* fields = MyGlobalField::getObject()->getFields();
+    if (fields) {
+        if (fields->size()>0) {
+            FieldList::iterator i;
+            for (i=fields->begin(); i!=fields->end(); ++i) {
+                (*i)->construct();
+                //G4cout << "Constructed field " << G4endl;
+            }
+        }
+    }
 
 }
 

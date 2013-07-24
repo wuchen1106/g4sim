@@ -10,6 +10,8 @@
 #include "MyGlobalField.hh"
 #include "MyBLFieldMap.hh"
 
+class MyFieldMap;
+
 class MyFieldMap : public MyElementField {
     public:
         //Constructor
@@ -45,6 +47,10 @@ class MyFieldMap : public MyElementField {
         G4double fMaxLength;
         G4double fMaxWidth;
         G4double fMaxHeight;
+
+        std::vector<G4String>          fFieldMapFilenames;        // input filenames for fieldmaps
+        std::vector<G4double>          fFieldMapScalings;   // multiples the fields in each file by this factor
+        std::vector<MyFieldMap*>       fFieldMaps;                // field map objects. Pointer is barely used as fieldmaps are defined
 
 };
 #endif

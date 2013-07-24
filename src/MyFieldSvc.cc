@@ -38,6 +38,9 @@
 #include <string.h>
 #include <iostream>
 
+#include "MyGlobalField.hh"
+#include "MyFieldMap.hh"
+
 #include "MyFieldSvcMessenger.hh"
 
 MyFieldSvc* MyFieldSvc::fMyFieldSvc = 0;
@@ -53,6 +56,7 @@ MyFieldSvc* MyFieldSvc::fMyFieldSvc = 0;
 	fFieldManager = GetGlobalFieldManager();
 
 	//Magnetic Field
+    (void)MyGlobalField::getObject();
 
 	//Electric Field
 	fEquation = new G4EqMagElectricField(fEleField); 
@@ -73,7 +77,7 @@ MyFieldSvc* MyFieldSvc::GetMyFieldSvc(){
 	return fMyFieldSvc;
 }
 
-void MyFieldSvc::SetField(){
+void MyFieldSvc::SetField(G4LogicalVolume* fLogicWorld){
 	Dump();
 	//Setup the field
 	G4String opt = "";
@@ -115,6 +119,18 @@ void MyFieldSvc::SetField(){
 			opt = "Ele_0";
 		}
 	}
+	else if ( fType == "fieldMap" ){
+		for(G4int ifieldmap = 0; ifieldmap < fFieldMapFilenames.size(); ifieldmap++){
+			fFieldMaps.push_back(new MyFieldMap(fFieldMapFilenames[ifieldmap],
+				  fFieldMapScalings[ifieldmap], // "current" in G4Beamline field parlance
+				  1.0, // gradient
+				  0.0, // time offset
+				  fLogicWorld));
+				G4cout << "Adding MyFieldMap: "<< fFieldMapFilenames[ifieldmap]<<", "<<
+				fFieldMapScalings[ifieldmap]<<G4endl;
+		}
+		opt = "fieldMap';
+	}
 	else{
 		std::cout<<"Field Type "<<fType<<" is not not supported yet!!!"<<std::endl;
 		G4Exception("MyFieldSvc::SetField()","Run0031",
@@ -147,6 +163,9 @@ void MyFieldSvc::UpdateField(G4String opt)
 			fChordFinder = new G4ChordFinder(fIntgrDriver);
 			fFieldManager->SetChordFinder( fChordFinder );
 		}
+	}
+	else if ( opt == "fieldMap" ){
+		// Nothing else should be done. this part is handled by RunAction instead
 	}
 }
 
@@ -269,6 +288,13 @@ void MyFieldSvc::ReadCard( G4String file_name ){
 			UniEF_Phi *= deg;
 			UniEF_StepL *= mm;
 		}
+		else if ( keyword == "fMap:" ){
+			G4String name;
+			G4double scale;
+			buf_card>>name>>scale;
+			fFieldMapFilenames.push_back(name);
+			fFieldMapScalings.push_back(scale);
+		}
 		else{
 			std::cout<<"In MyFieldSvc::ReadCard, unknown name: "<<keyword<<" in file "<<file_name<<std::endl;
 			std::cout<<"Will ignore this line!"<<std::endl;
@@ -312,6 +338,13 @@ void MyFieldSvc::Dump(){
 			<<std::setiosflags(std::ios::left)<<std::setw(6) <<UniEF_StepL/mm
 			<<std::setiosflags(std::ios::left)<<std::setw(6) <<UniEF_StepT
 			<<std::endl;
+	}
+	else if ( fType == "fieldMap" ){
+		for(G4int ifieldmap = 0; ifieldmap < fFieldMapFilenames.size(); ifieldmap++){
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(30) <<fFieldMapFilenames[ifieldmap]
+				<<std::setiosflags(std::ios::left)<<std::setw(6) <<fFieldMapScalings[ifieldmap];
+				<<std::endl;
+		}
 	}
 	std::cout<<"******************************************************************"<<std::endl;
 }

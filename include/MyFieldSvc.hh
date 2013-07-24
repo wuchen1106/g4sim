@@ -18,6 +18,7 @@ class G4UniformElectricField;
 class G4MagIntegratorStepper;
 class G4MagInt_Driver;
 class G4EqMagElectricField;
+class G4LogicalVolume;
 
 class MyFieldSvc
 {
@@ -29,7 +30,7 @@ class MyFieldSvc
 
     void ReadCard(G4String);
 
-    void SetField();
+    void SetField(G4LogicalVolume* fLogicWorld);
 
 		void SetFieldType( G4String val ){ fType = val; }
 
