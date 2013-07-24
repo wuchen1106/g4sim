@@ -229,13 +229,6 @@ void MyGlobalField::GetFieldValue(const G4double* point, G4double* field) const 
             << "         [" << field[3] << ", " << field[4]
             << ", " << field[5]<< "] " << G4endl;
     }
-	G4cout << point[0]/mm << " "
-		   << point[1]/mm << " "
-		   << point[2]/mm << " "
-		   << field[0]/tesla << " "
-		   << field[1]/tesla << " "
-		   << field[2]/tesla << " "
-		   << G4endl;
 }
 
 
