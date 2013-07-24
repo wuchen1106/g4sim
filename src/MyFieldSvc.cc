@@ -129,7 +129,7 @@ void MyFieldSvc::SetField(G4LogicalVolume* fLogicWorld){
 				G4cout << "Adding MyFieldMap: "<< fFieldMapFilenames[ifieldmap]<<", "<<
 				fFieldMapScalings[ifieldmap]<<G4endl;
 		}
-		opt = "fieldMap';
+		opt = "fieldMap";
 	}
 	else{
 		std::cout<<"Field Type "<<fType<<" is not not supported yet!!!"<<std::endl;
@@ -292,6 +292,9 @@ void MyFieldSvc::ReadCard( G4String file_name ){
 			G4String name;
 			G4double scale;
 			buf_card>>name>>scale;
+			G4String dir_name = getenv("CONFIGUREDATAROOT");
+			if (dir_name[dir_name.size()-1] != '/') dir_name.append("/");
+			name = dir_name + name;
 			fFieldMapFilenames.push_back(name);
 			fFieldMapScalings.push_back(scale);
 		}
@@ -342,7 +345,7 @@ void MyFieldSvc::Dump(){
 	else if ( fType == "fieldMap" ){
 		for(G4int ifieldmap = 0; ifieldmap < fFieldMapFilenames.size(); ifieldmap++){
 			std::cout<<std::setiosflags(std::ios::left)<<std::setw(30) <<fFieldMapFilenames[ifieldmap]
-				<<std::setiosflags(std::ios::left)<<std::setw(6) <<fFieldMapScalings[ifieldmap];
+				<<std::setiosflags(std::ios::left)<<std::setw(6) <<fFieldMapScalings[ifieldmap]
 				<<std::endl;
 		}
 	}

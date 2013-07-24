@@ -30,7 +30,7 @@ MyFieldSvcMessenger::MyFieldSvcMessenger(MyFieldSvc* magFieldSvc)
 
   SetFieldCmd = new G4UIcmdWithoutParameter("/g4sim/mag/update",this);
   SetFieldCmd->SetGuidance("SetField.");
-  SetFieldCmd->SetGuidance("This command MUST be applied before \"beamOn\" ");
+  SetFieldCmd->SetGuidance("This command MUST be applied before \"beamOn\" and cannot be used when you chose fieldMap mode!!!");
   SetFieldCmd->SetGuidance("if you changed MagField value(s).");
   SetFieldCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
