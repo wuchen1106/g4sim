@@ -2,4 +2,4 @@
 
 	TYPE: fieldMap
 #			Name         Scale 
-	fMap:   uniform.dat  1
+	fMap:   DetectorArea130720fm.dat  1
