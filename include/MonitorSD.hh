@@ -164,6 +164,7 @@ class MonitorSD : public MySD
 		G4double mint;
 		G4double maxt;
 		G4double minedep;
+		std::vector<int> white_list;
 };
 
 #endif

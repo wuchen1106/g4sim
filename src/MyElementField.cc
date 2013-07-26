@@ -56,7 +56,7 @@ MyElementField::MyElementField(G4ThreeVector c, G4LogicalVolume* lv) {
     userLimits = new G4UserLimits();
 
     lvolume = lv;
-    lvolume->SetVisAttributes(getVisAttribute(color));
+    //lvolume->SetVisAttributes(getVisAttribute(color));
 
     maxStep = 1*mm;
 

@@ -195,6 +195,11 @@ void MonitorSD::ReadOutputCard(G4String filename){
 			else if( name == "Switch" ) Switch = true;
 			else if( name == "neutralCut" ) neutralCut = true;
 			else if( name == "maxn" ) buf_card>>maxn;
+			else if( name == "WL" ){
+				int pid = 0;
+				buf_card>>pid;
+				white_list.push_back(pid);
+			}
 			else{
 				G4double para;
 				G4String unit;
@@ -267,6 +272,7 @@ void MonitorSD::ReSet(){
 	maxt = 0;
 	tres = 0;
 	minedep = -1*MeV;
+	white_list.clear();
 	//for units
 	unitName_x = "cm";
 	unitName_y = "cm";
@@ -328,6 +334,14 @@ void MonitorSD::ShowOutCard(){
 	std::cout<<"maxt =          "<<maxt/ns<<"ns"<<std::endl;
 	std::cout<<"tres =          "<<tres/ns<<"ns"<<std::endl;
 	std::cout<<"minedep =       "<<minedep/MeV<<"MeV"<<std::endl;
+	std::cout<<"white list:     "<<std::endl;
+	for ( int i = 0; i< white_list.size(); i++){
+		std::cout <<"  Only tracks with these following PDGCodes will be recorded:"<<std::endl;
+		std::cout<<"            "<<i<<": "<<white_list[i]<<std::endl;
+	}
+	if ( white_list.size() == 0 ){
+		std::cout <<"  Empty! So all tracks will be recorded!"<<std::endl;
+	}
 	std::cout<<"******************************************************************************"<<std::endl;
 }
 
@@ -365,8 +379,18 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	//switch
 	if (!Switch) return false;
 
+	//neutralCut
+	if ( charge == 0 && neutralCut ) return false;
+
 	//maxn
 	if ( maxn && nHits >= maxn ) return false;
+
+	// white_list
+	bool foundit = false;
+	for (int i = 0; i<white_list.size(); i++){
+		if (pid == white_list[i]) foundit=true;
+	}
+	if (!foundit) return false;
 
 	//minp
 	if ( minp && pointIn_pa < minp ) return false;
@@ -378,9 +402,6 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	}
 	if ( pointIn_time < mint && mint ) return false;
 	if ( pointIn_time > maxt && maxt ) return false;
-
-	//neutralCut
-	if ( charge == 0 && neutralCut ) return false;
 
 	//minedep
 	if( edep <= minedep ) return false;
