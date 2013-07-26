@@ -17,6 +17,7 @@
 #include "G4UnitsTable.hh"
 #include "G4ios.hh"
 #include "G4RunManager.hh"
+#include "G4TrackStatus.hh"
 
 #include "CLHEP/Geometry/Vector3D.h"
 #include "CLHEP/Geometry/Point3D.h"
@@ -77,6 +78,10 @@ void MonitorSD::Initialize(G4HCofThisEvent* HCE)
 	m_tid.clear();
 	m_pid.clear();
 	m_charge.clear();
+	m_stopped.clear();
+	m_stop_time.clear();
+	m_killed.clear();
+	m_kill_time.clear();
 }
 
 //-----------------------------------SetBranch----------------------------------------------
@@ -101,6 +106,10 @@ void MonitorSD::SetBranch(){
 	if( flag_tid ) myRoot->SetBranch(volName+"_tid", &m_tid);
 	if( flag_pid ) myRoot->SetBranch(volName+"_pid", &m_pid);
 	if( flag_charge ) myRoot->SetBranch(volName+"_charge", &m_charge);
+	if( flag_stopped ) myRoot->SetBranch(volName+"_stopped", &m_stopped);
+	if( flag_stop_time ) myRoot->SetBranch(volName+"_stop_time", &m_stop_time);
+	if( flag_killed ) myRoot->SetBranch(volName+"_killed", &m_killed);
+	if( flag_kill_time ) myRoot->SetBranch(volName+"_kill_time", &m_kill_time);
 }
 
 //-----------------------------------ReadOutputCard----------------------------------------------
@@ -164,6 +173,10 @@ void MonitorSD::ReadOutputCard(G4String filename){
 			else if( name == "tid" ) {flag_tid = true;}
 			else if( name == "pid" ) {flag_pid = true;}
 			else if( name == "charge" ) {flag_charge = true;}
+			else if( name == "stopped" ) {flag_stopped = true;}
+			else if( name == "stop_time" ) {{flag_stop_time = true; buf_card>>unitName_stop_time; unit_stop_time = MyString2Anything::get_U(unitName_stop_time);}}
+			else if( name == "killed" ) {flag_killed = true;}
+			else if( name == "kill_time" ) {{flag_kill_time = true; buf_card>>unitName_kill_time; unit_kill_time = MyString2Anything::get_U(unitName_kill_time);}}
 			else{
 				std::cout<<"In MonitorSD::ReadOutputCard, unknown name: "<<name<<" in file "<<filename<<std::endl;
 				std::cout<<"Will ignore this line!"<<std::endl;
@@ -241,6 +254,10 @@ void MonitorSD::ReSet(){
 	flag_tid = false;
 	flag_pid = false;
 	flag_charge = false;
+	flag_stopped = false;
+	flag_stop_time = false;
+	flag_killed = false;
+	flag_kill_time = false;
 	//for fileter
 	Switch = false;
 	neutralCut = false;
@@ -261,6 +278,8 @@ void MonitorSD::ReSet(){
 	unitName_e = "GeV";
 	unitName_edep = "GeV";
 	unitName_stepL = "cm";
+	unitName_stop_time = "ns";
+	unitName_kill_time = "ns";
 	unit_x = MyString2Anything::get_U(unitName_x);
 	unit_y = MyString2Anything::get_U(unitName_y);
 	unit_z = MyString2Anything::get_U(unitName_z);
@@ -271,6 +290,8 @@ void MonitorSD::ReSet(){
 	unit_e = MyString2Anything::get_U(unitName_e);
 	unit_edep = MyString2Anything::get_U(unitName_edep);
 	unit_stepL = MyString2Anything::get_U(unitName_stepL);
+	unit_stop_time = MyString2Anything::get_U(unitName_stop_time);
+	unit_kill_time = MyString2Anything::get_U(unitName_kill_time);
 }
 
 //-----------------------------------ShowOutCard----------------------------------------------
@@ -294,6 +315,10 @@ void MonitorSD::ShowOutCard(){
 	std::cout<<"output tid?     "<<(flag_tid?" yes":" no")<<std::endl;
 	std::cout<<"output pid?     "<<(flag_pid?" yes":" no")<<std::endl;
 	std::cout<<"output charge?  "<<(flag_charge?" yes":" no")<<std::endl;
+	std::cout<<"output stopped? "<<(flag_stopped?" yes":" no")<<std::endl;
+	std::cout<<"output stop_time?"<<(flag_stop_time?" yes":" no")<<", unit: "<<unitName_stop_time<<std::endl;
+	std::cout<<"output killed?  "<<(flag_killed?" yes":" no")<<std::endl;
+	std::cout<<"output kill_time?"<<(flag_kill_time?" yes":" no")<<", unit: "<<unitName_kill_time<<std::endl;
 	//for fileter
 	std::cout<<"Switch on?      "<<(Switch?"yes":"no")<<std::endl;
 	std::cout<<"neutralCut on?  "<<(neutralCut?"yes":"no")<<std::endl;
@@ -361,19 +386,34 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	if( edep <= minedep ) return false;
 
 	//****************************Stopped or not****************************************
-	std::cout<<"tid("<<trackID
-	         <<"), pid("<<pid
-	         <<"), e = "<<total_e/MeV
-	         <<"MeV, edep = "<<edep/MeV
-	         <<"MeV"
-	         <<std::endl;
+	//std::cout<<"tid("<<trackID
+	//         <<"), pid("<<pid
+	//         <<"), e = "<<total_e/MeV
+	//         <<"MeV, edep = "<<edep/MeV
+	//         <<"MeV"
+	//         <<std::endl;
 	G4TrackStatus fTrackStatus = gTrack->GetTrackStatus();
-	if (fTrackStatus == fAlive) std::cout<<"fAlive"<<std::endl;
-	else if (fTrackStatus == fStopButAlive) std::cout<<"fStopButAlive"<<std::endl;
-	else if (fTrackStatus == fStopAndKill) std::cout<<"fStopAndKill"<<std::endl;
+	//if (fTrackStatus == fAlive) std::cout<<"fAlive"<<std::endl;
+	//else if (fTrackStatus == fStopButAlive) std::cout<<"fStopButAlive"<<std::endl;
+	//else if (fTrackStatus == fStopAndKill) std::cout<<"fStopAndKill"<<std::endl;
+	//else if (fTrackStatus == fKillTrackAndSecondaries) std::cout<<"fKillTrackAndSecondaries"<<std::endl;
+	//else if (fTrackStatus == fSuspend) std::cout<<"fSuspend"<<std::endl;
+	//else if (fTrackStatus == fPostponeToNextEvent) std::cout<<"fPostponeToNextEvent"<<std::endl;
+	//else std::cout<<"What?!"<<std::endl;
+
+	bool stopped = false;
+	double stop_time = 0;
+	bool killed = false;
+	double kill_time = 0;
+	if (fTrackStatus == fStopButAlive){
+		stopped = true;
+		stop_time = pointIn_time;
+	}
+	else if (fTrackStatus == fStopAndKill || fTrackStatus == fKillTrackAndSecondaries){
+		killed = true;
+		kill_time = pointIn_time;
+	}
 	else if (fTrackStatus == fKillTrackAndSecondaries) std::cout<<"fKillTrackAndSecondaries"<<std::endl;
-	else if (fTrackStatus == fSuspend) std::cout<<"fSuspend"<<std::endl;
-	else if (fTrackStatus == fPostponeToNextEvent) std::cout<<"fPostponeToNextEvent"<<std::endl;
 
 	//****************************generate new hit or modify old one********************************
 	bool willPush = true;
@@ -428,6 +468,10 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		if(flag_tid) m_tid.push_back(trackID);
 		if(flag_pid) m_pid.push_back(pid);
 		if(flag_charge) m_charge.push_back(charge);
+		if(flag_stopped) m_stopped.push_back(stopped); // always false unless stopped at the first step
+		if(flag_killed) m_killed.push_back(killed); // always false unless killed at the first step
+		if(flag_stop_time) m_stop_time.push_back(pointIn_mom.x()/unit_stop_time); // always 0 unless stopped at the first step
+		if(flag_kill_time) m_kill_time.push_back(pointIn_mom.x()/unit_kill_time); // always 0 unless killed at the first step
 		nHits++;
 	}
 	else {
@@ -435,6 +479,10 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		(*hitsCollection)[index]->SetEdep(edepTemp  + edep);
 		if(flag_edep) m_edep[index] += edep/unit_edep;
 		if(flag_stepL) m_stepL[index] += stepL/unit_stepL;
+		if(flag_stop_time&&stopped) m_stop_time[index] = stop_time/unit_stop_time; // modify only if it got stopped at this step
+		if(flag_kill_time&&killed) m_kill_time[index] = kill_time/unit_kill_time;// modify only if it got killed at this step
+		if(flag_stopped&&stopped) m_stopped[index] = stopped;// modify only if it got stopped at this step
+		if(flag_killed&&killed) m_killed[index] = killed;// modify only if it got killed at this step
 	}
 	return true;
 }

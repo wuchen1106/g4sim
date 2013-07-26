@@ -9,4 +9,4 @@
 #/control/getEnv MYG4SIMROOT
 #/control/execute {MYG4SIMROOT}/configure/verbose_default.mac
 #/control/execute {MYG4SIMROOT}/configure/setCut_default.mac
-/run/beamOn 20000
+/run/beamOn 20
