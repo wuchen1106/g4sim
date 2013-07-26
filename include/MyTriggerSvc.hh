@@ -16,6 +16,7 @@ class CdcLayerSD;
 class CdcSD;
 class CdcSimpleSD;
 class MonitorSD;
+class KillerSD;
 class McTruthSvc;
 
 class MyTriggerSvc
@@ -50,6 +51,7 @@ class MyTriggerSvc
 		CdcSimpleSD* myCdcSimpleSD;
 		MonitorSD* myTriggerSD;
 		McTruthSvc* myMcTruthSvc;
+		KillerSD* myKillerSD;
 
 };
 

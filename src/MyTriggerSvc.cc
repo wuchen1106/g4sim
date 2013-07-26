@@ -16,6 +16,7 @@
 #include "CdcSD.hh"
 #include "CdcSimpleSD.hh"
 #include "MonitorSD.hh"
+#include "KillerSD.hh"
 #include "MyString2Anything.hh"
 #include "McTruthSvc.hh"
 

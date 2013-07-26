@@ -20,6 +20,7 @@
 #include "CdcIonSD.hh"
 #include "MonitorSD.hh"
 #include "CdcLayerSD.hh"
+#include "KillerSD.hh"
 
 //supported Svc
 #include "SimpleGeometrySvc.hh"
@@ -241,6 +242,10 @@ G4VSensitiveDetector* MyDetectorManager::GetSD(G4String VolName, G4String SDName
 		}
 		else if ( newSDName == "CdcSimpleSD" ){
 			aG4SD = new CdcSimpleSD( FullSDName, pPara );
+			fSDman->AddNewDetector( aG4SD );
+		}
+		else if ( newSDName == "KillerSD" ){
+			aG4SD = new KillerSD( FullSDName, pPara );
 			fSDman->AddNewDetector( aG4SD );
 		}
 		else if ( newSDName == "CdcIonSD" ){

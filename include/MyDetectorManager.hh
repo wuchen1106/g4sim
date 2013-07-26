@@ -18,6 +18,7 @@
 #include "CdcIonSD.hh"
 #include "MonitorSD.hh"
 #include "CdcLayerSD.hh"
+#include "KillerSD.hh"
 
 //supported Svc
 #include "SimpleGeometrySvc.hh"
