@@ -365,6 +365,8 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	G4double pointIn_pa = pointIn_mom.mag();
 	G4ThreeVector pointIn_pos = prePoint->GetPosition();
 	G4double pointIn_time = prePoint->GetGlobalTime();//Time since the event in which the track belongs is created
+	G4StepPoint* postPoint  = aStep->GetPostStepPoint() ;
+	G4double pointOut_time = postPoint->GetGlobalTime();//Time since the event in which the track belongs is created
 
 	// get volume info
 	const G4VTouchable *touchable = prePoint->GetTouchable();
@@ -411,7 +413,9 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	//         <<"), pid("<<pid
 	//         <<"), e = "<<total_e/MeV
 	//         <<"MeV, edep = "<<edep/MeV
-	//         <<"MeV"
+	//         <<"MeV, t_in = "<<pointIn_time/ns
+	//         <<"ns, t_out = "<<pointOut_time/ns
+	//         <<"ns"
 	//         <<std::endl;
 	G4TrackStatus fTrackStatus = gTrack->GetTrackStatus();
 	//if (fTrackStatus == fAlive) std::cout<<"fAlive"<<std::endl;
@@ -459,6 +463,9 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		if ( fabs(dt) < tres ){// dt too small, will not push
 			willPush = false;
 		}
+		if ( m_pid[index] == pid && prePoint->GetStepStatus() != fGeomBoundary ){ // If this particle was in this volume in last step, don't generate a new hit
+			willPush = false;
+		}
 		//if ( m_tid[index] == trackID ){
 		//	willPush = false;
 		//}
@@ -491,8 +498,8 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		if(flag_charge) m_charge.push_back(charge);
 		if(flag_stopped) m_stopped.push_back(stopped); // always false unless stopped at the first step
 		if(flag_killed) m_killed.push_back(killed); // always false unless killed at the first step
-		if(flag_stop_time) m_stop_time.push_back(pointIn_mom.x()/unit_stop_time); // always 0 unless stopped at the first step
-		if(flag_kill_time) m_kill_time.push_back(pointIn_mom.x()/unit_kill_time); // always 0 unless killed at the first step
+		if(flag_stop_time) m_stop_time.push_back(stop_time/unit_stop_time); // always 0 unless stopped at the first step
+		if(flag_kill_time) m_kill_time.push_back(kill_time/unit_kill_time); // always 0 unless killed at the first step
 		nHits++;
 	}
 	else {
