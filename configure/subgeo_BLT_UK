@@ -1,0 +1,29 @@
+#general info
+	checkoverlap
+
+#Tubs info
+#	Type No  RMin       RMax       Length     StartAng SpanAng Name            MotVolume       Material      SDName    posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
+#	         mm         mm         mm         deg      deg                                                             mm   mm   mm         mm         deg    deg    deg    deg    deg   
+	T    0   0.         701        1500       0        360     BLTContainer    World           Vacuum        none      0    0 -2040.5 1     0          0      0      0      0      0     
+	T    1   600        700        1500       0        360     BLTYoke         BLTContainer    Steel         none      0    0    0    1     0          0      0      0      0      0     
+	T    3   350        400        1500       0        360     BLTShell        BLTContainer    Steel         none      0    0    0    1     0          0      0      0      0      0     
+	T    5   0          350        1          0        360     BLTMonitor      BLTContainer    Vacuum        MonitorSD 0    0   -350  1     0          0      0      0      0      0     
+	T    5   0          350        1          0        360     BLTKiller1      BLTContainer    Vacuum        KillerSD  0    0   -349  1     0          0      0      0      0      0     
+	T    5   350        400        1          0        360     BLTKiller2      BLTShell        Steel         KillerSD  0    0   -350  1     0          0      0      0      0      0     
+	T    5   400        600        1          0        360     BLTKiller3      BLTContainer    Vacuum        KillerSD  0    0   -350  1     0          0      0      0      0      0     
+	T    5   600        700        1          0        360     BLTKiller4      BLTYoke         Steel         KillerSD  0    0   -350  1     0          0      0      0      0      0     
+	T    5   700        701        1500       0        360     BLTKiller5      BLTContainer    Vacuum        KillerSD  0    0    0    1     0          0      0      0      0      0     
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name                 red    green  blue  
+#	vis_BLTContainer       1      1      1     
+	vis_BLTYoke            0      0      1     
+	vis_BLTShell           0.5    0.5    0.5 
+	vis_BLTMonitor         1      0      0   
+	vis_BLTKiller1         1      0      0   
+	vis_BLTKiller2         1      0      0   
+	vis_BLTKiller3         1      0      0   
+	vis_BLTKiller4         1      0      0   
+	vis_BLTKiller5         1      0      0   
