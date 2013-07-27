@@ -93,6 +93,14 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		G4double get_Tubs_StartAng(G4int TubsId) {if( check_TubsId(TubsId) ) return Tubs_StartAng[TubsId]; else return 0;}
 		G4double get_Tubs_SpanAng(G4int TubsId) {if( check_TubsId(TubsId) ) return Tubs_SpanAng[TubsId]; else return 0;}
 
+		//Torus info
+		G4int get_TorusNo() {return TorusNo;}
+		G4double get_Torus_RMax(G4int TorusId) {if( check_TorusId(TorusId) ) return Torus_RMax[TorusId]; else return 0;}
+		G4double get_Torus_RMin(G4int TorusId) {if( check_TorusId(TorusId) ) return Torus_RMin[TorusId]; else return 0;}
+		G4double get_Torus_Rtor(G4int TorusId) {if( check_TorusId(TorusId) ) return Torus_Rtor[TorusId]; else return 0;}
+		G4double get_Torus_StartAng(G4int TorusId) {if( check_TorusId(TorusId) ) return Torus_StartAng[TorusId]; else return 0;}
+		G4double get_Torus_SpanAng(G4int TorusId) {if( check_TorusId(TorusId) ) return Torus_SpanAng[TorusId]; else return 0;}
+
 		//Sphere info
 		G4int get_SphereNo() {return SphereNo;}
 		G4double get_Sphere_RMax(G4int SphereId) {if( check_SphereId(SphereId) ) return Sphere_RMax[SphereId]; else return 0;}
@@ -164,6 +172,13 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		void set_Tubs_StartAng(G4int i,G4double val) { Tubs_StartAng[i] = val;}
 		void set_Tubs_SpanAng(G4int i,G4double val) { Tubs_SpanAng[i] = val;}
 
+		//Torus info
+		void set_Torus_RMax(G4int i,G4double val) { Torus_RMax[i] = val;}
+		void set_Torus_RMin(G4int i,G4double val) { Torus_RMin[i] = val;}
+		void set_Torus_Rtor(G4int i,G4double val) { Torus_Rtor[i] = val;}
+		void set_Torus_StartAng(G4int i,G4double val) { Torus_StartAng[i] = val;}
+		void set_Torus_SpanAng(G4int i,G4double val) { Torus_SpanAng[i] = val;}
+
 		//Sphere info
 		void set_Sphere_RMax(G4int i,G4double val) { Sphere_RMax[i] = val;}
 		void set_Sphere_RMin(G4int i,G4double val) { Sphere_RMin[i] = val;}
@@ -213,6 +228,7 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 			int k = -1;
 			if ( type == "Box" && check_BoxId(i) ) k = Box_GenIndex[i];
 			else if ( type == "Tubs" && check_TubsId(i) ) k = Tubs_GenIndex[i];
+			else if ( type == "Torus" && check_TorusId(i) ) k = Torus_GenIndex[i];
 			else if ( type == "Sphere" && check_SphereId(i) ) k = Sphere_GenIndex[i];
 			else if ( type == "Hype" && check_HypeId(i) ) k = Hype_GenIndex[i];
 			else if ( type == "TwistedTubs" && check_TwistedTubsId(i) ) k = TwistedTubs_GenIndex[i];
@@ -253,6 +269,20 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		bool check_TubsNo( int No ){
 			if( No != TubsNo ){
 				std::cout<<"In SimpleGeometryParameter::InitFromFile(), insufficient Tubs info! TubsNo = "<<TubsNo<<", while only "<<No<<" Tubs were found."<<std::endl;
+				return false;
+			}
+			else return true;
+		}
+		bool check_TorusId(int TorusId){
+			if ( TorusId < TorusNo ) return true;
+			else{
+				std::cout<<"In SimpleGeometryParameter, TorusId is out of range! TorusId = "<<TorusId<<", TorusNo = "<<TorusNo<<std::endl;
+				return false;
+			}
+		}
+		bool check_TorusNo( int No ){
+			if( No != TorusNo ){
+				std::cout<<"In SimpleGeometryParameter::InitFromFile(), insufficient Torus info! TorusNo = "<<TorusNo<<", while only "<<No<<" Torus were found."<<std::endl;
 				return false;
 			}
 			else return true;
@@ -351,6 +381,15 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		std::vector<G4double> Tubs_StartAng;
 		std::vector<G4double> Tubs_SpanAng;
 		std::vector<G4int>    Tubs_GenIndex;
+
+		//Torus info
+		G4int TorusNo;
+		std::vector<G4double> Torus_RMax;
+		std::vector<G4double> Torus_RMin;
+		std::vector<G4double> Torus_Rtor;
+		std::vector<G4double> Torus_StartAng;
+		std::vector<G4double> Torus_SpanAng;
+		std::vector<G4int>    Torus_GenIndex;
 
 		//Sphere info
 		G4int SphereNo;

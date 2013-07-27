@@ -91,6 +91,7 @@ void SimpleGeometryParameter::Preset(){
 	VolNo = 0;
 	BoxNo = 0;
 	TubsNo = 0;
+	TorusNo = 0;
 	SphereNo = 0;
 	HypeNo = 0;
 	TwistedTubsNo = 0;
@@ -128,6 +129,14 @@ void SimpleGeometryParameter::Preset(){
   Tubs_StartAng.clear();
   Tubs_SpanAng.clear();
   Tubs_GenIndex.clear();
+
+	//Torus info
+  Torus_RMax.clear();
+  Torus_RMin.clear();
+  Torus_Rtor.clear();
+  Torus_StartAng.clear();
+  Torus_SpanAng.clear();
+  Torus_GenIndex.clear();
 
 	//Sphere info
   Sphere_RMax.clear();
@@ -176,7 +185,7 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 	buf_card>>name;
 	std::string s_para;
 	int iVol = VolNo;
-	if( name == "B" || name == "T" || name == "Sph" || name == "H" || name == "TT" || name == "C" ){
+	if( name == "B" || name == "T" || name == "Sph" || name == "H" || name == "TT" || name == "C" || name == "Tor" ){
 		if( name == "B" ){
 			SolidType.push_back("Box");
 			SolidIndex.push_back(Box_X.size());
@@ -216,6 +225,29 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 			Tubs_SpanAng.push_back(tTubs_SpanAng);
 			Tubs_GenIndex.push_back(iVol);
 			TubsNo++;
+		}
+		else if( name == "Tor" ){
+			SolidType.push_back("Torus");
+			SolidIndex.push_back(Torus_RMax.size());
+			std::string dump;
+			G4double tTorus_RMax;
+			G4double tTorus_RMin;
+			G4double tTorus_Rtor;
+			G4double tTorus_StartAng;
+			G4double tTorus_SpanAng;
+			buf_card>>dump>>tTorus_RMin>>tTorus_RMax>>tTorus_Rtor>>tTorus_StartAng>>tTorus_SpanAng;
+			tTorus_RMax *= mm;
+			tTorus_RMin *= mm;
+			tTorus_Rtor *= mm;
+			tTorus_StartAng *= deg;
+			tTorus_SpanAng *= deg;
+			Torus_RMax.push_back(tTorus_RMax);
+			Torus_RMin.push_back(tTorus_RMin);
+			Torus_Rtor.push_back(tTorus_Rtor);
+			Torus_StartAng.push_back(tTorus_StartAng);
+			Torus_SpanAng.push_back(tTorus_SpanAng);
+			Torus_GenIndex.push_back(iVol);
+			TorusNo++;
 		}
 		else if( name == "Sph" ){
 			SolidType.push_back("Sphere");
@@ -532,6 +564,76 @@ void SimpleGeometryParameter::DumpInfo() {
 						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Tubs_Length[i]/mm
 						 <<std::setiosflags(std::ios::left)<<std::setw(9) <<Tubs_StartAng[i]/deg
 						 <<std::setiosflags(std::ios::left)<<std::setw(8) <<Tubs_SpanAng[i]/deg
+						 <<std::setiosflags(std::ios::left)<<std::setw(15)<<Name[index]
+						 <<std::setiosflags(std::ios::left)<<std::setw(15)<<MotherName[index]
+						 <<std::setiosflags(std::ios::left)<<std::setw(15)<<Material[index]
+						 <<std::setiosflags(std::ios::left)<<std::setw(15)<<SDName[index]
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<PosX[index]/mm
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<PosY[index]/mm
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<PosZ[index]/mm
+						 <<std::setiosflags(std::ios::left)<<std::setw(6) <<RepNo[index]
+						 <<std::setiosflags(std::ios::left)<<std::setw(6) <<Space[index]/mm
+						 <<std::setiosflags(std::ios::left)<<std::setw(9) <<DirTheta[index]
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<DirPhi[index]
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Ephi[index]/deg
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Etheta[index]/deg
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Epsi[index]/deg
+						 <<std::endl;
+	}
+
+	for( G4int i = 0; i < TorusNo; i++ ){
+		if ( i == 0 ){
+			std::cout<<"=>Torus info:"<<std::endl;
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<"No."
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"RMin"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"RMax"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Rtor"
+							 <<std::setiosflags(std::ios::left)<<std::setw(9) <<"StartAng"
+							 <<std::setiosflags(std::ios::left)<<std::setw(8) <<"SpanAng"
+							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<"Name"
+							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<"MotherName"
+							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<"Matierial"
+							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<"SDName"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"PosX"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"PosY"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"PosZ"
+							 <<std::setiosflags(std::ios::left)<<std::setw(6) <<"RepNo"
+							 <<std::setiosflags(std::ios::left)<<std::setw(6) <<"Space"
+							 <<std::setiosflags(std::ios::left)<<std::setw(9) <<"DirTheta"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"DirPhi"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Ephi"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Etheta"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Epsi"
+							 <<std::endl;
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<""
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
+							 <<std::setiosflags(std::ios::left)<<std::setw(9) <<"deg"
+							 <<std::setiosflags(std::ios::left)<<std::setw(8) <<"deg"
+							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<""
+							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<""
+							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<""
+							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<""
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
+							 <<std::setiosflags(std::ios::left)<<std::setw(6) <<""
+							 <<std::setiosflags(std::ios::left)<<std::setw(6) <<"mm"
+							 <<std::setiosflags(std::ios::left)<<std::setw(9) <<"deg"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
+							 <<std::endl;
+		}
+		int index = Torus_GenIndex[i];
+		std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<i
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Torus_RMin[i]/mm
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Torus_RMax[i]/mm
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Torus_Rtor[i]/mm
+						 <<std::setiosflags(std::ios::left)<<std::setw(9) <<Torus_StartAng[i]/deg
+						 <<std::setiosflags(std::ios::left)<<std::setw(8) <<Torus_SpanAng[i]/deg
 						 <<std::setiosflags(std::ios::left)<<std::setw(15)<<Name[index]
 						 <<std::setiosflags(std::ios::left)<<std::setw(15)<<MotherName[index]
 						 <<std::setiosflags(std::ios::left)<<std::setw(15)<<Material[index]

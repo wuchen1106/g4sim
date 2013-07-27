@@ -13,6 +13,7 @@ TYPE Simple_Materials
 	Aluminium  13  26.9815386 2.7            1
 	Iron       26  55.845     7.874          1
 	Steel      26  55.845     7.874          1
+	Copper     29  63.546     8.960          1 
 	Tungsten   74  183.84     19.3           1
 	Graphite   6.  12.0107    1.82           1
 

@@ -226,6 +226,47 @@
 	set_Tubs_SpanAng_cmd->SetParameterName("Tubs_SpanAng",false);
 	set_Tubs_SpanAng_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
+	//Torus info
+	CmdName = m_SubDirName + "Torus_RMax";
+	set_Torus_RMax_cmd = new G4UIcmdWithAString(CmdName, this);
+	set_Torus_RMax_cmd->SetGuidance("set Torus_RMax.");
+	set_Torus_RMax_cmd->SetGuidance("int, double, string");
+	set_Torus_RMax_cmd->SetGuidance("index, val, unit");
+	set_Torus_RMax_cmd->SetParameterName("Torus_RMax",false);
+	set_Torus_RMax_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+	CmdName = m_SubDirName + "Torus_RMin";
+	set_Torus_RMin_cmd = new G4UIcmdWithAString(CmdName, this);
+	set_Torus_RMin_cmd->SetGuidance("set Torus_RMin.");
+	set_Torus_RMin_cmd->SetGuidance("int, double, string");
+	set_Torus_RMin_cmd->SetGuidance("index, val, unit");
+	set_Torus_RMin_cmd->SetParameterName("Torus_RMin",false);
+	set_Torus_RMin_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+	CmdName = m_SubDirName + "Torus_Rtor";
+	set_Torus_Rtor_cmd = new G4UIcmdWithAString(CmdName, this);
+	set_Torus_Rtor_cmd->SetGuidance("set Torus_Rtor.");
+	set_Torus_Rtor_cmd->SetGuidance("int, double, string");
+	set_Torus_Rtor_cmd->SetGuidance("index, val, unit");
+	set_Torus_Rtor_cmd->SetParameterName("Torus_Rtor",false);
+	set_Torus_Rtor_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+	CmdName = m_SubDirName + "Torus_StartAng";
+	set_Torus_StartAng_cmd = new G4UIcmdWithAString(CmdName, this);
+	set_Torus_StartAng_cmd->SetGuidance("set Torus_StartAng.");
+	set_Torus_StartAng_cmd->SetGuidance("int, double, string");
+	set_Torus_StartAng_cmd->SetGuidance("index, val, unit");
+	set_Torus_StartAng_cmd->SetParameterName("Torus_StartAng",false);
+	set_Torus_StartAng_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+	CmdName = m_SubDirName + "Torus_SpanAng";
+	set_Torus_SpanAng_cmd = new G4UIcmdWithAString(CmdName, this);
+	set_Torus_SpanAng_cmd->SetGuidance("set Torus_SpanAng.");
+	set_Torus_SpanAng_cmd->SetGuidance("int, double, string");
+	set_Torus_SpanAng_cmd->SetGuidance("index, val, unit");
+	set_Torus_SpanAng_cmd->SetParameterName("Torus_SpanAng",false);
+	set_Torus_SpanAng_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
 	//Sphere info
 	CmdName = m_SubDirName + "Sphere_RMax";
 	set_Sphere_RMax_cmd = new G4UIcmdWithAString(CmdName, this);
@@ -482,6 +523,13 @@ SimpleGeometryParameterMessenger::~SimpleGeometryParameterMessenger()
 	delete set_Tubs_StartAng_cmd;
 	delete set_Tubs_SpanAng_cmd;
 
+	//Torus info
+	delete set_Torus_RMax_cmd;
+	delete set_Torus_RMin_cmd;
+	delete set_Torus_Rtor_cmd;
+	delete set_Torus_StartAng_cmd;
+	delete set_Torus_SpanAng_cmd;
+
 	//Sphere info
 	delete set_Sphere_RMax_cmd;
 	delete set_Sphere_RMin_cmd;
@@ -681,6 +729,42 @@ int SimpleGeometryParameterMessenger::MySetNewValue(G4UIcommand* command,G4Strin
 		G4int i; G4double val;
 		MyString2Anything::get_IDU(newValue,i,val);
 		m_GeometryParameter->set_Tubs_SpanAng(i,val);
+	}
+
+	//Torus info
+	else if( command == set_Torus_RMax_cmd ){
+		G4String type;
+		G4int i; G4double val;
+		MyString2Anything::get_IDU(newValue,i,val);
+		m_GeometryParameter->set_Torus_RMax(i,val);
+	}
+
+	else if( command == set_Torus_RMin_cmd ){
+		G4String type;
+		G4int i; G4double val;
+		MyString2Anything::get_IDU(newValue,i,val);
+		m_GeometryParameter->set_Torus_RMin(i,val);
+	}
+
+	else if( command == set_Torus_Rtor_cmd ){
+		G4String type;
+		G4int i; G4double val;
+		MyString2Anything::get_IDU(newValue,i,val);
+		m_GeometryParameter->set_Torus_Rtor(i,val);
+	}
+
+	else if( command == set_Torus_StartAng_cmd ){
+		G4String type;
+		G4int i; G4double val;
+		MyString2Anything::get_IDU(newValue,i,val);
+		m_GeometryParameter->set_Torus_StartAng(i,val);
+	}
+
+	else if( command == set_Torus_SpanAng_cmd ){
+		G4String type;
+		G4int i; G4double val;
+		MyString2Anything::get_IDU(newValue,i,val);
+		m_GeometryParameter->set_Torus_SpanAng(i,val);
 	}
 
 	//Sphere info

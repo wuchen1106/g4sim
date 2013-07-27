@@ -4,7 +4,6 @@
 #Tubs info
 #	Type No  RMin       RMax       Length     StartAng SpanAng posX posY posZ Name            MotVolume       Material        SDName    RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
 #	         mm         mm         mm         deg      deg     mm   mm   mm                                                                   mm         deg    deg    deg    deg    deg   
-	T    -1  0          1000       5000       0        360     0    0    0    World           none            Vacuum          none      1     0          0      0      0      0      0     
 	T    0   0          900        2581       0        360     0    0    0    CDCRegion       World           Helium          none      1     0          0      0      0      0      0     
 	T    0   890        900        2581       0        360     0    0    0    CDCShellC       CDCRegion       Vacuum          KillerSD  1     0          0      0      0      0      0     
 	T    0   350        890        10         0        360     0    0 -1285.5 CDCShellEU      CDCRegion       Vacuum          KillerSD  1     0          0      0      0      0      0     

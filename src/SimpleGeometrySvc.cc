@@ -19,6 +19,7 @@
 #include "G4VSensitiveDetector.hh"
 #include "G4Box.hh"
 #include "G4Tubs.hh"
+#include "G4Torus.hh"
 #include "G4Hype.hh"
 #include "G4TwistedTubs.hh"
 #include "G4Cons.hh"
@@ -105,6 +106,16 @@ void SimpleGeometrySvc::ConstructVolumes(){
 			SpanAng = m_GeometryParameter->get_Tubs_SpanAng(SolidIndex);
 			G4Tubs* sol_Tubs=new G4Tubs(name,RMin,RMax,halfLength,StartAng,SpanAng);
 			log_Vol = new G4LogicalVolume(sol_Tubs, pttoMaterial, name,0,0,0);
+		}
+		else if ( SolidType == "Torus" ){
+			G4double RMax, RMin, Rtor, StartAng, SpanAng;
+			RMax = m_GeometryParameter->get_Torus_RMax(SolidIndex);
+			RMin = m_GeometryParameter->get_Torus_RMin(SolidIndex);
+			Rtor = m_GeometryParameter->get_Torus_Rtor(SolidIndex);
+			StartAng = m_GeometryParameter->get_Torus_StartAng(SolidIndex);
+			SpanAng = m_GeometryParameter->get_Torus_SpanAng(SolidIndex);
+			G4Torus* sol_Torus=new G4Torus(name,RMin,RMax,Rtor,StartAng,SpanAng);
+			log_Vol = new G4LogicalVolume(sol_Torus, pttoMaterial, name,0,0,0);
 		}
 		else if ( SolidType == "Sphere" ){
 			G4double RMax, RMin, StartPhi, SpanPhi, StartTheta, SpanTheta;

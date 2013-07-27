@@ -73,6 +73,13 @@ class SimpleGeometryParameterMessenger : public MyVGeometryParameterMessenger
 		G4UIcmdWithAString*        set_Tubs_StartAng_cmd;
 		G4UIcmdWithAString*        set_Tubs_SpanAng_cmd;
 
+		//Torus info
+		G4UIcmdWithAString*        set_Torus_RMax_cmd;
+		G4UIcmdWithAString*        set_Torus_RMin_cmd;
+		G4UIcmdWithAString*        set_Torus_Rtor_cmd;
+		G4UIcmdWithAString*        set_Torus_StartAng_cmd;
+		G4UIcmdWithAString*        set_Torus_SpanAng_cmd;
+
 		//Sphere info
 		G4UIcmdWithAString*        set_Sphere_RMax_cmd;
 		G4UIcmdWithAString*        set_Sphere_RMin_cmd;
