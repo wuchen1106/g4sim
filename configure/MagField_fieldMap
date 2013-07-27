@@ -1,6 +1,0 @@
-#Setup MagField
-
-	TYPE: fieldMap
-#			Name         Scale 
-	fMap:   DetectorArea130720fm.dat  1
-	fMap:   BessArea130720fm.dat      1

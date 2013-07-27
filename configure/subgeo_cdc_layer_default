@@ -2,12 +2,12 @@
 #	 checkoverlap
 
 #Tubs info
-#	No   RMin  RMax  Length StartAng SpanAng posX posY posZ Name          MotVolume    Material     SDName RepNo Space DirTheta DirPhi Ephi Etheta Epsi
-#	     mm    mm    mm     deg      deg     mm   mm   mm                                                        mm    deg      deg    deg  deg    deg
-	T 0  539.6 840.4 1520   0.       360     0.   0.   0.   CDCContainer  World        ChamberGas   none   1     0     0        0      0    0      0
-	T 1  840   840.4 1500   0.       360     0.   0.   0.   OutCylinder   CDCContainer CarbonFiber  none   1     0     0        0      0    0      0
-	T 2  539.6 540   1500   0.       360     0.   0.   0.   InnerCylinder CDCContainer CarbonFiber  none   1     0     0        0      0    0      0
-	T 3  539.6 840.4 10     0.       360     0.   0.   0.   EndPlate      CDCContainer Aluminium    none   2     1510  0        0      0    0      0
+#	No   RMin  RMax  Length StartAng SpanAng Name          MotVolume    Material     SDName posX posY posZ RepNo Space DirTheta DirPhi Ephi Etheta Epsi
+#	     mm    mm    mm     deg      deg                                                    mm   mm   mm         mm    deg      deg    deg  deg    deg
+	T 0  539.6 840.4 1520   0.       360     CDCContainer  World        ChamberGas   none   0.   0.   0.   1     0     0        0      0    0      0
+	T 1  840   840.4 1500   0.       360     OutCylinder   CDCContainer CarbonFiber  none   0.   0.   0.   1     0     0        0      0    0      0
+	T 2  539.6 540   1500   0.       360     InnerCylinder CDCContainer CarbonFiber  none   0.   0.   0.   1     0     0        0      0    0      0
+	T 3  539.6 840.4 10     0.       360     EndPlate      CDCContainer Aluminium    none   0.   0.   0.   2     1510  0        0      0    0      0
 
 #fTubs info
 #	No      RMin      RMax      Length StartAng SpanAng posX posY posZ Name     MotVolume    Material     SDName     RepNo Ephi Etheta Epsi

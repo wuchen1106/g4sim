@@ -78,6 +78,7 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		G4double get_Ephi(G4int VolId) {if( check_VolId(VolId) ) return Ephi[VolId]; else return 0;}
 		G4double get_Etheta(G4int VolId) {if( check_VolId(VolId) ) return Etheta[VolId]; else return 0;}
 		G4double get_Epsi(G4int VolId) {if( check_VolId(VolId) ) return Epsi[VolId]; else return 0;}
+		G4bool get_SolidBoolean(G4int VolId) {if( check_VolId(VolId) ) return SolidBoolean[VolId]; else return false;}
 
 		//Box info
 		G4int get_BoxNo() {return BoxNo;}
@@ -145,6 +146,17 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		G4double get_Polycone_StartAng(G4int PolyconeId) {if( check_PolyconeId(PolyconeId) ) return Polycone_StartAng[PolyconeId]; else return 0;}
 		G4double get_Polycone_SpanAng(G4int PolyconeId) {if( check_PolyconeId(PolyconeId) ) return Polycone_SpanAng[PolyconeId]; else return 0;}
 
+		// BooleanSolid
+		G4String get_BooleanSolid_type(G4int BooleanSolidId) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_type[BooleanSolidId]; else return "";}
+		G4String get_BooleanSolid_sol1(G4int BooleanSolidId) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_sol1[BooleanSolidId]; else return "";}
+		G4String get_BooleanSolid_sol2(G4int BooleanSolidId) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_sol2[BooleanSolidId]; else return "";}
+		G4double get_BooleanSolid_Ephi(G4int BooleanSolidId) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_Ephi[BooleanSolidId]; else return 0;}
+		G4double get_BooleanSolid_Etheta(G4int BooleanSolidId) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_Etheta[BooleanSolidId]; else return 0;}
+		G4double get_BooleanSolid_Epsi(G4int BooleanSolidId) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_Epsi[BooleanSolidId]; else return 0;}
+		G4double get_BooleanSolid_PosX(G4int BooleanSolidId) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_PosX[BooleanSolidId]; else return 0;}
+		G4double get_BooleanSolid_PosY(G4int BooleanSolidId) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_PosY[BooleanSolidId]; else return 0;}
+		G4double get_BooleanSolid_PosZ(G4int BooleanSolidId) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_PosZ[BooleanSolidId]; else return 0;}
+
 		//visual settings
 		bool get_vis(G4int VolId){if( check_VolId(VolId) ) return vVis[VolId]; else return 0;}
 		G4double get_r(G4int VolId){if( check_VolId(VolId) ) return vR[VolId]; else return 0;}
@@ -168,6 +180,7 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		void set_Ephi(G4String type, G4int i,G4double val) { int k = get_index(type, i); Ephi[k] = val;}
 		void set_Etheta(G4String type, G4int i,G4double val) { int k = get_index(type, i); Etheta[k] = val;}
 		void set_Epsi(G4String type, G4int i,G4double val) { int k = get_index(type, i); Epsi[k] = val;}
+		void set_SolidBoolean(G4String type, G4int i, G4int val) { int k = get_index(type, i); SolidBoolean[k] = val;}
 
 		//Box info
 		void set_Box_X(G4int i,G4double val) { Box_X[i] = val;}
@@ -227,6 +240,17 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		void set_Polycone_StartAng(G4int PolyconeId, G4double val) {if( check_PolyconeId(PolyconeId) ) Polycone_StartAng[PolyconeId]=val;}
 		void set_Polycone_SpanAng(G4int PolyconeId, G4double val) {if( check_PolyconeId(PolyconeId) ) Polycone_SpanAng[PolyconeId]=val;}
 
+		//BooleanSolid info
+		void set_BooleanSolid_type(G4int BooleanSolidId, G4String val) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_type[BooleanSolidId]=val;}
+		void set_BooleanSolid_sol1(G4int BooleanSolidId, G4String val) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_sol1[BooleanSolidId]=val;}
+		void set_BooleanSolid_sol2(G4int BooleanSolidId, G4String val) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_sol2[BooleanSolidId]=val;}
+		void set_BooleanSolid_Ephi(G4int BooleanSolidId, G4double val) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_Ephi[BooleanSolidId]=val;}
+		void set_BooleanSolid_Etheta(G4int BooleanSolidId, G4double val) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_Etheta[BooleanSolidId]=val;}
+		void set_BooleanSolid_Epsi(G4int BooleanSolidId, G4double val) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_Epsi[BooleanSolidId]=val;}
+		void set_BooleanSolid_PosX(G4int BooleanSolidId, G4double val) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_PosX[BooleanSolidId]=val;}
+		void set_BooleanSolid_PosY(G4int BooleanSolidId, G4double val) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_PosY[BooleanSolidId]=val;}
+		void set_BooleanSolid_PosZ(G4int BooleanSolidId, G4double val) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_PosZ[BooleanSolidId]=val;}
+
 		//visual settings
 		void set_vis(G4String type, G4int i,bool val) { int k = get_index(type, i); vVis[k] = val;}
 		void set_r(G4String type, G4int i,G4double val) { int k = get_index(type, i); vR[k] = val;}
@@ -251,6 +275,7 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 			else if ( type == "TwistedTubs" && check_TwistedTubsId(i) ) k = TwistedTubs_GenIndex[i];
 			else if ( type == "Cons" && check_ConsId(i) ) k = Cons_GenIndex[i];
 			else if ( type == "Polycone" && check_PolyconeId(i) ) k = Polycone_GenIndex[i];
+			else if ( type == "BooleanSolid" && check_BooleanSolidId(i) ) k = BooleanSolid_GenIndex[i];
 			else DEBUG("Wrong index number or unknown volume type!");
 			return k;
 		}
@@ -375,6 +400,24 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 			}
 			else return true;
 		}
+		bool check_BooleanSolidId(int BooleanSolidId){
+			if ( BooleanSolidId < BooleanSolidNo ) return true;
+			else{
+				std::cout<<"In SimpleGeometryParameter, BooleanSolidId is out of range! BooleanSolidId = "<<BooleanSolidId<<", BooleanSolidNo = "<<BooleanSolidNo<<std::endl;
+				return false;
+			}
+		}
+		bool check_BooleanSolidNo( int No ){
+			if( No != BooleanSolidNo ){
+				std::cout<<"In SimpleGeometryParameter::InitFromFile(), insufficient BooleanSolid info! BooleanSolidNo = "<<BooleanSolidNo<<", while only "<<No<<" BooleanSolid were found."<<std::endl;
+				return false;
+			}
+			else return true;
+		}
+
+		void dump_general_header();
+		void dump_general_note();
+		void dump_general_value(G4int index);
 
 	private:
 
@@ -397,6 +440,7 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		std::vector<G4double> Ephi;
 		std::vector<G4double> Etheta;
 		std::vector<G4double> Epsi;
+		std::vector<G4bool> SolidBoolean;
 
 		//Box info
 		G4int BoxNo;
@@ -473,6 +517,19 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		std::vector<G4int>    Polycone_GenIndex;
 		G4int waited_Polycone_iVol;
 		G4int achieved_componets_Polycone;
+
+		// BooleanSolidId
+		G4int BooleanSolidNo;
+		std::vector<G4String> BooleanSolid_type;
+		std::vector<G4String> BooleanSolid_sol1;
+		std::vector<G4String> BooleanSolid_sol2;
+		std::vector<G4double> BooleanSolid_Ephi;
+		std::vector<G4double> BooleanSolid_Etheta;
+		std::vector<G4double> BooleanSolid_Epsi;
+		std::vector<G4double> BooleanSolid_PosX;
+		std::vector<G4double> BooleanSolid_PosY;
+		std::vector<G4double> BooleanSolid_PosZ;
+		std::vector<G4int>    BooleanSolid_GenIndex;
 
 		//visual settings
 		std::vector<bool> vVis;

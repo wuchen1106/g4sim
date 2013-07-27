@@ -25,15 +25,14 @@
 	LF                         525
 
 #Tubs info
-#	No   RMin  RMax  Length StartAng SpanAng posX posY posZ  Name          MotVolume  Material     SDName RepNo Space DirTheta DirPhi Ephi Etheta Epsi
-#	     mm    mm    mm     deg      deg     mm   mm   mm                                                       mm    deg      deg    deg  deg    deg
-	T 0  0     2000  3000   0.       360     0.   0.   0.    World         None       ChamberGas   none   1     0     0        0      0    0      0
-	T 0  380   380.4 1500   0.       360     0.   0.   0     InWall        World      Aluminium    none   1     0     0        0      0    0      0
-#	T 0  0     1100  2      0.       360     0.   0.   -751. Entrance      World      ChamberGas   none   1     0     0        0      0    0      0
-#	T 0  0     381.4 1500   0.       360     0.   0.   0.    For_Test      World      Vacuum       none   1     0     0        0      0    0      0
-#	T 0  0     382.4 201    0.       360     0.   0.   475.  For_Test      World      Vacuum       none   1     0     0        0      0    0      0
-#	T 0  0     394.957 10.3 0.       360     0.   0. 750.    For_Test      World      Vacuum       none   1     0     0        0      0    0      0
-#	T 0  0     384.033 2    0.       360     0.   0. 260.296 For_Test      World      Vacuum       none   1     0     0        0      0    0      0
+#	No   RMin  RMax  Length StartAng SpanAng Name          MotVolume  Material     SDName posX posY posZ  RepNo Space DirTheta DirPhi Ephi Etheta Epsi
+#	     mm    mm    mm     deg      deg                                                  mm   mm   mm          mm    deg      deg    deg  deg    deg
+	T 0  380   380.4 1500   0.       360     InWall        World      Aluminium    none   0.   0.   0     1     0     0        0      0    0      0
+#	T 0  0     1100  2      0.       360     Entrance      World      ChamberGas   none   0.   0.   -751. 1     0     0        0      0    0      0
+#	T 0  0     381.4 1500   0.       360     For_Test      World      Vacuum       none   0.   0.   0.    1     0     0        0      0    0      0
+#	T 0  0     382.4 201    0.       360     For_Test      World      Vacuum       none   0.   0.   475.  1     0     0        0      0    0      0
+#	T 0  0     394.957 10.3 0.       360     For_Test      World      Vacuum       none   0.   0. 750.    1     0     0        0      0    0      0
+#	T 0  0     384.033 2    0.       360     For_Test      World      Vacuum       none   0.   0. 260.296 1     0     0        0      0    0      0
 
 #visual settings
 	VerboseLevel:    5

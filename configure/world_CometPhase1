@@ -2,9 +2,9 @@
 	checkoverlap
 
 #Box info
-#	No   x       y       z      posX   posY   posZ   Name     MotVolume Material   SDName RepNo Space DirTheta DirPhi Ephi Etheta Epsi
-#	     mm      mm      mm     mm     mm     mm                                                mm    deg      deg    deg  deg    deg
-	B 0  2e4     2e4     2e4    0.     0.     0.     World    None      Vacuum     none   1     0     0        0      0    0      0
+#	No   x       y       z      Name     MotVolume Material   SDName posX   posY   posZ   RepNo Space DirTheta DirPhi Ephi Etheta Epsi
+#	     mm      mm      mm                                          mm     mm     mm           mm    deg      deg    deg  deg    deg
+	B 0  2e4     2e4     2e4    World    None      Vacuum     none   0.     0.     0.     1     0     0        0      0    0      0
 
 #visual settings
 	VerboseLevel:    5

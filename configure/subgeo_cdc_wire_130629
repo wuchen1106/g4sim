@@ -56,12 +56,12 @@
 	LF                                              798.00000                                 
 
 #Tubs info
-#	Type No  RMin       RMax       Length     StartAng SpanAng posX posY posZ Name            MotVolume       Material        SDName RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
-#	         mm         mm         mm         deg      deg     mm   mm   mm                                                                mm         deg    deg    deg    deg    deg   
-	T    0   501.6      816        1540       0        360     0    0    0    CDCContainer    World           ChamberGas9010  none   1     0          0      0      0      0      0     
-	T    1   501.6      502        1540.00000 0        360     0    0    0    InnerCylinder   CDCContainer    CarbonFiber     none   1     0          0      0      0      0      0     
-	T    2   806        816        1540.0     0        360     0    0    0    OuterCylinder   CDCContainer    Aluminium       none   1     0          0      0      0      0      0     
-	T    3   502        806        20         0        360     0    0    0    EndPlate        CDCContainer    Aluminium       none   2     1520.0     0      0      0      0      0     
+#	Type No  RMin       RMax       Length     StartAng Name            MotVolume       Material        SDName SpanAng posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
+#	         mm         mm         mm         deg                                                             deg     mm   mm   mm         mm         deg    deg    deg    deg    deg   
+	T    0   501.6      816        1540       0        CDCContainer    World           ChamberGas9010  none   360     0    0    0    1     0          0      0      0      0      0     
+	T    1   501.6      502        1540.00000 0        InnerCylinder   CDCContainer    CarbonFiber     none   360     0    0    0    1     0          0      0      0      0      0     
+	T    2   806        816        1540.0     0        OuterCylinder   CDCContainer    Aluminium       none   360     0    0    0    1     0          0      0      0      0      0     
+	T    3   502        806        20         0        EndPlate        CDCContainer    Aluminium       none   360     0    0    0    2     1520.0     0      0      0      0      0     
 
 #visual settings
 	VerboseLevel:    5

@@ -3,7 +3,6 @@
 
 #ServiceName        ServiceType         FileName
 	World           Simple              world_CometPhase1
-	CdcRegion       Simple              subgeo_CdcRegion_130629
-	BLT             Simple              subgeo_BLT
-	T1              Simple              subgeo_MT1   
-	PTACS           Simple              subgeo_PTACS
+	BLT             Simple              subgeo_BLT_UK
+	MT1             Simple              subgeo_MT1_UK   
+	PTACS           Simple              subgeo_PTACS_UK
