@@ -281,7 +281,7 @@ void McTruthSvc::SetValuePre(const G4Track* aTrack){
 	for (int i = 0; i<white_list.size(); i++){
 		if (pid == white_list[i]) foundit=true;
 	}
-	if (!foundit) return;
+	if (!foundit&&white_list.size()) return;
 
 	G4String processName;
 	const G4VProcess* process = aTrack->GetCreatorProcess();

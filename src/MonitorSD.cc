@@ -392,7 +392,7 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	for (int i = 0; i<white_list.size(); i++){
 		if (pid == white_list[i]) foundit=true;
 	}
-	if (!foundit) return false;
+	if (!foundit&&white_list.size()) return false;
 
 	//minp
 	if ( minp && pointIn_pa < minp ) return false;
