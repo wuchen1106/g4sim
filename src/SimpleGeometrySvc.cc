@@ -23,6 +23,7 @@
 #include "G4Hype.hh"
 #include "G4TwistedTubs.hh"
 #include "G4Cons.hh"
+#include "G4Polycone.hh"
 #include "G4Sphere.hh"
 #include "G4PVPlacement.hh"
 #include "G4RotationMatrix.hh"
@@ -159,6 +160,23 @@ void SimpleGeometrySvc::ConstructVolumes(){
 			SpanAng = m_GeometryParameter->get_Cons_SpanAng(SolidIndex);
 			G4Cons* sol_Cons=new G4Cons(name,RMin1,RMax1,RMin2,RMax2,halfLength,StartAng,SpanAng);
 			log_Vol = new G4LogicalVolume(sol_Cons, pttoMaterial, name,0,0,0);
+		}
+		else if ( SolidType == "Polycone" ){
+			G4double StartAng, SpanAng;
+			G4int numZ;
+			numZ = m_GeometryParameter->get_Polycone_numZ(SolidIndex);
+			G4double *RMax = new G4double[numZ];
+			G4double *RMin = new G4double[numZ];
+			G4double *Z = new G4double[numZ];
+			for ( int i = 0; i < numZ; i++ ){
+				RMax[i] = m_GeometryParameter->get_Polycone_RMax(SolidIndex,i);
+				RMin[i] = m_GeometryParameter->get_Polycone_RMin(SolidIndex,i);
+				Z[i] = m_GeometryParameter->get_Polycone_Z(SolidIndex,i);
+			}
+			StartAng = m_GeometryParameter->get_Polycone_StartAng(SolidIndex);
+			SpanAng = m_GeometryParameter->get_Polycone_SpanAng(SolidIndex);
+			G4Polycone* sol_Polycone=new G4Polycone(name,StartAng,SpanAng,numZ,Z,RMin,RMax);
+			log_Vol = new G4LogicalVolume(sol_Polycone, pttoMaterial, name,0,0,0);
 		}
 		else {
 			std::cout<<"SolidType "<<SolidType<<" is not supported yet!"<<std::endl;

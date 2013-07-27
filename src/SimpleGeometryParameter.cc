@@ -96,6 +96,7 @@ void SimpleGeometryParameter::Preset(){
 	HypeNo = 0;
 	TwistedTubsNo = 0;
 	ConsNo = 0;
+	PolyconeNo = 0;
 
 	//General info about volume
   PosX.clear();
@@ -172,6 +173,15 @@ void SimpleGeometryParameter::Preset(){
   Cons_StartAng.clear();
   Cons_SpanAng.clear();
   Cons_GenIndex.clear();
+
+	//Polycone info
+  Polycone_RMax.clear();
+  Polycone_RMin.clear();
+  Polycone_Z.clear();
+  Polycone_numZ.clear();
+  Polycone_StartAng.clear();
+  Polycone_SpanAng.clear();
+  Polycone_GenIndex.clear();
 }
 
 int SimpleGeometryParameter::GetValue(G4String s_card){
@@ -185,7 +195,33 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 	buf_card>>name;
 	std::string s_para;
 	int iVol = VolNo;
-	if( name == "B" || name == "T" || name == "Sph" || name == "H" || name == "TT" || name == "C" || name == "Tor" ){
+	if (waited_Polycone_iVol>=0){
+		if (achieved_componets_Polycone<Polycone_numZ[waited_Polycone_iVol]){
+			if (name=="PCI"){
+				std::string dump;
+				G4double tPolycone_RMax;
+				G4double tPolycone_RMin;
+				G4double tPolycone_Z;
+				buf_card>>dump>>tPolycone_Z>>tPolycone_RMin>>tPolycone_RMax;
+				tPolycone_RMax *= mm;
+				tPolycone_RMin *= mm;
+				tPolycone_Z *= mm;
+				Polycone_RMax[waited_Polycone_iVol].push_back(tPolycone_RMax);
+				Polycone_RMin[waited_Polycone_iVol].push_back(tPolycone_RMin);
+				Polycone_Z[waited_Polycone_iVol].push_back(tPolycone_Z);
+				achieved_componets_Polycone++;
+			}
+			else {
+				std::cout<<"Not enough Polycone components! Needed: "<<Polycone_numZ[waited_Polycone_iVol]<<", got: "<<achieved_componets_Polycone+1<<std::endl;
+				Polycone_numZ[waited_Polycone_iVol]=achieved_componets_Polycone;
+			}
+			if (Polycone_numZ[waited_Polycone_iVol]==achieved_componets_Polycone){
+				waited_Polycone_iVol=-1;
+				achieved_componets_Polycone=0;
+			}
+		}
+	}
+	else if( name == "B" || name == "T" || name == "Sph" || name == "H" || name == "TT" || name == "C" || name == "Tor" || name == "PC" ){
 		if( name == "B" ){
 			SolidType.push_back("Box");
 			SolidIndex.push_back(Box_X.size());
@@ -349,6 +385,30 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 			Cons_SpanAng.push_back(tCons_SpanAng);
 			Cons_GenIndex.push_back(iVol);
 			ConsNo++;
+		}
+		else if( name == "PC" ){
+			SolidType.push_back("Polycone");
+			SolidIndex.push_back(Polycone_Z.size());
+			std::string dump;
+			G4double tPolycone_numZ;
+			G4double tPolycone_StartAng;
+			G4double tPolycone_SpanAng;
+			buf_card>>dump>>tPolycone_numZ>>tPolycone_StartAng>>tPolycone_SpanAng
+			tPolycone_StartAng *= deg;
+			tPolycone_SpanAng *= deg;
+			Polycone_numZ.push_back(tPolycone_numZ);
+			Polycone_StartAng.push_back(tPolycone_StartAng);
+			Polycone_SpanAng.push_back(tPolycone_SpanAng);
+			Polycone_GenIndex.push_back(iVol);
+			for (int i = 0; i < tPolycone_numZ; i++){
+				std::vector<double> empty_vec;
+				Polycone_RMax.push_back(empty_vec);
+				Polycone_RMin.push_back(empty_vec);
+				Polycone_Z.push_back(empty_vec);
+			}
+			PolyconeNo++;
+			waited_Polycone_iVol = iVol;
+			achieved_componets_Polycone = 0;
 		}
 		G4double tPosX;
 		G4double tPosY;
@@ -938,6 +998,87 @@ void SimpleGeometryParameter::DumpInfo() {
 						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Etheta[index]/deg
 						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Epsi[index]/deg
 						 <<std::endl;
+	}
+
+	for( G4int i = 0; i < PolyconeNo; i++ ){
+		if ( i == 0 ){
+			std::cout<<"=>Polycone info:"<<std::endl;
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<"No."
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"numZ"
+							 <<std::setiosflags(std::ios::left)<<std::setw(9) <<"StartAng"
+							 <<std::setiosflags(std::ios::left)<<std::setw(8) <<"SpanAng"
+							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<"Name"
+							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<"MotherName"
+							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<"Matierial"
+							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<"SDName"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"PosX"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"PosY"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"PosZ"
+							 <<std::setiosflags(std::ios::left)<<std::setw(6) <<"RepNo"
+							 <<std::setiosflags(std::ios::left)<<std::setw(6) <<"Space"
+							 <<std::setiosflags(std::ios::left)<<std::setw(9) <<"DirTheta"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"DirPhi"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Ephi"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Etheta"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Epsi"
+							 <<std::endl;
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<""
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<""
+							 <<std::setiosflags(std::ios::left)<<std::setw(9) <<"deg"
+							 <<std::setiosflags(std::ios::left)<<std::setw(8) <<"deg"
+							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<""
+							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<""
+							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<""
+							 <<std::setiosflags(std::ios::left)<<std::setw(15)<<""
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
+							 <<std::setiosflags(std::ios::left)<<std::setw(6) <<""
+							 <<std::setiosflags(std::ios::left)<<std::setw(6) <<"mm"
+							 <<std::setiosflags(std::ios::left)<<std::setw(9) <<"deg"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
+							 <<std::endl;
+		}
+		int index = Polycone_GenIndex[i];
+		std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<i
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Polycone_numZ[i]
+						 <<std::setiosflags(std::ios::left)<<std::setw(9) <<Polycone_StartAng[i]/deg
+						 <<std::setiosflags(std::ios::left)<<std::setw(8) <<Polycone_SpanAng[i]/deg
+						 <<std::setiosflags(std::ios::left)<<std::setw(15)<<Name[index]
+						 <<std::setiosflags(std::ios::left)<<std::setw(15)<<MotherName[index]
+						 <<std::setiosflags(std::ios::left)<<std::setw(15)<<Material[index]
+						 <<std::setiosflags(std::ios::left)<<std::setw(15)<<SDName[index]
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<PosX[index]/mm
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<PosY[index]/mm
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<PosZ[index]/mm
+						 <<std::setiosflags(std::ios::left)<<std::setw(6) <<RepNo[index]
+						 <<std::setiosflags(std::ios::left)<<std::setw(6) <<Space[index]/mm
+						 <<std::setiosflags(std::ios::left)<<std::setw(9) <<DirTheta[index]
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<DirPhi[index]
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Ephi[index]/deg
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Etheta[index]/deg
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Epsi[index]/deg
+						 <<std::endl;
+		std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<"No."
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Z"
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"RMin"
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"RMax"
+						 <<std::endl;
+		std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<""
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
+						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
+						 <<std::endl;
+		for (int j = 0; j< Polycone_numZ[i]; j++){
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<i
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Polycone_Z[i][j]/mm
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Polycone_RMin[i][j]/mm
+							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Polycone_RMax[i][j]/mm
+							 <<std::endl;
+		}
 	}
 
 }

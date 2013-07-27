@@ -136,6 +136,15 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		G4double get_Cons_StartAng(G4int ConsId) {if( check_ConsId(ConsId) ) return Cons_StartAng[ConsId]; else return 0;}
 		G4double get_Cons_SpanAng(G4int ConsId) {if( check_ConsId(ConsId) ) return Cons_SpanAng[ConsId]; else return 0;}
 
+		//Polycone info
+		G4int get_PolyconeNo() {return PolyconeNo;}
+		G4int    get_Polycone_numZ(G4int PolyconeId) {if( check_PolyconeId(PolyconeId) ) return Polycone_numZ[PolyconeId]; else return 0;}
+		G4double get_Polycone_RMax(G4int PolyconeId,G4int i) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId] ) return Polycone_RMax[PolyconeId][i]; else return 0;}
+		G4double get_Polycone_RMin(G4int PolyconeId,G4int i) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId] ) return Polycone_RMin[PolyconeId][i]; else return 0;}
+		G4double get_Polycone_Z(G4int PolyconeId,G4int i) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId]) return Polycone_Z[PolyconeId][i]; else return 0;}
+		G4double get_Polycone_StartAng(G4int PolyconeId) {if( check_PolyconeId(PolyconeId) ) return Polycone_StartAng[PolyconeId]; else return 0;}
+		G4double get_Polycone_SpanAng(G4int PolyconeId) {if( check_PolyconeId(PolyconeId) ) return Polycone_SpanAng[PolyconeId]; else return 0;}
+
 		//visual settings
 		bool get_vis(G4int VolId){if( check_VolId(VolId) ) return vVis[VolId]; else return 0;}
 		G4double get_r(G4int VolId){if( check_VolId(VolId) ) return vR[VolId]; else return 0;}
@@ -210,6 +219,14 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		void set_Cons_StartAng(G4int i,G4double val) { Cons_StartAng[i] = val;}
 		void set_Cons_SpanAng(G4int i,G4double val) { Cons_SpanAng[i] = val;}
 
+		//Polycone info
+		void set_Polycone_numZ(G4int PolyconeId, G4int val) {if( check_PolyconeId(PolyconeId) ) Polycone_numZ[PolyconeId] = val;}
+		void set_Polycone_RMax(G4int PolyconeId,G4int i, G4double val) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId] ) Polycone_RMax[PolyconeId][i]=val;}
+		void set_Polycone_RMin(G4int PolyconeId,G4int i, G4double val) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId] ) Polycone_RMin[PolyconeId][i]=val;}
+		void set_Polycone_Z(G4int PolyconeId,G4int i, G4double val) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId]) Polycone_Z[PolyconeId][i]=val;}
+		void set_Polycone_StartAng(G4int PolyconeId, G4double val) {if( check_PolyconeId(PolyconeId) ) Polycone_StartAng[PolyconeId]=val;}
+		void set_Polycone_SpanAng(G4int PolyconeId, G4double val) {if( check_PolyconeId(PolyconeId) ) Polycone_SpanAng[PolyconeId]=val;}
+
 		//visual settings
 		void set_vis(G4String type, G4int i,bool val) { int k = get_index(type, i); vVis[k] = val;}
 		void set_r(G4String type, G4int i,G4double val) { int k = get_index(type, i); vR[k] = val;}
@@ -233,6 +250,7 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 			else if ( type == "Hype" && check_HypeId(i) ) k = Hype_GenIndex[i];
 			else if ( type == "TwistedTubs" && check_TwistedTubsId(i) ) k = TwistedTubs_GenIndex[i];
 			else if ( type == "Cons" && check_ConsId(i) ) k = Cons_GenIndex[i];
+			else if ( type == "Polycone" && check_PolyconeId(i) ) k = Polycone_GenIndex[i];
 			else DEBUG("Wrong index number or unknown volume type!");
 			return k;
 		}
@@ -343,6 +361,20 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 			}
 			else return true;
 		}
+		bool check_PolyconeId(int PolyconeId){
+			if ( PolyconeId < PolyconeNo ) return true;
+			else{
+				std::cout<<"In SimpleGeometryParameter, PolyconeId is out of range! PolyconeId = "<<PolyconeId<<", PolyconeNo = "<<PolyconeNo<<std::endl;
+				return false;
+			}
+		}
+		bool check_PolyconeNo( int No ){
+			if( No != PolyconeNo ){
+				std::cout<<"In SimpleGeometryParameter::InitFromFile(), insufficient Polycone info! PolyconeNo = "<<PolyconeNo<<", while only "<<No<<" Polycone were found."<<std::endl;
+				return false;
+			}
+			else return true;
+		}
 
 	private:
 
@@ -429,6 +461,16 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		std::vector<G4double> Cons_StartAng;
 		std::vector<G4double> Cons_SpanAng;
 		std::vector<G4int>    Cons_GenIndex;
+
+		//Polycone info
+		G4int PolyconeNo;
+		std::vector<G4int> Polycone_numZ;
+		std::vector<std::vector<G4double> > Polycone_RMax;
+		std::vector<std::vector<G4double> > Polycone_RMin;
+		std::vector<std::vector<G4double> > Polycone_Z;
+		std::vector<G4double> Polycone_StartAng;
+		std::vector<G4double> Polycone_SpanAng;
+		std::vector<G4int>    Polycone_GenIndex;
 
 		//visual settings
 		std::vector<bool> vVis;

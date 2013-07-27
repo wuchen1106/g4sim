@@ -455,6 +455,55 @@
 	set_Cons_SpanAng_cmd->SetParameterName("Cons_SpanAng",false);
 	set_Cons_SpanAng_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
+	//Polycone info
+	CmdName = m_SubDirName + "Polycone_numZ";
+	set_Polycone_numZ_cmd = new G4UIcmdWithAString(CmdName, this);
+	set_Polycone_numZ_cmd->SetGuidance("set Polycone_numZ.");
+	set_Polycone_numZ_cmd->SetGuidance("int, int");
+	set_Polycone_numZ_cmd->SetGuidance("index, val");
+	set_Polycone_numZ_cmd->SetParameterName("Polycone_numZ",false);
+	set_Polycone_numZ_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+	CmdName = m_SubDirName + "Polycone_RMax";
+	set_Polycone_RMax_cmd = new G4UIcmdWithAString(CmdName, this);
+	set_Polycone_RMax_cmd->SetGuidance("set Polycone_RMax.");
+	set_Polycone_RMax_cmd->SetGuidance("int, int, double, string");
+	set_Polycone_RMax_cmd->SetGuidance("index, index, val, unit");
+	set_Polycone_RMax_cmd->SetParameterName("Polycone_RMax",false);
+	set_Polycone_RMax_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+	CmdName = m_SubDirName + "Polycone_RMin";
+	set_Polycone_RMin_cmd = new G4UIcmdWithAString(CmdName, this);
+	set_Polycone_RMin_cmd->SetGuidance("set Polycone_RMin.");
+	set_Polycone_RMin_cmd->SetGuidance("int, int, double, string");
+	set_Polycone_RMin_cmd->SetGuidance("index, index, val, unit");
+	set_Polycone_RMin_cmd->SetParameterName("Polycone_RMin",false);
+	set_Polycone_RMin_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+	CmdName = m_SubDirName + "Polycone_Z";
+	set_Polycone_Z_cmd = new G4UIcmdWithAString(CmdName, this);
+	set_Polycone_Z_cmd->SetGuidance("set Polycone_Z.");
+	set_Polycone_Z_cmd->SetGuidance("int, int, double, string");
+	set_Polycone_Z_cmd->SetGuidance("index, index, val, unit");
+	set_Polycone_Z_cmd->SetParameterName("Polycone_Z",false);
+	set_Polycone_Z_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+	CmdName = m_SubDirName + "Polycone_StartAng";
+	set_Polycone_StartAng_cmd = new G4UIcmdWithAString(CmdName, this);
+	set_Polycone_StartAng_cmd->SetGuidance("set Polycone_StartAng.");
+	set_Polycone_StartAng_cmd->SetGuidance("int, double, string");
+	set_Polycone_StartAng_cmd->SetGuidance("index, val, unit");
+	set_Polycone_StartAng_cmd->SetParameterName("Polycone_StartAng",false);
+	set_Polycone_StartAng_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+	CmdName = m_SubDirName + "Polycone_SpanAng";
+	set_Polycone_SpanAng_cmd = new G4UIcmdWithAString(CmdName, this);
+	set_Polycone_SpanAng_cmd->SetGuidance("set Polycone_SpanAng.");
+	set_Polycone_SpanAng_cmd->SetGuidance("int, double, string");
+	set_Polycone_SpanAng_cmd->SetGuidance("index, val, unit");
+	set_Polycone_SpanAng_cmd->SetParameterName("Polycone_SpanAng",false);
+	set_Polycone_SpanAng_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
 	// visual settings
 
 	CmdName = m_SubDirName + "vis";
@@ -560,6 +609,14 @@ SimpleGeometryParameterMessenger::~SimpleGeometryParameterMessenger()
 	delete set_Cons_Length_cmd;
 	delete set_Cons_StartAng_cmd;
 	delete set_Cons_SpanAng_cmd;
+
+	//Polycone info
+	delete set_Polycone_RMax_cmd;
+	delete set_Polycone_RMin_cmd;
+	delete set_Polycone_numZ_cmd;
+	delete set_Polycone_Z_cmd;
+	delete set_Polycone_StartAng_cmd;
+	delete set_Polycone_SpanAng_cmd;
 
 	//other settings
 	delete set_vis_cmd;
@@ -930,6 +987,49 @@ int SimpleGeometryParameterMessenger::MySetNewValue(G4UIcommand* command,G4Strin
 		G4int i; G4double val;
 		MyString2Anything::get_IDU(newValue,i,val);
 		m_GeometryParameter->set_Cons_SpanAng(i,val);
+	}
+
+	//Polycone info
+	else if( command == set_Polycone_numZ_cmd ){
+		G4String type;
+		G4int i; G4int val;
+		MyString2Anything::get_IDU(newValue,i,val);
+		m_GeometryParameter->set_Polycone_numZ(i,val);
+	}
+
+	else if( command == set_Polycone_RMax_cmd ){
+		G4String type;
+		G4int i; G4int j; G4double val;
+		MyString2Anything::get_IIDU(newValue,i,j,val);
+		m_GeometryParameter->set_Polycone_RMax(i,j,val);
+	}
+
+	else if( command == set_Polycone_RMin_cmd ){
+		G4String type;
+		G4int i; G4int j; G4double val;
+		MyString2Anything::get_IIDU(newValue,i,j,val);
+		m_GeometryParameter->set_Polycone_RMin(i,j,val);
+	}
+
+	else if( command == set_Polycone_Z_cmd ){
+		G4String type;
+		G4int i; G4int j; G4double val;
+		MyString2Anything::get_IIDU(newValue,i,j,val);
+		m_GeometryParameter->set_Polycone_Z(i,j,val);
+	}
+
+	else if( command == set_Polycone_StartAng_cmd ){
+		G4String type;
+		G4int i; G4double val;
+		MyString2Anything::get_IDU(newValue,i,val);
+		m_GeometryParameter->set_Polycone_StartAng(i,val);
+	}
+
+	else if( command == set_Polycone_SpanAng_cmd ){
+		G4String type;
+		G4int i; G4double val;
+		MyString2Anything::get_IDU(newValue,i,val);
+		m_GeometryParameter->set_Polycone_SpanAng(i,val);
 	}
 
 	//visual settings

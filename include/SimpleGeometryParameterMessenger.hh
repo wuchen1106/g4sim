@@ -111,6 +111,14 @@ class SimpleGeometryParameterMessenger : public MyVGeometryParameterMessenger
 		G4UIcmdWithAString*        set_Cons_StartAng_cmd;
 		G4UIcmdWithAString*        set_Cons_SpanAng_cmd;
 
+		//Polycone info
+		G4UIcmdWithAString*        set_Polycone_numZ_cmd;
+		G4UIcmdWithAString*        set_Polycone_RMax_cmd;
+		G4UIcmdWithAString*        set_Polycone_RMin_cmd;
+		G4UIcmdWithAString*        set_Polycone_Z_cmd;
+		G4UIcmdWithAString*        set_Polycone_StartAng_cmd;
+		G4UIcmdWithAString*        set_Polycone_SpanAng_cmd;
+
 		//other settings
 		G4UIcmdWithAString*        set_vis_cmd;
 		G4UIcmdWithAString*        set_r_cmd;
