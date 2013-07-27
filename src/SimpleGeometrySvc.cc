@@ -83,20 +83,25 @@ void SimpleGeometrySvc::ConstructVolumes(){
 		mat_name = m_GeometryParameter->get_material(i_Vol);
 		name = m_GeometryParameter->get_name(i_Vol);
 		pttoMaterial = G4Material::GetMaterial(mat_name);
+		std::cout<<"name = "<<name
+		         <<", i_Vol = "<<i_Vol
+		         <<", SolidType = "<<SolidType
+		         <<", SolidIndex = "<<SolidIndex
+		         <<std::endl;
 		if (!pttoMaterial){
 			std::cout<<"Material "<<mat_name<<" is not defined!"<<std::endl;
 			G4Exception("SimpleGeometrySvc::ConstructVolumes()",
 					"InvalidSetup", FatalException,
 					"unknown material name");
 		}
-		G4LogicalVolume* log_Vol;
+		G4VSolid* sol_Vol = 0;
 		if ( SolidType == "Box" ){
 			G4double halfX, halfY, halfZ;
 			halfX = m_GeometryParameter->get_Box_X(SolidIndex)/2;
 			halfY = m_GeometryParameter->get_Box_Y(SolidIndex)/2;
 			halfZ = m_GeometryParameter->get_Box_Z(SolidIndex)/2;
-			G4Box* sol_Box=new G4Box(name,halfX,halfY,halfZ);
-			log_Vol = new G4LogicalVolume(sol_Box, pttoMaterial, name,0,0,0);
+			sol_Vol=new G4Box(name,halfX,halfY,halfZ);
+			if (m_GeometryParameter->get_SolidBoolean(i_Vol)) continue;
 		}
 		else if ( SolidType == "Tubs" ){
 			G4double RMax, RMin, halfLength, StartAng, SpanAng;
@@ -105,8 +110,8 @@ void SimpleGeometrySvc::ConstructVolumes(){
 			halfLength = m_GeometryParameter->get_Tubs_Length(SolidIndex)/2;
 			StartAng = m_GeometryParameter->get_Tubs_StartAng(SolidIndex);
 			SpanAng = m_GeometryParameter->get_Tubs_SpanAng(SolidIndex);
-			G4Tubs* sol_Tubs=new G4Tubs(name,RMin,RMax,halfLength,StartAng,SpanAng);
-			log_Vol = new G4LogicalVolume(sol_Tubs, pttoMaterial, name,0,0,0);
+			sol_Vol=new G4Tubs(name,RMin,RMax,halfLength,StartAng,SpanAng);
+			if (m_GeometryParameter->get_SolidBoolean(i_Vol)) continue;
 		}
 		else if ( SolidType == "Torus" ){
 			G4double RMax, RMin, Rtor, StartAng, SpanAng;
@@ -115,8 +120,8 @@ void SimpleGeometrySvc::ConstructVolumes(){
 			Rtor = m_GeometryParameter->get_Torus_Rtor(SolidIndex);
 			StartAng = m_GeometryParameter->get_Torus_StartAng(SolidIndex);
 			SpanAng = m_GeometryParameter->get_Torus_SpanAng(SolidIndex);
-			G4Torus* sol_Torus=new G4Torus(name,RMin,RMax,Rtor,StartAng,SpanAng);
-			log_Vol = new G4LogicalVolume(sol_Torus, pttoMaterial, name,0,0,0);
+			sol_Vol=new G4Torus(name,RMin,RMax,Rtor,StartAng,SpanAng);
+			if (m_GeometryParameter->get_SolidBoolean(i_Vol)) continue;
 		}
 		else if ( SolidType == "Sphere" ){
 			G4double RMax, RMin, StartPhi, SpanPhi, StartTheta, SpanTheta;
@@ -126,8 +131,8 @@ void SimpleGeometrySvc::ConstructVolumes(){
 			SpanPhi = m_GeometryParameter->get_Sphere_SpanPhi(SolidIndex);
 			StartTheta = m_GeometryParameter->get_Sphere_StartTheta(SolidIndex);
 			SpanTheta = m_GeometryParameter->get_Sphere_SpanTheta(SolidIndex);
-			G4Sphere* sol_Sphere=new G4Sphere(name,RMin,RMax,StartPhi,SpanPhi,StartTheta,SpanTheta);
-			log_Vol = new G4LogicalVolume(sol_Sphere, pttoMaterial, name,0,0,0);
+			sol_Vol=new G4Sphere(name,RMin,RMax,StartPhi,SpanPhi,StartTheta,SpanTheta);
+			if (m_GeometryParameter->get_SolidBoolean(i_Vol)) continue;
 		}
 		else if ( SolidType == "Hype" ){
 			G4double innerRadius, outerRadius, halfLength, innerStereo, outerStereo;
@@ -136,8 +141,8 @@ void SimpleGeometrySvc::ConstructVolumes(){
 			halfLength = m_GeometryParameter->get_Hype_Length(SolidIndex)/2;
 			innerStereo = m_GeometryParameter->get_Hype_innerStereo(SolidIndex);
 			outerStereo = m_GeometryParameter->get_Hype_outerStereo(SolidIndex);
-			G4Hype* sol_Hype=new G4Hype(name,innerRadius,outerRadius,innerStereo,outerStereo,halfLength);
-			log_Vol = new G4LogicalVolume(sol_Hype, pttoMaterial, name,0,0,0);
+			sol_Vol=new G4Hype(name,innerRadius,outerRadius,innerStereo,outerStereo,halfLength);
+			if (m_GeometryParameter->get_SolidBoolean(i_Vol)) continue;
 		}
 		else if ( SolidType == "TwistedTubs" ){
 			G4double endinnerrad, endouterrad, halfLength, twistedangle, dphi;
@@ -146,8 +151,8 @@ void SimpleGeometrySvc::ConstructVolumes(){
 			endouterrad = m_GeometryParameter->get_TwistedTubs_endouterrad(SolidIndex);
 			halfLength = m_GeometryParameter->get_TwistedTubs_Length(SolidIndex)/2;
 			dphi = m_GeometryParameter->get_TwistedTubs_dphi(SolidIndex);
-			G4TwistedTubs* sol_TwistedTubs=new G4TwistedTubs(name,twistedangle,endinnerrad,endouterrad,halfLength,dphi);
-			log_Vol = new G4LogicalVolume(sol_TwistedTubs, pttoMaterial, name,0,0,0);
+			sol_Vol=new G4TwistedTubs(name,twistedangle,endinnerrad,endouterrad,halfLength,dphi);
+			if (m_GeometryParameter->get_SolidBoolean(i_Vol)) continue;
 		}
 		else if ( SolidType == "Cons" ){
 			G4double RMax1, RMin1, RMax2, RMin2, halfLength, StartAng, SpanAng;
@@ -158,8 +163,8 @@ void SimpleGeometrySvc::ConstructVolumes(){
 			halfLength = m_GeometryParameter->get_Cons_Length(SolidIndex)/2;
 			StartAng = m_GeometryParameter->get_Cons_StartAng(SolidIndex);
 			SpanAng = m_GeometryParameter->get_Cons_SpanAng(SolidIndex);
-			G4Cons* sol_Cons=new G4Cons(name,RMin1,RMax1,RMin2,RMax2,halfLength,StartAng,SpanAng);
-			log_Vol = new G4LogicalVolume(sol_Cons, pttoMaterial, name,0,0,0);
+			sol_Vol=new G4Cons(name,RMin1,RMax1,RMin2,RMax2,halfLength,StartAng,SpanAng);
+			if (m_GeometryParameter->get_SolidBoolean(i_Vol)) continue;
 		}
 		else if ( SolidType == "Polycone" ){
 			G4double StartAng, SpanAng;
@@ -175,8 +180,36 @@ void SimpleGeometrySvc::ConstructVolumes(){
 			}
 			StartAng = m_GeometryParameter->get_Polycone_StartAng(SolidIndex);
 			SpanAng = m_GeometryParameter->get_Polycone_SpanAng(SolidIndex);
-			G4Polycone* sol_Polycone=new G4Polycone(name,StartAng,SpanAng,numZ,Z,RMin,RMax);
-			log_Vol = new G4LogicalVolume(sol_Polycone, pttoMaterial, name,0,0,0);
+			sol_Vol=new G4Polycone(name,StartAng,SpanAng,numZ,Z,RMin,RMax);
+			if (m_GeometryParameter->get_SolidBoolean(i_Vol)) continue;
+		}
+		else if ( SolidType == "BooleanSolid" ){
+			G4double Ephi = m_GeometryParameter->get_Ephi(i_Vol);
+			G4double Etheta = m_GeometryParameter->get_Etheta(i_Vol);
+			G4double Epsi = m_GeometryParameter->get_Epsi(i_Vol);
+			PosX  = m_GeometryParameter->get_PosX(i_Vol);
+			PosY  = m_GeometryParameter->get_PosY(i_Vol);
+			PosZ  = m_GeometryParameter->get_PosZ(i_Vol);
+			G4RotationMatrix rot = m_GeometryParameter->get_BooleanSolid_Rot(SolidIndex);
+			G4ThreeVector    trans = m_GeometryParameter->get_BooleanSolid_Trans(SolidIndex);
+			G4String type = m_GeometryParameter->get_BooleanSolid_type(SolidIndex);
+			G4String sol_name1 = m_GeometryParameter->get_BooleanSolid_sol1(SolidIndex);
+			G4String sol_name2 = m_GeometryParameter->get_BooleanSolid_sol2(SolidIndex);
+			G4VSolid *sol1 = pSolidStore->GetSolid(sol_name1);
+			G4VSolid *sol2 = pSolidStore->GetSolid(sol_name2);
+			if (!sol1||!sol2){
+				std::cout<<"ERROR: in SimpleGeometrySvc::ConstructVolumes(), cannot find solids for BooleanSolid \""<<name<<"\" !!!"<<std::endl;
+				continue;
+			}
+			if ( type == "plus" ){
+				sol_Vol = new G4UnionSolid(name,sol1,sol2,rot,trans);
+			}
+			else if ( type == "minus" ){
+				sol_Vol = new G4SubtractionSolid(name,sol1,sol2,rot,trans);
+			}
+			else if ( type == "times" ){
+				sol_Vol = new G4IntersectionSolid(name,sol1,sol2,rot,trans);
+			}
 		}
 		else {
 			std::cout<<"SolidType "<<SolidType<<" is not supported yet!"<<std::endl;
@@ -184,6 +217,8 @@ void SimpleGeometrySvc::ConstructVolumes(){
 					"InvalidSetup", FatalException,
 					"unknown SolidType");
 		}
+		G4LogicalVolume* log_Vol;
+		log_Vol = new G4LogicalVolume(sol_Vol, pttoMaterial, name,0,0,0);
 		G4VSensitiveDetector* aSD = MyDetectorManager::GetMyDetectorManager()->GetSD(name, SDName, const_cast<SimpleGeometrySvc*>(this) );
 		log_Vol->SetSensitiveDetector(aSD);
 		//visual
@@ -209,6 +244,7 @@ G4VPhysicalVolume* SimpleGeometrySvc::PlaceVolumes(){
 	bool checkOverlap = m_GeometryParameter->get_checkoverlap();
 	int nVol = m_GeometryParameter->get_VolNo();
 	for ( int i_Vol = 0; i_Vol < nVol; i_Vol++ ){
+		if (m_GeometryParameter->get_SolidBoolean(i_Vol)) continue;
 		G4double PosX, PosY, PosZ;
 		G4String name, motVolName; 
 		G4double Space, DirTheta, DirPhi;

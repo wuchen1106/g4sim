@@ -7,14 +7,15 @@
 	T    0   0.         806        5300       0        360     5650 0  -5790.5 PTACSContainer  World           Vacuum        none      1     0          0      0      270    90      0     
 	T    1   200        250        1505       0        360     0    0   1897.5 BeamPipe        PTACSContainer  Steel         none      1     0          0      0      0      0      0     
 	T    2   250        266        210        0        360     0    0   1250   CaptureCoilTS1a PTACSContainer  Copper        none      1     0          0      0      0      0      0     
-	T    3   250        266        390        0        360     0    0   1675   CaptureCoilTS1b PTACSContainer  Copper        none      1     0          0      0      0      0      0     
-	T    4   250        266        310        0        360     0    0   2125   CaptureCoilTS1c PTACSContainer  Copper        none      1     0          0      0      0      0      0     
-	T    5   250        266        180        0        360     0    0   2430   CaptureCoilTS1d PTACSContainer  Copper        none      1     0          0      0      0      0      0     
+	T    3   250        282        390        0        360     0    0   1675   CaptureCoilTS1b PTACSContainer  Copper        none      1     0          0      0      0      0      0     
+	T    4   250        298        310        0        360     0    0   2125   CaptureCoilTS1c PTACSContainer  Copper        none      1     0          0      0      0      0      0     
+	T    5   250        282        180        0        360     0    0   2430   CaptureCoilTS1d PTACSContainer  Copper        none      1     0          0      0      0      0      0     
 	T    6   500        590        2189.9     0        360     0    0   145.05 ShieldE         PTACSContainer  Tungsten      none      1     0          0      0      0      0      0     
 	T    7   662        806        175        0        360     0    0  -2562.5 TargetCoilCS0   PTACSContainer  Copper        none      1     0          0      0      0      0      0     
 	T    8   662        806        1350       0        360     0    0  -1750   TargetCoilCS1   PTACSContainer  Copper        none      1     0          0      0      0      0      0     
 	T    9   662        742        1800       0        360     0    0  -125    TargetCoilMS1   PTACSContainer  Copper        none      1     0          0      0      0      0      0     
 	T    10  662        790        380        0        360     0    0   1035   TargetCoilMS2   PTACSContainer  Copper        none      1     0          0      0      0      0      0     
+	T    11  0          10         400        0        360     0    0  -1700  ProductionTarget PTACSContainer  Graphite      none      1     0          0      0      0      10     0     
 
 #Polycone info
 #	Type No  numZ       StartAng SpanAng posX posY posZ  Name            MotVolume       Material      SDName    RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
@@ -23,31 +24,32 @@
 #            iZ         z        rInner  rOuter
 #                       mm       mm      mm
 	PCI      1          0        350     590
-	PCI      2          750      150     590
-	PCI      3          1000     150     590
-	PCI      4          1700     300     590
+	PCI      2         -750      150     590
+	PCI      3         -1000     150     590
+	PCI      4         -1700     300     590
 #	Type No  numZ       StartAng SpanAng posX posY posZ  Name            MotVolume       Material      SDName    RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
 #	                    deg      deg     mm   mm   mm                                                                  mm         deg    deg    deg    deg    deg   
 	PC   1   2          0        360     0    0   -949.9 ShieldD         PTACSContainer   Tungsten     none      1     0          0      0      0      0      0
 #            iZ         z        rInner  rOuter
 #                       mm       mm      mm
 	PCI      1          0        500     590
-	PCI      2          0.1      350     590
+	PCI      2         -0.1      350     590
 
 #visual settings
 	VerboseLevel:    5
 	VISSETTING  #Keep this line to call Reset
 #	Name                   red    green  blue  
-	vis_PTACSContainer     199    205    250   
-	vis_BeamPipe           0      0      1
-	vis_CaptureCoilTS1a    1      1      0     
-	vis_CaptureCoilTS1b    1      1      0     
-	vis_CaptureCoilTS1c    1      1      0     
-	vis_CaptureCoilTS1d    1      1      0     
-	vis_ShieldE            1      1      1     
-	vis_ShieldD            1      1      1     
-	vis_ShieldsABC         1      1      1     
-	vis_TargetCoilCS0      1      1      0     
-	vis_TargetCoilCS1      1      1      0     
-	vis_TargetCoilMS1      1      1      0     
-	vis_TargetCoilMS2      1      1      0     
+#	vis_PTACSContainer     1      1      1     
+	vis_BeamPipe           0.5    0.5    0.5
+	vis_CaptureCoilTS1a    0      0      1     
+	vis_CaptureCoilTS1b    0      0      1     
+	vis_CaptureCoilTS1c    0      0      1     
+	vis_CaptureCoilTS1d    0      0      1     
+	vis_ShieldE            0      1      0     
+	vis_ShieldD            0      1      0     
+	vis_ShieldsABC         0      1      0     
+	vis_TargetCoilCS0      0      0      1     
+	vis_TargetCoilCS1      0      0      1     
+	vis_TargetCoilMS1      0      0      1     
+	vis_TargetCoilMS2      0      0      1     
+	vis_ProductionTarget   1      0      0     

@@ -17,11 +17,11 @@
 	VerboseLevel:    5
 	VISSETTING  #Keep this line to call Reset
 #	Name                 red    green  blue  
-	vis_BLTContainer       199    205    250   
-	vis_BLTField           199    205    250   
+#	vis_BLTContainer       1      1      1     
+#	vis_BLTField           1      1      1
 	vis_BLTYoke            0      0      1     
-	vis_BLTShell           0      0      1   
-	vis_BLTCollimator      1      1      1  
-	vis_BLTColHole         0      1      0     
+	vis_BLTShell           0.5    0.5    0.5 
+	vis_BLTCollimator      0      1      0  
+	vis_BLTColHole         1      1      1     
 	vis_BLTMonitor         1      0      0   
-	vis_BLTUpEnd           1      0      0   
+	vis_BLTKillUp          1      0      0   

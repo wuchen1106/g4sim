@@ -182,6 +182,8 @@ void SimpleGeometryParameter::Preset(){
   Polycone_StartAng.clear();
   Polycone_SpanAng.clear();
   Polycone_GenIndex.clear();
+  waited_Polycone_iVol = -1;
+  achieved_componets_Polycone = 0;
 }
 
 int SimpleGeometryParameter::GetValue(G4String s_card){
@@ -195,7 +197,9 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 	buf_card>>name;
 	std::string s_para;
 	int iVol = VolNo;
+	bool GoOn = true;
 	if (waited_Polycone_iVol>=0){
+		GoOn = false;
 		if (achieved_componets_Polycone<Polycone_numZ[waited_Polycone_iVol]){
 			if (name=="PCI"){
 				std::string dump;
@@ -206,14 +210,15 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 				tPolycone_RMax *= mm;
 				tPolycone_RMin *= mm;
 				tPolycone_Z *= mm;
-				Polycone_RMax[waited_Polycone_iVol].push_back(tPolycone_RMax);
-				Polycone_RMin[waited_Polycone_iVol].push_back(tPolycone_RMin);
-				Polycone_Z[waited_Polycone_iVol].push_back(tPolycone_Z);
+				Polycone_RMax[waited_Polycone_iVol][achieved_componets_Polycone] = tPolycone_RMax;
+				Polycone_RMin[waited_Polycone_iVol][achieved_componets_Polycone] = tPolycone_RMin;
+				Polycone_Z[waited_Polycone_iVol][achieved_componets_Polycone] = tPolycone_Z;
 				achieved_componets_Polycone++;
 			}
 			else {
 				std::cout<<"Not enough Polycone components! Needed: "<<Polycone_numZ[waited_Polycone_iVol]<<", got: "<<achieved_componets_Polycone+1<<std::endl;
 				Polycone_numZ[waited_Polycone_iVol]=achieved_componets_Polycone;
+				GoOn = true;
 			}
 			if (Polycone_numZ[waited_Polycone_iVol]==achieved_componets_Polycone){
 				waited_Polycone_iVol=-1;
@@ -221,267 +226,268 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 			}
 		}
 	}
-	else if( name == "B" || name == "T" || name == "Sph" || name == "H" || name == "TT" || name == "C" || name == "Tor" || name == "PC" ){
-		if( name == "B" ){
-			SolidType.push_back("Box");
-			SolidIndex.push_back(Box_X.size());
-			std::string dump;
-			G4double tBox_X;
-			G4double tBox_Y;
-			G4double tBox_Z;
-			buf_card>>dump>>tBox_X>>tBox_Y>>tBox_Z;
-			tBox_X *= mm;
-			tBox_Y *= mm;
-			tBox_Z *= mm;
-			Box_X.push_back(tBox_X);
-			Box_Y.push_back(tBox_Y);
-			Box_Z.push_back(tBox_Z);
-			Box_GenIndex.push_back(iVol);
-			BoxNo++;
-		}
-		else if( name == "T" ){
-			SolidType.push_back("Tubs");
-			SolidIndex.push_back(Tubs_RMax.size());
-			std::string dump;
-			G4double tTubs_RMax;
-			G4double tTubs_RMin;
-			G4double tTubs_Length;
-			G4double tTubs_StartAng;
-			G4double tTubs_SpanAng;
-			buf_card>>dump>>tTubs_RMin>>tTubs_RMax>>tTubs_Length>>tTubs_StartAng>>tTubs_SpanAng;
-			tTubs_RMax *= mm;
-			tTubs_RMin *= mm;
-			tTubs_Length *= mm;
-			tTubs_StartAng *= deg;
-			tTubs_SpanAng *= deg;
-			Tubs_RMax.push_back(tTubs_RMax);
-			Tubs_RMin.push_back(tTubs_RMin);
-			Tubs_Length.push_back(tTubs_Length);
-			Tubs_StartAng.push_back(tTubs_StartAng);
-			Tubs_SpanAng.push_back(tTubs_SpanAng);
-			Tubs_GenIndex.push_back(iVol);
-			TubsNo++;
-		}
-		else if( name == "Tor" ){
-			SolidType.push_back("Torus");
-			SolidIndex.push_back(Torus_RMax.size());
-			std::string dump;
-			G4double tTorus_RMax;
-			G4double tTorus_RMin;
-			G4double tTorus_Rtor;
-			G4double tTorus_StartAng;
-			G4double tTorus_SpanAng;
-			buf_card>>dump>>tTorus_RMin>>tTorus_RMax>>tTorus_Rtor>>tTorus_StartAng>>tTorus_SpanAng;
-			tTorus_RMax *= mm;
-			tTorus_RMin *= mm;
-			tTorus_Rtor *= mm;
-			tTorus_StartAng *= deg;
-			tTorus_SpanAng *= deg;
-			Torus_RMax.push_back(tTorus_RMax);
-			Torus_RMin.push_back(tTorus_RMin);
-			Torus_Rtor.push_back(tTorus_Rtor);
-			Torus_StartAng.push_back(tTorus_StartAng);
-			Torus_SpanAng.push_back(tTorus_SpanAng);
-			Torus_GenIndex.push_back(iVol);
-			TorusNo++;
-		}
-		else if( name == "Sph" ){
-			SolidType.push_back("Sphere");
-			SolidIndex.push_back(Sphere_RMax.size());
-			std::string dump;
-			G4double tSphere_RMax;
-			G4double tSphere_RMin;
-			G4double tSphere_StartPhi;
-			G4double tSphere_SpanPhi;
-			G4double tSphere_StartTheta;
-			G4double tSphere_SpanTheta;
-			buf_card>>dump>>tSphere_RMin>>tSphere_RMax>>tSphere_StartPhi>>tSphere_SpanPhi>>tSphere_StartTheta>>tSphere_SpanTheta;
-			tSphere_RMax *= mm;
-			tSphere_RMin *= mm;
-			tSphere_StartPhi *= deg;
-			tSphere_SpanPhi *= deg;
-			tSphere_StartTheta *= deg;
-			tSphere_SpanTheta *= deg;
-			Sphere_RMax.push_back(tSphere_RMax);
-			Sphere_RMin.push_back(tSphere_RMin);
-			Sphere_StartPhi.push_back(tSphere_StartPhi);
-			Sphere_SpanPhi.push_back(tSphere_SpanPhi);
-			Sphere_StartTheta.push_back(tSphere_StartTheta);
-			Sphere_SpanTheta.push_back(tSphere_SpanTheta);
-			Sphere_GenIndex.push_back(iVol);
-			SphereNo++;
-		}
-		else if( name == "H" ){
-			SolidType.push_back("Hype");
-			SolidIndex.push_back(Hype_innerRadius.size());
-			std::string dump;
-			G4double tHype_innerRadius;
-			G4double tHype_outerRadius;
-			G4double tHype_innerStereo;
-			G4double tHype_outerStereo;
-			G4double tHype_Length;
-			buf_card>>dump>>tHype_innerRadius>>tHype_outerRadius>>tHype_innerStereo>>tHype_outerStereo>>tHype_Length;
-			tHype_innerRadius *= mm;
-			tHype_outerRadius *= mm;
-			tHype_innerStereo *= deg;
-			tHype_outerStereo *= deg;
-			tHype_Length *= mm;
-			Hype_innerRadius.push_back(tHype_innerRadius);
-			Hype_outerRadius.push_back(tHype_outerRadius);
-			Hype_innerStereo.push_back(tHype_innerStereo);
-			Hype_outerStereo.push_back(tHype_outerStereo);
-			Hype_Length.push_back(tHype_Length);
-			Hype_GenIndex.push_back(iVol);
-			HypeNo++;
-		}
-		else if( name == "TT" ){
-			SolidType.push_back("TwistedTubs");
-			SolidIndex.push_back(TwistedTubs_endinnerrad.size());
-			std::string dump;
-			G4double tTwistedTubs_twistedangle;
-			G4double tTwistedTubs_endinnerrad;
-			G4double tTwistedTubs_endouterrad;
-			G4double tTwistedTubs_Length;
-			G4double tTwistedTubs_dphi;
-			buf_card>>dump>>tTwistedTubs_twistedangle>>tTwistedTubs_endinnerrad>>tTwistedTubs_endouterrad>>tTwistedTubs_Length>>tTwistedTubs_dphi;
-			tTwistedTubs_twistedangle *= deg;
-			tTwistedTubs_endinnerrad *= mm;
-			tTwistedTubs_endouterrad *= mm;
-			tTwistedTubs_Length *= mm;
-			tTwistedTubs_dphi *= deg;
-			TwistedTubs_twistedangle.push_back(tTwistedTubs_twistedangle);
-			TwistedTubs_endinnerrad.push_back(tTwistedTubs_endinnerrad);
-			TwistedTubs_endouterrad.push_back(tTwistedTubs_endouterrad);
-			TwistedTubs_Length.push_back(tTwistedTubs_Length);
-			TwistedTubs_dphi.push_back(tTwistedTubs_dphi);
-			TwistedTubs_GenIndex.push_back(iVol);
-			TwistedTubsNo++;
-		}
-		else if( name == "C" ){
-			SolidType.push_back("Cons");
-			SolidIndex.push_back(Cons_Length.size());
-			std::string dump;
-			G4double tCons_RMax1;
-			G4double tCons_RMin1;
-			G4double tCons_RMax2;
-			G4double tCons_RMin2;
-			G4double tCons_Length;
-			G4double tCons_StartAng;
-			G4double tCons_SpanAng;
-			buf_card>>dump>>tCons_RMin1>>tCons_RMax1>>tCons_RMin2>>tCons_RMax2>>tCons_Length>>tCons_StartAng>>tCons_SpanAng;
-			tCons_RMax1 *= mm;
-			tCons_RMin1 *= mm;
-			tCons_RMax2 *= mm;
-			tCons_RMin2 *= mm;
-			tCons_Length *= mm;
-			tCons_StartAng *= deg;
-			tCons_SpanAng *= deg;
-			Cons_RMax1.push_back(tCons_RMax1);
-			Cons_RMin1.push_back(tCons_RMin1);
-			Cons_RMax2.push_back(tCons_RMax2);
-			Cons_RMin2.push_back(tCons_RMin2);
-			Cons_Length.push_back(tCons_Length);
-			Cons_StartAng.push_back(tCons_StartAng);
-			Cons_SpanAng.push_back(tCons_SpanAng);
-			Cons_GenIndex.push_back(iVol);
-			ConsNo++;
-		}
-		else if( name == "PC" ){
-			SolidType.push_back("Polycone");
-			SolidIndex.push_back(Polycone_Z.size());
-			std::string dump;
-			G4double tPolycone_numZ;
-			G4double tPolycone_StartAng;
-			G4double tPolycone_SpanAng;
-			buf_card>>dump>>tPolycone_numZ>>tPolycone_StartAng>>tPolycone_SpanAng
-			tPolycone_StartAng *= deg;
-			tPolycone_SpanAng *= deg;
-			Polycone_numZ.push_back(tPolycone_numZ);
-			Polycone_StartAng.push_back(tPolycone_StartAng);
-			Polycone_SpanAng.push_back(tPolycone_SpanAng);
-			Polycone_GenIndex.push_back(iVol);
-			for (int i = 0; i < tPolycone_numZ; i++){
+	if (GoOn){
+		if( name == "B" || name == "T" || name == "Sph" || name == "H" || name == "TT" || name == "C" || name == "Tor" || name == "PC" ){
+			if( name == "B" ){
+				SolidType.push_back("Box");
+				SolidIndex.push_back(Box_X.size());
+				std::string dump;
+				G4double tBox_X;
+				G4double tBox_Y;
+				G4double tBox_Z;
+				buf_card>>dump>>tBox_X>>tBox_Y>>tBox_Z;
+				tBox_X *= mm;
+				tBox_Y *= mm;
+				tBox_Z *= mm;
+				Box_X.push_back(tBox_X);
+				Box_Y.push_back(tBox_Y);
+				Box_Z.push_back(tBox_Z);
+				Box_GenIndex.push_back(iVol);
+				BoxNo++;
+			}
+			else if( name == "T" ){
+				SolidType.push_back("Tubs");
+				SolidIndex.push_back(Tubs_RMax.size());
+				std::string dump;
+				G4double tTubs_RMax;
+				G4double tTubs_RMin;
+				G4double tTubs_Length;
+				G4double tTubs_StartAng;
+				G4double tTubs_SpanAng;
+				buf_card>>dump>>tTubs_RMin>>tTubs_RMax>>tTubs_Length>>tTubs_StartAng>>tTubs_SpanAng;
+				tTubs_RMax *= mm;
+				tTubs_RMin *= mm;
+				tTubs_Length *= mm;
+				tTubs_StartAng *= deg;
+				tTubs_SpanAng *= deg;
+				Tubs_RMax.push_back(tTubs_RMax);
+				Tubs_RMin.push_back(tTubs_RMin);
+				Tubs_Length.push_back(tTubs_Length);
+				Tubs_StartAng.push_back(tTubs_StartAng);
+				Tubs_SpanAng.push_back(tTubs_SpanAng);
+				Tubs_GenIndex.push_back(iVol);
+				TubsNo++;
+			}
+			else if( name == "Tor" ){
+				SolidType.push_back("Torus");
+				SolidIndex.push_back(Torus_RMax.size());
+				std::string dump;
+				G4double tTorus_RMax;
+				G4double tTorus_RMin;
+				G4double tTorus_Rtor;
+				G4double tTorus_StartAng;
+				G4double tTorus_SpanAng;
+				buf_card>>dump>>tTorus_RMin>>tTorus_RMax>>tTorus_Rtor>>tTorus_StartAng>>tTorus_SpanAng;
+				tTorus_RMax *= mm;
+				tTorus_RMin *= mm;
+				tTorus_Rtor *= mm;
+				tTorus_StartAng *= deg;
+				tTorus_SpanAng *= deg;
+				Torus_RMax.push_back(tTorus_RMax);
+				Torus_RMin.push_back(tTorus_RMin);
+				Torus_Rtor.push_back(tTorus_Rtor);
+				Torus_StartAng.push_back(tTorus_StartAng);
+				Torus_SpanAng.push_back(tTorus_SpanAng);
+				Torus_GenIndex.push_back(iVol);
+				TorusNo++;
+			}
+			else if( name == "Sph" ){
+				SolidType.push_back("Sphere");
+				SolidIndex.push_back(Sphere_RMax.size());
+				std::string dump;
+				G4double tSphere_RMax;
+				G4double tSphere_RMin;
+				G4double tSphere_StartPhi;
+				G4double tSphere_SpanPhi;
+				G4double tSphere_StartTheta;
+				G4double tSphere_SpanTheta;
+				buf_card>>dump>>tSphere_RMin>>tSphere_RMax>>tSphere_StartPhi>>tSphere_SpanPhi>>tSphere_StartTheta>>tSphere_SpanTheta;
+				tSphere_RMax *= mm;
+				tSphere_RMin *= mm;
+				tSphere_StartPhi *= deg;
+				tSphere_SpanPhi *= deg;
+				tSphere_StartTheta *= deg;
+				tSphere_SpanTheta *= deg;
+				Sphere_RMax.push_back(tSphere_RMax);
+				Sphere_RMin.push_back(tSphere_RMin);
+				Sphere_StartPhi.push_back(tSphere_StartPhi);
+				Sphere_SpanPhi.push_back(tSphere_SpanPhi);
+				Sphere_StartTheta.push_back(tSphere_StartTheta);
+				Sphere_SpanTheta.push_back(tSphere_SpanTheta);
+				Sphere_GenIndex.push_back(iVol);
+				SphereNo++;
+			}
+			else if( name == "H" ){
+				SolidType.push_back("Hype");
+				SolidIndex.push_back(Hype_innerRadius.size());
+				std::string dump;
+				G4double tHype_innerRadius;
+				G4double tHype_outerRadius;
+				G4double tHype_innerStereo;
+				G4double tHype_outerStereo;
+				G4double tHype_Length;
+				buf_card>>dump>>tHype_innerRadius>>tHype_outerRadius>>tHype_innerStereo>>tHype_outerStereo>>tHype_Length;
+				tHype_innerRadius *= mm;
+				tHype_outerRadius *= mm;
+				tHype_innerStereo *= deg;
+				tHype_outerStereo *= deg;
+				tHype_Length *= mm;
+				Hype_innerRadius.push_back(tHype_innerRadius);
+				Hype_outerRadius.push_back(tHype_outerRadius);
+				Hype_innerStereo.push_back(tHype_innerStereo);
+				Hype_outerStereo.push_back(tHype_outerStereo);
+				Hype_Length.push_back(tHype_Length);
+				Hype_GenIndex.push_back(iVol);
+				HypeNo++;
+			}
+			else if( name == "TT" ){
+				SolidType.push_back("TwistedTubs");
+				SolidIndex.push_back(TwistedTubs_endinnerrad.size());
+				std::string dump;
+				G4double tTwistedTubs_twistedangle;
+				G4double tTwistedTubs_endinnerrad;
+				G4double tTwistedTubs_endouterrad;
+				G4double tTwistedTubs_Length;
+				G4double tTwistedTubs_dphi;
+				buf_card>>dump>>tTwistedTubs_twistedangle>>tTwistedTubs_endinnerrad>>tTwistedTubs_endouterrad>>tTwistedTubs_Length>>tTwistedTubs_dphi;
+				tTwistedTubs_twistedangle *= deg;
+				tTwistedTubs_endinnerrad *= mm;
+				tTwistedTubs_endouterrad *= mm;
+				tTwistedTubs_Length *= mm;
+				tTwistedTubs_dphi *= deg;
+				TwistedTubs_twistedangle.push_back(tTwistedTubs_twistedangle);
+				TwistedTubs_endinnerrad.push_back(tTwistedTubs_endinnerrad);
+				TwistedTubs_endouterrad.push_back(tTwistedTubs_endouterrad);
+				TwistedTubs_Length.push_back(tTwistedTubs_Length);
+				TwistedTubs_dphi.push_back(tTwistedTubs_dphi);
+				TwistedTubs_GenIndex.push_back(iVol);
+				TwistedTubsNo++;
+			}
+			else if( name == "C" ){
+				SolidType.push_back("Cons");
+				SolidIndex.push_back(Cons_Length.size());
+				std::string dump;
+				G4double tCons_RMax1;
+				G4double tCons_RMin1;
+				G4double tCons_RMax2;
+				G4double tCons_RMin2;
+				G4double tCons_Length;
+				G4double tCons_StartAng;
+				G4double tCons_SpanAng;
+				buf_card>>dump>>tCons_RMin1>>tCons_RMax1>>tCons_RMin2>>tCons_RMax2>>tCons_Length>>tCons_StartAng>>tCons_SpanAng;
+				tCons_RMax1 *= mm;
+				tCons_RMin1 *= mm;
+				tCons_RMax2 *= mm;
+				tCons_RMin2 *= mm;
+				tCons_Length *= mm;
+				tCons_StartAng *= deg;
+				tCons_SpanAng *= deg;
+				Cons_RMax1.push_back(tCons_RMax1);
+				Cons_RMin1.push_back(tCons_RMin1);
+				Cons_RMax2.push_back(tCons_RMax2);
+				Cons_RMin2.push_back(tCons_RMin2);
+				Cons_Length.push_back(tCons_Length);
+				Cons_StartAng.push_back(tCons_StartAng);
+				Cons_SpanAng.push_back(tCons_SpanAng);
+				Cons_GenIndex.push_back(iVol);
+				ConsNo++;
+			}
+			else if( name == "PC" ){
+				SolidType.push_back("Polycone");
+				SolidIndex.push_back(Polycone_Z.size());
+				std::string dump;
+				G4double tPolycone_numZ;
+				G4double tPolycone_StartAng;
+				G4double tPolycone_SpanAng;
+				buf_card>>dump>>tPolycone_numZ>>tPolycone_StartAng>>tPolycone_SpanAng;
+				tPolycone_StartAng *= deg;
+				tPolycone_SpanAng *= deg;
+				Polycone_numZ.push_back(tPolycone_numZ);
+				Polycone_StartAng.push_back(tPolycone_StartAng);
+				Polycone_SpanAng.push_back(tPolycone_SpanAng);
+				Polycone_GenIndex.push_back(iVol);
 				std::vector<double> empty_vec;
+				empty_vec.resize(tPolycone_numZ);
 				Polycone_RMax.push_back(empty_vec);
 				Polycone_RMin.push_back(empty_vec);
 				Polycone_Z.push_back(empty_vec);
+				waited_Polycone_iVol = PolyconeNo;
+				achieved_componets_Polycone = 0;
+				PolyconeNo++;
 			}
-			PolyconeNo++;
-			waited_Polycone_iVol = iVol;
-			achieved_componets_Polycone = 0;
+			G4double tPosX;
+			G4double tPosY;
+			G4double tPosZ;
+			G4String tRepCont;
+			G4int tRepNo;
+			G4int tSRepNo;
+			G4double tSpace;
+			G4double tDirTheta;
+			G4double tDirPhi;
+			G4String tSDName;
+			G4double tEphi;
+			G4double tEtheta;
+			G4double tEpsi;
+			std::string tName;
+			std::string tMotherName;
+			std::string tMaterial;
+			buf_card>>tPosX>>tPosY>>tPosZ>>tName>>tMotherName>>tMaterial>>tSDName>>tRepCont>>tSpace>>tDirTheta>>tDirPhi>>tEphi>>tEtheta>>tEpsi;
+			get_RepCont(tRepCont,tSRepNo,tRepNo);
+			tPosX *= mm;
+			tPosY *= mm;
+			tPosZ *= mm;
+			tSpace *= mm;
+			tDirTheta *= deg;
+			tDirPhi *= deg;
+			tEphi *= deg;
+			tEtheta *= deg;
+			tEpsi *= deg;
+			PosX.push_back(tPosX);
+			PosY.push_back(tPosY);
+			PosZ.push_back(tPosZ);
+			Name.push_back(tName);
+			MotherName.push_back(tMotherName);
+			Material.push_back(tMaterial);
+			SRepNo.push_back(tSRepNo);
+			RepNo.push_back(tRepNo);
+			Space.push_back(tSpace);
+			DirTheta.push_back(tDirTheta);
+			DirPhi.push_back(tDirPhi);
+			SDName.push_back(tSDName);
+			Ephi.push_back(tEphi);
+			Etheta.push_back(tEtheta);
+			Epsi.push_back(tEpsi);
+			VolNo++;
 		}
-		G4double tPosX;
-		G4double tPosY;
-		G4double tPosZ;
-		G4String tRepCont;
-		G4int tRepNo;
-		G4int tSRepNo;
-		G4double tSpace;
-		G4double tDirTheta;
-		G4double tDirPhi;
-		G4String tSDName;
-		G4double tEphi;
-		G4double tEtheta;
-		G4double tEpsi;
-		std::string tName;
-		std::string tMotherName;
-		std::string tMaterial;
-		buf_card>>tPosX>>tPosY>>tPosZ>>tName>>tMotherName>>tMaterial>>tSDName>>tRepCont>>tSpace>>tDirTheta>>tDirPhi>>tEphi>>tEtheta>>tEpsi;
-		get_RepCont(tRepCont,tSRepNo,tRepNo);
-		tPosX *= mm;
-		tPosY *= mm;
-		tPosZ *= mm;
-		tSpace *= mm;
-		tDirTheta *= deg;
-		tDirPhi *= deg;
-		tEphi *= deg;
-		tEtheta *= deg;
-		tEpsi *= deg;
-		PosX.push_back(tPosX);
-		PosY.push_back(tPosY);
-		PosZ.push_back(tPosZ);
-		Name.push_back(tName);
-		MotherName.push_back(tMotherName);
-		Material.push_back(tMaterial);
-		SRepNo.push_back(tSRepNo);
-		RepNo.push_back(tRepNo);
-		Space.push_back(tSpace);
-		DirTheta.push_back(tDirTheta);
-		DirPhi.push_back(tDirPhi);
-		SDName.push_back(tSDName);
-		Ephi.push_back(tEphi);
-		Etheta.push_back(tEtheta);
-		Epsi.push_back(tEpsi);
-		VolNo++;
-	}
-	else if ( name == "VISSETTING" ){
-		if(notReSetVis) ReSetVis();
-		status = -1;
-	}
-	else{
-		bool foundornot = false;
-		if ( name.substr(0,4) == "vis_" ){
-			std::stringstream buf_temp;
-			for ( G4int i = 0; i < VolNo; i++ ){
+		else if ( name == "VISSETTING" ){
+			if(notReSetVis) ReSetVis();
+			status = -1;
+		}
+		else{
+			bool foundornot = false;
+			if ( name.substr(0,4) == "vis_" ){
+				std::stringstream buf_temp;
+				for ( G4int i = 0; i < VolNo; i++ ){
+					buf_temp.str("");
+					buf_temp.clear();
+					buf_temp<<"vis_"<<Name[i];
+					if( name == buf_temp.str() ){
+						set_vis(i,true);
+						G4double vTr, vTg, vTb;
+						buf_card>>vTr>>vTg>>vTb;
+						set_r(i,vTr);
+						set_g(i,vTg);
+						set_b(i,vTb);
+						foundornot = true;
+						break; // got the parameter, go to next line
+					}
+				}
 				buf_temp.str("");
 				buf_temp.clear();
-				buf_temp<<"vis_"<<Name[i];
-				if( name == buf_temp.str() ){
-					set_vis(i,true);
-					G4double vTr, vTg, vTb;
-					buf_card>>vTr>>vTg>>vTb;
-					set_r(i,vTr);
-					set_g(i,vTg);
-					set_b(i,vTb);
-					foundornot = true;
-					break; // got the parameter, go to next line
-				}
 			}
-			buf_temp.str("");
-			buf_temp.clear();
-		}
-		if (!foundornot){
-			status = 1;
+			if (!foundornot){
+				status = 1;
+			}
 		}
 	}
 	buf_card.str("");
@@ -1073,7 +1079,7 @@ void SimpleGeometryParameter::DumpInfo() {
 						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
 						 <<std::endl;
 		for (int j = 0; j< Polycone_numZ[i]; j++){
-			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<i
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<j
 							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Polycone_Z[i][j]/mm
 							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Polycone_RMin[i][j]/mm
 							 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Polycone_RMax[i][j]/mm

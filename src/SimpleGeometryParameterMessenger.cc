@@ -992,8 +992,8 @@ int SimpleGeometryParameterMessenger::MySetNewValue(G4UIcommand* command,G4Strin
 	//Polycone info
 	else if( command == set_Polycone_numZ_cmd ){
 		G4String type;
-		G4int i; G4int val;
-		MyString2Anything::get_IDU(newValue,i,val);
+		G4int i; G4double val;
+		MyString2Anything::get_ID(newValue,i,val);
 		m_GeometryParameter->set_Polycone_numZ(i,val);
 	}
 

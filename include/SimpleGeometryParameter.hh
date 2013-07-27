@@ -471,6 +471,8 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		std::vector<G4double> Polycone_StartAng;
 		std::vector<G4double> Polycone_SpanAng;
 		std::vector<G4int>    Polycone_GenIndex;
+		G4int waited_Polycone_iVol;
+		G4int achieved_componets_Polycone;
 
 		//visual settings
 		std::vector<bool> vVis;
