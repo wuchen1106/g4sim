@@ -15,10 +15,10 @@
 	T    8   662    806    1350     0        360     PTACSTargetCoilCS1    PTACSContainer     Copper        none      0    0  -1750   1     0          0      0      0      0      0     
 	T    9   662    742    1800     0        360     PTACSTargetCoilMS1    PTACSContainer     Copper        none      0    0  -125    1     0          0      0      0      0      0     
 	T    10  662    790    380      0        360     PTACSTargetCoilMS2    PTACSContainer     Copper        none      0    0   1035   1     0          0      0      0      0      0     
-	T    11  0      10     400      0        360     PTACSProductionTarget PTACSContainer     Graphite      none      0    0  -1700   1     0          0      0      0      10     0     
+	T    11  0      6      600      0        360     PTACSProductionTarget PTACSContainer     Graphite      none      0    0  -1700   1     0          0      0      0      10     0     
 	T    7   0      350    1        0        360     PTACSMonitor          PTACSContainer     Vacuum        MonitorSD 0    0  -950    1     0          0      0      0      0      0     
 	T    7   0      299    1        0        360     PTACSKiller1          PTACSContainer     Vacuum        KillerSD  0    0  -2649.5 1     0          0      0      0      0      0     
-	T    7   350    590    1        0        360     PTACSKiller2          PTACSShieldsABC    Tungsten      KillerSD  0    0  -1699.5 1     0          0      0      0      0      0     
+	T    7   300    590    1        0        360     PTACSKiller2          PTACSShieldsABC    Tungsten      KillerSD  0    0  -1699.5 1     0          0      0      0      0      0     
 	T    7   590    662    1        0        360     PTACSKiller3          PTACSContainer     Vacuum        KillerSD  0    0  -2649.5 1     0          0      0      0      0      0     
 	T    7   662    806    1        0        360     PTACSKiller4          PTACSTargetCoilCS0 Copper        KillerSD  0    0  -87     1     0          0      0      0      0      0     
 	T    5   806    807    5300     0        360     PTACSKiller5          PTACSContainer     Vacuum        KillerSD  0    0   0      1     0          0      0      0      0      0     
