@@ -1,5 +1,11 @@
 #Setup MagField
 
-	TYPE: fieldMap
-#			Name         Scale 
-	fMap:   Phase1Field_g4sim.dat     1
+	TYPE: Uniform
+#Intensity     Theta Phi 
+#         T    deg   deg
+	UniF: 0    0     0
+
+#	TYPE: Electric_Uniform
+#Type    Intensity	Theta Phi StepL StepT
+#        kV/cm	    deg   deg mm    
+#	UniEF: 1000       0     0   0.01  4

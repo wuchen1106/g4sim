@@ -1,6 +1,6 @@
 /vis/viewer/clearCutawayPlanes
 #/vis/viewer/addCutawayPlane 0 0 0 m -1 0 0
-#/vis/viewer/addCutawayPlane 0 0 0 m 0 -1 0
+/vis/viewer/addCutawayPlane 0 0 0 m 0 -1 0
 #/vis/viewer/addCutawayPlane 0 0 0 m 0 0 -1
 #/vis/viewer/addCutawayPlane -0.3 0.3 0 m 1 -1 0
 #/vis/viewer/addCutawayPlane 0 0 0 m 0 0 -1
@@ -12,5 +12,5 @@
 /vis/viewer/set/lineSegmentsPerCircle 100
 /vis/viewer/set/projection o
 #/vis/viewer/set/projection p
-#/vis/viewer/set/style s
-/vis/viewer/set/style w
+/vis/viewer/set/style s
+#/vis/viewer/set/style w

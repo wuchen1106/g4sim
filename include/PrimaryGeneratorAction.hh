@@ -40,6 +40,7 @@ public:
   void set_root_treename(G4String val) { root_treename= val; }
 
   void SetUniformDirection();
+  void SetRandomPosition();
   void SetUniformPosition();
   void BuildHistoFromFile();
   void root_get_para();
@@ -62,6 +63,7 @@ private:
 	G4double                   Px,Py,Pz;
 	G4double                   Theta,Phi;
 	G4double                   x,y,z,t;
+	G4double                   xSpread,ySpread,zSpread;
 	G4String                   EnergyMode;
 	G4String                   PositionMode;
 	G4String                   TimeMode;

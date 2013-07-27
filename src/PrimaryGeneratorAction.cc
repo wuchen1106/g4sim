@@ -162,6 +162,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 		//	     <<std::endl;
 		particleGun->SetParticlePosition(G4ThreeVector(root_para[0] * mm, root_para[1] * mm, (root_para[2])*mm));
 	}
+	else if ( PositionMode == "random" ){
+		SetRandomPosition();
+	}
 	else if ( PositionMode != "none" ){
 		std::cout<<"ERROR: unknown PositionMode: "<<PositionMode<<"!!!"<<std::endl;
 		G4Exception("PrimaryGeneratorAction::GeneratePrimaries()",
@@ -197,6 +200,23 @@ void PrimaryGeneratorAction::SetUniformDirection(){
 	}
 	G4ThreeVector dir_3Vec(dir_x, dir_y, dir_z);
 	particleGun->SetParticleMomentumDirection(dir_3Vec);
+}
+
+void PrimaryGeneratorAction::SetRandomPosition(){
+	G4double dx=0;
+	G4double dy=0;
+	G4double dz=0;
+	G4double dx2=0;
+	G4double dy2=0;
+	G4double dz2=0;
+	bool gotit=false;
+	do {
+		if (xSpread) {dx=2.*(G4UniformRand()-0.5)*xSpread;dx2 = dx*dx/xSpread/xSpread;} 
+		if (ySpread) {dy=2.*(G4UniformRand()-0.5)*ySpread;dy2 = dy*dy/ySpread/ySpread;} 
+		if (zSpread) {dz=2.*(G4UniformRand()-0.5)*zSpread;dz2 = dz*dz/zSpread/zSpread;} 
+		if (dx2+dy2+dz2<=1.) gotit = true;
+	} while (!gotit);
+	particleGun->SetParticlePosition(G4ThreeVector(x+dx,y+dy,z+dz));
 }
 
 void PrimaryGeneratorAction::SetUniformPosition(){
@@ -397,6 +417,12 @@ void PrimaryGeneratorAction::ReadCard(G4String file_name){
 			y *= mm;
 			z *= mm;
 		}
+		else if ( keyword == "PosSpread:" ){
+			buf_card>>xSpread>>ySpread>>zSpread;
+			xSpread *= mm;
+			ySpread *= mm;
+			zSpread *= mm;
+		}
 		else if ( keyword == "Time:" ){
 			buf_card>>t;
 			t *= ns;
@@ -462,6 +488,7 @@ void PrimaryGeneratorAction::Dump(){
 	std::cout<<"Default Momentum Direction: theta =           "<<Theta/deg<<"deg, phi = "<<Phi/deg<<"deg"<<std::endl;
 	std::cout<<"Default Momentum Amplitude:                   "<<Pa/MeV<<"MeV"<<std::endl;
 	std::cout<<"Default Position(cm):                         ("<<x/cm<<", "<<y/cm<<", "<<z/cm<<")"<<std::endl;
+	std::cout<<"Default Position Spread(cm):                  ("<<xSpread/cm<<", "<<ySpread/cm<<", "<<zSpread/cm<<")"<<std::endl;
 	std::cout<<"Default Time(ns):                             ("<<t/ns<<std::endl;
 	std::cout<<"EnergyMode:                                   "<<EnergyMode<<std::endl;
 	std::cout<<"PositionMode:                                 "<<PositionMode<<std::endl;

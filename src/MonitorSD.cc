@@ -392,6 +392,9 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	for (int i = 0; i<white_list.size(); i++){
 		if (pid == white_list[i]) foundit=true;
 	}
+	if (white_list.size()==1&&white_list[0]==0){
+		if (pid<1e7) foundit = true;
+	}
 	if (!foundit&&white_list.size()) return false;
 
 	//minp

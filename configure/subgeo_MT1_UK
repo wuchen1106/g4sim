@@ -12,7 +12,10 @@
 #Tubs info
 #	Type No  RMin       RMax       Length     StartAng SpanAng Name            MotVolume       Material      SDName    posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
 #	         mm         mm         mm         deg      deg                                                             mm   mm   mm         mm         deg    deg    deg    deg    deg   
-	T    0   701        800        1          0        360     MT1Killer2      MT1Yoke         Steel         KillerSD  3000 0.5  0    1     0          0      0      0      270    0     
+	T    0   0          180        1          0        360     MT1Monitor      MT1Containor    Vacuum        MonitorSD 3000 0.5  0    1     0          0      0      0      270    0     
+	T    0   180        230        1          0        360     MT1Killer2      MT1Shell        Steel         KillerSD  3000 0.5  0    1     0          0      0      0      270    0     
+	T    0   230        600        1          0        360     MT1Killer3      MT1Containor    Vacuum        KillerSD  3000 0.5  0    1     0          0      0      0      270    0     
+	T    0   600        800        1          0        360     MT1Killer4      MT1Yoke         Steel         KillerSD  3000 0.5  0    1     0          0      0      0      270    0     
 
 #visual settings
 	VerboseLevel:    5
@@ -21,5 +24,8 @@
 #	vis_MT1Containor       1      1      1     
 	vis_MT1Yoke            0      0      1     
 	vis_MT1Shell           0.5    0.5    0.5
+	vis_MT1Monitor         1      0      0  
 	vis_MT1Killer1         1      0      0  
 	vis_MT1Killer2         1      0      0  
+	vis_MT1Killer3         1      0      0  
+	vis_MT1Killer4         1      0      0  
