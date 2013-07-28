@@ -97,37 +97,6 @@ PROCESSCOUNTINGFILTER_SECTION
 	Volume        Target       //In which volumes you want to record ProcessInfo. if commented, then all volumes would be taken into account
 PROCESSCOUNTINGFILTER_SECTION
 
-BLTMonitor_SECTION
-	nHits
-	x              cm
-	y              cm
-	z              cm
-	t              ns
-	px             GeV
-	py             GeV
-	pz             GeV
-	e              GeV
-	edep           GeV
-	stepL          cm
-	volID
-#	volName
-	tid
-	pid
-	charge
-BLTMonitor_SECTION
-
-BLTMonitor_FILTERSECTION
-	Switch                        //if commented, then program wil not generate any hit
-	neutralCut                    //if not commented, then neutral tracks will not be recorded
-	maxn          0               //maximum hits cut, 0 means no limit
-	minp          0      GeV      //minimum momentum cut
-	mint          0      ns       //left end of time window, 0 means no lower limit
-	maxt          0      ns       //right end of time window, 0 means no upper limit
-	tres          0      s        //time resolution
-	minedep       -1     GeV      //minimum energy deposition cut
-	WL            0            // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
-BLTMonitor_FILTERSECTION
-
 PTACSMonitor_SECTION
 	nHits
 	x              cm
@@ -149,7 +118,7 @@ PTACSMonitor_SECTION
 
 PTACSMonitor_FILTERSECTION
 	Switch                        //if commented, then program wil not generate any hit
-	neutralCut                    //if not commented, then neutral tracks will not be recorded
+#	neutralCut                    //if not commented, then neutral tracks will not be recorded
 	maxn          0               //maximum hits cut, 0 means no limit
 	minp          0      GeV      //minimum momentum cut
 	mint          0      ns       //left end of time window, 0 means no lower limit
@@ -180,7 +149,7 @@ MT1Monitor_SECTION
 
 MT1Monitor_FILTERSECTION
 	Switch                        //if commented, then program wil not generate any hit
-	neutralCut                    //if not commented, then neutral tracks will not be recorded
+#	neutralCut                    //if not commented, then neutral tracks will not be recorded
 	maxn          0               //maximum hits cut, 0 means no limit
 	minp          0      GeV      //minimum momentum cut
 	mint          0      ns       //left end of time window, 0 means no lower limit
