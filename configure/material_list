@@ -8,14 +8,15 @@ TYPE Elements
 	Ar      Argon        18   39.948
 
 TYPE Simple_Materials
-#	name       z   a(g/mol)   density(g/cm3) rel_dens
-	Helium     2.  4.002602   1.786e-4       1
-	Aluminium  13  26.9815386 2.7            1
-	Iron       26  55.845     7.874          1
-	Steel      26  55.845     7.874          1
-	Copper     29  63.546     8.960          1 
-	Tungsten   74  183.84     19.3           1
-	Graphite   6.  12.0107    1.82           1
+#	name        z   a(g/mol)   density(g/cm3) rel_dens
+	Helium      2.  4.002602   1.786e-4       1
+	Aluminium   13  26.9815386 2.7            1
+	Iron        26  55.845     7.874          1
+	Steel       26  55.845     7.874          1
+	Copper      29  63.546     8.960          1 
+	Tungsten    74  183.84     19.3           1
+	Graphite    6.  12.0107    1.82           1
+	Graphite170 6.  12.0107    1.7            1
 
 TYPE Molecule_Materials
 #	name           density(g/cm3) rel_dens ncomponents element natoms
