@@ -3,6 +3,7 @@
 
 #ServiceName        ServiceType         FileName
 	World           Simple              world_CometPhase1
-#	BLT             Simple              subgeo_BLT_UK
-	MT1             Simple              subgeo_MT1_UK   
-	PTACS           Simple              subgeo_PTACS_UK_g60cm6mm
+	CdcRegion       Simple              subgeo_CdcRegion_130629_sakaki
+	BLT             Simple              subgeo_BLT_sakaki
+#	MT1             Simple              subgeo_MT1_sakaki   
+#	PTACS           Simple              subgeo_PTACS_sakaki

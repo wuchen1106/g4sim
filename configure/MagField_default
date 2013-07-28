@@ -1,11 +1,6 @@
 #Setup MagField
 
-	TYPE: Uniform
-#Intensity     Theta Phi 
-#         T    deg   deg
-	UniF: 0    0     0
-
-#	TYPE: Electric_Uniform
-#Type    Intensity	Theta Phi StepL StepT
-#        kV/cm	    deg   deg mm    
-#	UniEF: 1000       0     0   0.01  4
+	TYPE: fieldMap
+#			Name         Scale 
+	fMap:   DetectorArea130720fm.dat  1
+	fMap:   BessArea130720fm.dat      1

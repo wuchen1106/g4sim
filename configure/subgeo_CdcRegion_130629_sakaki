@@ -5,6 +5,7 @@
 #	Type No  RMin       RMax       Length     StartAng SpanAng Name            MotVolume       Material        SDName    posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
 #	         mm         mm         mm         deg      deg                                                               mm   mm   mm         mm         deg    deg    deg    deg    deg   
 	T    0   0          900        2581       0        360     CDCRegion       World           Helium          none      0    0    0    1     0          0      0      0      0      0     
+	T    0   0          350        1          0        360     CDCMonitor      CDCRegion       Vacuum          MonitorSD 0    0 -1290   1     0          0      0      0      0      0     
 	T    0   890        900        2581       0        360     CDCShellC       CDCRegion       Vacuum          KillerSD  0    0    0    1     0          0      0      0      0      0     
 	T    0   350        890        10         0        360     CDCShellEU      CDCRegion       Vacuum          KillerSD  0    0 -1285.5 1     0          0      0      0      0      0     
 	T    0   0          890        10         0        360     CDCShellED      CDCRegion       Vacuum          KillerSD  0    0  1285.5 1     0          0      0      0      0      0     
@@ -19,6 +20,7 @@
 	VerboseLevel:    5
 	VISSETTING  #Keep this line to call Reset
 #	Name                 red    green  blue  
+	vis_CDCMonitor       1      0      0      
 	vis_CDCShellC        1      0      0    
 	vis_CDCShellEU       1      0      0      
 	vis_CDCShellED       1      0      0      
