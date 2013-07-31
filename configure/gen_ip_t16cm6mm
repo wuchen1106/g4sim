@@ -1,0 +1,42 @@
+#General setting  
+	Type:      simple
+	Particle:  proton #(e+/e-/chargedgeantino/gamma/...)
+
+#Default Direction
+#	           Theta    Phi
+#	           deg      deg
+	Direction: 80       0
+#Default Momentum Amplitude
+#	         MeV
+	MomAmp:  7944.78729048504562
+#	MomAmp:  1.25e4
+#	MomAmp:  1e5
+#Default Position     x    y   z
+#	                  mm   mm  mm
+# x = 7350 - hl, z = -5790.5 - hl*tan(theta)
+	Position:         7270 0   -5804.60615846
+	PosSpread:        0    2   2
+
+	EnergyMode:     none #(root/histo/none)
+	PositionMode:   random  #(uniform/root/none/random)
+	DirectionMode:  none #(none/uniform/histo)
+	TimeMode:       none #(none/root)
+#Default Time
+#	         ns
+	Time:    0
+
+#Uniform In Volume:
+#	                Type   SubDet   Volume
+	UIV:            Simple World    Target
+
+#Histogram file name
+	EMHFN:          RMC_Al.root
+	EMHHN:          hRMC
+
+#Histogram file name
+	DMHFN:          ph2e.root
+	DMHHN:          theta
+
+#ROOT file name
+	RFN:            BM.root
+	RTN:            t
