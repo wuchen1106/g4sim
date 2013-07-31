@@ -200,6 +200,11 @@ void MonitorSD::ReadOutputCard(G4String filename){
 				buf_card>>pid;
 				white_list.push_back(pid);
 			}
+			else if( name == "BL" ){
+				int pid = 0;
+				buf_card>>pid;
+				black_list.push_back(pid);
+			}
 			else{
 				G4double para;
 				G4String unit;
@@ -273,6 +278,7 @@ void MonitorSD::ReSet(){
 	tres = 0;
 	minedep = -1*MeV;
 	white_list.clear();
+	black_list.clear();
 	//for units
 	unitName_x = "cm";
 	unitName_y = "cm";
@@ -342,6 +348,11 @@ void MonitorSD::ShowOutCard(){
 	if ( white_list.size() == 0 ){
 		std::cout <<"  Empty! So all tracks will be recorded!"<<std::endl;
 	}
+	std::cout<<"black list:     "<<std::endl;
+	for ( int i = 0; i< black_list.size(); i++){
+		std::cout <<"  Tracks with these following PDGCodes will NOT be recorded:"<<std::endl;
+		std::cout<<"            "<<i<<": "<<black_list[i]<<std::endl;
+	}
 	std::cout<<"******************************************************************************"<<std::endl;
 }
 
@@ -396,6 +407,12 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		if (pid<1e7) foundit = true;
 	}
 	if (!foundit&&white_list.size()) return false;
+	// black_list
+	foundit = false;
+	for (int i = 0; i<black_list.size(); i++){
+		if (pid == black_list[i]) foundit=true;
+	}
+	if (foundit) return false;
 
 	//minp
 	if ( minp && pointIn_pa < minp ) return false;
