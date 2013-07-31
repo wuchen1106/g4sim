@@ -292,7 +292,7 @@ void MyFieldSvc::ReadCard( G4String file_name ){
 			G4String name;
 			G4double scale;
 			buf_card>>name>>scale;
-			G4String dir_name = getenv("CONFIGUREDATAROOT");
+			G4String dir_name = getenv("FIELDMAPSROOT");
 			if (dir_name[dir_name.size()-1] != '/') dir_name.append("/");
 			name = dir_name + name;
 			fFieldMapFilenames.push_back(name);

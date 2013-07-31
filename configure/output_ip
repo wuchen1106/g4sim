@@ -35,7 +35,8 @@ MCTRUTHFILTER_SECTION
 	mine          10     MeV   //minimum momentum cut
 	mint          0      ns    //left end of time window, 0 means no lower limit
 	maxt          0      ns    //right end of time window, 0 means no upper limit
-	WL            0            // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
+#	WL            0            // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
+	BL            2112
 MCTRUTHFILTER_SECTION
 
 PROCESSCOUNTING_SECTION
@@ -125,7 +126,7 @@ PTACSMonitor_FILTERSECTION
 	maxt          0      ns       //right end of time window, 0 means no upper limit
 	tres          0      s        //time resolution
 	minedep       -1     GeV      //minimum energy deposition cut
-	WL            0            // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
+#	WL            0            // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
 PTACSMonitor_FILTERSECTION
 
 MT1Monitor_SECTION
@@ -156,7 +157,7 @@ MT1Monitor_FILTERSECTION
 	maxt          0      ns       //right end of time window, 0 means no upper limit
 	tres          0      s        //time resolution
 	minedep       -1     GeV      //minimum energy deposition cut
-	WL            0            // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
+#	WL            0            // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
 MT1Monitor_FILTERSECTION
 
 TRIGGERSECTION

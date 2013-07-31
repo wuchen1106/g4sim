@@ -2,5 +2,4 @@
 
 	TYPE: fieldMap
 #			Name         Scale 
-	fMap:   DetectorArea130720fm.dat  1
-	fMap:   BessArea130720fm.dat      1
+	fMap:   Phase1Field_g4sim.dat     1
