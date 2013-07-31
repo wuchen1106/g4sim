@@ -71,6 +71,7 @@ class McTruthSvc
 		double m_mint;
 		double m_maxt;
 		std::vector<int> white_list;
+		std::vector<int> black_list;
 		//For root objects
 		int m_nTracks;
 		std::vector<int> m_pid;

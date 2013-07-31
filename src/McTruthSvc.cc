@@ -163,6 +163,11 @@ void McTruthSvc::ReadOutputCard(G4String filename){
 				buf_card>>pid;
 				white_list.push_back(pid);
 			}
+			else if( name == "BL" ){
+				int pid = 0;
+				buf_card>>pid;
+				black_list.push_back(pid);
+			}
 			else{
 				G4double para;
 				std::string unit;
@@ -225,6 +230,7 @@ void McTruthSvc::ReSet(){
 	m_mint = 0;
 	m_maxt = 0;
 	white_list.clear();
+	black_list.clear();
 }
 
 void McTruthSvc::ShowOutCard(){
@@ -259,6 +265,11 @@ void McTruthSvc::ShowOutCard(){
 	if ( white_list.size() == 0 ){
 		std::cout <<"  Empty! So all tracks will be recorded!"<<std::endl;
 	}
+	std::cout<<"black list:     "<<std::endl;
+	for ( int i = 0; i< black_list.size(); i++){
+		std::cout <<"  Tracks with these following PDGCodes will NOT be recorded:"<<std::endl;
+		std::cout<<"            "<<i<<": "<<black_list[i]<<std::endl;
+	}
 	std::cout<<"******************************************************************************"<<std::endl;
 }
 
@@ -285,6 +296,12 @@ void McTruthSvc::SetValuePre(const G4Track* aTrack){
 		if (pid<1e7) foundit = true;
 	}
 	if (!foundit&&white_list.size()) return;
+	// black_list
+	foundit = false;
+	for (int i = 0; i<black_list.size(); i++){
+		if (pid == black_list[i]) foundit=true;
+	}
+	if (foundit) return;
 
 	G4String processName;
 	const G4VProcess* process = aTrack->GetCreatorProcess();
