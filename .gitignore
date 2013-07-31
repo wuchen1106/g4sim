@@ -23,10 +23,11 @@ G4History.macro
 currentEvent.rndm
 currentRun.rndm
 g4sim
-logfile
-output/
 
 # often modified files
 configure/data/
 configure/gen_default
 configure/output_default
+fieldMaps/
+output/
+logfile

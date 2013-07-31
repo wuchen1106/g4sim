@@ -8,6 +8,7 @@ export G4SIMEXEC=$MYG4SIMROOT/g4sim
 #Configuration directory
 export CONFIGUREROOT=$MYG4SIMROOT/configure/
 export CONFIGUREDATAROOT=$MYG4SIMROOT/configure/data/
+export FIELDMAPSROOT=$MYG4SIMROOT/fieldMaps/
 
 #for detector construction
 export MATERIALLISTROOT=material_list
