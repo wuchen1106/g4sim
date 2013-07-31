@@ -160,6 +160,7 @@ class MonitorSD : public MySD
 		bool neutralCut;
 		G4int maxn;
 		G4double minp;
+		G4double mine;
 		G4double tres;
 		G4double mint;
 		G4double maxt;

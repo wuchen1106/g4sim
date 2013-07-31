@@ -211,6 +211,7 @@ void MonitorSD::ReadOutputCard(G4String filename){
 				buf_card>>para>>unit;
 				para *= MyString2Anything::get_U(unit);
 				if( name == "minp" ) minp = para;
+				else if( name == "mine" ) mine = para;
 				else if ( name == "minedep" ) minedep = para;
 				else if( name == "mint" ) mint = para;
 				else if( name == "maxt" ) maxt = para;
@@ -272,6 +273,7 @@ void MonitorSD::ReSet(){
 	Switch = false;
 	neutralCut = false;
 	minp = 0;
+	mine = 0;
 	maxn = 0;
 	mint = 0;
 	maxt = 0;
@@ -335,6 +337,7 @@ void MonitorSD::ShowOutCard(){
 	std::cout<<"Switch on?      "<<(Switch?"yes":"no")<<std::endl;
 	std::cout<<"neutralCut on?  "<<(neutralCut?"yes":"no")<<std::endl;
 	std::cout<<"minp =          "<<minp/MeV<<"MeV"<<std::endl;
+	std::cout<<"mine =          "<<mine/MeV<<"MeV"<<std::endl;
 	std::cout<<"maxn =          "<<maxn<<std::endl;
 	std::cout<<"mint =          "<<mint/ns<<"ns"<<std::endl;
 	std::cout<<"maxt =          "<<maxt/ns<<"ns"<<std::endl;
@@ -416,6 +419,8 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 
 	//minp
 	if ( minp && pointIn_pa < minp ) return false;
+	//energy
+	if (mine&&gTrack->GetTotalEnergy()<mine) return false;
 
 	//time_window
 	if(isnan(pointIn_time)){

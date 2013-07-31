@@ -1,0 +1,5 @@
+#Setup MagField
+
+	TYPE: fieldMap
+#			Name         Scale 
+	fMap:   PTField_g4sim.dat     1

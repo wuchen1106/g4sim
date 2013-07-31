@@ -1,0 +1,25 @@
+#general info
+	checkoverlap
+
+#Tubs info
+#	Type No  RMin   RMax   Length   StartAng SpanAng Name                  MotVolume          Material      SDName    posX posY posZ  RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
+#	         mm     mm     mm       deg      deg                                                                      mm   mm   mm          mm         deg    deg    deg    deg    deg   
+	T    0   0.     807    5300     0        360     PTACSContainer        World              Vacuum        none      5650 0  -5790.5 1     0          0      0      270    90      0     
+	T    11  0      11.02  411      0        360     TargetContainer       PTACSContainer     Vacuum        none      0    0  -1700   1     0          0      0      0      10      0     
+
+	T    11  0      10     400      0        360     PTACSProductionTarget TargetContainer    Graphite      none      0    0     0    1     0          0      0      0      0       0     
+	T    11  11     11.01  400.02   0        360     MonitorC              TargetContainer    Vacuum        MonitorSD 0    0     0    1     0          0      0      0      0       0     
+	T    11  0      11     0.01     0        360     MonitorE              TargetContainer    Vacuum        MonitorSD 0    0     0    2     400.01     0      0      0      0       0     
+	T    11  11.01  11.02  410.01   0        360     KillerC               TargetContainer    Vacuum        KillerSD  0    0     0    1     0          0      0      0      0       0     
+	T    11  0      11.01  0.01     0        360     KillerE               TargetContainer    Vacuum        KillerSD  0    0     0    2     410        0      0      0      0       0     
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name                        red    green  blue  
+#	vis_PTACSContainer          1      1      1     
+	vis_PTACSProductionTarget   1      0      0     
+	vis_MonitorC                0      1      0     
+	vis_MonitorE                0      1      0     
+	vis_KillerC                 0      1      0     
+	vis_KillerE                 0      1      0     
