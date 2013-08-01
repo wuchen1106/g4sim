@@ -25,9 +25,9 @@ currentRun.rndm
 g4sim
 
 # often modified files
-configure/data/
+fieldMaps/
+data/
 configure/gen_default
 configure/output_default
-fieldMaps/
 output/
 logfile
