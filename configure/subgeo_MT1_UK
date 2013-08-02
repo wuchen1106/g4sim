@@ -25,7 +25,7 @@
 	vis_MT1Yoke            0      0      1     
 	vis_MT1Shell           0.5    0.5    0.5
 	vis_MT1Monitor         1      0      0  
-#	vis_MT1Killer1         1      0      0  
-#	vis_MT1Killer2         1      0      0  
-#	vis_MT1Killer3         1      0      0  
-#	vis_MT1Killer4         1      0      0  
+	vis_MT1Killer1         1      0      0  
+	vis_MT1Killer2         1      0      0  
+	vis_MT1Killer3         1      0      0  
+	vis_MT1Killer4         1      0      0  
