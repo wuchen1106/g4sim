@@ -1,4 +1,4 @@
-/stacking/setEleCut 100 MeV
-/stacking/setPosCut 100 MeV
-/stacking/setGamCut 100 MeV
+/stacking/setEleCut 1.5 MeV
+/stacking/setPosCut 1.5 MeV
+/stacking/setGamCut 1.5 MeV
 /run/setCut 0.001 mm

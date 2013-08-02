@@ -43,7 +43,7 @@
 #include "EventAction.hh"
 #include "SteppingAction.hh"
 #include "SteppingVerbose.hh"
-#include "QGSP_BERT.hh"
+#include "QGSP_BERT_HP.hh"
 
 #ifdef G4VIS_USE
 #include "G4VisExecutive.hh"
@@ -85,7 +85,8 @@ int main(int argc,char** argv)
   runManager->SetUserInitialization(new DetectorConstruction);
   //
   //runManager->SetUserInitialization(new PhysicsList);
-  runManager->SetUserInitialization(new QGSP_BERT);
+  //runManager->SetUserInitialization(new QGSP_BERT);
+  runManager->SetUserInitialization(new QGSP_BERT_HP);
 
   // Set user action classes
   //
