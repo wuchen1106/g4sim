@@ -1,5 +1,5 @@
 #general info
-#	checkoverlap
+	checkoverlap
 
 #Torus info
 #	Type No  RMin       RMax       Rtor       StartAng SpanAng Name            MotVolume       Material      SDName    posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
