@@ -14,6 +14,8 @@ class MyStackingAction;
 
 class G4UIdirectory;
 class G4UIcmdWithADoubleAndUnit;
+class G4UIcmdWithAnInteger;
+class G4UIcmdWithoutParameter;
 
 class MyStackingActionMessenger: public G4UImessenger {
     public:
@@ -29,6 +31,11 @@ class MyStackingActionMessenger: public G4UImessenger {
         G4UIcmdWithADoubleAndUnit* fEleCmd;
         G4UIcmdWithADoubleAndUnit* fPosCmd;
         G4UIcmdWithADoubleAndUnit* fGamCmd;
+
+        G4UIcmdWithAnInteger* fadd_whiteCmd;
+        G4UIcmdWithAnInteger* fadd_blackCmd;
+        G4UIcmdWithoutParameter* fclear_whiteCmd;
+        G4UIcmdWithoutParameter* fclear_blackCmd;
 
 };
 #endif

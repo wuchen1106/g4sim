@@ -16,6 +16,8 @@ static const char* MyStackingAction_cc =
 MyStackingAction::MyStackingAction()
 : fTrackIDMap(NULL), fEleCut(0), fPosCut(0), fGamCut(0) {
     fStackingActionMessenger = new MyStackingActionMessenger(this);
+    m_white_list.clear();
+    m_black_list.clear();
 }
 
 
@@ -71,6 +73,32 @@ MyStackingAction::ClassifyNewTrack(const G4Track* aTrack) {
         }
 
     }
+
+	if (aTrackID!=1){
+		bool foundit=false;
+		if (m_white_list.size()!=0){
+			foundit=false;
+			for (int i = 0; i< m_white_list.size(); i++){
+				if (aPDGEncoding==m_white_list[i]){
+					foundit=true;
+					break;
+				}
+			}
+			if (!foundit){
+				aClassification = fKill;
+			}
+		}
+		foundit=false;
+		for (int i = 0; i< m_black_list.size(); i++){
+			if (aPDGEncoding==m_black_list[i]){
+				foundit=true;
+				break;
+			}
+		}
+		if (foundit){
+			aClassification = fKill;
+		}
+	}
 
     return aClassification;
 }

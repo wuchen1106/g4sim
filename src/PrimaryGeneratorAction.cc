@@ -45,7 +45,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 		file_name = dir_name + file_name;
 	}
 	ReadCard(file_name);
-	if (fType == "simple"){
+	if (fType == "simple" || fType == "stable" ){
 		G4int n_particle = 1;
 		particleGun  = new G4ParticleGun(n_particle);
 	}
@@ -60,6 +60,9 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 		std::cout<<"ERROR: In PrimaryGeneratorAction::PrimaryGeneratorAction() Cannot find particle "<<ParticleName<<"!!!"<<std::endl;
 		G4Exception("PrimaryGeneratorAction::PrimaryGeneratorAction()","Run0031",
 				FatalException, "Cannot find particle.");
+	}
+	if (fType == "stable"){
+		particle->SetPDGStable(true);
 	}
 	particleGun->SetParticleDefinition(particle);
 	G4ThreeVector dir(1,0,0);

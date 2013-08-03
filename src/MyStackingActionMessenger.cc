@@ -10,6 +10,8 @@ static const char* MyStackingActionMessenger_cc =
 #include "G4UIdirectory.hh"
 #include "G4UIcmdWithAString.hh"
 #include "G4UIcmdWithADoubleAndUnit.hh"
+#include "G4UIcmdWithAnInteger.hh"
+#include "G4UIcmdWithoutParameter.hh"
 #include "globals.hh"
 
 MyStackingActionMessenger::MyStackingActionMessenger(MyStackingAction* aStack)
@@ -34,6 +36,24 @@ MyStackingActionMessenger::MyStackingActionMessenger(MyStackingAction* aStack)
     fGamCmd->SetParameterName("gamCut",false);
     fGamCmd->SetUnitCategory("Energy");
     fGamCmd->AvailableForStates(G4State_Idle);
+
+	fadd_whiteCmd = new G4UIcmdWithAnInteger("/stacking/add_white_list", this);
+	fadd_whiteCmd->SetGuidance("Add PDGEncoding to white list.");
+	fadd_whiteCmd->SetParameterName("PDGEncoding",false);
+	fadd_whiteCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+	fadd_blackCmd = new G4UIcmdWithAnInteger("/stacking/add_black_list", this);
+	fadd_blackCmd->SetGuidance("Add PDGEncoding to black list.");
+	fadd_blackCmd->SetParameterName("PDGEncoding",false);
+	fadd_blackCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+	fclear_whiteCmd = new G4UIcmdWithoutParameter("/stacking/clear_white_list",this);
+	fclear_whiteCmd->SetGuidance("Clear white list.");
+	fclear_whiteCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+	fclear_blackCmd = new G4UIcmdWithoutParameter("/stacking/clear_black_list",this);
+	fclear_blackCmd->SetGuidance("Clear black list.");
+	fclear_blackCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 }
 
 
@@ -42,6 +62,10 @@ MyStackingActionMessenger::~MyStackingActionMessenger() {
     delete fEleCmd;
     delete fPosCmd;
     delete fGamCmd;
+    delete fadd_whiteCmd;
+    delete fadd_blackCmd;
+    delete fclear_blackCmd;
+    delete fclear_whiteCmd;
 }
 
 
@@ -60,6 +84,26 @@ G4String newValue) {
     if( command == fGamCmd ) {
         fStackingAction->
             SetGamCut(fGamCmd->GetNewDoubleValue(newValue));
+    }
+
+    if( command == fadd_whiteCmd ) {
+        fStackingAction->
+            add_white_list(fadd_whiteCmd->GetNewIntValue(newValue));
+    }
+
+    if( command == fadd_blackCmd ) {
+        fStackingAction->
+            add_black_list(fadd_blackCmd->GetNewIntValue(newValue));
+    }
+
+    if( command == fclear_whiteCmd ) {
+        fStackingAction->
+            clear_white_list();
+    }
+
+    if( command == fclear_blackCmd ) {
+        fStackingAction->
+            clear_black_list();
     }
 
 }
