@@ -37,5 +37,5 @@
 	DMHHN:          theta
 
 #ROOT file name
-	RFN:            BM_g40cm10mm182gcm3_QGSPBERT_496p02.root
+	RFN:            BM_g40cm10mm182gcm3_03T_QGSPBERTHPg4sim_496p02.root
 	RTN:            t
