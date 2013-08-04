@@ -27,6 +27,8 @@ g4sim
 # often modified files
 fieldMaps/
 data/
+configure/MagField_default
+configure/geometry_default
 configure/gen_default
 configure/output_default
 output/
