@@ -39,6 +39,14 @@ class McTruthSvc
 		double get_py( int i ){ if(i<m_nTracks) return m_py[i]; else return 0; }
 		double get_pz( int i ){ if(i<m_nTracks) return m_pz[i]; else return 0; }
 
+		int tid2pid(int tid){
+			for (int i = 0; i< m_dicttid.size(); i++){
+				if (tid==m_dicttid[i])
+					return m_dictpid[i];
+			}
+			return 0;
+		}
+
 	private:
 
 		void ReSet();
@@ -47,6 +55,7 @@ class McTruthSvc
 		static McTruthSvc* fMcTruthSvc;
 
 		//for output setting
+		bool flag_tid2pid;
 		bool flag_nTracks;
 		bool flag_pid;
 		bool flag_tid;
@@ -74,6 +83,8 @@ class McTruthSvc
 		std::vector<int> black_list;
 		//For root objects
 		int m_nTracks;
+		std::vector<int> m_dictpid;
+		std::vector<int> m_dicttid;
 		std::vector<int> m_pid;
 		std::vector<int> m_tid;
 		std::vector<int> m_ptid;

@@ -47,6 +47,8 @@ McTruthSvc* McTruthSvc::GetMcTruthSvc(){
 
 void McTruthSvc::Initialize(){
 	m_nTracks = 0;
+	m_dictpid.clear();
+	m_dicttid.clear();
 	m_pid.clear();
 	m_tid.clear();
 	m_ptid.clear();
@@ -127,6 +129,7 @@ void McTruthSvc::ReadOutputCard(G4String filename){
 			}
 			else if( name == "nTracks" ) flag_nTracks = true;
 			else if( name == "pid" ) flag_pid = true;
+			else if( name == "tid2pid" ) flag_tid2pid= true;
 			else if( name == "tid" ) flag_tid = true;
 			else if( name == "ptid" ) flag_ptid = true;
 			else if( name == "time" ) {flag_time = true; buf_card>>unitName_time; unit_time = MyString2Anything::get_U(unitName_time);}
@@ -209,6 +212,7 @@ void McTruthSvc::ReadOutputCard(G4String filename){
 void McTruthSvc::ReSet(){
 	flag_nTracks = false;
 	flag_pid = false;
+	flag_tid2pid = false;
 	flag_tid = false;
 	flag_ptid = false;
 	flag_time = false;
@@ -237,6 +241,7 @@ void McTruthSvc::ShowOutCard(){
 	std::cout<<"*************************Output settings for McTruthSvc***************************"<<std::endl;
 	std::cout<<"output nTracks?       "<<(flag_nTracks?" yes":" no")<<std::endl;
 	std::cout<<"output pid?           "<<(flag_pid?" yes":" no")<<std::endl;
+	std::cout<<"enable tid2pid?       "<<(flag_tid2pid?" yes":" no")<<std::endl;
 	std::cout<<"output tid?           "<<(flag_tid?" yes":" no")<<std::endl;
 	std::cout<<"output ptid?          "<<(flag_ptid?" yes":" no")<<std::endl;
 	std::cout<<"output time?          "<<(flag_time?" yes":" no")<<", unit: "<<unitName_time<<std::endl;
@@ -274,6 +279,12 @@ void McTruthSvc::ShowOutCard(){
 }
 
 void McTruthSvc::SetValuePre(const G4Track* aTrack){
+	G4int pid = aTrack->GetParticleDefinition()->GetPDGEncoding();
+	G4int trackID= aTrack->GetTrackID(); //G4 track ID of current track.
+	if (flag_tid2pid){
+		m_dictpid.push_back(pid);
+		m_dicttid.push_back(trackID);
+	}
 	//switch
 	if (!m_Switch) return;
 	//nTracks
@@ -287,7 +298,6 @@ void McTruthSvc::SetValuePre(const G4Track* aTrack){
 	if (m_mint&&globalT<m_mint) return;
 	if (m_maxt&&globalT>m_maxt) return;
 	// white_list
-	G4int pid = aTrack->GetParticleDefinition()->GetPDGEncoding();
 	bool foundit = false;
 	for (int i = 0; i<white_list.size(); i++){
 		if (pid == white_list[i]) foundit=true;
@@ -311,7 +321,6 @@ void McTruthSvc::SetValuePre(const G4Track* aTrack){
 	else{
 		processName = "NULL";
 	}
-	G4int trackID= aTrack->GetTrackID(); //G4 track ID of current track.
 	G4int ptid = aTrack->GetParentID(); //parent G4 track ID of current track.
 	G4ThreeVector mom_3vec = aTrack->GetMomentum();
 	G4ThreeVector pos_3vec = aTrack->GetVertexPosition();

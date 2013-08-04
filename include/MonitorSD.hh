@@ -43,11 +43,21 @@ class MonitorSD : public MySD
 		double Get_m_px( int i ) { return m_px[i]; }
 		double Get_m_py( int i ) { return m_py[i]; }
 		double Get_m_pz( int i ) { return m_pz[i]; }
+		double Get_m_ox( int i ) { return m_ox[i]; }
+		double Get_m_oy( int i ) { return m_oy[i]; }
+		double Get_m_oz( int i ) { return m_oz[i]; }
+		double Get_m_ot( int i ) { return m_ot[i]; }
+		double Get_m_opx( int i ) { return m_opx[i]; }
+		double Get_m_opy( int i ) { return m_opy[i]; }
+		double Get_m_opz( int i ) { return m_opz[i]; }
 		double Get_m_e( int i ) { return m_e[i]; }
 		double Get_m_edep( int i ) { return m_edep[i]; }
 		double Get_m_stepL( int i ) { return m_stepL[i]; }
 		int Get_m_volID( int i ) { return m_volID[i]; }
 		std::string Get_m_volName( int i ) { return m_volName[i]; }
+		int Get_m_ppid( int i ) { return m_ppid[i]; }
+		std::string Get_m_oprocess( int i ) { return m_oprocess[i]; }
+		std::string Get_m_ovolName( int i ) { return m_ovolName[i]; }
 		int Get_m_tid( int i ) { return m_tid[i]; }
 		int Get_m_pid( int i ) { return m_pid[i]; }
 		int Get_m_charge( int i ) { return m_charge[i]; }
@@ -62,6 +72,13 @@ class MonitorSD : public MySD
 		std::string Get_unitName_px() { return unitName_px; }
 		std::string Get_unitName_py() { return unitName_py; }
 		std::string Get_unitName_pz() { return unitName_pz; }
+		std::string Get_unitName_ox() { return unitName_ox; }
+		std::string Get_unitName_oy() { return unitName_oy; }
+		std::string Get_unitName_oz() { return unitName_oz; }
+		std::string Get_unitName_ot() { return unitName_ot; }
+		std::string Get_unitName_opx() { return unitName_opx; }
+		std::string Get_unitName_opy() { return unitName_opy; }
+		std::string Get_unitName_opz() { return unitName_opz; }
 		std::string Get_unitName_e() { return unitName_e; }
 		std::string Get_unitName_edep() { return unitName_edep; }
 		std::string Get_unitName_stepL() { return unitName_stepL; }
@@ -74,6 +91,13 @@ class MonitorSD : public MySD
 		double Get_unit_px() { return unit_px; }
 		double Get_unit_py() { return unit_py; }
 		double Get_unit_pz() { return unit_pz; }
+		double Get_unit_ox() { return unit_ox; }
+		double Get_unit_oy() { return unit_oy; }
+		double Get_unit_oz() { return unit_oz; }
+		double Get_unit_ot() { return unit_ot; }
+		double Get_unit_opx() { return unit_opx; }
+		double Get_unit_opy() { return unit_opy; }
+		double Get_unit_opz() { return unit_opz; }
 		double Get_unit_e() { return unit_e; }
 		double Get_unit_edep() { return unit_edep; }
 		double Get_unit_stepL() { return unit_stepL; }
@@ -96,11 +120,21 @@ class MonitorSD : public MySD
 		std::vector<double> m_px;
 		std::vector<double> m_py;
 		std::vector<double> m_pz;
+		std::vector<double> m_ox;
+		std::vector<double> m_oy;
+		std::vector<double> m_oz;
+		std::vector<double> m_ot;
+		std::vector<double> m_opx;
+		std::vector<double> m_opy;
+		std::vector<double> m_opz;
 		std::vector<double> m_e;
 		std::vector<double> m_edep;
 		std::vector<double> m_stepL;
 		std::vector<int>    m_volID;
 		std::vector<std::string>    m_volName;
+		std::vector<int>    m_ppid;
+		std::vector<std::string>    m_oprocess;
+		std::vector<std::string>    m_ovolName;
 		std::vector<int>    m_tid;
 		std::vector<int>    m_pid;
 		std::vector<int>    m_charge;
@@ -115,6 +149,13 @@ class MonitorSD : public MySD
 		std::string unitName_px;
 		std::string unitName_py;
 		std::string unitName_pz;
+		std::string unitName_ox;
+		std::string unitName_oy;
+		std::string unitName_oz;
+		std::string unitName_ot;
+		std::string unitName_opx;
+		std::string unitName_opy;
+		std::string unitName_opz;
 		std::string unitName_e;
 		std::string unitName_edep;
 		std::string unitName_stepL;
@@ -127,6 +168,13 @@ class MonitorSD : public MySD
 		double unit_px;
 		double unit_py;
 		double unit_pz;
+		double unit_ox;
+		double unit_oy;
+		double unit_oz;
+		double unit_ot;
+		double unit_opx;
+		double unit_opy;
+		double unit_opz;
 		double unit_e;
 		double unit_edep;
 		double unit_stepL;
@@ -143,11 +191,21 @@ class MonitorSD : public MySD
 		bool flag_px;
 		bool flag_py;
 		bool flag_pz;
+		bool flag_ox;
+		bool flag_oy;
+		bool flag_oz;
+		bool flag_ot;
+		bool flag_opx;
+		bool flag_opy;
+		bool flag_opz;
 		bool flag_e;
 		bool flag_edep;
 		bool flag_stepL;
 		bool flag_volID;
 		bool flag_volName;
+		bool flag_ppid;
+		bool flag_oprocess;
+		bool flag_ovolName;
 		bool flag_tid;
 		bool flag_pid;
 		bool flag_charge;

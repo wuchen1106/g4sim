@@ -31,6 +31,7 @@
 #include "MonitorHit.hh"
 #include "MyRoot.hh"
 #include "MySD.hh"
+#include "McTruthSvc.hh"
 
 #include "MonitorSD.hh"
 
@@ -70,11 +71,21 @@ void MonitorSD::Initialize(G4HCofThisEvent* HCE)
 	m_px.clear();
 	m_py.clear();
 	m_pz.clear();
+	m_ox.clear();
+	m_oy.clear();
+	m_oz.clear();
+	m_ot.clear();
+	m_opx.clear();
+	m_opy.clear();
+	m_opz.clear();
 	m_e.clear();
 	m_edep.clear();
 	m_stepL.clear();
 	m_volID.clear();
 	m_volName.clear();
+	m_ppid.clear();
+	m_oprocess.clear();
+	m_ovolName.clear();
 	m_tid.clear();
 	m_pid.clear();
 	m_charge.clear();
@@ -98,11 +109,21 @@ void MonitorSD::SetBranch(){
 	if( flag_px ) myRoot->SetBranch(volName+"_px", &m_px);
 	if( flag_py ) myRoot->SetBranch(volName+"_py", &m_py);
 	if( flag_pz ) myRoot->SetBranch(volName+"_pz", &m_pz);
+	if( flag_ox ) myRoot->SetBranch(volName+"_ox", &m_ox);
+	if( flag_oy ) myRoot->SetBranch(volName+"_oy", &m_oy);
+	if( flag_oz ) myRoot->SetBranch(volName+"_oz", &m_oz);
+	if( flag_ot ) myRoot->SetBranch(volName+"_ot", &m_ot);
+	if( flag_opx ) myRoot->SetBranch(volName+"_opx", &m_opx);
+	if( flag_opy ) myRoot->SetBranch(volName+"_opy", &m_opy);
+	if( flag_opz ) myRoot->SetBranch(volName+"_opz", &m_opz);
 	if( flag_e ) myRoot->SetBranch(volName+"_e", &m_e);
 	if( flag_edep ) myRoot->SetBranch(volName+"_edep", &m_edep);
 	if( flag_stepL ) myRoot->SetBranch(volName+"_stepL", &m_stepL);
 	if( flag_volID ) myRoot->SetBranch(volName+"_volID", &m_volID);
 	if( flag_volName ) myRoot->SetBranch(volName+"_volName", &m_volName);
+	if( flag_ppid) myRoot->SetBranch(volName+"_ppid", &m_ppid);
+	if( flag_oprocess) myRoot->SetBranch(volName+"_oprocess", &m_oprocess);
+	if( flag_ovolName) myRoot->SetBranch(volName+"_ovolName", &m_ovolName);
 	if( flag_tid ) myRoot->SetBranch(volName+"_tid", &m_tid);
 	if( flag_pid ) myRoot->SetBranch(volName+"_pid", &m_pid);
 	if( flag_charge ) myRoot->SetBranch(volName+"_charge", &m_charge);
@@ -165,11 +186,21 @@ void MonitorSD::ReadOutputCard(G4String filename){
 			else if( name == "px" ) {{flag_px = true; buf_card>>unitName_px; unit_px = MyString2Anything::get_U(unitName_px);}}
 			else if( name == "py" ) {{flag_py = true; buf_card>>unitName_py; unit_py = MyString2Anything::get_U(unitName_py);}}
 			else if( name == "pz" ) {{flag_pz = true; buf_card>>unitName_pz; unit_pz = MyString2Anything::get_U(unitName_pz);}}
+			else if( name == "ox" ) {{flag_ox = true; buf_card>>unitName_ox; unit_ox = MyString2Anything::get_U(unitName_ox);}}
+			else if( name == "oy" ) {{flag_oy = true; buf_card>>unitName_oy; unit_oy = MyString2Anything::get_U(unitName_oy);}}
+			else if( name == "oz" ) {{flag_oz = true; buf_card>>unitName_oz; unit_oz = MyString2Anything::get_U(unitName_oz);}}
+			else if( name == "ot" ) {{flag_ot = true; buf_card>>unitName_ot; unit_ot = MyString2Anything::get_U(unitName_ot);}}
+			else if( name == "opx" ) {{flag_opx = true; buf_card>>unitName_opx; unit_opx = MyString2Anything::get_U(unitName_opx);}}
+			else if( name == "opy" ) {{flag_opy = true; buf_card>>unitName_opy; unit_opy = MyString2Anything::get_U(unitName_opy);}}
+			else if( name == "opz" ) {{flag_opz = true; buf_card>>unitName_opz; unit_opz = MyString2Anything::get_U(unitName_opz);}}
 			else if( name == "e" ) {{flag_e = true; buf_card>>unitName_e; unit_e = MyString2Anything::get_U(unitName_e);}}
 			else if( name == "edep" ) {{flag_edep = true; buf_card>>unitName_edep; unit_edep = MyString2Anything::get_U(unitName_edep);}}
 			else if( name == "stepL" ) {{flag_stepL = true; buf_card>>unitName_stepL; unit_stepL = MyString2Anything::get_U(unitName_stepL);}}
 			else if( name == "volID" ) {flag_volID = true;}
 			else if( name == "volName" ) {flag_volName = true;}
+			else if( name == "ppid" ) {flag_ppid = true;}
+			else if( name == "oprocess" ) {flag_oprocess = true;}
+			else if( name == "ovolName" ) {flag_ovolName = true;}
 			else if( name == "tid" ) {flag_tid = true;}
 			else if( name == "pid" ) {flag_pid = true;}
 			else if( name == "charge" ) {flag_charge = true;}
@@ -257,11 +288,21 @@ void MonitorSD::ReSet(){
 	flag_px = false;
 	flag_py = false;
 	flag_pz = false;
+	flag_ox = false;
+	flag_oy = false;
+	flag_oz = false;
+	flag_ot = false;
+	flag_opx = false;
+	flag_opy = false;
+	flag_opz = false;
 	flag_e = false;
 	flag_edep = false;
 	flag_stepL = false;
 	flag_volID = false;
 	flag_volName = false;
+	flag_ppid = false;
+	flag_oprocess = false;
+	flag_ovolName = false;
 	flag_tid = false;
 	flag_pid = false;
 	flag_charge = false;
@@ -289,6 +330,13 @@ void MonitorSD::ReSet(){
 	unitName_px = "GeV";
 	unitName_py = "GeV";
 	unitName_pz = "GeV";
+	unitName_ox = "cm";
+	unitName_oy = "cm";
+	unitName_oz = "cm";
+	unitName_ot = "ns";
+	unitName_opx = "GeV";
+	unitName_opy = "GeV";
+	unitName_opz = "GeV";
 	unitName_e = "GeV";
 	unitName_edep = "GeV";
 	unitName_stepL = "cm";
@@ -301,6 +349,13 @@ void MonitorSD::ReSet(){
 	unit_px = MyString2Anything::get_U(unitName_px);
 	unit_py = MyString2Anything::get_U(unitName_py);
 	unit_pz = MyString2Anything::get_U(unitName_pz);
+	unit_ox = MyString2Anything::get_U(unitName_ox);
+	unit_oy = MyString2Anything::get_U(unitName_oy);
+	unit_oz = MyString2Anything::get_U(unitName_oz);
+	unit_ot = MyString2Anything::get_U(unitName_ot);
+	unit_opx = MyString2Anything::get_U(unitName_opx);
+	unit_opy = MyString2Anything::get_U(unitName_opy);
+	unit_opz = MyString2Anything::get_U(unitName_opz);
 	unit_e = MyString2Anything::get_U(unitName_e);
 	unit_edep = MyString2Anything::get_U(unitName_edep);
 	unit_stepL = MyString2Anything::get_U(unitName_stepL);
@@ -321,11 +376,21 @@ void MonitorSD::ShowOutCard(){
 	std::cout<<"output px?      "<<(flag_px?" yes":" no")<<", unit: "<<unitName_px<<std::endl;
 	std::cout<<"output py?      "<<(flag_py?" yes":" no")<<", unit: "<<unitName_py<<std::endl;
 	std::cout<<"output pz?      "<<(flag_pz?" yes":" no")<<", unit: "<<unitName_pz<<std::endl;
+	std::cout<<"output ox?      "<<(flag_ox?" yes":" no")<<", unit: "<<unitName_ox<<std::endl;
+	std::cout<<"output oy?      "<<(flag_oy?" yes":" no")<<", unit: "<<unitName_oy<<std::endl;
+	std::cout<<"output oz?      "<<(flag_oz?" yes":" no")<<", unit: "<<unitName_oz<<std::endl;
+	std::cout<<"output ot?      "<<(flag_ot?" yes":" no")<<", unit: "<<unitName_ot<<std::endl;
+	std::cout<<"output opx?     "<<(flag_opx?" yes":" no")<<", unit: "<<unitName_opx<<std::endl;
+	std::cout<<"output opy?     "<<(flag_opy?" yes":" no")<<", unit: "<<unitName_opy<<std::endl;
+	std::cout<<"output opz?     "<<(flag_opz?" yes":" no")<<", unit: "<<unitName_opz<<std::endl;
 	std::cout<<"output e?       "<<(flag_e?" yes":" no")<<", unit: "<<unitName_e<<std::endl;
 	std::cout<<"output edep?    "<<(flag_edep?" yes":" no")<<", unit: "<<unitName_edep<<std::endl;
 	std::cout<<"output stepL?   "<<(flag_stepL?" yes":" no")<<", unit: "<<unitName_stepL<<std::endl;
 	std::cout<<"output volID?   "<<(flag_volID?" yes":" no")<<std::endl;
 	std::cout<<"output volName? "<<(flag_volName?" yes":" no")<<std::endl;
+	std::cout<<"output ppid?    "<<(flag_ppid?" yes":" no")<<std::endl;
+	std::cout<<"output oprocess?"<<(flag_oprocess?" yes":" no")<<std::endl;
+	std::cout<<"output ovolName?"<<(flag_ovolName?" yes":" no")<<std::endl;
 	std::cout<<"output tid?     "<<(flag_tid?" yes":" no")<<std::endl;
 	std::cout<<"output pid?     "<<(flag_pid?" yes":" no")<<std::endl;
 	std::cout<<"output charge?  "<<(flag_charge?" yes":" no")<<std::endl;
@@ -367,10 +432,10 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	//*************************get useful variables***********************
 
 	// get track info
-	G4Track* gTrack = aStep->GetTrack() ;
-	G4int trackID= gTrack->GetTrackID(); //G4 track ID of current track.
-	G4int charge = gTrack->GetDefinition()->GetPDGCharge();
-	G4int pid = gTrack->GetDefinition()->GetPDGEncoding();
+	G4Track* aTrack = aStep->GetTrack() ;
+	G4int trackID= aTrack->GetTrackID(); //G4 track ID of current track.
+	G4int charge = aTrack->GetDefinition()->GetPDGCharge();
+	G4int pid = aTrack->GetDefinition()->GetPDGEncoding();
 
 	// get information at the beginning and at the end of step
 	G4StepPoint* prePoint  = aStep->GetPreStepPoint() ;
@@ -420,7 +485,7 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	//minp
 	if ( minp && pointIn_pa < minp ) return false;
 	//energy
-	if (mine&&gTrack->GetTotalEnergy()<mine) return false;
+	if (mine&&aTrack->GetTotalEnergy()<mine) return false;
 
 	//time_window
 	if(isnan(pointIn_time)){
@@ -442,7 +507,7 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	//         <<"ns, t_out = "<<pointOut_time/ns
 	//         <<"ns"
 	//         <<std::endl;
-	G4TrackStatus fTrackStatus = gTrack->GetTrackStatus();
+	G4TrackStatus fTrackStatus = aTrack->GetTrackStatus();
 	//if (fTrackStatus == fAlive) std::cout<<"fAlive"<<std::endl;
 	//else if (fTrackStatus == fStopButAlive) std::cout<<"fStopButAlive"<<std::endl;
 	//else if (fTrackStatus == fStopAndKill) std::cout<<"fStopAndKill"<<std::endl;
@@ -525,6 +590,45 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		if(flag_killed) m_killed.push_back(killed); // always false unless killed at the first step
 		if(flag_stop_time) m_stop_time.push_back(stop_time/unit_stop_time); // always 0 unless stopped at the first step
 		if(flag_kill_time) m_kill_time.push_back(kill_time/unit_kill_time); // always 0 unless killed at the first step
+		if(flag_ppid){
+			int ptid = aTrack->GetParentID();
+			int ppid = McTruthSvc::GetMcTruthSvc()->tid2pid(ptid);
+			m_ppid.push_back(ppid);
+		}
+		if(flag_oprocess){
+			G4String processName;
+			const G4VProcess* process = aTrack->GetCreatorProcess();
+			if (process) {
+				processName = process->GetProcessName();
+			}
+			else{
+				processName = "NULL";
+			}
+			m_oprocess.push_back(processName);
+		}
+		if(flag_ovolName){
+			G4String volume = aTrack->GetLogicalVolumeAtVertex()->GetName();
+			m_ovolName.push_back(volume);
+		}
+		if (flag_ox||flag_oy||flag_oz){
+			G4ThreeVector pos_3vec = aTrack->GetVertexPosition();
+			if(flag_ox) m_ox.push_back(pos_3vec.x()/unit_ox);
+			if(flag_oy) m_oy.push_back(pos_3vec.y()/unit_oy);
+			if(flag_oz) m_oz.push_back(pos_3vec.z()/unit_oz);
+		}
+		if(flag_ot){
+			G4double globalT=aTrack->GetGlobalTime();//Time since the event in which the track belongs is created
+			m_ot.push_back(globalT/unit_ot);
+		}
+		if (flag_opx||flag_opy||flag_opz){
+			G4ThreeVector mom_dir = aTrack->GetVertexMomentumDirection();
+			G4double Ekin = aTrack->GetVertexKineticEnergy();
+			G4double mass = aTrack->GetDynamicParticle()->GetMass();
+			G4double mom = sqrt((mass+Ekin)*(mass+Ekin)-mass*mass);
+			if(flag_opx) m_opx.push_back(mom*mom_dir.x()/unit_opx);
+			if(flag_opy) m_opy.push_back(mom*mom_dir.y()/unit_opy);
+			if(flag_opz) m_opz.push_back(mom*mom_dir.z()/unit_opz);
+		}
 		nHits++;
 	}
 	else {
