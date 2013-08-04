@@ -5,19 +5,19 @@
 #Default Direction
 #	           Theta    Phi
 #	           deg      deg
-	Direction: 80       0
+	Direction: 10        0
 #Default Momentum Amplitude
 #	         MeV
-	MomAmp:  7944.78729048504562
+	MomAmp:  40
+#	MomAmp:  7944.78729048504562
 #	MomAmp:  1.25e4
 #	MomAmp:  1e5
-#Default Position     x    y   z
-#	                  mm   mm  mm
-	Position:         7150 0   -5825.76539610056625
-	PosSpread:        0    2   2
+#Default Position     x   y   z
+#	                  mm  mm  mm
+	Position:         0   0   -750
 
 	EnergyMode:     root #(root/histo/none)
-	PositionMode:   root #(uniform/root/none/random)
+	PositionMode:   root #(uniform/root/none)
 	DirectionMode:  none #(none/uniform/histo)
 	TimeMode:       root #(none/root)
 #Default Time
@@ -37,5 +37,5 @@
 	DMHHN:          theta
 
 #ROOT file name
-	RFN:            BP.1.root
+	RFN:            Dummy.root
 	RTN:            t
