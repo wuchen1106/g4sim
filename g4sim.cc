@@ -43,6 +43,7 @@
 #include "EventAction.hh"
 #include "SteppingAction.hh"
 #include "SteppingVerbose.hh"
+#include "QGSP_BERT.hh"
 #include "QGSP_BERT_HP.hh"
 
 #ifdef G4VIS_USE

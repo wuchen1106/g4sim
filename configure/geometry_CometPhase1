@@ -3,9 +3,9 @@
 
 #ServiceName        ServiceType         FileName
 	World           Simple              world_CometPhase1
-	CDC             Simple              subgeo_CdcRegion_130629
-	BLT             Simple              subgeo_BLT
-#	MT1             Simple              subgeo_MT1
+#	CDC             Simple              subgeo_CdcRegion_130629
+#	BLT             Simple              subgeo_BLT
+	MT1             Simple              subgeo_MT1
 #	PTACS           Simple              subgeo_PTACS_t16cm6mm
 #	PTACS           Simple              subgeo_PTACS_g60cm6mm
-#	PTACS           Simple              subgeo_PTACS_g40cm10mm
+	PTACS           Simple              subgeo_PTACS_g40cm10mm

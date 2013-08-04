@@ -44,65 +44,6 @@ MCTRUTHFILTER_SECTION
 	WL            22           // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
 MCTRUTHFILTER_SECTION
 
-PROCESSCOUNTING_SECTION
-	nSteps
-	pid
-	tid
-	nSec
-	time              ns
-	stepL             cm
-	prePx             GeV
-	prePy             GeV
-	prePz             GeV
-	postPx            GeV
-	postPy            GeV
-	postPz            GeV
-	dE                GeV
-	dTheta            rad
-	e                 GeV
-	preX              cm
-	preY              cm
-	preZ              cm
-	postX             cm
-	postY             cm
-	postZ             cm
-	charge
-	particleName
-	process
-	ASDI_msc
-	ASDI_hIoni
-	ASDI_hadElastic
-	ASDI_Transportation
-	ASDI_Decay
-	ASDI_ionIoni
-	ASDI_hBrems
-	ASDI_hPairProd
-	ASDI_eBrem
-	ASDI_eIoni
-	PSDI_eIoni
-	PSDI_eBrem
-	PSDI_msc
-	PSDI_hPairProd
-	PSDI_hBrems
-	PSDI_hIoni
-	PSDI_hadElastic
-	PSDI_Transportation
-	PSDI_Decay
-	PSDI_ionIoni
-	volume
-PROCESSCOUNTING_SECTION
-
-PROCESSCOUNTINGFILTER_SECTION
-#	Switch                     //if commented, then program wil not generate any hit
-	nTracks       1            //maximum tracks cut
-	nSteps        0            //maximum steps cut
-	minp          0      GeV   //minimum momentum cut
-	mine          0      GeV   //minimum momentum cut
-	mint          0      ns    //left end of time window, 0 means no lower limit
-	maxt          0      ns    //right end of time window, 0 means no upper limit
-	Volume        Target       //In which volumes you want to record ProcessInfo. if commented, then all volumes would be taken into account
-PROCESSCOUNTINGFILTER_SECTION
-
 MT1_SECTION
 	nHits
 	x              cm
