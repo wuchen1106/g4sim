@@ -8,9 +8,11 @@
 	Direction: 80       0
 #Default Momentum Amplitude
 #	         MeV
-	MomAmp:  7944.78729048504562
 #	MomAmp:  1.25e4
 #	MomAmp:  1e5
+#Default Kinetic Energy
+#	         MeV
+	Ekin:    8000
 #Default Position     x    y   z
 #	                  mm   mm  mm
 	Position:         7050 0   -5843.398094

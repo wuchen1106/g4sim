@@ -69,7 +69,10 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 	dir.setTheta(Theta);
 	dir.setPhi(Phi);
 	particleGun->SetParticleMomentumDirection(dir);
-	particleGun->SetParticleMomentum(Pa);
+	if (EnergyType==0)
+		particleGun->SetParticleMomentum(Pa);
+	else if (EnergyType==1)
+		particleGun->SetParticleEnergy(Ekin);
 	particleGun->SetParticlePosition(G4ThreeVector(x,y,z));
 	particleGun->SetParticleTime(t);
 
@@ -425,6 +428,12 @@ void PrimaryGeneratorAction::ReadCard(G4String file_name){
 		else if ( keyword == "MomAmp:" ){
 			buf_card>>Pa;
 			Pa *= MeV;
+			EnergyType = 0;
+		}
+		else if ( keyword == "Ekin:" ){
+			buf_card>>Ekin;
+			Ekin *= MeV;
+			EnergyType = 1;
 		}
 		else if ( keyword == "Position:" ){
 			buf_card>>x>>y>>z;
@@ -501,7 +510,10 @@ void PrimaryGeneratorAction::Dump(){
 	std::cout<<"Type:                                         "<<fType<<std::endl;
 	std::cout<<"Particle:                                     "<<ParticleName<<std::endl;
 	std::cout<<"Default Momentum Direction: theta =           "<<Theta/deg<<"deg, phi = "<<Phi/deg<<"deg"<<std::endl;
+	if (EnergyType==0)
 	std::cout<<"Default Momentum Amplitude:                   "<<Pa/MeV<<"MeV"<<std::endl;
+	else if (EnergyType==1)
+	std::cout<<"Default Kinetic Energy:                       "<<Ekin/MeV<<"MeV"<<std::endl;
 	std::cout<<"Default Position(cm):                         ("<<x/cm<<", "<<y/cm<<", "<<z/cm<<")"<<std::endl;
 	std::cout<<"Default Position Spread(cm):                  ("<<xSpread/cm<<", "<<ySpread/cm<<", "<<zSpread/cm<<")"<<std::endl;
 	std::cout<<"Default Time(ns):                             ("<<t/ns<<std::endl;

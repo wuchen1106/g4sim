@@ -60,6 +60,8 @@ private:
 	G4String                   fType;
 	G4String                   ParticleName;
 	G4double                   Pa;
+	G4double                   Ekin;
+	G4int                      EnergyType;
 	G4double                   Px,Py,Pz;
 	G4double                   Theta,Phi;
 	G4double                   x,y,z,t;
