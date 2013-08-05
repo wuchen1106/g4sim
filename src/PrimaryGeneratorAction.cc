@@ -358,6 +358,18 @@ void PrimaryGeneratorAction::root_build(){
 	m_TChain = new TChain("t");
 	m_TChain->Add(m_TFile_name.c_str());
 	root_num = m_TChain->GetEntries();
+	if ( EnergyMode == "root" ){
+		UseRoot = true;
+		root_set_Energy();
+	}
+	if ( PositionMode == "root" ){
+		UseRoot = true;
+		root_set_Position();
+	}
+	if ( TimeMode == "root" ){
+		UseRoot = true;
+		root_set_Time();
+	}
 }
 
 void PrimaryGeneratorAction::root_set_Position(){

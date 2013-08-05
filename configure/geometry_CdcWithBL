@@ -2,5 +2,6 @@
 	VerboseLevel    1
 
 #ServiceName        ServiceType         FileName
-	World           Simple              subgeo_CdcRegion_130629
+	World           Simple              world_CometPhase1
+	Cdc             Simple              subgeo_CdcRegion_130629
 	BLT             Simple              subgeo_BLT
