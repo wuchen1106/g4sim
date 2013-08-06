@@ -95,7 +95,8 @@ private:
   G4int                      root_index;
   G4String                   root_filename;
   G4String                   root_treename;
-  G4double                   root_para[8];
+  G4double                   root_double[7];
+  G4int                      root_int[1];
   TFile                      *fp;
 };
 

@@ -84,22 +84,6 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 		UseRoot = true;
 		root_build();
 	}
-	if ( EnergyMode == "root" ){
-		UseRoot = true;
-		root_set_Energy();
-	}
-	if ( PositionMode == "root" ){
-		UseRoot = true;
-		root_set_Position();
-	}
-	if ( TimeMode == "root" ){
-		UseRoot = true;
-		root_set_Time();
-	}
-	if ( pidMode == "root" ){
-		UseRoot = true;
-		root_set_pid();
-	}
 }
 
 PrimaryGeneratorAction::~PrimaryGeneratorAction()
@@ -121,9 +105,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
 	if ( pidMode == "root"){
 		G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
-		G4ParticleDefinition* particle = particleTable->FindParticle(root_para[7]);
+		G4ParticleDefinition* particle = particleTable->FindParticle(root_int[0]);
 		if (!particle){
-			std::cout<<"ERROR: In PrimaryGeneratorAction::PrimaryGeneratorAction() Cannot find particle "<<ParticleName<<"!!!"<<std::endl;
+			std::cout<<"ERROR: In PrimaryGeneratorAction::PrimaryGeneratorAction() Cannot find particle "<<root_int[0]<<"!!!"<<std::endl;
 			G4Exception("PrimaryGeneratorAction::PrimaryGeneratorAction()","Run0031",
 					FatalException, "Cannot find particle.");
 		}
@@ -139,12 +123,12 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	}
 	else if ( EnergyMode == "root" ){
 		//std::cout<<"PGA EM = root!"
-		//	     <<", ("<<root_para[3]
-		//	     <<","<<root_para[4]
-		//	     <<","<<root_para[5]
+		//	     <<", ("<<root_double[3]
+		//	     <<","<<root_double[4]
+		//	     <<","<<root_double[5]
 		//	     <<") MeV"
 		//	     <<std::endl;
-		particleGun->SetParticleMomentum(G4ThreeVector(root_para[3] * MeV, root_para[4] * MeV, root_para[5] * MeV));
+		particleGun->SetParticleMomentum(G4ThreeVector(root_double[3] * MeV, root_double[4] * MeV, root_double[5] * MeV));
 	}
 	else if ( EnergyMode == "RMC" ){
 		particleGun->SetParticleMomentum(100*MeV+2*MeV*G4UniformRand());
@@ -179,12 +163,12 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	}
 	else if ( PositionMode == "root" ){
 		//std::cout<<"PGA PM = root!"
-		//	     <<", ("<<root_para[0]
-		//	     <<","<<root_para[1]
-		//	     <<","<<root_para[2]
+		//	     <<", ("<<root_double[0]
+		//	     <<","<<root_double[1]
+		//	     <<","<<root_double[2]
 		//	     <<") mm"
 		//	     <<std::endl;
-		particleGun->SetParticlePosition(G4ThreeVector(root_para[0] * mm, root_para[1] * mm, (root_para[2])*mm));
+		particleGun->SetParticlePosition(G4ThreeVector(root_double[0] * mm, root_double[1] * mm, (root_double[2])*mm));
 	}
 	else if ( PositionMode == "random" ){
 		SetRandomPosition();
@@ -198,10 +182,10 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
 	if ( TimeMode == "root" ){
 		//std::cout<<"PGA TM = root!"
-		//	     <<", ("<<root_para[7]
+		//	     <<", ("<<root_double[6]
 		//	     <<") ns"
 		//	     <<std::endl;
-		particleGun->SetParticleTime(root_para[6]*ns);
+		particleGun->SetParticleTime(root_double[6]*ns);
 	}
 	else if ( TimeMode != "none" ){
 		std::cout<<"ERROR: unknown TimeMode: "<<TimeMode<<"!!!"<<std::endl;
@@ -398,20 +382,20 @@ void PrimaryGeneratorAction::root_build(){
 }
 
 void PrimaryGeneratorAction::root_set_Position(){
-	m_TChain->SetBranchAddress("x", &root_para[0]);
-	m_TChain->SetBranchAddress("y", &root_para[1]);
-	m_TChain->SetBranchAddress("z", &root_para[2]);
+	m_TChain->SetBranchAddress("x", &root_double[0]);
+	m_TChain->SetBranchAddress("y", &root_double[1]);
+	m_TChain->SetBranchAddress("z", &root_double[2]);
 }
 void PrimaryGeneratorAction::root_set_Energy(){
-	m_TChain->SetBranchAddress("px", &root_para[3]);
-	m_TChain->SetBranchAddress("py", &root_para[4]);
-	m_TChain->SetBranchAddress("pz", &root_para[5]);
+	m_TChain->SetBranchAddress("px", &root_double[3]);
+	m_TChain->SetBranchAddress("py", &root_double[4]);
+	m_TChain->SetBranchAddress("pz", &root_double[5]);
 }
 void PrimaryGeneratorAction::root_set_Time(){
-	m_TChain->SetBranchAddress("t", &root_para[6]);
+	m_TChain->SetBranchAddress("t", &root_double[6]);
 }
 void PrimaryGeneratorAction::root_set_pid(){
-	m_TChain->SetBranchAddress("pid", &root_para[7]);
+	m_TChain->SetBranchAddress("pid", &root_int[0]);
 }
 
 void PrimaryGeneratorAction::ReadCard(G4String file_name){
