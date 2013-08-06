@@ -80,7 +80,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 		BuildHistoFromFile();
 	}
 	UseRoot = false;
-	if ( EnergyMode == "root" || PositionMode == "root" || TimeMode == "root" ){
+	if ( EnergyMode == "root" || PositionMode == "root" || TimeMode == "root" || pidMode == "root"){
 		UseRoot = true;
 		root_build();
 	}
@@ -95,6 +95,10 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 	if ( TimeMode == "root" ){
 		UseRoot = true;
 		root_set_Time();
+	}
+	if ( pidMode == "root" ){
+		UseRoot = true;
+		root_set_pid();
 	}
 }
 
@@ -113,6 +117,20 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	// 
 	if (UseRoot){
 		root_get_para();
+	}
+
+	if ( pidMode == "root"){
+		G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
+		G4ParticleDefinition* particle = particleTable->FindParticle(root_para[7]);
+		if (!particle){
+			std::cout<<"ERROR: In PrimaryGeneratorAction::PrimaryGeneratorAction() Cannot find particle "<<ParticleName<<"!!!"<<std::endl;
+			G4Exception("PrimaryGeneratorAction::PrimaryGeneratorAction()","Run0031",
+					FatalException, "Cannot find particle.");
+		}
+		if (fType == "stable"){
+			particle->SetPDGStable(true);
+		}
+		particleGun->SetParticleDefinition(particle);
 	}
 
 	if ( EnergyMode == "histo"){
@@ -373,6 +391,10 @@ void PrimaryGeneratorAction::root_build(){
 		UseRoot = true;
 		root_set_Time();
 	}
+	if ( pidMode == "root" ){
+		UseRoot = true;
+		root_set_pid();
+	}
 }
 
 void PrimaryGeneratorAction::root_set_Position(){
@@ -387,6 +409,9 @@ void PrimaryGeneratorAction::root_set_Energy(){
 }
 void PrimaryGeneratorAction::root_set_Time(){
 	m_TChain->SetBranchAddress("t", &root_para[6]);
+}
+void PrimaryGeneratorAction::root_set_pid(){
+	m_TChain->SetBranchAddress("pid", &root_para[7]);
 }
 
 void PrimaryGeneratorAction::ReadCard(G4String file_name){
@@ -463,6 +488,10 @@ void PrimaryGeneratorAction::ReadCard(G4String file_name){
 			buf_card>>TimeMode;
 			continue;
 		}
+		else if ( keyword == "pidMode:" ){
+			buf_card>>pidMode;
+			continue;
+		}
 		else if ( keyword == "DirectionMode:" ){
 			buf_card>>DirectionMode;
 			continue;
@@ -520,6 +549,7 @@ void PrimaryGeneratorAction::Dump(){
 	std::cout<<"EnergyMode:                                   "<<EnergyMode<<std::endl;
 	std::cout<<"PositionMode:                                 "<<PositionMode<<std::endl;
 	std::cout<<"TimeMode:                                     "<<TimeMode<<std::endl;
+	std::cout<<"pidMode:                                      "<<pidMode<<std::endl;
 	std::cout<<"Uniform In sub-detector:                      "<<UP_SubDet<<std::endl;
 	std::cout<<"  Volume:                                     "<<UP_Volume<<std::endl;
 	std::cout<<"  Type:                                       "<<UP_Type<<std::endl;

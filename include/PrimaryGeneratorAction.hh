@@ -32,6 +32,7 @@ public:
   void set_DirectionMode(G4String val) { DirectionMode= val; }
   void set_PositionMode(G4String val) { PositionMode= val; }
   void set_TimeMode(G4String val) { TimeMode= val; }
+  void set_pidMode(G4String val) { pidMode= val; }
   void set_EM_hist_filename(G4String val) { EM_hist_filename= val; }
   void set_EM_hist_histname(G4String val) { EM_hist_histname= val; }
   void set_DM_hist_filename(G4String val) { DM_hist_filename= val; }
@@ -48,6 +49,7 @@ public:
   void root_set_Position();
   void root_set_Energy();
   void root_set_Time();
+  void root_set_pid();
 
 private:
 //	G4double get_mom_from_histo();
@@ -69,6 +71,7 @@ private:
 	G4String                   EnergyMode;
 	G4String                   PositionMode;
 	G4String                   TimeMode;
+	G4String                   pidMode;
 	G4String                   DirectionMode;
     
   //For EnergyMode
@@ -92,7 +95,7 @@ private:
   G4int                      root_index;
   G4String                   root_filename;
   G4String                   root_treename;
-  G4double                   root_para[7];
+  G4double                   root_para[8];
   TFile                      *fp;
 };
 
