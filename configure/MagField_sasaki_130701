@@ -2,6 +2,6 @@
 
 	TYPE: fieldMap
 #			Name                      Scale 
-	fMap:   DetectorArea130720fm.dat  1
-	fMap:   BessArea130720fm.dat      1
+	fMap:   DetectorArea130701fm.dat  1
+	fMap:   BessArea130701fm.dat      1
 	fMap:   TS3Area130731fm.dat       1
