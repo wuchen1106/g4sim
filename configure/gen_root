@@ -1,22 +1,22 @@
 #General setting  
 	Type:      simple
-	Particle:  proton #(e+/e-/chargedgeantino/gamma/...)
+	Particle:  e-     #(e+/e-/chargedgeantino/gamma/...)
 
 #Default Direction
 #	           Theta    Phi
 #	           deg      deg
-	Direction: 80       0
+	Direction: 0        0
 #Default Momentum Amplitude
 #	         MeV
 #	MomAmp:  1.25e4
 #	MomAmp:  1e5
 #Default Kinetic Energy
 #	         MeV
-	Ekin:    8000
+	Ekin:    1     
 #Default Position     x    y   z
 #	                  mm   mm  mm
-	Position:         7050 0   -5843.398094
-	PosSpread:        0    2   2
+	Position:         0    0   0           
+	PosSpread:        0    0   0
 
 	EnergyMode:     root #(root/histo/none)
 	PositionMode:   root #(uniform/root/none/random)
@@ -29,15 +29,15 @@
 
 #Uniform In Volume:
 #	                Type   SubDet   Volume
-	UIV:            Simple World    Target
+#	UIV:            Simple World    Target
 
 #Histogram file name
-	EMHFN:          RMC_Al.root
-	EMHHN:          hRMC
+#	EMHFN:          RMC_Al.root
+#	EMHHN:          hRMC
 
 #Histogram file name
-	DMHFN:          ph2e.root
-	DMHHN:          theta
+#	DMHFN:          ph2e.root
+#	DMHHN:          theta
 
 #ROOT file name
 	RFN:            g30cm10mm_PTACS_EP_QGSPBERTHPg4sim_0.root

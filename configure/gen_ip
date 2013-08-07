@@ -22,22 +22,23 @@
 	PositionMode:   random  #(uniform/root/none/random)
 	DirectionMode:  none #(none/uniform/histo)
 	TimeMode:       none #(none/root)
+	pidMode:        root #(none/root)
 #Default Time
 #	         ns
 	Time:    0
 
 #Uniform In Volume:
 #	                Type   SubDet   Volume
-	UIV:            Simple World    Target
+#	UIV:            Simple World    Target
 
 #Histogram file name
-	EMHFN:          RMC_Al.root
-	EMHHN:          hRMC
+#	EMHFN:          RMC_Al.root
+#	EMHHN:          hRMC
 
 #Histogram file name
-	DMHFN:          ph2e.root
-	DMHHN:          theta
+#	DMHFN:          ph2e.root
+#	DMHHN:          theta
 
 #ROOT file name
-	RFN:            BM.root
-	RTN:            t
+#	RFN:            BM.root
+#	RTN:            t
