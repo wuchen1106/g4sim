@@ -553,7 +553,7 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		if ( fabs(dt) < tres ){// dt too small, will not push
 			willPush = false;
 		}
-		if ( m_pid[index] == pid && prePoint->GetStepStatus() != fGeomBoundary ){ // If this particle was in this volume in last step, don't generate a new hit
+		if ( m_tid[index] == trackID&& prePoint->GetStepStatus() != fGeomBoundary ){ // If this particle was in this volume in last step, don't generate a new hit
 			willPush = false;
 		}
 		//if ( m_tid[index] == trackID ){
@@ -583,7 +583,7 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		if(flag_stepL) m_stepL.push_back(stepL/unit_stepL);
 		m_volID.push_back(ReplicaNo);
 		m_volName.push_back(VolName);
-		if(flag_tid) m_tid.push_back(trackID);
+		m_tid.push_back(trackID);
 		if(flag_pid) m_pid.push_back(pid);
 		if(flag_charge) m_charge.push_back(charge);
 		if(flag_stopped) m_stopped.push_back(stopped); // always false unless stopped at the first step
