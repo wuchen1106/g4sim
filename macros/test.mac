@@ -27,3 +27,4 @@
 /vis/modeling/trajectories/drawByParticleID-0/set pi+  yellow
 /vis/modeling/trajectories/drawByParticleID-0/set mu-   magenta
 /vis/modeling/trajectories/drawByParticleID-0/set mu+   magenta
+/vis/scene/endOfEventAction accumulate 10000000
