@@ -1,0 +1,39 @@
+#general info
+	checkoverlap
+
+#Tubs info
+#	Type No  RMin       RMax       Length     StartAng SpanAng Name            MotVolume       Material      SDName    posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
+#	         mm         mm         mm         deg      deg                                                             mm   mm   mm         mm         deg    deg    deg    deg    deg   
+	T    0   0.         701        1500       0        360     BLTContainer    World           Vacuum        none      0    0 -2040.5 1     0          0      0      0      0      0     
+	T    5   0          700        1          0        360     BLTMonitor      World           Vacuum        MonitorSD 0    0 -2792   1     0          0      0      0      0      0     
+	T    5   0          400        1          0        360     BLTKiller1      World           Vacuum        KillerSD  0    0 -2793   1     0          0      0      0      0      0     
+	T    1   600        700        1500       0        270     BLTYoke         BLTContainer    Steel         none      0    0    0    1     0          0      0      0      0      0     
+	T    1   600        700        1500       270      90      BLTYoke2        BLTContainer    Steel         none      0    0    0    1     0          0      0      0      0      0     
+	T    3   350        400        1500       0        270     BLTShell        BLTContainer    Steel         none      0    0    0    1     0          0      0      0      0      0     
+	T    3   350        400        1500       270      90      BLTShell2       BLTContainer    Steel         none      0    0    0    1     0          0      0      0      0      0     
+	T    5   400        401        1500       0        360     BLTKiller5      BLTContainer    Vacuum        KillerSD  0    0    0    1     0          0      0      0      0      0     
+	T    6   0.         350        1000       0        360     BLTCollimator   BLTContainer    Tungsten      none      0    0    250  1     0          0      0      0      0      0     
+	T    7   0.         200        1000       0        360     BLTCHole0 
+
+#Box info
+#	Type No  x       y       z     Name     MotVolume Material   SDName  posX   posY   posZ   RepNo Space DirTheta DirPhi Ephi Etheta Epsi
+#	         mm      mm      mm                                          mm     mm     mm           mm    deg      deg    deg  deg    deg
+	B    0   1200    1200    1000  BLTCYMin
+
+#BooelanSolid info
+#	Type No  type     vol1         vol2         Ephi    Etheta  Epsi   PosX    PosY    posZ    name          MotVolume       Material      SDName    posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
+#	                                            deg     deg     deg    mm      mm      mm                                                            mm   mm   mm         mm         deg    deg    deg    deg    deg   
+	BL   0   minus    BLTCHole0    BLTCYMin     0       0       0      0       -675    0       BLTCHole      BLTCollimator   Vacuum        none      0    0    0    1     0          0      0      0      0      0     
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name                 red    green  blue  
+#	vis_BLTContainer       1      1      1     
+	vis_BLTYoke            0      0      1     
+	vis_BLTShell           0.5    0.5    0.5 
+	vis_BLTCollimator      0      1      0  
+	vis_BLTCHole           1      1      1     
+	vis_BLTMonitor         1      0      0   
+	vis_BLTKiller1         1      0      0   
+	vis_BLTKiller5         1      0      0   
