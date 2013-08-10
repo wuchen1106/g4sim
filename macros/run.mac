@@ -1,5 +1,5 @@
 /control/getEnv MYG4SIMROOT
 /control/execute {MYG4SIMROOT}/configure/verbose_default.mac
-/control/execute {MYG4SIMROOT}/configure/setCut_bp.mac
-#/control/execute {MYG4SIMROOT}/configure/setCut_default.mac
-/run/beamOn 2000
+#/control/execute {MYG4SIMROOT}/configure/setCut_bp.mac
+/control/execute {MYG4SIMROOT}/configure/setCut_default.mac
+/run/beamOn 733458

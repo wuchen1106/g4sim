@@ -10,9 +10,9 @@
 	T    0   350        890        10         0        360     CDCShellEU      CDCRegion       Vacuum          KillerSD  0    0 -1285.5 1     0          0      0      0      0      0     
 	T    0   0          890        10         0        360     CDCShellED      CDCRegion       Vacuum          KillerSD  0    0  1285.5 1     0          0      0      0      0      0     
 	T    0   501.6      816        1540       0        360     CDCContainer    CDCRegion       ChamberGas9010  none      0    0    0    1     0          0      0      0      0      0     
-	T    4   471.6      501.6      200        0.       360.    Trigger         CDCRegion       Scintillator    none      0.   0.   0.   2     1.3e3      0      0      0      0      0
+	T    4   471.6      501.6      200        0.       360.    Trigger         CDCRegion       Scintillator    MonitorSD 0.   0.   0.   2     1.3e3      0      0      0      0      0
 	T    5   0.         100        0.2        0.       360.    Target          CDCRegion       Aluminium       MonitorSD 0.   0.   0.   17    50         0      0      0      0      0
-	T    1   501.6      502        1540.00000 0        360     InnerCylinder   CDCContainer    CarbonFiber     none      0    0    0    1     0          0      0      0      0      0     
+	T    1   501.6      502        1540.00000 0        360     InnerCylinder   CDCContainer    CarbonFiber     MonitorSD 0    0    0    1     0          0      0      0      0      0     
 	T    2   806        816        1540.0     0        360     OuterCylinder   CDCContainer    Aluminium       none      0    0    0    1     0          0      0      0      0      0     
 	T    3   502        806        20         0        360     EndPlate        CDCContainer    Aluminium       none      0    0    0    2     1520.0     0      0      0      0      0     
 

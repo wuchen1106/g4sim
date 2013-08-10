@@ -31,7 +31,9 @@
 #	Name                 red    green  blue  
 #	vis_BLTContainer       1      1      1     
 	vis_BLTYoke            0      0      1     
+	vis_BLTYoke2           0      0      1     
 	vis_BLTShell           0.5    0.5    0.5 
+	vis_BLTShell2          0.5    0.5    0.5 
 	vis_BLTCollimator      0      1      0  
 	vis_BLTCHole           1      1      1     
 #	vis_BLTMonitor         1      0      0   

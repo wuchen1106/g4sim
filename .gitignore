@@ -33,3 +33,4 @@ configure/gen_default
 configure/output_default
 output/
 logfile
+log

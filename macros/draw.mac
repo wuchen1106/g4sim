@@ -12,7 +12,6 @@
 #/vis/viewer/set/viewpointVector 0 0 -1
 
 #/vis/viewer/set/viewpointThetaPhi 100 -30
-/vis/viewer/set/viewpointThetaPhi 260 140
 /vis/viewer/set/background 1 1 1
 /vis/viewer/set/culling coveredDaughters
 /vis/viewer/set/edge 0
@@ -42,5 +41,8 @@
 /vis/modeling/trajectories/drawByParticleID-0/set mu+   magenta
 /vis/scene/endOfEventAction accumulate 10000000
 
-/run/beamOn 100
+/vis/viewer/set/viewpointThetaPhi 0 0
+/run/beamOn 73346
+/vis/ogl/printEPS
+/vis/viewer/set/viewpointThetaPhi 260 140
 /vis/ogl/printEPS

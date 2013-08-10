@@ -20,6 +20,10 @@
 /vis/filtering/trajectories/chargeFilter-0/add 0
 /vis/filtering/trajectories/chargeFilter-0/invert true
 
+#/vis/filtering/trajectories/create/attributeFilter
+#/vis/filtering/trajectories/attributeFilter-0/setAttribute fGlobalTime
+#/vis/filtering/trajectories/attributeFilter-0/addInterval 0~100
+
 /vis/modeling/trajectories/create/drawByParticleID
 /vis/modeling/trajectories/drawByParticleID-0/default/setAuxPtsSize 0.3
 /vis/modeling/trajectories/drawByParticleID-0/set e+   red
