@@ -156,6 +156,13 @@ void MyAnalysisSvc::EndOfEventAction(const G4Event* evt){
 void MyAnalysisSvc::SteppingAction(const G4Step* aStep){
 	//set ProcessCounting
 	pProcessCountingSvc->SetValue(aStep);
+	G4Track* aTrack = aStep->GetTrack() ;
+	G4int nSteps = aTrack->GetCurrentStepNumber();
+	if (nSteps>2e4)
+		aTrack->SetTrackStatus(fStopAndKill);
+	G4double globalT=aTrack->GetGlobalTime();//Time since the event in which the track belongs is created
+//	if (globalT>100*ns)
+//		aTrack->SetTrackStatus(fStopAndKill);
 }
 
 void MyAnalysisSvc::InitialStepAction(const G4Step* aStep){
