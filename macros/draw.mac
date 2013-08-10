@@ -1,3 +1,8 @@
+/vis/open OGL 600x600-0+0
+/vis/viewer/set/autoRefresh false
+/vis/drawVolume
+/vis/scene/add/trajectories smooth
+
 /vis/viewer/clearCutawayPlanes
 #/vis/viewer/addCutawayPlane 0 0 0 m -1 0 0
 #/vis/viewer/addCutawayPlane 0 0 0 m 0 -1 0
@@ -6,7 +11,8 @@
 #/vis/viewer/addCutawayPlane 0 0 0 m 0 0 -1
 #/vis/viewer/set/viewpointVector 0 0 -1
 
-/vis/viewer/set/viewpointThetaPhi 100 -30
+#/vis/viewer/set/viewpointThetaPhi 100 -30
+/vis/viewer/set/viewpointThetaPhi 260 180
 /vis/viewer/set/background 1 1 1
 /vis/viewer/set/culling coveredDaughters
 /vis/viewer/set/edge 0
@@ -21,7 +27,7 @@
 /vis/filtering/trajectories/chargeFilter-0/invert true
 
 /vis/modeling/trajectories/create/drawByParticleID
-/vis/modeling/trajectories/drawByParticleID-0/default/setDrawStepPts 0.3
+#/vis/modeling/trajectories/drawByParticleID-0/default/setDrawStepPts 0.3
 /vis/modeling/trajectories/drawByParticleID-0/set e+   red
 /vis/modeling/trajectories/drawByParticleID-0/set e-   blue
 /vis/modeling/trajectories/drawByParticleID-0/set p-  cyan
@@ -32,3 +38,5 @@
 /vis/modeling/trajectories/drawByParticleID-0/set mu+   magenta
 /vis/scene/endOfEventAction accumulate 10000000
 
+/run/beamOn 100
+/vis/ogl/printEPS

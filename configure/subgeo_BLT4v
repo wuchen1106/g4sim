@@ -34,6 +34,6 @@
 	vis_BLTShell           0.5    0.5    0.5 
 	vis_BLTCollimator      0      1      0  
 	vis_BLTCHole           1      1      1     
-	vis_BLTMonitor         1      0      0   
-	vis_BLTKiller1         1      0      0   
-	vis_BLTKiller5         1      0      0   
+#	vis_BLTMonitor         1      0      0   
+#	vis_BLTKiller1         1      0      0   
+#	vis_BLTKiller5         1      0      0   
