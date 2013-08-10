@@ -28,10 +28,10 @@
 	VerboseLevel:    5
 	VISSETTING  #Keep this line to call Reset
 #	Name                 red    green  blue  
-	vis_CDCMonitor       1      0      0      
-	vis_CDCShellC        1      0      0    
-	vis_CDCShellEU       1      0      0      
-	vis_CDCShellED       1      0      0      
+#	vis_CDCMonitor       1      0      0      
+#	vis_CDCShellC        1      0      0    
+#	vis_CDCShellEU       1      0      0      
+#	vis_CDCShellED       1      0      0      
 #	vis_CDCRegion        0      1      1     
 #	vis_CDCContainer     0      1      1     
 	vis_InnerCylinder    199    205    250   
