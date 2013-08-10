@@ -207,8 +207,8 @@ void KillerSD::ShowOutCard(){
 //Will be called by geant4 automatically everytime a step in KillerSD generated
 G4bool KillerSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 {
-	G4Track* gTrack = aStep->GetTrack() ;
-	gTrack->SetTrackStatus(fStopAndKill);
+	G4Track* aTrack = aStep->GetTrack() ;
+	aTrack->SetTrackStatus(fStopAndKill);
 	return true;
 }
 

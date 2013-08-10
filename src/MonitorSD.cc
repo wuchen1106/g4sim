@@ -528,7 +528,6 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		killed = true;
 		kill_time = pointIn_time;
 	}
-	else if (fTrackStatus == fKillTrackAndSecondaries) std::cout<<"fKillTrackAndSecondaries"<<std::endl;
 
 	//****************************generate new hit or modify old one********************************
 	bool willPush = true;

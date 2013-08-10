@@ -99,8 +99,6 @@ MyStackingAction::ClassifyNewTrack(const G4Track* aTrack) {
 			aClassification = fKill;
 		}
 	}
-	G4double globalT=aTrack->GetGlobalTime();//Time since the event in which the track belongs is created
-	if (globalT>100*ns) aClassification = fKill;
 
     return aClassification;
 }
