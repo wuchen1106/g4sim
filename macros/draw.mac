@@ -12,7 +12,7 @@
 #/vis/viewer/set/viewpointVector 0 0 -1
 
 #/vis/viewer/set/viewpointThetaPhi 100 -30
-/vis/viewer/set/viewpointThetaPhi 260 180
+/vis/viewer/set/viewpointThetaPhi 260 140
 /vis/viewer/set/background 1 1 1
 /vis/viewer/set/culling coveredDaughters
 /vis/viewer/set/edge 0
@@ -22,12 +22,16 @@
 /vis/viewer/set/style s
 #/vis/viewer/set/style w
 
+/vis/scene/add/trajectories smooth
+/vis/modeling/trajectories/create/drawByCharge
+/vis/modeling/trajectories/drawByCharge-0/default/setStepPtsSize 0.3
+/vis/modeling/trajectories/drawByCharge-0/default/setAuxPtsSize 0.3
+
 /vis/filtering/trajectories/create/chargeFilter
 /vis/filtering/trajectories/chargeFilter-0/add 0
 /vis/filtering/trajectories/chargeFilter-0/invert true
 
 /vis/modeling/trajectories/create/drawByParticleID
-#/vis/modeling/trajectories/drawByParticleID-0/default/setDrawStepPts 0.3
 /vis/modeling/trajectories/drawByParticleID-0/set e+   red
 /vis/modeling/trajectories/drawByParticleID-0/set e-   blue
 /vis/modeling/trajectories/drawByParticleID-0/set p-  cyan

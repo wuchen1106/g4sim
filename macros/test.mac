@@ -21,7 +21,7 @@
 /vis/filtering/trajectories/chargeFilter-0/invert true
 
 /vis/modeling/trajectories/create/drawByParticleID
-/vis/modeling/trajectories/drawByParticleID-0/default/setDrawStepPts 0.3
+/vis/modeling/trajectories/drawByParticleID-0/default/setAuxPtsSize 0.3
 /vis/modeling/trajectories/drawByParticleID-0/set e+   red
 /vis/modeling/trajectories/drawByParticleID-0/set e-   blue
 /vis/modeling/trajectories/drawByParticleID-0/set p-  cyan
