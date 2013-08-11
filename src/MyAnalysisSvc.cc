@@ -160,7 +160,7 @@ void MyAnalysisSvc::SteppingAction(const G4Step* aStep){
 	G4int nSteps = aTrack->GetCurrentStepNumber();
 	if (nSteps>2e4)
 		aTrack->SetTrackStatus(fStopAndKill);
-	G4double globalT=aTrack->GetGlobalTime();//Time since the event in which the track belongs is created
+//	G4double globalT=aTrack->GetGlobalTime();//Time since the event in which the track belongs is created
 //	if (globalT>100*ns)
 //		aTrack->SetTrackStatus(fStopAndKill);
 }
