@@ -30,8 +30,8 @@ MCTRUTH_SECTION
 MCTRUTH_SECTION
 
 MCTRUTHFILTER_SECTION
-#	Switch                     //if commented, then program wil not generate any hit
-	nTracks       0            //maximum tracks cut
+	Switch                     //if commented, then program wil not generate any hit
+	nTracks       1            //maximum tracks cut
 	minp          0      GeV   //minimum momentum cut
 	mine          0      MeV   //minimum momentum cut
 	mint          0      ns    //left end of time window, 0 means no lower limit
@@ -53,18 +53,18 @@ BLTMonitor_SECTION
 #	stepL          cm
 #	volID
 #	volName
-#	ox             cm
-#	oy             cm
-#	oz             cm
-#	opx            GeV
-#	opy            GeV
-#	opz            GeV
-#	ovolName
-#	oprocess
-#	ppid
-#	tid
-#	pid
-#	charge
+	ox             cm
+	oy             cm
+	oz             cm
+	opx            GeV
+	opy            GeV
+	opz            GeV
+	ovolName
+	oprocess
+	ppid
+	tid
+	pid
+	charge
 	stopped
 #	stop_time      ns
 #	killed
@@ -97,18 +97,18 @@ CDCMonitor_SECTION
 #	stepL          cm
 #	volID
 #	volName
-#	ox             cm
-#	oy             cm
-#	oz             cm
-#	opx            GeV
-#	opy            GeV
-#	opz            GeV
-#	ovolName
-#	oprocess
-#	ppid
-#	tid
-#	pid
-#	charge
+	ox             cm
+	oy             cm
+	oz             cm
+	opx            GeV
+	opy            GeV
+	opz            GeV
+	ovolName
+	oprocess
+	ppid
+	tid
+	pid
+	charge
 	stopped
 #	stop_time      ns
 #	killed
@@ -141,18 +141,18 @@ Target_SECTION
 #	stepL          cm
 #	volID
 #	volName
-#	ox             cm
-#	oy             cm
-#	oz             cm
-#	opx            GeV
-#	opy            GeV
-#	opz            GeV
-#	ovolName
-#	oprocess
-#	ppid
-#	tid
-#	pid
-#	charge
+	ox             cm
+	oy             cm
+	oz             cm
+	opx            GeV
+	opy            GeV
+	opz            GeV
+	ovolName
+	oprocess
+	ppid
+	tid
+	pid
+	charge
 	stopped
 #	stop_time      ns
 #	killed
@@ -185,18 +185,18 @@ InnerCylinder_SECTION
 #	stepL          cm
 #	volID
 #	volName
-#	ox             cm
-#	oy             cm
-#	oz             cm
-#	opx            GeV
-#	opy            GeV
-#	opz            GeV
-#	ovolName
-#	oprocess
-#	ppid
-#	tid
-#	pid
-#	charge
+	ox             cm
+	oy             cm
+	oz             cm
+	opx            GeV
+	opy            GeV
+	opz            GeV
+	ovolName
+	oprocess
+	ppid
+	tid
+	pid
+	charge
 	stopped
 #	stop_time      ns
 #	killed
@@ -229,18 +229,18 @@ Trigger_SECTION
 #	stepL          cm
 #	volID
 #	volName
-#	ox             cm
-#	oy             cm
-#	oz             cm
-#	opx            GeV
-#	opy            GeV
-#	opz            GeV
-#	ovolName
-#	oprocess
-#	ppid
-#	tid
-#	pid
-#	charge
+	ox             cm
+	oy             cm
+	oz             cm
+	opx            GeV
+	opy            GeV
+	opz            GeV
+	ovolName
+	oprocess
+	ppid
+	tid
+	pid
+	charge
 	stopped
 #	stop_time      ns
 #	killed
