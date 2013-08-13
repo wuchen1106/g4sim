@@ -12,12 +12,15 @@ static const char* MyStackingAction_cc =
 #include "G4ParticleTable.hh"
 #include "G4Track.hh"
 #include "G4ios.hh"
+#include "G4VProcess.hh"
 
 MyStackingAction::MyStackingAction()
 : fTrackIDMap(NULL), fEleCut(0), fPosCut(0), fGamCut(0) {
     fStackingActionMessenger = new MyStackingActionMessenger(this);
     m_white_list.clear();
     m_black_list.clear();
+    m_no_MC=false;
+    m_no_PC=false;
 }
 
 
@@ -73,6 +76,19 @@ MyStackingAction::ClassifyNewTrack(const G4Track* aTrack) {
         }
 
     }
+
+	if (m_no_MC||m_no_PC){
+		G4String processName;
+		const G4VProcess* process = aTrack->GetCreatorProcess();
+		if (process) {
+			processName = process->GetProcessName();
+		}
+		else{
+			processName = "NULL";
+		}
+		if (processName=="muMinusCaptureAtRest"&&m_no_MC) aClassification = fKill;
+		if (processName=="hBertiniCaptureAtRest"&&m_no_PC) aClassification = fKill;
+	}
 
 	if (aTrackID!=1){
 		bool foundit=false;

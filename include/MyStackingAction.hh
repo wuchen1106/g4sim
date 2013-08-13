@@ -123,6 +123,8 @@ class MyStackingAction : public G4UserStackingAction {
 		void add_black_list(int val) {m_black_list.push_back(val);};
 		void clear_white_list() {m_white_list.clear();};
 		void clear_black_list() {m_black_list.clear();};
+		void set_no_PC(bool val) {m_no_PC=val;};
+		void set_no_MC(bool val) {m_no_MC=val;};
 
     public:
 
@@ -144,6 +146,8 @@ class MyStackingAction : public G4UserStackingAction {
         G4double fPosCut;
         G4double fGamCut;
 
+		bool m_no_PC;
+		bool m_no_MC;
 		std::vector<int> m_white_list;
 		std::vector<int> m_black_list;
 

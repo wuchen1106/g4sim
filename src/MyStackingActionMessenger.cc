@@ -54,6 +54,16 @@ MyStackingActionMessenger::MyStackingActionMessenger(MyStackingAction* aStack)
 	fclear_blackCmd = new G4UIcmdWithoutParameter("/stacking/clear_black_list",this);
 	fclear_blackCmd->SetGuidance("Clear black list.");
 	fclear_blackCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+	fset_no_MCCmd = new G4UIcmdWithAnInteger("/stacking/set_no_MC",this);
+	fset_no_MCCmd->SetGuidance("Set Muon Capture");
+	fset_no_MCCmd->SetParameterName("val",false);
+	fset_no_MCCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+	fset_no_PCCmd = new G4UIcmdWithAnInteger("/stacking/set_no_PC",this);
+	fset_no_PCCmd->SetGuidance("Set Pion Capture");
+	fset_no_PCCmd->SetParameterName("val",false);
+	fset_no_PCCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 }
 
 
@@ -66,6 +76,8 @@ MyStackingActionMessenger::~MyStackingActionMessenger() {
     delete fadd_blackCmd;
     delete fclear_blackCmd;
     delete fclear_whiteCmd;
+    delete fset_no_PCCmd;
+    delete fset_no_MCCmd;
 }
 
 
@@ -104,6 +116,16 @@ G4String newValue) {
     if( command == fclear_blackCmd ) {
         fStackingAction->
             clear_black_list();
+    }
+
+    if( command == fset_no_MCCmd ) {
+        fStackingAction->
+            set_no_MC(fset_no_MCCmd->GetNewIntValue(newValue));
+    }
+
+    if( command == fset_no_PCCmd ) {
+        fStackingAction->
+            set_no_PC(fset_no_PCCmd->GetNewIntValue(newValue));
     }
 
 }
