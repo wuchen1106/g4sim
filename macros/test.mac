@@ -4,6 +4,7 @@
 #/vis/viewer/addCutawayPlane 0 0 0 m 0 0 -1
 #/vis/viewer/addCutawayPlane -0.3 0.3 0 m 1 -1 0
 #/vis/viewer/addCutawayPlane 0 0 0 m 0 0 -1
+/vis/viewer/addCutawayPlane 0 0 0 m 0 1 0
 #/vis/viewer/set/viewpointVector 0 0 -1
 
 /vis/viewer/zoom 2.4

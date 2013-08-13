@@ -11,7 +11,7 @@ export CONFIGUREDATAROOT=$MYG4SIMDATAROOT
 export FIELDMAPSROOT=$MYFIELDMAPSROOT
 
 #for detector construction
-export MATERIALLISTROOT=material_list
+export MATERIALLISTROOT=material_default
 export GEOCARDROOT=geometry_default
 #for magField
 export MAGFIELDCARDROOT=MagField_default
