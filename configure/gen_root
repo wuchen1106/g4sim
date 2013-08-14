@@ -40,5 +40,5 @@
 #	DMHHN:          theta
 
 #ROOT file name
-	RFN:            g30cm10mm_PTACS_EP_QGSPBERTHPg4sim_0.root
+	RFN:            MT1.em.g40cm10mm.03T.g4s.QBH.root
 	RTN:            t
