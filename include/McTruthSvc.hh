@@ -60,6 +60,7 @@ class McTruthSvc
 		bool flag_pid;
 		bool flag_tid;
 		bool flag_ptid;
+		bool flag_ppid;
 		bool flag_time;
 		bool flag_px;
 		bool flag_py;
@@ -88,6 +89,7 @@ class McTruthSvc
 		std::vector<int> m_pid;
 		std::vector<int> m_tid;
 		std::vector<int> m_ptid;
+		std::vector<int> m_ppid;
 		std::vector<double> m_time;
 		std::vector<double> m_px;
 		std::vector<double> m_py;

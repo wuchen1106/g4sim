@@ -4,12 +4,12 @@
 #/vis/viewer/addCutawayPlane 0 0 0 m 0 0 -1
 #/vis/viewer/addCutawayPlane -0.3 0.3 0 m 1 -1 0
 #/vis/viewer/addCutawayPlane 0 0 0 m 0 0 -1
-/vis/viewer/addCutawayPlane 0 0 0 m 0 1 0
+#/vis/viewer/addCutawayPlane 0 0 0 m 0 1 0
 #/vis/viewer/set/viewpointVector 0 0 -1
 
 /vis/viewer/zoom 2.4
 
-#/vis/viewer/set/viewpointThetaPhi 0 0
+/vis/viewer/set/viewpointThetaPhi 0 0
 #/vis/viewer/set/viewpointThetaPhi 300 -20
 /vis/viewer/set/viewpointThetaPhi 270 0  
 
@@ -43,3 +43,13 @@
 /vis/modeling/trajectories/drawByParticleID-0/set mu-   magenta
 /vis/modeling/trajectories/drawByParticleID-0/set mu+   magenta
 /vis/scene/endOfEventAction accumulate 10000000
+
+/stacking/setEleCut 1.5 keV
+/stacking/setPosCut 1.5 keV
+/stacking/setGamCut 1.5 keV
+/stacking/clear_white_list
+/stacking/clear_black_list
+/stacking/set_no_MC 1
+/stacking/set_no_PC 1
+/run/setCut 0.001 mm
+/g4sim/event/printModulo            1

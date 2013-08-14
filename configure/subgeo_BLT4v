@@ -6,7 +6,7 @@
 #	         mm         mm         mm         deg      deg                                                             mm   mm   mm         mm         deg    deg    deg    deg    deg   
 	T    0   0.         701        1500       0        360     BLTContainer    World           Vacuum        none      0    0 -2040.5 1     0          0      0      0      0      0     
 	T    5   0          700        1          0        360     BLTMonitor      World           Vacuum        MonitorSD 0    0 -2792   1     0          0      0      0      0      0     
-	T    5   0          400        1          0        360     BLTKiller1      World           Vacuum        KillerSD  0    0 -2793   1     0          0      0      0      0      0     
+	T    5   0          700        1          0        360     BLTKiller1      World           Vacuum        KillerSD  0    0 -2793   1     0          0      0      0      0      0     
 	T    1   600        700        1500       0        90      BLTYoke1        BLTContainer    Steel         none      0    0    0    1     0          0      0      0      0      0     
 	T    1   600        700        1500       90       90      BLTYoke2        BLTContainer    Steel         none      0    0    0    1     0          0      0      0      0      0     
 	T    1   600        700        1500       180      90      BLTYoke3        BLTContainer    Steel         none      0    0    0    1     0          0      0      0      0      0     

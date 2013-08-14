@@ -2,4 +2,4 @@
 /control/execute {MYG4SIMROOT}/configure/verbose_default.mac
 #/control/execute {MYG4SIMROOT}/configure/setCut_bp.mac
 /control/execute {MYG4SIMROOT}/configure/setCut_A9.mac
-/run/beamOn 7
+/run/beamOn 1000

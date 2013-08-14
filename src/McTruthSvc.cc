@@ -52,6 +52,7 @@ void McTruthSvc::Initialize(){
 	m_pid.clear();
 	m_tid.clear();
 	m_ptid.clear();
+	m_ppid.clear();
 	m_time.clear();
 	m_px.clear();
 	m_py.clear();
@@ -73,6 +74,7 @@ void McTruthSvc::SetBranch(){
 	if( flag_pid ) myRoot->SetBranch("McTruth_pid", &m_pid);
 	if( flag_tid ) myRoot->SetBranch("McTruth_tid", &m_tid);
 	if( flag_ptid ) myRoot->SetBranch("McTruth_ptid", &m_ptid);
+	if( flag_ppid ) myRoot->SetBranch("McTruth_ppid", &m_ppid);
 	if( flag_time ) myRoot->SetBranch("McTruth_time", &m_time);
 	if( flag_px ) myRoot->SetBranch("McTruth_px", &m_px);
 	if( flag_py ) myRoot->SetBranch("McTruth_py", &m_py);
@@ -132,6 +134,7 @@ void McTruthSvc::ReadOutputCard(G4String filename){
 			else if( name == "tid2pid" ) flag_tid2pid= true;
 			else if( name == "tid" ) flag_tid = true;
 			else if( name == "ptid" ) flag_ptid = true;
+			else if( name == "ppid" ) flag_ppid = true;
 			else if( name == "time" ) {flag_time = true; buf_card>>unitName_time; unit_time = MyString2Anything::get_U(unitName_time);}
 			else if( name == "px" ) {flag_px = true; buf_card>>unitName_px; unit_px = MyString2Anything::get_U(unitName_px);}
 			else if( name == "py" ) {flag_py = true; buf_card>>unitName_py; unit_py = MyString2Anything::get_U(unitName_py);}
@@ -215,6 +218,7 @@ void McTruthSvc::ReSet(){
 	flag_tid2pid = false;
 	flag_tid = false;
 	flag_ptid = false;
+	flag_ppid = false;
 	flag_time = false;
 	flag_px = false;
 	flag_py = false;
@@ -244,6 +248,7 @@ void McTruthSvc::ShowOutCard(){
 	std::cout<<"enable tid2pid?       "<<(flag_tid2pid?" yes":" no")<<std::endl;
 	std::cout<<"output tid?           "<<(flag_tid?" yes":" no")<<std::endl;
 	std::cout<<"output ptid?          "<<(flag_ptid?" yes":" no")<<std::endl;
+	std::cout<<"output ppid?          "<<(flag_ppid?" yes":" no")<<std::endl;
 	std::cout<<"output time?          "<<(flag_time?" yes":" no")<<", unit: "<<unitName_time<<std::endl;
 	std::cout<<"output px?            "<<(flag_px?" yes":" no")<<", unit: "<<unitName_px<<std::endl;
 	std::cout<<"output py?            "<<(flag_py?" yes":" no")<<", unit: "<<unitName_py<<std::endl;
@@ -333,6 +338,11 @@ void McTruthSvc::SetValuePre(const G4Track* aTrack){
 	if(flag_pid) m_pid.push_back(pid);
 	if(flag_tid) m_tid.push_back(trackID);
 	if(flag_ptid) m_ptid.push_back(ptid);
+	if(flag_ppid){
+		int ptid = aTrack->GetParentID();
+		int ppid = McTruthSvc::GetMcTruthSvc()->tid2pid(ptid);
+		m_ppid.push_back(ppid);
+	}
 	if(flag_time) m_time.push_back(globalT/unit_time);
 	if(flag_px) m_px.push_back(mom_3vec.x()/unit_px);
 	if(flag_py) m_py.push_back(mom_3vec.y()/unit_py);
