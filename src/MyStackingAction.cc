@@ -86,8 +86,9 @@ MyStackingAction::ClassifyNewTrack(const G4Track* aTrack) {
 		else{
 			processName = "NULL";
 		}
-		if (processName=="muMinusCaptureAtRest"&&m_no_MC) aClassification = fKill;
-		if (processName=="hBertiniCaptureAtRest"&&m_no_PC) aClassification = fKill;
+		G4String volume = aTrack->GetLogicalVolumeAtVertex()->GetName();
+		if (volume=="Target"&&processName=="muMinusCaptureAtRest"&&m_no_MC) aClassification = fKill;
+		if (volume=="Target"&&processName=="hBertiniCaptureAtRest"&&m_no_PC) aClassification = fKill;
 	}
 
 	if (aTrackID!=1){
