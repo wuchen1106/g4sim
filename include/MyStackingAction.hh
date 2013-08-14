@@ -125,6 +125,7 @@ class MyStackingAction : public G4UserStackingAction {
 		void clear_black_list() {m_black_list.clear();};
 		void set_no_PC(bool val) {m_no_PC=val;};
 		void set_no_MC(bool val) {m_no_MC=val;};
+		void set_no_sec(bool val) {m_no_sec=val;};
 
     public:
 
@@ -148,6 +149,7 @@ class MyStackingAction : public G4UserStackingAction {
 
 		bool m_no_PC;
 		bool m_no_MC;
+		bool m_no_sec;
 		std::vector<int> m_white_list;
 		std::vector<int> m_black_list;
 

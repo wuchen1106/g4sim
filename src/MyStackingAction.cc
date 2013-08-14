@@ -19,6 +19,7 @@ MyStackingAction::MyStackingAction()
     fStackingActionMessenger = new MyStackingActionMessenger(this);
     m_white_list.clear();
     m_black_list.clear();
+    m_no_sec=false;
     m_no_MC=false;
     m_no_PC=false;
 }
@@ -77,7 +78,7 @@ MyStackingAction::ClassifyNewTrack(const G4Track* aTrack) {
 
     }
 
-	if (m_no_MC||m_no_PC){
+	if (m_no_MC||m_no_PC||m_no_sec){
 		G4String processName;
 		const G4VProcess* process = aTrack->GetCreatorProcess();
 		if (process) {
@@ -88,6 +89,7 @@ MyStackingAction::ClassifyNewTrack(const G4Track* aTrack) {
 		}
 		if (processName=="muMinusCaptureAtRest"&&m_no_MC) aClassification = fKill;
 		if (processName=="hBertiniCaptureAtRest"&&m_no_PC) aClassification = fKill;
+		if (processName!="NULL"&&m_no_sec) aClassification = fKill;
 	}
 
 	if (aTrackID!=1){
