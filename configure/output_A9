@@ -73,7 +73,7 @@ BLTMonitor_SECTION
 
 BLTMonitor_FILTERSECTION
 	Switch                        //if commented, then program wil not generate any hit
-	neutralCut                    //if not commented, then neutral tracks will not be recorded
+#	neutralCut                    //if not commented, then neutral tracks will not be recorded
 	maxn          0               //maximum hits cut, 0 means no limit
 	minp          0      GeV      //minimum momentum cut
 	mint          0      ns       //left end of time window, 0 means no lower limit
@@ -117,7 +117,7 @@ CDCMonitor_SECTION
 
 CDCMonitor_FILTERSECTION
 	Switch                        //if commented, then program wil not generate any hit
-	neutralCut                    //if not commented, then neutral tracks will not be recorded
+#	neutralCut                    //if not commented, then neutral tracks will not be recorded
 	maxn          0               //maximum hits cut, 0 means no limit
 	minp          0      GeV      //minimum momentum cut
 	mint          0      ns       //left end of time window, 0 means no lower limit
@@ -161,7 +161,7 @@ Target_SECTION
 
 Target_FILTERSECTION
 	Switch                        //if commented, then program wil not generate any hit
-	neutralCut                    //if not commented, then neutral tracks will not be recorded
+#	neutralCut                    //if not commented, then neutral tracks will not be recorded
 	maxn          0               //maximum hits cut, 0 means no limit
 	minp          0      GeV      //minimum momentum cut
 	mint          0      ns       //left end of time window, 0 means no lower limit
@@ -205,7 +205,7 @@ InnerCylinder_SECTION
 
 InnerCylinder_FILTERSECTION
 	Switch                        //if commented, then program wil not generate any hit
-	neutralCut                    //if not commented, then neutral tracks will not be recorded
+#	neutralCut                    //if not commented, then neutral tracks will not be recorded
 	maxn          0               //maximum hits cut, 0 means no limit
 	minp          0      GeV      //minimum momentum cut
 	mint          0      ns       //left end of time window, 0 means no lower limit
@@ -249,7 +249,7 @@ Trigger_SECTION
 
 Trigger_FILTERSECTION
 	Switch                        //if commented, then program wil not generate any hit
-	neutralCut                    //if not commented, then neutral tracks will not be recorded
+#	neutralCut                    //if not commented, then neutral tracks will not be recorded
 	maxn          0               //maximum hits cut, 0 means no limit
 	minp          0      GeV      //minimum momentum cut
 	mint          0      ns       //left end of time window, 0 means no lower limit
