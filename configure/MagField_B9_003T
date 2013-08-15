@@ -1,0 +1,6 @@
+#Setup MagField
+
+	TYPE: fieldMap
+#			Name                      Scale 
+	fMap:   Phase1Field_SF_B9.dat     1
+	fMap:   Phase1Field_DF_1T.dat     0.03
