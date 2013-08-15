@@ -3,4 +3,4 @@
 #/control/execute {MYG4SIMROOT}/configure/setCut_bp.mac
 /control/execute {MYG4SIMROOT}/configure/setCut_A9.mac
 #/control/execute {MYG4SIMROOT}/configure/setCut_vis.mac
-/run/beamOn 41886
+/run/beamOn 1000
