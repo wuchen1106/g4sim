@@ -3,4 +3,5 @@
 /stacking/setGamCut 1.5 MeV
 /stacking/clear_white_list
 /stacking/clear_black_list
+/g4sim/myAnalysisSvc/set_maxT 170000 ns
 /run/setCut 0.001 mm
