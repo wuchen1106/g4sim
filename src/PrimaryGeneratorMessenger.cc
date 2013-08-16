@@ -80,6 +80,11 @@ PrimaryGeneratorMessenger::PrimaryGeneratorMessenger(
   root_filename_cmd->SetParameterName("root_filename",false);
   root_filename_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
+  root_index_cmd = new G4UIcmdWithAnInteger("/g4sim/gun/root_index",this);
+  root_index_cmd->SetGuidance("root_index");
+  root_index_cmd->SetParameterName("root_index",false);
+  root_index_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
   histo_build_cmd = new G4UIcmdWithoutParameter("/g4sim/gun/histo_build",this);
   histo_build_cmd->SetGuidance("update histogram for momentum.");
   histo_build_cmd->SetGuidance("This command MUST be applied before \"beamOn\" ");
@@ -107,6 +112,7 @@ PrimaryGeneratorMessenger::~PrimaryGeneratorMessenger()
   delete DM_hist_filename_cmd;
   delete DM_hist_histname_cmd;
   delete root_filename_cmd;
+  delete root_index_cmd;
   delete histo_build_cmd;
   delete root_build_cmd;
   delete gunDir;
@@ -121,6 +127,7 @@ void PrimaryGeneratorMessenger::SetNewValue(
   if( command == DirectionMode_cmd )    { Action->set_DirectionMode(newValue);}
   if( command == PositionMode_cmd )    { Action->set_PositionMode(newValue);}
   if( command == root_filename_cmd )    { Action->set_root_filename(newValue);}
+  if( command == root_index_cmd )    { Action->set_root_index(root_index_cmd->GetNewIntValue(newValue));}
   if( command == EM_hist_filename_cmd )    { Action->set_EM_hist_filename(newValue);}
   if( command == EM_hist_histname_cmd )    { Action->set_EM_hist_histname(newValue);}
   if( command == DM_hist_filename_cmd )    { Action->set_DM_hist_filename(newValue);}

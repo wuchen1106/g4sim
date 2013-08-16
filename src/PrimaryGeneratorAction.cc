@@ -32,6 +32,7 @@
 #include <fstream>
 
 PrimaryGeneratorAction::PrimaryGeneratorAction()
+	:root_index(0)
 {
 	//create a messenger for this class
 	gunMessenger = new PrimaryGeneratorMessenger(this);

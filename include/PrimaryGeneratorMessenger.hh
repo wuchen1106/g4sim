@@ -31,6 +31,7 @@ public:
 private:
   PrimaryGeneratorAction*   Action;
   G4UIdirectory*            gunDir; 
+  G4UIcmdWithAnInteger*     root_index_cmd;
   G4UIcmdWithAString*       EnergyMode_cmd;
   G4UIcmdWithAString*       DirectionMode_cmd;
   G4UIcmdWithAString*       PositionMode_cmd;

@@ -39,6 +39,8 @@ public:
   void set_DM_hist_histname(G4String val) { DM_hist_histname= val; }
   void set_root_filename(G4String val) { root_filename= val; }
   void set_root_treename(G4String val) { root_treename= val; }
+  void set_root_index(int val){root_index=val;}
+
 
   void SetUniformDirection();
   void SetRandomPosition();
