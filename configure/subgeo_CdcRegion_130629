@@ -5,10 +5,10 @@
 #	Type No  RMin       RMax       Length     StartAng SpanAng Name            MotVolume       Material        SDName    posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
 #	         mm         mm         mm         deg      deg                                                               mm   mm   mm         mm         deg    deg    deg    deg    deg   
 	T    0   0          900        2581       0        360     CDCRegion       World           Helium          none      0    0    0    1     0          0      0      0      0      0     
-	T    0   0          350        1          0        360     CDCMonitor      CDCRegion       Vacuum          MonitorSD 0    0 -1290   1     0          0      0      0      0      0     
-	T    0   890        900        2581       0        360     CDCShellC       CDCRegion       Vacuum          KillerSD  0    0    0    1     0          0      0      0      0      0     
-	T    0   350        890        10         0        360     CDCShellEU      CDCRegion       Vacuum          KillerSD  0    0 -1285.5 1     0          0      0      0      0      0     
-	T    0   0          890        10         0        360     CDCShellED      CDCRegion       Vacuum          KillerSD  0    0  1285.5 1     0          0      0      0      0      0     
+	T    0   0          350        1          0        360     CDCMonitor      CDCRegion       Helium          MonitorSD 0    0 -1290   1     0          0      0      0      0      0     
+	T    0   890        900        2581       0        360     CDCShellC       CDCRegion       Helium          KillerSD  0    0    0    1     0          0      0      0      0      0     
+	T    0   350        890        10         0        360     CDCShellEU      CDCRegion       Helium          KillerSD  0    0 -1285.5 1     0          0      0      0      0      0     
+	T    0   0          890        10         0        360     CDCShellED      CDCRegion       Helium          KillerSD  0    0  1285.5 1     0          0      0      0      0      0     
 	T    0   501.5      816        1540       0        360     CDCContainer    CDCRegion       ChamberGas9010  none      0    0    0    1     0          0      0      0      0      0     
 	T    4   471.5      501.5      200        0.       360.    Trigger         CDCRegion       Scintillator    MonitorSD 0.   0.   0.   2     1.3e3      0      0      0      0      0
 	T    5   0.         100        0.2        0.       360.    Target          CDCRegion       Aluminium       MonitorSD 0.   0.   0.   17    50         0      0      0      0      0
