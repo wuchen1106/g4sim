@@ -5,28 +5,28 @@
 #	Type No  RMin       RMax       Length     StartAng SpanAng Name            MotVolume       Material        SDName    posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
 #	         mm         mm         mm         deg      deg                                                               mm   mm   mm         mm         deg    deg    deg    deg    deg   
 	T    0   0          900        2581       0        360     CDCRegion       World           Helium          none      0    0    0    1     0          0      0      0      0      0     
-	T    0   0          350        1          0        90      CDCMonitor1     CDCRegion       Vacuum          MonitorSD 0    0 -1290   1     0          0      0      0      0      0     
-	T    0   0          350        1          90       90      CDCMonitor2     CDCRegion       Vacuum          MonitorSD 0    0 -1290   1     0          0      0      0      0      0     
-	T    0   0          350        1          180      90      CDCMonitor3     CDCRegion       Vacuum          MonitorSD 0    0 -1290   1     0          0      0      0      0      0     
-	T    0   0          350        1          270      90      CDCMonitor4     CDCRegion       Vacuum          MonitorSD 0    0 -1290   1     0          0      0      0      0      0     
-	T    0   890        900        2581       0        90      CDCShellC1      CDCRegion       Vacuum          KillerSD  0    0    0    1     0          0      0      0      0      0     
-	T    0   890        900        2581       90       90      CDCShellC2      CDCRegion       Vacuum          KillerSD  0    0    0    1     0          0      0      0      0      0     
-	T    0   890        900        2581       180      90      CDCShellC3      CDCRegion       Vacuum          KillerSD  0    0    0    1     0          0      0      0      0      0     
-	T    0   890        900        2581       270      90      CDCShellC4      CDCRegion       Vacuum          KillerSD  0    0    0    1     0          0      0      0      0      0     
-	T    0   350        890        10         0        90      CDCShellEU1     CDCRegion       Vacuum          KillerSD  0    0 -1285.5 1     0          0      0      0      0      0     
-	T    0   350        890        10         90       90      CDCShellEU2     CDCRegion       Vacuum          KillerSD  0    0 -1285.5 1     0          0      0      0      0      0     
-	T    0   350        890        10         180      90      CDCShellEU3     CDCRegion       Vacuum          KillerSD  0    0 -1285.5 1     0          0      0      0      0      0     
-	T    0   350        890        10         270      90      CDCShellEU4     CDCRegion       Vacuum          KillerSD  0    0 -1285.5 1     0          0      0      0      0      0     
-	T    0   0          890        10         0        90      CDCShellED1     CDCRegion       Vacuum          KillerSD  0    0  1285.5 1     0          0      0      0      0      0     
-	T    0   0          890        10         90       90      CDCShellED2     CDCRegion       Vacuum          KillerSD  0    0  1285.5 1     0          0      0      0      0      0     
-	T    0   0          890        10         180      90      CDCShellED3     CDCRegion       Vacuum          KillerSD  0    0  1285.5 1     0          0      0      0      0      0     
-	T    0   0          890        10         270      90      CDCShellED4     CDCRegion       Vacuum          KillerSD  0    0  1285.5 1     0          0      0      0      0      0     
+	T    0   0          350        1          0        90      CDCMonitor1     CDCRegion       Helium          MonitorSD 0    0 -1290   1     0          0      0      0      0      0     
+	T    0   0          350        1          90       90      CDCMonitor2     CDCRegion       Helium          MonitorSD 0    0 -1290   1     0          0      0      0      0      0     
+	T    0   0          350        1          180      90      CDCMonitor3     CDCRegion       Helium          MonitorSD 0    0 -1290   1     0          0      0      0      0      0     
+	T    0   0          350        1          270      90      CDCMonitor4     CDCRegion       Helium          MonitorSD 0    0 -1290   1     0          0      0      0      0      0     
+	T    0   890        900        2581       0        90      CDCShellC1      CDCRegion       Helium          KillerSD  0    0    0    1     0          0      0      0      0      0     
+	T    0   890        900        2581       90       90      CDCShellC2      CDCRegion       Helium          KillerSD  0    0    0    1     0          0      0      0      0      0     
+	T    0   890        900        2581       180      90      CDCShellC3      CDCRegion       Helium          KillerSD  0    0    0    1     0          0      0      0      0      0     
+	T    0   890        900        2581       270      90      CDCShellC4      CDCRegion       Helium          KillerSD  0    0    0    1     0          0      0      0      0      0     
+	T    0   350        890        10         0        90      CDCShellEU1     CDCRegion       Helium          KillerSD  0    0 -1285.5 1     0          0      0      0      0      0     
+	T    0   350        890        10         90       90      CDCShellEU2     CDCRegion       Helium          KillerSD  0    0 -1285.5 1     0          0      0      0      0      0     
+	T    0   350        890        10         180      90      CDCShellEU3     CDCRegion       Helium          KillerSD  0    0 -1285.5 1     0          0      0      0      0      0     
+	T    0   350        890        10         270      90      CDCShellEU4     CDCRegion       Helium          KillerSD  0    0 -1285.5 1     0          0      0      0      0      0     
+	T    0   0          890        10         0        90      CDCShellED1     CDCRegion       Helium          KillerSD  0    0  1285.5 1     0          0      0      0      0      0     
+	T    0   0          890        10         90       90      CDCShellED2     CDCRegion       Helium          KillerSD  0    0  1285.5 1     0          0      0      0      0      0     
+	T    0   0          890        10         180      90      CDCShellED3     CDCRegion       Helium          KillerSD  0    0  1285.5 1     0          0      0      0      0      0     
+	T    0   0          890        10         270      90      CDCShellED4     CDCRegion       Helium          KillerSD  0    0  1285.5 1     0          0      0      0      0      0     
 	T    0   501.5      816        1540       0        360     CDCContainer    CDCRegion       ChamberGas9010  none      0    0    0    1     0          0      0      0      0      0     
 	T    4   471.5      501.5      200        0.       90      Trigger1        CDCRegion       Scintillator    none      0.   0.   0.   2     1.3e3      0      0      0      0      0
 	T    4   471.5      501.5      200        90       90      Trigger2        CDCRegion       Scintillator    none      0.   0.   0.   2     1.3e3      0      0      0      0      0
 	T    4   471.5      501.5      200        180      90      Trigger3        CDCRegion       Scintillator    none      0.   0.   0.   2     1.3e3      0      0      0      0      0
 	T    4   471.5      501.5      200        270      90      Trigger4        CDCRegion       Scintillator    none      0.   0.   0.   2     1.3e3      0      0      0      0      0
-	T    5   0.         100        0.2        0.       360.    Target          CDCRegion       Aluminium       MonitorSD 0.   0.   0.   17    50         0      0      0      0      0
+	T    5   0.         100        0.2        0.       360.    Target          CDCRegion       Helium          MonitorSD 0.   0.   0.   17    50         0      0      0      0      0
 	T    1   501.5      502        1540.00000 0        90      InnerCylinder1  CDCContainer    CarbonFiber     none      0    0    0    1     0          0      0      0      0      0     
 	T    1   501.5      502        1540.00000 90       90      InnerCylinder2  CDCContainer    CarbonFiber     none      0    0    0    1     0          0      0      0      0      0     
 	T    1   501.5      502        1540.00000 180      90      InnerCylinder3  CDCContainer    CarbonFiber     none      0    0    0    1     0          0      0      0      0      0     

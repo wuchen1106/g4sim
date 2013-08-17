@@ -11,9 +11,9 @@
 
 #/vis/viewer/set/viewpointThetaPhi 0 0
 #/vis/viewer/set/viewpointThetaPhi 300 -20
-#/vis/viewer/set/viewpointThetaPhi 270 0  
+/vis/viewer/set/viewpointThetaPhi 270 0  
 
-#/vis/viewer/set/lightsThetaPhi 90 180
+/vis/viewer/set/lightsThetaPhi 90 180
 
 /vis/viewer/set/background 1 1 1
 /vis/viewer/set/culling coveredDaughters
@@ -21,8 +21,8 @@
 /vis/viewer/set/lineSegmentsPerCircle 100
 /vis/viewer/set/projection o
 #/vis/viewer/set/projection p
-#/vis/viewer/set/style s
-/vis/viewer/set/style w
+/vis/viewer/set/style s
+#/vis/viewer/set/style w
 
 /vis/filtering/trajectories/create/chargeFilter
 /vis/filtering/trajectories/chargeFilter-0/add 0
