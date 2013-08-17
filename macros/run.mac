@@ -5,6 +5,6 @@
 /control/execute {MYG4SIMROOT}/configure/setCut_A9.mac
 #/control/execute {MYG4SIMROOT}/configure/setCut_vis.mac
 /g4sim/event/printModulo            1
-/random/setSeeds 530107710 560532753
-/g4sim/gun/root_index 27296
+/random/setSeeds 412516134 1322177187
+/g4sim/gun/root_index 14398
 /run/beamOn 1
