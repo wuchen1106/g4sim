@@ -1,10 +1,10 @@
 /control/getEnv MYG4SIMROOT
-/control/execute {MYG4SIMROOT}/configure/verbose_test.mac
-#/control/execute {MYG4SIMROOT}/configure/verbose_default.mac
+#/control/execute {MYG4SIMROOT}/configure/verbose_test.mac
+/control/execute {MYG4SIMROOT}/configure/verbose_default.mac
 #/control/execute {MYG4SIMROOT}/configure/setCut_bp.mac
-/control/execute {MYG4SIMROOT}/configure/setCut_A9.mac
-#/control/execute {MYG4SIMROOT}/configure/setCut_vis.mac
-/g4sim/event/printModulo            1
-/random/setSeeds 412516134 1322177187
-/g4sim/gun/root_index 14398
-/run/beamOn 1
+#/control/execute {MYG4SIMROOT}/configure/setCut_A9.mac
+/control/execute {MYG4SIMROOT}/configure/setCut_vis.mac
+#/g4sim/event/printModulo            1
+#/random/setSeeds 412516134 1322177187
+#/g4sim/gun/root_index 14398
+/run/beamOn 27583
