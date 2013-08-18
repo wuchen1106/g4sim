@@ -4,9 +4,9 @@
 #Tubs info
 #	Type No  RMin       RMax       Length     StartAng SpanAng Name            MotVolume       Material      SDName    posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
 #	         mm         mm         mm         deg      deg                                                             mm   mm   mm         mm         deg    deg    deg    deg    deg   
-	T    0   0.         701        1500       0        360     BLTContainer    World           Vacuum        none      0    0 -2040.5 1     0          0      0      0      0      0     
-	T    5   0          700        1          0        360     BLTMonitor      World           Vacuum        MonitorSD 0    0 -2792   1     0          0      0      0      0      0     
-	T    5   0          700        1          0        360     BLTKiller1      World           Vacuum        KillerSD  0    0 -2793   1     0          0      0      0      0      0     
+	T    0   0.         701        1500       0        360     BLTContainer    World           Helium        none      0    0 -2040.5 1     0          0      0      0      0      0     
+	T    5   0          700        1          0        360     BLTMonitor      World           Helium        MonitorSD 0    0 -2792   1     0          0      0      0      0      0     
+	T    5   0          700        1          0        360     BLTKiller1      World           Helium        KillerSD  0    0 -2793   1     0          0      0      0      0      0     
 	T    1   600        700        1500       0        90      BLTYoke1        BLTContainer    Steel         none      0    0    0    1     0          0      0      0      0      0     
 	T    1   600        700        1500       90       90      BLTYoke2        BLTContainer    Steel         none      0    0    0    1     0          0      0      0      0      0     
 	T    1   600        700        1500       180      90      BLTYoke3        BLTContainer    Steel         none      0    0    0    1     0          0      0      0      0      0     
@@ -15,7 +15,7 @@
 	T    3   350        400        1500       90       90      BLTShell2       BLTContainer    Steel         none      0    0    0    1     0          0      0      0      0      0     
 	T    3   350        400        1500       180      90      BLTShell3       BLTContainer    Steel         none      0    0    0    1     0          0      0      0      0      0     
 	T    3   350        400        1500       270      90      BLTShell4       BLTContainer    Steel         none      0    0    0    1     0          0      0      0      0      0     
-	T    5   400        401        1500       0        360     BLTKiller5      BLTContainer    Vacuum        KillerSD  0    0    0    1     0          0      0      0      0      0     
+	T    5   400        401        1500       0        360     BLTKiller5      BLTContainer    Helium        KillerSD  0    0    0    1     0          0      0      0      0      0     
 	T    6   0.         350        1000       0        360     BLTCollimator   BLTContainer    Tungsten      none      0    0    250  1     0          0      0      0      0      0     
 	T    7   0.         200        1000       0        360     BLTCHole0 
 
@@ -27,7 +27,7 @@
 #BooelanSolid info
 #	Type No  type     vol1         vol2         Ephi    Etheta  Epsi   PosX    PosY    posZ    name          MotVolume       Material      SDName    posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
 #	                                            deg     deg     deg    mm      mm      mm                                                            mm   mm   mm         mm         deg    deg    deg    deg    deg   
-	BL   0   minus    BLTCHole0    BLTCYMin     0       0       0      0       -675    0       BLTCHole      BLTCollimator   Vacuum        none      0    0    0    1     0          0      0      0      0      0     
+	BL   0   minus    BLTCHole0    BLTCYMin     0       0       0      0       -675    0       BLTCHole      BLTCollimator   Helium        none      0    0    0    1     0          0      0      0      0      0     
 
 #visual settings
 	VerboseLevel:    5

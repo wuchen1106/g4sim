@@ -446,6 +446,8 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	G4double pointIn_time = prePoint->GetGlobalTime();//Time since the event in which the track belongs is created
 	G4StepPoint* postPoint  = aStep->GetPostStepPoint() ;
 	G4double pointOut_time = postPoint->GetGlobalTime();//Time since the event in which the track belongs is created
+	G4ThreeVector pointOut_mom = postPoint->GetMomentum();
+	G4ThreeVector pointOut_pos = postPoint->GetPosition();
 
 	// get volume info
 	const G4VTouchable *touchable = prePoint->GetTouchable();
@@ -565,18 +567,18 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		newHit->SetTrackID(trackID);
 		newHit->SetVolID(ReplicaNo);
 		newHit->SetEdep(edep);
-		newHit->SetPos(pointIn_pos);
-		newHit->SetGlobalT(pointIn_time);
+		newHit->SetPos(pointOut_pos);
+		newHit->SetGlobalT(pointOut_time);
 		hitsCollection->insert(newHit);
 		//Set for root objects
-		if(flag_x) m_x.push_back(pointIn_pos.x()/unit_x);
-		if(flag_y) m_y.push_back(pointIn_pos.y()/unit_y);
-		if(flag_z) m_z.push_back(pointIn_pos.z()/unit_z);
-		m_t.push_back(pointIn_time/unit_t);
-		//std::cout<<"m_t = pointIn_time/"<<unitName_t<<" = pointIn_time/"<<unit_t/ns<<"ns = "<<pointIn_time/unit_t<<unitName_t<<std::endl;
-		if(flag_px) m_px.push_back(pointIn_mom.x()/unit_px);
-		if(flag_py) m_py.push_back(pointIn_mom.y()/unit_py);
-		if(flag_pz) m_pz.push_back(pointIn_mom.z()/unit_pz);
+		if(flag_x) m_x.push_back(pointOut_pos.x()/unit_x);
+		if(flag_y) m_y.push_back(pointOut_pos.y()/unit_y);
+		if(flag_z) m_z.push_back(pointOut_pos.z()/unit_z);
+		m_t.push_back(pointOut_time/unit_t);
+		//std::cout<<"m_t = pointOut_time/"<<unitName_t<<" = pointOut_time/"<<unit_t/ns<<"ns = "<<pointOut_time/unit_t<<unitName_t<<std::endl;
+		if(flag_px) m_px.push_back(pointOut_mom.x()/unit_px);
+		if(flag_py) m_py.push_back(pointOut_mom.y()/unit_py);
+		if(flag_pz) m_pz.push_back(pointOut_mom.z()/unit_pz);
 		if(flag_e) m_e.push_back(total_e/unit_e);
 		if(flag_edep) m_edep.push_back(edep/unit_edep);
 		if(flag_stepL) m_stepL.push_back(stepL/unit_stepL);
@@ -633,16 +635,16 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	else {
 		G4double edepTemp = (*hitsCollection)[index]->GetEdep();
 		(*hitsCollection)[index]->SetEdep(edepTemp  + edep);
-		if (flag_stopped&&stopped){
-			if(flag_x) m_x[index] = pointIn_pos.x()/unit_x;
-			if(flag_y) m_y[index] = pointIn_pos.y()/unit_y;
-			if(flag_z) m_z[index] = pointIn_pos.z()/unit_z;
-			m_t[index] = pointIn_time/unit_t;
-			//std::cout<<"m_t = pointIn_time/"<<unitName_t<<" = pointIn_time/"<<unit_t/ns<<"ns = "<<pointIn_time/unit_t<<unitName_t<<std::endl;
-			if(flag_px) m_px[index] = pointIn_mom.x()/unit_px;
-			if(flag_py) m_py[index] = pointIn_mom.y()/unit_py;
-			if(flag_pz) m_pz[index] = pointIn_mom.z()/unit_pz;
-		}
+		(*hitsCollection)[index]->SetPos(pointOut_pos);
+		(*hitsCollection)[index]->SetGlobalT(pointOut_time);
+		if(flag_x) m_x[index] = pointOut_pos.x()/unit_x;
+		if(flag_y) m_y[index] = pointOut_pos.y()/unit_y;
+		if(flag_z) m_z[index] = pointOut_pos.z()/unit_z;
+		m_t[index] = pointOut_time/unit_t;
+		//std::cout<<"m_t = pointOut_time/"<<unitName_t<<" = pointOut_time/"<<unit_t/ns<<"ns = "<<pointOut_time/unit_t<<unitName_t<<std::endl;
+		if(flag_px) m_px[index] = pointOut_mom.x()/unit_px;
+		if(flag_py) m_py[index] = pointOut_mom.y()/unit_py;
+		if(flag_pz) m_pz[index] = pointOut_mom.z()/unit_pz;
 		if(flag_edep) m_edep[index] += edep/unit_edep;
 		if(flag_stepL) m_stepL[index] += stepL/unit_stepL;
 		if(flag_stop_time&&stopped) m_stop_time[index] = stop_time/unit_stop_time; // modify only if it got stopped at this step
