@@ -24,9 +24,21 @@
 /vis/viewer/set/style s
 #/vis/viewer/set/style w
 
-/vis/filtering/trajectories/create/chargeFilter
-/vis/filtering/trajectories/chargeFilter-0/add 0
-/vis/filtering/trajectories/chargeFilter-0/invert true
+#/vis/filtering/trajectories/create/chargeFilter
+#/vis/filtering/trajectories/chargeFilter-0/add 0
+#/vis/filtering/trajectories/chargeFilter-0/invert true
+
+/vis/filtering/trajectories/create/particleFilter
+/vis/filtering/trajectories/particleFilter-0/add 2112
+#/vis/filtering/trajectories/particleFilter-0/add 12
+#/vis/filtering/trajectories/particleFilter-0/add -12
+#/vis/filtering/trajectories/particleFilter-0/add 14
+#/vis/filtering/trajectories/particleFilter-0/add -14
+#/vis/filtering/trajectories/particleFilter-0/add 16
+#/vis/filtering/trajectories/particleFilter-0/add -16
+#/vis/filtering/trajectories/particleFilter-0/add 18
+#/vis/filtering/trajectories/particleFilter-0/add -18
+#/vis/filtering/trajectories/particleFilter-0/invert true
 
 #/vis/filtering/trajectories/create/attributeFilter
 #/vis/filtering/trajectories/attributeFilter-0/setAttribute fGlobalTime
@@ -36,12 +48,14 @@
 /vis/modeling/trajectories/drawByParticleID-0/default/setAuxPtsSize 0.3
 /vis/modeling/trajectories/drawByParticleID-0/set e+   red
 /vis/modeling/trajectories/drawByParticleID-0/set e-   blue
-/vis/modeling/trajectories/drawByParticleID-0/set p-  cyan
-/vis/modeling/trajectories/drawByParticleID-0/set p+  cyan
-/vis/modeling/trajectories/drawByParticleID-0/set pi-  yellow
-/vis/modeling/trajectories/drawByParticleID-0/set pi+  yellow
-/vis/modeling/trajectories/drawByParticleID-0/set mu-   magenta
-/vis/modeling/trajectories/drawByParticleID-0/set mu+   magenta
+/vis/modeling/trajectories/drawByParticleID-0/set p-   cyan
+/vis/modeling/trajectories/drawByParticleID-0/set p+   cyan
+/vis/modeling/trajectories/drawByParticleID-0/set pi-  black
+/vis/modeling/trajectories/drawByParticleID-0/set pi+  black
+/vis/modeling/trajectories/drawByParticleID-0/set mu-  magenta
+/vis/modeling/trajectories/drawByParticleID-0/set mu+  magenta
+/vis/modeling/trajectories/drawByParticleID-0/set n0   green
+/vis/modeling/trajectories/drawByParticleID-0/set gamma yellow
 /vis/scene/endOfEventAction accumulate 10000000
 
 /stacking/setEleCut 1.5 keV
