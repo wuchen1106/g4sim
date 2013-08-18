@@ -29,16 +29,16 @@
 #/vis/filtering/trajectories/chargeFilter-0/invert true
 
 /vis/filtering/trajectories/create/particleFilter
-/vis/filtering/trajectories/particleFilter-0/add 2112
-#/vis/filtering/trajectories/particleFilter-0/add 12
-#/vis/filtering/trajectories/particleFilter-0/add -12
-#/vis/filtering/trajectories/particleFilter-0/add 14
-#/vis/filtering/trajectories/particleFilter-0/add -14
-#/vis/filtering/trajectories/particleFilter-0/add 16
-#/vis/filtering/trajectories/particleFilter-0/add -16
-#/vis/filtering/trajectories/particleFilter-0/add 18
-#/vis/filtering/trajectories/particleFilter-0/add -18
-#/vis/filtering/trajectories/particleFilter-0/invert true
+#/vis/filtering/trajectories/particleFilter-0/add 2112
+/vis/filtering/trajectories/particleFilter-0/add 12
+/vis/filtering/trajectories/particleFilter-0/add -12
+/vis/filtering/trajectories/particleFilter-0/add 14
+/vis/filtering/trajectories/particleFilter-0/add -14
+/vis/filtering/trajectories/particleFilter-0/add 16
+/vis/filtering/trajectories/particleFilter-0/add -16
+/vis/filtering/trajectories/particleFilter-0/add 18
+/vis/filtering/trajectories/particleFilter-0/add -18
+/vis/filtering/trajectories/particleFilter-0/invert true
 
 #/vis/filtering/trajectories/create/attributeFilter
 #/vis/filtering/trajectories/attributeFilter-0/setAttribute fGlobalTime
@@ -54,7 +54,7 @@
 /vis/modeling/trajectories/drawByParticleID-0/set pi+  black
 /vis/modeling/trajectories/drawByParticleID-0/set mu-  magenta
 /vis/modeling/trajectories/drawByParticleID-0/set mu+  magenta
-/vis/modeling/trajectories/drawByParticleID-0/set n0   green
+/vis/modeling/trajectories/drawByParticleID-0/set neutron green
 /vis/modeling/trajectories/drawByParticleID-0/set gamma yellow
 /vis/scene/endOfEventAction accumulate 10000000
 
@@ -64,6 +64,6 @@
 /stacking/clear_white_list
 /stacking/clear_black_list
 #/stacking/set_no_sec 1
-#/stacking/set_no_MC 1
-#/stacking/set_no_PC 1
+/stacking/set_no_MC 1
+/stacking/set_no_PC 1
 /run/setCut 0.001 mm

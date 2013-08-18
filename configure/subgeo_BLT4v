@@ -16,7 +16,7 @@
 	T    3   350        400        1500       180      90      BLTShell3       BLTContainer    Steel         none      0    0    0    1     0          0      0      0      0      0     
 	T    3   350        400        1500       270      90      BLTShell4       BLTContainer    Steel         none      0    0    0    1     0          0      0      0      0      0     
 	T    5   400        401        1500       0        360     BLTKiller5      BLTContainer    Helium        KillerSD  0    0    0    1     0          0      0      0      0      0     
-	T    6   0.         350        1000       0        360     BLTCollimator   BLTContainer    Tungsten      none      0    0    250  1     0          0      0      0      0      0     
+	T    6   0.         350        1000       0        360     BLTCollimator   BLTContainer    Aluminium     none      0    0    250  1     0          0      0      0      0      0     
 	T    7   0.         200        1000       0        360     BLTCHole0 
 
 #Box info
