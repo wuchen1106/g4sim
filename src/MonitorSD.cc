@@ -633,6 +633,16 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	else {
 		G4double edepTemp = (*hitsCollection)[index]->GetEdep();
 		(*hitsCollection)[index]->SetEdep(edepTemp  + edep);
+		if (flag_stopped&&stopped){
+			if(flag_x) m_x[index] = pointIn_pos.x()/unit_x;
+			if(flag_y) m_y[index] = pointIn_pos.y()/unit_y;
+			if(flag_z) m_z[index] = pointIn_pos.z()/unit_z;
+			m_t[index] = pointIn_time/unit_t;
+			//std::cout<<"m_t = pointIn_time/"<<unitName_t<<" = pointIn_time/"<<unit_t/ns<<"ns = "<<pointIn_time/unit_t<<unitName_t<<std::endl;
+			if(flag_px) m_px[index] = pointIn_mom.x()/unit_px;
+			if(flag_py) m_py[index] = pointIn_mom.y()/unit_py;
+			if(flag_pz) m_pz[index] = pointIn_mom.z()/unit_pz;
+		}
 		if(flag_edep) m_edep[index] += edep/unit_edep;
 		if(flag_stepL) m_stepL[index] += stepL/unit_stepL;
 		if(flag_stop_time&&stopped) m_stop_time[index] = stop_time/unit_stop_time; // modify only if it got stopped at this step

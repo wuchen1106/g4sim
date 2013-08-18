@@ -81,7 +81,7 @@ void EventAction::BeginOfEventAction(const G4Event* evt)
 
   //print per event (modulo n)
   if (evtNb%printModulo == 0) { 
-    G4cout << "\n---> Begin of event: " << evtNb << G4endl;
+    std::cout << "\n---> Begin of event: " << evtNb << std::endl;
     CLHEP::HepRandom::showEngineStatus();
   }
 
@@ -98,7 +98,7 @@ void EventAction::EndOfEventAction(const G4Event* evt)
 
   //print per event (modulo n)
   if (evtNb%printModulo == 0) {
-    G4cout << "---> End of event: " << evtNb << G4endl;	
+    std::cout << "---> End of event: " << evtNb << std::endl;	
   }
 }  
 
