@@ -360,7 +360,7 @@ void PrimaryGeneratorAction::root_build(){
 	G4String dir_name = getenv("CONFIGUREDATAROOT");
 	if (dir_name[dir_name.size()-1] != '/') dir_name.append("/");
 	std::string m_TFile_name = dir_name + root_filename;
-	if (m_TChain) delete m_TChain;
+	//if (m_TChain) delete m_TChain;
 	m_TChain = new TChain("t");
 	m_TChain->Add(m_TFile_name.c_str());
 	root_num = m_TChain->GetEntries();

@@ -447,6 +447,7 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	G4StepPoint* postPoint  = aStep->GetPostStepPoint() ;
 	G4double pointOut_time = postPoint->GetGlobalTime();//Time since the event in which the track belongs is created
 	G4ThreeVector pointOut_mom = postPoint->GetMomentum();
+	G4double pointOut_pa = pointOut_mom.mag();
 	G4ThreeVector pointOut_pos = postPoint->GetPosition();
 
 	// get volume info
