@@ -33,7 +33,7 @@ MCTRUTH_SECTION
 MCTRUTHFILTER_SECTION
 	Switch                     //if commented, then program wil not generate any hit
 	nTracks       0            //maximum tracks cut
-	minp          15     MeV   //minimum momentum cut
+	minp          10     MeV   //minimum momentum cut
 	mine          0      MeV   //minimum momentum cut
 	mint          0      ns    //left end of time window, 0 means no lower limit
 	maxt          0      ns    //right end of time window, 0 means no upper limit
