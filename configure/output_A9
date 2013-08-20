@@ -24,19 +24,19 @@ MCTRUTH_SECTION
 	z                 cm
 #	charge
 #	particleName
-#	process
-#	volume
+	process
+	volume
 	tid2pid
 MCTRUTH_SECTION
 
 MCTRUTHFILTER_SECTION
-#	Switch                     //if commented, then program wil not generate any hit
-	nTracks       1            //maximum tracks cut
-	minp          0      GeV   //minimum momentum cut
+	Switch                     //if commented, then program wil not generate any hit
+	nTracks       0            //maximum tracks cut
+	minp          15     MeV   //minimum momentum cut
 	mine          0      MeV   //minimum momentum cut
 	mint          0      ns    //left end of time window, 0 means no lower limit
 	maxt          0      ns    //right end of time window, 0 means no upper limit
-	WL            0            // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
+	WL            11           // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
 MCTRUTHFILTER_SECTION
 
 BLTYoke_SECTION
