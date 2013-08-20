@@ -485,17 +485,17 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	if (foundit) return false;
 
 	//minp
-	if ( minp && pointIn_pa < minp ) return false;
+	if ( minp && pointOut_pa < minp ) return false;
 	//energy
 	if (mine&&aTrack->GetTotalEnergy()<mine) return false;
 
 	//time_window
-	if(isnan(pointIn_time)){
-		G4cout<<"MonitorSD:error, pointIn_time is nan "<<G4endl;
+	if(isnan(pointOut_time)){
+		G4cout<<"MonitorSD:error, pointOut_time is nan "<<G4endl;
 		return false;
 	}
-	if ( pointIn_time < mint && mint ) return false;
-	if ( pointIn_time > maxt && maxt ) return false;
+	if ( pointOut_time < mint && mint ) return false;
+	if ( pointOut_time > maxt && maxt ) return false;
 
 	//minedep
 	if( edep <= minedep ) return false;
@@ -524,11 +524,11 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	double kill_time = 0;
 	if (fTrackStatus == fStopButAlive){
 		stopped = true;
-		stop_time = pointIn_time;
+		stop_time = pointOut_time;
 	}
 	else if (fTrackStatus == fStopAndKill || fTrackStatus == fKillTrackAndSecondaries){
 		killed = true;
-		kill_time = pointIn_time;
+		kill_time = pointOut_time;
 	}
 
 	//****************************generate new hit or modify old one********************************
@@ -537,11 +537,11 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	G4int index = -1;
 	G4double dt = 1e10*s;
 	//std::cout<<"At first, dt = "<<dt/ns<<"ns"<<std::endl;
-	//std::cout<<"pointIn_time = "<<pointIn_time/ns<<"ns"<<std::endl;
+	//std::cout<<"pointOut_time = "<<pointOut_time/ns<<"ns"<<std::endl;
 	for ( int i = 0; i < nHits; i++ ){
 		if ( m_volName[i] == VolName && m_volID[i] == ReplicaNo ){
 			//std::cout<<"m_t["<<i<<"] = "<<m_t[i]*unit_t/ns<<"ns"<<std::endl;
-			G4double dtime = pointIn_time - m_t[i]*unit_t;
+			G4double dtime = pointOut_time - m_t[i]*unit_t;
 			if ( dtime < dt ){
 				index = i;
 				dt = dtime;
