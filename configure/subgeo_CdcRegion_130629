@@ -5,15 +5,15 @@
 #	Type No  RMin       RMax       Length     StartAng SpanAng Name            MotVolume       Material        SDName    posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
 #	         mm         mm         mm         deg      deg                                                               mm   mm   mm         mm         deg    deg    deg    deg    deg   
 	T    0   0          900        2581       0        360     CDCRegion       World           Helium          none      0    0    0    1     0          0      0      0      0      0     
-	T    0   0          890        1          0        360     CDCMonitor      CDCRegion       Helium          MonitorSD 0    0 -1289   1     0          0      0      0      0      0     
+#	T    0   0          890        1          0        360     CDCMonitor      CDCRegion       Helium          MonitorSD 0    0 -1289   1     0          0      0      0      0      0     
 	T    0   890        900        2581       0        360     CDCShellC       CDCRegion       Helium          KillerSD  0    0    0    1     0          0      0      0      0      0     
 	T    0   350        890        1          0        360     CDCShellEU      CDCRegion       Helium          KillerSD  0    0 -1290   1     0          0      0      0      0      0     
 	T    0   0          890        1          0        360     CDCShellED      CDCRegion       Helium          KillerSD  0    0  1290   1     0          0      0      0      0      0     
 	T    0   501.5      816        1540       0        360     CDCContainer    CDCRegion       ChamberGas9010  none      0    0    0    1     0          0      0      0      0      0     
+	T    1   510        798        1500.0     0        360     CDCLayer        CDCContainer    ChamberGas9010  MonitorSD 0    0    0    1     0          0      0      0      0      0     
 	T    4   471.5      501.5      200        0.       360.    Trigger         CDCRegion       Scintillator    MonitorSD 0.   0.   0.   2     1.3e3      0      0      0      0      0
 	T    5   0.         100        0.2        0.       360.    Target          CDCRegion       Aluminium       MonitorSD 0.   0.   0.   17    50         0      0      0      0      0
 	T    1   501.5      502        1540.0     0        360     InnerCylinder   CDCContainer    CarbonFiber     MonitorSD 0    0    0    1     0          0      0      0      0      0     
-	T    1   510        798        1500.0     0        360     CDCLayer        CDCContainer    ChamberGas9010  MonitorSD 0    0    0    1     0          0      0      0      0      0     
 	T    2   806        816        1540.0     0        360     OuterCylinder   CDCContainer    Aluminium       MonitorSD 0    0    0    1     0          0      0      0      0      0     
 	T    3   502        806        20         0        360     EndPlate        CDCContainer    Aluminium       MonitorSD 0    0    0    2     1520.0     0      0      0      0      0     
 
@@ -21,7 +21,7 @@
 	VerboseLevel:    5
 	VISSETTING  #Keep this line to call Reset
 #	Name                 red    green  blue  
-	vis_CDCMonitor       1      0      0      
+#	vis_CDCMonitor       1      0      0      
 	vis_CDCShellC        1      0      0    
 	vis_CDCShellEU       1      0      0      
 	vis_CDCShellED       1      0      0      
