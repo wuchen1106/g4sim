@@ -640,7 +640,7 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		if(flag_x) m_x[index] = pointOut_pos.x()/unit_x;
 		if(flag_y) m_y[index] = pointOut_pos.y()/unit_y;
 		if(flag_z) m_z[index] = pointOut_pos.z()/unit_z;
-		m_t[index] = pointOut_time/unit_t;
+		//m_t[index] = pointOut_time/unit_t; // Should NOT set this time! Signal starts from the beginning!
 		//std::cout<<"m_t = pointOut_time/"<<unitName_t<<" = pointOut_time/"<<unit_t/ns<<"ns = "<<pointOut_time/unit_t<<unitName_t<<std::endl;
 		if(flag_px) m_px[index] = pointOut_mom.x()/unit_px;
 		if(flag_py) m_py[index] = pointOut_mom.y()/unit_py;
