@@ -3,9 +3,10 @@
 /control/execute {MYG4SIMROOT}/configure/verbose_default.mac
 #/control/execute {MYG4SIMROOT}/configure/setCut_default.mac
 /control/execute {MYG4SIMROOT}/configure/setCut_bp.mac
+/run/setCut 0.0001 mm
 #/control/execute {MYG4SIMROOT}/configure/setCut_A9.mac
 #/control/execute {MYG4SIMROOT}/configure/setCut_vis.mac
 #/g4sim/event/printModulo            1
 #/random/setSeeds 412516134 1322177187
 #/g4sim/gun/root_index 14398
-/run/beamOn 100
+/run/beamOn 10000

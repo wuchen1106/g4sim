@@ -63,7 +63,9 @@
 /stacking/setGamCut 1.5 keV
 /stacking/clear_white_list
 /stacking/clear_black_list
-/stacking/set_no_sec 1
-/stacking/set_no_MC 1
-/stacking/set_no_PC 1
+#/stacking/set_no_sec 1
+#/stacking/set_no_MC 1
+#/stacking/set_no_PC 1
+/stacking/add_white_list -211
+#/stacking/add_white_list 2212
 /run/setCut 0.001 mm
