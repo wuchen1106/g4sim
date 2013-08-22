@@ -22,7 +22,7 @@
 	PositionMode:   random  #(uniform/root/none/random)
 	DirectionMode:  none #(none/uniform/histo)
 	TimeMode:       none #(none/root)
-	pidMode:        root #(none/root)
+	pidMode:        none #(none/root)
 #Default Time
 #	         ns
 	Time:    0

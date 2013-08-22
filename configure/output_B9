@@ -63,13 +63,14 @@ PTACSMonitor_SECTION
 	ovolName
 	oprocess
 	ppid
+	ptid
 	tid
 	pid
 #	charge
 PTACSMonitor_SECTION
 
 PTACSMonitor_FILTERSECTION
-#	Switch                        //if commented, then program wil not generate any hit
+	Switch                        //if commented, then program wil not generate any hit
 #	neutralCut                    //if not commented, then neutral tracks will not be recorded
 	maxn          0               //maximum hits cut, 0 means no limit
 	minp          0      GeV      //minimum momentum cut
@@ -103,6 +104,7 @@ MT1Monitor_SECTION
 	ovolName
 	oprocess
 	ppid
+	ptid
 	tid
 	pid
 #	charge

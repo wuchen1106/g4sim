@@ -1,5 +1,5 @@
 #General setting  
-	Type:      stable
+	Type:      simple
 	Particle:  e-     #(e+/e-/chargedgeantino/gamma/...)
 
 #Default Direction
@@ -40,5 +40,5 @@
 #	DMHHN:          theta
 
 #ROOT file name
-	RFN:            PTACS.EP.pim_lt20ns.g40cm10mm.g4s.QBH.root
+	RFN:            MT1.EP.mum.g40cm10mm.0018T.g4s.QBH.root
 	RTN:            t
