@@ -1,9 +1,8 @@
 //---------------------------------------------------------------------------
-//Description: Sensitive detector definition for CDC  
-//Author: Yuan Ye(yuany@mail.ihep.ac.cn)
-//Created: 22 July, 2012
-//Modified:
-//Comment: 
+//Description: Sensitive detector definition for Monitor
+//Author: Wu Chen(wuchen@mail.ihep.ac.cn)
+//Created: 17 Oct, 2012
+//Comment:
 //---------------------------------------------------------------------------//
 
 #ifndef KillerSD_h
@@ -26,13 +25,13 @@ class KillerSD : public MySD
 		KillerSD(G4String, MyVGeometryParameter*);
 		virtual ~KillerSD();
 
-		//=> inherit from G4VSensitiveDetector
 		void Initialize(G4HCofThisEvent*);
 		G4bool ProcessHits(G4Step*, G4TouchableHistory*);
 		void EndOfEvent(G4HCofThisEvent*);
 
-		//=> inherit from MySD
+		//inherit from MySD
 		void SetBranch();
+
 		void ReadOutputCard(G4String filename);
 
 	private:
@@ -42,19 +41,18 @@ class KillerSD : public MySD
 
 	private:
 
-		//For root objects
-		// int nHits;
-		//for output setting
-		// bool flag_nHits;
 		//for filter
-		// bool Switch;
-		// black list
-		// white list
-		// G4double minp;
-		// bool neutralCut;
-		// G4double mint;
-		// G4double maxt;
-		//fTolerance
+		bool Switch;
+		bool neutralCut;
+		G4int maxn;
+		G4double minp;
+		G4double mine;
+		G4double tres;
+		G4double mint;
+		G4double maxt;
+		G4double minedep;
+		std::vector<int> white_list;
+		std::vector<int> black_list;
 };
 
 #endif

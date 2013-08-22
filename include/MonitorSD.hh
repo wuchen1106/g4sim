@@ -56,6 +56,7 @@ class MonitorSD : public MySD
 		int Get_m_volID( int i ) { return m_volID[i]; }
 		std::string Get_m_volName( int i ) { return m_volName[i]; }
 		int Get_m_ppid( int i ) { return m_ppid[i]; }
+		int Get_m_ptid( int i ) { return m_ptid[i]; }
 		std::string Get_m_oprocess( int i ) { return m_oprocess[i]; }
 		std::string Get_m_ovolName( int i ) { return m_ovolName[i]; }
 		int Get_m_tid( int i ) { return m_tid[i]; }
@@ -133,6 +134,7 @@ class MonitorSD : public MySD
 		std::vector<int>    m_volID;
 		std::vector<std::string>    m_volName;
 		std::vector<int>    m_ppid;
+		std::vector<int>    m_ptid;
 		std::vector<std::string>    m_oprocess;
 		std::vector<std::string>    m_ovolName;
 		std::vector<int>    m_tid;
@@ -204,6 +206,7 @@ class MonitorSD : public MySD
 		bool flag_volID;
 		bool flag_volName;
 		bool flag_ppid;
+		bool flag_ptid;
 		bool flag_oprocess;
 		bool flag_ovolName;
 		bool flag_tid;

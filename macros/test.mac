@@ -11,9 +11,9 @@
 
 #/vis/viewer/set/viewpointThetaPhi 0 0
 #/vis/viewer/set/viewpointThetaPhi 300 -20
-/vis/viewer/set/viewpointThetaPhi 270 0  
+#/vis/viewer/set/viewpointThetaPhi 270 0  
 
-/vis/viewer/set/lightsThetaPhi 90 180
+#/vis/viewer/set/lightsThetaPhi 90 180
 
 /vis/viewer/set/background 1 1 1
 /vis/viewer/set/culling coveredDaughters
@@ -64,6 +64,8 @@
 /stacking/clear_white_list
 /stacking/clear_black_list
 #/stacking/set_no_sec 1
-/stacking/set_no_MC 1
-/stacking/set_no_PC 1
+#/stacking/set_no_MC 1
+#/stacking/set_no_PC 1
+/stacking/add_white_list -211
+#/stacking/add_white_list 2212
 /run/setCut 0.001 mm
