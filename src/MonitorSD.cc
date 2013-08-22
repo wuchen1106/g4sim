@@ -84,6 +84,7 @@ void MonitorSD::Initialize(G4HCofThisEvent* HCE)
 	m_volID.clear();
 	m_volName.clear();
 	m_ppid.clear();
+	m_ptid.clear();
 	m_oprocess.clear();
 	m_ovolName.clear();
 	m_tid.clear();
@@ -122,6 +123,7 @@ void MonitorSD::SetBranch(){
 	if( flag_volID ) myRoot->SetBranch(volName+"_volID", &m_volID);
 	if( flag_volName ) myRoot->SetBranch(volName+"_volName", &m_volName);
 	if( flag_ppid) myRoot->SetBranch(volName+"_ppid", &m_ppid);
+	if( flag_ptid) myRoot->SetBranch(volName+"_ptid", &m_ptid);
 	if( flag_oprocess) myRoot->SetBranch(volName+"_oprocess", &m_oprocess);
 	if( flag_ovolName) myRoot->SetBranch(volName+"_ovolName", &m_ovolName);
 	if( flag_tid ) myRoot->SetBranch(volName+"_tid", &m_tid);
@@ -199,6 +201,7 @@ void MonitorSD::ReadOutputCard(G4String filename){
 			else if( name == "volID" ) {flag_volID = true;}
 			else if( name == "volName" ) {flag_volName = true;}
 			else if( name == "ppid" ) {flag_ppid = true;}
+			else if( name == "ptid" ) {flag_ptid = true;}
 			else if( name == "oprocess" ) {flag_oprocess = true;}
 			else if( name == "ovolName" ) {flag_ovolName = true;}
 			else if( name == "tid" ) {flag_tid = true;}
@@ -301,6 +304,7 @@ void MonitorSD::ReSet(){
 	flag_volID = false;
 	flag_volName = false;
 	flag_ppid = false;
+	flag_ptid = false;
 	flag_oprocess = false;
 	flag_ovolName = false;
 	flag_tid = false;
@@ -389,6 +393,7 @@ void MonitorSD::ShowOutCard(){
 	std::cout<<"output volID?   "<<(flag_volID?" yes":" no")<<std::endl;
 	std::cout<<"output volName? "<<(flag_volName?" yes":" no")<<std::endl;
 	std::cout<<"output ppid?    "<<(flag_ppid?" yes":" no")<<std::endl;
+	std::cout<<"output ptid?    "<<(flag_ptid?" yes":" no")<<std::endl;
 	std::cout<<"output oprocess?"<<(flag_oprocess?" yes":" no")<<std::endl;
 	std::cout<<"output ovolName?"<<(flag_ovolName?" yes":" no")<<std::endl;
 	std::cout<<"output tid?     "<<(flag_tid?" yes":" no")<<std::endl;
@@ -473,15 +478,16 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	bool foundit = false;
 	for (int i = 0; i<white_list.size(); i++){
 		if (pid == white_list[i]) foundit=true;
-	}
-	if (white_list.size()==1&&white_list[0]==0){
-		if (pid<1e7) foundit = true;
+		if (white_list[i]==0&&pid<1e7) foundit = true;
+		if (white_list[i]==-1&&trackID==1) foundit = true;
 	}
 	if (!foundit&&white_list.size()) return false;
 	// black_list
 	foundit = false;
 	for (int i = 0; i<black_list.size(); i++){
 		if (pid == black_list[i]) foundit=true;
+		if (black_list[i]==0&&pid<1e7) foundit = true;
+		if (black_list[i]==-1&&trackID==1) foundit = true;
 	}
 	if (foundit) return false;
 
@@ -592,6 +598,7 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		if(flag_killed) m_killed.push_back(killed); // always false unless killed at the first step
 		if(flag_stop_time) m_stop_time.push_back(stop_time/unit_stop_time); // always 0 unless stopped at the first step
 		if(flag_kill_time) m_kill_time.push_back(kill_time/unit_kill_time); // always 0 unless killed at the first step
+		if(flag_ptid) m_ptid.push_back(aTrack->GetParentID());
 		if(flag_ppid){
 			int ptid = aTrack->GetParentID();
 			int ppid = McTruthSvc::GetMcTruthSvc()->tid2pid(ptid);
