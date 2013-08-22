@@ -6,6 +6,7 @@
 #	         mm         mm         mm         deg      deg                                                               mm   mm   mm         mm         deg    deg    deg    deg    deg   
 	T    0   0          900        2581       0        360     CDCRegion       World           Helium          none      0    0    0    1     0          0      0      0      0      0     
 #	T    0   0          890        1          0        360     CDCMonitor      CDCRegion       Helium          MonitorSD 0    0 -1289   1     0          0      0      0      0      0     
+#	T    0   0          890        1          0        360     CDCKiller       CDCRegion       Helium          KillerSD  0    0 -1288   1     0          0      0      0      0      0     
 	T    0   890        900        2581       0        360     CDCShellC       CDCRegion       Helium          KillerSD  0    0    0    1     0          0      0      0      0      0     
 	T    0   350        890        1          0        360     CDCShellEU      CDCRegion       Helium          KillerSD  0    0 -1290   1     0          0      0      0      0      0     
 	T    0   0          890        1          0        360     CDCShellED      CDCRegion       Helium          KillerSD  0    0  1290   1     0          0      0      0      0      0     

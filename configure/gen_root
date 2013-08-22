@@ -1,5 +1,5 @@
 #General setting  
-	Type:      stable
+	Type:      simple
 	Particle:  e-     #(e+/e-/chargedgeantino/gamma/...)
 
 #Default Direction
