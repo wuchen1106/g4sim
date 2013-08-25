@@ -10,9 +10,11 @@
 /vis/viewer/zoom 2.4
 
 #/vis/viewer/set/viewpointThetaPhi 0 0
-#/vis/viewer/set/viewpointThetaPhi 300 -20
-#/vis/viewer/set/viewpointThetaPhi 270 0  
 
+#/vis/viewer/set/viewpointThetaPhi 300 -20
+#/vis/viewer/set/lightsThetaPhi 90 150
+
+#/vis/viewer/set/viewpointThetaPhi 270 0  
 #/vis/viewer/set/lightsThetaPhi 90 180
 
 /vis/viewer/set/background 1 1 1
@@ -24,9 +26,9 @@
 /vis/viewer/set/style s
 #/vis/viewer/set/style w
 
-#/vis/filtering/trajectories/create/chargeFilter
-#/vis/filtering/trajectories/chargeFilter-0/add 0
-#/vis/filtering/trajectories/chargeFilter-0/invert true
+/vis/filtering/trajectories/create/chargeFilter
+/vis/filtering/trajectories/chargeFilter-0/add 0
+/vis/filtering/trajectories/chargeFilter-0/invert true
 
 /vis/filtering/trajectories/create/particleFilter
 #/vis/filtering/trajectories/particleFilter-0/add 2112
@@ -66,6 +68,6 @@
 #/stacking/set_no_sec 1
 #/stacking/set_no_MC 1
 #/stacking/set_no_PC 1
-/stacking/add_white_list -211
+#/stacking/add_white_list -211
 #/stacking/add_white_list 2212
 /run/setCut 0.001 mm
