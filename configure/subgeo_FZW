@@ -18,6 +18,12 @@
 	T    0   0.         25         460        0        360     bsHole
 	T    0   0.         1          1          0        360     bsHole2
 	T    0   0.         25         80         0        360     Moderator       BoxContainer    Paraffin      none      0    0    420  1     0          0      0      0      0      0
+	T    0   0.         350        0.2        0        360     MonitorA        ParaffinBox     Paraffin      MonitorSD 0    0   -50.1 1     0          0      0      0      0      0
+	T    0   0.         350        0.2        0        360     MonitorB        BoraxBox        Borax         MonitorSD 0    0  -350.1 1     0          0      0      0      0      0
+	T    0   0.         350        0.2        0        360     MonitorC        SteelBox        Steel_FZW     MonitorSD 0    0  -450.1 1     0          0      0      0      0      0
+	T    0   0.         350        0.2        0        360     MonitorD        SteelBox        Steel_FZW     MonitorSD 0    0  -459.9 1     0          0      0      0      0      0
+	T    0   0.         25         0.2        0        360     MonitorE        Moderator       Paraffin      MonitorSD 0    0    39.9 1     0          0      0      0      0      0
+	T    0   25         350        0.2        0        360     MonitorF        SteelBox        Steel_FZW     MonitorSD 0    0   459.9 1     0          0      0      0      0      0
 
 #Sphere info
 #	No    RMin  RMax  StartPhi SpanPhi StartThe SpanThe Name     MotVolume     Material     SDName posX posY posZ RepNo Space DirTheta DirPhi Ephi Etheta Epsi
@@ -44,3 +50,9 @@
 	vis_ParaffinBox        0.67   0      1     
 	vis_LeadBall           0      1      0     
 	vis_Moderator          0.67   0      1     
+	vis_MonitorA           1      0      0
+	vis_MonitorB           1      0      0
+	vis_MonitorC           1      0      0
+	vis_MonitorD           1      0      0
+	vis_MonitorE           1      0      0
+	vis_MonitorF           1      0      0
