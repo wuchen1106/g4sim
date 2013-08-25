@@ -1,0 +1,273 @@
+tree_name                   tree
+AutoSave                    0         //0: no auto save; n(n>0): call m_tree->AutoSave() every n events
+Circular                    0         //0: do not set circular; n(n>0): call m_tree->SetCircular(n)
+Verbose                     0         //for classes related to output, including MyRoot, Cdc*SD, etc.
+PrintModule                 1000      //for classes related to output, including MyRoot, Cdc*SD, etc.
+
+EVENTHEADER_SECTION
+	evt_num
+	run_num
+EVENTHEADER_SECTION
+
+MCTRUTH_SECTION
+	nTracks
+#	pid
+	tid
+	ptid
+	ppid
+	time              ns
+	px                GeV
+	py                GeV
+	pz                GeV
+	e                 GeV
+	x                 cm
+	y                 cm
+	z                 cm
+#	charge
+#	particleName
+	process
+	volume
+	tid2pid
+MCTRUTH_SECTION
+
+MCTRUTHFILTER_SECTION
+	Switch                     //if commented, then program wil not generate any hit
+	nTracks       0            //maximum tracks cut
+	minp          10     MeV   //minimum momentum cut
+	mine          0      MeV   //minimum momentum cut
+	mint          0      ns    //left end of time window, 0 means no lower limit
+	maxt          0      ns    //right end of time window, 0 means no upper limit
+	WL            11
+MCTRUTHFILTER_SECTION
+
+EndPlate_SECTION
+	nHits
+	x              cm
+	y              cm
+	z              cm
+	t              ns
+	px             GeV
+	py             GeV
+	pz             GeV
+#	e              GeV
+#	edep           GeV
+#	stepL          cm
+#	volID
+#	volName
+	ox             cm
+	oy             cm
+	oz             cm
+	opx            GeV
+	opy            GeV
+	opz            GeV
+	ovolName
+	oprocess
+	ppid
+	tid
+	pid
+	charge
+	stopped
+	stop_time      ns
+#	killed
+#	kill_time      ns
+EndPlate_SECTION
+
+EndPlate_FILTERSECTION
+	Switch                        //if commented, then program wil not generate any hit
+#	neutralCut                    //if not commented, then neutral tracks will not be recorded
+	maxn          0               //maximum hits cut, 0 means no limit
+	minp          0      GeV      //minimum momentum cut
+	mint          0      ns       //left end of time window, 0 means no lower limit
+	maxt          0      ns       //right end of time window, 0 means no upper limit
+	tres          0      s        //time resolution
+	minedep       -1     GeV      //minimum energy deposition cut
+#	WL            13           // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
+#	WL            -211         // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
+EndPlate_FILTERSECTION
+
+Target_SECTION
+	nHits
+	x              cm
+	y              cm
+	z              cm
+	t              ns
+	px             GeV
+	py             GeV
+	pz             GeV
+#	e              GeV
+#	edep           GeV
+#	stepL          cm
+#	volID
+#	volName
+	ox             cm
+	oy             cm
+	oz             cm
+	opx            GeV
+	opy            GeV
+	opz            GeV
+	ovolName
+	oprocess
+	ppid
+	tid
+	pid
+	charge
+	stopped
+	stop_time      ns
+#	killed
+#	kill_time      ns
+Target_SECTION
+
+Target_FILTERSECTION
+	Switch                        //if commented, then program wil not generate any hit
+#	neutralCut                    //if not commented, then neutral tracks will not be recorded
+	maxn          0               //maximum hits cut, 0 means no limit
+	minp          0      GeV      //minimum momentum cut
+	mint          0      ns       //left end of time window, 0 means no lower limit
+	maxt          0      ns       //right end of time window, 0 means no upper limit
+	tres          0      s        //time resolution
+	minedep       -1     GeV      //minimum energy deposition cut
+#	WL            13           // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
+#	WL            -211         // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
+Target_FILTERSECTION
+
+InnerCylinder_SECTION
+	nHits
+	x              cm
+	y              cm
+	z              cm
+	t              ns
+	px             GeV
+	py             GeV
+	pz             GeV
+#	e              GeV
+#	edep           GeV
+#	stepL          cm
+#	volID
+#	volName
+	ox             cm
+	oy             cm
+	oz             cm
+	opx            GeV
+	opy            GeV
+	opz            GeV
+	ovolName
+	oprocess
+	ppid
+	tid
+	pid
+	charge
+	stopped
+	stop_time      ns
+#	killed
+#	kill_time      ns
+InnerCylinder_SECTION
+
+InnerCylinder_FILTERSECTION
+	Switch                        //if commented, then program wil not generate any hit
+#	neutralCut                    //if not commented, then neutral tracks will not be recorded
+	maxn          0               //maximum hits cut, 0 means no limit
+	minp          0      GeV      //minimum momentum cut
+	mint          0      ns       //left end of time window, 0 means no lower limit
+	maxt          0      ns       //right end of time window, 0 means no upper limit
+	tres          0      s        //time resolution
+	minedep       -1     GeV      //minimum energy deposition cut
+#	WL            13           // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
+#	WL            -211         // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
+InnerCylinder_FILTERSECTION
+
+OuterCylinder_SECTION
+	nHits
+	x              cm
+	y              cm
+	z              cm
+	t              ns
+	px             GeV
+	py             GeV
+	pz             GeV
+#	e              GeV
+#	edep           GeV
+#	stepL          cm
+#	volID
+#	volName
+	ox             cm
+	oy             cm
+	oz             cm
+	opx            GeV
+	opy            GeV
+	opz            GeV
+	ovolName
+	oprocess
+	ppid
+	tid
+	pid
+	charge
+	stopped
+	stop_time      ns
+#	killed
+#	kill_time      ns
+OuterCylinder_SECTION
+
+OuterCylinder_FILTERSECTION
+	Switch                        //if commented, then program wil not generate any hit
+#	neutralCut                    //if not commented, then neutral tracks will not be recorded
+	maxn          0               //maximum hits cut, 0 means no limit
+	minp          0      GeV      //minimum momentum cut
+	mint          0      ns       //left end of time window, 0 means no lower limit
+	maxt          0      ns       //right end of time window, 0 means no upper limit
+	tres          0      s        //time resolution
+	minedep       -1     GeV      //minimum energy deposition cut
+#	WL            13           // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
+#	WL            -211         // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
+OuterCylinder_FILTERSECTION
+
+Trigger_SECTION
+	nHits
+	x              cm
+	y              cm
+	z              cm
+	t              ns
+	px             GeV
+	py             GeV
+	pz             GeV
+#	e              GeV
+#	edep           GeV
+#	stepL          cm
+#	volID
+#	volName
+	ox             cm
+	oy             cm
+	oz             cm
+	opx            GeV
+	opy            GeV
+	opz            GeV
+	ovolName
+	oprocess
+	ppid
+	tid
+	pid
+	charge
+	stopped
+	stop_time      ns
+#	killed
+#	kill_time      ns
+Trigger_SECTION
+
+Trigger_FILTERSECTION
+	Switch                        //if commented, then program wil not generate any hit
+	neutralCut                    //if not commented, then neutral tracks will not be recorded
+	maxn          0               //maximum hits cut, 0 means no limit
+	minp          0      GeV      //minimum momentum cut
+	mint          0      ns       //left end of time window, 0 means no lower limit
+	maxt          0      ns       //right end of time window, 0 means no upper limit
+	tres          0      s        //time resolution
+	minedep       -1     GeV      //minimum energy deposition cut
+#	WL            0               // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
+Trigger_FILTERSECTION
+
+TRIGGERSECTION
+	minCdcHits        -1           // minimum required CDCLayer nHits. Would be set invalid if minCdcHits = -1
+	minCdcCellHits    -1           // minimum required CDCCell nHits. Would be set invalid if minCdcCellHits = -1
+	minTriggerHits    -1           // minimum required Trigger nHits. Would be set invalid if minTriggerHits = -1
+	minEleMom         -1  MeV      // minimum required Electron momentum. Would be set invalid if minEleMom = -1 MeV
+	minAntipNum       -1           // minimum required Anti-Proton number. Would be set invalid if minAntipNum = -1
+TRIGGERSECTION

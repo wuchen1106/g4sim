@@ -40,5 +40,5 @@
 #	DMHHN:          theta
 
 #ROOT file name
-	RFN:            MT1.EP.mum.g40cm10mm.0018T.g4s.QBH.root
+	RFN:            MT1.EP.em.g40cm10mm.003T.g4s.QBH.root
 	RTN:            t
