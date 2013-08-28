@@ -53,6 +53,7 @@ CDCMonitor_SECTION
 #	stepL          cm
 #	volID
 #	volName
+	ot             ns
 	ox             cm
 	oy             cm
 	oz             cm
@@ -96,6 +97,7 @@ BLTShell_SECTION
 #	stepL          cm
 #	volID
 #	volName
+	ot             ns
 	ox             cm
 	oy             cm
 	oz             cm
@@ -141,6 +143,7 @@ BLTCollimator_SECTION
 #	stepL          cm
 #	volID
 #	volName
+	ot             ns
 	ox             cm
 	oy             cm
 	oz             cm

@@ -12,6 +12,7 @@
 	T    5   400        600        1          0        360     BLTKiller3      BLTContainer    Vacuum        KillerSD  0    0  -749.5 1     0          0      0      0      0      0     
 	T    5   600        700        1          0        360     BLTKiller4      BLTYoke         Steel         KillerSD  0    0  -749.5 1     0          0      0      0      0      0     
 	T    5   700        701        1500       0        360     BLTKiller5      BLTContainer    Vacuum        KillerSD  0    0    0    1     0          0      0      0      0      0     
+#	T    6   0.         350        1000       0        360     BLTCollimator   BLTContainer    Aluminium     MonitorSD 0    0    250  1     0          0      0      0      0      0     
 	T    6   0.         350        1000       0        360     BLTCollimator   BLTContainer    Tungsten      MonitorSD 0    0    250  1     0          0      0      0      0      0     
 	T    7   0.         200        1000       0        360     BLTCHole0 
 
