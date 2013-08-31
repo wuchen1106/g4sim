@@ -219,13 +219,19 @@ void PrimaryGeneratorAction::SetRandomPosition(){
 	G4double dy2=0;
 	G4double dz2=0;
 	bool gotit=false;
-	do {
-		if (xSpread) {dx=2.*(G4UniformRand()-0.5)*xSpread;dx2 = dx*dx/xSpread/xSpread;} 
-		if (ySpread) {dy=2.*(G4UniformRand()-0.5)*ySpread;dy2 = dy*dy/ySpread/ySpread;} 
-		if (zSpread) {dz=2.*(G4UniformRand()-0.5)*zSpread;dz2 = dz*dz/zSpread/zSpread;} 
-		if (dx2+dy2+dz2<=1.) gotit = true;
-	} while (!gotit);
-	particleGun->SetParticlePosition(G4ThreeVector(x+dx,y+dy,z+dz));
+//	do {
+//		if (xSpread) {dx=2.*(G4UniformRand()-0.5)*xSpread;dx2 = dx*dx/xSpread/xSpread;} 
+//		if (ySpread) {dy=2.*(G4UniformRand()-0.5)*ySpread;dy2 = dy*dy/ySpread/ySpread;} 
+//		if (zSpread) {dz=2.*(G4UniformRand()-0.5)*zSpread;dz2 = dz*dz/zSpread/zSpread;} 
+//		if (dx2+dy2+dz2<=1.) gotit = true;
+//	} while (!gotit);
+//	x+=dx;
+//	y+=dy;
+//	z+=dz;
+	x=G4RandGauss::shoot(x,xSpread);
+	y=G4RandGauss::shoot(y,ySpread);
+	z=G4RandGauss::shoot(z,zSpread);
+	particleGun->SetParticlePosition(G4ThreeVector(x,y,z));
 }
 
 void PrimaryGeneratorAction::SetUniformPosition(){
