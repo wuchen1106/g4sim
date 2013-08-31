@@ -225,13 +225,10 @@ void PrimaryGeneratorAction::SetRandomPosition(){
 //		if (zSpread) {dz=2.*(G4UniformRand()-0.5)*zSpread;dz2 = dz*dz/zSpread/zSpread;} 
 //		if (dx2+dy2+dz2<=1.) gotit = true;
 //	} while (!gotit);
-//	x+=dx;
-//	y+=dy;
-//	z+=dz;
-	x=G4RandGauss::shoot(x,xSpread);
-	y=G4RandGauss::shoot(y,ySpread);
-	z=G4RandGauss::shoot(z,zSpread);
-	particleGun->SetParticlePosition(G4ThreeVector(x,y,z));
+	dx=G4RandGauss::shoot(0,xSpread);
+	dy=G4RandGauss::shoot(0,ySpread);
+	dz=G4RandGauss::shoot(0,zSpread);
+	particleGun->SetParticlePosition(G4ThreeVector(x+dx,y+dy,z+dz));
 }
 
 void PrimaryGeneratorAction::SetUniformPosition(){
