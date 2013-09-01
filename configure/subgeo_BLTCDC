@@ -6,6 +6,10 @@
 #	         mm     mm      mm      deg      deg                                                          mm   mm   mm          mm    deg    deg    deg    deg    deg   
 	T    0   0      700     1       0        360     BLTKillerE      World           Vacuum     KillerSD  0    0 -2795    1     0     0      0      0      0      0     
 	T    1   0      1747.5  5581    0        360     BLTCDC          World           Vacuum     none      0    0    0     1     0     0      0      0      0      0     
+	T    3   280    300     500     0        360     BLTShellCU      BLTCDC          Copper     none      0    0 -2540.5  1     0     0      0      0      0      0     
+	T    3   330    350     240.5   0        360     BLTShellCD      BLTCDC          Copper     none      0    0 -1170.25 1     0     0      0      0      0      0     
+	T    3   450    470     300     0        360     CDCShellCU      BLTCDC          Copper     none      0    0  -900    1     0     0      0      0      0      0     
+	T    3   330    450     20      0        360     CDCShellEU      BLTCDC          Copper     none      0    0 -1040    1     0     0      0      0      0      0     
 	T    3   700    900     440.5   0        360     TS3Yoke         BLTCDC          Steel      none      0    0 -2570.25 1     0     0      0      0      0      0     
 	T    5   400    450     340.5   0        360     TS3Coil         BLTCDC          Copper     none      0    0 -2620.25 1     0     0      0      0      0      0     
 	T    10  300    301     340.5   0        360     TS3Killer       BLTCDC          Vacuum     KillerSD  0    0 -2620.25 1     0     0      0      0      0      0     
@@ -15,28 +19,31 @@
 	T    4   700    800     1059.5  0        360     ColiYoke        BLTCDC          Steel      none      0    0 -1820.25 1     0     0      0      0      0      0     
 	T    6   495    500     1400    0        360     ColiCoil        BLTCDC          Copper     none      0    0 -1750    1     0     0      0      0      0      0     
 	T    6   400    401     1400    0        360     ColiKiller      BLTCDC          Vacuum     KillerSD  0    0 -1750    1     0     0      0      0      0      0     
-	T    14  0      400     1       0        360     CDCMonitor      BLTCDC          Vacuum     MonitorSD 0    0 -1050.5  1     0     0      0      0      0      0     
-#	T    15  0      400     1       0        360     CDCKiller       BLTCDC          Vacuum     KillerSD  0    0 -1049.5  1     0     0      0      0      0      0     
-	T    16  900    901     3780.5  0        360     CDCKillerC      BLTCDC          Steel      KillerSD  0    0  699.75  1     0     0      0      0      0      0     
-	T    0   400    900     1       0        360     CDCKillerEU     BLTCDC          Steel      KillerSD  0    0 -1049.5  1     0     0      0      0      0      0     
-	T    0   0      900     1       0        360     CDCKillerED     BLTCDC          Steel      KillerSD  0    0  2385    1     0     0      0      0      0      0     
+	T    14  0      330     1       0        360     CDCMonitor      BLTCDC          Vacuum     MonitorSD 0    0 -1050.5  1     0     0      0      0      0      0     
+#	T    15  0      330     1       0        360     CDCKiller       BLTCDC          Vacuum     KillerSD  0    0 -1049.5  1     0     0      0      0      0      0     
+#	T    15  330    400     1       0        360     CDCKiller2      CDCShellEU      Copper     KillerSD  0    0   -9.5   1     0     0      0      0      0      0     
+	T    16  900    901     3780.5  0        360     CDCKillerC      BLTCDC          Vacuum     KillerSD  0    0  699.75  1     0     0      0      0      0      0     
+	T    0   470    900     1       0        360     CDCKillerEU     BLTCDC          Vacuum     KillerSD  0    0 -1049.5  1     0     0      0      0      0      0     
+	T    0   400    450     1       0        360     CDCKillerEU2    CDCShellEU      Copper     KillerSD  0    0   -9.5   1     0     0      0      0      0      0     
+	T    0   450    470     1       0        360     CDCKillerEU3    CDCShellCU      Copper     KillerSD  0    0  -149.5  1     0     0      0      0      0      0     
+	T    0   0      900     1       0        360     CDCKillerED     BLTCDC          Vacuum     KillerSD  0    0  2385    1     0     0      0      0      0      0     
 	T    16  1647.5 1747.5  3780.5  0        360     CDCYokeC        BLTCDC          Steel      none      0    0  699.75  1     0     0      0      0      0      0     
 	T    0   700    1747.5  100     0        360     CDCYokeEU       BLTCDC          Steel      none      0    0 -1240.5  1     0     0      0      0      0      0     
 	T    0   200    1747.5  100     0        360     CDCYokeED       BLTCDC          Steel      none      0    0  2640    1     0     0      0      0      0      0     
 	T    5   1070   1084.04 195     0        360     CDCCoil         BLTCDC          Copper     none      0    0  667.5   15    235   0      0      0      0      0
-	T    0   450    850     1602    0        360     CDCContainer    BLTCDC          Vacuum     none      0    0    0     1     0     0      0      0      0      0     
+	T    0   470    811     1500    0        360     CDCContainer    BLTCDC          Vacuum     none      0    0    0     1     0     0      0      0      0      0     
 	T    5   0      100     0.2     0        360     Target          BLTCDC          Aluminium  MonitorSD 0    0    0     17    50    0      0      0      0      0
-	T    1   450    451     1600    0        360     InnerCylinder   CDCContainer    Vacuum     MonitorSD 0    0    0     1     0     0      0      0      0      0     
-	T    1   451    452     1600    0        360     InnerKiller     CDCContainer    Vacuum     KillerSD  0    0    0     1     0     0      0      0      0      0     
-	T    2   848    849     1600    0        360     OuterKiller     CDCContainer    Vacuum     KillerSD  0    0    0     1     0     0      0      0      0      0     
-	T    2   849    850     1600    0        360     OuterCylinder   CDCContainer    Vacuum     MonitorSD 0    0    0     1     0     0      0      0      0      0     
-	T    3   450    850     1       0        360     EndPlate        CDCContainer    Vacuum     MonitorSD 0    0    0     2     1601  0      0      0      0      0     
-	T    3   452    848     1       0        360     EndKiller       CDCContainer    Vacuum     KillerSD  0    0    0     2     1599  0      0      0      0      0     
+	T    1   470    471     1500    0        360     InnerCylinder   CDCContainer    Vacuum     MonitorSD 0    0    0     1     0     0      0      0      0      0     
+	T    1   471    472     1500    0        360     InnerKiller     CDCContainer    Vacuum     KillerSD  0    0    0     1     0     0      0      0      0      0     
+	T    2   809    810     1500    0        360     OuterKiller     CDCContainer    Vacuum     KillerSD  0    0    0     1     0     0      0      0      0      0     
+	T    2   810    811     1500    0        360     OuterCylinder   CDCContainer    Vacuum     MonitorSD 0    0    0     1     0     0      0      0      0      0     
+	T    3   472    809     1       0        360     EndKiller       CDCContainer    Vacuum     KillerSD  0    0    0     2     1499  0      0      0      0      0     
+	T    3   470    811     1       0        360     EndPlate        BLTCDC          Vacuum     MonitorSD 0    0    0     2     1501  0      0      0      0      0     
 
 #Box info
 #	Type No  x       y       z     Name     MotVolume Material   SDName  posX   posY   posZ   RepNo Space DirTheta DirPhi Ephi Etheta Epsi
 #	         mm      mm      mm                                          mm     mm     mm           mm    deg      deg    deg  deg    deg
-	B    0   1200    1200    1000  BLTCYMin
+	B    0   1200    1200    1200  BLTCYMin
 
 #BooelanSolid info
 #	Type No  type     vol1         vol2         Ephi    Etheta  Epsi   PosX    PosY    posZ    name          MotVolume       Material      SDName    posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
@@ -50,6 +57,10 @@
 	vis_BLTKillerE        1      0      0
 #	vis_BLTCDC            1      1      1
 #	vis_BLTContainer      1      1      1
+	vis_BLTShellCU        0.5    0.5    0.5
+	vis_BLTShellCD        0.5    0.5    0.5
+	vis_CDCShellCU        0.5    0.5    0.5
+	vis_CDCShellEU        0.5    0.5    0.5
 	vis_TS3Yoke           0      0      1
 	vis_TS3Coil           0.82   0.5    0.21  
 	vis_TS3Killer         1      0      0 
