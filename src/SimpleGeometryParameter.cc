@@ -197,6 +197,7 @@ void SimpleGeometryParameter::Preset(){
 	BooleanSolid_PosX.clear();
 	BooleanSolid_PosY.clear();
 	BooleanSolid_PosZ.clear();
+	BooleanSolid_GenIndex.clear();
 }
 
 int SimpleGeometryParameter::GetValue(G4String s_card){
@@ -465,6 +466,7 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 			BooleanSolid_PosX.push_back(tBooleanSolid_PosX);
 			BooleanSolid_PosY.push_back(tBooleanSolid_PosY);
 			BooleanSolid_PosZ.push_back(tBooleanSolid_PosZ);
+			BooleanSolid_GenIndex.push_back(iVol);
 			BooleanSolidNo++;
 			foundVolume = true;
 		}
@@ -834,6 +836,47 @@ void SimpleGeometryParameter::DumpInfo() {
 				<<std::endl;
 		}
 	}
+	for( G4int i = 0; i < BooleanSolidNo; i++ ){
+		if ( i == 0 ){
+			std::cout<<"=>BooleanSolid info:"<<std::endl;
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(7) <<"type."
+			         <<std::setiosflags(std::ios::left)<<std::setw(14) <<"solid1"
+			         <<std::setiosflags(std::ios::left)<<std::setw(14) <<"solid2";
+//			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Ephi"
+//			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Etheta"
+//			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Epsi"
+//			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"PosX"
+//			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"PosY"
+//			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"PosZ"
+			dump_general_header();
+			std::cout<<std::endl;
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(7) <<""
+			         <<std::setiosflags(std::ios::left)<<std::setw(14) <<""
+			         <<std::setiosflags(std::ios::left)<<std::setw(14) <<"";
+//			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
+//			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
+//			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
+//			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
+//			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
+//			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
+			dump_general_note();
+			std::cout<<std::endl;
+		} 
+		int index = BooleanSolid_GenIndex[i];
+		std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<i
+			<<std::setiosflags(std::ios::left)<<std::setw(7) <<BooleanSolid_type[i]
+			<<std::setiosflags(std::ios::left)<<std::setw(14)<<BooleanSolid_sol1[i]
+			<<std::setiosflags(std::ios::left)<<std::setw(14)<<BooleanSolid_sol2[i];
+//			<<std::setiosflags(std::ios::left)<<std::setw(7) <<BooleanSolid_Ephi[i]/rad
+//			<<std::setiosflags(std::ios::left)<<std::setw(7) <<BooleanSolid_Etheta[i]/rad
+//			<<std::setiosflags(std::ios::left)<<std::setw(7) <<BooleanSolid_Epsi[i]/rad
+//			<<std::setiosflags(std::ios::left)<<std::setw(7) <<BooleanSolid_PosX[i]/mm
+//			<<std::setiosflags(std::ios::left)<<std::setw(7) <<BooleanSolid_PosY[i]/mm
+//			<<std::setiosflags(std::ios::left)<<std::setw(7) <<BooleanSolid_PosZ[i]/mm
+		dump_general_value(index);
+		std::cout<<std::endl;
+	}
+
 
 }
 

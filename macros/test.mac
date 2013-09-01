@@ -20,7 +20,7 @@
 /vis/viewer/set/background 1 1 1
 /vis/viewer/set/culling coveredDaughters
 /vis/viewer/set/edge 0
-/vis/viewer/set/lineSegmentsPerCircle 100
+/vis/viewer/set/lineSegmentsPerCircle 50
 /vis/viewer/set/projection o
 #/vis/viewer/set/projection p
 /vis/viewer/set/style s

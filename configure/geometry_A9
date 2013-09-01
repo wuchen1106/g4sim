@@ -3,5 +3,4 @@
 
 #ServiceName        ServiceType         FileName
 	World           Simple              world_CometPhase1
-	Cdc             Simple              subgeo_CdcRegion_Simple
-	BLT             Simple              subgeo_BLT
+	BLTCDC          Simple              subgeo_BLTCDC
