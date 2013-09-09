@@ -2,7 +2,7 @@
 #	checkoverlap
 	CellMaterial:              ChamberGas9010
 	MotherLogicalVolume:       CDCContainer
-	SensitiveDetector:         CdcSimpleSD
+	SensitiveDetector:         MonitorSD
 	SDVolumeName:              CdcCell
 #	DigitizeModule:            CdcDigitizer
 #	DigitizeModule:            none
