@@ -23,3 +23,6 @@ export RUNNAMEROOT=TEST
 export OUTCARDROOT=output_default
 #for log
 export LOGFILEROOT=$MYG4SIMROOT/runlog/logfile
+
+#for shared library
+export LD_LIBRARY_PATH=$MYG4SIMROOT:$LD_LIBRARY_PATH
