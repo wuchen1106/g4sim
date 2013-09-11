@@ -31,7 +31,7 @@
 	T    0   700    1747.5  100     0        360     CDCYokeEU       BLTCDC          Steel      none      0    0 -1240.5  1     0     0      0      0      0      0     
 	T    0   200    1747.5  100     0        360     CDCYokeED       BLTCDC          Steel      none      0    0  2640    1     0     0      0      0      0      0     
 	T    5   1070   1084.04 195     0        360     CDCCoil         BLTCDC          Copper     none      0    0  667.5   15    235   0      0      0      0      0
-	T    5   0      100     0.2     0        360     Target          BLTCDC          Aluminium  none      0    0    0     17    50    0      0      0      0      0
+	T    5   0      100     0.2     0        360     Target          BLTCDC          Aluminium  MonitorSD 0    0    0     39    30    0      0      0      0      0
 	T    1   471.6  501.6   250     0.       360.    Trigger         BLTCDC        Scintillator MonitorSD 0    0    0     2     1250  0      0      0      0      0
 #	T    0   470    811     1500    0        360     CDCContainer    BLTCDC          Vacuum     none      0    0    0     1     0     0      0      0      0      0     
 #	T    1   470    471     1500    0        360     InnerCylinder   CDCContainer    Vacuum     MonitorSD 0    0    0     1     0     0      0      0      0      0     
@@ -49,7 +49,7 @@
 #BooelanSolid info
 #	Type No  type     vol1         vol2         Ephi    Etheta  Epsi   PosX    PosY    posZ    name          MotVolume       Material      SDName    posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
 #	                                            deg     deg     deg    mm      mm      mm                                                            mm   mm   mm         mm         deg    deg    deg    deg    deg   
-	BL   0   minus    BLTCHole0    BLTCYMin     0       0       0      0       -675    0       BLTCHole      BLTCollimator   Vacuum        none      0    0    0    1     0          0      0      0      0      0     
+	BL   0   minus    BLTCHole0    BLTCYMin     0       0       0      0       -800    0       BLTCHole      BLTCollimator   Vacuum        none      0    0    0    1     0          0      0      0      0      0     
 
 #visual settings
 	VerboseLevel:    5
