@@ -10,4 +10,4 @@
 #/random/setSeeds 412516134 1322177187
 #/g4sim/gun/root_index 14398
 #/stacking/add_white_list 2112
-/run/beamOn 2000000
+/run/beamOn 10000
