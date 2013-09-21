@@ -4,7 +4,7 @@
 #Tubs info
 #	Type No  RMin   RMax    Length  StartAng SpanAng Name            MotVolume       Material   SDName    posX posY posZ  RepNo Space DirThe DirPhi Ephi   Etheta Epsi  
 #	         mm     mm      mm      deg      deg                                                          mm   mm   mm          mm    deg    deg    deg    deg    deg   
-	T    0   0      700     1       0        360     BLTKillerE      World           Vacuum     KillerSD  0    0 -2795    1     0     0      0      0      0      0     
+	T    0   0      700     1       0        360     BLTKillerE      World           Vacuum     KillerSD  0    0 -2797    1     0     0      0      0      0      0     
 	T    1   0      1747.5  5581    0        360     BLTCDC          World           Vacuum     none      0    0    0     1     0     0      0      0      0      0     
 	T    3   280    300     500     0        360     BLTShellCU      BLTCDC          Copper     none      0    0 -2540.5  1     0     0      0      0      0      0     
 	T    3   330    350     240.5   0        360     BLTShellCD      BLTCDC          Copper     none      0    0 -1170.25 1     0     0      0      0      0      0     
@@ -32,14 +32,8 @@
 	T    0   200    1747.5  100     0        360     CDCYokeED       BLTCDC          Steel      none      0    0  2640    1     0     0      0      0      0      0     
 	T    5   1070   1084.04 195     0        360     CDCCoil         BLTCDC          Copper     none      0    0  667.5   15    235   0      0      0      0      0
 	T    5   0      100     0.2     0        360     Target          BLTCDC          Aluminium  MonitorSD 0    0    0     39    30    0      0      0      0      0
-	T    1   471.6  501.6   250     0.       360.    Trigger         BLTCDC        Scintillator MonitorSD 0    0    0     2     1250  0      0      0      0      0
-#	T    0   470    811     1500    0        360     CDCContainer    BLTCDC          Vacuum     none      0    0    0     1     0     0      0      0      0      0     
-#	T    1   470    471     1500    0        360     InnerCylinder   CDCContainer    Vacuum     MonitorSD 0    0    0     1     0     0      0      0      0      0     
-#	T    1   471    472     1500    0        360     InnerKiller     CDCContainer    Vacuum     KillerSD  0    0    0     1     0     0      0      0      0      0     
-#	T    2   809    810     1500    0        360     OuterKiller     CDCContainer    Vacuum     KillerSD  0    0    0     1     0     0      0      0      0      0     
-#	T    2   810    811     1500    0        360     OuterCylinder   CDCContainer    Vacuum     MonitorSD 0    0    0     1     0     0      0      0      0      0     
-#	T    3   472    809     1       0        360     EndKiller       CDCContainer    Vacuum     KillerSD  0    0    0     2     1499  0      0      0      0      0     
-#	T    3   470    811     1       0        360     EndPlate        BLTCDC          Vacuum     MonitorSD 0    0    0     2     1501  0      0      0      0      0     
+#	T    5   0      100     0.2     0        360     Target          BLTCDC          Aluminium  MonitorSD 0    0    0     17    50    0      0      0      0      0
+	T    4   471.5  501.5   250     0        360     Trigger         BLTCDC        Scintillator MonitorSD 0    0    0     2     1250  0      0      0      0      0
 
 #Box info
 #	Type No  x       y       z     Name     MotVolume Material   SDName  posX   posY   posZ   RepNo Space DirTheta DirPhi Ephi Etheta Epsi
@@ -88,3 +82,4 @@
 	vis_OuterCylinder     1      1      1
 	vis_EndPlate          1      1      1
 	vis_EndKiller         1      0      0
+	vis_Trigger           0      1      0
