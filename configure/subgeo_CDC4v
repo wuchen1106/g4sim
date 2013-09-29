@@ -4,7 +4,7 @@
 #Tubs info
 #	Type No  RMin   RMax    Length  StartAng SpanAng Name            MotVolume       Material        SDName    posX posY posZ  RepNo Space DirThe DirPhi Ephi   Etheta Epsi  
 #	         mm     mm      mm      deg      deg                                                               mm   mm   mm          mm    deg    deg    deg    deg    deg   
-	T    0   0      700     1       0        360     BLTKillerE      World           Vacuum          KillerSD  0    0 -2795    1     0     0      0      0      0      0     
+#	T    0   0      700     1       0        360     BLTKillerE      World           Vacuum          KillerSD  0    0 -2797    1     0     0      0      0      0      0     
 	T    1   0      1747.5  5581    0        360     BLTCDC          World           Vacuum          none      0    0    0     1     0     0      0      0      0      0     
 	T    3   280    300     500     90       180     BLTShellCU1     BLTCDC          Copper          none      0    0 -2540.5  1     0     0      0      0      0      0     
 	T    3   280    300     500     270      180     BLTShellCU2     BLTCDC          Copper          none      0    0 -2540.5  1     0     0      0      0      0      0     
@@ -71,43 +71,43 @@
 #	vis_BLTKillerE        1      0      0
 #	vis_BLTCDC            1      1      1
 #	vis_BLTContainer      1      1      1
-#	vis_BLTShellCU1        0.5    0.5    0.5
-	vis_BLTShellCU2        0.5    0.5    0.5
-#	vis_BLTShellCD1        0.5    0.5    0.5
-	vis_BLTShellCD2        0.5    0.5    0.5
-#	vis_CDCShellCU1        0.5    0.5    0.5
-	vis_CDCShellCU2        0.5    0.5    0.5
-#	vis_CDCShellEU1        0.5    0.5    0.5
-	vis_CDCShellEU2        0.5    0.5    0.5
-#	vis_TS3Yoke1           0      0      1
-	vis_TS3Yoke2           0      0      1
-#	vis_TS3Coil1           0.82   0.5    0.21  
-	vis_TS3Coil2           0.82   0.5    0.21  
+	vis_BLTShellCU1        0.5    0.5    0.5
+#	vis_BLTShellCU2        0.5    0.5    0.5
+	vis_BLTShellCD1        0.5    0.5    0.5
+#	vis_BLTShellCD2        0.5    0.5    0.5
+	vis_CDCShellCU1        0.5    0.5    0.5
+#	vis_CDCShellCU2        0.5    0.5    0.5
+	vis_CDCShellEU1        0.5    0.5    0.5
+#	vis_CDCShellEU2        0.5    0.5    0.5
+	vis_TS3Yoke1           0      0      1
+#	vis_TS3Yoke2           0      0      1
+	vis_TS3Coil1           0.82   0.5    0.21  
+#	vis_TS3Coil2           0.82   0.5    0.21  
 #	vis_TS3Killer         1      0      0 
 #	vis_TS3KillerE        1      0      0 
-#	vis_BLTCollimator1     0.5    0.5    0.5
-	vis_BLTCollimator2     0.5    0.5    0.5
-#	vis_BLTCHole1          1      1      1
-	vis_BLTCHole2          1      1      1
-#	vis_ColiYoke1          0      0      1
-	vis_ColiYoke2          0      0      1
-#	vis_ColiCoil1          0.82   0.5    0.21
-	vis_ColiCoil2          0.82   0.5    0.21
+	vis_BLTCollimator1     0.5    0.5    0.5
+#	vis_BLTCollimator2     0.5    0.5    0.5
+	vis_BLTCHole1          1      1      1
+#	vis_BLTCHole2          1      1      1
+	vis_ColiYoke1          0      0      1
+#	vis_ColiYoke2          0      0      1
+	vis_ColiCoil1          0.82   0.5    0.21
+#	vis_ColiCoil2          0.82   0.5    0.21
 #	vis_ColiKiller        1      0      0
 #	vis_CDCMonitor        0      1      0
 #	vis_CDCKiller         1      0      0
 #	vis_CDCKillerC        1      0      0
 #	vis_CDCKillerEU       1      0      0
 #	vis_CDCKillerED       1      0      0
-#	vis_CDCYokeC1          0      0      1
-	vis_CDCYokeC2          0      0      1
-#	vis_CDCYokeEU1         0      0      1
-	vis_CDCYokeEU2         0      0      1
-#	vis_CDCYokeED1         0      0      1
-	vis_CDCYokeED2         0      0      1
-#	vis_CDCCoil1           0.82   0.5    0.21
-	vis_CDCCoil2           0.82   0.5    0.21
+	vis_CDCYokeC1          0      0      1
+#	vis_CDCYokeC2          0      0      1
+	vis_CDCYokeEU1         0      0      1
+#	vis_CDCYokeEU2         0      0      1
+	vis_CDCYokeED1         0      0      1
+#	vis_CDCYokeED2         0      0      1
+	vis_CDCCoil1           0.82   0.5    0.21
+#	vis_CDCCoil2           0.82   0.5    0.21
 #	vis_CDCContainer      1      1      1
 	vis_Target             1    1    1
-#	vis_Trigger1          0      1      0
-	vis_Trigger2          0      1      0
+	vis_Trigger1          0      1      0
+#	vis_Trigger2          0      1      0

@@ -5,19 +5,25 @@
 #/vis/viewer/addCutawayPlane -0.3 0.3 0 m 1 -1 0
 #/vis/viewer/addCutawayPlane 0 0 0 m 0 0 -1
 #/vis/viewer/addCutawayPlane 0 0 0 m 0 1 0
+#/vis/viewer/addCutawayPlane 0 0 0 m 1 0 0
 #/vis/viewer/set/viewpointVector 0 0 -1
 
-/vis/viewer/zoom 2.4
+/vis/viewer/addCutawayPlane 0 0 0 m -1 0 0
+/vis/viewer/addCutawayPlane 0 0 0 m 0 -1 0
+/vis/viewer/addCutawayPlane 0 0 0 m 0 0 -1
+
+/vis/viewer/zoom 2.5
 
 #/vis/viewer/set/viewpointThetaPhi 0 0
 
 #/vis/viewer/set/viewpointThetaPhi 300 -20
 #/vis/viewer/set/lightsThetaPhi 90 150
 
-/vis/viewer/set/lightsThetaPhi 60 100
+#/vis/viewer/set/lightsThetaPhi 60 100
 
-#/vis/viewer/set/viewpointThetaPhi 270 0  
+/vis/viewer/set/viewpointThetaPhi 270 0  
 #/vis/viewer/set/lightsThetaPhi 90 180
+/vis/viewer/set/lightsThetaPhi 270 150
 
 /vis/viewer/set/background 1 1 1
 #/vis/viewer/set/culling coveredDaughters
@@ -28,9 +34,9 @@
 /vis/viewer/set/style s
 #/vis/viewer/set/style w
 
-/vis/filtering/trajectories/create/chargeFilter
-/vis/filtering/trajectories/chargeFilter-0/add 0
-/vis/filtering/trajectories/chargeFilter-0/invert true
+#/vis/filtering/trajectories/create/chargeFilter
+#/vis/filtering/trajectories/chargeFilter-0/add 0
+#/vis/filtering/trajectories/chargeFilter-0/invert true
 
 /vis/filtering/trajectories/create/particleFilter
 #/vis/filtering/trajectories/particleFilter-0/add 2112
@@ -52,10 +58,10 @@
 /vis/modeling/trajectories/drawByParticleID-0/default/setAuxPtsSize 0.3
 /vis/modeling/trajectories/drawByParticleID-0/set e+   red
 /vis/modeling/trajectories/drawByParticleID-0/set e-   blue
-/vis/modeling/trajectories/drawByParticleID-0/set p-   cyan
-/vis/modeling/trajectories/drawByParticleID-0/set p+   cyan
-/vis/modeling/trajectories/drawByParticleID-0/set pi-  black
-/vis/modeling/trajectories/drawByParticleID-0/set pi+  black
+/vis/modeling/trajectories/drawByParticleID-0/set p-   black
+/vis/modeling/trajectories/drawByParticleID-0/set p+   black
+/vis/modeling/trajectories/drawByParticleID-0/set pi-  cyan
+/vis/modeling/trajectories/drawByParticleID-0/set pi+  cyan
 /vis/modeling/trajectories/drawByParticleID-0/set mu-  magenta
 /vis/modeling/trajectories/drawByParticleID-0/set mu+  magenta
 /vis/modeling/trajectories/drawByParticleID-0/set neutron green
@@ -69,8 +75,8 @@
 /stacking/clear_white_list
 /stacking/clear_black_list
 #/stacking/set_no_sec 1
-/stacking/set_no_MC 1
-/stacking/set_no_PC 1
+#/stacking/set_no_MC 1
+#/stacking/set_no_PC 1
 #/stacking/add_white_list 11
 #/stacking/add_white_list -211
 #/stacking/add_white_list 2212
