@@ -89,3 +89,4 @@
 	vis_OuterCylinder     1      1      1
 	vis_EndPlate          1      1      1
 	vis_EndKiller         1      0      0
+	vis_Trigger           0      1      0

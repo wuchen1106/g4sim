@@ -9,7 +9,7 @@
 #Tubs info
 #	Type No  RMin       RMax       Length     StartAng SpanAng Name            MotVolume       Material      SDName    posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
 #	         mm         mm         mm         deg      deg                                                             mm   mm   mm         mm         deg    deg    deg    deg    deg   
-	T    0   0.         100        0.2        0        360     BLTCollimator   World           Aluminium     none      0    0    0    1     0          0      0      0      0      0     
+#	T    0   0.         100        0.2        0        360     BLTCollimator   World           Aluminium     none      0    0    0    1     0          0      0      0      0      0     
 
 #Sphere info
 #	No    RMin  RMax  StartPhi SpanPhi StartThe SpanThe Name     MotVolume Material     SDName posX posY posZ RepNo Space DirTheta DirPhi Ephi Etheta Epsi
