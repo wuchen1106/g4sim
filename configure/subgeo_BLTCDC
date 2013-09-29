@@ -9,7 +9,7 @@
 #	Shell
 	T    3   280    300     500     0        360     BLTShellCU      BLTCDC          Copper     none      0    0 -2540.5  1     0     0      0      0      0      0     
 	T    3   330    350     240.5   0        360     BLTShellCD      BLTCDC          Copper     none      0    0 -1170.25 1     0     0      0      0      0      0     
-	T    12  0      350     1000    0        360     BLTCollimator   BLTCDC          Tungsten   none      0    0 -1790.5  1     0     0      0      0      0      0     
+	T    12  0      350     1000    0        360     BLTCollimator   BLTCDC          Tungsten   MonitorSD 0    0 -1790.5  1     0     0      0      0      0      0     
 	T    13  0      200     1000    0        360     BLTCHole0 
 	T    3   450    470     300     0        360     CDCShellCU      BLTCDC          Copper     none      0    0  -900    1     0     0      0      0      0      0     
 	T    3   330    450     20      0        360     CDCShellEU      BLTCDC          Copper     none      0    0 -1040    1     0     0      0      0      0      0     
@@ -31,7 +31,7 @@
 	T    10  300    301     340.5   0        360     TS3Killer       BLTCDC          Vacuum     KillerSD  0    0 -2620.25 1     0     0      0      0      0      0     
 	T    10  300    400     1       0        360     TS3KillerE      BLTCDC          Vacuum     KillerSD  0    0 -2449.5  1     0     0      0      0      0      0     
 	T    6   400    401     1400    0        360     ColiKiller      BLTCDC          Vacuum     KillerSD  0    0 -1750    1     0     0      0      0      0      0     
-#	T    14  0      330     1       0        360     CDCMonitor      BLTCDC          Vacuum     none      0    0 -1050.5  1     0     0      0      0      0      0     
+#	T    14  0      330     1       0        360     CDCMonitor      BLTCDC          Vacuum     MonitorSD 0    0 -1050.5  1     0     0      0      0      0      0     
 #	T    15  0      330     1       0        360     CDCKiller       BLTCDC          Vacuum     KillerSD  0    0 -1049.5  1     0     0      0      0      0      0     
 #	T    15  330    400     1       0        360     CDCKiller2      CDCShellEU      Copper     KillerSD  0    0   -9.5   1     0     0      0      0      0      0     
 	T    16  900    901     3780.5  0        360     CDCKillerC      BLTCDC          Vacuum     KillerSD  0    0  699.75  1     0     0      0      0      0      0     
