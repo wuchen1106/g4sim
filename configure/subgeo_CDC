@@ -4,7 +4,7 @@
 #Tubs info
 #	Type No  RMin   RMax    Length  StartAng SpanAng Name            MotVolume       Material   SDName    posX posY posZ  RepNo Space DirThe DirPhi Ephi   Etheta Epsi  
 #	         mm     mm      mm      deg      deg                                                          mm   mm   mm          mm    deg    deg    deg    deg    deg   
-	T    0   0      700     1       0        360     BLTKillerE      World           Vacuum     KillerSD  0    0 -2795    1     0     0      0      0      0      0     
+	T    0   0      700     1       0        360     BLTKillerE      World           Vacuum     KillerSD  0    0 -2797    1     0     0      0      0      0      0     
 	T    1   0      1747.5  5581    0        360     BLTCDC          World           Vacuum     none      0    0    0     1     0     0      0      0      0      0     
 	T    3   280    300     500     0        360     BLTShellCU      BLTCDC          Copper     none      0    0 -2540.5  1     0     0      0      0      0      0     
 	T    3   330    350     240.5   0        360     BLTShellCD      BLTCDC          Copper     none      0    0 -1170.25 1     0     0      0      0      0      0     

@@ -34,7 +34,7 @@ MCTRUTHFILTER_SECTION
 	Switch                     //if commented, then program wil not generate any hit
 	nTracks       0            //maximum tracks cut
 	minp          0      MeV   //minimum momentum cut
-	mine          10     MeV   //minimum momentum cut
+	mine          80     MeV   //minimum momentum cut
 	mint          0      ns    //left end of time window, 0 means no lower limit
 	maxt          0      ns    //right end of time window, 0 means no upper limit
 	WL            11
@@ -54,7 +54,9 @@ CdcCell_SECTION
 	stepL          cm
 	volID
 #	volName
-	ot             ns ox             cm oy             cm
+	ot             ns
+	ox             cm
+	oy             cm
 	oz             cm
 	opx            GeV
 	opy            GeV
@@ -121,7 +123,7 @@ Trigger_FILTERSECTION
 	neutralCut                    //if not commented, then neutral tracks will not be recorded
 	maxn          0               //maximum hits cut, 0 means no limit
 	minp          0      GeV      //minimum momentum cut
-	mine          5      MeV      //minimum momentum cut
+	mine          0      MeV      //minimum momentum cut
 	mint          0      ns       //left end of time window, 0 means no lower limit
 	maxt          0      ns       //right end of time window, 0 means no upper limit
 	tres          0      s        //time resolution
@@ -162,7 +164,7 @@ Target_SECTION
 Target_SECTION
 
 Target_FILTERSECTION
-#	Switch                        //if commented, then program wil not generate any hit
+	Switch                        //if commented, then program wil not generate any hit
 #	neutralCut                    //if not commented, then neutral tracks will not be recorded
 	maxn          0               //maximum hits cut, 0 means no limit
 	minp          0      GeV      //minimum momentum cut

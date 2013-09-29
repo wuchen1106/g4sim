@@ -33,7 +33,7 @@
 	T    5   1070   1084.04 195     0        360     CDCCoil         BLTCDC          Copper     none      0    0  667.5   15    235   0      0      0      0      0
 	T    5   0      100     0.2     0        360     Target          BLTCDC          Aluminium  MonitorSD 0    0    0     39    30    0      0      0      0      0
 #	T    5   0      100     0.2     0        360     Target          BLTCDC          Aluminium  MonitorSD 0    0    0     17    50    0      0      0      0      0
-#	T    4   471.5  501.5   250     0        360     Trigger         BLTCDC        Scintillator MonitorSD 0    0    0     2     1250  0      0      0      0      0
+	T    4   471.5  501.5   250     0        360     Trigger         BLTCDC        Scintillator MonitorSD 0    0    0     2     1250  0      0      0      0      0
 	T    0   470    811     1500    0        360     CDCContainer    BLTCDC          Vacuum     none      0    0    0     1     0     0      0      0      0      0     
 	T    1   470    471     1500    0        360     InnerCylinder   CDCContainer    Vacuum     MonitorSD 0    0    0     1     0     0      0      0      0      0     
 	T    1   471    472     1500    0        360     InnerKiller     CDCContainer    Vacuum     KillerSD  0    0    0     1     0     0      0      0      0      0     
