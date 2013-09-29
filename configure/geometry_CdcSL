@@ -1,9 +1,0 @@
-# The Segment which includes World should be put at the first line!!
-	VerboseLevel    1
-
-#ServiceName        ServiceType         FileName
-
-#for Cdc:
-#18 stereo layers
-	World           Simple              subgeo_CdcGeneral_130622
-	Cdc             Cdc                 subgeo_cdc_wire_130629singleLayer
