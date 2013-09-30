@@ -178,7 +178,7 @@ BLTCollimator_FILTERSECTION
 #	WL            -211         // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
 BLTCollimator_FILTERSECTION
 
-BLTBLTShellCU1_SECTION
+BLTShellCU1_SECTION
 	nHits
 	x              cm
 	y              cm
@@ -209,9 +209,9 @@ BLTBLTShellCU1_SECTION
 	stop_time      ns
 #	killed
 #	kill_time      ns
-BLTBLTShellCU1_SECTION
+BLTShellCU1_SECTION
 
-BLTBLTShellCU1_FILTERSECTION
+BLTShellCU1_FILTERSECTION
 	Switch                        //if commented, then program wil not generate any hit
 #	neutralCut                    //if not commented, then neutral tracks will not be recorded
 	maxn          0               //maximum hits cut, 0 means no limit
@@ -222,9 +222,9 @@ BLTBLTShellCU1_FILTERSECTION
 	minedep       -1     GeV      //minimum energy deposition cut
 #	WL            13           // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
 #	WL            -211         // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
-BLTBLTShellCU1_FILTERSECTION
+BLTShellCU1_FILTERSECTION
 
-BLTBLTShellCU2_SECTION
+BLTShellCU2_SECTION
 	nHits
 	x              cm
 	y              cm
@@ -255,9 +255,9 @@ BLTBLTShellCU2_SECTION
 	stop_time      ns
 #	killed
 #	kill_time      ns
-BLTBLTShellCU2_SECTION
+BLTShellCU2_SECTION
 
-BLTBLTShellCU2_FILTERSECTION
+BLTShellCU2_FILTERSECTION
 	Switch                        //if commented, then program wil not generate any hit
 #	neutralCut                    //if not commented, then neutral tracks will not be recorded
 	maxn          0               //maximum hits cut, 0 means no limit
@@ -268,9 +268,9 @@ BLTBLTShellCU2_FILTERSECTION
 	minedep       -1     GeV      //minimum energy deposition cut
 #	WL            13           // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
 #	WL            -211         // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
-BLTBLTShellCU2_FILTERSECTION
+BLTShellCU2_FILTERSECTION
 
-BLTBLTShellEU_SECTION
+BLTShellEU_SECTION
 	nHits
 	x              cm
 	y              cm
@@ -301,9 +301,9 @@ BLTBLTShellEU_SECTION
 	stop_time      ns
 #	killed
 #	kill_time      ns
-BLTBLTShellEU_SECTION
+BLTShellEU_SECTION
 
-BLTBLTShellEU_FILTERSECTION
+BLTShellEU_FILTERSECTION
 	Switch                        //if commented, then program wil not generate any hit
 #	neutralCut                    //if not commented, then neutral tracks will not be recorded
 	maxn          0               //maximum hits cut, 0 means no limit
@@ -314,7 +314,7 @@ BLTBLTShellEU_FILTERSECTION
 	minedep       -1     GeV      //minimum energy deposition cut
 #	WL            13           // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
 #	WL            -211         // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
-BLTBLTShellEU_FILTERSECTION
+BLTShellEU_FILTERSECTION
 
 TRIGGERSECTION
 	minCdcHits        -1           // minimum required CDCLayer nHits. Would be set invalid if minCdcHits = -1
