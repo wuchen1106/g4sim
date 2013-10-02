@@ -73,6 +73,7 @@ void FormulizedGeometryParameter::Dump(){
 //-----------------------------------Special functions---------------------------------------------
 void FormulizedGeometryParameter::Calculate(){
 	TString TF1Name;
+	TString TF1Form;
 	SimpleGeometryParameter::Calculate();
 	for ( int VolId = 0; VolId < VolNo; VolId++ ){
 		std::vector<G4double> tPosX; tPosX.clear();
@@ -81,12 +82,12 @@ void FormulizedGeometryParameter::Calculate(){
 		std::vector<G4double> tEphi; tEphi.clear();
 		std::vector<G4double> tEtheta; tEtheta.clear();
 		std::vector<G4double> tEpsi; tEpsi.clear();
-		TF1 *formulaPosX = new TF1(TF1Name="PosX", fPosX[VolId]);
-		TF1 *formulaPosY = new TF1(TF1Name="PosY", fPosY[VolId]);
-		TF1 *formulaPosZ = new TF1(TF1Name="PosZ", fPosZ[VolId]);
-		TF1 *formulaEphi = new TF1(TF1Name="Ephi", fEphi[VolId]);
-		TF1 *formulaEtheta = new TF1(TF1Name="Etheta", fEtheta[VolId]);
-		TF1 *formulaEpsi = new TF1(TF1Name="Epsi", fEpsi[VolId]);
+		TF1 *formulaPosX = new TF1(TF1Name="PosX", TF1Form=fPosX[VolId]);
+		TF1 *formulaPosY = new TF1(TF1Name="PosY", TF1Form=fPosY[VolId]);
+		TF1 *formulaPosZ = new TF1(TF1Name="PosZ", TF1Form=fPosZ[VolId]);
+		TF1 *formulaEphi = new TF1(TF1Name="Ephi", TF1Form=fEphi[VolId]);
+		TF1 *formulaEtheta = new TF1(TF1Name="Etheta", TF1Form=fEtheta[VolId]);
+		TF1 *formulaEpsi = new TF1(TF1Name="Epsi", TF1Form=fEpsi[VolId]);
 		for ( int RepId = 0; RepId < RepNo[VolId]; RepId++ ){
 			G4double valPosX = formulaPosX->Eval(RepId)*mm; tPosX.push_back(valPosX);
 			G4double valPosY = formulaPosY->Eval(RepId)*mm; tPosY.push_back(valPosY);
@@ -111,9 +112,9 @@ void FormulizedGeometryParameter::Calculate(){
 			std::vector<G4double> tBox_X; tBox_X.clear();
 			std::vector<G4double> tBox_Y; tBox_Y.clear();
 			std::vector<G4double> tBox_Z; tBox_Z.clear();
-			TF1 *formulaBox_X = new TF1(TF1Name="Box_X", fBox_X[VolId]);
-			TF1 *formulaBox_Y = new TF1(TF1Name="Box_Y", fBox_Y[VolId]);
-			TF1 *formulaBox_Z = new TF1(TF1Name="Box_Z", fBox_Z[VolId]);
+			TF1 *formulaBox_X = new TF1(TF1Name="Box_X", TF1Form=fBox_X[VolId]);
+			TF1 *formulaBox_Y = new TF1(TF1Name="Box_Y", TF1Form=fBox_Y[VolId]);
+			TF1 *formulaBox_Z = new TF1(TF1Name="Box_Z", TF1Form=fBox_Z[VolId]);
 			for ( int RepId = 0; RepId < RepNo[VolId]; RepId++ ){
 				G4double valBox_X = formulaBox_X->Eval(RepId)*mm; tBox_X.push_back(valBox_X);
 				G4double valBox_Y = formulaBox_Y->Eval(RepId)*mm; tBox_Y.push_back(valBox_Y);
@@ -132,11 +133,11 @@ void FormulizedGeometryParameter::Calculate(){
 			std::vector<G4double> tTubs_Length; tTubs_Length.clear();
 			std::vector<G4double> tTubs_StartAng; tTubs_StartAng.clear();
 			std::vector<G4double> tTubs_SpanAng; tTubs_SpanAng.clear();
-			TF1 *formulaTubs_RMax = new TF1(TF1Name="Tubs_RMax", fTubs_RMax[VolId]);
-			TF1 *formulaTubs_RMin = new TF1(TF1Name="Tubs_RMin", fTubs_RMin[VolId]);
-			TF1 *formulaTubs_Length = new TF1(TF1Name="Tubs_Length", fTubs_Length[VolId]);
-			TF1 *formulaTubs_StartAng = new TF1(TF1Name="Tubs_StartAng", fTubs_StartAng[VolId]);
-			TF1 *formulaTubs_SpanAng = new TF1(TF1Name="Tubs_SpanAng", fTubs_SpanAng[VolId]);
+			TF1 *formulaTubs_RMax = new TF1(TF1Name="Tubs_RMax", TF1Form=fTubs_RMax[VolId]);
+			TF1 *formulaTubs_RMin = new TF1(TF1Name="Tubs_RMin", TF1Form=fTubs_RMin[VolId]);
+			TF1 *formulaTubs_Length = new TF1(TF1Name="Tubs_Length", TF1Form=fTubs_Length[VolId]);
+			TF1 *formulaTubs_StartAng = new TF1(TF1Name="Tubs_StartAng", TF1Form=fTubs_StartAng[VolId]);
+			TF1 *formulaTubs_SpanAng = new TF1(TF1Name="Tubs_SpanAng", TF1Form=fTubs_SpanAng[VolId]);
 			for ( int RepId = 0; RepId < RepNo[VolId]; RepId++ ){
 				G4double valTubs_RMax = formulaTubs_RMax->Eval(RepId)*mm; tTubs_RMax.push_back(valTubs_RMax);
 				G4double valTubs_RMin = formulaTubs_RMin->Eval(RepId)*mm; tTubs_RMin.push_back(valTubs_RMin);
@@ -162,12 +163,12 @@ void FormulizedGeometryParameter::Calculate(){
 			std::vector<G4double> tSphere_SpanPhi; tSphere_SpanPhi.clear();
 			std::vector<G4double> tSphere_StartTheta; tSphere_StartTheta.clear();
 			std::vector<G4double> tSphere_SpanTheta; tSphere_SpanTheta.clear();
-			TF1 *formulaSphere_RMax = new TF1(TF1Name="Sphere_RMax", fSphere_RMax[VolId]);
-			TF1 *formulaSphere_RMin = new TF1(TF1Name="Sphere_RMin", fSphere_RMin[VolId]);
-			TF1 *formulaSphere_StartPhi = new TF1(TF1Name="Sphere_StartPhi", fSphere_StartPhi[VolId]);
-			TF1 *formulaSphere_SpanPhi = new TF1(TF1Name="Sphere_SpanPhi", fSphere_SpanPhi[VolId]);
-			TF1 *formulaSphere_StartTheta = new TF1(TF1Name="Sphere_StartTheta", fSphere_StartTheta[VolId]);
-			TF1 *formulaSphere_SpanTheta = new TF1(TF1Name="Sphere_SpanTheta", fSphere_SpanTheta[VolId]);
+			TF1 *formulaSphere_RMax = new TF1(TF1Name="Sphere_RMax", TF1Form=fSphere_RMax[VolId]);
+			TF1 *formulaSphere_RMin = new TF1(TF1Name="Sphere_RMin", TF1Form=fSphere_RMin[VolId]);
+			TF1 *formulaSphere_StartPhi = new TF1(TF1Name="Sphere_StartPhi", TF1Form=fSphere_StartPhi[VolId]);
+			TF1 *formulaSphere_SpanPhi = new TF1(TF1Name="Sphere_SpanPhi", TF1Form=fSphere_SpanPhi[VolId]);
+			TF1 *formulaSphere_StartTheta = new TF1(TF1Name="Sphere_StartTheta", TF1Form=fSphere_StartTheta[VolId]);
+			TF1 *formulaSphere_SpanTheta = new TF1(TF1Name="Sphere_SpanTheta", TF1Form=fSphere_SpanTheta[VolId]);
 			for ( int RepId = 0; RepId < RepNo[VolId]; RepId++ ){
 				G4double valSphere_RMax = formulaSphere_RMax->Eval(RepId)*mm; tSphere_RMax.push_back(valSphere_RMax);
 				G4double valSphere_RMin = formulaSphere_RMin->Eval(RepId)*mm; tSphere_RMin.push_back(valSphere_RMin);
