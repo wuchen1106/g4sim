@@ -134,6 +134,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	else if ( EnergyMode == "RMC" ){
 		particleGun->SetParticleMomentum(100*MeV+2*MeV*G4UniformRand());
 	}
+	else if ( EnergyMode == "gRand" || EnergyMode == "uRand" ){
+		SetRandomEnergy();
+	}
 	else if ( EnergyMode != "none" ){
 		std::cout<<"ERROR: unknown EnergyMode: "<<EnergyMode<<"!!!"<<std::endl;
 		G4Exception("PrimaryGeneratorAction::GeneratePrimaries()",
@@ -171,7 +174,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 		//	     <<std::endl;
 		particleGun->SetParticlePosition(G4ThreeVector(root_double[0] * mm, root_double[1] * mm, (root_double[2])*mm));
 	}
-	else if ( PositionMode == "random" ){
+	else if ( PositionMode == "gRand" || PositionMode == "uRand" ){
 		SetRandomPosition();
 	}
 	else if ( PositionMode != "none" ){
@@ -211,6 +214,17 @@ void PrimaryGeneratorAction::SetUniformDirection(){
 	particleGun->SetParticleMomentumDirection(dir_3Vec);
 }
 
+void PrimaryGeneratorAction::SetRandomEnergy(){
+	G4double dE=0;
+	if(PositionMode=="gRand"){
+		dE=G4RandGauss::shoot(0,EkinSpread);
+	}
+	else{
+		dE=2.*(G4UniformRand()-0.5)*EkinSpread;
+	}
+	particleGun->SetParticleEnergy(Ekin+dE);
+}
+
 void PrimaryGeneratorAction::SetRandomPosition(){
 	G4double dx=0;
 	G4double dy=0;
@@ -219,15 +233,19 @@ void PrimaryGeneratorAction::SetRandomPosition(){
 	G4double dy2=0;
 	G4double dz2=0;
 	bool gotit=false;
-//	do {
-//		if (xSpread) {dx=2.*(G4UniformRand()-0.5)*xSpread;dx2 = dx*dx/xSpread/xSpread;} 
-//		if (ySpread) {dy=2.*(G4UniformRand()-0.5)*ySpread;dy2 = dy*dy/ySpread/ySpread;} 
-//		if (zSpread) {dz=2.*(G4UniformRand()-0.5)*zSpread;dz2 = dz*dz/zSpread/zSpread;} 
-//		if (dx2+dy2+dz2<=1.) gotit = true;
-//	} while (!gotit);
-	dx=G4RandGauss::shoot(0,xSpread);
-	dy=G4RandGauss::shoot(0,ySpread);
-	dz=G4RandGauss::shoot(0,zSpread);
+	if(PositionMode=="gRand"){
+		dx=G4RandGauss::shoot(0,xSpread);
+		dy=G4RandGauss::shoot(0,ySpread);
+		dz=G4RandGauss::shoot(0,zSpread);
+	}
+	else{
+		do {
+			if (xSpread) {dx=2.*(G4UniformRand()-0.5)*xSpread;dx2 = dx*dx/xSpread/xSpread;} 
+			if (ySpread) {dy=2.*(G4UniformRand()-0.5)*ySpread;dy2 = dy*dy/ySpread/ySpread;} 
+			if (zSpread) {dz=2.*(G4UniformRand()-0.5)*zSpread;dz2 = dz*dz/zSpread/zSpread;} 
+			if (dx2+dy2+dz2<=1.) gotit = true;
+		} while (!gotit);
+	}
 	particleGun->SetParticlePosition(G4ThreeVector(x+dx,y+dy,z+dz));
 }
 
@@ -448,6 +466,10 @@ void PrimaryGeneratorAction::ReadCard(G4String file_name){
 			Ekin *= MeV;
 			EnergyType = 1;
 		}
+		else if ( keyword == "EkinSpread:" ){
+			buf_card>>EkinSpread;
+			EkinSpread *= MeV;
+		}
 		else if ( keyword == "Position:" ){
 			buf_card>>x>>y>>z;
 			x *= mm;
@@ -531,6 +553,7 @@ void PrimaryGeneratorAction::Dump(){
 	std::cout<<"Default Momentum Amplitude:                   "<<Pa/MeV<<"MeV"<<std::endl;
 	else if (EnergyType==1)
 	std::cout<<"Default Kinetic Energy:                       "<<Ekin/MeV<<"MeV"<<std::endl;
+	std::cout<<"Default Energy Spread(MeV):                   ("<<EkinSpread/MeV<<std::endl;
 	std::cout<<"Default Position(cm):                         ("<<x/cm<<", "<<y/cm<<", "<<z/cm<<")"<<std::endl;
 	std::cout<<"Default Position Spread(cm):                  ("<<xSpread/cm<<", "<<ySpread/cm<<", "<<zSpread/cm<<")"<<std::endl;
 	std::cout<<"Default Time(ns):                             ("<<t/ns<<std::endl;

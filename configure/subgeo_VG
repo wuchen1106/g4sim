@@ -1,0 +1,35 @@
+#general info
+	checkoverlap
+
+#Box info
+#	Type No  x       y       z     Name           MotVolume     Material      SDName    posX   posY   posZ   RepNo Space DirTheta DirPhi Ephi Etheta Epsi
+#	         mm      mm      mm                                                         mm     mm     mm           mm    deg      deg    deg  deg    deg
+	B    0   201     201     201   BoxContainer   World         Air           none      0      0      0      1     0     0        0      0    0      0
+	B    0   200     200     200   BoxOut         
+	B    0   195     195     195   BoxIn          
+	B    0   10      10      5     Window         
+	B    0   195     195     0.1   Plate          BoxContainer  Aluminium     none      0      0     90      1     0     0        0      0    0      0
+	B    0   195     195    3.5e-3 BoronSurface   Plate         Boron         none      0      0   0.04825   1     0     0        0      0    0      0
+	B    0   10      10      0.05  MylarU         BoxContainer  Mylar         none      0      0     99.975  1     0     0        0      0    0      0
+	B    0   10      10      0.05  MylarD         BoxContainer  Mylar         none      0      0    -99.975  1     0     0        0      0    0      0
+	B    0   200     200     2     Scintillator   World         Scintillator  none      0      0    -300     1     0     0        0      0    0      0
+	B    0   200     200     1     Monitor        World         Vacuum        MonitorSD 0      0    -400     1     0     0        0      0    0      0
+
+#BooelanSolid info
+#	Type No  type     vol1              vol2            Ephi    Etheta  Epsi   PosX    PosY    posZ    name             MotVolume       Material      SDName    posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
+#	                                                    deg     deg     deg    mm      mm      mm                                                               mm   mm   mm         mm         deg    deg    deg    deg    deg   
+	BL   0   minus    BoxOut            BoxIn           0       0       0      0       0       0       BoxShell0    
+	BL   0   minus    BoxShell0         Window          0       0       0      0       0       97.5    BoxShell1
+	BL   0   minus    BoxShell1         Window          0       0       0      0       0      -97.5    Box              BoxContainer    Aluminium     none      0    0    0    1     0          0      0      0      0      0     
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name                 red    green  blue  
+	vis_Box                0      0      1     
+	vis_Plate              0      0      1     
+	vis_BoronSurface       1      1      1     
+	vis_MylarU             0      1      1
+	vis_MylarD             0      1      1
+	vis_Scintillator       0      1      0
+	vis_Monitor            1      0      0

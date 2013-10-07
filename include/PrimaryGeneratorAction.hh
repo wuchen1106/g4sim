@@ -44,6 +44,7 @@ public:
 
   void SetUniformDirection();
   void SetRandomPosition();
+  void SetRandomEnergy();
   void SetUniformPosition();
   void BuildHistoFromFile();
   void root_get_para();
@@ -70,6 +71,7 @@ private:
 	G4double                   Theta,Phi;
 	G4double                   x,y,z,t;
 	G4double                   xSpread,ySpread,zSpread;
+	G4double                   EkinSpread;
 	G4String                   EnergyMode;
 	G4String                   PositionMode;
 	G4String                   TimeMode;

@@ -8,9 +8,9 @@
 #/vis/viewer/addCutawayPlane 0 0 0 m 1 0 0
 #/vis/viewer/set/viewpointVector 0 0 -1
 
-/vis/viewer/addCutawayPlane 0 0 0 m -1 0 0
-/vis/viewer/addCutawayPlane 0 0 0 m 0 -1 0
-/vis/viewer/addCutawayPlane 0 0 0 m 0 0 -1
+#/vis/viewer/addCutawayPlane 0 0 0 m -1 0 0
+#/vis/viewer/addCutawayPlane 0 0 0 m 0 -1 0
+#/vis/viewer/addCutawayPlane 0 0 0 m 0 0 -1
 
 /vis/viewer/zoom 2.5
 
@@ -25,14 +25,14 @@
 #/vis/viewer/set/lightsThetaPhi 90 180
 /vis/viewer/set/lightsThetaPhi 270 150
 
-/vis/viewer/set/background 1 1 1
+#/vis/viewer/set/background 1 1 1
 #/vis/viewer/set/culling coveredDaughters
 /vis/viewer/set/edge 0
 /vis/viewer/set/lineSegmentsPerCircle 50
-/vis/viewer/set/projection o
-#/vis/viewer/set/projection p
-/vis/viewer/set/style s
-#/vis/viewer/set/style w
+#/vis/viewer/set/projection o
+/vis/viewer/set/projection p
+#/vis/viewer/set/style s
+/vis/viewer/set/style w
 
 #/vis/filtering/trajectories/create/chargeFilter
 #/vis/filtering/trajectories/chargeFilter-0/add 0
@@ -69,9 +69,9 @@
 /vis/scene/endOfEventAction accumulate -1
 /vis/ogl/set/displayListLimit 50000000
 
-/stacking/setEleCut 1.5 keV
-/stacking/setPosCut 1.5 keV
-/stacking/setGamCut 1.5 keV
+#/stacking/setEleCut 1.5 keV
+#/stacking/setPosCut 1.5 keV
+#/stacking/setGamCut 1.5 keV
 /stacking/clear_white_list
 /stacking/clear_black_list
 #/stacking/set_no_sec 1
@@ -80,7 +80,7 @@
 #/stacking/add_white_list 11
 #/stacking/add_white_list -211
 #/stacking/add_white_list 2212
-/g4sim/myAnalysisSvc/set_maxT 170000 ns
+#/g4sim/myAnalysisSvc/set_maxT 170000 ns
 /run/setCut 0.001 mm
 #/run/beamOn 100
 #/vis/ogl/printEPS
