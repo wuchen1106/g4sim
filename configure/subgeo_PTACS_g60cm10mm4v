@@ -1,0 +1,112 @@
+#general info
+	checkoverlap
+
+#Tubs info
+#	Type No  RMin   RMax   Length   StartAng SpanAng Name                   MotVolume          Material      SDName    posX posY posZ  RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
+#	         mm     mm     mm       deg      deg                                                                       mm   mm   mm          mm         deg    deg    deg    deg    deg   
+	T    0   0.     807    5300     0        360     PTACSContainer         World              Vacuum        none      5650 0  -5790.5 1     0          0      0      270    90      0     
+	T    1   200    250    1505     90       180     PTACSBeamPipe1         PTACSContainer     Steel         none      0    0   1897.5 1     0          0      0      0      0      0     
+	T    1   200    250    1505     270      180     PTACSBeamPipe2         PTACSContainer     Steel         none      0    0   1897.5 1     0          0      0      0      0      0     
+	T    2   250    266    210      90       180     PTACSCaptureCoilTS1a1  PTACSContainer     Copper        none      0    0   1250   1     0          0      0      0      0      0     
+	T    2   250    266    210      270      180     PTACSCaptureCoilTS1a2  PTACSContainer     Copper        none      0    0   1250   1     0          0      0      0      0      0     
+	T    3   250    282    390      90       180     PTACSCaptureCoilTS1b1  PTACSContainer     Copper        none      0    0   1675   1     0          0      0      0      0      0     
+	T    3   250    282    390      270      180     PTACSCaptureCoilTS1b2  PTACSContainer     Copper        none      0    0   1675   1     0          0      0      0      0      0     
+	T    4   250    298    310      90       180     PTACSCaptureCoilTS1c1  PTACSContainer     Copper        none      0    0   2125   1     0          0      0      0      0      0     
+	T    4   250    298    310      270      180     PTACSCaptureCoilTS1c2  PTACSContainer     Copper        none      0    0   2125   1     0          0      0      0      0      0     
+	T    5   250    282    180      90       180     PTACSCaptureCoilTS1d1  PTACSContainer     Copper        none      0    0   2430   1     0          0      0      0      0      0     
+	T    5   250    282    180      270      180     PTACSCaptureCoilTS1d2  PTACSContainer     Copper        none      0    0   2430   1     0          0      0      0      0      0     
+	T    6   500    590    2189.9   90       180     PTACSShieldE1          PTACSContainer     Tungsten      none      0    0   145.05 1     0          0      0      0      0      0     
+	T    6   500    590    2189.9   270      180     PTACSShieldE2          PTACSContainer     Tungsten      none      0    0   145.05 1     0          0      0      0      0      0     
+	T    7   662    806    175      90       180     PTACSTargetCoilCS01    PTACSContainer     Copper        none      0    0  -2562.5 1     0          0      0      0      0      0     
+	T    7   662    806    175      270      180     PTACSTargetCoilCS02    PTACSContainer     Copper        none      0    0  -2562.5 1     0          0      0      0      0      0     
+	T    8   662    806    1350     90       180     PTACSTargetCoilCS11    PTACSContainer     Copper        none      0    0  -1750   1     0          0      0      0      0      0     
+	T    8   662    806    1350     270      180     PTACSTargetCoilCS12    PTACSContainer     Copper        none      0    0  -1750   1     0          0      0      0      0      0     
+	T    9   662    742    1800     90       180     PTACSTargetCoilMS11    PTACSContainer     Copper        none      0    0  -125    1     0          0      0      0      0      0     
+	T    9   662    742    1800     270      180     PTACSTargetCoilMS12    PTACSContainer     Copper        none      0    0  -125    1     0          0      0      0      0      0     
+	T    10  662    790    380      90       180     PTACSTargetCoilMS21    PTACSContainer     Copper        none      0    0   1035   1     0          0      0      0      0      0     
+	T    10  662    790    380      270      180     PTACSTargetCoilMS22    PTACSContainer     Copper        none      0    0   1035   1     0          0      0      0      0      0     
+	T    11  0      10     600      0        360     PTACSProductionTarget  PTACSContainer     Graphite      none      0    0  -1700   1     0          0      0      0      10     0     
+	T    11  0      3000   9500     0        360     PTACSDumpContainer     World              Vacuum        none 13258.8 0 -4748.61   1     0          0      0      270   100     0     
+	T    11  0      2000   3000     0        360     PTACSDump              PTACSDumpContainer Steel         none      0    0  -3250   1     0          0      0      0      0      0     
+	T    11  2999   3000   9500     0        360     PTACSKiller            PTACSDumpContainer Vacuum        none      0    0   0      1     0          0      0      0      0      0     
+#	T    7   0      350    1        0        360     PTACSMonitor           PTACSContainer     Vacuum        MonitorSD 0    0  -950    1     0          0      0      0      0      0     
+#	T    7   0      298    1        0        360     PTACSKiller1           PTACSContainer     Vacuum        KillerSD  0    0  -2649.5 1     0          0      0      0      0      0     
+#	T    7   300    590    1        90       180     PTACSKiller21          PTACSShieldsABC1   Tungsten      KillerSD  0    0  -1699.5 1     0          0      0      0      0      0     
+#	T    7   300    590    1        270      180     PTACSKiller22          PTACSShieldsABC2   Tungsten      KillerSD  0    0  -1699.5 1     0          0      0      0      0      0     
+#	T    7   590    662    1        0        360     PTACSKiller3           PTACSContainer     Vacuum        KillerSD  0    0  -2649.5 1     0          0      0      0      0      0     
+#	T    7   662    806    1        90       180     PTACSKiller41         PTACSTargetCoilCS01 Copper        KillerSD  0    0  -87     1     0          0      0      0      0      0     
+#	T    7   662    806    1        270      180     PTACSKiller42         PTACSTargetCoilCS02 Copper        KillerSD  0    0  -87     1     0          0      0      0      0      0     
+	T    5   806    807    5300     0        360     PTACSKiller5           PTACSContainer     Vacuum        KillerSD  0    0   0      1     0          0      0      0      0      0     
+
+#Polycone info
+#	Type No  numZ       StartAng SpanAng Name            MotVolume        Material      SDName    posX posY posZ  RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
+#	                    deg      deg                                                             mm   mm   mm          mm         deg    deg    deg    deg    deg   
+	PC   0   4          90       180     PTACSShieldsABC1 PTACSContainer   Tungsten     none      0    0   -950   1     0          0      0      0      0      0
+#            iZ         z        rInner  rOuter
+#                       mm       mm      mm
+	PCI      1          0        350     590
+	PCI      2         -750      150     590
+	PCI      3         -1000     150     590
+	PCI      4         -1700     300     590
+#	Type No  numZ       StartAng SpanAng Name            MotVolume        Material      SDName    posX posY posZ  RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
+#	                    deg      deg                                                             mm   mm   mm          mm         deg    deg    deg    deg    deg   
+	PC   0   4          270      180     PTACSShieldsABC2 PTACSContainer   Tungsten     none      0    0   -950   1     0          0      0      0      0      0
+#            iZ         z        rInner  rOuter
+#                       mm       mm      mm
+	PCI      1          0        350     590
+	PCI      2         -750      150     590
+	PCI      3         -1000     150     590
+	PCI      4         -1700     300     590
+#	Type No  numZ       StartAng SpanAng Name            MotVolume        Material      SDName    posX posY posZ  RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
+#	                    deg      deg                                                             mm   mm   mm          mm         deg    deg    deg    deg    deg   
+	PC   1   2          90       180     PTACSShieldD1    PTACSContainer   Tungsten     none      0    0   -949.9 1     0          0      0      0      0      0
+#            iZ         z        rInner  rOuter
+#                       mm       mm      mm
+	PCI      1          0        500     590
+	PCI      2         -0.1      350     590
+#	Type No  numZ       StartAng SpanAng Name            MotVolume        Material      SDName    posX posY posZ  RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
+#	                    deg      deg                                                             mm   mm   mm          mm         deg    deg    deg    deg    deg   
+	PC   1   2          270      180     PTACSShieldD2    PTACSContainer   Tungsten     none      0    0   -949.9 1     0          0      0      0      0      0
+#            iZ         z        rInner  rOuter
+#                       mm       mm      mm
+	PCI      1          0        500     590
+	PCI      2         -0.1      350     590
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name                        red    green  blue  
+#	vis_PTACSContainer          1      1      1     
+#	vis_PTACSBeamPipe1          0.5    0.5    0.5
+	vis_PTACSBeamPipe2          0.5    0.5    0.5
+#	vis_PTACSCaptureCoilTS1a1   0      0      1     
+	vis_PTACSCaptureCoilTS1a2   0      0      1     
+#	vis_PTACSCaptureCoilTS1b1   0      0      1     
+	vis_PTACSCaptureCoilTS1b2   0      0      1     
+#	vis_PTACSCaptureCoilTS1c1   0      0      1     
+	vis_PTACSCaptureCoilTS1c2   0      0      1     
+#	vis_PTACSCaptureCoilTS1d1   0      0      1     
+	vis_PTACSCaptureCoilTS1d2   0      0      1     
+#	vis_PTACSShieldE1           0      1      0     
+	vis_PTACSShieldE2           0      1      0     
+#	vis_PTACSShieldD1           0      1      0     
+	vis_PTACSShieldD2           0      1      0     
+#	vis_PTACSShieldsABC1        0      1      0     
+	vis_PTACSShieldsABC2        0      1      0     
+#	vis_PTACSTargetCoilCS01     0      0      1     
+	vis_PTACSTargetCoilCS02     0      0      1     
+#	vis_PTACSTargetCoilCS11     0      0      1     
+	vis_PTACSTargetCoilCS12     0      0      1     
+#	vis_PTACSTargetCoilMS11     0      0      1     
+	vis_PTACSTargetCoilMS12     0      0      1     
+#	vis_PTACSTargetCoilMS21     0      0      1     
+	vis_PTACSTargetCoilMS22     0      0      1     
+	vis_PTACSProductionTarget   1      0      0     
+#	vis_PTACSDumpContainer      0      0      1     
+	vis_PTACSDump               1      0      0     
+#	vis_PTACSMonitor            1      0      0
+#	vis_PTACSKiller1            1      0      0
+#	vis_PTACSKiller2            1      0      0
+#	vis_PTACSKiller3            1      0      0
+#	vis_PTACSKiller4            1      0      0
+#	vis_PTACSKiller5            1      0      0

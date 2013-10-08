@@ -34,3 +34,4 @@ configure/output_default
 output/
 logfile
 log
+err

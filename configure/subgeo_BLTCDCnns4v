@@ -1,0 +1,131 @@
+#general info
+	checkoverlap
+
+#Tubs info
+#	Type No  RMin   RMax    Length  StartAng SpanAng Name            MotVolume       Material   SDName    posX posY posZ  RepNo Space DirThe DirPhi Ephi   Etheta Epsi  
+#	         mm     mm      mm      deg      deg                                                          mm   mm   mm          mm    deg    deg    deg    deg    deg   
+	T    1   0      1747.5  5581    0        360     BLTCDC          World           Vacuum     none      0    0    0     1     0     0      0      0      0      0     
+
+#	Shell
+	T    3   280    300     355.9   90       180     BLTShellCU11     BLTCDC          Copper     none      0    0 -2612.55 1     0     0      0      0      0      0     
+	T    3   280    300     355.9   270      180     BLTShellCU12     BLTCDC          Copper     none      0    0 -2612.55 1     0     0      0      0      0      0     
+	T    3   120    129.99  160     90       180     BLTShellCU21     BLTCDC          Copper     none      0    0 -2354.6  1     0     0      0      0      0      0     
+	T    3   120    129.99  160     270      180     BLTShellCU22     BLTCDC          Copper     none      0    0 -2354.6  1     0     0      0      0      0      0     
+	T    3   120    280     20      90       180     BLTShellEU1      BLTCDC          Copper     none      0    0 -2444.6  1     0     0      0      0      0      0     
+	T    3   120    280     20      270      180     BLTShellEU2      BLTCDC          Copper     none      0    0 -2444.6  1     0     0      0      0      0      0     
+	T    12  0      129.99  1000    90       180     BLTCollimator1   BLTCDC          Copper     none      0    0 -1774.6  1     0     0      0      0      0      0     
+	T    12  0      129.99  1000    270      180     BLTCollimator2   BLTCDC          Copper     none      0    0 -1774.6  1     0     0      0      0      0      0     
+	T    13  0      120     1000    90       180     BLTCHole1        BLTCollimator1  Vacuum     none      0    0    0     1     0     0      0      0      0      0     
+	T    13  0      120     1000    270      180     BLTCHole2        BLTCollimator2  Vacuum     none      0    0    0     1     0     0      0      0      0      0     
+#	T    13  0      140     1000    0        360     BLTCHole0 
+	T    3   450    470     524.6   90       180     CDCShellCU1      BLTCDC          Copper     none      0    0 -1012.3  1     0     0      0      0      0      0     
+	T    3   450    470     524.6   270      180     CDCShellCU2      BLTCDC          Copper     none      0    0 -1012.3  1     0     0      0      0      0      0     
+	T    3   200    450     20      90       180     CDCShellEU1      BLTCDC          Copper     none      0    0 -1264.6  1     0     0      0      0      0      0     
+	T    3   200    450     20      270      180     CDCShellEU2      BLTCDC          Copper     none      0    0 -1264.6  1     0     0      0      0      0      0     
+
+#	Coil
+	T    5   400    450     355.9   90       180     TS3Coil1         BLTCDC          Copper     none      0    0 -2612.55 1     0     0      0      0      0      0     
+	T    5   400    450     355.9   270      180     TS3Coil2         BLTCDC          Copper     none      0    0 -2612.55 1     0     0      0      0      0      0     
+	T    6   130    150     200     90       180     ColiCoil1        BLTCDC          Copper     none      0    0 -1854.6  5     240   0      0      0      0      0     
+	T    6   130    150     200     270      180     ColiCoil2        BLTCDC          Copper     none      0    0 -1854.6  5     240   0      0      0      0      0     
+	T    5   1070   1084.04 195     90       180     CDCCoil1         BLTCDC          Copper     none      0    0  -372.6  10    235   0      0      0      0      0
+	T    5   1070   1084.04 195     270      180     CDCCoil2         BLTCDC          Copper     none      0    0  -372.6  10    235   0      0      0      0      0
+
+#	Yoke	
+	T    3   700    900     355.9   90       180     TS3Yoke1         BLTCDC          Steel      none      0    0 -2612.55 1     0     0      0      0      0      0     
+	T    3   700    900     355.9   270      180     TS3Yoke2         BLTCDC          Steel      none      0    0 -2612.55 1     0     0      0      0      0      0     
+	T    4   700    800     717     90       180     ColiYoke1        BLTCDC          Steel      none      0    0 -2076.1  1     0     0      0      0      0      0     
+	T    4   700    800     717     270      180     ColiYoke2        BLTCDC          Steel      none      0    0 -2076.1  1     0     0      0      0      0      0     
+	T    16  1647.5 1747.5  2500    90       180     CDCYokeC1        BLTCDC          Steel      none      0    0 -367.6   1     0     0      0      0      0      0     
+	T    16  1647.5 1747.5  2500    270      180     CDCYokeC2        BLTCDC          Steel      none      0    0 -367.6   1     0     0      0      0      0      0     
+	T    0   700    1747.5  100     90       180     CDCYokeEU1       BLTCDC          Steel      none      0    0 -1667.6  1     0     0      0      0      0      0     
+	T    0   700    1747.5  100     270      180     CDCYokeEU2       BLTCDC          Steel      none      0    0 -1667.6  1     0     0      0      0      0      0     
+	T    0   200    1747.5  100     90       180     CDCYokeED1       BLTCDC          Steel      none      0    0  932.4   1     0     0      0      0      0      0     
+	T    0   200    1747.5  100     270      180     CDCYokeED2       BLTCDC          Steel      none      0    0  932.4   1     0     0      0      0      0      0     
+
+#	Virtual
+	T    0   0      900     1       0        360     BLTKillerE      World           Vacuum     KillerSD  0    0 -2797    1     0     0      0      0      0      0     
+	T    10  300    301     355.9   0        360     TS3Killer       BLTCDC          Vacuum     KillerSD  0    0 -2612.55 1     0     0      0      0      0      0     
+	T    10  200    280     1       90       180     TS3KillerE1      BLTShellEU1     Copper     KillerSD  0    0   9.5    1     0     0      0      0      0      0     
+	T    10  200    280     1       270      180     TS3KillerE2      BLTShellEU2     Copper     KillerSD  0    0   9.5    1     0     0      0      0      0      0     
+	T    6  199.991 199.999 817     0        360     ColiKiller      BLTCDC          Vacuum     KillerSD  0    0 -2026.1  1     0     0      0      0      0      0     
+	T    16  900    901     2500    0        360     CDCKillerC      BLTCDC          Vacuum     KillerSD  0    0 -367.6   1     0     0      0      0      0      0     
+#	T    14  0      200     1       0        360     CDCMonitor      BLTCDC          Vacuum     none      0    0 -1274.1  1     0     0      0      0      0      0     
+#	T    15  0      200     1       0        360     CDCKiller       BLTCDC          Vacuum     KillerSD  0    0 -1273.1  1     0     0      0      0      0      0     
+	T    0   250    900     1       0        360     CDCKillerEU     BLTCDC          Vacuum     KillerSD  0    0 -1617.1  1     0     0      0      0      0      0     
+	T    0   0      900     1       0        360     CDCKillerED     BLTCDC          Vacuum     KillerSD  0    0  982.9   1     0     0      0      0      0      0     
+
+#	CDC	
+	T    5   0      100     0.2     0        360     Target          BLTCDC          Aluminium  MonitorSD 0    0    0     39    30    0      0      0      0      0
+#	T    5   0      100     0.2     0        360     Target          BLTCDC          Aluminium  MonitorSD 0    0    0     17    50    0      0      0      0      0
+	T    4   471.5  501.5   250     90       180     Trigger1         BLTCDC        Scintillator MonitorSD 0    0    0     2     1250  0      0      0      0      0
+	T    4   471.5  501.5   250     270      180     Trigger2         BLTCDC        Scintillator MonitorSD 0    0    0     2     1250  0      0      0      0      0
+
+#Box info
+#	Type No  x       y       z     Name     MotVolume Material   SDName  posX   posY   posZ   RepNo Space DirTheta DirPhi Ephi Etheta Epsi
+#	         mm      mm      mm                                          mm     mm     mm           mm    deg      deg    deg  deg    deg
+#	B    0   1200    1200    1200  BLTCYMin
+
+#BooelanSolid info
+#	Type No  type     vol1         vol2         Ephi    Etheta  Epsi   PosX    PosY    posZ    name          MotVolume       Material      SDName    posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
+#	                                            deg     deg     deg    mm      mm      mm                                                            mm   mm   mm         mm         deg    deg    deg    deg    deg   
+#	BL   0   minus    BLTCHole0    BLTCYMin     0       0       0      0       -800    0       BLTCHole      BLTCollimator   Vacuum        none      0    0    0    1     0          0      0      0      0      0     
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name                 red    green  blue  
+#	vis_BLTCDC            1      1      1
+#	vis_BLTContainer      1      1      1
+#	vis_BLTShellCU11      0.5    0.5    0.5
+	vis_BLTShellCU12      0.5    0.5    0.5
+#	vis_BLTShellCU21      0.5    0.5    0.5
+	vis_BLTShellCU22      0.5    0.5    0.5
+#	vis_BLTShellEU1       0.5    0.5    0.5
+	vis_BLTShellEU2       0.5    0.5    0.5
+#	vis_BLTShellCD        0.5    0.5    0.5
+#	vis_BLTCollimator1    0.5    0.5    0.5
+	vis_BLTCollimator2    0.5    0.5    0.5
+#	vis_BLTCHole1         1      1      1
+	vis_BLTCHole2         1      1      1
+#	vis_CDCShellCU1       0.5    0.5    0.5
+	vis_CDCShellCU2       0.5    0.5    0.5
+#	vis_CDCShellEU1       0.5    0.5    0.5
+	vis_CDCShellEU2       0.5    0.5    0.5
+#	vis_TS3Coil1          0.82   0.5    0.21  
+	vis_TS3Coil2          0.82   0.5    0.21  
+#	vis_ColiCoil1         0.82   0.5    0.21
+	vis_ColiCoil2         0.82   0.5    0.21
+#	vis_CDCCoil1          0.82   0.5    0.21
+	vis_CDCCoil2          0.82   0.5    0.21
+#	vis_TS3Yoke1          0      0      1
+	vis_TS3Yoke2          0      0      1
+#	vis_ColiYoke1         0      0      1
+	vis_ColiYoke2         0      0      1
+#	vis_CDCYokeC1         0      0      1
+	vis_CDCYokeC2         0      0      1
+#	vis_CDCYokeEU1        0      0      1
+	vis_CDCYokeEU2        0      0      1
+#	vis_CDCYokeED1        0      0      1
+	vis_CDCYokeED2        0      0      1
+#	vis_BLTKillerE        1      0      0
+#	vis_TS3Killer         1      0      0 
+#	vis_TS3KillerE        1      0      0 
+#	vis_ColiKiller        1      0      0
+#	vis_CDCMonitor        0      1      0
+#	vis_CDCKiller         1      0      0
+#	vis_CDCKillerC        1      0      0
+#	vis_CDCKillerEU       1      0      0
+#	vis_CDCKillerEU2      1      0      0
+#	vis_CDCKillerEU3      1      0      0
+#	vis_CDCKillerED       1      0      0
+#	vis_CDCContainer      1      1      1
+	vis_Target            0.8    0.8    0.8
+#	vis_Trigger1          0      1      0
+	vis_Trigger2          0      1      0
+#	vis_InnerCylinder     1      1      1
+#	vis_InnerKiller       1      0      0
+#	vis_OuterKiller       1      0      0
+#	vis_OuterCylinder     1      1      1
+#	vis_EndPlate          1      1      1
+#	vis_EndKiller         1      0      0
