@@ -2,15 +2,14 @@
 #/control/execute {MYG4SIMROOT}/configure/verbose_test.mac
 /control/execute {MYG4SIMROOT}/configure/verbose_default.mac
 /control/execute {MYG4SIMROOT}/configure/setCut_default.mac
-#/stacking/set_no_sec 1
 #/control/execute {MYG4SIMROOT}/configure/setCut_bp.mac
-#/run/setCut 0.001 mm
+/run/setCut 0.001 mm
 #/control/execute {MYG4SIMROOT}/configure/setCut_A9.mac
 #/control/execute {MYG4SIMROOT}/configure/setCut_vis.mac
 #/g4sim/event/printModulo            1
 #/random/setSeeds 412516134 13221771
 #/g4sim/gun/root_index 14398
 #/stacking/add_white_list 2112
-/stacking/set_no_sec 1
+#/stacking/set_no_sec 1
 #/run/beamOn 5732
-/run/beamOn 69538
+/run/beamOn 100

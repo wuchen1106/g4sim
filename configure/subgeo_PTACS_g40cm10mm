@@ -4,7 +4,7 @@
 #Tubs info
 #	Type No  RMin   RMax   Length   StartAng SpanAng Name                  MotVolume          Material      SDName    posX posY posZ  RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
 #	         mm     mm     mm       deg      deg                                                                      mm   mm   mm          mm         deg    deg    deg    deg    deg   
-	T    0   0.     807    5300     0        360     PTACSContainer        World              Vacuum        none      5650 0  -5790.5 1     0          0      0      270    90      0     
+	T    0   0.     807    5300     0        360     PTACSContainer        World              Vacuum        none      5650 0  -5790.5 1     0          0      0      270    90     0     
 	T    1   200    250    1505     0        360     PTACSBeamPipe         PTACSContainer     Steel         none      0    0   1897.5 1     0          0      0      0      0      0     
 	T    2   250    266    210      0        360     PTACSCaptureCoilTS1a  PTACSContainer     Copper        none      0    0   1250   1     0          0      0      0      0      0     
 	T    3   250    282    390      0        360     PTACSCaptureCoilTS1b  PTACSContainer     Copper        none      0    0   1675   1     0          0      0      0      0      0     
@@ -16,14 +16,12 @@
 	T    9   662    742    1800     0        360     PTACSTargetCoilMS1    PTACSContainer     Copper        none      0    0  -125    1     0          0      0      0      0      0     
 	T    10  662    790    380      0        360     PTACSTargetCoilMS2    PTACSContainer     Copper        none      0    0   1035   1     0          0      0      0      0      0     
 	T    11  0      10     400      0        360     PTACSProductionTarget PTACSContainer     Graphite      none      0    0  -1700   1     0          0      0      0      10     0     
-	T    11  0      3000   9500     0        360     PTACSDumpContainer    World              Vacuum        none 13258.8 0 -4748.61   1     0          0      0      270   100     0     
-	T    11  0      2000   3000     0        360     PTACSDump             PTACSDumpContainer Steel         none      0    0  -3250   1     0          0      0      0      0      0     
-#	T    7   0      350    1        0        360     PTACSMonitor          PTACSContainer     Vacuum        MonitorSD 0    0  -950    1     0          0      0      0      0      0     
 	T    7   0      298    1        0        360     PTACSKiller1          PTACSContainer     Vacuum        KillerSD  0    0  -2649.5 1     0          0      0      0      0      0     
 	T    7   300    590    1        0        360     PTACSKiller2          PTACSShieldsABC    Tungsten      KillerSD  0    0  -1699.5 1     0          0      0      0      0      0     
 	T    7   590    662    1        0        360     PTACSKiller3          PTACSContainer     Vacuum        KillerSD  0    0  -2649.5 1     0          0      0      0      0      0     
 	T    7   662    806    1        0        360     PTACSKiller4          PTACSTargetCoilCS0 Copper        KillerSD  0    0  -87     1     0          0      0      0      0      0     
 	T    5   806    807    5300     0        360     PTACSKiller5          PTACSContainer     Vacuum        KillerSD  0    0   0      1     0          0      0      0      0      0     
+	T    7   0      350    1        0        360     PTACSMonitor          PTACSContainer     Vacuum        MonitorSD 0    0  -950    1     0          0      0      0      0      0     
 
 #Polycone info
 #	Type No  numZ       StartAng SpanAng Name            MotVolume        Material      SDName    posX posY posZ  RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
@@ -61,11 +59,9 @@
 	vis_PTACSTargetCoilMS1      0      0      1     
 	vis_PTACSTargetCoilMS2      0      0      1     
 	vis_PTACSProductionTarget   1      0      0     
-	vis_PTACSDumpContainer      0      0      1     
-	vis_PTACSDump               1      0      0     
-#	vis_PTACSMonitor            1      0      0
 	vis_PTACSKiller1            1      0      0
 	vis_PTACSKiller2            1      0      0
 	vis_PTACSKiller3            1      0      0
 	vis_PTACSKiller4            1      0      0
 	vis_PTACSKiller5            1      0      0
+	vis_PTACSMonitor            1      0      0
