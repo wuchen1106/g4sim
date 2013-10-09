@@ -46,6 +46,7 @@ McTruthSvc* McTruthSvc::GetMcTruthSvc(){
 }
 
 void McTruthSvc::Initialize(){
+	m_nTracksAll = 0;
 	m_nTracks = 0;
 	m_dictpid.clear();
 	m_dicttid.clear();
@@ -290,6 +291,7 @@ void McTruthSvc::SetValuePre(const G4Track* aTrack){
 		m_dictpid.push_back(pid);
 		m_dicttid.push_back(trackID);
 	}
+	m_nTracksAll++;
 	//switch
 	if (!m_Switch) return;
 	//nTracks

@@ -34,6 +34,7 @@ class McTruthSvc
 		void Initialize();
 
 		int get_nTracks(){return m_nTracks;}
+		int get_nTracksAll(){return m_nTracksAll;}
 		int get_pid( int i ){ if(i<m_nTracks) return m_pid[i]; else return 0; }
 		double get_px( int i ){ if(i<m_nTracks) return m_px[i]; else return 0; }
 		double get_py( int i ){ if(i<m_nTracks) return m_py[i]; else return 0; }
@@ -83,6 +84,7 @@ class McTruthSvc
 		std::vector<int> white_list;
 		std::vector<int> black_list;
 		//For root objects
+		int m_nTracksAll;
 		int m_nTracks;
 		std::vector<int> m_dictpid;
 		std::vector<int> m_dicttid;

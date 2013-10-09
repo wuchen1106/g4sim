@@ -44,6 +44,7 @@ class MyTriggerSvc
 		int minTriggerHits;
 		double minEleMom;
 		int minAntipNum;
+		int minTracks;
 
 		MyDetectorManager* pMyDetectorManager;
 		CdcLayerSD* myCdcLayerSD;
