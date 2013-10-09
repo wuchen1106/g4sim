@@ -21,7 +21,7 @@
 	T    7   590    662    1        0        360     PTACSKiller3          PTACSContainer     Vacuum        KillerSD  0    0  -2649.5 1     0          0      0      0      0      0     
 	T    7   662    806    1        0        360     PTACSKiller4          PTACSTargetCoilCS0 Copper        KillerSD  0    0  -87     1     0          0      0      0      0      0     
 	T    5   806    807    5300     0        360     PTACSKiller5          PTACSContainer     Vacuum        KillerSD  0    0   0      1     0          0      0      0      0      0     
-	T    7   0      350    1        0        360     PTACSMonitor          PTACSContainer     Vacuum        MonitorSD 0    0  -950    1     0          0      0      0      0      0     
+#	T    7   0      350    1        0        360     PTACSMonitor          PTACSContainer     Vacuum        MonitorSD 0    0  -950    1     0          0      0      0      0      0     
 
 #Polycone info
 #	Type No  numZ       StartAng SpanAng Name            MotVolume        Material      SDName    posX posY posZ  RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
@@ -64,4 +64,4 @@
 	vis_PTACSKiller3            1      0      0
 	vis_PTACSKiller4            1      0      0
 	vis_PTACSKiller5            1      0      0
-	vis_PTACSMonitor            1      0      0
+#	vis_PTACSMonitor            1      0      0
