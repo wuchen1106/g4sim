@@ -19,7 +19,7 @@
 	PosSpread:        0    2   2
 
 	EnergyMode:     none #(root/histo/none)
-	PositionMode:   random  #(uniform/root/none/random)
+	PositionMode:   uRand #(uniform/root/none/uRand/gRand)
 	DirectionMode:  none #(none/uniform/histo)
 	TimeMode:       none #(none/root)
 	pidMode:        none #(none/root)
