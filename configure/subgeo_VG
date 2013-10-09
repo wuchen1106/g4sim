@@ -8,12 +8,12 @@
 	B    0   50      50      50    BoxOut         
 	B    0   45      45      45    BoxIn          
 	B    0   5       5       5     Window         
-	B    0   30      30      0.2   Plate          BoxContainer  Copper        none      0      0     0       1     0     0        0      90   22.5   0   
+	B    0   30      30      0.2   Plate          BoxContainer  Copper        none      0      0     0       1     0     0        0      90  -22.5   0   
 	B    0   30      30     3.5e-3 BoronSurface   Plate         Boron         none      0      0   0.09825   1     0     0        0      0    0      0
 	B    0   5       5       0.05  Mylar1         BoxContainer  Mylar         none      0      0    -24.975  1     0     0        0      0    0      0
 	B    0   5       5       0.05  Mylar2         BoxContainer  Mylar         none     -24.975 0     0       1     0     0        0      90   -90    0
 	B    0   5       5       0.05  Mylar3         BoxContainer  Mylar         none      24.975 0     0       1     0     0        0      90   90     0
-	B    0   100     100     2     Scintillator   World         Scintillator  none      0      0    -100     1     0     0        0      0    0      0
+	B    0   100     100     2     Scintillator   World         Scintillator  MonitorSD 0      0    -100     1     0     0        0      0    0      0
 	B    0   100     100     1     Monitor        World         Vacuum        MonitorSD 0      0    -400     1     0     0        0      0    0      0
 
 #BooelanSolid info
@@ -21,10 +21,9 @@
 #	                                                    deg     deg     deg    mm      mm      mm                                                               mm   mm   mm         mm         deg    deg    deg    deg    deg   
 	BL   0   minus    BoxOut            BoxIn           0       0       0      0       0       0       BoxShell0    
 	BL   0   minus    BoxShell0         Window          0       0       0      0       0       23.5    BoxShell1
-	BL   0   minus    BoxShell1         Window          270     90      0      0       0       23.5    BoxShell2
-#	BL   0   minus    BoxShell2         Window          0       0       0      0       0       23.5    BoxShell3
-#	BL   0   minus    BoxShell3         Window          0       0       0      0       0      -23.5    Box              BoxContainer    Aluminium     none      0    0    0    1     0          0      0      0      0      0     
-	BL   0   minus    BoxShell2         Window          0       0       0      0       0      -23.5    Box              BoxContainer    Aluminium     none      0    0    0    1     0          0      0      0      0      0     
+	BL   0   minus    BoxShell1         Window          0       90      0      23.5    0       0       BoxShell2
+	BL   0   minus    BoxShell2         Window          0      -90      0     -23.5    0       0       BoxShell3
+	BL   0   minus    BoxShell3         Window          0       0       0      0       0      -23.5    Box              BoxContainer    Aluminium     none      0    0    0    1     0          0      0      0      0      0     
 
 #visual settings
 	VerboseLevel:    5
