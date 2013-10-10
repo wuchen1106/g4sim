@@ -4,26 +4,37 @@
 #Box info
 #	Type No  x       y       z     Name           MotVolume     Material      SDName    posX   posY   posZ   RepNo Space DirTheta DirPhi Ephi Etheta Epsi
 #	         mm      mm      mm                                                         mm     mm     mm           mm    deg      deg    deg  deg    deg
-	B    0   51      51      51    BoxContainer   World         Vacuum        none      0      0      0      1     0     0        0      0    0      0
-	B    0   50      50      50    BoxOut         
-	B    0   45      45      45    BoxIn          
-	B    0   5       5       5     Window         
-	B    0   30      30      0.2   Plate          BoxContainer  Copper        none      0      0     0       1     0     0        0      90  -22.5   0   
-	B    0   30      30     3.5e-3 BoronSurface   Plate         Boron         none      0      0   0.09825   1     0     0        0      0    0      0
-	B    0   5       5       0.05  Mylar1         BoxContainer  Mylar         none      0      0    -24.975  1     0     0        0      0    0      0
-	B    0   5       5       0.05  Mylar2         BoxContainer  Mylar         none     -24.975 0     0       1     0     0        0      90   -90    0
-	B    0   5       5       0.05  Mylar3         BoxContainer  Mylar         none      24.975 0     0       1     0     0        0      90   90     0
-	B    0   100     100     2     Scintillator   World         Scintillator  MonitorSD 100    0     0       1     0     0        0      90   90     0
-	B    0   100     100     1     Monitor        World         Vacuum        MonitorSD 400    0     0       1     0     0        0      90   90     0
+#	B    0   51      51      51    BoxContainer   World         Vacuum        none      0      0      0      1     0     0        0      0    0      0
+#	B    0   50      50      50    BoxOut         
+#	B    0   45      45      45    BoxIn          
+#	B    0   5       5       5     Window         
+#	B    0   30      30      0.2   Plate          BoxContainer  Copper        none      0      0     0       1     0     0        0      90  -22.5   0   
+#	B    0   30      30     3.5e-3 BoronSurface   Plate         Boron         none      0      0   0.09825   1     0     0        0      0    0      0
+#	B    0   5       5       0.05  Mylar1         BoxContainer  Mylar         none      0      0    -24.975  1     0     0        0      0    0      0
+#	B    0   5       5       0.05  Mylar2         BoxContainer  Mylar         none     -24.975 0     0       1     0     0        0      90   -90    0
+#	B    0   5       5       0.05  Mylar3         BoxContainer  Mylar         none      24.975 0     0       1     0     0        0      90   90     0
+#	B    0   100     100     2     Scintillator   World         Scintillator  MonitorSD 100    0     0       1     0     0        0      90   90     0
+#	B    0   100     100     1     Monitor        World         Vacuum        MonitorSD 400    0     0       1     0     0        0      90   90     0
+
+#Tubs info
+#	Type No  RMin  RMax Length  StartAng SpanAng Name            MotVolume  Material  SDName    posX posY posZ  RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
+#	         mm    mm   mm      deg      deg                                                    mm   mm   mm          mm         deg    deg    deg    deg    deg   
+	T    0   0.    30   10      0        360     Plate           World      Copper    none      0    0    0     1     0          0      0      0      0      0     
+	T    0   0.    30   3.5e-3  0        360     BoronSurface    Plate      Boron     none      0    0  4.99825 1     0          0      0      0      0      0     
 
 #BooelanSolid info
 #	Type No  type     vol1              vol2            Ephi    Etheta  Epsi   PosX    PosY    posZ    name             MotVolume       Material      SDName    posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
 #	                                                    deg     deg     deg    mm      mm      mm                                                               mm   mm   mm         mm         deg    deg    deg    deg    deg   
-	BL   0   minus    BoxOut            BoxIn           0       0       0      0       0       0       BoxShell0    
-	BL   0   minus    BoxShell0         Window          0       0       0      0       0       23.5    BoxShell1
-	BL   0   minus    BoxShell1         Window          0       90      0      23.5    0       0       BoxShell2
-	BL   0   minus    BoxShell2         Window          0      -90      0     -23.5    0       0       BoxShell3
-	BL   0   minus    BoxShell3         Window          0       0       0      0       0      -23.5    Box              BoxContainer    Aluminium     none      0    0    0    1     0          0      0      0      0      0     
+#	BL   0   minus    BoxOut            BoxIn           0       0       0      0       0       0       BoxShell0    
+#	BL   0   minus    BoxShell0         Window          0       0       0      0       0       23.5    BoxShell1
+#	BL   0   minus    BoxShell1         Window          0       90      0      23.5    0       0       BoxShell2
+#	BL   0   minus    BoxShell2         Window          0      -90      0     -23.5    0       0       BoxShell3
+#	BL   0   minus    BoxShell3         Window          0       0       0      0       0      -23.5    Box              BoxContainer    Aluminium     none      0    0    0    1     0          0      0      0      0      0     
+
+#Sphere info
+#	No    RMin  RMax  StartPhi SpanPhi StartThe SpanThe Name     MotVolume Material  SDName    posX posY posZ RepNo Space DirTheta DirPhi Ephi Etheta Epsi
+#	      mm    mm    deg      deg     deg      deg                                            mm   mm   mm         mm    deg      deg    deg  deg    deg
+	Sph 0 50    51    0        360.    0.       180.    Monitor  World     Vacuum    MonitorSD 0.   0.   0.   1     0     0        0      0    0      0
 
 #visual settings
 	VerboseLevel:    5

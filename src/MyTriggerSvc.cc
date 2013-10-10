@@ -201,7 +201,7 @@ bool MyTriggerSvc::TriggerIt( const G4Event* evt ){
 		if (!foundit) return false;
 	}
 	if ( minTracks!= -1 ){
-		int nTracks = myMcTruthSvc->get_nTracksAll();
+		int nTracks = myMcTruthSvc->get_nTracks();
 		if (nTracks<minTracks) return false;
 	}
 	//std::cout<<"Passed Cut!"<<std::endl;

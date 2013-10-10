@@ -8,6 +8,8 @@
 #ifndef PrimaryGeneratorAction_h
 #define PrimaryGeneratorAction_h 1
 
+#include <map>
+
 #include "G4VUserPrimaryGeneratorAction.hh"
 #include "globals.hh"
 
@@ -17,6 +19,7 @@ class PrimaryGeneratorMessenger;
 class TChain;
 class TFile;
 class TH1F;
+class G4ParticleDefinition;
 
 class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 {
@@ -54,16 +57,24 @@ public:
   void root_set_Time();
   void root_set_pid();
 
+//  typedef std::map<G4int, class G4ParticleDefinition *> ParticleCache;
+
+//protected:
+//  ParticleCache targetMap;
+
 private:
 //	G4double get_mom_from_histo();
 	void Dump();
 
   G4ParticleGun*             particleGun;	 //pointer a to G4  class
   PrimaryGeneratorMessenger* gunMessenger;   //messenger of this class
+  G4ParticleDefinition*      fParticle;
 
 	//general options
 	G4String                   fType;
 	G4String                   ParticleName;
+	G4int                      Z,A,C;
+	G4double                   E;
 	G4double                   Pa;
 	G4double                   Ekin;
 	G4int                      EnergyType;

@@ -46,7 +46,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 		file_name = dir_name + file_name;
 	}
 	ReadCard(file_name);
-	if (fType == "simple" || fType == "stable" ){
+	if (fType == "simple" || fType == "stable" || fType == "ion" ){
 		G4int n_particle = 1;
 		particleGun  = new G4ParticleGun(n_particle);
 	}
@@ -104,6 +104,26 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 		root_get_para();
 	}
 
+	if (fType=="ion"){
+		if (!fParticle){
+			G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
+			fParticle = particleTable->GetIon(Z,A,E*keV);
+			if (!fParticle){
+				std::cout<<"ERROR: In PrimaryGeneratorAction::PrimaryGeneratorAction() Cannot find particle "
+						 <<"Z = "<<Z
+						 <<", A = "<<A
+						 <<", E = "<<E<<" keV"
+						 <<"!!!"<<std::endl;
+				G4Exception("PrimaryGeneratorAction::PrimaryGeneratorAction()","Run0031",
+						FatalException, "Cannot find particle.");
+			}
+		}
+		if (fType == "stable"){
+			fParticle->SetPDGStable(true);
+		}
+		particleGun->SetParticleDefinition(fParticle);
+		particleGun->SetParticleCharge(C*eplus);
+	}
 	if ( pidMode == "root"){
 		G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
 		G4ParticleDefinition* particle = particleTable->FindParticle(root_int[0]);
@@ -451,6 +471,18 @@ void PrimaryGeneratorAction::ReadCard(G4String file_name){
 		else if ( keyword == "Particle:" ){
 			buf_card>>ParticleName;
 		}
+		else if ( keyword == "Z:" ){
+			buf_card>>Z;
+		}
+		else if ( keyword == "A:" ){
+			buf_card>>A;
+		}
+		else if ( keyword == "C:" ){
+			buf_card>>C;
+		}
+		else if ( keyword == "E:" ){
+			buf_card>>E;
+		}
 		else if ( keyword == "Direction:" ){
 			buf_card>>Theta>>Phi;
 			Theta *= deg;
@@ -547,7 +579,15 @@ void PrimaryGeneratorAction::ReadCard(G4String file_name){
 void PrimaryGeneratorAction::Dump(){
 	std::cout<<"---------------PrimaryGeneratorAction---------------------"<<std::endl;
 	std::cout<<"Type:                                         "<<fType<<std::endl;
+	if (fType=="ion"){
+	std::cout<<"Z:                                            "<<Z<<std::endl;
+	std::cout<<"A:                                            "<<A<<std::endl;
+	std::cout<<"C:                                            "<<C<<std::endl;
+	std::cout<<"E:                                            "<<E<<std::endl;
+	}
+	else{
 	std::cout<<"Particle:                                     "<<ParticleName<<std::endl;
+	}
 	std::cout<<"Default Momentum Direction: theta =           "<<Theta/deg<<"deg, phi = "<<Phi/deg<<"deg"<<std::endl;
 	if (EnergyType==0)
 	std::cout<<"Default Momentum Amplitude:                   "<<Pa/MeV<<"MeV"<<std::endl;
