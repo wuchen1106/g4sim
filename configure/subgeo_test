@@ -7,10 +7,13 @@
 #	B    0   1200    1200    1000  BLTCYMin
 
 #Tubs info
-#	Type No  RMin       RMax       Length     StartAng SpanAng Name            MotVolume       Material      SDName    posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
-#	         mm         mm         mm         deg      deg                                                             mm   mm   mm         mm         deg    deg    deg    deg    deg   
-#	T    0   0.         100        0.2        0        360     BLTCollimator   World           Aluminium     none      0    0    0    1     0          0      0      0      0      0     
-	T    0   0.         100        7.8        0        360     Target          World           Aluminium     none      0    0    0    1     0          0      0      0      0      0     
+#	Type No  RMin       RMax       Length     StartAng SpanAng Name            MotVolume       Material      SDName    posX posY posZ  RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
+#	         mm         mm         mm         deg      deg                                                             mm   mm   mm          mm         deg    deg    deg    deg    deg   
+#	T    0   0.         100        0.2        0        360     BLTCollimator   World           Aluminium     none      0    0    0     1     0          0      0      0      0      0     
+#	T    0   0.         100        7.8        0        360     Target          World           Aluminium     none      0    0    0     1     0          0      0      0      0      0     
+	T    0   0.         10         0.5        0        360     Cover           World           Aluminium     none      0    0    60.75 1     0          0      0      0      0      0     
+	T    0   0.         10         1          0        360     Source          World           Strontium     none      0    0    61    1     0          0      0      0      0      0     
+	T    0   0.         80         120        0        360     Scintillator    World           Scintillator  MonitorSD 0    0    0     1     0          0      0      0      0      0     
 
 #Sphere info
 #	No    RMin  RMax  StartPhi SpanPhi StartThe SpanThe Name     MotVolume Material     SDName posX posY posZ RepNo Space DirTheta DirPhi Ephi Etheta Epsi
@@ -46,4 +49,7 @@
 #	Name             red green blue
 #	vis_World        0    0    1
 #	vis_BLTCollimator 0   0    1
-	vis_Target       0   0    1
+#	vis_Target       0   0    1
+	vis_Source       1   0    0
+	vis_Cover        0   0    1
+	vis_Scintillator 0   1    0

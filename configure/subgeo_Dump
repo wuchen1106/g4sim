@@ -27,26 +27,8 @@
 #	         mm     mm     mm       deg      deg                                                            mm   mm   mm          mm         deg    deg    deg    deg    deg   
 	T    11  0      2000   4000     0        360     Dump3            DumpContainer Steel         none      0    0  -3150   1     0          0      0      0      0      0
 	T    11  4000   4001   10300    0        360     DumpKiller1      World         Vacuum        KillerSD  14834.5 0 -4470.774 1 0          0      0      270   100     0
-	T    7   0      4000   1        0        360     DumpKiller2      World         Vacuum        KillerSD  8301 0  -5790.5 1     0          0      0      0      0      0     
-	T    7   0      1000   1        0        360     DumpMonitor      World         Vacuum        MonitorSD 8302 0  -5790.5 1     0          0      0      0      0      0     
-
-#Polycone info
-#	Type No  numZ       StartAng SpanAng Name            MotVolume        Material      SDName    posX posY posZ  RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
-#	                    deg      deg                                                             mm   mm   mm          mm         deg    deg    deg    deg    deg   
-	PC   0   4          0        360     DumpShieldsABC DumpContainer   Tungsten     none      0    0   -950   1     0          0      0      0      0      0
-#            iZ         z        rInner  rOuter
-#                       mm       mm      mm
-	PCI      1          0        350     590
-	PCI      2         -750      150     590
-	PCI      3         -1000     150     590
-	PCI      4         -1700     300     590
-#	Type No  numZ       StartAng SpanAng Name            MotVolume        Material      SDName    posX posY posZ  RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
-#	                    deg      deg                                                             mm   mm   mm          mm         deg    deg    deg    deg    deg   
-	PC   1   2          0        360     DumpShieldD    DumpContainer   Tungsten     none      0    0   -949.9 1     0          0      0      0      0      0
-#            iZ         z        rInner  rOuter
-#                       mm       mm      mm
-	PCI      1          0        500     590
-	PCI      2         -0.1      350     590
+	T    7   0      4000   1        0        360     DumpKiller2      World         Vacuum        KillerSD  8301 0  -5790.5 1     0          0      0      270    90     0     
+	T    7   0      1000   1        0        360     DumpMonitor      World         Vacuum        MonitorSD 8302 0  -5790.5 1     0          0      0      270    90     0     
 
 #visual settings
 	VerboseLevel:    5
