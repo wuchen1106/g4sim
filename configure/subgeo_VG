@@ -34,7 +34,7 @@
 #Sphere info
 #	No    RMin  RMax  StartPhi SpanPhi StartThe SpanThe Name     MotVolume Material  SDName    posX posY posZ RepNo Space DirTheta DirPhi Ephi Etheta Epsi
 #	      mm    mm    deg      deg     deg      deg                                            mm   mm   mm         mm    deg      deg    deg  deg    deg
-	Sph 0 50    51    0        360.    0.       180.    Monitor  World     Vacuum    MonitorSD 0.   0.   0.   1     0     0        0      0    0      0
+	Sph 0 45    46    0        360.    0.       180.    Monitor  World     Vacuum    MonitorSD 0.   0.   0.   1     0     0        0      0    0      0
 
 #visual settings
 	VerboseLevel:    5
