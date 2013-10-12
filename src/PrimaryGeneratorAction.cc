@@ -253,7 +253,7 @@ void PrimaryGeneratorAction::SetRandomEnergy(){
 		else{
 			dMom=2.*(G4UniformRand()-0.5)*MomSpread;
 		}
-		particleGun->SetParticleMomentum(Pa+MomSpread);
+		particleGun->SetParticleMomentum(Pa+dMom);
 	}
 }
 

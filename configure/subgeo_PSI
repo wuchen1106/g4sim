@@ -25,23 +25,23 @@
 	T    0   0      55     0.2      0        360     Window1               World              Mylar         none      -155 0    80    1     0          0      0      270    90     0
 	T    0   0      55     0.2      0        360     Window2               World              Mylar         none      0    -155 80    1     0          0      0      0      90     0
 	T    0   0      150    10       0        360     VacChamBottom         World              Steel         none      0    0    -185  1     0          0      0      0      0      0
-	T    0   0      15     30       0        360     GeDetector            World              Germanium     none      0    -225 80    1     0          0      0      0      90     0
+	T    0   0      15     30       0        360     GeDetector            World              Germanium     MonitorSD 0    -225 80    1     0          0      0      0      90     0
 
 #Box info
-#	Type No  x       y       z     Name             MotVolume Material      SDName  posX   posY   posZ   RepNo Space DirTheta DirPhi Ephi Etheta Epsi
-#	         mm      mm      mm                                                     mm     mm     mm           mm    deg      deg    deg  deg    deg
-	B    0   50      50      5     DEDXPack1        World     Vacuum        none    77.78  77.78  80     1     0     0        0      -45  90     0
-	B    0   50      50      0.065 DECounter1       DEDXPack1 Silicon       none    0      0      0.0325 1     0     0        0      0    0      0
-	B    0   50      50      1.5   ECounter1        DEDXPack1 Silicon       none    0      0     -0.75   1     0     0        0      0    0      0
-	B    0   50      50      1     CPVeto1          DEDXPack1 Scintillator  none    0      0     -2      1     0     0        0      0    0      0
-	B    0   50      50      5     DEDXPack2        World     Vacuum        none   -77.78 -77.78  80     1     0     0        0      135  90     0
-	B    0   50      50      0.065 DECounter2       DEDXPack2 Silicon       none    0      0      0.0325 1     0     0        0      0    0      0
-	B    0   50      50      1.5   ECounter2        DEDXPack2 Silicon       none    0      0     -0.75   1     0     0        0      0    0      0
-	B    0   50      50      1     CPVeto2          DEDXPack2 Scintillator  none    0      0     -2      1     0     0        0      0    0      0
-	B    0   50      50      0.2   Target           World     Aluminium     none    0      0      80     1     0     0        0      -45  90     0
-	B    0   50      50      0.5   BeamCounter      World     Scintillator  none    -210   0      80     1     0     0        0      90   90     0
-	B    0   50      50      0.5   MVetoCounter     World     Scintillator  none    140    0      80     1     0     0        0      90   90     0
-	B    0   50      50      2     LeadShield       World     Lead          none    -25    50     80     1     0     0        0      90   90     0
+#	Type No  x       y       z     Name             MotVolume Material      SDName     posX   posY   posZ   RepNo Space DirTheta DirPhi Ephi Etheta Epsi
+#	         mm      mm      mm                                                        mm     mm     mm           mm    deg      deg    deg  deg    deg
+	B    0   50      50      5     DEDXPack1        World     Vacuum        none       77.78  77.78  80     1     0     0        0      -45  90     0
+	B    0   50      50      0.065 DECounter1       DEDXPack1 Silicon       MonitorSD  0      0      0.0325 1     0     0        0      0    0      0
+	B    0   50      50      1.5   ECounter1        DEDXPack1 Silicon       MonitorSD  0      0     -0.75   1     0     0        0      0    0      0
+	B    0   50      50      1     CPVeto1          DEDXPack1 Scintillator  MonitorSD  0      0     -2      1     0     0        0      0    0      0
+	B    0   50      50      5     DEDXPack2        World     Vacuum        none      -77.78 -77.78  80     1     0     0        0      135  90     0
+	B    0   50      50      0.065 DECounter2       DEDXPack2 Silicon       MonitorSD  0      0      0.0325 1     0     0        0      0    0      0
+	B    0   50      50      1.5   ECounter2        DEDXPack2 Silicon       MonitorSD  0      0     -0.75   1     0     0        0      0    0      0
+	B    0   50      50      1     CPVeto2          DEDXPack2 Scintillator  MonitorSD  0      0     -2      1     0     0        0      0    0      0
+	B    0   50      50      0.2   Target           World     Aluminium     MonitorSD  0      0      80     1     0     0        0      -45  90     0
+	B    0   50      50      0.5   BeamCounter      World     Scintillator  MonitorSD  -210   0      80     1     0     0        0      90   90     0
+	B    0   50      50      0.5   MVetoCounter     World     Scintillator  MonitorSD  140    0      80     1     0     0        0      90   90     0
+	B    0   50      50      2     LeadShield       World     Lead          none       -25    50     80     1     0     0        0      90   90     0
 
 #visual settings
 	VerboseLevel:    5
