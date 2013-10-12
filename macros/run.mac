@@ -3,7 +3,7 @@
 /control/execute {MYG4SIMROOT}/configure/verbose_default.mac
 /control/execute {MYG4SIMROOT}/configure/setCut_default.mac
 #/control/execute {MYG4SIMROOT}/configure/setCut_bp.mac
-/run/setCut 0.001 mm
+/run/setCut 1 mm
 #/control/execute {MYG4SIMROOT}/configure/setCut_A9.mac
 #/control/execute {MYG4SIMROOT}/configure/setCut_vis.mac
 #/g4sim/event/printModulo            1
@@ -12,4 +12,4 @@
 #/stacking/add_white_list 2112
 #/stacking/set_no_sec 1
 #/run/beamOn 5732
-/run/beamOn 1000
+/run/beamOn 100
