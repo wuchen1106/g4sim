@@ -235,14 +235,26 @@ void PrimaryGeneratorAction::SetUniformDirection(){
 }
 
 void PrimaryGeneratorAction::SetRandomEnergy(){
-	G4double dE=0;
-	if(PositionMode=="gRand"){
-		dE=G4RandGauss::shoot(0,EkinSpread);
+	if (EnergyType == 1){
+		G4double dE=0;
+		if(PositionMode=="gRand"){
+			dE=G4RandGauss::shoot(0,EkinSpread);
+		}
+		else{
+			dE=2.*(G4UniformRand()-0.5)*EkinSpread;
+		}
+		particleGun->SetParticleEnergy(Ekin+dE);
 	}
-	else{
-		dE=2.*(G4UniformRand()-0.5)*EkinSpread;
+	else if (EnergyType == 0 ){
+		G4double dMom=0;
+		if(PositionMode=="gRand"){
+			dMom=G4RandGauss::shoot(0,MomSpread);
+		}
+		else{
+			dMom=2.*(G4UniformRand()-0.5)*MomSpread;
+		}
+		particleGun->SetParticleMomentum(Pa+MomSpread);
 	}
-	particleGun->SetParticleEnergy(Ekin+dE);
 }
 
 void PrimaryGeneratorAction::SetRandomPosition(){
@@ -493,6 +505,10 @@ void PrimaryGeneratorAction::ReadCard(G4String file_name){
 			Pa *= MeV;
 			EnergyType = 0;
 		}
+		else if ( keyword == "MomSpread:" ){
+			buf_card>>MomSpread;
+			MomSpread *= MeV;
+		}
 		else if ( keyword == "Ekin:" ){
 			buf_card>>Ekin;
 			Ekin *= MeV;
@@ -589,11 +605,14 @@ void PrimaryGeneratorAction::Dump(){
 	std::cout<<"Particle:                                     "<<ParticleName<<std::endl;
 	}
 	std::cout<<"Default Momentum Direction: theta =           "<<Theta/deg<<"deg, phi = "<<Phi/deg<<"deg"<<std::endl;
-	if (EnergyType==0)
+	if (EnergyType==0){
 	std::cout<<"Default Momentum Amplitude:                   "<<Pa/MeV<<"MeV"<<std::endl;
-	else if (EnergyType==1)
+	std::cout<<"Default Momentum Spread(MeV/c):               ("<<MomSpread/MeV<<std::endl;
+	}
+	else if (EnergyType==1){
 	std::cout<<"Default Kinetic Energy:                       "<<Ekin/MeV<<"MeV"<<std::endl;
 	std::cout<<"Default Energy Spread(MeV):                   ("<<EkinSpread/MeV<<std::endl;
+	}
 	std::cout<<"Default Position(cm):                         ("<<x/cm<<", "<<y/cm<<", "<<z/cm<<")"<<std::endl;
 	std::cout<<"Default Position Spread(cm):                  ("<<xSpread/cm<<", "<<ySpread/cm<<", "<<zSpread/cm<<")"<<std::endl;
 	std::cout<<"Default Time(ns):                             ("<<t/ns<<std::endl;

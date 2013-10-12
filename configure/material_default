@@ -21,9 +21,11 @@ TYPE Simple_Materials
 	Helium      2.  4.002602   1.786e-4       1
 	Boron       5   10.811     2.08           1
 	Aluminium   13  26.9815386 2.7            1
+	Silicon     14  28.085     2.329          1
 	Iron        26  55.845     7.874          1
 	Steel       26  55.845     7.874          1
 	Copper      29  63.546     8.960          1 
+	Germanium   32  72.630     5.323          1 
 	Strontium   38  87.62      2.64           1 
 	Tungsten    74  183.84     19.3           1
 	Lead        82  207.2      11.35          1

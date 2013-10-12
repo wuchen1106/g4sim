@@ -82,6 +82,7 @@ private:
 	G4double                   Theta,Phi;
 	G4double                   x,y,z,t;
 	G4double                   xSpread,ySpread,zSpread;
+	G4double                   MomSpread;
 	G4double                   EkinSpread;
 	G4String                   EnergyMode;
 	G4String                   PositionMode;
