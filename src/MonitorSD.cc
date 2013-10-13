@@ -89,6 +89,7 @@ void MonitorSD::Initialize(G4HCofThisEvent* HCE)
 	m_ovolName.clear();
 	m_tid.clear();
 	m_pid.clear();
+	m_particleName.clear();
 	m_charge.clear();
 	m_stopped.clear();
 	m_stop_time.clear();

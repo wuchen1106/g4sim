@@ -67,6 +67,7 @@ DumpMonitor_SECTION
 	ptid
 	tid
 	pid
+	particleName
 #	charge
 #	stopped
 #	stop_time      ns
@@ -92,5 +93,5 @@ TRIGGERSECTION
 	minTriggerHits    -1           // minimum required Trigger nHits. Would be set invalid if minTriggerHits = -1
 	minEleMom         -1  MeV      // minimum required Electron momentum. Would be set invalid if minEleMom = -1 MeV
 	minAntipNum       -1           // minimum required Anti-Proton number. Would be set invalid if minAntipNum = -1
-	minTracks          2           // minimum required McTruth track number. Would be set invalid if minTracks = -1
+	minTracks         -1           // minimum required McTruth track number. Would be set invalid if minTracks = -1
 TRIGGERSECTION
