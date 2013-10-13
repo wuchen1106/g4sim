@@ -129,7 +129,6 @@ void MonitorSD::SetBranch(){
 	if( flag_tid ) myRoot->SetBranch(volName+"_tid", &m_tid);
 	if( flag_pid ) myRoot->SetBranch(volName+"_pid", &m_pid);
 	if( flag_particleName ) myRoot->SetBranch(volName+"_particleName", &m_particleName);
-	if( flag_particleName ) myRoot->SetBranch(volName+"_particleName", &m_particleName);
 	if( flag_charge ) myRoot->SetBranch(volName+"_charge", &m_charge);
 	if( flag_stopped ) myRoot->SetBranch(volName+"_stopped", &m_stopped);
 	if( flag_stop_time ) myRoot->SetBranch(volName+"_stop_time", &m_stop_time);
