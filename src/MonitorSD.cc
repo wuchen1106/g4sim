@@ -128,6 +128,8 @@ void MonitorSD::SetBranch(){
 	if( flag_ovolName) myRoot->SetBranch(volName+"_ovolName", &m_ovolName);
 	if( flag_tid ) myRoot->SetBranch(volName+"_tid", &m_tid);
 	if( flag_pid ) myRoot->SetBranch(volName+"_pid", &m_pid);
+	if( flag_particleName ) myRoot->SetBranch(volName+"_particleName", &m_particleName);
+	if( flag_particleName ) myRoot->SetBranch(volName+"_particleName", &m_particleName);
 	if( flag_charge ) myRoot->SetBranch(volName+"_charge", &m_charge);
 	if( flag_stopped ) myRoot->SetBranch(volName+"_stopped", &m_stopped);
 	if( flag_stop_time ) myRoot->SetBranch(volName+"_stop_time", &m_stop_time);
@@ -206,6 +208,7 @@ void MonitorSD::ReadOutputCard(G4String filename){
 			else if( name == "ovolName" ) {flag_ovolName = true;}
 			else if( name == "tid" ) {flag_tid = true;}
 			else if( name == "pid" ) {flag_pid = true;}
+			else if( name == "particleName" ) flag_particleName = true;
 			else if( name == "charge" ) {flag_charge = true;}
 			else if( name == "stopped" ) {flag_stopped = true;}
 			else if( name == "stop_time" ) {{flag_stop_time = true; buf_card>>unitName_stop_time; unit_stop_time = MyString2Anything::get_U(unitName_stop_time);}}
@@ -309,6 +312,7 @@ void MonitorSD::ReSet(){
 	flag_ovolName = false;
 	flag_tid = false;
 	flag_pid = false;
+	flag_particleName = false;
 	flag_charge = false;
 	flag_stopped = false;
 	flag_stop_time = false;
@@ -398,6 +402,7 @@ void MonitorSD::ShowOutCard(){
 	std::cout<<"output ovolName?"<<(flag_ovolName?" yes":" no")<<std::endl;
 	std::cout<<"output tid?     "<<(flag_tid?" yes":" no")<<std::endl;
 	std::cout<<"output pid?     "<<(flag_pid?" yes":" no")<<std::endl;
+	std::cout<<"output particleName?  "<<(flag_particleName?" yes":" no")<<std::endl;
 	std::cout<<"output charge?  "<<(flag_charge?" yes":" no")<<std::endl;
 	std::cout<<"output stopped? "<<(flag_stopped?" yes":" no")<<std::endl;
 	std::cout<<"output stop_time?"<<(flag_stop_time?" yes":" no")<<", unit: "<<unitName_stop_time<<std::endl;
@@ -441,6 +446,7 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	G4int trackID= aTrack->GetTrackID(); //G4 track ID of current track.
 	G4int charge = aTrack->GetDefinition()->GetPDGCharge();
 	G4int pid = aTrack->GetDefinition()->GetPDGEncoding();
+	std::string particleName = aTrack->GetParticleDefinition()->GetParticleName();
 
 	// get information at the beginning and at the end of step
 	G4StepPoint* prePoint  = aStep->GetPreStepPoint() ;
@@ -593,6 +599,7 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		m_volName.push_back(VolName);
 		m_tid.push_back(trackID);
 		if(flag_pid) m_pid.push_back(pid);
+		if(flag_particleName) m_particleName.push_back(particleName);
 		if(flag_charge) m_charge.push_back(charge);
 		if(flag_stopped) m_stopped.push_back(stopped); // always false unless stopped at the first step
 		if(flag_killed) m_killed.push_back(killed); // always false unless killed at the first step

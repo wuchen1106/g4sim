@@ -139,6 +139,7 @@ class MonitorSD : public MySD
 		std::vector<std::string>    m_ovolName;
 		std::vector<int>    m_tid;
 		std::vector<int>    m_pid;
+		std::vector<std::string>    m_particleName;
 		std::vector<int>    m_charge;
 		std::vector<int>    m_stopped;
 		std::vector<double> m_stop_time;
@@ -211,6 +212,7 @@ class MonitorSD : public MySD
 		bool flag_ovolName;
 		bool flag_tid;
 		bool flag_pid;
+		bool flag_particleName;
 		bool flag_charge;
 		bool flag_stopped;
 		bool flag_stop_time;
