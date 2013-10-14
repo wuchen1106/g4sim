@@ -40,18 +40,11 @@
 #include "G4EnergyLossTables.hh"
 #include "G4ProductionCutsTable.hh"
 #include "G4ParticleDefinition.hh"
-
+#include "G4LossTableManager.hh"
 
 #include "G4EmCalculator.hh"
-#include "G4ParticleDefinition.hh"
 #include "G4ParticleTable.hh"
 #include "G4VPhysicalVolume.hh"
-#include "G4ParticleTable.hh"
-#include "G4ParticleDefinition.hh"
-#include "G4ProductionCutsTable.hh"
-#include "G4LossTableManager.hh"
-#include "G4UnitsTable.hh"
-#include "G4SystemOfUnits.hh"
 
 #include "DetectorConstruction.hh"
 #include "MyGlobalField.hh"
@@ -102,10 +95,11 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
         }
     }
 
+//#################################################################################333	
 	//Print dE/dx tables with binning identical to the Geant3 JMATE bank.
 	//The printout is readable as Geant3 ffread data cards (by the program g4mat).
 	//
-	const G4double tkmin=10*keV, tkmax=200*MeV;
+	const G4double tkmin=10*keV, tkmax=20*GeV;
 	const G4int nbin=100;
 	G4double tk[nbin];
 
@@ -130,6 +124,7 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
 
 	G4ParticleDefinition*
 		part = G4ParticleTable::GetParticleTable()->FindParticle("e-");
+	//		part = G4ParticleTable::GetParticleTable()->FindParticle("mu-");
 
 	G4ProductionCutsTable* theCoupleTable =
 		G4ProductionCutsTable::GetProductionCutsTable();
@@ -156,6 +151,8 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
 
 	G4cout.precision(prec);
 	G4cout.setf(mode,std::ios::floatfield);
+//#################################################################################333	
+
 
 }
 

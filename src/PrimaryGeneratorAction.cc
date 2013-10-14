@@ -194,7 +194,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 		//	     <<std::endl;
 		particleGun->SetParticlePosition(G4ThreeVector(root_double[0] * mm, root_double[1] * mm, (root_double[2])*mm));
 	}
-	else if ( PositionMode == "gRand" || PositionMode == "uRand" ){
+	else if ( PositionMode == "gRand" || PositionMode == "sRand" || PositionMode == "bRand" ){
 		SetRandomPosition();
 	}
 	else if ( PositionMode != "none" ){
@@ -237,7 +237,7 @@ void PrimaryGeneratorAction::SetUniformDirection(){
 void PrimaryGeneratorAction::SetRandomEnergy(){
 	if (EnergyType == 1){
 		G4double dE=0;
-		if(PositionMode=="gRand"){
+		if(EnergyMode=="gRand"){
 			dE=G4RandGauss::shoot(0,EkinSpread);
 		}
 		else{
@@ -247,7 +247,7 @@ void PrimaryGeneratorAction::SetRandomEnergy(){
 	}
 	else if (EnergyType == 0 ){
 		G4double dMom=0;
-		if(PositionMode=="gRand"){
+		if(EnergyMode=="gRand"){
 			dMom=G4RandGauss::shoot(0,MomSpread);
 		}
 		else{
@@ -270,13 +270,18 @@ void PrimaryGeneratorAction::SetRandomPosition(){
 		dy=G4RandGauss::shoot(0,ySpread);
 		dz=G4RandGauss::shoot(0,zSpread);
 	}
-	else{
+	else if (PositionMode=="sRand"){
 		do {
 			if (xSpread) {dx=2.*(G4UniformRand()-0.5)*xSpread;dx2 = dx*dx/xSpread/xSpread;} 
 			if (ySpread) {dy=2.*(G4UniformRand()-0.5)*ySpread;dy2 = dy*dy/ySpread/ySpread;} 
 			if (zSpread) {dz=2.*(G4UniformRand()-0.5)*zSpread;dz2 = dz*dz/zSpread/zSpread;} 
 			if (dx2+dy2+dz2<=1.) gotit = true;
 		} while (!gotit);
+	}
+	else if (PositionMode=="bRand"){
+		if (xSpread) dx=2.*(G4UniformRand()-0.5)*xSpread;
+		if (ySpread) dy=2.*(G4UniformRand()-0.5)*ySpread;
+		if (zSpread) dz=2.*(G4UniformRand()-0.5)*zSpread;
 	}
 	particleGun->SetParticlePosition(G4ThreeVector(x+dx,y+dy,z+dz));
 }

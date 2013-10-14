@@ -30,7 +30,7 @@
 #/vis/viewer/set/lightsThetaPhi 90 180
 
 /vis/viewer/set/background 1 1 1
-/vis/viewer/set/culling coveredDaughters
+#/vis/viewer/set/culling coveredDaughters
 /vis/viewer/set/edge 0
 /vis/viewer/set/lineSegmentsPerCircle 50
 /vis/viewer/set/projection o
@@ -85,7 +85,8 @@
 #/stacking/add_white_list -211
 #/stacking/add_white_list 2212
 #/g4sim/myAnalysisSvc/set_maxT 170000 ns
-/run/setCut 1 mm
+/run/setCut 0.001 mm
+/g4sim/myAnalysisSvc/set_ofile_name /home/chen/MyWorkArea/g4sim/output/test.root
 #/run/setCut 0.5 mm
 #/run/beamOn 100
 #/vis/ogl/printEPS

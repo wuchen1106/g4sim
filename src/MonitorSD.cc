@@ -468,6 +468,8 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 
 	// get step info
 	G4double edep = aStep->GetTotalEnergyDeposit();
+	//G4double edepNonIoni = aStep->GetNonIonizingEnergyDeposit();
+	//G4double edepIoni = edep - edepNonIoni;
 	G4double stepL = aStep->GetStepLength();
 
 	//*************************filter***********************
