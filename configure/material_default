@@ -22,6 +22,7 @@ TYPE Simple_Materials
 	Boron       5   10.811     2.08           1
 	Aluminium   13  26.9815386 2.7            1
 	Silicon     14  28.085     2.329          1
+	Argon       18  39.948     1.784e-3       1
 	Iron        26  55.845     7.874          1
 	Steel       26  55.845     7.874          1
 	Copper      29  63.546     8.960          1 
@@ -61,5 +62,6 @@ TYPE Mixture_Materials
 TYPE VolMix_Materials
 # Mix materials with atom number fraction
 #	name           rel_dens  ncomponents material  volFrac
+	GasArgEthane   1         2           Ethane    0.5      Argon  0.5
 	ChamberGas     1         2           Ethane    0.5      Helium 0.5
 	ChamberGas9010 1         2           Isobutane 0.1      Helium 0.9
