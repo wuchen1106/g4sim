@@ -4,50 +4,70 @@
 #Tubs info
 #	Type No  RMin   RMax   Length   StartAng SpanAng Name                  MotVolume          Material      SDName    posX posY posZ  RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
 #	         mm     mm     mm       deg      deg                                                                      mm   mm   mm          mm         deg    deg    deg    deg    deg   
-	T    0   150    155    380      0        360     bsVChamShell
-	T    0   0      155    380      0        360     bsVChamSolid
-	T    0   55     60     100      0        360     bsPort1Shell
-	T    0   55     60     100      0        360     bsPort2Shell
-	T    0   0      60     100      0        360     bsPort1Solid
-	T    0   0      60     100      0        360     bsPort2Solid
+	T    0   0      162    382      0        360     tubChamber  
+	T    0   0      182.4  31.75    0        360     tubChamberCover
+	T    0   0      57.25  127      0        360     tubBeamPort 
+	T    0   0      86     330.2    0        360     tubDetectorPort
+	T    0   0      46     88.9     0        360     tubURPort   
+	T    0   0      46     222.25   0        360     tubULPort   
+	T    0   0      46     177.8    0        360     tubDRPort   
+	T    0   0      46     82.55    0        360     tubLowerPort
+	T    0   0      36     88.9     0        360     cutURPort   
+	T    0   0      36     222.25   0        360     cutULPort   
+	T    0   0      36     177.8    0        360     cutDRPort   
+	T    0   0      36     82.55    0        360     cutLowerPort
+	T    0   0      51     129      0        360     cutBeamPort 
+	T    0   0      76     332.2    0        360     cutDetectorPort
+	T    0   0      157    380      0        360     cutChamber  
+	T    0   0      52     0.075    0        360     BeamWindow            World              Mylar         none      0    0 -225.463 1     0          0      0      0      0      0
 
 #BooelanSolid info
-#	Type No  type     vol1         vol2         Ephi    Etheta  Epsi   PosX    PosY    PosZ    name          MotVolume       Material      SDName    posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
-#	                                            deg     deg     deg    mm      mm      mm                                                            mm   mm   mm         mm         deg    deg    deg    deg    deg   
-	BL   0   minus    bsVChamShell bsPort1Solid 270     90      0      -155    0       80      bsVCham0
-	BL   1   minus    bsVCham0     bsPort2Solid 0       90      0      0       -155    80      VacCham       World           Steel         none      0    0    0    1     0          0      0      0      0      0
-	BL   2   minus    bsPort1Shell bsVChamSolid 0       90      0      0       0       -155    VacChamPort1  World           Steel         none      -155 0    80   1     0          0      0      270    90     0
-	BL   3   minus    bsPort2Shell bsVChamSolid 0       90      0      0       0       -155    VacChamPort2  World           Steel         none      0    -155 80   1     0          0      0      0      90     0
+#	Type No  type     vol1                   vol2            Ephi    Etheta  Epsi   PosX    PosY    PosZ    name               MotVolume       Material      SDName    posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
+#	                                                         deg     deg     deg    mm      mm      mm                                                                 mm   mm   mm         mm         deg    deg    deg    deg    deg   
+	BL   0   plus     tubChamber             tubChamberCover 0       0       0      0       0       190     uniChamberCoverTop
+	BL   1   plus     uniChamberCoverTop     tubBeamPort     0      -90      0      0       162     80      uniChamberBeamPort
+	BL   2   plus     uniChamberBeamPort     tubDetectorPort -135    90      0      114.551 -114.551 80     uniChamberDetectorPort
+	BL   3   plus     uniChamberDetectorPort tubURPort       45      90      0     -114.551 114.551 80      uniChamberURPort
+	BL   3   plus     uniChamberURPort       tubULPort       -45     90      0      114.551 114.551 80      uniChamberULPort
+	BL   3   plus     uniChamberULPort       tubDRPort       135     90      0     -114.551 -114.551 80     uniChamberDRPort
+	BL   3   plus     uniChamberDRPort       tubLowerPort    135     90      0     -114.551 -114.551 -49    uniChamberLowerPort
+	BL   3   minus    uniChamberLowerPort    cutURPort       45      90      0     -107.48  107.48  80      subURPort       
+	BL   3   minus    subURPort              cutULPort       -45     90      0      107.48  107.48  80      subULPort       
+	BL   3   minus    subULPort              cutDRPort       135     90      0     -107.48  -107.48  80     subDRPort
+	BL   3   minus    subDRPort              cutLowerPort    135     90      0     -107.48  -107.48  -49    subLowerPort
+	BL   1   minus    subLowerPort           cutBeamPort     0      -90      0      0       162     80      subBeamPort       
+	BL   2   minus    subBeamPort            cutDetectorPort -135    90      0      114.551 -114.551 80     subDetectorPort       
+	BL   2   minus    subDetectorPort        cutChamber      0       0       0      0       0       0       Chamber            World           Steel         none      0    -80  0    1     0          0      0      0      90     0
 
 #Tubs info
 #	Type No  RMin   RMax   Length   StartAng SpanAng Name                  MotVolume          Material      SDName    posX posY posZ  RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
 #	         mm     mm     mm       deg      deg                                                                      mm   mm   mm          mm         deg    deg    deg    deg    deg   
-	T    0   0      55     0.2      0        360     Window1               World              Mylar         none      -155 0    80    1     0          0      0      270    90     0
-	T    0   0      55     0.2      0        360     Window2               World              Mylar         none      0    -155 80    1     0          0      0      0      90     0
-	T    0   0      150    10       0        360     VacChamBottom         World              Steel         none      0    0    -185  1     0          0      0      0      0      0
-	T    0   0      15     30       0        360     GeDetector            World              Germanium     MonitorSD 0    -225 80    1     0          0      0      0      90     0
+#	T    0   0      55     0.2      0        360     Window1               World              Mylar         none      -155 0    80    1     0          0      0      270    90     0
+#	T    0   0      55     0.2      0        360     Window2               World              Mylar         none      0    -155 80    1     0          0      0      0      90     0
+#	T    0   0      150    10       0        360     VacChamBottom         World              Steel         none      0    0    -185  1     0          0      0      0      0      0
+#	T    0   0      15     30       0        360     GeDetector            World              Germanium     MonitorSD 0    -225 80    1     0          0      0      0      90     0
 
 #Box info
 #	Type No  x       y       z     Name             MotVolume Material      SDName     posX   posY   posZ   RepNo Space DirTheta DirPhi Ephi Etheta Epsi
 #	         mm      mm      mm                                                        mm     mm     mm           mm    deg      deg    deg  deg    deg
-	B    0   50      50      5     DEDXPack1        World     Vacuum        none       77.78  77.78  80     1     0     0        0      -45  90     0
-	B    0   50      50      0.065 DECounter1       DEDXPack1 Silicon       MonitorSD  0      0      0.0325 1     0     0        0      0    0      0
-	B    0   50      50      1.5   ECounter1        DEDXPack1 Silicon       MonitorSD  0      0     -0.75   1     0     0        0      0    0      0
-	B    0   50      50      1     CPVeto1          DEDXPack1 Scintillator  MonitorSD  0      0     -2      1     0     0        0      0    0      0
-	B    0   50      50      5     DEDXPack2        World     Vacuum        none      -77.78 -77.78  80     1     0     0        0      135  90     0
-	B    0   50      50      0.065 DECounter2       DEDXPack2 Silicon       MonitorSD  0      0      0.0325 1     0     0        0      0    0      0
-	B    0   50      50      1.5   ECounter2        DEDXPack2 Silicon       MonitorSD  0      0     -0.75   1     0     0        0      0    0      0
-	B    0   50      50      1     CPVeto2          DEDXPack2 Scintillator  MonitorSD  0      0     -2      1     0     0        0      0    0      0
-	B    0   50      50      0.2   Target           World     Aluminium     MonitorSD  0      0      80     1     0     0        0      -45  90     0
-	B    0   50      50      0.5   BeamCounter      World     Scintillator  MonitorSD  -210   0      80     1     0     0        0      90   90     0
-	B    0   50      50      0.5   MVetoCounter     World     Scintillator  MonitorSD  140    0      80     1     0     0        0      90   90     0
-	B    0   50      50      2     LeadShield       World     Lead          none       -25    50     80     1     0     0        0      90   90     0
+#	B    0   50      50      5     DEDXPack1        World     Vacuum        none       77.78  77.78  80     1     0     0        0      -45  90     0
+#	B    0   50      50      0.065 DECounter1       DEDXPack1 Silicon       MonitorSD  0      0      0.0325 1     0     0        0      0    0      0
+#	B    0   50      50      1.5   ECounter1        DEDXPack1 Silicon       MonitorSD  0      0     -0.75   1     0     0        0      0    0      0
+#	B    0   50      50      1     CPVeto1          DEDXPack1 Scintillator  MonitorSD  0      0     -2      1     0     0        0      0    0      0
+#	B    0   50      50      5     DEDXPack2        World     Vacuum        none      -77.78 -77.78  80     1     0     0        0      135  90     0
+#	B    0   50      50      0.065 DECounter2       DEDXPack2 Silicon       MonitorSD  0      0      0.0325 1     0     0        0      0    0      0
+#	B    0   50      50      1.5   ECounter2        DEDXPack2 Silicon       MonitorSD  0      0     -0.75   1     0     0        0      0    0      0
+#	B    0   50      50      1     CPVeto2          DEDXPack2 Scintillator  MonitorSD  0      0     -2      1     0     0        0      0    0      0
+#	B    0   50      50      0.2   Target           World     Aluminium     MonitorSD  0      0      80     1     0     0        0      -45  90     0
+#	B    0   50      50      0.5   BeamCounter      World     Scintillator  MonitorSD  -210   0      80     1     0     0        0      90   90     0
+#	B    0   50      50      0.5   MVetoCounter     World     Scintillator  MonitorSD  140    0      80     1     0     0        0      90   90     0
+#	B    0   50      50      2     LeadShield       World     Lead          none       -25    50     80     1     0     0        0      90   90     0
 
 #visual settings
 	VerboseLevel:    5
 	VISSETTING  #Keep this line to call Reset
 #	Name                        red    green  blue  
-	vis_VacCham                 0      0      1
+	vis_Chamber                 0      0      1
 	vis_VacChamPort1            0      0      1
 	vis_VacChamPort2            0      0      1
 	vis_VacChamBottom           0      0      1

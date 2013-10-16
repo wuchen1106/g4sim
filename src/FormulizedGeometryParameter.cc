@@ -387,10 +387,13 @@ int FormulizedGeometryParameter::GetValue(G4String s_card){
 				if( name == buf_temp.str() ){
 					set_vis(i,true);
 					G4double vTr, vTg, vTb;
-					buf_card>>vTr>>vTg>>vTb;
+					G4double vTT = 0;
+					buf_card>>vTr>>vTg>>vTb>>vTT;
+					if (!vTT) vTT = 1;
 					set_r(i,vTr);
 					set_g(i,vTg);
 					set_b(i,vTb);
+					set_t(i,vTT);
 					foundornot = true;
 					break; // got the parameter, go to next line
 				}

@@ -13,15 +13,17 @@
 	T    3   120    129.99  160     270      180     BLTShellCU22     BLTCDC          Copper     none      0    0 -2354.6  1     0     0      0      0      0      0     
 	T    3   120    280     20      90       180     BLTShellEU1      BLTCDC          Copper     none      0    0 -2444.6  1     0     0      0      0      0      0     
 	T    3   120    280     20      270      180     BLTShellEU2      BLTCDC          Copper     none      0    0 -2444.6  1     0     0      0      0      0      0     
-	T    12  0      129.99  1000    90       180     BLTCollimator1   BLTCDC          Copper     none      0    0 -1774.6  1     0     0      0      0      0      0     
-	T    12  0      129.99  1000    270      180     BLTCollimator2   BLTCDC          Copper     none      0    0 -1774.6  1     0     0      0      0      0      0     
-	T    13  0      120     1000    90       180     BLTCHole1        BLTCollimator1  Vacuum     none      0    0    0     1     0     0      0      0      0      0     
-	T    13  0      120     1000    270      180     BLTCHole2        BLTCollimator2  Vacuum     none      0    0    0     1     0     0      0      0      0      0     
-#	T    13  0      140     1000    0        360     BLTCHole0 
+	T    12  0      129.99  1000    90       180     BLTCollimator1
+	T    12  0      129.99  1000    270      180     BLTCollimator2
+#	T    12  0      129.99  1000    90       180     BLTCollimator1   BLTCDC          Copper     none      0    0 -1774.6  1     0     0      0      0      0      0     
+#	T    12  0      129.99  1000    270      180     BLTCollimator2   BLTCDC          Copper     none      0    0 -1774.6  1     0     0      0      0      0      0     
+#	T    13  0      120     1000    90       180     BLTCHole1        BLTCollimator1  Vacuum     none      0    0    0     1     0     0      0      0      0      0     
+#	T    13  0      120     1000    270      180     BLTCHole2        BLTCollimator2  Vacuum     none      0    0    0     1     0     0      0      0      0      0     
+	T    13  0      120     1001    0        360     BLTCHole
 	T    3   450    470     524.6   90       180     CDCShellCU1      BLTCDC          Copper     none      0    0 -1012.3  1     0     0      0      0      0      0     
 	T    3   450    470     524.6   270      180     CDCShellCU2      BLTCDC          Copper     none      0    0 -1012.3  1     0     0      0      0      0      0     
-	T    3   200    450     20      90       180     CDCShellEU1      BLTCDC          Copper     none      0    0 -1264.6  1     0     0      0      0      0      0     
-	T    3   200    450     20      270      180     CDCShellEU2      BLTCDC          Copper     none      0    0 -1264.6  1     0     0      0      0      0      0     
+	T    3   129.99 450     20      90       180     CDCShellEU1      BLTCDC          Copper     none      0    0 -1264.6  1     0     0      0      0      0      0     
+	T    3   129.99 450     20      270      180     CDCShellEU2      BLTCDC          Copper     none      0    0 -1264.6  1     0     0      0      0      0      0     
 
 #	Coil
 	T    5   400    450     355.9   90       180     TS3Coil1         BLTCDC          Copper     none      0    0 -2612.55 1     0     0      0      0      0      0     
@@ -70,6 +72,8 @@
 #	Type No  type     vol1         vol2         Ephi    Etheta  Epsi   PosX    PosY    posZ    name          MotVolume       Material      SDName    posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
 #	                                            deg     deg     deg    mm      mm      mm                                                            mm   mm   mm         mm         deg    deg    deg    deg    deg   
 #	BL   0   minus    BLTCHole0    BLTCYMin     0       0       0      0       -800    0       BLTCHole      BLTCollimator   Vacuum        none      0    0    0    1     0          0      0      0      0      0     
+	BL   0   minus    BLTCollimator1 BLTCHole   0       0       0      0       0       0     BLTCollimator11 BLTCDC          Copper        none      0    0 -1774.6 1     0          0      0      0      0      0     
+	BL   0   minus    BLTCollimator2 BLTCHole   0       0       0      0       0       0     BLTCollimator12 BLTCDC          Copper        none      0    0 -1774.6 1     0          0      0      0      0      0     
 
 #visual settings
 	VerboseLevel:    5
@@ -85,7 +89,8 @@
 	vis_BLTShellEU2       0.5    0.5    0.5
 #	vis_BLTShellCD        0.5    0.5    0.5
 #	vis_BLTCollimator1    0.5    0.5    0.5
-	vis_BLTCollimator2    0.5    0.5    0.5
+#	vis_BLTCollimator11   0.5    0.5    0.5
+	vis_BLTCollimator12   0.5    0.5    0.5
 #	vis_BLTCHole1         1      1      1
 	vis_BLTCHole2         1      1      1
 #	vis_CDCShellCU1       0.5    0.5    0.5

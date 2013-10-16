@@ -1,0 +1,66 @@
+#general info
+	checkoverlap
+
+#Tubs info
+#	Type No  RMin   RMax   Length   StartAng SpanAng Name                  MotVolume          Material      SDName    posX posY posZ  RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
+#	         mm     mm     mm       deg      deg                                                                      mm   mm   mm          mm         deg    deg    deg    deg    deg   
+	T    0   150    155    380      0        360     bsVChamShell
+	T    0   0      155    380      0        360     bsVChamSolid
+	T    0   55     60     100      0        360     bsPort1Shell
+	T    0   55     60     100      0        360     bsPort2Shell
+	T    0   0      60     100      0        360     bsPort1Solid
+	T    0   0      60     100      0        360     bsPort2Solid
+
+#BooelanSolid info
+#	Type No  type     vol1         vol2         Ephi    Etheta  Epsi   PosX    PosY    PosZ    name          MotVolume       Material      SDName    posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
+#	                                            deg     deg     deg    mm      mm      mm                                                            mm   mm   mm         mm         deg    deg    deg    deg    deg   
+	BL   0   minus    bsVChamShell bsPort1Solid 270     90      0      -155    0       80      bsVCham0
+	BL   1   minus    bsVCham0     bsPort2Solid 0       90      0      0       -155    80      VacCham       World           Steel         none      0    0    0    1     0          0      0      0      0      0
+	BL   2   minus    bsPort1Shell bsVChamSolid 0       90      0      0       0       -155    VacChamPort1  World           Steel         none      -155 0    80   1     0          0      0      270    90     0
+	BL   3   minus    bsPort2Shell bsVChamSolid 0       90      0      0       0       -155    VacChamPort2  World           Steel         none      0    -155 80   1     0          0      0      0      90     0
+
+#Tubs info
+#	Type No  RMin   RMax   Length   StartAng SpanAng Name                  MotVolume          Material      SDName    posX posY posZ  RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
+#	         mm     mm     mm       deg      deg                                                                      mm   mm   mm          mm         deg    deg    deg    deg    deg   
+	T    0   0      55     0.2      0        360     Window1               World              Mylar         none      -155 0    80    1     0          0      0      270    90     0
+	T    0   0      55     0.2      0        360     Window2               World              Mylar         none      0    -155 80    1     0          0      0      0      90     0
+	T    0   0      150    10       0        360     VacChamBottom         World              Steel         none      0    0    -185  1     0          0      0      0      0      0
+	T    0   0      15     30       0        360     GeDetector            World              Germanium     MonitorSD 0    -225 80    1     0          0      0      0      90     0
+
+#Box info
+#	Type No  x       y       z     Name             MotVolume Material      SDName     posX   posY   posZ   RepNo Space DirTheta DirPhi Ephi Etheta Epsi
+#	         mm      mm      mm                                                        mm     mm     mm           mm    deg      deg    deg  deg    deg
+	B    0   50      50      5     DEDXPack1        World     Vacuum        none       77.78  77.78  80     1     0     0        0      -45  90     0
+	B    0   50      50      0.065 DECounter1       DEDXPack1 Silicon       MonitorSD  0      0      0.0325 1     0     0        0      0    0      0
+	B    0   50      50      1.5   ECounter1        DEDXPack1 Silicon       MonitorSD  0      0     -0.75   1     0     0        0      0    0      0
+	B    0   50      50      1     CPVeto1          DEDXPack1 Scintillator  MonitorSD  0      0     -2      1     0     0        0      0    0      0
+	B    0   50      50      5     DEDXPack2        World     Vacuum        none      -77.78 -77.78  80     1     0     0        0      135  90     0
+	B    0   50      50      0.065 DECounter2       DEDXPack2 Silicon       MonitorSD  0      0      0.0325 1     0     0        0      0    0      0
+	B    0   50      50      1.5   ECounter2        DEDXPack2 Silicon       MonitorSD  0      0     -0.75   1     0     0        0      0    0      0
+	B    0   50      50      1     CPVeto2          DEDXPack2 Scintillator  MonitorSD  0      0     -2      1     0     0        0      0    0      0
+	B    0   50      50      0.2   Target           World     Aluminium     MonitorSD  0      0      80     1     0     0        0      -45  90     0
+	B    0   50      50      0.5   BeamCounter      World     Scintillator  MonitorSD  -210   0      80     1     0     0        0      90   90     0
+	B    0   50      50      0.5   MVetoCounter     World     Scintillator  MonitorSD  140    0      80     1     0     0        0      90   90     0
+	B    0   50      50      2     LeadShield       World     Lead          none       -25    50     80     1     0     0        0      90   90     0
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name                        red    green  blue  
+	vis_VacCham                 0      0      1
+	vis_VacChamPort1            0      0      1
+	vis_VacChamPort2            0      0      1
+	vis_VacChamBottom           0      0      1
+	vis_Window1                 1      1      0 
+	vis_Window2                 1      1      0 
+	vis_DECounter1              0.5    0      1 
+	vis_ECounter1               1      1      0 
+	vis_CPVeto1                 0      1      0 
+	vis_DECounter2              0.5    0      1 
+	vis_ECounter2               1      1      0 
+	vis_CPVeto2                 0      1      0 
+	vis_Target                  1      0      0 
+	vis_BeamCounter             0      1      0 
+	vis_MVetoCounter            0      1      0 
+	vis_LeadShield              0.3    0.3    0.3
+	vis_GeDetector              0.5    0      1  

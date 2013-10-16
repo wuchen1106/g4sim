@@ -162,6 +162,7 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		G4double get_r(G4int VolId){if( check_VolId(VolId) ) return vR[VolId]; else return 0;}
 		G4double get_g(G4int VolId){if( check_VolId(VolId) ) return vG[VolId]; else return 0;}
 		G4double get_b(G4int VolId){if( check_VolId(VolId) ) return vB[VolId]; else return 0;}
+		G4double get_t(G4int VolId){if( check_VolId(VolId) ) return vT[VolId]; else return 0;}
 
 		//=>Modify
 		//General info for volume
@@ -256,11 +257,13 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		void set_r(G4String type, G4int i,G4double val) { int k = get_index(type, i); vR[k] = val;}
 		void set_g(G4String type, G4int i,G4double val) { int k = get_index(type, i); vG[k] = val;}
 		void set_b(G4String type, G4int i,G4double val) { int k = get_index(type, i); vB[k] = val;}
+		void set_t(G4String type, G4int i,G4double val) { int k = get_index(type, i); vT[k] = val;}
 
 		void set_vis(G4int i,bool val)   { vVis[i] = val;}
 		void set_r(G4int i,G4double val) { vR[i] = val;}
 		void set_g(G4int i,G4double val) { vG[i] = val;}
 		void set_b(G4int i,G4double val) { vB[i] = val;}
+		void set_t(G4int i,G4double val) { vT[i] = val;}
 
 	private:
 
@@ -533,7 +536,7 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 
 		//visual settings
 		std::vector<bool> vVis;
-		std::vector<G4double> vR, vG, vB;
+		std::vector<G4double> vR, vG, vB, vT;
 
 		//to control
 		bool notReSetVis;

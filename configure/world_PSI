@@ -10,4 +10,4 @@
 	VerboseLevel:    5
 	VISSETTING  #Keep this line to call Reset
 #	Name                 red    green  blue  
-	vis_World            0      0      1
+#	vis_World            0      0      1

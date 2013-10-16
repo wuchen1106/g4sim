@@ -62,7 +62,7 @@ G4VPhysicalVolume* FormulizedGeometrySvc::SetGeometry(){
 void FormulizedGeometrySvc::ConstructVolumes(){
 	SimpleGeometrySvc::ConstructVolumes();
 	bool vis;
-	double r, g, b;
+	double r, g, b, t;
 	std::stringstream buffer;
 	G4Material* pttoMaterial;
 	G4String name, mat_name, SDName; 
@@ -144,9 +144,10 @@ void FormulizedGeometrySvc::ConstructVolumes(){
 				r = m_GeometryParameter->get_r(i_Vol);
 				g = m_GeometryParameter->get_g(i_Vol);
 				b = m_GeometryParameter->get_b(i_Vol);
+				t = m_GeometryParameter->get_t(i_Vol);
 				G4VisAttributes* visAttributes = new G4VisAttributes;
 				visAttributes->SetVisibility(true);
-				visAttributes->SetColour(r,g,b);
+				visAttributes->SetColour(r,g,b,t);
 				log_Vol->SetVisAttributes(visAttributes);
 			}
 		}

@@ -73,7 +73,7 @@ G4VPhysicalVolume* SimpleGeometrySvc::SetGeometry(){
 void SimpleGeometrySvc::ConstructVolumes(){
 	MyVGeometrySvc::ConstructVolumes();
 	bool vis;
-	double r, g, b;
+	double r, g, b, t;
 	G4Material* pttoMaterial;
 
 	int nVol = m_GeometryParameter->get_VolNo();
@@ -232,9 +232,10 @@ void SimpleGeometrySvc::ConstructVolumes(){
 			r = m_GeometryParameter->get_r(i_Vol);
 			g = m_GeometryParameter->get_g(i_Vol);
 			b = m_GeometryParameter->get_b(i_Vol);
+			t = m_GeometryParameter->get_t(i_Vol);
 			G4VisAttributes* visAttributes = new G4VisAttributes;
 			visAttributes->SetVisibility(true);
-			visAttributes->SetColour(r,g,b);
+			visAttributes->SetColour(r,g,b,t);
 			log_Vol->SetVisAttributes(visAttributes);
 		}
 	}
