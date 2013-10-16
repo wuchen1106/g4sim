@@ -68,6 +68,7 @@
 	VISSETTING  #Keep this line to call Reset
 #	Name                        red    green  blue  
 	vis_Chamber                 0      0      1
+	vis_Window                  1      1      0     0.5
 	vis_VacChamPort1            0      0      1
 	vis_VacChamPort2            0      0      1
 	vis_VacChamBottom           0      0      1

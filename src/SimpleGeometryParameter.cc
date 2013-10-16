@@ -567,6 +567,7 @@ void SimpleGeometryParameter::ReSetVis() {
 	vR.resize(VolNo);
 	vG.resize(VolNo);
 	vB.resize(VolNo);
+	vT.resize(VolNo);
 	for ( G4int i = 0; i < VolNo; i++ ){
 		vVis[i] = false;
 	}
