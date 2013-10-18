@@ -37,17 +37,17 @@
 	B    0   100     100     8     bTgtBdShieldingHole 
 	B    0   122     122     7     TargetMount      World     Vacuum        none       0      0      0      1     0     0        0      90   45    -90
 	B    0   100     100     0.05  Target           TargetMount Aluminium   MonitorSD  0      0      0      1     0     0        0      0    0      0
-	B    0   50.1    50.1    5.565 DetBlock1        World     Vacuum        none    -84.8528  0   -84.8528  1     0     0        0      90   45    -90
+	B    0   51      51      5.565 DetBlock1        World     Vacuum        none    -84.8528  0   -84.8528  1     0     0        0      90   45    -90
 	B    0   50      50      1     VetoPS1          DetBlock1 Scintillator  none       0      0   -1.7825   1     0     0        0      0    0      0 
 	B    0   50      50      1.5   ESi1             DetBlock1 Silicon       none       0      0    0.4675   1     0     0        0      0    0      0 
 	B    0   50      50      0.065 dESi1            DetBlock1 Silicon       none       0      0     2.25    1     0     0        0      0    0      0 
-	B    0   50.1    50.1    5.565 DetBlock2        World     Vacuum        none     84.8528  0    84.8528  1     0     0        0      90   45    -90
+	B    0   51      51      5.565 DetBlock2        World     Vacuum        none     84.8528  0    84.8528  1     0     0        0      90   45    -90
 	B    0   50      50      1     VetoPS2          DetBlock2 Scintillator  none       0      0    1.7825   1     0     0        0      0    0      0 
 	B    0   50      50      1.5   ESi2             DetBlock2 Silicon       none       0      0   -0.4675   1     0     0        0      0    0      0 
 	B    0   50      50      0.065 dESi2            DetBlock2 Silicon       none       0      0    -2.25    1     0     0        0      0    0      0 
 	B    0   75      360     1     bUCollimatorLead
 	B    0   30      360     1     bUCollimatorSide
-	B    0   75      95      3     bUCollimatorPlastic
+	B    0   75      95      6     bUCollimatorPlastic
 	B    0   200     200     70    UpstreamTrigger  World     Air           none       0      0     -260.5  1     0     0        0      0    0      0 
 	B    0   50.1    50.1    35.2  MuPC     UpstreamTrigger   Air           none       0      0      12.4   1     0     0        0      0    0      0 
 	B    0   50      50      0.5   MuSC     UpstreamTrigger   Scintillator  none       0      0     -7.6    1     0     0        0      0    0      0 
@@ -84,12 +84,13 @@
 	BL   1   minus    subLowerPort           cutBeamPort            0      -90      0      0       162     80      subBeamPort       
 	BL   2   minus    subBeamPort            cutDetectorPort        -135    90      0      114.551 -114.551 80     subDetectorPort       
 	BL   2   minus    subDetectorPort        cutChamber             0       0       0      0       0       0       Chamber                World           Steel         none      0    -80  0    1     0          0      0      180    90     180
-	BL   2   minus    TargetBorderWhole      TargetBorderHole       0       0       0      0       0       0       TargetBorder           TargetMount     Scintillator  none      0    0    0    1     0          0      0      0      0      0  
+	BL   2   minus    TargetBorderWhole      TargetBorderHole       0       0       0      0       0       0       TargetBorder           TargetMount     PCB           none      0    0    0    1     0          0      0      0      0      0  
 	BL   2   minus    bTgtBdShieldingWhole   bTgtBdShieldingHole    0       0       0      0       0       0       sTgtBdShielding1
 	BL   2   minus    sTgtBdShielding1       TargetBorderWhole      0       0       0      0       0       0       TargetBorderShielding  TargetMount     Lead          none      0    0    0    1     0          0      0      0      0      0  
 	BL   2   plus     bUCollimatorLead       bUCollimatorSide      -90      45      90    -47.1066 0     -10.6066  uUCollimatorSideR
 	BL   2   plus     uUCollimatorSideR      CollimatorInnerLining  0       0       0      0       80      3       UCollimatorLining
 	BL   2   minus    UCollimatorLining      CollimatorLHole        0       0       0      0       80      0       UCollimatorLead        World           Lead          none      0   -80  -90.5 1     0          0      0      0      0      0  
+	BL   2   minus    bUCollimatorPlastic    CollimatorPHole        0       0       0      0       80      0       UCollimatorPlastic     World           Lead          none      0    0   -87   1     0          0      0      0      0      0  
 	BL   2   minus    MuSCA_Whole            MuSCA_Hole             0       0       0      0       0       0       MuSCA                  UpstreamTrigger Scintillator  none      0    0   -12.6 1     0          0      0      0      0      0  
 
 #Tubs info
