@@ -12,6 +12,8 @@
 #/vis/viewer/addCutawayPlane 0 0 0 m 0 -1 0
 #/vis/viewer/addCutawayPlane 0 0 0 m 0 0 -1
 
+/vis/viewer/addCutawayPlane 0 6 0 cm 0 -1 0
+
 /vis/viewer/zoom 2.5
 
 #/vis/viewer/set/viewpointThetaPhi 0 0
