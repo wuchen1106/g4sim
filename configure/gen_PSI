@@ -1,3 +1,5 @@
+	PhysicsList: QGSP_BERT
+
 #General setting  
 	Type:      simple #(simple/stable/ion)
 	Particle:  mu- #(e+/e-/deuteron/chargedgeantino/gamma/...)
