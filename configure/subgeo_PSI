@@ -1,15 +1,39 @@
 #general info
 	checkoverlap
 
+DEFINE: R0 162 # RMax of Chamber (Outside)
+
+DEFINE: Z0 80 # Z position of Beam Plain
+
+DEFINE: pXp0 R0/sqrt(2) # x position of 45 degree Ports
+DEFINE: pXpc (R0-10)/sqrt(2) # x position of 45 degree Ports Cut Components
+
+DEFINE: Lp0 127 # Length of Beam Port 
+DEFINE: thw0 0.075 # Thickness of Beam Window
+DEFINE: pZw0 R0+Lp0/2-thw0/2 # z position of Beam Window
+
+DEFINE: Lp1 330.2 # Length of Detector Port 
+DEFINE: thw1 0.1   # Thickness of Detector Window
+DEFINE: pXw1 (R0+Lp1/2-thw1/2)/sqrt(2) # x position of Detector Window
+
+DEFINE: LGe 14 # Length of Germanium Detector
+DEFINE: pXGe (0+LGe/2)/sqrt(2) # x position of Germanium Detector
+
+DEFINE: LTr 70 # Length of Trigger box
+DEFINE: pZTr -(R0+Lp0/2+LTr/2) # z position of Trigger box
+
+DEFINE: bXColS 30 # X Dimension of Collimator Side
+DEFINE: bXColP 30 # X Dimension of Collimator Side
+
 #**************************************************************************************************
 #	Chamber Body and Germanium Detector
 #Tubs info
 #	Type No  RMin   RMax   Length   StartAng SpanAng Name                  MotVolume          Material      SDName    posX posY posZ  RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
 #	         mm     mm     mm       deg      deg                                                                      mm   mm   mm          mm         deg    deg    deg    deg    deg   
-	T    0   0      162    382      0        360     tubChamber
+	T    0   0      R0     382      0        360     tubChamber
 	T    0   0      182.4  31.75    0        360     tubChamberCover
-	T    0   0      57.25  127      0        360     tubBeamPort 
-	T    0   0      86     330.2    0        360     tubDetectorPort
+	T    0   0      57.25  Lp0      0        360     tubBeamPort 
+	T    0   0      86     Lp1      0        360     tubDetectorPort
 	T    0   0      46     88.9     0        360     tubURPort   
 	T    0   0      46     222.25   0        360     tubULPort   
 	T    0   0      46     177.8    0        360     tubDRPort   
@@ -21,33 +45,33 @@
 	T    0   0      51     129      0        360     cutBeamPort 
 	T    0   0      76     332.2    0        360     cutDetectorPort
 	T    0   0      157    380      0        360     cutChamber
-	T    0   0      51     0.075    0        360     BeamWindow            World              Mylar         none      0    0 -225.4625 1    0          0      0      0      0      0
-	T    0   0      76     0.1      0        360     DetectorWindow        World              Mylar         none   231.259 0  231.259 1     0          0      0     -90     135    90 
-	T    0   0      17.95  14       0        360     Ge                    World              Germanium     none   241.194 0  241.194 1     0          0      0      90     45    -90 
+	T    0   0      51     thw0     0        360     BeamWindow            World              Mylar         none      0    0  pZw0    1     0          0      0      0      0      0
+	T    0   0      76     thw1     0        360     DetectorWindow        World              Mylar         none    pXw1   0  pXw1    1     0          0      0     -90     135    90 
+	T    0   0      17.95  LGe      0        360     Ge                    World              Germanium     none    pXGe   0  pXGe    1     0          0      0      90     45    -90 
 #BooelanSolid info
 #	Type No  type     vol1                   vol2                   Ephi    Etheta  Epsi   PosX    PosY    PosZ    name                   MotVolume       Material      SDName    posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
 #	                                                                deg     deg     deg    mm      mm      mm                                                                     mm   mm   mm         mm         deg    deg    deg    deg    deg   
 	BL   0   plus     tubChamber             tubChamberCover        0       0       0      0       0       190     uChamberCoverTop
-	BL   1   plus     uChamberCoverTop       tubBeamPort            0      -90      0      0       162     80      uChamberBeamPort
-	BL   2   plus     uChamberBeamPort       tubDetectorPort       -135     90      0      114.551 -114.551 80     uChamberDetectorPort
-	BL   3   plus     uChamberDetectorPort   tubURPort              45      90      0     -114.551 114.551 80      uChamberURPort
-	BL   3   plus     uChamberURPort         tubULPort             -45      90      0      114.551 114.551 80      uChamberULPort
-	BL   3   plus     uChamberULPort         tubDRPort              135     90      0     -114.551 -114.551 80     uChamberDRPort
-	BL   3   plus     uChamberDRPort         tubLowerPort           135     90      0     -114.551 -114.551 -49    uChamberLowerPort
-	BL   3   minus    uChamberLowerPort      cutURPort              45      90      0     -107.48  107.48  80      subURPort       
-	BL   3   minus    subURPort              cutULPort              -45     90      0      107.48  107.48  80      subULPort       
-	BL   3   minus    subULPort              cutDRPort              135     90      0     -107.48  -107.48  80     subDRPort
-	BL   3   minus    subDRPort              cutLowerPort           135     90      0     -107.48  -107.48  -49    subLowerPort
-	BL   1   minus    subLowerPort           cutBeamPort            0      -90      0      0       162     80      subBeamPort       
-	BL   2   minus    subBeamPort            cutDetectorPort        -135    90      0      114.551 -114.551 80     subDetectorPort       
-	BL   2   minus    subDetectorPort        cutChamber             0       0       0      0       0       0       Chamber                World           Steel         none      0    -80  0    1     0          0      0      180    90     180
+	BL   1   plus     uChamberCoverTop       tubBeamPort            0      -90      0      0       R0      Z0      uChamberBeamPort
+	BL   2   plus     uChamberBeamPort       tubDetectorPort       -135     90      0      pXp0   -pXp0    Z0      uChamberDetectorPort
+	BL   3   plus     uChamberDetectorPort   tubURPort              45      90      0     -pXp0    pXp0    Z0      uChamberURPort
+	BL   3   plus     uChamberURPort         tubULPort             -45      90      0      pXp0    pXp0    Z0      uChamberULPort
+	BL   3   plus     uChamberULPort         tubDRPort              135     90      0     -pXp0   -pXp0    Z0      uChamberDRPort
+	BL   3   plus     uChamberDRPort         tubLowerPort           135     90      0     -pXp0   -pXp0   -49      uChamberLowerPort
+	BL   3   minus    uChamberLowerPort      cutURPort              45      90      0     -pXpc    pXpc    Z0      subURPort       
+	BL   3   minus    subURPort              cutULPort              -45     90      0      pXpc    pXpc    Z0      subULPort       
+	BL   3   minus    subULPort              cutDRPort              135     90      0     -pXpc   -pXpc    Z0      subDRPort
+	BL   3   minus    subDRPort              cutLowerPort           135     90      0     -pXpc   -pXpc   -49      subLowerPort
+	BL   1   minus    subLowerPort           cutBeamPort            0      -90      0      0       R0      Z0      subBeamPort       
+	BL   2   minus    subBeamPort            cutDetectorPort        -135    90      0      pXp0   -pXp0    Z0      subDetectorPort       
+	BL   2   minus    subDetectorPort        cutChamber             0       0       0      0       0       0       Chamber                World           Steel         none      0    -Z0  0    1     0          0      0      180    90     180
 
 #**************************************************************************************************
 #	Muon Trigger
 #Box info
 #	Type No  x       y       z     Name             MotVolume Material      SDName     posX   posY   posZ   RepNo Space DirTheta DirPhi Ephi Etheta Epsi
 #	         mm      mm      mm                                                        mm     mm     mm           mm    deg      deg    deg  deg    deg
-	B    0   200     200     70    MuTrigger        World     Air           none       0      0     -260.5  1     0     0        0      0    0      0 
+	B    0   200     200     70    MuTrigger        World     Air           none       0      0      pZTr   1     0     0        0      0    0      0 
 	B    0   100     100     0.16  MuFoil           MuTrigger Aluminium     none       0      0     -15.1   1     0     0        0      0    0      0 
 	B    0   50.1    50.1    35.2  MuPC             MuTrigger Air           none       0      0      12.4   1     0     0        0      0    0      0 
 	B    0   50      50      35    MuPCGas          MuPC      GasArgEthane  none       0      0      0      1     0     0        0      0    0      0 
@@ -76,14 +100,14 @@
 #	Type No  x       y       z     Name             MotVolume Material      SDName     posX   posY   posZ   RepNo Space DirTheta DirPhi Ephi Etheta Epsi
 #	         mm      mm      mm                                                        mm     mm     mm           mm    deg      deg    deg  deg    deg
 	B    0   75      360     1     bCollimatorLead
-	B    0   30      360     1     bCollimatorSide
+	B    0   bXColS  360     1     bCollimatorSide
 	B    0   75      95      6     bCollimatorPlastic
 #BooelanSolid info
 #	Type No  type     vol1                   vol2                   Ephi    Etheta  Epsi   PosX    PosY    PosZ    name                   MotVolume       Material      SDName    posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
 #	                                                                deg     deg     deg    mm      mm      mm                                                                     mm   mm   mm         mm         deg    deg    deg    deg    deg   
 	BL   2   plus     bCollimatorLead        bCollimatorSide       -90      45      90    -47.1066 0     -10.6066  uCollimatorLead0
-	BL   2   plus     uCollimatorLead0       tCollimatorLining      0       0       0      0       80      3       uCollimatorLead1
-	BL   2   minus    uCollimatorLead1       tCollimatorLHole       0       0       0      0       80      0       CollimatorLead         World           Lead          none      0   -80  -90.5 1     0          0      0      0      0      0  
+	BL   2   plus     uCollimatorLead0       tCollimatorLining      0       0       0      0       Z0      3       uCollimatorLead1
+	BL   2   minus    uCollimatorLead1       tCollimatorLHole       0       0       0      0       Z0      0       CollimatorLead         World           Lead          none      0   -Z0  -90.5 1     0          0      0      0      0      0  
 	BL   2   minus    bCollimatorPlastic     tCollimatorPHole       0       0       0      0       0       0       CollimatorPlastic      World           Lead          none      0    0   -87   1     0          0      0      0      0      0  
 
 #**************************************************************************************************
@@ -102,7 +126,7 @@
 	B    0   50      50      0.065 dESi2            DetBlock2 Silicon       none       0      0    -2.25    1     0     0        0      0    0      0 
 
 #**************************************************************************************************
-#	Targe
+#	Target
 #Box info
 #	Type No  x       y       z     Name             MotVolume Material      SDName     posX   posY   posZ   RepNo Space DirTheta DirPhi Ephi Etheta Epsi
 #	         mm      mm      mm                                                        mm     mm     mm           mm    deg      deg    deg  deg    deg

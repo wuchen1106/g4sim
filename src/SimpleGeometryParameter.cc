@@ -30,6 +30,8 @@ SimpleGeometryParameter::SimpleGeometryParameter(G4String name, G4String opt )
 		//		std::cout<<"======>In SimpleGeometryParameter, new SimpleGeometryParameterMessenger at ("<<(void*)pointer<<")!"<<std::endl;
 		set_GeometryParameterMessenger(pointer);
 	}
+	std::vector<std::string> knownValueNames;
+	std::vector<std::string> knownValues;
 }
 
 SimpleGeometryParameter::~SimpleGeometryParameter(){
@@ -66,8 +68,117 @@ void SimpleGeometryParameter::InitFromFile( G4String file_name ){
 	}
 }
 
-void SimpleGeometryParameter::Calculate(){
-	MyVGeometryParameter::Calculate();
+double SimpleGeometryParameter::Calculate(std::string formula, int iRep = 0){
+	std::vector<std::string> words = GetWords(formula);
+	for (int iWord = 0; iWord < words.size(); iWord++ ){
+		double value;
+		if (GetValue(words[iWord],value)){
+			Replace(formula,words[iWord],value);
+		}
+	}
+}
+
+std::vector<std::string> SimpleGeometryParameter::GetWords(std::string formula){
+	std::vector<std::string> words;
+	words.clear();
+	const char* cformula = formula.c_str();
+	int length = strlen(cformula);
+	char temp[1240];
+	int tempoffset = 0;
+	for ( int offset = 0; offset < length; offset++ ){
+		char c = cformula[offset];
+		bool isword = false;
+		if (c>='a'&&c<='z'
+			||c>='A'&&c<='Z'
+			||c>='0'&&c<='9'
+			||c=='_'
+		   ){
+			temp[tempoffset++] = cformula[offset];
+			isword = true;
+		}
+		if (!isword||offset==length-1){
+			if (tempoffset>0){
+				temp[tempoffset++] = '\0';
+				tempoffset=0;
+				std::string word = temp;
+				bool found = false;
+				for(int iWord = 0; iWord<words.size(); iWord++){
+					if (words[iWord]==word){
+						found = true;
+						break;
+					}
+				}
+				if (!found){
+					words.push_back(word);
+				}
+			}
+		}
+	}
+	return words;
+}
+
+bool SimpleGeometryParameter::GetValue(std::string word, std::string& value){
+	bool found = false;
+	for (int i = 0; i< knownValues.size(); i++){
+		if (knownValueNames[i]==word){
+			value = knownValues[i];
+			found = true;
+			break;
+		}
+	}
+	return found;
+}
+
+void SimpleGeometryParameter::Replace(std::string &formula, std::string word, std::string value){
+	std::string newform = "";
+	const char* cformula = formula.c_str();
+	int length = strlen(cformula);
+	char temp[1024];
+	int tempoffset = 0;
+	char cnewform[1024];
+	int newformoffset = 0;
+	for ( int offset = 0; offset < length; offset++ ){
+		char c = cformula[offset];
+		bool isword = false;
+		if (c>='a'&&c<='z'
+			||c>='A'&&c<='Z'
+			||c>='0'&&c<='9'
+			||c=='_'
+		   ){
+			temp[tempoffset++] = cformula[offset];
+			isword = true;
+		}
+		if (!isword||offset==length-1){
+			if (tempoffset>0){
+				temp[tempoffset] = '\0';
+				tempoffset=0;
+				if (newformoffset>0){
+					cnewform[newformoffset] = '\0';
+					newformoffset=0;
+					newform=newform+cnewform;
+				}
+//				std::cout<<"-- \""<<newform<<"\""<<std::endl;
+				std::string word = temp;
+//				std::cout<<"		\""<<word<<"\""<<std::endl;
+				std::string newword;
+				bool found = GetValue(word,newword);
+				if (found){
+					newform=newform+"("+newword+")";
+				}
+				else{
+					newform=newform+word;
+				}
+//				std::cout<<"		\""<<newword<<"\""<<std::endl;
+//				std::cout<<"	-->\""<<newform<<"\""<<std::endl;
+			}
+			cnewform[newformoffset++] = cformula[offset];
+			if (offset==length-1){
+				cnewform[newformoffset] = '\0';
+				newform=newform+cnewform;
+			}
+		}
+	}
+	formula = newform;
 }
 
 void SimpleGeometryParameter::Dump(){
@@ -86,6 +197,8 @@ bool SimpleGeometryParameter::CheckInfo(){
 }
 
 void SimpleGeometryParameter::Preset(){
+	knownValueNames.clear();
+	knownValues.clear();
 	MyVGeometryParameter::Preset();// Call its Parent class to preset
 	notReSetVis = true;
 	VolNo = 0;
@@ -270,16 +383,21 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 			G4double tTubs_StartAng;
 			G4double tTubs_SpanAng;
 			buf_card>>dump>>tTubs_RMin>>tTubs_RMax>>tTubs_Length>>tTubs_StartAng>>tTubs_SpanAng;
-			tTubs_RMax *= mm;
-			tTubs_RMin *= mm;
-			tTubs_Length *= mm;
-			tTubs_StartAng *= deg;
-			tTubs_SpanAng *= deg;
-			Tubs_RMax.push_back(tTubs_RMax);
-			Tubs_RMin.push_back(tTubs_RMin);
-			Tubs_Length.push_back(tTubs_Length);
-			Tubs_StartAng.push_back(tTubs_StartAng);
-			Tubs_SpanAng.push_back(tTubs_SpanAng);
+			if (buf_card>>dump){
+				buf_card>>dump>>dump>>dump>>dump>>dump>>repNo;
+			}
+			for (int iRep = 0; iRep <repNo; iRep++){
+				std::vector<double> vTubs_RMax.push_back(Calculate(tTubs_RMax,iRep)*mm);
+				std::vector<double> vTubs_RMin.push_back(Calculate(tTubs_RMin,iRep)*mm);
+				std::vector<double> vTubs_Length.push_back(Calculate(tTubs_Length,iRep)*mm);
+				std::vector<double> vTubs_StartAng.push_back(Calculate(tTubs_StartAng,iRep)*deg);
+				std::vector<double> vTubs_SpanAng.push_back(Calculate(tTubs_SpanAng,iRep)*deg);
+			}
+			Tubs_RMax.push_back(vTubs_RMax);
+			Tubs_RMin.push_back(vTubs_RMin);
+			Tubs_Length.push_back(vTubs_Length);
+			Tubs_StartAng.push_back(vTubs_StartAng);
+			Tubs_SpanAng.push_back(vTubs_SpanAng);
 			Tubs_GenIndex.push_back(iVol);
 			TubsNo++;
 			foundVolume = true;
