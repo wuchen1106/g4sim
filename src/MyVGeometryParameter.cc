@@ -52,7 +52,7 @@ void MyVGeometryParameter::Preset(){
 //=> GetValue
 int MyVGeometryParameter::GetValue(G4String s_card){
 	int status = 0;
-	G4Stringstream buf_card;
+	std::stringstream buf_card;
 	buf_card.str("");
 	buf_card.clear();
 	buf_card<<s_card;
@@ -107,6 +107,7 @@ void MyVGeometryParameter::get_RepCont( G4String RepCont, G4int& SRepNo, G4int& 
 			MyString2Anything::get_I(RepCont,RepNo);
 		}
 	}
+	std::cout<<"in get_RepCont: \""<<RepCont<<"\" -> ("<<SRepNo<<","<<RepNo<<")"<<std::endl; // to be deleted
 }
 
 //=> ISEMPTY

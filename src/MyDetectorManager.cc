@@ -25,7 +25,6 @@
 //supported Svc
 #include "SimpleGeometrySvc.hh"
 #include "CdcGeometrySvc.hh"
-#include "FormulizedGeometrySvc.hh"
 
 #include "MyVGeometrySvc.hh"
 #include "MyVGeometryParameter.hh"
@@ -124,9 +123,6 @@ void MyDetectorManager::ReadCard(G4String file_name){
 			}
 			else if( type == "Cdc" ){
 				aGSvc = new CdcGeometrySvc( name );
-			}
-			else if( type == "Formulized" ){
-				aGSvc = new FormulizedGeometrySvc( name );
 			}
 			else{
 				std::cout<<"In MyDetectorManager::ReadCard, unsupported GeometrySvc type: "<<type<<"! Will ignore this line!"<<std::endl;

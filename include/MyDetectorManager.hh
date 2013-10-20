@@ -23,7 +23,6 @@
 //supported Svc
 #include "SimpleGeometrySvc.hh"
 #include "CdcGeometrySvc.hh"
-#include "FormulizedGeometrySvc.hh"
 
 class G4SDManager;
 class G4VSensitiveDetector;

@@ -11,13 +11,13 @@
 #include "globals.hh"
 #include "G4UImessenger.hh"
 
-#include "FormulizedGeometryParameterMessenger.hh"
+#include "SimpleGeometryParameterMessenger.hh"
 
 class CdcGeometryParameter;
 class MyVGeometryParameter;
 class G4UIdirectory;
 
-class CdcGeometryParameterMessenger : public FormulizedGeometryParameterMessenger
+class CdcGeometryParameterMessenger : public SimpleGeometryParameterMessenger
 {
 	public:
 		CdcGeometryParameterMessenger(MyVGeometryParameter*, G4String);

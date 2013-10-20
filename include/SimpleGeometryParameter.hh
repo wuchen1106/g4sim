@@ -42,7 +42,7 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 
 		void DumpInfo(void);  //Output info
 
-		void CalFormula(G4String formula, int iRep = 0);
+		double CalFormula(G4String formula, int iRep = 0);
 
 		void ReplaceMacro(G4String &formula);
 
@@ -103,66 +103,66 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 
 		//Torus info
 		G4int get_TorusNo() {return TorusNo;}
-		G4double get_Torus_RMax(G4int TorusId) {if( check_TorusId(TorusId) ) return Torus_RMax[TorusId]; else return 0;}
-		G4double get_Torus_RMin(G4int TorusId) {if( check_TorusId(TorusId) ) return Torus_RMin[TorusId]; else return 0;}
-		G4double get_Torus_Rtor(G4int TorusId) {if( check_TorusId(TorusId) ) return Torus_Rtor[TorusId]; else return 0;}
-		G4double get_Torus_StartAng(G4int TorusId) {if( check_TorusId(TorusId) ) return Torus_StartAng[TorusId]; else return 0;}
-		G4double get_Torus_SpanAng(G4int TorusId) {if( check_TorusId(TorusId) ) return Torus_SpanAng[TorusId]; else return 0;}
+		G4double get_Torus_RMax(G4int TorusId, G4int j = 0) {if( check_TorusId(TorusId) ) return Torus_RMax[TorusId]; else return 0;}
+		G4double get_Torus_RMin(G4int TorusId, G4int j = 0) {if( check_TorusId(TorusId) ) return Torus_RMin[TorusId]; else return 0;}
+		G4double get_Torus_Rtor(G4int TorusId, G4int j = 0) {if( check_TorusId(TorusId) ) return Torus_Rtor[TorusId]; else return 0;}
+		G4double get_Torus_StartAng(G4int TorusId, G4int j = 0) {if( check_TorusId(TorusId) ) return Torus_StartAng[TorusId]; else return 0;}
+		G4double get_Torus_SpanAng(G4int TorusId, G4int j = 0) {if( check_TorusId(TorusId) ) return Torus_SpanAng[TorusId]; else return 0;}
 
 		//Sphere info
 		G4int get_SphereNo() {return SphereNo;}
-		G4double get_Sphere_RMax(G4int SphereId) {if( check_SphereId(SphereId) ) return Sphere_RMax[SphereId]; else return 0;}
-		G4double get_Sphere_RMin(G4int SphereId) {if( check_SphereId(SphereId) ) return Sphere_RMin[SphereId]; else return 0;}
-		G4double get_Sphere_StartPhi(G4int SphereId) {if( check_SphereId(SphereId) ) return Sphere_StartPhi[SphereId]; else return 0;}
-		G4double get_Sphere_SpanPhi(G4int SphereId) {if( check_SphereId(SphereId) ) return Sphere_SpanPhi[SphereId]; else return 0;}
-		G4double get_Sphere_StartTheta(G4int SphereId) {if( check_SphereId(SphereId) ) return Sphere_StartTheta[SphereId]; else return 0;}
-		G4double get_Sphere_SpanTheta(G4int SphereId) {if( check_SphereId(SphereId) ) return Sphere_SpanTheta[SphereId]; else return 0;}
+		G4double get_Sphere_RMax(G4int SphereId, G4int j = 0) {if( check_SphereId(SphereId) ) return Sphere_RMax[SphereId]; else return 0;}
+		G4double get_Sphere_RMin(G4int SphereId, G4int j = 0) {if( check_SphereId(SphereId) ) return Sphere_RMin[SphereId]; else return 0;}
+		G4double get_Sphere_StartPhi(G4int SphereId, G4int j = 0) {if( check_SphereId(SphereId) ) return Sphere_StartPhi[SphereId]; else return 0;}
+		G4double get_Sphere_SpanPhi(G4int SphereId, G4int j = 0) {if( check_SphereId(SphereId) ) return Sphere_SpanPhi[SphereId]; else return 0;}
+		G4double get_Sphere_StartTheta(G4int SphereId, G4int j = 0) {if( check_SphereId(SphereId) ) return Sphere_StartTheta[SphereId]; else return 0;}
+		G4double get_Sphere_SpanTheta(G4int SphereId, G4int j = 0) {if( check_SphereId(SphereId) ) return Sphere_SpanTheta[SphereId]; else return 0;}
 
 		//Hype info
 		G4int get_HypeNo() {return HypeNo;}
-		G4double get_Hype_innerRadius(G4int HypeId) {if( check_HypeId(HypeId) ) return Hype_innerRadius[HypeId]; else return 0;}
-		G4double get_Hype_outerRadius(G4int HypeId) {if( check_HypeId(HypeId) ) return Hype_outerRadius[HypeId]; else return 0;}
-		G4double get_Hype_innerStereo(G4int HypeId) {if( check_HypeId(HypeId) ) return Hype_innerStereo[HypeId]; else return 0;}
-		G4double get_Hype_outerStereo(G4int HypeId) {if( check_HypeId(HypeId) ) return Hype_outerStereo[HypeId]; else return 0;}
-		G4double get_Hype_Length(G4int HypeId) {if( check_HypeId(HypeId) ) return Hype_Length[HypeId]; else return 0;}
+		G4double get_Hype_innerRadius(G4int HypeId, G4int j = 0) {if( check_HypeId(HypeId) ) return Hype_innerRadius[HypeId]; else return 0;}
+		G4double get_Hype_outerRadius(G4int HypeId, G4int j = 0) {if( check_HypeId(HypeId) ) return Hype_outerRadius[HypeId]; else return 0;}
+		G4double get_Hype_innerStereo(G4int HypeId, G4int j = 0) {if( check_HypeId(HypeId) ) return Hype_innerStereo[HypeId]; else return 0;}
+		G4double get_Hype_outerStereo(G4int HypeId, G4int j = 0) {if( check_HypeId(HypeId) ) return Hype_outerStereo[HypeId]; else return 0;}
+		G4double get_Hype_Length(G4int HypeId, G4int j = 0) {if( check_HypeId(HypeId) ) return Hype_Length[HypeId]; else return 0;}
 
 		//TwistedTubs info
 		G4int get_TwistedTubsNo() {return TwistedTubsNo;}
-		G4double get_TwistedTubs_twistedangle(G4int TwistedTubsId) {if( check_TwistedTubsId(TwistedTubsId) ) return TwistedTubs_twistedangle[TwistedTubsId]; else return 0;}
-		G4double get_TwistedTubs_endinnerrad(G4int TwistedTubsId) {if( check_TwistedTubsId(TwistedTubsId) ) return TwistedTubs_endinnerrad[TwistedTubsId]; else return 0;}
-		G4double get_TwistedTubs_endouterrad(G4int TwistedTubsId) {if( check_TwistedTubsId(TwistedTubsId) ) return TwistedTubs_endouterrad[TwistedTubsId]; else return 0;}
-		G4double get_TwistedTubs_Length(G4int TwistedTubsId) {if( check_TwistedTubsId(TwistedTubsId) ) return TwistedTubs_Length[TwistedTubsId]; else return 0;}
-		G4double get_TwistedTubs_dphi(G4int TwistedTubsId) {if( check_TwistedTubsId(TwistedTubsId) ) return TwistedTubs_dphi[TwistedTubsId]; else return 0;}
+		G4double get_TwistedTubs_twistedangle(G4int TwistedTubsId, G4int j = 0) {if( check_TwistedTubsId(TwistedTubsId) ) return TwistedTubs_twistedangle[TwistedTubsId]; else return 0;}
+		G4double get_TwistedTubs_endinnerrad(G4int TwistedTubsId, G4int j = 0) {if( check_TwistedTubsId(TwistedTubsId) ) return TwistedTubs_endinnerrad[TwistedTubsId]; else return 0;}
+		G4double get_TwistedTubs_endouterrad(G4int TwistedTubsId, G4int j = 0) {if( check_TwistedTubsId(TwistedTubsId) ) return TwistedTubs_endouterrad[TwistedTubsId]; else return 0;}
+		G4double get_TwistedTubs_Length(G4int TwistedTubsId, G4int j = 0) {if( check_TwistedTubsId(TwistedTubsId) ) return TwistedTubs_Length[TwistedTubsId]; else return 0;}
+		G4double get_TwistedTubs_dphi(G4int TwistedTubsId, G4int j = 0) {if( check_TwistedTubsId(TwistedTubsId) ) return TwistedTubs_dphi[TwistedTubsId]; else return 0;}
 
 		//Cons info
 		G4int get_ConsNo() {return ConsNo;}
-		G4double get_Cons_RMax1(G4int ConsId) {if( check_ConsId(ConsId) ) return Cons_RMax1[ConsId]; else return 0;}
-		G4double get_Cons_RMin1(G4int ConsId) {if( check_ConsId(ConsId) ) return Cons_RMin1[ConsId]; else return 0;}
-		G4double get_Cons_RMax2(G4int ConsId) {if( check_ConsId(ConsId) ) return Cons_RMax2[ConsId]; else return 0;}
-		G4double get_Cons_RMin2(G4int ConsId) {if( check_ConsId(ConsId) ) return Cons_RMin2[ConsId]; else return 0;}
-		G4double get_Cons_Length(G4int ConsId) {if( check_ConsId(ConsId) ) return Cons_Length[ConsId]; else return 0;}
-		G4double get_Cons_StartAng(G4int ConsId) {if( check_ConsId(ConsId) ) return Cons_StartAng[ConsId]; else return 0;}
-		G4double get_Cons_SpanAng(G4int ConsId) {if( check_ConsId(ConsId) ) return Cons_SpanAng[ConsId]; else return 0;}
+		G4double get_Cons_RMax1(G4int ConsId, G4int j = 0) {if( check_ConsId(ConsId) ) return Cons_RMax1[ConsId]; else return 0;}
+		G4double get_Cons_RMin1(G4int ConsId, G4int j = 0) {if( check_ConsId(ConsId) ) return Cons_RMin1[ConsId]; else return 0;}
+		G4double get_Cons_RMax2(G4int ConsId, G4int j = 0) {if( check_ConsId(ConsId) ) return Cons_RMax2[ConsId]; else return 0;}
+		G4double get_Cons_RMin2(G4int ConsId, G4int j = 0) {if( check_ConsId(ConsId) ) return Cons_RMin2[ConsId]; else return 0;}
+		G4double get_Cons_Length(G4int ConsId, G4int j = 0) {if( check_ConsId(ConsId) ) return Cons_Length[ConsId]; else return 0;}
+		G4double get_Cons_StartAng(G4int ConsId, G4int j = 0) {if( check_ConsId(ConsId) ) return Cons_StartAng[ConsId]; else return 0;}
+		G4double get_Cons_SpanAng(G4int ConsId, G4int j = 0) {if( check_ConsId(ConsId) ) return Cons_SpanAng[ConsId]; else return 0;}
 
 		//Polycone info
 		G4int get_PolyconeNo() {return PolyconeNo;}
-		G4int    get_Polycone_numZ(G4int PolyconeId) {if( check_PolyconeId(PolyconeId) ) return Polycone_numZ[PolyconeId]; else return 0;}
-		G4double get_Polycone_RMax(G4int PolyconeId,G4int i) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId] ) return Polycone_RMax[PolyconeId][i]; else return 0;}
-		G4double get_Polycone_RMin(G4int PolyconeId,G4int i) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId] ) return Polycone_RMin[PolyconeId][i]; else return 0;}
-		G4double get_Polycone_Z(G4int PolyconeId,G4int i) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId]) return Polycone_Z[PolyconeId][i]; else return 0;}
-		G4double get_Polycone_StartAng(G4int PolyconeId) {if( check_PolyconeId(PolyconeId) ) return Polycone_StartAng[PolyconeId]; else return 0;}
-		G4double get_Polycone_SpanAng(G4int PolyconeId) {if( check_PolyconeId(PolyconeId) ) return Polycone_SpanAng[PolyconeId]; else return 0;}
+		G4int    get_Polycone_numZ(G4int PolyconeId, G4int j = 0) {if( check_PolyconeId(PolyconeId) ) return Polycone_numZ[PolyconeId]; else return 0;}
+		G4double get_Polycone_RMax(G4int PolyconeId,G4int i, G4int j = 0) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId] ) return Polycone_RMax[PolyconeId][i]; else return 0;}
+		G4double get_Polycone_RMin(G4int PolyconeId,G4int i, G4int j = 0) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId] ) return Polycone_RMin[PolyconeId][i]; else return 0;}
+		G4double get_Polycone_Z(G4int PolyconeId,G4int i, G4int j = 0) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId]) return Polycone_Z[PolyconeId][i]; else return 0;}
+		G4double get_Polycone_StartAng(G4int PolyconeId, G4int j = 0) {if( check_PolyconeId(PolyconeId) ) return Polycone_StartAng[PolyconeId]; else return 0;}
+		G4double get_Polycone_SpanAng(G4int PolyconeId, G4int j = 0) {if( check_PolyconeId(PolyconeId) ) return Polycone_SpanAng[PolyconeId]; else return 0;}
 
 		// BooleanSolid
 		G4String get_BooleanSolid_type(G4int BooleanSolidId) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_type[BooleanSolidId]; else return "";}
 		G4String get_BooleanSolid_sol1(G4int BooleanSolidId) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_sol1[BooleanSolidId]; else return "";}
 		G4String get_BooleanSolid_sol2(G4int BooleanSolidId) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_sol2[BooleanSolidId]; else return "";}
-		G4double get_BooleanSolid_Ephi(G4int BooleanSolidId) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_Ephi[BooleanSolidId]; else return 0;}
-		G4double get_BooleanSolid_Etheta(G4int BooleanSolidId) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_Etheta[BooleanSolidId]; else return 0;}
-		G4double get_BooleanSolid_Epsi(G4int BooleanSolidId) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_Epsi[BooleanSolidId]; else return 0;}
-		G4double get_BooleanSolid_PosX(G4int BooleanSolidId) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_PosX[BooleanSolidId]; else return 0;}
-		G4double get_BooleanSolid_PosY(G4int BooleanSolidId) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_PosY[BooleanSolidId]; else return 0;}
-		G4double get_BooleanSolid_PosZ(G4int BooleanSolidId) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_PosZ[BooleanSolidId]; else return 0;}
+		G4double get_BooleanSolid_Ephi(G4int BooleanSolidId, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_Ephi[BooleanSolidId][j]; else return 0;}
+		G4double get_BooleanSolid_Etheta(G4int BooleanSolidId, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_Etheta[BooleanSolidId][j]; else return 0;}
+		G4double get_BooleanSolid_Epsi(G4int BooleanSolidId, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_Epsi[BooleanSolidId][j]; else return 0;}
+		G4double get_BooleanSolid_PosX(G4int BooleanSolidId, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_PosX[BooleanSolidId][j]; else return 0;}
+		G4double get_BooleanSolid_PosY(G4int BooleanSolidId, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_PosY[BooleanSolidId][j]; else return 0;}
+		G4double get_BooleanSolid_PosZ(G4int BooleanSolidId, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_PosZ[BooleanSolidId][j]; else return 0;}
 
 		//visual settings
 		bool get_vis(G4int VolId){if( check_VolId(VolId) ) return vVis[VolId]; else return 0;}
@@ -173,24 +173,42 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 
 		//=>Modify
 		//General info for volume
-		void set_PosX(G4String type, G4int i, G4int j = 0,G4double val) { int k = get_index(type, i); PosX[k][j] = val;}
-		void set_PosY(G4String type, G4int i, G4int j = 0,G4double val) { int k = get_index(type, i); PosY[k][j] = val;}
-		void set_PosZ(G4String type, G4int i, G4int j = 0,G4double val) { int k = get_index(type, i); PosZ[k][j] = val;}
+		void set_PosX(G4String type, G4int i,G4double val, G4int j = 0) { int k = get_index(type, i); PosX[k][j] = val;}
+		void set_PosY(G4String type, G4int i,G4double val, G4int j = 0) { int k = get_index(type, i); PosY[k][j] = val;}
+		void set_PosZ(G4String type, G4int i,G4double val, G4int j = 0) { int k = get_index(type, i); PosZ[k][j] = val;}
 		void set_name(G4String type, G4int i,G4String val) { int k = get_index(type, i); Name[k] = val;}
 		void set_SDName(G4String type, G4int i,G4String val) { int k = get_index(type, i); SDName[k] = val;}
 		void set_MotherName(G4String type, G4int i,G4String val) { int k = get_index(type, i); MotherName[k] = val;}
 		void set_material(G4String type, G4int i,G4String val) { int k = get_index(type, i); Material[k] = val;}
 		void set_SRepNo(G4String type, G4int i,G4int val) { int k = get_index(type, i); SRepNo[k] = val;}
 		void set_RepNo(G4String type, G4int i,G4int val) { int k = get_index(type, i); RepNo[k] = val;}
-		void set_Ephi(G4String type, G4int i, G4int j = 0,G4double val) { int k = get_index(type, i); Ephi[k][j] = val;}
-		void set_Etheta(G4String type, G4int i, G4int j = 0,G4double val) { int k = get_index(type, i); Etheta[k][j] = val;}
-		void set_Epsi(G4String type, G4int i, G4int j = 0,G4double val) { int k = get_index(type, i); Epsi[k][j] = val;}
+		void set_Ephi(G4String type, G4int i, G4double val, G4int j = 0) { int k = get_index(type, i); Ephi[k][j] = val;}
+		void set_Etheta(G4String type, G4int i, G4double val, G4int j = 0) { int k = get_index(type, i); Etheta[k][j] = val;}
+		void set_Epsi(G4String type, G4int i, G4double val, G4int j = 0) { int k = get_index(type, i); Epsi[k][j] = val;}
 		void set_SolidBoolean(G4String type, G4int i, G4int val) { int k = get_index(type, i); SolidBoolean[k] = val;}
 
+		void set_name(G4String name,G4String val) { int k = get_VolIndex(name); Name[k] = val;}
+		void set_SDName(G4String name,G4String val) { int k = get_VolIndex(name); SDName[k] = val;}
+		void set_MotherName(G4String name,G4String val) { int k = get_VolIndex(name); MotherName[k] = val;}
+		void set_material(G4String name,G4String val) { int k = get_VolIndex(name); Material[k] = val;}
+		void set_SRepNo(G4String name,G4int val) { int k = get_VolIndex(name); SRepNo[k] = val;}
+		void set_RepNo(G4String name,G4int val) { int k = get_VolIndex(name); RepNo[k] = val;}
+		void set_SolidBoolean(G4String name, G4int val) { int k = get_VolIndex(name); SolidBoolean[k] = val;}
+		void set_PosX(G4String name,G4double val, G4int j = 0) { int k = get_VolIndex(name); PosX[k][j] = val;}
+		void set_PosY(G4String name,G4double val, G4int j = 0) { int k = get_VolIndex(name); PosY[k][j] = val;}
+		void set_PosZ(G4String name,G4double val, G4int j = 0) { int k = get_VolIndex(name); PosZ[k][j] = val;}
+		void set_Ephi(G4String name, G4double val, G4int j = 0) { int k = get_VolIndex(name); Ephi[k][j] = val;}
+		void set_Etheta(G4String name, G4double val, G4int j = 0) { int k = get_VolIndex(name); Etheta[k][j] = val;}
+		void set_Epsi(G4String name, G4double val, G4int j = 0) { int k = get_VolIndex(name); Epsi[k][j] = val;}
+
 		//Box info
-		void set_Box_X(G4int i,G4double val) { Box_X[i] = val;}
-		void set_Box_Y(G4int i,G4double val) { Box_Y[i] = val;}
-		void set_Box_Z(G4int i,G4double val) { Box_Z[i] = val;}
+		void set_Box_X(G4int i,G4double val, G4int j = 0) { Box_X[i][j] = val;}
+		void set_Box_Y(G4int i,G4double val, G4int j = 0) { Box_Y[i][j] = val;}
+		void set_Box_Z(G4int i,G4double val, G4int j = 0) { Box_Z[i][j] = val;}
+
+		void set_Box_X(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Box_X[i][j] = val;}
+		void set_Box_Y(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Box_Y[i][j] = val;}
+		void set_Box_Z(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Box_Z[i][j] = val;}
 
 		//Tubs info
 		void set_Tubs_RMax(G4int i,G4double val, G4int j = 0) { Tubs_RMax[i][j] = val;}
@@ -199,62 +217,118 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		void set_Tubs_StartAng(G4int i,G4double val, G4int j = 0) { Tubs_StartAng[i][j] = val;}
 		void set_Tubs_SpanAng(G4int i,G4double val, G4int j = 0) { Tubs_SpanAng[i][j] = val;}
 
+		void set_Tubs_RMax(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Tubs_RMax[i][j] = val;}
+		void set_Tubs_RMin(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Tubs_RMin[i][j] = val;}
+		void set_Tubs_Length(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Tubs_Length[i][j] = val;}
+		void set_Tubs_StartAng(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Tubs_StartAng[i][j] = val;}
+		void set_Tubs_SpanAng(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Tubs_SpanAng[i][j] = val;}
+
 		//Torus info
-		void set_Torus_RMax(G4int i,G4double val) { Torus_RMax[i] = val;}
-		void set_Torus_RMin(G4int i,G4double val) { Torus_RMin[i] = val;}
-		void set_Torus_Rtor(G4int i,G4double val) { Torus_Rtor[i] = val;}
-		void set_Torus_StartAng(G4int i,G4double val) { Torus_StartAng[i] = val;}
-		void set_Torus_SpanAng(G4int i,G4double val) { Torus_SpanAng[i] = val;}
+		void set_Torus_RMax(G4int i,G4double val, G4int j = 0) { Torus_RMax[i] = val;}
+		void set_Torus_RMin(G4int i,G4double val, G4int j = 0) { Torus_RMin[i] = val;}
+		void set_Torus_Rtor(G4int i,G4double val, G4int j = 0) { Torus_Rtor[i] = val;}
+		void set_Torus_StartAng(G4int i,G4double val, G4int j = 0) { Torus_StartAng[i] = val;}
+		void set_Torus_SpanAng(G4int i,G4double val, G4int j = 0) { Torus_SpanAng[i] = val;}
+
+		void set_Torus_RMax(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Torus_RMax[i] = val;}
+		void set_Torus_RMin(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Torus_RMin[i] = val;}
+		void set_Torus_Rtor(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Torus_Rtor[i] = val;}
+		void set_Torus_StartAng(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Torus_StartAng[i] = val;}
+		void set_Torus_SpanAng(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Torus_SpanAng[i] = val;}
 
 		//Sphere info
-		void set_Sphere_RMax(G4int i,G4double val) { Sphere_RMax[i] = val;}
-		void set_Sphere_RMin(G4int i,G4double val) { Sphere_RMin[i] = val;}
-		void set_Sphere_StartPhi(G4int i,G4double val) { Sphere_StartPhi[i] = val;}
-		void set_Sphere_SpanPhi(G4int i,G4double val) { Sphere_SpanPhi[i] = val;}
-		void set_Sphere_StartTheta(G4int i,G4double val) { Sphere_StartTheta[i] = val;}
-		void set_Sphere_SpanTheta(G4int i,G4double val) { Sphere_SpanTheta[i] = val;}
+		void set_Sphere_RMax(G4int i,G4double val, G4int j = 0) { Sphere_RMax[i] = val;}
+		void set_Sphere_RMin(G4int i,G4double val, G4int j = 0) { Sphere_RMin[i] = val;}
+		void set_Sphere_StartPhi(G4int i,G4double val, G4int j = 0) { Sphere_StartPhi[i] = val;}
+		void set_Sphere_SpanPhi(G4int i,G4double val, G4int j = 0) { Sphere_SpanPhi[i] = val;}
+		void set_Sphere_StartTheta(G4int i,G4double val, G4int j = 0) { Sphere_StartTheta[i] = val;}
+		void set_Sphere_SpanTheta(G4int i,G4double val, G4int j = 0) { Sphere_SpanTheta[i] = val;}
+
+		void set_Sphere_RMax(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Sphere_RMax[i] = val;}
+		void set_Sphere_RMin(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Sphere_RMin[i] = val;}
+		void set_Sphere_StartPhi(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Sphere_StartPhi[i] = val;}
+		void set_Sphere_SpanPhi(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Sphere_SpanPhi[i] = val;}
+		void set_Sphere_StartTheta(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Sphere_StartTheta[i] = val;}
+		void set_Sphere_SpanTheta(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Sphere_SpanTheta[i] = val;}
 
 		//Hype info
-		void set_Hype_innerRadius(G4int i,G4double val) { Hype_innerRadius[i] = val;}
-		void set_Hype_outerRadius(G4int i,G4double val) { Hype_outerRadius[i] = val;}
-		void set_Hype_innerStereo(G4int i,G4double val) { Hype_innerStereo[i] = val;}
-		void set_Hype_outerStereo(G4int i,G4double val) { Hype_outerStereo[i] = val;}
-		void set_Hype_Length(G4int i,G4double val) { Hype_Length[i] = val;}
+		void set_Hype_innerRadius(G4int i,G4double val, G4int j = 0) { Hype_innerRadius[i] = val;}
+		void set_Hype_outerRadius(G4int i,G4double val, G4int j = 0) { Hype_outerRadius[i] = val;}
+		void set_Hype_innerStereo(G4int i,G4double val, G4int j = 0) { Hype_innerStereo[i] = val;}
+		void set_Hype_outerStereo(G4int i,G4double val, G4int j = 0) { Hype_outerStereo[i] = val;}
+		void set_Hype_Length(G4int i,G4double val, G4int j = 0) { Hype_Length[i] = val;}
+
+		void set_Hype_innerRadius(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Hype_innerRadius[i] = val;}
+		void set_Hype_outerRadius(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Hype_outerRadius[i] = val;}
+		void set_Hype_innerStereo(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Hype_innerStereo[i] = val;}
+		void set_Hype_outerStereo(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Hype_outerStereo[i] = val;}
+		void set_Hype_Length(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Hype_Length[i] = val;}
 
 		//TwistedTubs info
-		void set_TwistedTubs_twistedangle(G4int i,G4double val) { TwistedTubs_twistedangle[i] = val;}
-		void set_TwistedTubs_endinnerrad(G4int i,G4double val) { TwistedTubs_endinnerrad[i] = val;}
-		void set_TwistedTubs_endouterrad(G4int i,G4double val) { TwistedTubs_endouterrad[i] = val;}
-		void set_TwistedTubs_Length(G4int i,G4double val) { TwistedTubs_Length[i] = val;}
-		void set_TwistedTubs_dphi(G4int i,G4double val) { TwistedTubs_dphi[i] = val;}
+		void set_TwistedTubs_twistedangle(G4int i,G4double val, G4int j = 0) { TwistedTubs_twistedangle[i] = val;}
+		void set_TwistedTubs_endinnerrad(G4int i,G4double val, G4int j = 0) { TwistedTubs_endinnerrad[i] = val;}
+		void set_TwistedTubs_endouterrad(G4int i,G4double val, G4int j = 0) { TwistedTubs_endouterrad[i] = val;}
+		void set_TwistedTubs_Length(G4int i,G4double val, G4int j = 0) { TwistedTubs_Length[i] = val;}
+		void set_TwistedTubs_dphi(G4int i,G4double val, G4int j = 0) { TwistedTubs_dphi[i] = val;}
+
+		void set_TwistedTubs_twistedangle(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); TwistedTubs_twistedangle[i] = val;}
+		void set_TwistedTubs_endinnerrad(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); TwistedTubs_endinnerrad[i] = val;}
+		void set_TwistedTubs_endouterrad(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); TwistedTubs_endouterrad[i] = val;}
+		void set_TwistedTubs_Length(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); TwistedTubs_Length[i] = val;}
+		void set_TwistedTubs_dphi(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); TwistedTubs_dphi[i] = val;}
 
 		//Cons info
-		void set_Cons_RMax1(G4int i,G4double val) { Cons_RMax1[i] = val;}
-		void set_Cons_RMin1(G4int i,G4double val) { Cons_RMin1[i] = val;}
-		void set_Cons_RMax2(G4int i,G4double val) { Cons_RMax2[i] = val;}
-		void set_Cons_RMin2(G4int i,G4double val) { Cons_RMin2[i] = val;}
-		void set_Cons_Length(G4int i,G4double val) { Cons_Length[i] = val;}
-		void set_Cons_StartAng(G4int i,G4double val) { Cons_StartAng[i] = val;}
-		void set_Cons_SpanAng(G4int i,G4double val) { Cons_SpanAng[i] = val;}
+		void set_Cons_RMax1(G4int i,G4double val, G4int j = 0) { Cons_RMax1[i] = val;}
+		void set_Cons_RMin1(G4int i,G4double val, G4int j = 0) { Cons_RMin1[i] = val;}
+		void set_Cons_RMax2(G4int i,G4double val, G4int j = 0) { Cons_RMax2[i] = val;}
+		void set_Cons_RMin2(G4int i,G4double val, G4int j = 0) { Cons_RMin2[i] = val;}
+		void set_Cons_Length(G4int i,G4double val, G4int j = 0) { Cons_Length[i] = val;}
+		void set_Cons_StartAng(G4int i,G4double val, G4int j = 0) { Cons_StartAng[i] = val;}
+		void set_Cons_SpanAng(G4int i,G4double val, G4int j = 0) { Cons_SpanAng[i] = val;}
+
+		void set_Cons_RMax1(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Cons_RMax1[i] = val;}
+		void set_Cons_RMin1(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Cons_RMin1[i] = val;}
+		void set_Cons_RMax2(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Cons_RMax2[i] = val;}
+		void set_Cons_RMin2(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Cons_RMin2[i] = val;}
+		void set_Cons_Length(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Cons_Length[i] = val;}
+		void set_Cons_StartAng(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Cons_StartAng[i] = val;}
+		void set_Cons_SpanAng(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Cons_SpanAng[i] = val;}
 
 		//Polycone info
-		void set_Polycone_numZ(G4int PolyconeId, G4int val) {if( check_PolyconeId(PolyconeId) ) Polycone_numZ[PolyconeId] = val;}
-		void set_Polycone_RMax(G4int PolyconeId,G4int i, G4double val) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId] ) Polycone_RMax[PolyconeId][i]=val;}
-		void set_Polycone_RMin(G4int PolyconeId,G4int i, G4double val) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId] ) Polycone_RMin[PolyconeId][i]=val;}
-		void set_Polycone_Z(G4int PolyconeId,G4int i, G4double val) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId]) Polycone_Z[PolyconeId][i]=val;}
-		void set_Polycone_StartAng(G4int PolyconeId, G4double val) {if( check_PolyconeId(PolyconeId) ) Polycone_StartAng[PolyconeId]=val;}
-		void set_Polycone_SpanAng(G4int PolyconeId, G4double val) {if( check_PolyconeId(PolyconeId) ) Polycone_SpanAng[PolyconeId]=val;}
+		void set_Polycone_numZ(G4int PolyconeId, G4int val, G4int j = 0) {if( check_PolyconeId(PolyconeId) ) Polycone_numZ[PolyconeId] = val;}
+		void set_Polycone_RMax(G4int PolyconeId,G4int i, G4double val, G4int j = 0) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId] ) Polycone_RMax[PolyconeId][i]=val;}
+		void set_Polycone_RMin(G4int PolyconeId,G4int i, G4double val, G4int j = 0) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId] ) Polycone_RMin[PolyconeId][i]=val;}
+		void set_Polycone_Z(G4int PolyconeId,G4int i, G4double val, G4int j = 0) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId]) Polycone_Z[PolyconeId][i]=val;}
+		void set_Polycone_StartAng(G4int PolyconeId, G4double val, G4int j = 0) {if( check_PolyconeId(PolyconeId) ) Polycone_StartAng[PolyconeId]=val;}
+		void set_Polycone_SpanAng(G4int PolyconeId, G4double val, G4int j = 0) {if( check_PolyconeId(PolyconeId) ) Polycone_SpanAng[PolyconeId]=val;}
+
+		void set_Polycone_numZ(G4String name, G4int val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_PolyconeId(i) ) Polycone_numZ[i] = val;}
+		void set_Polycone_RMax(G4String name,G4int iCone, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_PolyconeId(i) && iCone < Polycone_numZ[i] ) Polycone_RMax[i][iCone]=val;}
+		void set_Polycone_RMin(G4String name,G4int iCone, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_PolyconeId(i) && iCone < Polycone_numZ[i] ) Polycone_RMin[i][iCone]=val;}
+		void set_Polycone_Z(G4String name,G4int iCone, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_PolyconeId(i) && iCone < Polycone_numZ[i]) Polycone_Z[i][iCone]=val;}
+		void set_Polycone_StartAng(G4String name, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_PolyconeId(i) ) Polycone_StartAng[i]=val;}
+		void set_Polycone_SpanAng(G4String name, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_PolyconeId(i) ) Polycone_SpanAng[i]=val;}
 
 		//BooleanSolid info
 		void set_BooleanSolid_type(G4int BooleanSolidId, G4String val) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_type[BooleanSolidId]=val;}
 		void set_BooleanSolid_sol1(G4int BooleanSolidId, G4String val) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_sol1[BooleanSolidId]=val;}
 		void set_BooleanSolid_sol2(G4int BooleanSolidId, G4String val) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_sol2[BooleanSolidId]=val;}
-		void set_BooleanSolid_Ephi(G4int BooleanSolidId, G4double val) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_Ephi[BooleanSolidId]=val;}
-		void set_BooleanSolid_Etheta(G4int BooleanSolidId, G4double val) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_Etheta[BooleanSolidId]=val;}
-		void set_BooleanSolid_Epsi(G4int BooleanSolidId, G4double val) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_Epsi[BooleanSolidId]=val;}
-		void set_BooleanSolid_PosX(G4int BooleanSolidId, G4double val) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_PosX[BooleanSolidId]=val;}
-		void set_BooleanSolid_PosY(G4int BooleanSolidId, G4double val) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_PosY[BooleanSolidId]=val;}
-		void set_BooleanSolid_PosZ(G4int BooleanSolidId, G4double val) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_PosZ[BooleanSolidId]=val;}
+		void set_BooleanSolid_Ephi(G4int BooleanSolidId, G4double val, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_Ephi[BooleanSolidId][j]=val;}
+		void set_BooleanSolid_Etheta(G4int BooleanSolidId, G4double val, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_Etheta[BooleanSolidId][j]=val;}
+		void set_BooleanSolid_Epsi(G4int BooleanSolidId, G4double val, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_Epsi[BooleanSolidId][j]=val;}
+		void set_BooleanSolid_PosX(G4int BooleanSolidId, G4double val, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_PosX[BooleanSolidId][j]=val;}
+		void set_BooleanSolid_PosY(G4int BooleanSolidId, G4double val, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_PosY[BooleanSolidId][j]=val;}
+		void set_BooleanSolid_PosZ(G4int BooleanSolidId, G4double val, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_PosZ[BooleanSolidId][j]=val;}
+
+		void set_BooleanSolid_type(G4String name, G4String val) {int i = get_SolidIndex(get_VolIndex(name));if( check_BooleanSolidId(i) ) BooleanSolid_type[i]=val;}
+		void set_BooleanSolid_sol1(G4String name, G4String val) {int i = get_SolidIndex(get_VolIndex(name));if( check_BooleanSolidId(i) ) BooleanSolid_sol1[i]=val;}
+		void set_BooleanSolid_sol2(G4String name, G4String val) {int i = get_SolidIndex(get_VolIndex(name));if( check_BooleanSolidId(i) ) BooleanSolid_sol2[i]=val;}
+		void set_BooleanSolid_Ephi(G4String name, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_BooleanSolidId(i) ) BooleanSolid_Ephi[i][j]=val;}
+		void set_BooleanSolid_Etheta(G4String name, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_BooleanSolidId(i) ) BooleanSolid_Etheta[i][j]=val;}
+		void set_BooleanSolid_Epsi(G4String name, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_BooleanSolidId(i) ) BooleanSolid_Epsi[i][j]=val;}
+		void set_BooleanSolid_PosX(G4String name, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_BooleanSolidId(i) ) BooleanSolid_PosX[i][j]=val;}
+		void set_BooleanSolid_PosY(G4String name, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_BooleanSolidId(i) ) BooleanSolid_PosY[i][j]=val;}
+		void set_BooleanSolid_PosZ(G4String name, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_BooleanSolidId(i) ) BooleanSolid_PosZ[i][j]=val;}
 
 		//visual settings
 		void set_vis(G4String type, G4int i,bool val) { int k = get_index(type, i); vVis[k] = val;}
@@ -268,6 +342,12 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		void set_g(G4int i,G4double val) { vG[i] = val;}
 		void set_b(G4int i,G4double val) { vB[i] = val;}
 		void set_t(G4int i,G4double val) { vT[i] = val;}
+
+		void set_vis(G4String name,bool val) {int k = get_VolIndex(name); vVis[k] = val;}
+		void set_r(G4String name,G4double val) {int k = get_VolIndex(name); vR[k] = val;}
+		void set_g(G4String name,G4double val) {int k = get_VolIndex(name); vG[k] = val;}
+		void set_b(G4String name,G4double val) {int k = get_VolIndex(name); vB[k] = val;}
+		void set_t(G4String name,G4double val) {int k = get_VolIndex(name); vT[k] = val;}
 
 	private:
 
@@ -527,13 +607,13 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		std::vector<G4String> BooleanSolid_type;
 		std::vector<G4String> BooleanSolid_sol1;
 		std::vector<G4String> BooleanSolid_sol2;
-		std::vector<G4double> BooleanSolid_Ephi;
-		std::vector<G4double> BooleanSolid_Etheta;
-		std::vector<G4double> BooleanSolid_Epsi;
-		std::vector<G4double> BooleanSolid_PosX;
-		std::vector<G4double> BooleanSolid_PosY;
-		std::vector<G4double> BooleanSolid_PosZ;
 		std::vector<G4int>    BooleanSolid_GenIndex;
+		std::vector<std::vector<G4double> > BooleanSolid_Ephi;
+		std::vector<std::vector<G4double> > BooleanSolid_Etheta;
+		std::vector<std::vector<G4double> > BooleanSolid_Epsi;
+		std::vector<std::vector<G4double> > BooleanSolid_PosX;
+		std::vector<std::vector<G4double> > BooleanSolid_PosY;
+		std::vector<std::vector<G4double> > BooleanSolid_PosZ;
 
 		//visual settings
 		std::vector<bool> vVis;

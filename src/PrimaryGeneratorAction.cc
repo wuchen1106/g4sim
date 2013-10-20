@@ -287,6 +287,7 @@ void PrimaryGeneratorAction::SetRandomPosition(){
 }
 
 void PrimaryGeneratorAction::SetUniformPosition(){
+	/*
 	MyVGeometryParameter* pMyVGeometryParameter = MyDetectorManager::GetMyDetectorManager()->GetSvc(UP_SubDet)->get_GeometryParameter();
 	if (!pMyVGeometryParameter){
 		std::cout<<"ERROR: in PrimaryGeneratorAction::SetUniformPosition cannot find : "<<UP_SubDet<<"!!!"<<std::endl;
@@ -359,6 +360,7 @@ void PrimaryGeneratorAction::SetUniformPosition(){
 				"InvalidInput", FatalException,
 				"unsopported parameter class type");
 	}
+*/
 }
 
 void PrimaryGeneratorAction::BuildHistoFromFile(){

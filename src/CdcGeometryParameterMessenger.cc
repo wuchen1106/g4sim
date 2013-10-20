@@ -18,7 +18,7 @@
 #include "MyVGeometryParameter.hh"
 
 CdcGeometryParameterMessenger::CdcGeometryParameterMessenger(MyVGeometryParameter* pGeometryParameter, G4String dirName)
-:FormulizedGeometryParameterMessenger(pGeometryParameter, dirName)
+:SimpleGeometryParameterMessenger(pGeometryParameter, dirName)
 {
 
 	m_GeometryParameter = dynamic_cast<CdcGeometryParameter*> (pGeometryParameter);
