@@ -52,13 +52,13 @@ void MyVGeometryParameter::Preset(){
 //=> GetValue
 int MyVGeometryParameter::GetValue(G4String s_card){
 	int status = 0;
-	std::stringstream buf_card;
+	G4Stringstream buf_card;
 	buf_card.str("");
 	buf_card.clear();
 	buf_card<<s_card;
-	std::string name;
+	G4String name;
 	buf_card>>name;
-	std::string s_para;
+	G4String s_para;
 	if( name == "VerboseLevel:" ) buf_card>>fVerboseLevel;
 	else if( name == "checkoverlap" ) checkoverlap = true;
 	else status = 1;
@@ -83,7 +83,7 @@ void MyVGeometryParameter::DumpInfo() {
 //"1-29" or "1~29" means replica number count from 1 to 29
 void MyVGeometryParameter::get_RepCont( G4String RepCont, G4int& SRepNo, G4int& RepNo ){
 	size_t sLast = RepCont.last(',');
-	if(sLast!=std::string::npos){
+	if(sLast!=G4String::npos){
 		G4String part1 = RepCont.substr(0,sLast);
 		G4String part2 = RepCont.substr(sLast+1,RepCont.length()-sLast-1);
 		MyString2Anything::get_I(part1,SRepNo);
@@ -91,10 +91,10 @@ void MyVGeometryParameter::get_RepCont( G4String RepCont, G4int& SRepNo, G4int& 
 	}
 	else{ // not found
 		sLast = RepCont.last('-');
-		if (sLast==std::string::npos){// not found
+		if (sLast==G4String::npos){// not found
 			sLast = RepCont.last('~');
 		}
-		if (sLast!=std::string::npos){
+		if (sLast!=G4String::npos){
 			G4String part1 = RepCont.substr(0,sLast);
 			G4String part2 = RepCont.substr(sLast+1,RepCont.length()-sLast-1);
 			MyString2Anything::get_I(part1,SRepNo);
@@ -111,7 +111,7 @@ void MyVGeometryParameter::get_RepCont( G4String RepCont, G4int& SRepNo, G4int& 
 
 //=> ISEMPTY
 //Tell whether this string is empty or commented(by # or //)
-bool MyVGeometryParameter::ISEMPTY(std::string s_card){
+bool MyVGeometryParameter::ISEMPTY(G4String s_card){
 	bool flag = false;
 	const char* c_card = s_card.c_str();
 	G4int length = strlen(c_card);

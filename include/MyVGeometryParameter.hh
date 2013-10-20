@@ -46,7 +46,7 @@ class MyVGeometryParameter{
 		//"1-29" or "1~29" means replica number count from 1 to 29
 		void get_RepCont(G4String RepCont, G4int& SRepNo, G4int& RepNo);
 
-		bool ISEMPTY(std::string);
+		bool ISEMPTY(G4String);
 
 		void DEBUG(G4String content, int level = 1){
 			if (level >= 1){

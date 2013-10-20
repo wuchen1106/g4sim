@@ -42,6 +42,16 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 
 		void DumpInfo(void);  //Output info
 
+		void CalFormula(G4String formula, int iRep = 0);
+
+		void ReplaceMacro(G4String &formula);
+
+		std::vector<G4String> GetWords(G4String);
+
+		bool FindMacro(G4String, G4String&);
+
+		void Replace(G4String &, G4String , G4String);
+
 	private:
 
 		void ReSetVis(); //Reset parameters to default values
@@ -61,38 +71,35 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 			return index;
 		}
 		G4int get_VolNo() { return VolNo; }
-		G4double get_PosX(G4int VolId) {if( check_VolId(VolId) ) return PosX[VolId]; else return 0;}
-		G4double get_PosY(G4int VolId) {if( check_VolId(VolId) ) return PosY[VolId]; else return 0;}
-		G4double get_PosZ(G4int VolId) {if( check_VolId(VolId) ) return PosZ[VolId]; else return 0;}
+		G4double get_PosX(G4int VolId, G4int j = 0) {if( check_VolId(VolId) ) return PosX[VolId][j]; else return 0;}
+		G4double get_PosY(G4int VolId, G4int j = 0) {if( check_VolId(VolId) ) return PosY[VolId][j]; else return 0;}
+		G4double get_PosZ(G4int VolId, G4int j = 0) {if( check_VolId(VolId) ) return PosZ[VolId][j]; else return 0;}
 		G4String get_name(G4int VolId) {if( check_VolId(VolId) ) return Name[VolId]; else return "";}
 		G4String get_SDName(G4int VolId) {if( check_VolId(VolId) ) return SDName[VolId]; else return "";}
 		G4String get_MotherName(G4int VolId) {if( check_VolId(VolId) ) return MotherName[VolId]; else return "";}
 		G4String get_material(G4int VolId) {if( check_VolId(VolId) ) return Material[VolId]; else return "";}
 		G4int get_SRepNo(G4int VolId) {if(check_VolId(VolId)) return SRepNo[VolId]; else return 0;}
 		G4int get_RepNo(G4int VolId) {if(check_VolId(VolId)) return RepNo[VolId]; else return 0;}
-		G4double get_Space(G4int VolId) {if(check_VolId(VolId)) return Space[VolId]; else return 0;}
-		G4double get_DirTheta(G4int VolId) {if(check_VolId(VolId)) return DirTheta[VolId]; else return 0;}
-		G4double get_DirPhi(G4int VolId) {if(check_VolId(VolId)) return DirPhi[VolId]; else return 0;}
 		G4String get_SolidType(G4int VolId) {if(check_VolId(VolId)) return SolidType[VolId]; else return "";}
 		G4int get_SolidIndex(G4int VolId) {if(check_VolId(VolId)) return SolidIndex[VolId]; else return 0;}
-		G4double get_Ephi(G4int VolId) {if( check_VolId(VolId) ) return Ephi[VolId]; else return 0;}
-		G4double get_Etheta(G4int VolId) {if( check_VolId(VolId) ) return Etheta[VolId]; else return 0;}
-		G4double get_Epsi(G4int VolId) {if( check_VolId(VolId) ) return Epsi[VolId]; else return 0;}
+		G4double get_Ephi(G4int VolId, G4int j = 0) {if( check_VolId(VolId) ) return Ephi[VolId][j]; else return 0;}
+		G4double get_Etheta(G4int VolId, G4int j = 0) {if( check_VolId(VolId) ) return Etheta[VolId][j]; else return 0;}
+		G4double get_Epsi(G4int VolId, G4int j = 0) {if( check_VolId(VolId) ) return Epsi[VolId][j]; else return 0;}
 		G4bool get_SolidBoolean(G4int VolId) {if( check_VolId(VolId) ) return SolidBoolean[VolId]; else return false;}
 
 		//Box info
 		G4int get_BoxNo() {return BoxNo;}
-		G4double get_Box_X(G4int BoxId) {if( check_BoxId(BoxId) ) return Box_X[BoxId]; else return 0;}
-		G4double get_Box_Y(G4int BoxId) {if( check_BoxId(BoxId) ) return Box_Y[BoxId]; else return 0;}
-		G4double get_Box_Z(G4int BoxId) {if( check_BoxId(BoxId) ) return Box_Z[BoxId]; else return 0;}
+		G4double get_Box_X(G4int BoxId, G4int j = 0) {if( check_BoxId(BoxId) ) return Box_X[BoxId][j]; else return 0;}
+		G4double get_Box_Y(G4int BoxId, G4int j = 0) {if( check_BoxId(BoxId) ) return Box_Y[BoxId][j]; else return 0;}
+		G4double get_Box_Z(G4int BoxId, G4int j = 0) {if( check_BoxId(BoxId) ) return Box_Z[BoxId][j]; else return 0;}
 
 		//Tubs info
 		G4int get_TubsNo() {return TubsNo;}
-		G4double get_Tubs_RMax(G4int TubsId) {if( check_TubsId(TubsId) ) return Tubs_RMax[TubsId]; else return 0;}
-		G4double get_Tubs_RMin(G4int TubsId) {if( check_TubsId(TubsId) ) return Tubs_RMin[TubsId]; else return 0;}
-		G4double get_Tubs_Length(G4int TubsId) {if( check_TubsId(TubsId) ) return Tubs_Length[TubsId]; else return 0;}
-		G4double get_Tubs_StartAng(G4int TubsId) {if( check_TubsId(TubsId) ) return Tubs_StartAng[TubsId]; else return 0;}
-		G4double get_Tubs_SpanAng(G4int TubsId) {if( check_TubsId(TubsId) ) return Tubs_SpanAng[TubsId]; else return 0;}
+		G4double get_Tubs_RMax(G4int TubsId, G4int j = 0) {if( check_TubsId(TubsId) ) return Tubs_RMax[TubsId][j]; else return 0;}
+		G4double get_Tubs_RMin(G4int TubsId, G4int j = 0) {if( check_TubsId(TubsId) ) return Tubs_RMin[TubsId][j]; else return 0;}
+		G4double get_Tubs_Length(G4int TubsId, G4int j = 0) {if( check_TubsId(TubsId) ) return Tubs_Length[TubsId][j]; else return 0;}
+		G4double get_Tubs_StartAng(G4int TubsId, G4int j = 0) {if( check_TubsId(TubsId) ) return Tubs_StartAng[TubsId][j]; else return 0;}
+		G4double get_Tubs_SpanAng(G4int TubsId, G4int j = 0) {if( check_TubsId(TubsId) ) return Tubs_SpanAng[TubsId][j]; else return 0;}
 
 		//Torus info
 		G4int get_TorusNo() {return TorusNo;}
@@ -166,21 +173,18 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 
 		//=>Modify
 		//General info for volume
-		void set_PosX(G4String type, G4int i,G4double val) { int k = get_index(type, i); PosX[k] = val;}
-		void set_PosY(G4String type, G4int i,G4double val) { int k = get_index(type, i); PosY[k] = val;}
-		void set_PosZ(G4String type, G4int i,G4double val) { int k = get_index(type, i); PosZ[k] = val;}
+		void set_PosX(G4String type, G4int i, G4int j = 0,G4double val) { int k = get_index(type, i); PosX[k][j] = val;}
+		void set_PosY(G4String type, G4int i, G4int j = 0,G4double val) { int k = get_index(type, i); PosY[k][j] = val;}
+		void set_PosZ(G4String type, G4int i, G4int j = 0,G4double val) { int k = get_index(type, i); PosZ[k][j] = val;}
 		void set_name(G4String type, G4int i,G4String val) { int k = get_index(type, i); Name[k] = val;}
 		void set_SDName(G4String type, G4int i,G4String val) { int k = get_index(type, i); SDName[k] = val;}
 		void set_MotherName(G4String type, G4int i,G4String val) { int k = get_index(type, i); MotherName[k] = val;}
 		void set_material(G4String type, G4int i,G4String val) { int k = get_index(type, i); Material[k] = val;}
 		void set_SRepNo(G4String type, G4int i,G4int val) { int k = get_index(type, i); SRepNo[k] = val;}
 		void set_RepNo(G4String type, G4int i,G4int val) { int k = get_index(type, i); RepNo[k] = val;}
-		void set_Space(G4String type, G4int i,G4double val) { int k = get_index(type, i); Space[k] = val;}
-		void set_DirTheta(G4String type, G4int i,G4double val) { int k = get_index(type, i); DirTheta[k] = val;}
-		void set_DirPhi(G4String type, G4int i,G4double val) { int k = get_index(type, i); DirPhi[k] = val;}
-		void set_Ephi(G4String type, G4int i,G4double val) { int k = get_index(type, i); Ephi[k] = val;}
-		void set_Etheta(G4String type, G4int i,G4double val) { int k = get_index(type, i); Etheta[k] = val;}
-		void set_Epsi(G4String type, G4int i,G4double val) { int k = get_index(type, i); Epsi[k] = val;}
+		void set_Ephi(G4String type, G4int i, G4int j = 0,G4double val) { int k = get_index(type, i); Ephi[k][j] = val;}
+		void set_Etheta(G4String type, G4int i, G4int j = 0,G4double val) { int k = get_index(type, i); Etheta[k][j] = val;}
+		void set_Epsi(G4String type, G4int i, G4int j = 0,G4double val) { int k = get_index(type, i); Epsi[k][j] = val;}
 		void set_SolidBoolean(G4String type, G4int i, G4int val) { int k = get_index(type, i); SolidBoolean[k] = val;}
 
 		//Box info
@@ -189,11 +193,11 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		void set_Box_Z(G4int i,G4double val) { Box_Z[i] = val;}
 
 		//Tubs info
-		void set_Tubs_RMax(G4int i,G4double val) { Tubs_RMax[i] = val;}
-		void set_Tubs_RMin(G4int i,G4double val) { Tubs_RMin[i] = val;}
-		void set_Tubs_Length(G4int i,G4double val) { Tubs_Length[i] = val;}
-		void set_Tubs_StartAng(G4int i,G4double val) { Tubs_StartAng[i] = val;}
-		void set_Tubs_SpanAng(G4int i,G4double val) { Tubs_SpanAng[i] = val;}
+		void set_Tubs_RMax(G4int i,G4double val, G4int j = 0) { Tubs_RMax[i][j] = val;}
+		void set_Tubs_RMin(G4int i,G4double val, G4int j = 0) { Tubs_RMin[i][j] = val;}
+		void set_Tubs_Length(G4int i,G4double val, G4int j = 0) { Tubs_Length[i][j] = val;}
+		void set_Tubs_StartAng(G4int i,G4double val, G4int j = 0) { Tubs_StartAng[i][j] = val;}
+		void set_Tubs_SpanAng(G4int i,G4double val, G4int j = 0) { Tubs_SpanAng[i][j] = val;}
 
 		//Torus info
 		void set_Torus_RMax(G4int i,G4double val) { Torus_RMax[i] = val;}
@@ -420,45 +424,42 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 
 		void dump_general_header();
 		void dump_general_note();
-		void dump_general_value(G4int index);
+		void dump_general_value(G4int index, G4int j = 0);
 
 	private:
 
 		//General info about volume
 		G4int VolNo;
-		std::vector<G4double> PosX;
-		std::vector<G4double> PosY;
-		std::vector<G4double> PosZ;
+		std::vector<std::vector<G4double> > PosX;
+		std::vector<std::vector<G4double> > PosY;
+		std::vector<std::vector<G4double> > PosZ;
 		std::vector<G4String> Name;
 		std::vector<G4String> MotherName;
 		std::vector<G4String> SDName;
 		std::vector<G4String> Material;
 		std::vector<G4int>    SRepNo;
 		std::vector<G4int>    RepNo;
-		std::vector<G4double> Space;
-		std::vector<G4double> DirTheta;
-		std::vector<G4double> DirPhi;
 		std::vector<G4String> SolidType;
 		std::vector<G4int>    SolidIndex;
-		std::vector<G4double> Ephi;
-		std::vector<G4double> Etheta;
-		std::vector<G4double> Epsi;
+		std::vector<std::vector<G4double> > Ephi;
+		std::vector<std::vector<G4double> > Etheta;
+		std::vector<std::vector<G4double> > Epsi;
 		std::vector<G4bool> SolidBoolean;
 
 		//Box info
 		G4int BoxNo;
-		std::vector<G4double> Box_X;
-		std::vector<G4double> Box_Y;
-		std::vector<G4double> Box_Z;
+		std::vector<std::vector<G4double> > Box_X;
+		std::vector<std::vector<G4double> > Box_Y;
+		std::vector<std::vector<G4double> > Box_Z;
 		std::vector<G4int>    Box_GenIndex;
 
 		//Tubs info
 		G4int TubsNo;
-		std::vector<G4double> Tubs_RMax;
-		std::vector<G4double> Tubs_RMin;
-		std::vector<G4double> Tubs_Length;
-		std::vector<G4double> Tubs_StartAng;
-		std::vector<G4double> Tubs_SpanAng;
+		std::vector<std::vector<G4double> > Tubs_RMax;
+		std::vector<std::vector<G4double> > Tubs_RMin;
+		std::vector<std::vector<G4double> > Tubs_Length;
+		std::vector<std::vector<G4double> > Tubs_StartAng;
+		std::vector<std::vector<G4double> > Tubs_SpanAng;
 		std::vector<G4int>    Tubs_GenIndex;
 
 		//Torus info
@@ -540,6 +541,10 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 
 		//to control
 		bool notReSetVis;
+
+		// macros
+		std::vector<G4String> knownValueNames;
+		std::vector<G4String> knownValues;
 
 };
 

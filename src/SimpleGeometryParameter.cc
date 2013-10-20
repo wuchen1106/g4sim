@@ -30,8 +30,6 @@ SimpleGeometryParameter::SimpleGeometryParameter(G4String name, G4String opt )
 		//		std::cout<<"======>In SimpleGeometryParameter, new SimpleGeometryParameterMessenger at ("<<(void*)pointer<<")!"<<std::endl;
 		set_GeometryParameterMessenger(pointer);
 	}
-	std::vector<std::string> knownValueNames;
-	std::vector<std::string> knownValues;
 }
 
 SimpleGeometryParameter::~SimpleGeometryParameter(){
@@ -52,7 +50,7 @@ void SimpleGeometryParameter::InitFromFile( G4String file_name ){
 		G4String content = "SimpleGeometryParameter::InitFromFile(), cannot find output card \"" + file_name + "\"";
 		DEBUG(content);
 	}
-	std::string s_card;
+	G4String s_card;
 	while(getline(fin_card,s_card)){
 		//eleminate useless lines
 		if ( ISEMPTY(s_card) ) continue;
@@ -68,18 +66,26 @@ void SimpleGeometryParameter::InitFromFile( G4String file_name ){
 	}
 }
 
-double SimpleGeometryParameter::Calculate(std::string formula, int iRep = 0){
-	std::vector<std::string> words = GetWords(formula);
+double SimpleGeometryParameter::CalFormula(G4String formula, int iRep){
+	ReplaceMacro(formula);
+	TF1 *formula = new TF1("f1", formula);
+	double value = formula->Eval(iRep);
+	delete formula;
+	return value;
+}
+
+void SimpleGeometryParameter::ReplaceMacro(G4String &formula){
+	std::vector<G4String> words = GetWords(formula);
 	for (int iWord = 0; iWord < words.size(); iWord++ ){
-		double value;
-		if (GetValue(words[iWord],value)){
+		G4String value;
+		if (FindMacro(words[iWord],value)){
 			Replace(formula,words[iWord],value);
 		}
 	}
 }
 
-std::vector<std::string> SimpleGeometryParameter::GetWords(std::string formula){
-	std::vector<std::string> words;
+std::vector<G4String> SimpleGeometryParameter::GetWords(G4String formula){
+	std::vector<G4String> words;
 	words.clear();
 	const char* cformula = formula.c_str();
 	int length = strlen(cformula);
@@ -100,7 +106,7 @@ std::vector<std::string> SimpleGeometryParameter::GetWords(std::string formula){
 			if (tempoffset>0){
 				temp[tempoffset++] = '\0';
 				tempoffset=0;
-				std::string word = temp;
+				G4String word = temp;
 				bool found = false;
 				for(int iWord = 0; iWord<words.size(); iWord++){
 					if (words[iWord]==word){
@@ -117,7 +123,7 @@ std::vector<std::string> SimpleGeometryParameter::GetWords(std::string formula){
 	return words;
 }
 
-bool SimpleGeometryParameter::GetValue(std::string word, std::string& value){
+bool SimpleGeometryParameter::FindMacro(G4String word, G4String& value){
 	bool found = false;
 	for (int i = 0; i< knownValues.size(); i++){
 		if (knownValueNames[i]==word){
@@ -129,8 +135,8 @@ bool SimpleGeometryParameter::GetValue(std::string word, std::string& value){
 	return found;
 }
 
-void SimpleGeometryParameter::Replace(std::string &formula, std::string word, std::string value){
-	std::string newform = "";
+void SimpleGeometryParameter::Replace(G4String &formula, G4String word, G4String value){
+	G4String newform = "";
 	const char* cformula = formula.c_str();
 	int length = strlen(cformula);
 	char temp[1024];
@@ -158,10 +164,10 @@ void SimpleGeometryParameter::Replace(std::string &formula, std::string word, st
 					newform=newform+cnewform;
 				}
 //				std::cout<<"-- \""<<newform<<"\""<<std::endl;
-				std::string word = temp;
+				G4String word = temp;
 //				std::cout<<"		\""<<word<<"\""<<std::endl;
-				std::string newword;
-				bool found = GetValue(word,newword);
+				G4String newword;
+				bool found = FindMacro(word,newword);
 				if (found){
 					newform=newform+"("+newword+")";
 				}
@@ -316,20 +322,20 @@ void SimpleGeometryParameter::Preset(){
 int SimpleGeometryParameter::GetValue(G4String s_card){
 	if (!MyVGeometryParameter::GetValue(s_card)) return 0;// if found by Parent Class, then return.
 	int status = 0;// 0 means found the value
-	std::stringstream buf_card;
+	G4Stringstream buf_card;
 	buf_card.str("");
 	buf_card.clear();
 	buf_card<<s_card;
-	std::string name;
+	G4String name;
 	buf_card>>name;
-	std::string s_para;
+	G4String s_para;
 	int iVol = VolNo;
 	bool GoOn = true;
 	if (waited_Polycone_iVol>=0){
 		GoOn = false;
 		if (achieved_componets_Polycone<Polycone_numZ[waited_Polycone_iVol]){
 			if (name=="PCI"){
-				std::string dump;
+				G4String dump;
 				G4double tPolycone_RMax;
 				G4double tPolycone_RMin;
 				G4double tPolycone_Z;
@@ -358,17 +364,27 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 		if( name == "B" ){
 			SolidType.push_back("Box");
 			SolidIndex.push_back(Box_X.size());
-			std::string dump;
-			G4double tBox_X;
-			G4double tBox_Y;
-			G4double tBox_Z;
+			G4String dump;
+			G4String tBox_X;
+			G4String tBox_Y;
+			G4String tBox_Z;
 			buf_card>>dump>>tBox_X>>tBox_Y>>tBox_Z;
-			tBox_X *= mm;
-			tBox_Y *= mm;
-			tBox_Z *= mm;
-			Box_X.push_back(tBox_X);
-			Box_Y.push_back(tBox_Y);
-			Box_Z.push_back(tBox_Z);
+			G4int repNo = 0;
+			if (buf_card>>dump){
+				buf_card>>dump>>dump>>dump>>dump>>dump>>dump;
+				get_RepCont(dump,int TEMP,repNo);
+			}
+			std::vector<double> vBox_X;
+			std::vector<double> vBox_Y;
+			std::vector<double> vBox_Z;
+			for (int iRep = 0; iRep <repNo; iRep++){
+				vBox_X.push_back(CalFormula(tBox_X,iRep)*mm);
+				vBox_Y.push_back(CalFormula(tBox_Y,iRep)*mm);
+				vBox_Z.push_back(CalFormula(tBox_Z,iRep)*mm);
+			}
+			Box_X.push_back(vBox_X);
+			Box_Y.push_back(vBox_Y);
+			Box_Z.push_back(vBox_Z);
 			Box_GenIndex.push_back(iVol);
 			BoxNo++;
 			foundVolume = true;
@@ -376,22 +392,29 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 		else if( name == "T" ){
 			SolidType.push_back("Tubs");
 			SolidIndex.push_back(Tubs_RMax.size());
-			std::string dump;
-			G4double tTubs_RMax;
-			G4double tTubs_RMin;
-			G4double tTubs_Length;
-			G4double tTubs_StartAng;
-			G4double tTubs_SpanAng;
+			G4String dump;
+			G4String tTubs_RMax;
+			G4String tTubs_RMin;
+			G4String tTubs_Length;
+			G4String tTubs_StartAng;
+			G4String tTubs_SpanAng;
 			buf_card>>dump>>tTubs_RMin>>tTubs_RMax>>tTubs_Length>>tTubs_StartAng>>tTubs_SpanAng;
+			G4int repNo = 0;
 			if (buf_card>>dump){
-				buf_card>>dump>>dump>>dump>>dump>>dump>>repNo;
+				buf_card>>dump>>dump>>dump>>dump>>dump>>dump;
+				get_RepCont(dump,int TEMP,repNo);
 			}
+			std::vector<double> vTubs_RMax;
+			std::vector<double> vTubs_RMin;
+			std::vector<double> vTubs_Length;
+			std::vector<double> vTubs_StartAng;
+			std::vector<double> vTubs_SpanAng;
 			for (int iRep = 0; iRep <repNo; iRep++){
-				std::vector<double> vTubs_RMax.push_back(Calculate(tTubs_RMax,iRep)*mm);
-				std::vector<double> vTubs_RMin.push_back(Calculate(tTubs_RMin,iRep)*mm);
-				std::vector<double> vTubs_Length.push_back(Calculate(tTubs_Length,iRep)*mm);
-				std::vector<double> vTubs_StartAng.push_back(Calculate(tTubs_StartAng,iRep)*deg);
-				std::vector<double> vTubs_SpanAng.push_back(Calculate(tTubs_SpanAng,iRep)*deg);
+				vTubs_RMax.push_back(CalFormula(tTubs_RMax,iRep)*mm);
+				vTubs_RMin.push_back(CalFormula(tTubs_RMin,iRep)*mm);
+				vTubs_Length.push_back(CalFormula(tTubs_Length,iRep)*mm);
+				vTubs_StartAng.push_back(CalFormula(tTubs_StartAng,iRep)*deg);
+				vTubs_SpanAng.push_back(CalFormula(tTubs_SpanAng,iRep)*deg);
 			}
 			Tubs_RMax.push_back(vTubs_RMax);
 			Tubs_RMin.push_back(vTubs_RMin);
@@ -405,7 +428,7 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 		else if( name == "Tor" ){
 			SolidType.push_back("Torus");
 			SolidIndex.push_back(Torus_RMax.size());
-			std::string dump;
+			G4String dump;
 			G4double tTorus_RMax;
 			G4double tTorus_RMin;
 			G4double tTorus_Rtor;
@@ -429,7 +452,7 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 		else if( name == "Sph" ){
 			SolidType.push_back("Sphere");
 			SolidIndex.push_back(Sphere_RMax.size());
-			std::string dump;
+			G4String dump;
 			G4double tSphere_RMax;
 			G4double tSphere_RMin;
 			G4double tSphere_StartPhi;
@@ -456,7 +479,7 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 		else if( name == "H" ){
 			SolidType.push_back("Hype");
 			SolidIndex.push_back(Hype_innerRadius.size());
-			std::string dump;
+			G4String dump;
 			G4double tHype_innerRadius;
 			G4double tHype_outerRadius;
 			G4double tHype_innerStereo;
@@ -480,7 +503,7 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 		else if( name == "TT" ){
 			SolidType.push_back("TwistedTubs");
 			SolidIndex.push_back(TwistedTubs_endinnerrad.size());
-			std::string dump;
+			G4String dump;
 			G4double tTwistedTubs_twistedangle;
 			G4double tTwistedTubs_endinnerrad;
 			G4double tTwistedTubs_endouterrad;
@@ -504,7 +527,7 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 		else if( name == "C" ){
 			SolidType.push_back("Cons");
 			SolidIndex.push_back(Cons_Length.size());
-			std::string dump;
+			G4String dump;
 			G4double tCons_RMax1;
 			G4double tCons_RMin1;
 			G4double tCons_RMax2;
@@ -534,7 +557,7 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 		else if( name == "PC" ){
 			SolidType.push_back("Polycone");
 			SolidIndex.push_back(Polycone_Z.size());
-			std::string dump;
+			G4String dump;
 			G4double tPolycone_numZ;
 			G4double tPolycone_StartAng;
 			G4double tPolycone_SpanAng;
@@ -558,86 +581,117 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 		else if( name == "BL" ){
 			SolidType.push_back("BooleanSolid");
 			SolidIndex.push_back(BooleanSolid_type.size());
-			std::string dump;
+			G4String dump;
 			G4String tBooleanSolid_type;
 			G4String tBooleanSolid_sol1;
 			G4String tBooleanSolid_sol2;
-			G4double tBooleanSolid_Ephi;
-			G4double tBooleanSolid_Etheta;
-			G4double tBooleanSolid_Epsi;
-			G4double tBooleanSolid_PosX;
-			G4double tBooleanSolid_PosY;
-			G4double tBooleanSolid_PosZ;
+			G4String tBooleanSolid_Ephi;
+			G4String tBooleanSolid_Etheta;
+			G4String tBooleanSolid_Epsi;
+			G4String tBooleanSolid_PosX;
+			G4String tBooleanSolid_PosY;
+			G4String tBooleanSolid_PosZ;
 			buf_card>>dump>>tBooleanSolid_type>>tBooleanSolid_sol1>>tBooleanSolid_sol2>>tBooleanSolid_Ephi>>tBooleanSolid_Etheta>>tBooleanSolid_Epsi>>tBooleanSolid_PosX>>tBooleanSolid_PosY>>tBooleanSolid_PosZ;
-			tBooleanSolid_Ephi *= deg;
-			tBooleanSolid_Etheta *= deg;
-			tBooleanSolid_Epsi *= deg;
-			tBooleanSolid_PosX *= mm;
-			tBooleanSolid_PosY *= mm;
-			tBooleanSolid_PosZ *= mm;
+			G4int repNo;
+			if (buf_card>>dump){
+				buf_card>>dump>>dump>>dump>>dump>>dump>>repNo;
+			}
+			std::vector<double> vBooleanSolid_Ephi;
+			std::vector<double> vBooleanSolid_Etheta;
+			std::vector<double> vBooleanSolid_Epsi;
+			std::vector<double> vBooleanSolid_PosX;
+			std::vector<double> vBooleanSolid_PosY;
+			std::vector<double> vBooleanSolid_PosZ;
+			for (int iRep = 0; iRep <repNo; iRep++){
+				vBooleanSolid_Ephi.push_back(CalFormula(tBooleanSolid_Ephi,iRep)*deg);
+				vBooleanSolid_Etheta.push_back(CalFormula(tBooleanSolid_Etheta,iRep)*deg);
+				vBooleanSolid_Epsi.push_back(CalFormula(tBooleanSolid_Epsi,iRep)*deg);
+				vBooleanSolid_PosX.push_back(CalFormula(tBooleanSolid_PosX,iRep)*mm);
+				vBooleanSolid_PosY.push_back(CalFormula(tBooleanSolid_PosY,iRep)*mm);
+				vBooleanSolid_PosZ.push_back(CalFormula(tBooleanSolid_PosZ,iRep)*mm);
+			}
 			BooleanSolid_type.push_back(tBooleanSolid_type);
 			BooleanSolid_sol1.push_back(tBooleanSolid_sol1);
 			BooleanSolid_sol2.push_back(tBooleanSolid_sol2);
-			BooleanSolid_Ephi.push_back(tBooleanSolid_Ephi);
-			BooleanSolid_Etheta.push_back(tBooleanSolid_Etheta);
-			BooleanSolid_Epsi.push_back(tBooleanSolid_Epsi);
-			BooleanSolid_PosX.push_back(tBooleanSolid_PosX);
-			BooleanSolid_PosY.push_back(tBooleanSolid_PosY);
-			BooleanSolid_PosZ.push_back(tBooleanSolid_PosZ);
+			BooleanSolid_Ephi.push_back(vBooleanSolid_Ephi);
+			BooleanSolid_Etheta.push_back(vBooleanSolid_Etheta);
+			BooleanSolid_Epsi.push_back(vBooleanSolid_Epsi);
+			BooleanSolid_PosX.push_back(vBooleanSolid_PosX);
+			BooleanSolid_PosY.push_back(vBooleanSolid_PosY);
+			BooleanSolid_PosZ.push_back(vBooleanSolid_PosZ);
 			BooleanSolid_GenIndex.push_back(iVol);
 			BooleanSolidNo++;
 			foundVolume = true;
 		}
 		if (foundVolume){
-			G4double tPosX;
-			G4double tPosY;
-			G4double tPosZ;
+			G4String tPosX;
+			G4String tPosY;
+			G4String tPosZ;
 			G4String tRepCont;
 			G4int tRepNo;
 			G4int tSRepNo;
-			G4double tSpace;
-			G4double tDirTheta;
-			G4double tDirPhi;
 			G4String tSDName;
-			G4double tEphi;
-			G4double tEtheta;
-			G4double tEpsi;
-			std::string tName;
-			std::string tMotherName;
-			std::string tMaterial;
+			G4String tSpace;
+			G4String tDirTheta;
+			G4String tDirPhi;
+			G4String tEphi;
+			G4String tEtheta;
+			G4String tEpsi;
+			G4String tName;
+			G4String tMotherName;
+			G4String tMaterial;
 			G4bool   tSolidBoolean = true;
 			buf_card>>tName;
+			std::vector<double> vPosX;
+			std::vector<double> vPosY;
+			std::vector<double> vPosZ;
+			std::vector<double> vSpace;
+			std::vector<double> vDirTheta;
+			std::vector<double> vDirPhi;
+			std::vector<double> vEphi;
+			std::vector<double> vEtheta;
+			std::vector<double> vEpsi;
 			if(buf_card>>tMotherName){
 				tSolidBoolean = false;
 				buf_card>>tMaterial>>tSDName>>tPosX>>tPosY>>tPosZ>>tRepCont>>tSpace>>tDirTheta>>tDirPhi>>tEphi>>tEtheta>>tEpsi;
 				get_RepCont(tRepCont,tSRepNo,tRepNo);
-				tPosX *= mm;
-				tPosY *= mm;
-				tPosZ *= mm;
-				tSpace *= mm;
-				tDirTheta *= deg;
-				tDirPhi *= deg;
-				tEphi *= deg;
-				tEtheta *= deg;
-				tEpsi *= deg;
+				for (int iRep = 0; iRep <tRepNo; iRep++){
+					vPosX.push_back(CalFormula(tPosX,iRep)*mm);
+					vPosY.push_back(CalFormula(tPosY,iRep)*mm);
+					vPosZ.push_back(CalFormula(tPosZ,iRep)*mm);
+					vSpace.push_back(CalFormula(tSpace,iRep)*mm);
+					vDirTheta.push_back(CalFormula(tDirTheta,iRep)*deg);
+					vDirPhi.push_back(CalFormula(tDirPhi,iRep)*deg);
+					vEphi.push_back(CalFormula(tEphi,iRep)*deg);
+					vEtheta.push_back(CalFormula(tEtheta,iRep)*deg);
+					vEpsi.push_back(CalFormula(tEpsi,iRep)*deg);
+				}
 			}
-			PosX.push_back(tPosX);
-			PosY.push_back(tPosY);
-			PosZ.push_back(tPosZ);
+			PosX.push_back(vPosX);
+			PosY.push_back(vPosY);
+			PosZ.push_back(vPosZ);
 			Name.push_back(tName);
 			MotherName.push_back(tMotherName);
 			Material.push_back(tMaterial);
+			SDName.push_back(tSDName);
 			SRepNo.push_back(tSRepNo);
 			RepNo.push_back(tRepNo);
-			Space.push_back(tSpace);
-			DirTheta.push_back(tDirTheta);
-			DirPhi.push_back(tDirPhi);
-			SDName.push_back(tSDName);
-			Ephi.push_back(tEphi);
-			Etheta.push_back(tEtheta);
-			Epsi.push_back(tEpsi);
+			Space.push_back(vSpace);
+			DirTheta.push_back(vDirTheta);
+			DirPhi.push_back(vDirPhi);
+			Ephi.push_back(vEphi);
+			Etheta.push_back(vEtheta);
+			Epsi.push_back(vEpsi);
 			SolidBoolean.push_back(tSolidBoolean);
 			VolNo++;
+		}
+		else if ( name == "DEFINE:" ){
+			G4String MacroName;
+			G4String MacroValue;
+			buf_card>>MacroName>>MacroValue;
+			ReplaceMacro(MacroValue);
+			knownValueNames.push_back(MacroName);
+			knownValues.push_back(MacroValue);
 		}
 		else if ( name == "VISSETTING" ){
 			if(notReSetVis) ReSetVis();
@@ -646,7 +700,7 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 		else{
 			bool foundornot = false;
 			if ( name.substr(0,4) == "vis_" ){
-				std::stringstream buf_temp;
+				G4Stringstream buf_temp;
 				for ( G4int i = 0; i < VolNo; i++ ){
 					buf_temp.str("");
 					buf_temp.clear();
@@ -714,11 +768,14 @@ void SimpleGeometryParameter::DumpInfo() {
 			std::cout<<std::endl;
 		} 
 		int index = Box_GenIndex[i];
-		std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<i
-			<<std::setiosflags(std::ios::left)<<std::setw(7) <<Box_X[i]/mm
-			<<std::setiosflags(std::ios::left)<<std::setw(7) <<Box_Y[i]/mm
-			<<std::setiosflags(std::ios::left)<<std::setw(7) <<Box_Z[i]/mm;
-		dump_general_value(index);
+		int repNo = RepNo[index];
+		for ( G4int j = 0; j < repNo; j++ ){
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<i
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<Box_X[i][j]/mm
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<Box_Y[i][j]/mm
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<Box_Z[i][j]/mm;
+			dump_general_value(index,j);
+		}
 		std::cout<<std::endl;
 	}
 
@@ -743,13 +800,16 @@ void SimpleGeometryParameter::DumpInfo() {
 			std::cout<<std::endl;
 		}
 		int index = Tubs_GenIndex[i];
-		std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<i
-			<<std::setiosflags(std::ios::left)<<std::setw(7) <<Tubs_RMin[i]/mm
-			<<std::setiosflags(std::ios::left)<<std::setw(7) <<Tubs_RMax[i]/mm
-			<<std::setiosflags(std::ios::left)<<std::setw(7) <<Tubs_Length[i]/mm
-			<<std::setiosflags(std::ios::left)<<std::setw(9) <<Tubs_StartAng[i]/deg
-			<<std::setiosflags(std::ios::left)<<std::setw(8) <<Tubs_SpanAng[i]/deg;
-		dump_general_value(index);
+		int repNo = RepNo[index];
+		for ( G4int j = 0; j < repNo; j++ ){
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<i
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<Tubs_RMin[i][j]/mm
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<Tubs_RMax[i][j]/mm
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<Tubs_Length[i][j]/mm
+				<<std::setiosflags(std::ios::left)<<std::setw(9) <<Tubs_StartAng[i][j]/deg
+				<<std::setiosflags(std::ios::left)<<std::setw(8) <<Tubs_SpanAng[i][j]/deg;
+			dump_general_value(index,j);
+		}
 		std::cout<<std::endl;
 	}
 
@@ -964,42 +1024,25 @@ void SimpleGeometryParameter::DumpInfo() {
 			std::cout<<std::setiosflags(std::ios::left)<<std::setw(7) <<"type."
 			         <<std::setiosflags(std::ios::left)<<std::setw(14) <<"solid1"
 			         <<std::setiosflags(std::ios::left)<<std::setw(14) <<"solid2";
-//			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Ephi"
-//			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Etheta"
-//			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Epsi"
-//			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"PosX"
-//			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"PosY"
-//			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"PosZ"
 			dump_general_header();
 			std::cout<<std::endl;
 			std::cout<<std::setiosflags(std::ios::left)<<std::setw(7) <<""
 			         <<std::setiosflags(std::ios::left)<<std::setw(14) <<""
 			         <<std::setiosflags(std::ios::left)<<std::setw(14) <<"";
-//			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
-//			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
-//			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg"
-//			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
-//			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
-//			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
 			dump_general_note();
 			std::cout<<std::endl;
 		} 
 		int index = BooleanSolid_GenIndex[i];
-		std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<i
-			<<std::setiosflags(std::ios::left)<<std::setw(7) <<BooleanSolid_type[i]
-			<<std::setiosflags(std::ios::left)<<std::setw(14)<<BooleanSolid_sol1[i]
-			<<std::setiosflags(std::ios::left)<<std::setw(14)<<BooleanSolid_sol2[i];
-//			<<std::setiosflags(std::ios::left)<<std::setw(7) <<BooleanSolid_Ephi[i]/rad
-//			<<std::setiosflags(std::ios::left)<<std::setw(7) <<BooleanSolid_Etheta[i]/rad
-//			<<std::setiosflags(std::ios::left)<<std::setw(7) <<BooleanSolid_Epsi[i]/rad
-//			<<std::setiosflags(std::ios::left)<<std::setw(7) <<BooleanSolid_PosX[i]/mm
-//			<<std::setiosflags(std::ios::left)<<std::setw(7) <<BooleanSolid_PosY[i]/mm
-//			<<std::setiosflags(std::ios::left)<<std::setw(7) <<BooleanSolid_PosZ[i]/mm
-		dump_general_value(index);
+		int repNo = RepNo[index];
+		for ( G4int j = 0; j < repNo; j++ ){
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<i
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<BooleanSolid_type[i]
+				<<std::setiosflags(std::ios::left)<<std::setw(14)<<BooleanSolid_sol1[i]
+				<<std::setiosflags(std::ios::left)<<std::setw(14)<<BooleanSolid_sol2[i];
+			dump_general_value(index,j);
+		}
 		std::cout<<std::endl;
 	}
-
-
 }
 
 void SimpleGeometryParameter::dump_general_header(){
@@ -1036,22 +1079,22 @@ void SimpleGeometryParameter::dump_general_note(){
 	         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"deg";
 }
 
-void SimpleGeometryParameter::dump_general_value(G4int index){
+void SimpleGeometryParameter::dump_general_value(G4int index, G4int j){
 	std::cout<<std::setiosflags(std::ios::left)<<std::setw(15)<<Name[index];
 	if (!SolidBoolean[index]){
 		std::cout<<std::setiosflags(std::ios::left)<<std::setw(15)<<MotherName[index]
 				 <<std::setiosflags(std::ios::left)<<std::setw(15)<<Material[index]
 				 <<std::setiosflags(std::ios::left)<<std::setw(15)<<SDName[index]
-				 <<std::setiosflags(std::ios::left)<<std::setw(7) <<PosX[index]/mm
-				 <<std::setiosflags(std::ios::left)<<std::setw(7) <<PosY[index]/mm
-				 <<std::setiosflags(std::ios::left)<<std::setw(7) <<PosZ[index]/mm
+				 <<std::setiosflags(std::ios::left)<<std::setw(7) <<PosX[index][j]/mm
+				 <<std::setiosflags(std::ios::left)<<std::setw(7) <<PosY[index][j]/mm
+				 <<std::setiosflags(std::ios::left)<<std::setw(7) <<PosZ[index][j]/mm
 				 <<std::setiosflags(std::ios::left)<<std::setw(6) <<RepNo[index]
-				 <<std::setiosflags(std::ios::left)<<std::setw(6) <<Space[index]/mm
-				 <<std::setiosflags(std::ios::left)<<std::setw(9) <<DirTheta[index]
-				 <<std::setiosflags(std::ios::left)<<std::setw(7) <<DirPhi[index]
-				 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Ephi[index]/deg
-				 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Etheta[index]/deg
-				 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Epsi[index]/deg;
+				 <<std::setiosflags(std::ios::left)<<std::setw(6) <<Space[index][j]/mm
+				 <<std::setiosflags(std::ios::left)<<std::setw(9) <<DirTheta[index][j]
+				 <<std::setiosflags(std::ios::left)<<std::setw(7) <<DirPhi[index][j]
+				 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Ephi[index][j]/deg
+				 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Etheta[index][j]/deg
+				 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Epsi[index][j]/deg;
 	}
 	else{
 		std::cout<<"This is Boolean Solid Component";
