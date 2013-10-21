@@ -44,7 +44,7 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 
 		double CalFormula(G4String formula, int iRep = 0);
 
-		void ReplaceMacro(G4String &formula);
+		G4String ReplaceMacro(G4String formula);
 
 		std::vector<G4String> GetWords(G4String);
 
@@ -510,6 +510,9 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 
 		//General info about volume
 		G4int VolNo;
+		std::vector<G4String> fPosX;
+		std::vector<G4String> fPosY;
+		std::vector<G4String> fPosZ;
 		std::vector<std::vector<G4double> > PosX;
 		std::vector<std::vector<G4double> > PosY;
 		std::vector<std::vector<G4double> > PosZ;
@@ -524,6 +527,9 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		std::vector<std::vector<G4double> > Ephi;
 		std::vector<std::vector<G4double> > Etheta;
 		std::vector<std::vector<G4double> > Epsi;
+		std::vector<G4String> fEphi;
+		std::vector<G4String> fEtheta;
+		std::vector<G4String> fEpsi;
 		std::vector<G4bool> SolidBoolean;
 
 		//Box info
@@ -531,6 +537,9 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		std::vector<std::vector<G4double> > Box_X;
 		std::vector<std::vector<G4double> > Box_Y;
 		std::vector<std::vector<G4double> > Box_Z;
+		std::vector<G4String> fBox_X;
+		std::vector<G4String> fBox_Y;
+		std::vector<G4String> fBox_Z;
 		std::vector<G4int>    Box_GenIndex;
 
 		//Tubs info
@@ -540,6 +549,11 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		std::vector<std::vector<G4double> > Tubs_Length;
 		std::vector<std::vector<G4double> > Tubs_StartAng;
 		std::vector<std::vector<G4double> > Tubs_SpanAng;
+		std::vector<G4String> fTubs_RMax;
+		std::vector<G4String> fTubs_RMin;
+		std::vector<G4String> fTubs_Length;
+		std::vector<G4String> fTubs_StartAng;
+		std::vector<G4String> fTubs_SpanAng;
 		std::vector<G4int>    Tubs_GenIndex;
 
 		//Torus info
@@ -614,6 +628,12 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		std::vector<std::vector<G4double> > BooleanSolid_PosX;
 		std::vector<std::vector<G4double> > BooleanSolid_PosY;
 		std::vector<std::vector<G4double> > BooleanSolid_PosZ;
+		std::vector<G4String> fBooleanSolid_Ephi;
+		std::vector<G4String> fBooleanSolid_Etheta;
+		std::vector<G4String> fBooleanSolid_Epsi;
+		std::vector<G4String> fBooleanSolid_PosX;
+		std::vector<G4String> fBooleanSolid_PosY;
+		std::vector<G4String> fBooleanSolid_PosZ;
 
 		//visual settings
 		std::vector<bool> vVis;

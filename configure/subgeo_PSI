@@ -17,13 +17,16 @@ DEFINE: thw1 0.1   # Thickness of Detector Window
 DEFINE: pXw1 (R0+Lp1/2-thw1/2)/sqrt(2) # x position of Detector Window
 
 DEFINE: LGe 14 # Length of Germanium Detector
-DEFINE: pXGe (0+LGe/2)/sqrt(2) # x position of Germanium Detector
+DEFINE: pXGe (R0+Lp1/2+LGe/2)/sqrt(2) # x position of Germanium Detector
 
 DEFINE: LTr 70 # Length of Trigger box
 DEFINE: pZTr -(R0+Lp0/2+LTr/2) # z position of Trigger box
 
 DEFINE: bXColS 30 # X Dimension of Collimator Side
-DEFINE: bXColP 30 # X Dimension of Collimator Side
+DEFINE: bXColL 75 # X Dimension of Collimator Lead (main)
+DEFINE: bXColP bXColL # X Dimension of Collimator Lead (main)
+DEFINE: pXColS -bxColL/2-bxColS/2/sqrt(2)
+DEFINE: pZColS -bxColS/2/sqrt(2)
 
 #**************************************************************************************************
 #	Chamber Body and Germanium Detector
@@ -45,7 +48,7 @@ DEFINE: bXColP 30 # X Dimension of Collimator Side
 	T    0   0      51     129      0        360     cutBeamPort 
 	T    0   0      76     332.2    0        360     cutDetectorPort
 	T    0   0      157    380      0        360     cutChamber
-	T    0   0      51     thw0     0        360     BeamWindow            World              Mylar         none      0    0  pZw0    1     0      0      0
+	T    0   0      51     thw0     0        360     BeamWindow            World              Mylar         none      0    0 -pZw0    1     0      0      0
 	T    0   0      76     thw1     0        360     DetectorWindow        World              Mylar         none    pXw1   0  pXw1    1    -90     135    90 
 	T    0   0      17.95  LGe      0        360     Ge                    World              Germanium     none    pXGe   0  pXGe    1     90     45    -90 
 #BooelanSolid info
@@ -99,13 +102,13 @@ DEFINE: bXColP 30 # X Dimension of Collimator Side
 #Box info
 #	Type No  x       y       z     Name             MotVolume Material      SDName     posX   posY   posZ   RepNo Ephi Etheta Epsi
 #	         mm      mm      mm                                                        mm     mm     mm           deg  deg    deg
-	B    0   75      360     1     bCollimatorLead
+	B    0   bXColL  360     1     bCollimatorLead
 	B    0   bXColS  360     1     bCollimatorSide
-	B    0   75      95      6     bCollimatorPlastic
+	B    0   bXColP  95      6     bCollimatorPlastic
 #BooelanSolid info
 #	Type No  type     vol1                   vol2                   Ephi    Etheta  Epsi   PosX    PosY    PosZ    name                   MotVolume       Material      SDName    posX posY posZ RepNo Ephi   Etheta Epsi  
 #	                                                                deg     deg     deg    mm      mm      mm                                                                     mm   mm   mm         deg    deg    deg   
-	BL   2   plus     bCollimatorLead        bCollimatorSide       -90      45      90    -47.1066 0     -10.6066  uCollimatorLead0
+	BL   2   plus     bCollimatorLead        bCollimatorSide       -90      45      90     pXColS  0       pZColS  uCollimatorLead0
 	BL   2   plus     uCollimatorLead0       tCollimatorLining      0       0       0      0       Z0      3       uCollimatorLead1
 	BL   2   minus    uCollimatorLead1       tCollimatorLHole       0       0       0      0       Z0      0       CollimatorLead         World           Lead          none      0   -Z0  -90.5 1     0      0      0  
 	BL   2   minus    bCollimatorPlastic     tCollimatorPHole       0       0       0      0       0       0       CollimatorPlastic      World           Lead          none      0    0   -87   1     0      0      0  

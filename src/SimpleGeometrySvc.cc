@@ -91,10 +91,13 @@ void SimpleGeometrySvc::ConstructVolumes(){
 		RepNo = m_GeometryParameter->get_RepNo(i_Vol);
 		for ( int i = 0; i < RepNo; i++ ){
 			G4VSolid* sol_Vol = 0;
-			buffer.str("");
-			buffer.clear();
-			buffer<<name<<"_"<<i;
-			G4String iname = buffer.str();
+			G4String iname = name;
+			if (RepNo>1){
+				buffer.str("");
+				buffer.clear();
+				buffer<<name<<"_"<<i;
+				iname = buffer.str();
+			}
 			if ( SolidType == "Box" ){
 				G4double halfX, halfY, halfZ;
 				halfX = m_GeometryParameter->get_Box_X(SolidIndex)/2;
@@ -187,14 +190,18 @@ void SimpleGeometrySvc::ConstructVolumes(){
 				G4String type = m_GeometryParameter->get_BooleanSolid_type(SolidIndex);
 				G4String sol_name1 = m_GeometryParameter->get_BooleanSolid_sol1(SolidIndex);
 				G4String sol_name2 = m_GeometryParameter->get_BooleanSolid_sol2(SolidIndex);
-				buffer.str("");
-				buffer.clear();
-				buffer<<sol_name1<<"_"<<i;
-				G4String isol_name1 = buffer.str();
-				buffer.str("");
-				buffer.clear();
-				buffer<<sol_name2<<"_"<<i;
-				G4String isol_name2 = buffer.str();
+				G4String isol_name1 = sol_name1;
+				G4String isol_name2 = sol_name2;
+				if (RepNo>1){
+					buffer.str("");
+					buffer.clear();
+					buffer<<sol_name1<<"_"<<i;
+					isol_name1 = buffer.str();
+					buffer.str("");
+					buffer.clear();
+					buffer<<sol_name2<<"_"<<i;
+					isol_name2 = buffer.str();
+				}
 				G4SolidStore *pSolidStore = G4SolidStore::GetInstance();
 				G4VSolid *sol1 = pSolidStore->GetSolid(isol_name1);
 				G4VSolid *sol2 = pSolidStore->GetSolid(isol_name2);
@@ -240,12 +247,7 @@ void SimpleGeometrySvc::ConstructVolumes(){
 			G4LogicalVolume* log_Vol;
 			log_Vol = new G4LogicalVolume(sol_Vol, pttoMaterial, iname,0,0,0);
 			G4VSensitiveDetector* aSD;
-			if (RepNo==1){
-				aSD = MyDetectorManager::GetMyDetectorManager()->GetSD(name, SDName, const_cast<SimpleGeometrySvc*>(this) );
-			}
-			else{
-				aSD = MyDetectorManager::GetMyDetectorManager()->GetSD(iname, SDName, const_cast<SimpleGeometrySvc*>(this) );
-			}
+			aSD = MyDetectorManager::GetMyDetectorManager()->GetSD(iname, SDName, const_cast<SimpleGeometrySvc*>(this) );
 			log_Vol->SetSensitiveDetector(aSD);
 			//visual
 			vis = m_GeometryParameter->get_vis(i_Vol);
@@ -287,10 +289,13 @@ G4VPhysicalVolume* SimpleGeometrySvc::PlaceVolumes(){
 		if ( name == "World" ) log_container = 0;
 		else log_container = get_logicalVolume(motVolName);
 		for ( int i = 0; i < RepNo; i++ ){
-			buffer.str("");
-			buffer.clear();
-			buffer<<name<<"_"<<i;
-			G4String iname = buffer.str();
+			G4String iname = name;
+			if (RepNo>1){
+				buffer.str("");
+				buffer.clear();
+				buffer<<name<<"_"<<i;
+				iname = buffer.str();
+			}
 			G4LogicalVolume* log_Vol = get_logicalVolume(iname);
 			PosX  = m_GeometryParameter->get_PosX(i_Vol,i);
 			PosY  = m_GeometryParameter->get_PosY(i_Vol,i);
@@ -313,6 +318,7 @@ G4VPhysicalVolume* SimpleGeometrySvc::PlaceVolumes(){
 			if ( name == "World" ) world_pvol = phy_Vol;
 		}
 	}
+	std::cout<<"Finished!"<<std::endl; // to be deleted
 	G4VPhysicalVolume *former = MyVGeometrySvc::PlaceVolumes();
 	if (!world_pvol) world_pvol=former;
 	return world_pvol;

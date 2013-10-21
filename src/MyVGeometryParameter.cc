@@ -107,7 +107,7 @@ void MyVGeometryParameter::get_RepCont( G4String RepCont, G4int& SRepNo, G4int& 
 			MyString2Anything::get_I(RepCont,RepNo);
 		}
 	}
-	std::cout<<"in get_RepCont: \""<<RepCont<<"\" -> ("<<SRepNo<<","<<RepNo<<")"<<std::endl; // to be deleted
+//	std::cout<<"in get_RepCont: \""<<RepCont<<"\" -> ("<<SRepNo<<","<<RepNo<<")"<<std::endl; // to be deleted
 }
 
 //=> ISEMPTY
