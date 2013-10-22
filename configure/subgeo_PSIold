@@ -1,66 +1,176 @@
 #general info
 	checkoverlap
 
-#Tubs info
-#	Type No  RMin   RMax   Length   StartAng SpanAng Name                  MotVolume          Material      SDName    posX posY posZ  RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
-#	         mm     mm     mm       deg      deg                                                                      mm   mm   mm          mm         deg    deg    deg    deg    deg   
-	T    0   150    155    380      0        360     bsVChamShell
-	T    0   0      155    380      0        360     bsVChamSolid
-	T    0   55     60     100      0        360     bsPort1Shell
-	T    0   55     60     100      0        360     bsPort2Shell
-	T    0   0      60     100      0        360     bsPort1Solid
-	T    0   0      60     100      0        360     bsPort2Solid
+DEFINE: R0 162 # RMax of Chamber (Outside)
 
+DEFINE: Z0 80 # Z position of Beam Plain
+
+DEFINE: pXp0 R0/sqrt(2) # x position of 45 degree Ports
+DEFINE: pXpc (R0-10)/sqrt(2) # x position of 45 degree Ports Cut Components
+
+DEFINE: Lp0 127 # Length of Beam Port 
+DEFINE: thw0 0.075 # Thickness of Beam Window
+DEFINE: pZw0 R0+Lp0/2-thw0/2 # z position of Beam Window
+
+DEFINE: Lp1 330.2 # Length of Detector Port 
+DEFINE: thw1 0.1   # Thickness of Detector Window
+DEFINE: pXw1 (R0+Lp1/2-thw1/2)/sqrt(2) # x position of Detector Window
+
+DEFINE: LGe 14 # Length of Germanium Detector
+DEFINE: pXGe (R0+Lp1/2+LGe/2)/sqrt(2) # x position of Germanium Detector
+
+DEFINE: LTr 70 # Length of Trigger box
+DEFINE: pZTr -(R0+Lp0/2+LTr/2) # z position of Trigger box
+
+DEFINE: bXColS 30 # X Dimension of Collimator Side
+DEFINE: bXColL 75 # X Dimension of Collimator Lead (main)
+DEFINE: bXColP bXColL # X Dimension of Collimator Lead (main)
+DEFINE: pXColS -bxColL/2-bxColS/2/sqrt(2)
+DEFINE: pZColS -bxColS/2/sqrt(2)
+
+#**************************************************************************************************
+#	Chamber Body and Germanium Detector
+#Tubs info
+#	Type No  RMin   RMax   Length   StartAng SpanAng Name                  MotVolume          Material      SDName    posX posY posZ  RepNo Ephi   Etheta Epsi  
+#	         mm     mm     mm       deg      deg                                                                      mm   mm   mm          deg    deg    deg   
+	T    0   0      R0     382      0        360     tubChamber
+	T    0   0      182.4  31.75    0        360     tubChamberCover
+	T    0   0      57.25  Lp0      0        360     tubBeamPort 
+	T    0   0      86     Lp1      0        360     tubDetectorPort
+	T    0   0      46     88.9     0        360     tubURPort   
+	T    0   0      46     222.25   0        360     tubULPort   
+	T    0   0      46     177.8    0        360     tubDRPort   
+	T    0   0      46     82.55    0        360     tubLowerPort
+	T    0   0      36     88.9     0        360     cutURPort   
+	T    0   0      36     222.25   0        360     cutULPort   
+	T    0   0      36     177.8    0        360     cutDRPort   
+	T    0   0      36     82.55    0        360     cutLowerPort
+	T    0   0      51     129      0        360     cutBeamPort 
+	T    0   0      76     332.2    0        360     cutDetectorPort
+	T    0   0      157    380      0        360     cutChamber
+	T    0   0      51     thw0     0        360     BeamWindow            World              Mylar         none      0    0 -pZw0    1     0      0      0
+	T    0   0      76     thw1     0        360     DetectorWindow        World              Mylar         none    pXw1   0  pXw1    1    -90     135    90 
+	T    0   0      17.95  LGe      0        360     Ge                    World              Germanium     none    pXGe   0  pXGe    1     90     45    -90 
 #BooelanSolid info
-#	Type No  type     vol1         vol2         Ephi    Etheta  Epsi   PosX    PosY    PosZ    name          MotVolume       Material      SDName    posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
-#	                                            deg     deg     deg    mm      mm      mm                                                            mm   mm   mm         mm         deg    deg    deg    deg    deg   
-	BL   0   minus    bsVChamShell bsPort1Solid 270     90      0      -155    0       80      bsVCham0
-	BL   1   minus    bsVCham0     bsPort2Solid 0       90      0      0       -155    80      VacCham       World           Steel         none      0    0    0    1     0          0      0      0      0      0
-	BL   2   minus    bsPort1Shell bsVChamSolid 0       90      0      0       0       -155    VacChamPort1  World           Steel         none      -155 0    80   1     0          0      0      270    90     0
-	BL   3   minus    bsPort2Shell bsVChamSolid 0       90      0      0       0       -155    VacChamPort2  World           Steel         none      0    -155 80   1     0          0      0      0      90     0
+#	Type No  type     vol1                   vol2                   Ephi    Etheta  Epsi   PosX    PosY    PosZ    name                   MotVolume       Material      SDName    posX posY posZ RepNo  Ephi   Etheta Epsi  
+#	                                                                deg     deg     deg    mm      mm      mm                                                                     mm   mm   mm          deg    deg    deg   
+	BL   0   plus     tubChamber             tubChamberCover        0       0       0      0       0       190     uChamberCoverTop
+	BL   1   plus     uChamberCoverTop       tubBeamPort            0      -90      0      0       R0      Z0      uChamberBeamPort
+	BL   2   plus     uChamberBeamPort       tubDetectorPort       -135     90      0      pXp0   -pXp0    Z0      uChamberDetectorPort
+	BL   3   plus     uChamberDetectorPort   tubURPort              45      90      0     -pXp0    pXp0    Z0      uChamberURPort
+	BL   3   plus     uChamberURPort         tubULPort             -45      90      0      pXp0    pXp0    Z0      uChamberULPort
+	BL   3   plus     uChamberULPort         tubDRPort              135     90      0     -pXp0   -pXp0    Z0      uChamberDRPort
+	BL   3   plus     uChamberDRPort         tubLowerPort           135     90      0     -pXp0   -pXp0   -49      uChamberLowerPort
+	BL   3   minus    uChamberLowerPort      cutURPort              45      90      0     -pXpc    pXpc    Z0      subURPort       
+	BL   3   minus    subURPort              cutULPort              -45     90      0      pXpc    pXpc    Z0      subULPort       
+	BL   3   minus    subULPort              cutDRPort              135     90      0     -pXpc   -pXpc    Z0      subDRPort
+	BL   3   minus    subDRPort              cutLowerPort           135     90      0     -pXpc   -pXpc   -49      subLowerPort
+	BL   1   minus    subLowerPort           cutBeamPort            0      -90      0      0       R0      Z0      subBeamPort       
+	BL   2   minus    subBeamPort            cutDetectorPort        -135    90      0      pXp0   -pXp0    Z0      subDetectorPort       
+	BL   2   minus    subDetectorPort        cutChamber             0       0       0      0       0       0       Chamber                World           Steel         none      0    -Z0  0    1      180    90     180
 
-#Tubs info
-#	Type No  RMin   RMax   Length   StartAng SpanAng Name                  MotVolume          Material      SDName    posX posY posZ  RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
-#	         mm     mm     mm       deg      deg                                                                      mm   mm   mm          mm         deg    deg    deg    deg    deg   
-	T    0   0      55     0.2      0        360     Window1               World              Mylar         none      -155 0    80    1     0          0      0      270    90     0
-	T    0   0      55     0.2      0        360     Window2               World              Mylar         none      0    -155 80    1     0          0      0      0      90     0
-	T    0   0      150    10       0        360     VacChamBottom         World              Steel         none      0    0    -185  1     0          0      0      0      0      0
-	T    0   0      15     30       0        360     GeDetector            World              Germanium     MonitorSD 0    -225 80    1     0          0      0      0      90     0
-
+#**************************************************************************************************
+#	Muon Trigger
 #Box info
-#	Type No  x       y       z     Name             MotVolume Material      SDName     posX   posY   posZ   RepNo Space DirTheta DirPhi Ephi Etheta Epsi
-#	         mm      mm      mm                                                        mm     mm     mm           mm    deg      deg    deg  deg    deg
-	B    0   50      50      5     DEDXPack1        World     Vacuum        none       77.78  77.78  80     1     0     0        0      -45  90     0
-	B    0   50      50      0.065 DECounter1       DEDXPack1 Silicon       MonitorSD  0      0      0.0325 1     0     0        0      0    0      0
-	B    0   50      50      1.5   ECounter1        DEDXPack1 Silicon       MonitorSD  0      0     -0.75   1     0     0        0      0    0      0
-	B    0   50      50      1     CPVeto1          DEDXPack1 Scintillator  MonitorSD  0      0     -2      1     0     0        0      0    0      0
-	B    0   50      50      5     DEDXPack2        World     Vacuum        none      -77.78 -77.78  80     1     0     0        0      135  90     0
-	B    0   50      50      0.065 DECounter2       DEDXPack2 Silicon       MonitorSD  0      0      0.0325 1     0     0        0      0    0      0
-	B    0   50      50      1.5   ECounter2        DEDXPack2 Silicon       MonitorSD  0      0     -0.75   1     0     0        0      0    0      0
-	B    0   50      50      1     CPVeto2          DEDXPack2 Scintillator  MonitorSD  0      0     -2      1     0     0        0      0    0      0
-	B    0   50      50      0.2   Target           World     Aluminium     MonitorSD  0      0      80     1     0     0        0      -45  90     0
-	B    0   50      50      0.5   BeamCounter      World     Scintillator  MonitorSD  -210   0      80     1     0     0        0      90   90     0
-	B    0   50      50      0.5   MVetoCounter     World     Scintillator  MonitorSD  140    0      80     1     0     0        0      90   90     0
-	B    0   50      50      2     LeadShield       World     Lead          none       -25    50     80     1     0     0        0      90   90     0
+#	Type No  x       y       z     Name             MotVolume Material      SDName     posX   posY   posZ   RepNo Ephi Etheta Epsi
+#	         mm      mm      mm                                                        mm     mm     mm           deg  deg    deg
+	B    0   200     200     70    MuTrigger        World     Air           none       0      0      pZTr   1     0    0      0 
+	B    0   100     100     0.16  MuFoil           MuTrigger Aluminium     none       0      0     -15.1   1     0    0      0 
+	B    0   50.1    50.1    35.2  MuPC             MuTrigger Air           none       0      0      12.4   1     0    0      0 
+	B    0   50      50      35    MuPCGas          MuPC      GasArgEthane  none       0      0      0      1     0    0      0 
+	B    0   50      50      0.05  MuPCDSWindow     MuPC      Mylar         none       0      0     -17.525 1     0    0      0 
+	B    0   50      50      0.05  MuPCUSWindow     MuPC      Mylar         none       0      0      17.525 1     0    0      0 
+	B    0   50      50      0.5   MuSC             MuTrigger Scintillator  none       0      0     -7.6    1     0    0      0 
+	B    0   100     100     3     bMuSCA_Whole          
+#Tubs info
+#	Type No  RMin   RMax   Length   StartAng SpanAng Name                  MotVolume          Material      SDName    posX posY posZ  RepNo Ephi   Etheta Epsi  
+#	         mm     mm     mm       deg      deg                                                                      mm   mm   mm          deg    deg    deg   
+	T    0   0      17.5   3.3      0        360     tMuSCA_Hole
+#BooelanSolid info
+#	Type No  type     vol1                   vol2                   Ephi    Etheta  Epsi   PosX    PosY    PosZ    name                   MotVolume       Material      SDName    posX posY posZ RepNo Ephi   Etheta Epsi  
+#	                                                                deg     deg     deg    mm      mm      mm                                                                     mm   mm   mm         deg    deg    deg   
+	BL   2   minus    bMuSCA_Whole           tMuSCA_Hole            0       0       0      0       0       0       MuSCA                  MuTrigger       Scintillator  none      0    0   -12.6 1     0      0      0  
+
+#**************************************************************************************************
+#	Collimators
+#Tubs info
+#	Type No  RMin   RMax   Length   StartAng SpanAng Name                  MotVolume          Material      SDName    posX posY posZ  RepNo Ephi   Etheta Epsi  
+#	         mm     mm     mm       deg      deg                                                                      mm   mm   mm          deg    deg    deg   
+	T    0   0      16     7        0        360     tCollimatorLining
+	T    0   0      15     23.5     0        360     tCollimatorLHole
+	T    0   0      15     23.5     0        360     tCollimatorPHole
+#Box info
+#	Type No  x       y       z     Name             MotVolume Material      SDName     posX   posY   posZ   RepNo Ephi Etheta Epsi
+#	         mm      mm      mm                                                        mm     mm     mm           deg  deg    deg
+	B    0   bXColL  360     1     bCollimatorLead
+	B    0   bXColS  360     1     bCollimatorSide
+	B    0   bXColP  95      6     bCollimatorPlastic
+#BooelanSolid info
+#	Type No  type     vol1                   vol2                   Ephi    Etheta  Epsi   PosX    PosY    PosZ    name                   MotVolume       Material      SDName    posX posY posZ RepNo Ephi   Etheta Epsi  
+#	                                                                deg     deg     deg    mm      mm      mm                                                                     mm   mm   mm         deg    deg    deg   
+	BL   2   plus     bCollimatorLead        bCollimatorSide       -90      45      90     pXColS  0       pZColS  uCollimatorLead0
+	BL   2   plus     uCollimatorLead0       tCollimatorLining      0       0       0      0       Z0      3       uCollimatorLead1
+	BL   2   minus    uCollimatorLead1       tCollimatorLHole       0       0       0      0       Z0      0       CollimatorLead         World           Lead          none      0   -Z0  -90.5 1     0      0      0  
+	BL   2   minus    bCollimatorPlastic     tCollimatorPHole       0       0       0      0       0       0       CollimatorPlastic      World           Lead          none      0    0   -87   1     0      0      0  
+
+#**************************************************************************************************
+#	Other Detectors
+#Box info
+#	Type No  x       y       z     Name             MotVolume Material      SDName     posX   posY   posZ   RepNo Ephi Etheta Epsi
+#	         mm      mm      mm                                                        mm     mm     mm           deg  deg    deg
+	B    0   100     100     0.5   MuVetoPS         World     Scintillator  none       0      0      137    1     0    0      0
+	B    0   51      51      5.565 DetBlock1        World     Vacuum        none    -84.8528  0   -84.8528  1     90   45    -90
+	B    0   50      50      1     VetoPS1          DetBlock1 Scintillator  none       0      0   -1.7825   1     0    0      0 
+	B    0   50      50      1.5   ESi1             DetBlock1 Silicon       none       0      0    0.4675   1     0    0      0 
+	B    0   50      50      0.065 dESi1            DetBlock1 Silicon       none       0      0     2.25    1     0    0      0 
+	B    0   51      51      5.565 DetBlock2        World     Vacuum        none     84.8528  0    84.8528  1     90   45    -90
+	B    0   50      50      1     VetoPS2          DetBlock2 Scintillator  none       0      0    1.7825   1     0    0      0 
+	B    0   50      50      1.5   ESi2             DetBlock2 Silicon       none       0      0   -0.4675   1     0    0      0 
+	B    0   50      50      0.065 dESi2            DetBlock2 Silicon       none       0      0    -2.25    1     0    0      0 
+
+#**************************************************************************************************
+#	Target
+#Box info
+#	Type No  x       y       z     Name             MotVolume Material      SDName     posX   posY   posZ   RepNo Ephi Etheta Epsi
+#	         mm      mm      mm                                                        mm     mm     mm           deg  deg    deg
+	B    0   120     120     5     bTargetBorderWhole
+	B    0   100     100     6     bTargetBorderHole
+	B    0   122     122     7     bTgtBdShieldingWhole
+	B    0   100     100     8     bTgtBdShieldingHole 
+	B    0   122     122     7     TargetMount      World     Vacuum        none       0      0      0      1     90   45    -90
+	B    0   100     100     0.05  Target           TargetMount Aluminium   MonitorSD  0      0      0      1     0    0      0
+#BooelanSolid info
+#	Type No  type     vol1                   vol2                   Ephi    Etheta  Epsi   PosX    PosY    PosZ    name                   MotVolume       Material      SDName    posX posY posZ RepNo Ephi   Etheta Epsi  
+#	                                                                deg     deg     deg    mm      mm      mm                                                                     mm   mm   mm         deg    deg    deg   
+	BL   2   minus    bTargetBorderWhole     bTargetBorderHole      0       0       0      0       0       0       TargetBorder           TargetMount     PCB           none      0    0    0    1     0      0      0  
+	BL   2   minus    bTgtBdShieldingWhole   bTgtBdShieldingHole    0       0       0      0       0       0       uTgtBdShielding1
+	BL   2   minus    uTgtBdShielding1       bTargetBorderWhole     0       0       0      0       0       0       TargetBorderShielding  TargetMount     Lead          none      0    0    0    1     0      0      0  
 
 #visual settings
 	VerboseLevel:    5
 	VISSETTING  #Keep this line to call Reset
 #	Name                        red    green  blue  
-	vis_VacCham                 0      0      1
-	vis_VacChamPort1            0      0      1
-	vis_VacChamPort2            0      0      1
-	vis_VacChamBottom           0      0      1
-	vis_Window1                 1      1      0 
-	vis_Window2                 1      1      0 
-	vis_DECounter1              0.5    0      1 
-	vis_ECounter1               1      1      0 
-	vis_CPVeto1                 0      1      0 
-	vis_DECounter2              0.5    0      1 
-	vis_ECounter2               1      1      0 
-	vis_CPVeto2                 0      1      0 
+	vis_Chamber                 0.1    0.75   1
+	vis_BeamWindow              0.5    0.25   0     0.3
+	vis_DetectorWindow          0.5    0.25   0     0.3
+	vis_MuVetoPS                1      1      0
 	vis_Target                  1      0      0 
-	vis_BeamCounter             0      1      0 
-	vis_MVetoCounter            0      1      0 
-	vis_LeadShield              0.3    0.3    0.3
-	vis_GeDetector              0.5    0      1  
+	vis_TargetBorder            0      1      0 
+	vis_TargetBorderShielding   0.5    0.5    0.5
+	vis_VetoPS1                 0      1      1  
+	vis_ESi1                    0      1      1  
+	vis_dESi1                   1      0      0  
+	vis_VetoPS2                 0      1      1  
+	vis_ESi2                    0      1      1  
+	vis_dESi2                   1      0      0  
+	vis_Ge                      0.5    0      1  
+	vis_CollimatorLead          0.5    0.5    0.5
+	vis_CollimatorPlastic       0.8    0.8    0.8
+	vis_MuTrigger               1      1      1     0.2
+	vis_MuPC                    0      0      1     0.5  
+	vis_MuSC                    0      0      1     0.5
+	vis_MuPCGas                 0.5    0.5    0.5   0.5
+	vis_MuPCDSWindow            1      1      0 
+	vis_MuPCUSWindow            1      1      0 
+	vis_MuSCA                   0      1      0 
+	vis_MuFoil                  1      0      0 
