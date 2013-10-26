@@ -66,14 +66,15 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 		particle->SetPDGStable(true);
 	}
 	particleGun->SetParticleDefinition(particle);
+	mass = particleGun->GetParticleDefinition()->GetPDGMass();
 	G4ThreeVector dir(1,0,0);
 	dir.setTheta(Theta);
 	dir.setPhi(Phi);
 	particleGun->SetParticleMomentumDirection(dir);
-	if (EnergyType==0)
-		particleGun->SetParticleMomentum(Pa);
-	else if (EnergyType==1)
-		particleGun->SetParticleEnergy(Ekin);
+	if (EnergyType==0){
+		Ekin = sqrt(Pa*Pa+mass*mass)-mass;
+	}
+	particleGun->SetParticleEnergy(Ekin);
 	particleGun->SetParticlePosition(G4ThreeVector(x,y,z));
 	particleGun->SetParticleTime(t);
 
@@ -122,6 +123,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 			fParticle->SetPDGStable(true);
 		}
 		particleGun->SetParticleDefinition(fParticle);
+		mass = particleGun->GetParticleDefinition()->GetPDGMass();
 		particleGun->SetParticleCharge(C*eplus);
 	}
 	if ( pidMode == "root"){
@@ -136,11 +138,13 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 			particle->SetPDGStable(true);
 		}
 		particleGun->SetParticleDefinition(particle);
+		mass = particleGun->GetParticleDefinition()->GetPDGMass();
 	}
 
 	if ( EnergyMode == "histo"){
 		G4double mom = EM_hist->GetRandom() * MeV;
-		particleGun->SetParticleMomentum(mom);
+		G4double ekin = sqrt(Pa*Pa+mass*mass)-mass;
+		particleGun->SetParticleEnergy(ekin);
 	}
 	else if ( EnergyMode == "root" ){
 		//std::cout<<"PGA EM = root!"
@@ -149,10 +153,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 		//	     <<","<<root_double[5]
 		//	     <<") MeV"
 		//	     <<std::endl;
-		particleGun->SetParticleMomentum(G4ThreeVector(root_double[3] * MeV, root_double[4] * MeV, root_double[5] * MeV));
-	}
-	else if ( EnergyMode == "RMC" ){
-		particleGun->SetParticleMomentum(100*MeV+2*MeV*G4UniformRand());
+		G4double ekin = sqrt(root_double[3]*root_double[3]*MeV*MeV+root_double[4]*root_double[4]*MeV*MeV+root_double[5]*root_double[5]*MeV*MeV+mass*mass)-mass;
+		particleGun->SetParticleMomentumDirection(G4ThreeVector(root_double[3] * MeV, root_double[4] * MeV, root_double[5] * MeV).unit());
+		particleGun->SetParticleEnergy(ekin);
 	}
 	else if ( EnergyMode == "gRand" || EnergyMode == "uRand" ){
 		SetRandomEnergy();
@@ -253,7 +256,8 @@ void PrimaryGeneratorAction::SetRandomEnergy(){
 		else{
 			dMom=2.*(G4UniformRand()-0.5)*MomSpread;
 		}
-		particleGun->SetParticleMomentum(Pa+dMom);
+		G4double ekin = sqrt((Pa+dMom)*(Pa+dMom)+mass*mass)-mass;
+		particleGun->SetParticleEnergy(ekin);
 	}
 }
 
