@@ -73,25 +73,35 @@ void SimpleGeometryParameter::Calculate(){
 	std::cout<<"In SimpleGeometryParameter::Calculate"<<std::endl; // to be deleted
 	MyVGeometryParameter::Calculate();
 	for ( int VolId = 0; VolId < VolNo; VolId++ ){
-		std::vector<G4double> tPosX; tPosX.clear();
-		std::vector<G4double> tPosY; tPosY.clear();
-		std::vector<G4double> tPosZ; tPosZ.clear();
+		std::vector<G4ThreeVector> tPos; tPos.clear();
 		std::vector<G4double> tEphi; tEphi.clear();
 		std::vector<G4double> tEtheta; tEtheta.clear();
 		std::vector<G4double> tEpsi; tEpsi.clear();
 		if (!SolidBoolean[VolId]){
 			for ( int RepId = 0; RepId < RepNo[VolId]; RepId++ ){
-				tPosX.push_back(CalFormula(fPosX[VolId],RepId)*mm);
-				tPosY.push_back(CalFormula(fPosY[VolId],RepId)*mm);
-				tPosZ.push_back(CalFormula(fPosZ[VolId],RepId)*mm);
 				tEphi.push_back(CalFormula(fEphi[VolId],RepId)*deg);
 				tEtheta.push_back(CalFormula(fEtheta[VolId],RepId)*deg);
 				tEpsi.push_back(CalFormula(fEpsi[VolId],RepId)*deg);
+				G4ThreeVector vec3temp(1,1,1);
+				if (PosType[VolId]=="Cartesian"){
+					vec3temp.setX(CalFormula(fPosX[VolId],RepId)*mm);
+					vec3temp.setY(CalFormula(fPosY[VolId],RepId)*mm);
+					vec3temp.setZ(CalFormula(fPosZ[VolId],RepId)*mm);
+				}
+				else if (PosType[VolId]=="Spherical"){
+					vec3temp.setMag(CalFormula(fPosR[VolId],RepId)*mm);
+					vec3temp.setTheta(CalFormula(fPosTheta[VolId],RepId)*deg);
+					vec3temp.setPhi(CalFormula(fPosPhi[VolId],RepId)*deg);
+				}
+				else if (PosType[VolId]=="Polar"){
+					vec3temp.setRho(CalFormula(fPosR[VolId],RepId)*mm);
+					vec3temp.setZ(CalFormula(fPosZ[VolId],RepId)*mm);
+					vec3temp.setPhi(CalFormula(fPosPhi[VolId],RepId)*deg);
+				}
+				tPos.push_back(vec3temp);
 			}
 		}
-		PosX.push_back(tPosX);
-		PosY.push_back(tPosY);
-		PosZ.push_back(tPosZ);
+		Pos.push_back(tPos);
 		Ephi.push_back(tEphi);
 		Etheta.push_back(tEtheta);
 		Epsi.push_back(tEpsi);
@@ -100,23 +110,33 @@ void SimpleGeometryParameter::Calculate(){
 			std::vector<G4double> tBooleanSolid_Ephi;
 			std::vector<G4double> tBooleanSolid_Etheta;
 			std::vector<G4double> tBooleanSolid_Epsi;
-			std::vector<G4double> tBooleanSolid_PosX;
-			std::vector<G4double> tBooleanSolid_PosY;
-			std::vector<G4double> tBooleanSolid_PosZ;
+			std::vector<G4ThreeVector> tBooleanSolid_Pos;
 			for ( int RepId = 0; RepId < RepNo[VolId]; RepId++ ){
 				tBooleanSolid_Ephi.push_back(CalFormula(fBooleanSolid_Ephi[SolId],RepId)*deg);
 				tBooleanSolid_Etheta.push_back(CalFormula(fBooleanSolid_Etheta[SolId],RepId)*deg);
 				tBooleanSolid_Epsi.push_back(CalFormula(fBooleanSolid_Epsi[SolId],RepId)*deg);
-				tBooleanSolid_PosX.push_back(CalFormula(fBooleanSolid_PosX[SolId],RepId)*mm);
-				tBooleanSolid_PosY.push_back(CalFormula(fBooleanSolid_PosY[SolId],RepId)*mm);
-				tBooleanSolid_PosZ.push_back(CalFormula(fBooleanSolid_PosZ[SolId],RepId)*mm);
+				G4ThreeVector vec3temp(1,1,1);
+				if (BooleanSolid_PosType[SolId]=="Cartesian"){
+					vec3temp.setX(CalFormula(fBooleanSolid_PosX[SolId],RepId)*mm);
+					vec3temp.setY(CalFormula(fBooleanSolid_PosY[SolId],RepId)*mm);
+					vec3temp.setZ(CalFormula(fBooleanSolid_PosZ[SolId],RepId)*mm);
+				}
+				else if (BooleanSolid_PosType[SolId]=="Spherical"){
+					vec3temp.setMag(CalFormula(fBooleanSolid_PosR[SolId],RepId)*mm);
+					vec3temp.setTheta(CalFormula(fBooleanSolid_PosTheta[SolId],RepId)*deg);
+					vec3temp.setPhi(CalFormula(fBooleanSolid_PosPhi[SolId],RepId)*deg);
+				}
+				else if (BooleanSolid_PosType[SolId]=="Polar"){
+					vec3temp.setRho(CalFormula(fBooleanSolid_PosR[SolId],RepId)*mm);
+					vec3temp.setZ(CalFormula(fBooleanSolid_PosZ[SolId],RepId)*mm);
+					vec3temp.setPhi(CalFormula(fBooleanSolid_PosPhi[SolId],RepId)*deg);
+				}
+				tBooleanSolid_Pos.push_back(vec3temp);
 			}
 			BooleanSolid_Ephi.push_back(tBooleanSolid_Ephi);
 			BooleanSolid_Etheta.push_back(tBooleanSolid_Etheta);
 			BooleanSolid_Epsi.push_back(tBooleanSolid_Epsi);
-			BooleanSolid_PosX.push_back(tBooleanSolid_PosX);
-			BooleanSolid_PosY.push_back(tBooleanSolid_PosY);
-			BooleanSolid_PosZ.push_back(tBooleanSolid_PosZ);
+			BooleanSolid_Pos.push_back(tBooleanSolid_Pos);
 		}
 		else if ( SolidType[VolId] == "Box" ){
 			std::vector<G4double> tBox_X; tBox_X.clear();
@@ -328,12 +348,14 @@ void SimpleGeometryParameter::Preset(){
 	fPosX.clear();
 	fPosY.clear();
 	fPosZ.clear();
+	fPosR.clear();
+	fPosPhi.clear();
+	fPosTheta.clear();
+	PosType.clear();
 	fEphi.clear();
 	fEtheta.clear();
 	fEpsi.clear();
-	PosX.clear();
-	PosY.clear();
-	PosZ.clear();
+	Pos.clear();
 	Ephi.clear();
 	Etheta.clear();
 	Epsi.clear();
@@ -424,12 +446,14 @@ void SimpleGeometryParameter::Preset(){
 	fBooleanSolid_PosX.clear();
 	fBooleanSolid_PosY.clear();
 	fBooleanSolid_PosZ.clear();
+	fBooleanSolid_PosR.clear();
+	fBooleanSolid_PosPhi.clear();
+	fBooleanSolid_PosTheta.clear();
+	BooleanSolid_PosType.clear();
 	BooleanSolid_Ephi.clear();
 	BooleanSolid_Etheta.clear();
 	BooleanSolid_Epsi.clear();
-	BooleanSolid_PosX.clear();
-	BooleanSolid_PosY.clear();
-	BooleanSolid_PosZ.clear();
+	BooleanSolid_Pos.clear();
 	BooleanSolid_GenIndex.clear();
 }
 
@@ -445,16 +469,15 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 	G4String s_para;
 	int iVol = VolNo;
 	bool GoOn = true;
-	//std::cout<<"==> "<<s_card<<std::endl; // to be deleted
+	std::cout<<"==> "<<s_card<<std::endl; // to be deleted
 	if (waited_Polycone_iVol>=0){
 		GoOn = false;
 		if (achieved_componets_Polycone<Polycone_numZ[waited_Polycone_iVol]){
 			if (name=="PCI"){
-				G4String dump;
 				G4double tPolycone_RMax;
 				G4double tPolycone_RMin;
 				G4double tPolycone_Z;
-				buf_card>>dump>>tPolycone_Z>>tPolycone_RMin>>tPolycone_RMax;
+				buf_card>>tPolycone_Z>>tPolycone_RMin>>tPolycone_RMax;
 				tPolycone_RMax *= mm;
 				tPolycone_RMin *= mm;
 				tPolycone_Z *= mm;
@@ -479,11 +502,10 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 		if( name == "B" ){
 			SolidType.push_back("Box");
 			SolidIndex.push_back(BoxNo);
-			G4String dump;
 			G4String tBox_X;
 			G4String tBox_Y;
 			G4String tBox_Z;
-			buf_card>>dump>>tBox_X>>tBox_Y>>tBox_Z;
+			buf_card>>tBox_X>>tBox_Y>>tBox_Z;
 			fBox_X.push_back(ReplaceMacro(tBox_X));
 			fBox_Y.push_back(ReplaceMacro(tBox_Y));
 			fBox_Z.push_back(ReplaceMacro(tBox_Z));
@@ -494,13 +516,12 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 		else if( name == "T" ){
 			SolidType.push_back("Tubs");
 			SolidIndex.push_back(TubsNo);
-			G4String dump;
 			G4String tTubs_RMax;
 			G4String tTubs_RMin;
 			G4String tTubs_Length;
 			G4String tTubs_StartAng;
 			G4String tTubs_SpanAng;
-			buf_card>>dump>>tTubs_RMin>>tTubs_RMax>>tTubs_Length>>tTubs_StartAng>>tTubs_SpanAng;
+			buf_card>>tTubs_RMin>>tTubs_RMax>>tTubs_Length>>tTubs_StartAng>>tTubs_SpanAng;
 			fTubs_RMax.push_back(ReplaceMacro(tTubs_RMax));
 			fTubs_RMin.push_back(ReplaceMacro(tTubs_RMin));
 			fTubs_Length.push_back(ReplaceMacro(tTubs_Length));
@@ -513,13 +534,12 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 		else if( name == "Tor" ){
 			SolidType.push_back("Torus");
 			SolidIndex.push_back(TorusNo);
-			G4String dump;
 			G4double tTorus_RMax;
 			G4double tTorus_RMin;
 			G4double tTorus_Rtor;
 			G4double tTorus_StartAng;
 			G4double tTorus_SpanAng;
-			buf_card>>dump>>tTorus_RMin>>tTorus_RMax>>tTorus_Rtor>>tTorus_StartAng>>tTorus_SpanAng;
+			buf_card>>tTorus_RMin>>tTorus_RMax>>tTorus_Rtor>>tTorus_StartAng>>tTorus_SpanAng;
 			tTorus_RMax *= mm;
 			tTorus_RMin *= mm;
 			tTorus_Rtor *= mm;
@@ -537,14 +557,13 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 		else if( name == "Sph" ){
 			SolidType.push_back("Sphere");
 			SolidIndex.push_back(SphereNo);
-			G4String dump;
 			G4double tSphere_RMax;
 			G4double tSphere_RMin;
 			G4double tSphere_StartPhi;
 			G4double tSphere_SpanPhi;
 			G4double tSphere_StartTheta;
 			G4double tSphere_SpanTheta;
-			buf_card>>dump>>tSphere_RMin>>tSphere_RMax>>tSphere_StartPhi>>tSphere_SpanPhi>>tSphere_StartTheta>>tSphere_SpanTheta;
+			buf_card>>tSphere_RMin>>tSphere_RMax>>tSphere_StartPhi>>tSphere_SpanPhi>>tSphere_StartTheta>>tSphere_SpanTheta;
 			tSphere_RMax *= mm;
 			tSphere_RMin *= mm;
 			tSphere_StartPhi *= deg;
@@ -564,13 +583,12 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 		else if( name == "H" ){
 			SolidType.push_back("Hype");
 			SolidIndex.push_back(HypeNo);
-			G4String dump;
 			G4double tHype_innerRadius;
 			G4double tHype_outerRadius;
 			G4double tHype_innerStereo;
 			G4double tHype_outerStereo;
 			G4double tHype_Length;
-			buf_card>>dump>>tHype_innerRadius>>tHype_outerRadius>>tHype_innerStereo>>tHype_outerStereo>>tHype_Length;
+			buf_card>>tHype_innerRadius>>tHype_outerRadius>>tHype_innerStereo>>tHype_outerStereo>>tHype_Length;
 			tHype_innerRadius *= mm;
 			tHype_outerRadius *= mm;
 			tHype_innerStereo *= deg;
@@ -588,13 +606,12 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 		else if( name == "TT" ){
 			SolidType.push_back("TwistedTubs");
 			SolidIndex.push_back(TwistedTubsNo);
-			G4String dump;
 			G4double tTwistedTubs_twistedangle;
 			G4double tTwistedTubs_endinnerrad;
 			G4double tTwistedTubs_endouterrad;
 			G4double tTwistedTubs_Length;
 			G4double tTwistedTubs_dphi;
-			buf_card>>dump>>tTwistedTubs_twistedangle>>tTwistedTubs_endinnerrad>>tTwistedTubs_endouterrad>>tTwistedTubs_Length>>tTwistedTubs_dphi;
+			buf_card>>tTwistedTubs_twistedangle>>tTwistedTubs_endinnerrad>>tTwistedTubs_endouterrad>>tTwistedTubs_Length>>tTwistedTubs_dphi;
 			tTwistedTubs_twistedangle *= deg;
 			tTwistedTubs_endinnerrad *= mm;
 			tTwistedTubs_endouterrad *= mm;
@@ -612,7 +629,6 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 		else if( name == "C" ){
 			SolidType.push_back("Cons");
 			SolidIndex.push_back(ConsNo);
-			G4String dump;
 			G4double tCons_RMax1;
 			G4double tCons_RMin1;
 			G4double tCons_RMax2;
@@ -620,7 +636,7 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 			G4double tCons_Length;
 			G4double tCons_StartAng;
 			G4double tCons_SpanAng;
-			buf_card>>dump>>tCons_RMin1>>tCons_RMax1>>tCons_RMin2>>tCons_RMax2>>tCons_Length>>tCons_StartAng>>tCons_SpanAng;
+			buf_card>>tCons_RMin1>>tCons_RMax1>>tCons_RMin2>>tCons_RMax2>>tCons_Length>>tCons_StartAng>>tCons_SpanAng;
 			tCons_RMax1 *= mm;
 			tCons_RMin1 *= mm;
 			tCons_RMax2 *= mm;
@@ -642,11 +658,10 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 		else if( name == "PC" ){
 			SolidType.push_back("Polycone");
 			SolidIndex.push_back(PolyconeNo);
-			G4String dump;
 			G4double tPolycone_numZ;
 			G4double tPolycone_StartAng;
 			G4double tPolycone_SpanAng;
-			buf_card>>dump>>tPolycone_numZ>>tPolycone_StartAng>>tPolycone_SpanAng;
+			buf_card>>tPolycone_numZ>>tPolycone_StartAng>>tPolycone_SpanAng;
 			tPolycone_StartAng *= deg;
 			tPolycone_SpanAng *= deg;
 			Polycone_numZ.push_back(tPolycone_numZ);
@@ -676,7 +691,28 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 			G4String tBooleanSolid_PosX;
 			G4String tBooleanSolid_PosY;
 			G4String tBooleanSolid_PosZ;
-			buf_card>>dump>>tBooleanSolid_type>>tBooleanSolid_sol1>>tBooleanSolid_sol2>>tBooleanSolid_Ephi>>tBooleanSolid_Etheta>>tBooleanSolid_Epsi>>tBooleanSolid_PosX>>tBooleanSolid_PosY>>tBooleanSolid_PosZ;
+			G4String tBooleanSolid_PosR;
+			G4String tBooleanSolid_PosTheta;
+			G4String tBooleanSolid_PosPhi;
+			G4String tBooleanSolid_PosType;
+			buf_card>>tBooleanSolid_type>>tBooleanSolid_sol1>>tBooleanSolid_sol2>>tBooleanSolid_Ephi>>tBooleanSolid_Etheta>>tBooleanSolid_Epsi>>dump;
+			if (dump=="P"){ // Need Polar Coordinates
+				buf_card>>tBooleanSolid_PosR>>tBooleanSolid_PosPhi>>tBooleanSolid_PosZ;
+				tBooleanSolid_PosType = "Polar";
+			}
+			else if (dump=="S"){ // Need Spherical Coordinates
+				buf_card>>tBooleanSolid_PosR>>tBooleanSolid_PosPhi>>tBooleanSolid_PosTheta;
+				tBooleanSolid_PosType = "Spherical";
+			}
+			else if (dump=="C"){ // Need Cartesian Coordinates
+				buf_card>>tBooleanSolid_PosX>>tBooleanSolid_PosY>>tBooleanSolid_PosZ;
+				tBooleanSolid_PosType = "Cartesian";
+			}
+			else{ // By default, need Cartesian Coordinates
+				tBooleanSolid_PosX=dump;
+				buf_card>>tBooleanSolid_PosY>>tBooleanSolid_PosZ;
+				tBooleanSolid_PosType = "Cartesian";
+			}
 			BooleanSolid_type.push_back(tBooleanSolid_type);
 			BooleanSolid_sol1.push_back(tBooleanSolid_sol1);
 			BooleanSolid_sol2.push_back(tBooleanSolid_sol2);
@@ -686,14 +722,23 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 			fBooleanSolid_PosX.push_back(ReplaceMacro(tBooleanSolid_PosX));
 			fBooleanSolid_PosY.push_back(ReplaceMacro(tBooleanSolid_PosY));
 			fBooleanSolid_PosZ.push_back(ReplaceMacro(tBooleanSolid_PosZ));
+			fBooleanSolid_PosR.push_back(ReplaceMacro(tBooleanSolid_PosR));
+			fBooleanSolid_PosTheta.push_back(ReplaceMacro(tBooleanSolid_PosTheta));
+			fBooleanSolid_PosPhi.push_back(ReplaceMacro(tBooleanSolid_PosPhi));
+			BooleanSolid_PosType.push_back(ReplaceMacro(tBooleanSolid_PosType));
 			BooleanSolid_GenIndex.push_back(iVol);
 			BooleanSolidNo++;
 			foundVolume = true;
 		}
 		if (foundVolume){
+			G4String dump;
 			G4String tPosX;
 			G4String tPosY;
 			G4String tPosZ;
+			G4String tPosR;
+			G4String tPosTheta;
+			G4String tPosPhi;
+			G4String tPosType;
 			G4String tRepCont;
 			G4int tRepNo = 1;
 			G4int tSRepNo = 0;
@@ -708,12 +753,34 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 			buf_card>>tName;
 			if(buf_card>>tMotherName){
 				tSolidBoolean = false;
-				buf_card>>tMaterial>>tSDName>>tPosX>>tPosY>>tPosZ>>tRepCont>>tEphi>>tEtheta>>tEpsi;
+				buf_card>>tMaterial>>tSDName>>dump;
+				if (dump=="P"){ // Need Polar Coordinates
+					buf_card>>tPosR>>tPosPhi>>tPosZ;
+					tPosType = "Polar";
+				}
+				else if (dump=="S"){ // Need Spherical Coordinates
+					buf_card>>tPosR>>tPosPhi>>tPosTheta;
+					tPosType = "Spherical";
+				}
+				else if (dump=="C"){ // Need Cartesian Coordinates
+					buf_card>>tPosX>>tPosY>>tPosZ;
+					tPosType = "Cartesian";
+				}
+				else{ // By default, need Cartesian Coordinates
+					tPosX=dump;
+					buf_card>>tPosY>>tPosZ;
+					tPosType = "Cartesian";
+				}
+				buf_card>>tRepCont>>tEphi>>tEtheta>>tEpsi;
 				get_RepCont(tRepCont,tSRepNo,tRepNo);
 			}
 			fPosX.push_back(tPosX);
 			fPosY.push_back(tPosY);
 			fPosZ.push_back(tPosZ);
+			fPosR.push_back(tPosR);
+			fPosPhi.push_back(tPosPhi);
+			fPosTheta.push_back(tPosTheta);
+			PosType.push_back(tPosType);
 			Name.push_back(tName);
 			MotherName.push_back(tMotherName);
 			Material.push_back(tMaterial);
@@ -725,6 +792,7 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 			fEpsi.push_back(tEpsi);
 			SolidBoolean.push_back(tSolidBoolean);
 			VolNo++;
+			std::cout<<"found Volume:"<<tName<<std::endl; // to be deleted
 		}
 		else if ( name == "DEFINE:" ){
 			G4String MacroName;
@@ -732,8 +800,18 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 			buf_card>>MacroName>>MacroValue;
 //			std::cout<<"found DEFINE:"<<std::endl; // to be deleted
 			MacroValue = ReplaceMacro(MacroValue);
-			knownValueNames.push_back(MacroName);
-			knownValues.push_back(MacroValue);
+			bool foundName = false;
+			for (int i = 0; i < knownValueNames.size(); i++){
+				if (knownValueNames[i]==MacroName){ // If this name occurred once, replace the value
+					foundName = true;
+					knownValues[i]=MacroValue;
+					break;
+				}
+			}
+			if (!foundName){
+				knownValueNames.push_back(MacroName);
+				knownValues.push_back(MacroValue);
+			}
 		}
 		else if ( name == "VISSETTING" ){
 			if(notReSetVis) ReSetVis();
@@ -1120,11 +1198,26 @@ void SimpleGeometryParameter::dump_general_value(G4int index, G4int j){
 	if (!SolidBoolean[index]){
 		std::cout<<std::setiosflags(std::ios::left)<<std::setw(15)<<MotherName[index]
 				 <<std::setiosflags(std::ios::left)<<std::setw(15)<<Material[index]
-				 <<std::setiosflags(std::ios::left)<<std::setw(15)<<SDName[index]
-				 <<std::setiosflags(std::ios::left)<<std::setw(7) <<PosX[index][j]/mm
-				 <<std::setiosflags(std::ios::left)<<std::setw(7) <<PosY[index][j]/mm
-				 <<std::setiosflags(std::ios::left)<<std::setw(7) <<PosZ[index][j]/mm
-				 <<std::setiosflags(std::ios::left)<<std::setw(6) <<RepNo[index]
+				 <<std::setiosflags(std::ios::left)<<std::setw(15)<<SDName[index];
+		if (PosType[index]=="Cartesian"){
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(2) <<"C"
+					 <<std::setiosflags(std::ios::left)<<std::setw(5) <<Pos[index][j].x()/mm
+					 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Pos[index][j].y()/mm
+					 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Pos[index][j].z()/mm;
+		}
+		else if (PosType[index]=="Polar"){
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(2) <<"P"
+					 <<std::setiosflags(std::ios::left)<<std::setw(5) <<Pos[index][j].rho()/mm
+					 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Pos[index][j].phi()/deg
+					 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Pos[index][j].z()/mm;
+		}
+		else if (PosType[index]=="Spherical"){
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(2) <<"S"
+					 <<std::setiosflags(std::ios::left)<<std::setw(5) <<Pos[index][j].mag()/mm
+					 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Pos[index][j].phi()/deg
+					 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Pos[index][j].theta()/deg;
+		}
+		std::cout<<std::setiosflags(std::ios::left)<<std::setw(6) <<RepNo[index]
 				 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Ephi[index][j]/deg
 				 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Etheta[index][j]/deg
 				 <<std::setiosflags(std::ios::left)<<std::setw(7) <<Epsi[index][j]/deg;

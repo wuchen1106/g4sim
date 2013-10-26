@@ -1,7 +1,8 @@
 #general info
-	checkoverlap
-#**************************************************************************************************
+#	checkoverlap
+#==================================================================================================================
 #	Chamber Body and Germanium Detector
+#==================================================================================================================
 DEFINE: HO			382 # Height of Chamber (Outside)
 DEFINE: HI			380 # Height of Chamber (Inside)
 DEFINE: RO			162 # RMax of Chamber (Outside)
@@ -26,10 +27,12 @@ DEFINE: pRw1		RO+Lp2/2-thw1/2 # R position of Detector Window
 
 DEFINE: Rp0O		46 # R of 45 degree Ports (Outside)
 DEFINE: Rp0I		36 # R of 45 degree Ports (Inside)
-DEFINE: LpUR 		88.9 # (double) Length of Upstream Right Port (Inside)
-DEFINE: LpUL 		222.25 # (double) Length of Upstream Left Port (Inside)
-DEFINE: LpDR 		177.8 # (double) Length of Downstream Right Port (Inside)
-DEFINE: LpLo 		82.55 # (double) Length of Lower Port (Inside)
+DEFINE: thp0		10 # Thickness of endplates of 45 degree Ports
+DEFINE: R0  		RO-thp0 # R position of cut components of 45 degree Ports
+DEFINE: LpUR 		88.9 # (double) Length of Upstream Right Port
+DEFINE: LpUL 		222.25 # (double) Length of Upstream Left Port
+DEFINE: LpDR 		177.8 # (double) Length of Downstream Right Port
+DEFINE: LpLo 		82.55 # (double) Length of Lower Port
 
 DEFINE: LGe			14 # Length of Germanium Detector
 DEFINE: RGe			17.95 # R of Germanium Detector
@@ -42,43 +45,44 @@ DEFINE: pRGe		RO+Lp2/2+LGe/2 # R position of Germanium Detector
 	T    0    RO    HO     0     360  tubChamber
 	T    0    Rt    Ht     0     360  tubChamberCover
 	T    0    Rp1O  Lp1    0     360  tubBeamPort 
+	T    0    Rp1I  Lp1+1  0     360  cutBeamPort 
 	T    0    Rp2O  Lp2    0     360  tubDetectorPort
+	T    0    Rp2I  Lp2+1  0     360  cutDetectorPort
 	T    0    Rp0O  LpUR   0     360  tubURPort   
-	T    0    Rp0O  LpUL   0     360  tubULPort   
-	T    0    Rp0O  LPDR   0     360  tubDRPort   
-	T    0    Rp0O  LpLo   0     360  tubLowerPort
 	T    0    Rp0I  LpUR   0     360  cutURPort   
+	T    0    Rp0O  LpUL   0     360  tubULPort   
 	T    0    Rp0I  LpUL   0     360  cutULPort   
+	T    0    Rp0O  LpDR   0     360  tubDRPort   
 	T    0    Rp0I  LpDR   0     360  cutDRPort   
+	T    0    Rp0O  LpLo   0     360  tubLowerPort
 	T    0    Rp0I  LpLo   0     360  cutLowerPort
-	T    0    Rp1I  Lp1    0     360  cutBeamPort 
-	T    0    Rp2I  Lp2    0     360  cutDetectorPort
-	T    0    RI    HI     0     360  ChamberIn         World     Vacuum    none         0   0    0     1      0      0      0
-	T    0    Rp1I  thw0   0     360  BeamWindow        World     Mylar     none    P pRw0   0    0     1     90     90      0
-	T    0    Rp2I  thw1   0     360  DetectorWindow    World     Mylar     none    P pRw1 -135   0     1    -45     90      0 
-	T    0    RGe   LGe    0     360  Ge                World     Germanium none    P pRGe -135   0     1    -45     90      0 
+	T    0    RI    HI     0     360  ChamberIn         World     Vacuum    none         0  -Z0   0     1      0    -90     90
+	T    0    Rp1I  thw0   0     360  BeamWindow        World     Mylar     none    S pRw0   0    180   1      0      0      0
+	T    0    Rp2I  thw1   0     360  DetectorWindow    World     Mylar     none    S pRw1   0    45    1     90   -135      0 
+	T    0    RGe   LGe    0     360  Ge                World     Germanium none    S pRGe   0    45    1     90   -135      0 
 #BooelanSolid info
 #	Type type  vol1         vol2              Ephi Ethe Epsi PosX  PosY PosZ   name         MotVolume  Material SDName    posX posY posZ RepNo Ephi Ethe Epsi  
 #	                                          deg  deg  deg  mm    mm   mm                                                mm   mm   mm         deg  deg  deg   
 #	                                                       P R     Phi  Z                                               P R    Phi  Z    
 #	                                                       S R     Phi  Theta                                           S R    Phi  Theta
 	BL   plus  tubChamber   tubChamberCover   0    0    0  P 0     0    HI/2   blChamber1
-	BL   plus  blChamber1   tubBeamPort       0    90   0  P RO    0    Z0     blChamber2
-	BL   plus  blChamber2   tubDetectorPort  -135  90   0  P RO   -135  Z0     blChamber3
-	BL   plus  blChamber3   tubURPort         45   90   0  P RO    45   Z0     blChamber4
-	BL   plus  blChamber4   tubULPort        -45   90   0  P RO   -45   Z0     blChamber5
-	BL   plus  blChamber5   tubDRPort         135  90   0  P RO    135  Z0     blChamber6
-	BL   plus  blChamber6   tubLowerPort      135  90   0  P RO    135  ZLo    blChamber7
-	BL   minus blChamber7   cutURPort         45   90   0  P RO    45   Z0     blChamber8
-	BL   minus blChamber8   cutULPort         -45  90   0  P RO   -45   Z0     blChamber9
-	BL   minus blChamber9   cutDRPort         135  90   0  P RO    135  Z0     blChamber10
-	BL   minus blChamber10  cutLowerPort      135  90   0  P RO    135  ZLo    blChamber11
-	BL   minus blChamber11  cutBeamPort       0    90   0  P RO    0    Z0     blChamber12
-	BL   minus blChamber12  cutDetectorPort   -135 90   0  P RO   -135  Z0     blChamber13
-	BL   minus blChamber13  ChamberIn         0    0    0  P 0     0    0      Chamber      World      Steel    none      0    0   -Z0   1     0    0    0
+	BL   plus  blChamber1   tubBeamPort       90   90   0  P RO    0    Z0     blChamber2
+	BL   plus  blChamber2   tubDetectorPort  -45   90   0  P RO   -135  Z0     blChamber3
+	BL   plus  blChamber3   tubURPort        -45   90   0  P RO    45   Z0     blChamber4
+	BL   plus  blChamber4   tubULPort         45   90   0  P RO   -45   Z0     blChamber5
+	BL   plus  blChamber5   tubDRPort         45   90   0  P RO    135  Z0     blChamber6
+	BL   plus  blChamber6   tubLowerPort      45   90   0  P RO    135  ZLo    blChamber7
+	BL   minus blChamber7   cutBeamPort       90   90   0  P RO    0    Z0     blChamber8 
+	BL   minus blChamber8   cutDetectorPort  -45   90   0  P RO   -135  Z0     blChamber9 
+	BL   minus blChamber9   cutURPort        -45   90   0  P R0    45   Z0     blChamber10
+	BL   minus blChamber10  cutULPort         45   90   0  P R0   -45   Z0     blChamber11
+	BL   minus blChamber11  cutDRPort         45   90   0  P R0    135  Z0     blChamber12
+	BL   minus blChamber12  cutLowerPort      45   90   0  P R0    135  ZLo    blChamber13
+	BL   minus blChamber13  ChamberIn         0    0    0  P 0     0    0      Chamber      World      Steel    none      0   -Z0   0    1     0   -90   90
 
-#**************************************************************************************************
+#==================================================================================================================
 #	Muon Trigger
+#==================================================================================================================
 DEFINE: LTr			70 # Length of Trigger Box (Adjacent to Beam Window)
 DEFINE: XTr			200 # x-y Dimension of Trigger Box
 DEFINE: pRTr		RO+Lp1/2+LTr/2 # R position of Trigger box
@@ -86,104 +90,136 @@ DEFINE: LGas		35 # Length of Gas Chamber
 DEFINE: XGas		50 # x-y Dimension of Gas Chamber
 DEFINE: thwg		0.05 # Thickness of Windows
 DEFINE: pZwg		LGas/2-thwg/2 # z position of Windows (Relative to Gas Chamber)
-DEFINE: dGas		5 # Gap between Gas Chamber to Beam Window
-DEFINE: pZGas		LTr/2-LGas/2-dGas # z position of Windows (Relative to Trigger Box)
-DEFINE: dSCA		5 # Gap between MuSCA to Gas Chamber
-DEFINE: dFoil		10 # Gap between Foil to Gas Chamber
+DEFINE: gGas		5.1 # Gap between Gas Chamber and Beam Window
+DEFINE: pZGas		LTr/2-LGas/2-gGas # z position of Gas Chamber (Relative to Trigger Box)
+DEFINE: thSCA		3 # Thickness of MuSCA
+DEFINE: RSCA		17.5 # Radius of The hole on MuSCA
+DEFINE: gSCA		6 # Gap between MuSCA and Gas Chamber
+DEFINE: pZSCA		pZGas-LGas/2-gSCA-thSCA/2 # z position of MuSCA (Relative to Trigger Box)
+DEFINE: gFoil		9.92 # Gap between Foil and Gas Chamber
 DEFINE: XFoil		100 # x-y Distance of Foil
-DEFINE: thFoil	0.16 # Thickness of Foil
-DEFINE: pZFoil	pZGas-LGas/2 # Gap between Foil to Gas Chamber
-DEFINE: thMuSC	0.5 # Thickness of Muon Scintillator Trigger
-DEFINE: dMuSC		10 # Gap between Foil to Gas Chamber
+DEFINE: thFoil		0.16 # Thickness of Foil
+DEFINE: pZFoil		pZGas-LGas/2-gFoil-thFoil/2 # z position of Foil (Relative to Trigger Box)
+DEFINE: thSC		0.5 # Thickness of MuSC
+DEFINE: gSC			2.25 # Gap between MuSC and Gas Chamber
+DEFINE: pZSC		pZGas-LGas/2-gSC-thSC/2 # z position of MuSC (Relative to Trigger Box)
 #Box info
-#	Type x     y     z     Name         MotVolume  Material     SDName  posX  posY  posZ   RepNo Ephi Ethe Epsi
-#	     mm    mm    mm                                                 mm    mm    mm           deg  deg  deg
-#	                                                                  P R     Phi   Z
-#	                                                                  S R     Phi   Theta  
-	B    XTr   XTr   LTr    MuTrigger    World     Air          none  P pRTr  0    0      1     90   90   0 
+#	Type x     y     z      Name         MotVolume Material     SDName  posX  posY posZ   RepNo Ephi Ethe Epsi
+#	     mm    mm    mm                                                 mm    mm   mm           deg  deg  deg
+#	                                                                  P R     Phi  Z
+#	                                                                  S R     Phi  Theta  
+	B    XTr   XTr   LTr    MuTrigger    World     Air          none  S pRTr  0    180    1     0    0    0 
 	B    XFoil XFoil thFoil MuFoil       MuTrigger Aluminium    none    0     0    pZFoil 1     0    0    0 
-	B    XGas  XGas  LGas   MuPC         MuTrigger Air          none    0     0    pZGas  1     0    0    0 
-	B    XGas  XGas  LGas   MuPCGas      MuPC      GasArgEthane none    0     0    0      1     0    0    0 
+	B    XGas  XGas  LGas   MuPC         MuTrigger GasArgEthane none    0     0    pZGas  1     0    0    0 
 	B    XGas  XGas  thwg   MuPCDSWindow MuPC      Mylar        none    0     0    pZwg   1     0    0    0 
 	B    XGas  XGas  thwg   MuPCUSWindow MuPC      Mylar        none    0     0   -pZwg   1     0    0    0 
-	B    XGas  XGas  thMuSC MuSC         MuTrigger Scintillator none    0     0   -7.6    1     0    0    0 
-	B    XFoil XFoil 3      bMuSCA_Whole          
+	B    XFoil XFoil thSC   MuSC         MuTrigger Scintillator none    0     0    pZSC   1     0    0    0 
+	B    XFoil XFoil thSCA  bMuSCA_Whole          
 #Tubs info
-#	Type RMin RMax  Length Start Span Name              MotVolume Material  SDName    posX posY  posZ  RepNo Ephi   Ethe   Epsi  
-#	     mm   mm    mm     deg   deg                                                  mm   mm    mm          deg    deg    deg   
-#	                                                                                P R    Phi   Z     
-#	                                                                                S R    Phi   Theta 
-	T    0    17.5  3.3    0     360  tMuSCA_Hole
+#	Type RMin RMax  Length  Start Span Name              MotVolume Material  SDName    posX posY  posZ  RepNo Ephi   Ethe   Epsi  
+#	     mm   mm    mm      deg   deg                                                  mm   mm    mm          deg    deg    deg   
+#	                                                                                 P R    Phi   Z     
+#	                                                                                 S R    Phi   Theta 
+	T    0    RSCA  thSCA+1 0     360  tMuSCA_Hole
 #BooelanSolid info
 #	Type type  vol1         vol2              Ephi Ethe Epsi PosX  PosY PosZ   name  MotVolume  Material     SDName   posX posY posZ RepNo Ephi Ethe Epsi  
 #	                                          deg  deg  deg  mm    mm   mm                                            mm   mm   mm         deg  deg  deg   
 #	                                                       P R     Phi  Z                                           P R    Phi  Z    
 #	                                                       S R     Phi  Theta                                       S R    Phi  Theta
-	BL   minus bMuSCA_Whole tMuSCA_Hole       0    0    0    0     0    0      MuSCA MuTrigger  Scintillator none     0    0   -12.6 1     0    0    0  
+	BL   minus bMuSCA_Whole tMuSCA_Hole       0    0    0    0     0    0      MuSCA MuTrigger  Scintillator none     0    0    pZSCA 1    0    0    0  
 
-#**************************************************************************************************
+#==================================================================================================================
 #	Collimators
-DEFINE: bXColS		30 # X Dimension of Collimator Side
+#==================================================================================================================
 DEFINE: bXColL		75 # X Dimension of Collimator Lead (main)
-DEFINE: bXColP		bXColL # X Dimension of Collimator Lead (main)
-DEFINE: pXColS		-bxColL/2-bxColS/2/sqrt(2)
-DEFINE: pZColS		-bxColS/2/sqrt(2)
+DEFINE: bYColL		360 # Y Dimension of Collimator Lead (main and side)
+DEFINE: thColL		1 # Thickness of Collimator Lead (main and side)
+DEFINE: pRColL		90.5 # R position of Collimator Lead
+DEFINE: bXColS		30 # X Dimension of Collimator Lead (side)
+DEFINE: pXColS		-bXColL/2-bXColS/2/sqrt(2)-thColL/2/sqrt(2) # X position of Collimator Side (Relative to Collimator Lead (main) )
+DEFINE: pZColS		-bXColS/2/sqrt(2) # Z position of Collimator Side (Relative to Collimator Lead (main) )
+DEFINE: bXColP		bXColL # X Dimension of Collimator Plastic
+DEFINE: bYColP		95 # Y Dimension of Collimator Plastic
+DEFINE: thColP		6 # Thickness of Collimator Plastic
+DEFINE: pRColP		pRColL-thColL/2-thColP/2 # R position of Collimator Plastic
 #Tubs info
 #	Type RMin RMax  Length Start Span Name        MotVolume Material  SDName   posX posY posZ RepNo Ephi Ethe Epsi  
 #	     mm   mm    mm     deg   deg                                           mm   mm   mm         deg  deg  deg   
 #	                                                                         P R    Phi  Z    
 #	                                                                         S R    Phi  Theta 
-	T    0    16    7      0     360  tColLining
+	T    14   15    7      0     360  tColLining
 	T    0    15    23.5   0     360  tColLHole
 	T    0    15    23.5   0     360  tColPHole
 #Box info
-#	Type x      y     z     Name         MotVolume Material     SDName   posX  posY  posZ  RepNo Ephi Ethe Epsi
-#	     mm     mm    mm                                                 mm    mm    mm          deg  deg  deg
-#	                                                                   P R     Phi   Z
-#	                                                                   S R     Phi   Theta 
-	B    bXColL 360     1   bColL
-	B    bXColS 360     1   bColSide
-	B    bXColP 95      6   bColP
+#	Type x      y       z      Name         MotVolume Material     SDName   posX  posY  posZ  RepNo Ephi Ethe Epsi
+#	     mm     mm      mm                                                  mm    mm    mm          deg  deg  deg
+#	                                                                      P R     Phi   Z
+#	                                                                      S R     Phi   Theta 
+	B    bXColL bYColL  thColL bColL
+	B    bXColS bYColL  thColL bColSide
+	B    bXColP bYColP  thColP bColP
 #BooelanSolid info
-#	Type type  vol1   vol2        Ephi Ethe Epsi PosX  PosY PosZ   name              MotVolume  Material    SDName    posX posY posZ RepNo Ephi Ethe Epsi  
-#	                              deg  deg  deg  mm    mm   mm                                                        mm   mm   mm         deg  deg  deg   
-#	                                           P R     Phi  Z                                                       P R    Phi  Z    
-#	                                           S R     Phi  Theta                                                   S R    Phi  Theta
+#	Type type  vol1   vol2        Ephi Ethe Epsi PosX  PosY PosZ   name              MotVolume  Material    SDName    posX   posY posZ RepNo Ephi Ethe Epsi  
+#	                              deg  deg  deg  mm    mm   mm                                                        mm     mm   mm         deg  deg  deg   
+#	                                           P R     Phi  Z                                                       P R      Phi  Z    
+#	                                           S R     Phi  Theta                                                   S R      Phi  Theta
 	BL   plus  bColL  bColSide   -90   45   90   pXColS 0   pZColS uColL1          
-	BL   plus  uColL1 tColLining  0    0    0    0      Z0  3      uColL2          
-	BL   minus uColL2 tColLHole   0    0    0    0      Z0  0      CollimatorLead    ChamberIn  Lead         none   P 90.5 0   -Z0   1     90   90   0  
-	BL   minus bColP  tColPHole   0    0    0    0      0   0      CollimatorPlastic ChamberIn  Scintillator none   P 87   0    0    1     90   90   0  
+	BL   plus  uColL1 tColLining  0    0    0    0      Z0  3.5    uColL2          
+	BL   minus uColL2 tColLHole   0    0    0    0      Z0  0      CollimatorLead    ChamberIn  Lead         none   P pRColL 0    0    1    -90   90   0  
+	BL   minus bColP  tColPHole   0    0    0    0      0   0      CollimatorPlastic ChamberIn  Scintillator none   P pRColP 0    Z0   1    -90   90   0  
 
-#**************************************************************************************************
+#==================================================================================================================
 #	Other Detectors
+#==================================================================================================================
+DEFINE: bXVeto		100 # x-y Dimension of Muon Veto Scintillator
+DEFINE: thVeto		0.5 # Thickness of Muon Veto Scintillator
+DEFINE: pRVeto		137 # R position of Muon Veto Scintillator
+DEFINE: thdESi		0.065 # Thickness of dEdx Scintillator 
+DEFINE: thESi		1.5 # Thickness of E Scintillator 
+DEFINE: thPS		1 # Thickness of Plastic Charged Veto Scintillator 
+DEFINE: gESi		1 # Gap between dEdx and E Scintillator 
+DEFINE: gPS 		1 # Gap between Plastic Charged Veto and E Scintillator 
+DEFINE: thPack		thPS+thESi+thdESi+gPS+gESi # Thickness of Detector Packages
+DEFINE: bXPack		50 # x-y Dimension of Detector Packages
+DEFINE: pRPack		120 # R position of Detector Packages
+DEFINE: pZdES		-thPack/2+thdESi/2 # Z position of E Scintillator (Relative to Detector Package)
+DEFINE: pZESi		pZdES+thdESi/2+gESi+thESi/2 # Z position of E Scintillator (Relative to Detector Package)
+DEFINE: pZPS		pZESi+thESi/2+gPS+thPS/2 # Z position of Plastic Charged Veto Scintillator (Relative to Detector Package)
 #Box info
-#	Type x      y     z     Name         MotVolume Material     SDName   posX  posY  posZ  RepNo Ephi Ethe Epsi
-#	     mm     mm    mm                                                 mm    mm    mm          deg  deg  deg
-#	                                                                   P R     Phi   Z
-#	                                                                   S R     Phi   Theta 
-	B    100    100   0.5   MuVetoPS     ChamberIn Scintillator none   P 137   0      0    1     90   90   0
-	B    51     51    5.565 DetBlock1    ChamberIn Vacuum       none   P 120   0      0    1     90   90   0 
-	B    50     50    1     VetoPS1      DetBlock1 Scintillator none     0     0   -1.7825 1     0    0    0 
-	B    50     50    1.5   ESi1         DetBlock1 Silicon      none     0     0    0.4675 1     0    0    0 
-	B    50     50    0.065 dESi1        DetBlock1 Silicon      none     0     0     2.25  1     0    0    0 
-	B    51     51    5.565 DetBlock2    ChamberIn Vacuum       none   P 120   180    0    1     90   90   0 
-	B    50     50    1     VetoPS2      DetBlock2 Scintillator none     0     0    1.7825 1     0    0    0 
-	B    50     50    1.5   ESi2         DetBlock2 Silicon      none     0     0   -0.4675 1     0    0    0 
-	B    50     50    0.065 dESi2        DetBlock2 Silicon      none     0     0    -2.25  1     0    0    0 
+#	Type x      y      z      Name         MotVolume Material     SDName   posX    posY  posZ   RepNo Ephi Ethe Epsi
+#	     mm     mm     mm                                                  mm      mm    mm           deg  deg  deg
+#	                                                                     P R       Phi   Z
+#	                                                                     S R       Phi   Theta  
+	B    bXVeto bXVeto thVeto MuVetoPS     ChamberIn Scintillator none   P pRVeto  180    Z0    1     90   90   0
+	B    bXPack bXPack thPack DetBlock1    ChamberIn Vacuum       none   P pRPack  45     Z0    1    -45  -90   0 
+	B    bXPack bXPack thPS   VetoPS1      DetBlock1 Scintillator none     0       0      pZPS  1     0    0    0 
+	B    bXPack bXPack thESi  ESi1         DetBlock1 Silicon      none     0       0      pZESi 1     0    0    0 
+	B    bXPack bXPack thdESi dESi1        DetBlock1 Silicon      none     0       0      pZdES 1     0    0    0 
+	B    bXPack bXPack thPack DetBlock2    ChamberIn Vacuum       none   P pRPack -135    Z0    1    -45   90   0 
+	B    bXPack bXPack thPS   VetoPS2      DetBlock2 Scintillator none     0       0      pZPS  1     0    0    0 
+	B    bXPack bXPack thESi  ESi2         DetBlock2 Silicon      none     0       0      pZESi 1     0    0    0 
+	B    bXPack bXPack thdESi dESi2        DetBlock2 Silicon      none     0       0      pZdES 1     0    0    0 
 
-#**************************************************************************************************
+#==================================================================================================================
 #	Target
+#==================================================================================================================
+DEFINE: XT 		100 # x Dimension of Target
+DEFINE: XTB		120 # x Dimension of Target Border
+DEFINE: XTBS	122 # x Dimension of Target Border Shielding
+DEFINE: thT 	0.05 # Thickness of Target
+DEFINE: thTB	5 # Thickness of Target Border
+DEFINE: thTBS	7 # Thickness of Target Border Shielding
 #Box info
-#	Type x      y     z     Name        MotVolume   Material     SDName       posX  posY  posZ  RepNo Ephi Ethe Epsi
-#	     mm     mm    mm                                                      mm    mm    mm          deg  deg  deg
-#	                                                                        P R     Phi   Z
-#	                                                                        S R     Phi   Theta 
-	B    120    120   5     bTgtBdWh
-	B    100    100   6     bTgtBdHl
-	B    122    122   7     bTgtBdShWh
-	B    100    100   8     bTgtBdShHl
-	B    122    122   7     TargetMount ChamberIn   Vacuum        none        0     0     0     1     45   90   0 
-	B    100    100   0.05  Target      TargetMount Aluminium     MonitorSD   0     0     0     1     0    0    0
+#	Type x      y     z       Name        MotVolume   Material     SDName       posX  posY  posZ  RepNo Ephi Ethe Epsi
+#	     mm     mm    mm                                                        mm    mm    mm          deg  deg  deg
+#	                                                                          P R     Phi   Z
+#	                                                                          S R     Phi   Theta 
+	B    XTB    XTB   thTB    bTgtBdWh
+	B    XT     XT    thTB+1  bTgtBdHl
+	B    XTBS   XTBS  thTBS   bTgtBdShWh
+	B    XT     XT    thTBS+1 bTgtBdShHl
+	B    XTBS   XTBS  thTBS   TargetMount ChamberIn   Vacuum        none        0     0     Z0    1    -45   90   0 
+	B    XT     XT    thT     Target      TargetMount Aluminium     MonitorSD   0     0     0     1     0    0    0
 #BooelanSolid info
 #	Type type  vol1       vol2        Ephi Ethe Epsi PosX PosY PosZ   name                  MotVolume   Material SDName  posX posY posZ RepNo Ephi Ethe Epsi  
 #	                                  deg  deg  deg  mm   mm   mm                                                        mm   mm   mm         deg  deg  deg   
@@ -196,7 +232,7 @@ DEFINE: pZColS		-bxColS/2/sqrt(2)
 #visual settings
 	VerboseLevel:    5
 	VISSETTING  #Keep this line to call Reset
-#	Name                        red    green  blue  
+#	Name                        red    green  blue  transparency
 	vis_Chamber                 0.1    0.75   1
 	vis_BeamWindow              0.5    0.25   0     0.3
 	vis_DetectorWindow          0.5    0.25   0     0.3
@@ -214,10 +250,9 @@ DEFINE: pZColS		-bxColS/2/sqrt(2)
 	vis_CollimatorLead          0.5    0.5    0.5
 	vis_CollimatorPlastic       0.8    0.8    0.8
 	vis_MuTrigger               1      1      1     0.2
-	vis_MuPC                    0      0      1     0.5  
-	vis_MuSC                    0      0      1     0.5
-	vis_MuPCGas                 0.5    0.5    0.5   0.5
-	vis_MuPCDSWindow            1      1      0 
-	vis_MuPCUSWindow            1      1      0 
+	vis_MuPC                    0.5    0.5    0.5   0.5  
+	vis_MuSC                    0      1      0     0.5
+	vis_MuPCDSWindow            1      1      0     0.3
+	vis_MuPCUSWindow            1      1      0     0.3
 	vis_MuSCA                   0      1      0 
-	vis_MuFoil                  1      0      0 
+	vis_MuFoil                  0.5    0.5    0.5   0.3

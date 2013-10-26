@@ -1,20 +1,15 @@
 #general info
 	checkoverlap
 
-#Tubs info
-#	Type No  RMin   RMax   Length   StartAng SpanAng Name     MotVolume Material   SDName    posX posY  posZ  RepNo Ephi   Etheta Epsi  
-#	         mm     mm     mm       deg      deg                                             mm   mm    mm          deg    deg    deg   
-#	                                                                                       P R    Phi   Z     RepNo Ephi   Etheta Epsi  
-#	                                                                                       S R    Phi   Theta       deg    deg    deg   
-	T    0   0      3e2    6e2      0        360     World    None      Vacuum     none      0.   0.    0.    1     0      0      0
 #Box info
-#	Type No  x       y       z     Name     MotVolume Material   SDName  posX   posY   posZ   RepNo Ephi Etheta Epsi
-#	         mm      mm      mm                                          mm     mm     mm           deg  deg    deg
-	B    0   100     200     3     BLTCYMin World     Vacuum     none    0.     0.     0.     1     -45   90      0
+#	   x       y       z      Name     MotVolume Material   SDName posX   posY   posZ   RepNo Ephi Etheta Epsi
+#	   mm      mm      mm                                          mm     mm     mm           deg  deg    deg
+#	                                                                                  P R     
+#	                                                                                  S R     
+	B  620     800     620    World    None      Vacuum     none   0.     0.     0.     1     0    0      0
 
 #visual settings
 	VerboseLevel:    5
 	VISSETTING  #Keep this line to call Reset
 #	Name                 red    green  blue  
 	vis_World            1      1      1       0.2
-	vis_BLTCYMin         1      0      0

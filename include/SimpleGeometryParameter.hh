@@ -14,6 +14,7 @@
 #define SimpleGeometryParameter_H 
 
 #include "globals.hh"
+#include "G4ThreeVector.hh"
 
 #include "MyVGeometryParameter.hh"
 
@@ -71,9 +72,9 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 			return index;
 		}
 		G4int get_VolNo() { return VolNo; }
-		G4double get_PosX(G4int VolId, G4int j = 0) {if( check_VolId(VolId) ) return PosX[VolId][j]; else return 0;}
-		G4double get_PosY(G4int VolId, G4int j = 0) {if( check_VolId(VolId) ) return PosY[VolId][j]; else return 0;}
-		G4double get_PosZ(G4int VolId, G4int j = 0) {if( check_VolId(VolId) ) return PosZ[VolId][j]; else return 0;}
+		G4double get_PosX(G4int VolId, G4int j = 0) {if( check_VolId(VolId) ) return Pos[VolId][j].x(); else return 0;}
+		G4double get_PosY(G4int VolId, G4int j = 0) {if( check_VolId(VolId) ) return Pos[VolId][j].y(); else return 0;}
+		G4double get_PosZ(G4int VolId, G4int j = 0) {if( check_VolId(VolId) ) return Pos[VolId][j].z(); else return 0;}
 		G4String get_name(G4int VolId) {if( check_VolId(VolId) ) return Name[VolId]; else return "";}
 		G4String get_SDName(G4int VolId) {if( check_VolId(VolId) ) return SDName[VolId]; else return "";}
 		G4String get_MotherName(G4int VolId) {if( check_VolId(VolId) ) return MotherName[VolId]; else return "";}
@@ -160,9 +161,9 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		G4double get_BooleanSolid_Ephi(G4int BooleanSolidId, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_Ephi[BooleanSolidId][j]; else return 0;}
 		G4double get_BooleanSolid_Etheta(G4int BooleanSolidId, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_Etheta[BooleanSolidId][j]; else return 0;}
 		G4double get_BooleanSolid_Epsi(G4int BooleanSolidId, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_Epsi[BooleanSolidId][j]; else return 0;}
-		G4double get_BooleanSolid_PosX(G4int BooleanSolidId, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_PosX[BooleanSolidId][j]; else return 0;}
-		G4double get_BooleanSolid_PosY(G4int BooleanSolidId, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_PosY[BooleanSolidId][j]; else return 0;}
-		G4double get_BooleanSolid_PosZ(G4int BooleanSolidId, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_PosZ[BooleanSolidId][j]; else return 0;}
+		G4double get_BooleanSolid_PosX(G4int BooleanSolidId, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_Pos[BooleanSolidId][j].x(); else return 0;}
+		G4double get_BooleanSolid_PosY(G4int BooleanSolidId, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_Pos[BooleanSolidId][j].y(); else return 0;}
+		G4double get_BooleanSolid_PosZ(G4int BooleanSolidId, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_Pos[BooleanSolidId][j].z(); else return 0;}
 
 		//visual settings
 		bool get_vis(G4int VolId){if( check_VolId(VolId) ) return vVis[VolId]; else return 0;}
@@ -173,9 +174,9 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 
 		//=>Modify
 		//General info for volume
-		void set_PosX(G4String type, G4int i,G4double val, G4int j = 0) { int k = get_index(type, i); PosX[k][j] = val;}
-		void set_PosY(G4String type, G4int i,G4double val, G4int j = 0) { int k = get_index(type, i); PosY[k][j] = val;}
-		void set_PosZ(G4String type, G4int i,G4double val, G4int j = 0) { int k = get_index(type, i); PosZ[k][j] = val;}
+		void set_PosX(G4String type, G4int i,G4double val, G4int j = 0) { int k = get_index(type, i); Pos[k][j].setX(val);}
+		void set_PosY(G4String type, G4int i,G4double val, G4int j = 0) { int k = get_index(type, i); Pos[k][j].setY(val);}
+		void set_PosZ(G4String type, G4int i,G4double val, G4int j = 0) { int k = get_index(type, i); Pos[k][j].setZ(val);}
 		void set_name(G4String type, G4int i,G4String val) { int k = get_index(type, i); Name[k] = val;}
 		void set_SDName(G4String type, G4int i,G4String val) { int k = get_index(type, i); SDName[k] = val;}
 		void set_MotherName(G4String type, G4int i,G4String val) { int k = get_index(type, i); MotherName[k] = val;}
@@ -194,9 +195,9 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		void set_SRepNo(G4String name,G4int val) { int k = get_VolIndex(name); SRepNo[k] = val;}
 		void set_RepNo(G4String name,G4int val) { int k = get_VolIndex(name); RepNo[k] = val;}
 		void set_SolidBoolean(G4String name, G4int val) { int k = get_VolIndex(name); SolidBoolean[k] = val;}
-		void set_PosX(G4String name,G4double val, G4int j = 0) { int k = get_VolIndex(name); PosX[k][j] = val;}
-		void set_PosY(G4String name,G4double val, G4int j = 0) { int k = get_VolIndex(name); PosY[k][j] = val;}
-		void set_PosZ(G4String name,G4double val, G4int j = 0) { int k = get_VolIndex(name); PosZ[k][j] = val;}
+		void set_PosX(G4String name,G4double val, G4int j = 0) { int k = get_VolIndex(name); Pos[k][j].setX(val);}
+		void set_PosY(G4String name,G4double val, G4int j = 0) { int k = get_VolIndex(name); Pos[k][j].setY(val);}
+		void set_PosZ(G4String name,G4double val, G4int j = 0) { int k = get_VolIndex(name); Pos[k][j].setZ(val);}
 		void set_Ephi(G4String name, G4double val, G4int j = 0) { int k = get_VolIndex(name); Ephi[k][j] = val;}
 		void set_Etheta(G4String name, G4double val, G4int j = 0) { int k = get_VolIndex(name); Etheta[k][j] = val;}
 		void set_Epsi(G4String name, G4double val, G4int j = 0) { int k = get_VolIndex(name); Epsi[k][j] = val;}
@@ -316,9 +317,9 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		void set_BooleanSolid_Ephi(G4int BooleanSolidId, G4double val, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_Ephi[BooleanSolidId][j]=val;}
 		void set_BooleanSolid_Etheta(G4int BooleanSolidId, G4double val, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_Etheta[BooleanSolidId][j]=val;}
 		void set_BooleanSolid_Epsi(G4int BooleanSolidId, G4double val, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_Epsi[BooleanSolidId][j]=val;}
-		void set_BooleanSolid_PosX(G4int BooleanSolidId, G4double val, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_PosX[BooleanSolidId][j]=val;}
-		void set_BooleanSolid_PosY(G4int BooleanSolidId, G4double val, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_PosY[BooleanSolidId][j]=val;}
-		void set_BooleanSolid_PosZ(G4int BooleanSolidId, G4double val, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_PosZ[BooleanSolidId][j]=val;}
+		void set_BooleanSolid_PosX(G4int BooleanSolidId, G4double val, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_Pos[BooleanSolidId][j].setX(val);}
+		void set_BooleanSolid_PosY(G4int BooleanSolidId, G4double val, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_Pos[BooleanSolidId][j].setY(val);}
+		void set_BooleanSolid_PosZ(G4int BooleanSolidId, G4double val, G4int j = 0) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_Pos[BooleanSolidId][j].setZ(val);}
 
 		void set_BooleanSolid_type(G4String name, G4String val) {int i = get_SolidIndex(get_VolIndex(name));if( check_BooleanSolidId(i) ) BooleanSolid_type[i]=val;}
 		void set_BooleanSolid_sol1(G4String name, G4String val) {int i = get_SolidIndex(get_VolIndex(name));if( check_BooleanSolidId(i) ) BooleanSolid_sol1[i]=val;}
@@ -326,9 +327,9 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		void set_BooleanSolid_Ephi(G4String name, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_BooleanSolidId(i) ) BooleanSolid_Ephi[i][j]=val;}
 		void set_BooleanSolid_Etheta(G4String name, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_BooleanSolidId(i) ) BooleanSolid_Etheta[i][j]=val;}
 		void set_BooleanSolid_Epsi(G4String name, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_BooleanSolidId(i) ) BooleanSolid_Epsi[i][j]=val;}
-		void set_BooleanSolid_PosX(G4String name, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_BooleanSolidId(i) ) BooleanSolid_PosX[i][j]=val;}
-		void set_BooleanSolid_PosY(G4String name, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_BooleanSolidId(i) ) BooleanSolid_PosY[i][j]=val;}
-		void set_BooleanSolid_PosZ(G4String name, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_BooleanSolidId(i) ) BooleanSolid_PosZ[i][j]=val;}
+		void set_BooleanSolid_PosX(G4String name, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_BooleanSolidId(i) ) BooleanSolid_Pos[i][j].setX(val);}
+		void set_BooleanSolid_PosY(G4String name, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_BooleanSolidId(i) ) BooleanSolid_Pos[i][j].setY(val);}
+		void set_BooleanSolid_PosZ(G4String name, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_BooleanSolidId(i) ) BooleanSolid_Pos[i][j].setZ(val);}
 
 		//visual settings
 		void set_vis(G4String type, G4int i,bool val) { int k = get_index(type, i); vVis[k] = val;}
@@ -513,9 +514,11 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		std::vector<G4String> fPosX;
 		std::vector<G4String> fPosY;
 		std::vector<G4String> fPosZ;
-		std::vector<std::vector<G4double> > PosX;
-		std::vector<std::vector<G4double> > PosY;
-		std::vector<std::vector<G4double> > PosZ;
+		std::vector<G4String> fPosR;
+		std::vector<G4String> fPosPhi;
+		std::vector<G4String> fPosTheta;
+		std::vector<G4String> PosType;
+		std::vector<std::vector<G4ThreeVector> > Pos;
 		std::vector<G4String> Name;
 		std::vector<G4String> MotherName;
 		std::vector<G4String> SDName;
@@ -625,15 +628,17 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		std::vector<std::vector<G4double> > BooleanSolid_Ephi;
 		std::vector<std::vector<G4double> > BooleanSolid_Etheta;
 		std::vector<std::vector<G4double> > BooleanSolid_Epsi;
-		std::vector<std::vector<G4double> > BooleanSolid_PosX;
-		std::vector<std::vector<G4double> > BooleanSolid_PosY;
-		std::vector<std::vector<G4double> > BooleanSolid_PosZ;
+		std::vector<std::vector<G4ThreeVector> > BooleanSolid_Pos;
 		std::vector<G4String> fBooleanSolid_Ephi;
 		std::vector<G4String> fBooleanSolid_Etheta;
 		std::vector<G4String> fBooleanSolid_Epsi;
 		std::vector<G4String> fBooleanSolid_PosX;
 		std::vector<G4String> fBooleanSolid_PosY;
 		std::vector<G4String> fBooleanSolid_PosZ;
+		std::vector<G4String> fBooleanSolid_PosTheta;
+		std::vector<G4String> fBooleanSolid_PosPhi;
+		std::vector<G4String> fBooleanSolid_PosR;
+		std::vector<G4String> BooleanSolid_PosType;
 
 		//visual settings
 		std::vector<bool> vVis;
