@@ -46,6 +46,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 
 
 		void SetUniformDirection();
+		void SetRandomDirection();
 		void SetRandomPosition();
 		void SetRandomEnergy();
 		void SetUniformPosition();
@@ -83,6 +84,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 		G4double                   Theta,Phi;
 		G4double                   x,y,z,t;
 		G4double                   xSpread,ySpread,zSpread;
+		G4double                   PosLimit2;
 		G4double                   MomSpread;
 		G4double                   EkinSpread;
 		G4String                   EnergyMode;
@@ -90,6 +92,9 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 		G4String                   TimeMode;
 		G4String                   pidMode;
 		G4String                   DirectionMode;
+		G4String                   PhiMode;
+		G4String                   ThetaMode;
+		G4double                   ThetaSpread,PhiSpread;
 
 		//For EnergyMode
 		TH1F*                      EM_hist;

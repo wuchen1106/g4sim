@@ -70,7 +70,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 	G4ThreeVector dir(1,0,0);
 	dir.setTheta(Theta);
 	dir.setPhi(Phi);
-	particleGun->SetParticleMomentumDirection(dir);
+	particleGun->SetParticleMomentumDirection(dir.unit());
 	if (EnergyType==0){
 		Ekin = sqrt(Pa*Pa+mass*mass)-mass;
 	}
@@ -184,6 +184,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 				"InvalidSetup", FatalException,
 				"unknown DirectionMode");
 	}
+	if ( PhiMode== "gRand" || PhiMode=="uRand" || ThetaMode== "gRand" || ThetaMode=="uRand" ){
+		SetRandomDirection();
+	}
 
 	if ( PositionMode == "uniform" ){
 		SetUniformPosition();
@@ -261,6 +264,27 @@ void PrimaryGeneratorAction::SetRandomEnergy(){
 	}
 }
 
+void PrimaryGeneratorAction::SetRandomDirection(){
+	G4double dPhi=0;
+	G4double dTheta=0;
+	if(PhiMode=="gRand"){
+		if (PhiSpread) dPhi=G4RandGauss::shoot(Phi,PhiSpread);
+	}
+	else if (PhiMode=="uRand"){
+		if (PhiSpread) {dPhi=2.*(G4UniformRand()-0.5)*PhiSpread;} 
+	}
+	if(ThetaMode=="gRand"){
+		if (ThetaSpread) dTheta=G4RandGauss::shoot(Theta,ThetaSpread);
+	}
+	else if (ThetaMode=="uRand"){
+		if (ThetaSpread) {dTheta=2.*(G4UniformRand()-0.5)*ThetaSpread;} 
+	}
+	G4ThreeVector dir(1,1,1);
+	dir.setTheta(Theta+dTheta);
+	dir.setPhi(Phi+dPhi);
+	particleGun->SetParticleMomentumDirection(dir.unit());
+}
+
 void PrimaryGeneratorAction::SetRandomPosition(){
 	G4double dx=0;
 	G4double dy=0;
@@ -270,15 +294,18 @@ void PrimaryGeneratorAction::SetRandomPosition(){
 	G4double dz2=0;
 	bool gotit=false;
 	if(PositionMode=="gRand"){
-		dx=G4RandGauss::shoot(0,xSpread);
-		dy=G4RandGauss::shoot(0,ySpread);
-		dz=G4RandGauss::shoot(0,zSpread);
+		do {
+			dx=G4RandGauss::shoot(0,xSpread);
+			dy=G4RandGauss::shoot(0,ySpread);
+			dz=G4RandGauss::shoot(0,zSpread);
+			if (dx2+dy2+dz2<=PosLimit2) gotit = true;
+		} while (!gotit);
 	}
 	else if (PositionMode=="sRand"){
 		do {
-			if (xSpread) {dx=2.*(G4UniformRand()-0.5)*xSpread;dx2 = dx*dx/xSpread/xSpread;} 
-			if (ySpread) {dy=2.*(G4UniformRand()-0.5)*ySpread;dy2 = dy*dy/ySpread/ySpread;} 
-			if (zSpread) {dz=2.*(G4UniformRand()-0.5)*zSpread;dz2 = dz*dz/zSpread/zSpread;} 
+			if (xSpread) {dx=2.*(G4UniformRand()-0.5);dx2 = dx*dx;dx*=xSpread;} 
+			if (ySpread) {dy=2.*(G4UniformRand()-0.5);dy2 = dy*dy;dy*=ySpread;} 
+			if (zSpread) {dz=2.*(G4UniformRand()-0.5);dz2 = dz*dz;dz*=zSpread;} 
 			if (dx2+dy2+dz2<=1.) gotit = true;
 		} while (!gotit);
 	}
@@ -489,7 +516,6 @@ void PrimaryGeneratorAction::ReadCard(G4String file_name){
 		buf_card>>keyword;
 		if ( keyword == "Type:" ){
 			buf_card>>fType;
-			continue;
 		}
 		else if ( keyword == "Particle:" ){
 			buf_card>>ParticleName;
@@ -510,6 +536,14 @@ void PrimaryGeneratorAction::ReadCard(G4String file_name){
 			buf_card>>Theta>>Phi;
 			Theta *= deg;
 			Phi *= deg;
+		}
+		else if ( keyword == "PhiSpread:" ){
+			buf_card>>PhiSpread;
+			PhiSpread*=deg;
+		}
+		else if ( keyword == "ThetaSpread:" ){
+			buf_card>>ThetaSpread;
+			ThetaSpread*=deg;
 		}
 		else if ( keyword == "MomAmp:" ){
 			buf_card>>Pa;
@@ -541,57 +575,56 @@ void PrimaryGeneratorAction::ReadCard(G4String file_name){
 			ySpread *= mm;
 			zSpread *= mm;
 		}
+		else if ( keyword == "PosLimit:" ){
+			buf_card>>PosLimit2;
+			PosLimit2 *= mm;
+			PosLimit2 *= PosLimit2;
+		}
 		else if ( keyword == "Time:" ){
 			buf_card>>t;
 			t *= ns;
 		}
 		else if ( keyword == "EnergyMode:" ){
 			buf_card>>EnergyMode;
-			continue;
 		}
 		else if ( keyword == "PositionMode:" ){
 			buf_card>>PositionMode;
-			continue;
 		}
 		else if ( keyword == "TimeMode:" ){
 			buf_card>>TimeMode;
-			continue;
 		}
 		else if ( keyword == "pidMode:" ){
 			buf_card>>pidMode;
-			continue;
 		}
 		else if ( keyword == "DirectionMode:" ){
 			buf_card>>DirectionMode;
-			continue;
+		}
+		else if ( keyword == "ThetaMode:" ){
+			buf_card>>ThetaMode;
+		}
+		else if ( keyword == "PhiMode:" ){
+			buf_card>>PhiMode;
 		}
 		else if ( keyword == "EMHFN:" ){
 			buf_card>>EM_hist_filename;
-			continue;
 		}
 		else if ( keyword == "EMHHN:" ){
 			buf_card>>EM_hist_histname;
-			continue;
 		}
 		else if ( keyword == "DMHFN:" ){
 			buf_card>>DM_hist_filename;
-			continue;
 		}
 		else if ( keyword == "DMHHN:" ){
 			buf_card>>DM_hist_histname;
-			continue;
 		}
 		else if ( keyword == "RFN:" ){
 			buf_card>>root_filename;
-			continue;
 		}
 		else if ( keyword == "RTN:" ){
 			buf_card>>root_treename;
-			continue;
 		}
 		else if ( keyword == "UIV:" ){
 			buf_card>>UP_Type>>UP_SubDet>>UP_Volume;
-			continue;
 		}
 		else{
 			std::cout<<"In MyFieldSvc::SetField, unknown name: "<<keyword<<" in file "<<file_name<<std::endl;
@@ -616,6 +649,8 @@ void PrimaryGeneratorAction::Dump(){
 	std::cout<<"Particle:                                     "<<ParticleName<<std::endl;
 	}
 	std::cout<<"Default Momentum Direction: theta =           "<<Theta/deg<<"deg, phi = "<<Phi/deg<<"deg"<<std::endl;
+	std::cout<<"Default Phi Spread:                           "<<PhiSpread/deg<<"deg"<<std::endl;
+	std::cout<<"Default Theta Spread:                         "<<ThetaSpread/deg<<"deg"<<std::endl;
 	if (EnergyType==0){
 	std::cout<<"Default Momentum Amplitude:                   "<<Pa/MeV<<"MeV"<<std::endl;
 	std::cout<<"Default Momentum Spread(MeV/c):               ("<<MomSpread/MeV<<std::endl;
@@ -624,8 +659,9 @@ void PrimaryGeneratorAction::Dump(){
 	std::cout<<"Default Kinetic Energy:                       "<<Ekin/MeV<<"MeV"<<std::endl;
 	std::cout<<"Default Energy Spread(MeV):                   ("<<EkinSpread/MeV<<std::endl;
 	}
-	std::cout<<"Default Position(cm):                         ("<<x/cm<<", "<<y/cm<<", "<<z/cm<<")"<<std::endl;
-	std::cout<<"Default Position Spread(cm):                  ("<<xSpread/cm<<", "<<ySpread/cm<<", "<<zSpread/cm<<")"<<std::endl;
+	std::cout<<"Default Position(mm):                         ("<<x/mm<<", "<<y/mm<<", "<<z/mm<<")"<<std::endl;
+	std::cout<<"Default Position Spread(mm):                  ("<<xSpread/mm<<", "<<ySpread/mm<<", "<<zSpread/mm<<")"<<std::endl;
+	std::cout<<"Default Position Limit(mm):                   ("<<sqrt(PosLimit2)/mm<<std::endl;
 	std::cout<<"Default Time(ns):                             ("<<t/ns<<std::endl;
 	std::cout<<"EnergyMode:                                   "<<EnergyMode<<std::endl;
 	std::cout<<"PositionMode:                                 "<<PositionMode<<std::endl;
@@ -635,6 +671,8 @@ void PrimaryGeneratorAction::Dump(){
 	std::cout<<"  Volume:                                     "<<UP_Volume<<std::endl;
 	std::cout<<"  Type:                                       "<<UP_Type<<std::endl;
 	std::cout<<"DirectionMode:                                "<<DirectionMode<<std::endl;
+	std::cout<<"PhiMode:                                      "<<PhiMode<<std::endl;
+	std::cout<<"ThetaMode:                                    "<<ThetaMode<<std::endl;
 	std::cout<<"File Name for EnergyMode = histo:             "<<EM_hist_filename<<std::endl;
 	std::cout<<"Histogram Name for EnergyMode = histo:        "<<EM_hist_histname<<std::endl;
 	std::cout<<"File Name for DirectionMode = histo:          "<<DM_hist_filename<<std::endl;

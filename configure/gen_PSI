@@ -8,8 +8,8 @@
 #	           Theta    Phi
 #	           deg      deg
 	Direction: 0        180
-	ThetaSpread:   1.71887
-	PhiSpread:     180
+	ThetaSpread:        1.71887
+	PhiSpread:          180
 #Default Momentum Amplitude
 #	             MeV
 	MomAmp:      28.5
@@ -23,6 +23,8 @@
 	EnergyMode:     gRand #(root/histo/none)
 	PositionMode:   gRand  #(uniform/root/none/gRand/uRand)
 	DirectionMode:  none #(none/uniform/histo)
+	ThetaMode:      gRand #(none/gRand/uRand)
+	PhiMode:        uRand #(none/gRand/uRand)
 	TimeMode:       none #(none/root)
 	pidMode:        none #(none/root)
 #Default Time
