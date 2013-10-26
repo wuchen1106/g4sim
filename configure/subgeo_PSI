@@ -142,7 +142,7 @@ DEFINE: bXColL		75 # X Dimension of Collimator Lead (main)
 DEFINE: bYColL		360 # Y Dimension of Collimator Lead (main and side)
 DEFINE: thColL		1 # Thickness of Collimator Lead (main and side)
 DEFINE: pRColL		90.5 # R position of Collimator Lead
-DEFINE: bXColS		30 # X Dimension of Collimator Lead (side)
+DEFINE: bXColS		50 # X Dimension of Collimator Lead (side)
 DEFINE: pXColS		-bXColL/2-bXColS/2/sqrt(2)-thColL/2/sqrt(2) # X position of Collimator Side (Relative to Collimator Lead (main) )
 DEFINE: pZColS		-bXColS/2/sqrt(2) # Z position of Collimator Side (Relative to Collimator Lead (main) )
 DEFINE: bXColP		bXColL # X Dimension of Collimator Plastic
@@ -151,7 +151,7 @@ DEFINE: thColP		6 # Thickness of Collimator Plastic
 DEFINE: pRColP		pRColL-thColL/2-thColP/2 # R position of Collimator Plastic
 DEFINE: XColH 		34 # Dx of Collimator Hole
 DEFINE: YColH 		50 # Dy of Collimator Hole
-DEFINE: thCLi		1  # Dy of Collimator Hole
+DEFINE: thCLi		1  # Thickness of Collimator Lining
 #EllipticalTube info
 #	Type Dx          Dy          Dz                Name         MotVolume Material     SDName   posX  posY  posZ  RepNo Ephi Ethe Epsi
 #	     mm          mm          mm                                                             mm    mm    mm          deg  deg  deg
@@ -174,8 +174,9 @@ DEFINE: thCLi		1  # Dy of Collimator Hole
 #	                                           P R     Phi  Z                                                       P R      Phi  Z    
 #	                                           S R     Phi  Theta                                                   S R      Phi  Theta
 	BL   plus  bColL  bColSide   -90   45   90   pXColS 0   pZColS uColL1          
-	BL   plus  uColL1 tColLining  0    0    0    0      Z0  3.5    uColL2          
-	BL   minus uColL2 tColLHole   0    0    0    0      Z0  0      CollimatorLead    ChamberIn  Lead         none   P pRColL 0    0    1    -90   90   0  
+	BL   plus  uColL1 bColSide   -90  -45   90  -pXColS 0   pZColS uColL2          
+	BL   plus  uColL2 tColLining  0    0    0    0      Z0  3.5    uColL3          
+	BL   minus uColL3 tColLHole   0    0    0    0      Z0  0      CollimatorLead    ChamberIn  Lead         none   P pRColL 0    0    1    -90   90   0  
 	BL   minus bColP  tColPHole   0    0    0    0      0   0      CollimatorPlastic ChamberIn  Scintillator none   P pRColP 0    Z0   1    -90   90   0  
 
 #==================================================================================================================
@@ -239,6 +240,27 @@ DEFINE: thTBS	7 # Thickness of Target Border Shielding
 	BL   minus bTgtBdShWh bTgtBdShHl  0    0    0    0    0    0      uTgtBd1
 	BL   minus uTgtBd1    bTgtBdWh    0    0    0    0    0    0      TargetBorderShielding TargetMount Lead     none    0    0    0    1     0    0    0  
 
+##==================================================================================================================
+##	Downstream Wall
+##==================================================================================================================
+#DEFINE: thW  		1  # Thickness of Downstream Wall
+##Tubs info
+##	Type RMin RMax   Length  Start Span Name              MotVolume Material  SDName    posX posY  posZ  RepNo Ephi   Ethe   Epsi  
+##	     mm   mm     mm      deg   deg                                                  mm   mm    mm          deg    deg    deg   
+##	                                                                                  P R    Phi   Z     
+##	                                                                                  S R    Phi   Theta 
+#	T    0    RI     HI      90    180  tDWall
+#	T    0    RI-thW HI+1    0     360  cDWall
+##BooelanSolid info
+##	Type type  vol1   vol2             Ephi Ethe Epsi PosX  PosY PosZ   name              MotVolume  Material    SDName    posX posY posZ RepNo Ephi Ethe Epsi  
+##	                                   deg  deg  deg  mm    mm   mm                                                        mm   mm   mm         deg  deg  deg   
+##	                                                P R     Phi  Z                                                       P R    Phi  Z    
+##	                                                S R     Phi  Theta                                                   S R    Phi  Theta
+#	BL   minus tDWall cDWall           0    0    0    0     0    0      bDW1
+#	BL   minus bDW1   cutDRPort        45   90   0  P R0    135  Z0     bDW2
+#	BL   minus bDW2   cutDetectorPort -45   90   0  P RO   -135  Z0	    bDW3
+#	BL   minus bDW3   cutLowerPort     45   90   0  P R0    135  ZLo    DSWall            ChamberIn  Lead        none      0    0    0    1     0    0    0
+
 #visual settings
 	VerboseLevel:    5
 	VISSETTING  #Keep this line to call Reset
@@ -268,3 +290,4 @@ DEFINE: thTBS	7 # Thickness of Target Border Shielding
 	vis_MuFoil                  0.5    0.5    0.5   0.3
 	vis_WireVer                 1      0      0
 	vis_WireHor                 1      0      0
+	vis_DSWall                  0.5    0.5    0.5
