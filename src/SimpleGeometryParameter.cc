@@ -151,6 +151,19 @@ void SimpleGeometryParameter::Calculate(){
 			Box_Y.push_back(tBox_Y);
 			Box_Z.push_back(tBox_Z);
 		}
+		else if ( SolidType[VolId] == "EllipticalTube" ){
+			std::vector<G4double> tEllipticalTube_X; tEllipticalTube_X.clear();
+			std::vector<G4double> tEllipticalTube_Y; tEllipticalTube_Y.clear();
+			std::vector<G4double> tEllipticalTube_Z; tEllipticalTube_Z.clear();
+			for ( int RepId = 0; RepId < RepNo[VolId]; RepId++ ){
+				tEllipticalTube_X.push_back(CalFormula(fEllipticalTube_X[SolId],RepId)*mm);
+				tEllipticalTube_Y.push_back(CalFormula(fEllipticalTube_Y[SolId],RepId)*mm);
+				tEllipticalTube_Z.push_back(CalFormula(fEllipticalTube_Z[SolId],RepId)*mm);
+			}
+			EllipticalTube_X.push_back(tEllipticalTube_X);
+			EllipticalTube_Y.push_back(tEllipticalTube_Y);
+			EllipticalTube_Z.push_back(tEllipticalTube_Z);
+		}
 		else if ( SolidType[VolId] == "Tubs" ){
 			std::vector<G4double> tTubs_RMax;
 			std::vector<G4double> tTubs_RMin;
@@ -326,6 +339,7 @@ void SimpleGeometryParameter::Preset(){
 	notReSetVis = true;
 	VolNo = 0;
 	BoxNo = 0;
+	EllipticalTubeNo = 0;
 	TubsNo = 0;
 	TorusNo = 0;
 	SphereNo = 0;
@@ -368,6 +382,15 @@ void SimpleGeometryParameter::Preset(){
 	Box_Y.clear();
 	Box_Z.clear();
 	Box_GenIndex.clear();
+
+	//EllipticalTube info
+	fEllipticalTube_X.clear();
+	fEllipticalTube_Y.clear();
+	fEllipticalTube_Z.clear();
+	EllipticalTube_X.clear();
+	EllipticalTube_Y.clear();
+	EllipticalTube_Z.clear();
+	EllipticalTube_GenIndex.clear();
 
 	//Tubs info
 	fTubs_RMax.clear();
@@ -511,6 +534,20 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 			fBox_Z.push_back(ReplaceMacro(tBox_Z));
 			Box_GenIndex.push_back(iVol);
 			BoxNo++;
+			foundVolume = true;
+		}
+		if( name == "ET" ){
+			SolidType.push_back("EllipticalTube");
+			SolidIndex.push_back(EllipticalTubeNo);
+			G4String tEllipticalTube_X;
+			G4String tEllipticalTube_Y;
+			G4String tEllipticalTube_Z;
+			buf_card>>tEllipticalTube_X>>tEllipticalTube_Y>>tEllipticalTube_Z;
+			fEllipticalTube_X.push_back(ReplaceMacro(tEllipticalTube_X));
+			fEllipticalTube_Y.push_back(ReplaceMacro(tEllipticalTube_Y));
+			fEllipticalTube_Z.push_back(ReplaceMacro(tEllipticalTube_Z));
+			EllipticalTube_GenIndex.push_back(iVol);
+			EllipticalTubeNo++;
 			foundVolume = true;
 		}
 		else if( name == "T" ){
@@ -894,6 +931,33 @@ void SimpleGeometryParameter::DumpInfo() {
 				<<std::setiosflags(std::ios::left)<<std::setw(7) <<Box_X[i][j]/mm
 				<<std::setiosflags(std::ios::left)<<std::setw(7) <<Box_Y[i][j]/mm
 				<<std::setiosflags(std::ios::left)<<std::setw(7) <<Box_Z[i][j]/mm;
+			dump_general_value(index,j);
+		}
+		if (repNo>0) std::cout<<std::endl;
+	}
+	for( G4int i = 0; i < EllipticalTubeNo; i++ ){
+		if ( i == 0 ){
+			std::cout<<"=>EllipticalTube info:"<<EllipticalTubeNo<<std::endl;
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<"No."
+			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Dx"
+			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Dy"
+			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"Dz";
+			dump_general_header();
+			std::cout<<std::endl;
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<""
+			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
+			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
+			         <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm";
+			dump_general_note();
+			std::cout<<std::endl;
+		} 
+		int index = EllipticalTube_GenIndex[i];
+		int repNo = RepNo[index];
+		for ( G4int j = 0; j < repNo; j++ ){
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<i
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<EllipticalTube_X[i][j]/mm
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<EllipticalTube_Y[i][j]/mm
+				<<std::setiosflags(std::ios::left)<<std::setw(7) <<EllipticalTube_Z[i][j]/mm;
 			dump_general_value(index,j);
 		}
 		if (repNo>0) std::cout<<std::endl;

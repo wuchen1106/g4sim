@@ -18,6 +18,7 @@
 #include "G4LogicalVolume.hh"
 #include "G4VSensitiveDetector.hh"
 #include "G4Box.hh"
+#include "G4EllipticalTube.hh"
 #include "G4Tubs.hh"
 #include "G4Torus.hh"
 #include "G4Hype.hh"
@@ -104,6 +105,13 @@ void SimpleGeometrySvc::ConstructVolumes(){
 				halfY = m_GeometryParameter->get_Box_Y(SolidIndex)/2;
 				halfZ = m_GeometryParameter->get_Box_Z(SolidIndex)/2;
 				sol_Vol=new G4Box(iname,halfX,halfY,halfZ);
+			}
+			else if ( SolidType == "EllipticalTube" ){
+				G4double halfX, halfY, halfZ;
+				halfX = m_GeometryParameter->get_EllipticalTube_X(SolidIndex)/2;
+				halfY = m_GeometryParameter->get_EllipticalTube_Y(SolidIndex)/2;
+				halfZ = m_GeometryParameter->get_EllipticalTube_Z(SolidIndex)/2;
+				sol_Vol=new G4EllipticalTube(iname,halfX,halfY,halfZ);
 			}
 			else if ( SolidType == "Tubs" ){
 				G4double RMax, RMin, halfLength, StartAng, SpanAng;

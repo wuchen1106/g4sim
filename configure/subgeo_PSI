@@ -1,5 +1,5 @@
 #general info
-#	checkoverlap
+	checkoverlap
 #==================================================================================================================
 #	Chamber Body and Germanium Detector
 #==================================================================================================================
@@ -142,14 +142,17 @@ DEFINE: bXColP		bXColL # X Dimension of Collimator Plastic
 DEFINE: bYColP		95 # Y Dimension of Collimator Plastic
 DEFINE: thColP		6 # Thickness of Collimator Plastic
 DEFINE: pRColP		pRColL-thColL/2-thColP/2 # R position of Collimator Plastic
-#Tubs info
-#	Type RMin RMax  Length Start Span Name        MotVolume Material  SDName   posX posY posZ RepNo Ephi Ethe Epsi  
-#	     mm   mm    mm     deg   deg                                           mm   mm   mm         deg  deg  deg   
-#	                                                                         P R    Phi  Z    
-#	                                                                         S R    Phi  Theta 
-	T    14   15    7      0     360  tColLining
-	T    0    15    23.5   0     360  tColLHole
-	T    0    15    23.5   0     360  tColPHole
+DEFINE: XColH 		34 # Dx of Collimator Hole
+DEFINE: YColH 		50 # Dy of Collimator Hole
+DEFINE: thCLi		1  # Dy of Collimator Hole
+#EllipticalTube info
+#	Type Dx          Dy          Dz                Name         MotVolume Material     SDName   posX  posY  posZ  RepNo Ephi Ethe Epsi
+#	     mm          mm          mm                                                             mm    mm    mm          deg  deg  deg
+#	                                                                                          P R     Phi   Z
+#	                                                                                          S R     Phi   Theta 
+	ET   XColH       YColH       thColL+thColP     tColLining
+	ET   XColH-thCLi YColH-thCLi thColP*2+thColP*2 tColLHole
+	ET   XColH       YColH       thColP+1          tColPHole
 #Box info
 #	Type x      y       z      Name         MotVolume Material     SDName   posX  posY  posZ  RepNo Ephi Ethe Epsi
 #	     mm     mm      mm                                                  mm    mm    mm          deg  deg  deg

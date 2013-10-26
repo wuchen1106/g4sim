@@ -94,6 +94,12 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		G4double get_Box_Y(G4int BoxId, G4int j = 0) {if( check_BoxId(BoxId) ) return Box_Y[BoxId][j]; else return 0;}
 		G4double get_Box_Z(G4int BoxId, G4int j = 0) {if( check_BoxId(BoxId) ) return Box_Z[BoxId][j]; else return 0;}
 
+		//EllipticalTube info
+		G4int get_EllipticalTubeNo() {return EllipticalTubeNo;}
+		G4double get_EllipticalTube_X(G4int EllipticalTubeId, G4int j = 0) {if( check_EllipticalTubeId(EllipticalTubeId) ) return EllipticalTube_X[EllipticalTubeId][j]; else return 0;}
+		G4double get_EllipticalTube_Y(G4int EllipticalTubeId, G4int j = 0) {if( check_EllipticalTubeId(EllipticalTubeId) ) return EllipticalTube_Y[EllipticalTubeId][j]; else return 0;}
+		G4double get_EllipticalTube_Z(G4int EllipticalTubeId, G4int j = 0) {if( check_EllipticalTubeId(EllipticalTubeId) ) return EllipticalTube_Z[EllipticalTubeId][j]; else return 0;}
+
 		//Tubs info
 		G4int get_TubsNo() {return TubsNo;}
 		G4double get_Tubs_RMax(G4int TubsId, G4int j = 0) {if( check_TubsId(TubsId) ) return Tubs_RMax[TubsId][j]; else return 0;}
@@ -210,6 +216,15 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		void set_Box_X(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Box_X[i][j] = val;}
 		void set_Box_Y(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Box_Y[i][j] = val;}
 		void set_Box_Z(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Box_Z[i][j] = val;}
+
+		//EllipticalTube info
+		void set_EllipticalTube_X(G4int i,G4double val, G4int j = 0) { EllipticalTube_X[i][j] = val;}
+		void set_EllipticalTube_Y(G4int i,G4double val, G4int j = 0) { EllipticalTube_Y[i][j] = val;}
+		void set_EllipticalTube_Z(G4int i,G4double val, G4int j = 0) { EllipticalTube_Z[i][j] = val;}
+
+		void set_EllipticalTube_X(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); EllipticalTube_X[i][j] = val;}
+		void set_EllipticalTube_Y(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); EllipticalTube_Y[i][j] = val;}
+		void set_EllipticalTube_Z(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); EllipticalTube_Z[i][j] = val;}
 
 		//Tubs info
 		void set_Tubs_RMax(G4int i,G4double val, G4int j = 0) { Tubs_RMax[i][j] = val;}
@@ -356,6 +371,7 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		int get_index( G4String type, G4int i ){
 			int k = -1;
 			if ( type == "Box" && check_BoxId(i) ) k = Box_GenIndex[i];
+			else if ( type == "EllipticalTube" && check_EllipticalTubeId(i) ) k = EllipticalTube_GenIndex[i];
 			else if ( type == "Tubs" && check_TubsId(i) ) k = Tubs_GenIndex[i];
 			else if ( type == "Torus" && check_TorusId(i) ) k = Torus_GenIndex[i];
 			else if ( type == "Sphere" && check_SphereId(i) ) k = Sphere_GenIndex[i];
@@ -380,6 +396,13 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 			if ( BoxId < BoxNo ) return true;
 			else{
 				std::cout<<"In SimpleGeometryParameter, BoxId is out of range! BoxId = "<<BoxId<<", BoxNo = "<<BoxNo<<std::endl;
+				return false;
+			}
+		}
+		bool check_EllipticalTubeId(int EllipticalTubeId){
+			if ( EllipticalTubeId < EllipticalTubeNo ) return true;
+			else{
+				std::cout<<"In SimpleGeometryParameter, EllipticalTubeId is out of range! EllipticalTubeId = "<<EllipticalTubeId<<", EllipticalTubeNo = "<<EllipticalTubeNo<<std::endl;
 				return false;
 			}
 		}
@@ -544,6 +567,16 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		std::vector<G4String> fBox_Y;
 		std::vector<G4String> fBox_Z;
 		std::vector<G4int>    Box_GenIndex;
+
+		//EllipticalTube info
+		G4int EllipticalTubeNo;
+		std::vector<std::vector<G4double> > EllipticalTube_X;
+		std::vector<std::vector<G4double> > EllipticalTube_Y;
+		std::vector<std::vector<G4double> > EllipticalTube_Z;
+		std::vector<G4String> fEllipticalTube_X;
+		std::vector<G4String> fEllipticalTube_Y;
+		std::vector<G4String> fEllipticalTube_Z;
+		std::vector<G4int>    EllipticalTube_GenIndex;
 
 		//Tubs info
 		G4int TubsNo;
