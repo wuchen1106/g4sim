@@ -289,7 +289,7 @@ G4VPhysicalVolume* SimpleGeometrySvc::PlaceVolumes(){
 		G4int SRepNo;
 		G4int RepNo;
 		name = m_GeometryParameter->get_name(i_Vol);
-		std::cout<<"Place \""<<name<<"\""<<std::endl; // to be deleted
+//		std::cout<<"Place \""<<name<<"\""<<std::endl; // to be deleted
 		motVolName = m_GeometryParameter->get_MotherName(i_Vol);
 		SRepNo = m_GeometryParameter->get_SRepNo(i_Vol);
 		RepNo = m_GeometryParameter->get_RepNo(i_Vol);
@@ -326,7 +326,7 @@ G4VPhysicalVolume* SimpleGeometrySvc::PlaceVolumes(){
 			if ( name == "World" ) world_pvol = phy_Vol;
 		}
 	}
-	std::cout<<"Finished!"<<std::endl; // to be deleted
+//	std::cout<<"Finished!"<<std::endl; // to be deleted
 	G4VPhysicalVolume *former = MyVGeometrySvc::PlaceVolumes();
 	if (!world_pvol) world_pvol=former;
 	return world_pvol;

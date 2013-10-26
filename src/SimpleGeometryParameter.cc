@@ -70,7 +70,7 @@ void SimpleGeometryParameter::InitFromFile( G4String file_name ){
 }
 
 void SimpleGeometryParameter::Calculate(){
-	std::cout<<"In SimpleGeometryParameter::Calculate"<<std::endl; // to be deleted
+//	std::cout<<"In SimpleGeometryParameter::Calculate"<<std::endl; // to be deleted
 	MyVGeometryParameter::Calculate();
 	for ( int VolId = 0; VolId < VolNo; VolId++ ){
 		std::vector<G4ThreeVector> tPos; tPos.clear();
@@ -184,11 +184,11 @@ void SimpleGeometryParameter::Calculate(){
 			Tubs_SpanAng.push_back(tTubs_SpanAng);
 		}
 	}
-	std::cout<<"End of SimpleGeometryParameter::Calculate"<<std::endl; // to be deleted
+//	std::cout<<"End of SimpleGeometryParameter::Calculate"<<std::endl; // to be deleted
 }
 
 double SimpleGeometryParameter::CalFormula(G4String formula, int iRep){
-	std::cout<<"TO Calculate for: \""<<formula<<"\" "<<iRep<<std::endl; // to be deleted
+//	std::cout<<"TO Calculate for: \""<<formula<<"\" "<<iRep<<std::endl; // to be deleted
 	formula = ReplaceMacro(formula);
 	TF1 *f1 = new TF1("f1", formula);
 	double value = f1->Eval(iRep);
@@ -197,11 +197,11 @@ double SimpleGeometryParameter::CalFormula(G4String formula, int iRep){
 }
 
 G4String SimpleGeometryParameter::ReplaceMacro(G4String formula){
-	std::cout<<"TO replace for: \""<<formula<<"\""<<std::endl; // to be deleted
+//	std::cout<<"TO replace for: \""<<formula<<"\""<<std::endl; // to be deleted
 	std::vector<G4String> words = GetWords(formula);
-	std::cout<<"	"<<words.size()<<" words"<<std::endl; // to be deleted
+//	std::cout<<"	"<<words.size()<<" words"<<std::endl; // to be deleted
 	for (int iWord = 0; iWord < words.size(); iWord++ ){
-		std::cout<<"		"<<iWord<<std::endl; // to be deleted
+//		std::cout<<"		"<<iWord<<std::endl; // to be deleted
 		G4String value;
 		if (FindMacro(words[iWord],value)){
 			Replace(formula,words[iWord],value);
@@ -262,7 +262,7 @@ bool SimpleGeometryParameter::FindMacro(G4String word, G4String& value){
 }
 
 void SimpleGeometryParameter::Replace(G4String &formula, G4String word, G4String value){
-	std::cout<<"-- \""<<formula<<"\""<<std::endl; // to be deleted
+//	std::cout<<"-- \""<<formula<<"\""<<std::endl; // to be deleted
 	G4String newform = "";
 	const char* cformula = formula.c_str();
 	int length = strlen(cformula);
@@ -292,7 +292,7 @@ void SimpleGeometryParameter::Replace(G4String &formula, G4String word, G4String
 					newform=newform+newformtemp;
 				}
 				G4String word = temp;
-				std::cout<<"		\""<<word<<"\""<<std::endl; // to be deleted
+//				std::cout<<"		\""<<word<<"\""<<std::endl; // to be deleted
 				G4String newword;
 				bool found = FindMacro(word,newword);
 				if (found){
@@ -301,7 +301,7 @@ void SimpleGeometryParameter::Replace(G4String &formula, G4String word, G4String
 				else{
 					newform=newform+word;
 				}
-				std::cout<<"		to \""<<newword<<"\""<<std::endl; // to be deleted
+//				std::cout<<"		to \""<<newword<<"\""<<std::endl; // to be deleted
 			}
 			if(!isword){
 				cnewform[newformoffset++] = cformula[offset];
@@ -313,7 +313,7 @@ void SimpleGeometryParameter::Replace(G4String &formula, G4String word, G4String
 			}
 		}
 	}
-	std::cout<<"	-->\""<<newform<<"\""<<std::endl; // to be deleted
+//	std::cout<<"	-->\""<<newform<<"\""<<std::endl; // to be deleted
 	formula = newform;
 }
 
@@ -492,7 +492,7 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 	G4String s_para;
 	int iVol = VolNo;
 	bool GoOn = true;
-	std::cout<<"==> "<<s_card<<std::endl; // to be deleted
+//	std::cout<<"==> "<<s_card<<std::endl; // to be deleted
 	if (waited_Polycone_iVol>=0){
 		GoOn = false;
 		if (achieved_componets_Polycone<Polycone_numZ[waited_Polycone_iVol]){
@@ -829,7 +829,7 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 			fEpsi.push_back(tEpsi);
 			SolidBoolean.push_back(tSolidBoolean);
 			VolNo++;
-			std::cout<<"found Volume:"<<tName<<std::endl; // to be deleted
+//			std::cout<<"found Volume:"<<tName<<std::endl; // to be deleted
 		}
 		else if ( name == "DEFINE:" ){
 			G4String MacroName;
