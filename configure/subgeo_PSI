@@ -103,6 +103,10 @@ DEFINE: pZFoil		pZGas-LGas/2-gFoil-thFoil/2 # z position of Foil (Relative to Tr
 DEFINE: thSC		0.5 # Thickness of MuSC
 DEFINE: gSC			2.25 # Gap between MuSC and Gas Chamber
 DEFINE: pZSC		pZGas-LGas/2-gSC-thSC/2 # z position of MuSC (Relative to Trigger Box)
+DEFINE: pRSC		120 # R position of MuSC
+DEFINE: Rwire		0.01 # Radius of wires
+DEFINE: gwire		2 # gap between wires
+DEFINE: pw  		-XGas/2.+Rwire+(x+1)*gwire # X/Y position of Verticle/Horizental Wires
 #Box info
 #	Type x     y     z      Name         MotVolume Material     SDName  posX  posY posZ   RepNo Ephi Ethe Epsi
 #	     mm    mm    mm                                                 mm    mm   mm           deg  deg  deg
@@ -113,7 +117,8 @@ DEFINE: pZSC		pZGas-LGas/2-gSC-thSC/2 # z position of MuSC (Relative to Trigger 
 	B    XGas  XGas  LGas   MuPC         MuTrigger GasArgEthane none    0     0    pZGas  1     0    0    0 
 	B    XGas  XGas  thwg   MuPCDSWindow MuPC      Mylar        none    0     0    pZwg   1     0    0    0 
 	B    XGas  XGas  thwg   MuPCUSWindow MuPC      Mylar        none    0     0   -pZwg   1     0    0    0 
-	B    XFoil XFoil thSC   MuSC         MuTrigger Scintillator none    0     0    pZSC   1     0    0    0 
+#	B    XFoil XFoil thSC   MuSC         MuTrigger Scintillator none    0     0    pZSC   1     0    0    0 
+	B    XFoil XFoil thSC   MuSC         ChamberIn Scintillator none  P pRSc  0    Z0     1    90   90    0 
 	B    XFoil XFoil thSCA  bMuSCA_Whole          
 #Tubs info
 #	Type RMin RMax  Length  Start Span Name              MotVolume Material  SDName    posX posY  posZ  RepNo Ephi   Ethe   Epsi  
@@ -121,6 +126,8 @@ DEFINE: pZSC		pZGas-LGas/2-gSC-thSC/2 # z position of MuSC (Relative to Trigger 
 #	                                                                                 P R    Phi   Z     
 #	                                                                                 S R    Phi   Theta 
 	T    0    RSCA  thSCA+1 0     360  tMuSCA_Hole
+	T    0    Rwire XGas    0     360  WireVer           MuPC      Aluminium none      pw   0    -1     24     0     90     0
+	T    0    Rwire XGas    0     360  WireHor           MuPC      Aluminium none      0    pw    1     24    90     90     0
 #BooelanSolid info
 #	Type type  vol1         vol2              Ephi Ethe Epsi PosX  PosY PosZ   name  MotVolume  Material     SDName   posX posY posZ RepNo Ephi Ethe Epsi  
 #	                                          deg  deg  deg  mm    mm   mm                                            mm   mm   mm         deg  deg  deg   
@@ -259,3 +266,5 @@ DEFINE: thTBS	7 # Thickness of Target Border Shielding
 	vis_MuPCUSWindow            1      1      0     0.3
 	vis_MuSCA                   0      1      0 
 	vis_MuFoil                  0.5    0.5    0.5   0.3
+	vis_WireVer                 1      0      0
+	vis_WireHor                 1      0      0
