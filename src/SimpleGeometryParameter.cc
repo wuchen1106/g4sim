@@ -932,8 +932,8 @@ void SimpleGeometryParameter::DumpInfo() {
 				<<std::setiosflags(std::ios::left)<<std::setw(7) <<Box_Y[i][j]/mm
 				<<std::setiosflags(std::ios::left)<<std::setw(7) <<Box_Z[i][j]/mm;
 			dump_general_value(index,j);
+			std::cout<<std::endl;
 		}
-		if (repNo>0) std::cout<<std::endl;
 	}
 	for( G4int i = 0; i < EllipticalTubeNo; i++ ){
 		if ( i == 0 ){
@@ -959,8 +959,8 @@ void SimpleGeometryParameter::DumpInfo() {
 				<<std::setiosflags(std::ios::left)<<std::setw(7) <<EllipticalTube_Y[i][j]/mm
 				<<std::setiosflags(std::ios::left)<<std::setw(7) <<EllipticalTube_Z[i][j]/mm;
 			dump_general_value(index,j);
+			std::cout<<std::endl;
 		}
-		if (repNo>0) std::cout<<std::endl;
 	}
 
 	for( G4int i = 0; i < TubsNo; i++ ){
@@ -993,8 +993,8 @@ void SimpleGeometryParameter::DumpInfo() {
 				<<std::setiosflags(std::ios::left)<<std::setw(9) <<Tubs_StartAng[i][j]/deg
 				<<std::setiosflags(std::ios::left)<<std::setw(8) <<Tubs_SpanAng[i][j]/deg;
 			dump_general_value(index,j);
+			std::cout<<std::endl;
 		}
-		if (repNo>0) std::cout<<std::endl;
 	}
 
 	for( G4int i = 0; i < TorusNo; i++ ){
@@ -1224,8 +1224,8 @@ void SimpleGeometryParameter::DumpInfo() {
 				<<std::setiosflags(std::ios::left)<<std::setw(14)<<BooleanSolid_sol1[i]
 				<<std::setiosflags(std::ios::left)<<std::setw(14)<<BooleanSolid_sol2[i];
 			dump_general_value(index,j);
+			std::cout<<std::endl;
 		}
-		if (repNo>0) std::cout<<std::endl;
 	}
 }
 

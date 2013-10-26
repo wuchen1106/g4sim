@@ -118,7 +118,7 @@ DEFINE: pw  		-XGas/2.+Rwire+(x+1)*gwire # X/Y position of Verticle/Horizental W
 	B    XGas  XGas  thwg   MuPCDSWindow MuPC      Mylar        none    0     0    pZwg   1     0    0    0 
 	B    XGas  XGas  thwg   MuPCUSWindow MuPC      Mylar        none    0     0   -pZwg   1     0    0    0 
 #	B    XFoil XFoil thSC   MuSC         MuTrigger Scintillator none    0     0    pZSC   1     0    0    0 
-	B    XFoil XFoil thSC   MuSC         ChamberIn Scintillator none  P pRSc  0    Z0     1    90   90    0 
+	B    XFoil XFoil thSC   MuSC         ChamberIn Scintillator none  P pRSC  0    Z0     1    90   90    0 
 	B    XFoil XFoil thSCA  bMuSCA_Whole          
 #Tubs info
 #	Type RMin RMax  Length  Start Span Name              MotVolume Material  SDName    posX posY  posZ  RepNo Ephi   Ethe   Epsi  
