@@ -254,6 +254,7 @@ void MonitorSD::ReadOutputCard(G4String filename){
 				n_filter_section_symbol++;
 			}
 			else if( name == "Switch" ) Switch = true;
+			else if( name == "stopped" ) needstopped = true;
 			else if( name == "neutralCut" ) neutralCut = true;
 			else if( name == "maxn" ) buf_card>>maxn;
 			else if( name == "WL" ){
@@ -353,6 +354,7 @@ void MonitorSD::ReSet(){
 	//for fileter
 	Switch = false;
 	neutralCut = false;
+	needstopped = false;
 	minp = 0;
 	mine = 0;
 	maxn = 0;
@@ -467,6 +469,7 @@ void MonitorSD::ShowOutCard(){
 	//for fileter
 	std::cout<<"Switch on?      "<<(Switch?"yes":"no")<<std::endl;
 	std::cout<<"neutralCut on?  "<<(neutralCut?"yes":"no")<<std::endl;
+	std::cout<<"Need stopped?   "<<(needstopped?"yes":"no")<<std::endl;
 	std::cout<<"minp =          "<<minp/MeV<<"MeV"<<std::endl;
 	std::cout<<"mine =          "<<mine/MeV<<"MeV"<<std::endl;
 	std::cout<<"maxn =          "<<maxn<<std::endl;
@@ -601,6 +604,8 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		killed = true;
 		kill_time = pointOut_time;
 	}
+
+	if (needstopped&&(!killed&&!stopped)) return false;
 
 	//****************************generate new hit or modify old one********************************
 	bool willPush = true;

@@ -277,6 +277,7 @@ class MonitorSD : public MySD
 		//for filter
 		bool Switch;
 		bool neutralCut;
+		bool needstopped;
 		G4int maxn;
 		G4double minp;
 		G4double mine;
