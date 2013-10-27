@@ -64,10 +64,14 @@ void MonitorSD::Initialize(G4HCofThisEvent* HCE)
 	HCE->AddHitsCollection( HCID, hitsCollection );
 	//initialize for root objects
 	nHits = 0;
+	m_Ox.clear();
+	m_Oy.clear();
+	m_Oz.clear();
 	m_x.clear();
 	m_y.clear();
 	m_z.clear();
 	m_t.clear();
+	m_Ot.clear();
 	m_Opx.clear();
 	m_Opy.clear();
 	m_Opz.clear();
@@ -108,6 +112,10 @@ void MonitorSD::SetBranch(){
 	MyRoot* myRoot = MyRoot::GetMyRoot();
 	G4String volName = get_VolName();
 	if( flag_nHits ) myRoot->SetBranch(volName+"_nHits", &nHits);
+	if( flag_Ox ) myRoot->SetBranch(volName+"_Ox", &m_Ox);
+	if( flag_Oy ) myRoot->SetBranch(volName+"_Oy", &m_Oy);
+	if( flag_Oz ) myRoot->SetBranch(volName+"_Oz", &m_Oz);
+	if( flag_Ot ) myRoot->SetBranch(volName+"_Ot", &m_Ot);
 	if( flag_x ) myRoot->SetBranch(volName+"_x", &m_x);
 	if( flag_y ) myRoot->SetBranch(volName+"_y", &m_y);
 	if( flag_z ) myRoot->SetBranch(volName+"_z", &m_z);
@@ -191,6 +199,10 @@ void MonitorSD::ReadOutputCard(G4String filename){
 				n_output_section_symbol++;
 			}
 			else if( name == "nHits" ) {flag_nHits = true;}
+			else if( name == "Ox" ) {{flag_Ox = true; buf_card>>unitName_Ox; unit_Ox = MyString2Anything::get_U(unitName_Ox);}}
+			else if( name == "Oy" ) {{flag_Oy = true; buf_card>>unitName_Oy; unit_Oy = MyString2Anything::get_U(unitName_Oy);}}
+			else if( name == "Oz" ) {{flag_Oz = true; buf_card>>unitName_Oz; unit_Oz = MyString2Anything::get_U(unitName_Oz);}}
+			else if( name == "Ot" ) {{flag_Ot = true; buf_card>>unitName_Ot; unit_Ot = MyString2Anything::get_U(unitName_Ot);}}
 			else if( name == "x" ) {{flag_x = true; buf_card>>unitName_x; unit_x = MyString2Anything::get_U(unitName_x);}}
 			else if( name == "y" ) {{flag_y = true; buf_card>>unitName_y; unit_y = MyString2Anything::get_U(unitName_y);}}
 			else if( name == "z" ) {{flag_z = true; buf_card>>unitName_z; unit_z = MyString2Anything::get_U(unitName_z);}}
@@ -299,6 +311,10 @@ void MonitorSD::ReadOutputCard(G4String filename){
 void MonitorSD::ReSet(){
 	//default output set
 	flag_nHits = false;
+	flag_Ox = false;
+	flag_Oy = false;
+	flag_Oz = false;
+	flag_Ot = false;
 	flag_x = false;
 	flag_y = false;
 	flag_z = false;
@@ -347,6 +363,10 @@ void MonitorSD::ReSet(){
 	white_list.clear();
 	black_list.clear();
 	//for units
+	unitName_Ox = "cm";
+	unitName_Oy = "cm";
+	unitName_Oz = "cm";
+	unitName_Ot = "ns";
 	unitName_x = "cm";
 	unitName_y = "cm";
 	unitName_z = "cm";
@@ -370,6 +390,10 @@ void MonitorSD::ReSet(){
 	unitName_stepL = "cm";
 	unitName_stop_time = "ns";
 	unitName_kill_time = "ns";
+	unit_Ox = MyString2Anything::get_U(unitName_Ox);
+	unit_Oy = MyString2Anything::get_U(unitName_Oy);
+	unit_Oz = MyString2Anything::get_U(unitName_Oz);
+	unit_Ot = MyString2Anything::get_U(unitName_Ot);
 	unit_x = MyString2Anything::get_U(unitName_x);
 	unit_y = MyString2Anything::get_U(unitName_y);
 	unit_z = MyString2Anything::get_U(unitName_z);
@@ -401,6 +425,10 @@ void MonitorSD::ShowOutCard(){
 	std::cout<<"*************************Output settings for "<<get_VolName()<<"***************************"<<std::endl;
 	//default output set
 	std::cout<<"output nHits?   "<<(flag_nHits?" yes":" no")<<std::endl;
+	std::cout<<"output Ox?       "<<(flag_Ox?" yes":" no")<<", unit: "<<unitName_Ox<<std::endl;
+	std::cout<<"output Oy?       "<<(flag_Oy?" yes":" no")<<", unit: "<<unitName_Oy<<std::endl;
+	std::cout<<"output Oz?       "<<(flag_Oz?" yes":" no")<<", unit: "<<unitName_Oz<<std::endl;
+	std::cout<<"output Ot?       "<<(flag_Ot?" yes":" no")<<", unit: "<<unitName_Ot<<std::endl;
 	std::cout<<"output x?       "<<(flag_x?" yes":" no")<<", unit: "<<unitName_x<<std::endl;
 	std::cout<<"output y?       "<<(flag_y?" yes":" no")<<", unit: "<<unitName_y<<std::endl;
 	std::cout<<"output z?       "<<(flag_z?" yes":" no")<<", unit: "<<unitName_z<<std::endl;
@@ -614,6 +642,10 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		newHit->SetGlobalT(pointOut_time);
 		hitsCollection->insert(newHit);
 		//Set for root objects
+		if(flag_Ox) m_Ox.push_back(pointOut_pos.x()/unit_Ox);
+		if(flag_Oy) m_Oy.push_back(pointOut_pos.y()/unit_Oy);
+		if(flag_Oz) m_Oz.push_back(pointOut_pos.z()/unit_Oz);
+		if(flag_Ot) m_Ot.push_back(pointOut_time/unit_Ot);
 		if(flag_x) m_x.push_back(pointOut_pos.x()/unit_x);
 		if(flag_y) m_y.push_back(pointOut_pos.y()/unit_y);
 		if(flag_z) m_z.push_back(pointOut_pos.z()/unit_z);
@@ -686,11 +718,10 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		(*hitsCollection)[index]->SetEdep(edepTemp  + edepIoni);
 		(*hitsCollection)[index]->SetPos(pointOut_pos);
 		(*hitsCollection)[index]->SetGlobalT(pointOut_time);
-		if(flag_x) m_x[index] = pointOut_pos.x()/unit_x;
-		if(flag_y) m_y[index] = pointOut_pos.y()/unit_y;
-		if(flag_z) m_z[index] = pointOut_pos.z()/unit_z;
-		//m_t[index] = pointOut_time/unit_t; // Should NOT set this time! Signal starts from the beginning!
-		//std::cout<<"m_t = pointOut_time/"<<unitName_t<<" = pointOut_time/"<<unit_t/ns<<"ns = "<<pointOut_time/unit_t<<unitName_t<<std::endl;
+		if(flag_Ox) m_Ox[index] = pointOut_pos.x()/unit_Ox;
+		if(flag_Oy) m_Oy[index] = pointOut_pos.y()/unit_Oy;
+		if(flag_Oz) m_Oz[index] = pointOut_pos.z()/unit_Oz;
+		if(flag_Ot) m_Ot[index] = pointOut_time/unit_Ot;
 		if(flag_Opx) m_Opx[index] = pointOut_mom.x()/unit_Opx;
 		if(flag_Opy) m_Opy[index] = pointOut_mom.y()/unit_Opy;
 		if(flag_Opz) m_Opz[index] = pointOut_mom.z()/unit_Opz;

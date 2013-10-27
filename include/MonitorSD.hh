@@ -36,6 +36,10 @@ class MonitorSD : public MySD
 		void ReadOutputCard(G4String filename);
 
 		//=> Access
+		double Get_m_Ox( int i ) { return m_Ox[i]; }
+		double Get_m_Oy( int i ) { return m_Oy[i]; }
+		double Get_m_Oz( int i ) { return m_Oz[i]; }
+		double Get_m_Ot( int i ) { return m_Ot[i]; }
 		double Get_m_x( int i ) { return m_x[i]; }
 		double Get_m_y( int i ) { return m_y[i]; }
 		double Get_m_z( int i ) { return m_z[i]; }
@@ -70,6 +74,10 @@ class MonitorSD : public MySD
 		double Get_m_stop_time( int i ) { return m_stop_time[i]; }
 		int Get_m_killed( int i ) { return m_killed[i]; }
 		double Get_m_kill_time( int i ) { return m_kill_time[i]; }
+		std::string Get_unitName_Ox() { return unitName_Ox; }
+		std::string Get_unitName_Oy() { return unitName_Oy; }
+		std::string Get_unitName_Oz() { return unitName_Oz; }
+		std::string Get_unitName_Ot() { return unitName_Ot; }
 		std::string Get_unitName_x() { return unitName_x; }
 		std::string Get_unitName_y() { return unitName_y; }
 		std::string Get_unitName_z() { return unitName_z; }
@@ -93,6 +101,10 @@ class MonitorSD : public MySD
 		std::string Get_unitName_stepL() { return unitName_stepL; }
 		std::string Get_unitName_stop_time() { return unitName_stop_time; }
 		std::string Get_unitName_kill_time() { return unitName_kill_time; }
+		double Get_unit_Ox() { return unit_Ox; }
+		double Get_unit_Oy() { return unit_Oy; }
+		double Get_unit_Oz() { return unit_Oz; }
+		double Get_unit_Ot() { return unit_Ot; }
 		double Get_unit_x() { return unit_x; }
 		double Get_unit_y() { return unit_y; }
 		double Get_unit_z() { return unit_z; }
@@ -126,6 +138,10 @@ class MonitorSD : public MySD
 		MonitorHitsCollection* hitsCollection;
 
 		//For root objects
+		std::vector<double> m_Ox;
+		std::vector<double> m_Oy;
+		std::vector<double> m_Oz;
+		std::vector<double> m_Ot;
 		std::vector<double> m_x;
 		std::vector<double> m_y;
 		std::vector<double> m_z;
@@ -161,6 +177,10 @@ class MonitorSD : public MySD
 		std::vector<double> m_stop_time;
 		std::vector<int>    m_killed;
 		std::vector<double> m_kill_time;
+		std::string unitName_Ox;
+		std::string unitName_Oy;
+		std::string unitName_Oz;
+		std::string unitName_Ot;
 		std::string unitName_x;
 		std::string unitName_y;
 		std::string unitName_z;
@@ -184,6 +204,10 @@ class MonitorSD : public MySD
 		std::string unitName_stepL;
 		std::string unitName_stop_time;
 		std::string unitName_kill_time;
+		double unit_Ox;
+		double unit_Oy;
+		double unit_Oz;
+		double unit_Ot;
 		double unit_x;
 		double unit_y;
 		double unit_z;
@@ -211,6 +235,10 @@ class MonitorSD : public MySD
 		//for output setting
 		int nHits;
 		bool flag_nHits;
+		bool flag_Ox;
+		bool flag_Oy;
+		bool flag_Oz;
+		bool flag_Ot;
 		bool flag_x;
 		bool flag_y;
 		bool flag_z;
