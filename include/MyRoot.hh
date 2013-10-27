@@ -31,6 +31,7 @@ public:
   void SetBranch(std::string name, std::vector<double>* pVecD);
   void SetBranch(std::string name, std::vector<int>* pVecI);
   void SetBranch(std::string name, int* pI);
+  void SetBranch(std::string name, long* pL);
   void SetBranch(std::string name, std::vector<std::string>* pVecCa);
 
 	void Save();

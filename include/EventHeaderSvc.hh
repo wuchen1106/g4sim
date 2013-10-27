@@ -29,6 +29,8 @@ class EventHeaderSvc
 		//=> Modify
 		void set_run_num(int val){run_num = val;};
 		void set_evt_num(int val){evt_num = val;};
+		void set_R0(int val){R0 = val;};
+		void set_R1(int val){R1 = val;};
 
   private:
 
@@ -40,9 +42,13 @@ class EventHeaderSvc
 
 		int run_num;
 		int evt_num;
+		long R0;
+		long R1;
 
 		bool flag_run_num;
 		bool flag_evt_num;
+		bool flag_R0;
+		bool flag_R1;
 };
 
 #endif
