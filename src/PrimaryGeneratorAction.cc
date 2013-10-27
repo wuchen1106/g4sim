@@ -627,7 +627,7 @@ void PrimaryGeneratorAction::ReadCard(G4String file_name){
 			buf_card>>UP_Type>>UP_SubDet>>UP_Volume;
 		}
 		else{
-			std::cout<<"In MyFieldSvc::SetField, unknown name: "<<keyword<<" in file "<<file_name<<std::endl;
+			std::cout<<"In PrimaryGeneratorAction::ReadCard, unknown name: "<<keyword<<" in file "<<file_name<<std::endl;
 			std::cout<<"Will ignore this line!"<<std::endl;
 		}
 	}

@@ -108,17 +108,17 @@ DEFINE: Rwire		0.01 # Radius of wires
 DEFINE: gwire		2 # gap between wires
 DEFINE: pw  		-XGas/2.+Rwire+(x+1)*gwire # X/Y position of Verticle/Horizental Wires
 #Box info
-#	Type x     y     z      Name         MotVolume Material     SDName  posX  posY posZ   RepNo Ephi Ethe Epsi
-#	     mm    mm    mm                                                 mm    mm   mm           deg  deg  deg
-#	                                                                  P R     Phi  Z
-#	                                                                  S R     Phi  Theta  
-	B    XTr   XTr   LTr    MuTrigger    World     Air          none  S pRTr  0    180    1     0    0    0 
-	B    XFoil XFoil thFoil MuFoil       MuTrigger Aluminium    none    0     0    pZFoil 1     0    0    0 
-	B    XGas  XGas  LGas   MuPC         MuTrigger GasArgEthane none    0     0    pZGas  1     0    0    0 
-	B    XGas  XGas  thwg   MuPCDSWindow MuPC      Mylar        none    0     0    pZwg   1     0    0    0 
-	B    XGas  XGas  thwg   MuPCUSWindow MuPC      Mylar        none    0     0   -pZwg   1     0    0    0 
-#	B    XFoil XFoil thSC   MuSC         MuTrigger Scintillator none    0     0    pZSC   1     0    0    0 
-	B    XFoil XFoil thSC   MuSC         ChamberIn Scintillator none  P pRSC  0    Z0     1    90   90    0 
+#	Type x     y     z      Name         MotVolume Material     SDName         posX  posY posZ   RepNo Ephi Ethe Epsi
+#	     mm    mm    mm                                                        mm    mm   mm           deg  deg  deg
+#	                                                                         P R     Phi  Z
+#	                                                                         S R     Phi  Theta  
+	B    XTr   XTr   LTr    MuTrigger    World     Air          none         S pRTr  0    180    1     0    0    0 
+	B    XFoil XFoil thFoil MuFoil       MuTrigger Aluminium    none           0     0    pZFoil 1     0    0    0 
+	B    XGas  XGas  LGas   MuPC         MuTrigger GasArgEthane none           0     0    pZGas  1     0    0    0 
+	B    XGas  XGas  thwg   MuPCDSWindow MuPC      Mylar        none           0     0    pZwg   1     0    0    0 
+	B    XGas  XGas  thwg   MuPCUSWindow MuPC      Mylar        none           0     0   -pZwg   1     0    0    0 
+#	B    XFoil XFoil thSC   MuSC         MuTrigger Scintillator MonitorSD      0     0    pZSC   1     0    0    0 
+	B    XFoil XFoil thSC   MuSC         ChamberIn Scintillator MonitorSD    P pRSC  0    Z0     1    90   90    0 
 	B    XFoil XFoil thSCA  bMuSCA_Whole          
 #Tubs info
 #	Type RMin RMax  Length  Start Span Name              MotVolume Material  SDName    posX posY  posZ  RepNo Ephi   Ethe   Epsi  
@@ -129,11 +129,11 @@ DEFINE: pw  		-XGas/2.+Rwire+(x+1)*gwire # X/Y position of Verticle/Horizental W
 	T    0    Rwire XGas    0     360  WireVer           MuPC      Aluminium none      pw   0    -1     24     0     90     0
 	T    0    Rwire XGas    0     360  WireHor           MuPC      Aluminium none      0    pw    1     24    90     90     0
 #BooelanSolid info
-#	Type type  vol1         vol2              Ephi Ethe Epsi PosX  PosY PosZ   name  MotVolume  Material     SDName   posX posY posZ RepNo Ephi Ethe Epsi  
-#	                                          deg  deg  deg  mm    mm   mm                                            mm   mm   mm         deg  deg  deg   
-#	                                                       P R     Phi  Z                                           P R    Phi  Z    
-#	                                                       S R     Phi  Theta                                       S R    Phi  Theta
-	BL   minus bMuSCA_Whole tMuSCA_Hole       0    0    0    0     0    0      MuSCA MuTrigger  Scintillator none     0    0    pZSCA 1    0    0    0  
+#	Type type  vol1         vol2              Ephi Ethe Epsi PosX  PosY PosZ   name  MotVolume  Material     SDName            posX posY posZ RepNo Ephi Ethe Epsi  
+#	                                          deg  deg  deg  mm    mm   mm                                                     mm   mm   mm         deg  deg  deg   
+#	                                                       P R     Phi  Z                                                    P R    Phi  Z    
+#	                                                       S R     Phi  Theta                                                S R    Phi  Theta
+	BL   minus bMuSCA_Whole tMuSCA_Hole       0    0    0    0     0    0      MuSCA MuTrigger  Scintillator MonitorSD         0    0    pZSCA 1    0    0    0  
 
 #==================================================================================================================
 #	Collimators
@@ -197,19 +197,19 @@ DEFINE: pZdES		-thPack/2+thdESi/2 # Z position of E Scintillator (Relative to De
 DEFINE: pZESi		pZdES+thdESi/2+gESi+thESi/2 # Z position of E Scintillator (Relative to Detector Package)
 DEFINE: pZPS		pZESi+thESi/2+gPS+thPS/2 # Z position of Plastic Charged Veto Scintillator (Relative to Detector Package)
 #Box info
-#	Type x      y      z      Name         MotVolume Material     SDName   posX    posY  posZ   RepNo Ephi Ethe Epsi
-#	     mm     mm     mm                                                  mm      mm    mm           deg  deg  deg
-#	                                                                     P R       Phi   Z
-#	                                                                     S R       Phi   Theta  
-	B    bXVeto bXVeto thVeto MuVetoPS     ChamberIn Scintillator none   P pRVeto  180    Z0    1     90   90   0
-	B    bXPack bXPack thPack DetBlock1    ChamberIn Vacuum       none   P pRPack  45     Z0    1    -45  -90   0 
-	B    bXPack bXPack thPS   VetoPS1      DetBlock1 Scintillator none     0       0      pZPS  1     0    0    0 
-	B    bXPack bXPack thESi  ESi1         DetBlock1 Silicon      none     0       0      pZESi 1     0    0    0 
-	B    bXPack bXPack thdESi dESi1        DetBlock1 Silicon      none     0       0      pZdES 1     0    0    0 
-	B    bXPack bXPack thPack DetBlock2    ChamberIn Vacuum       none   P pRPack -135    Z0    1    -45   90   0 
-	B    bXPack bXPack thPS   VetoPS2      DetBlock2 Scintillator none     0       0      pZPS  1     0    0    0 
-	B    bXPack bXPack thESi  ESi2         DetBlock2 Silicon      none     0       0      pZESi 1     0    0    0 
-	B    bXPack bXPack thdESi dESi2        DetBlock2 Silicon      none     0       0      pZdES 1     0    0    0 
+#	Type x      y      z      Name         MotVolume Material     SDName        posX    posY  posZ   RepNo Ephi Ethe Epsi
+#	     mm     mm     mm                                                       mm      mm    mm           deg  deg  deg
+#	                                                                          P R       Phi   Z
+#	                                                                          S R       Phi   Theta  
+	B    bXVeto bXVeto thVeto MuVetoPS     ChamberIn Scintillator MonitorSD   P pRVeto  180    Z0    1     90   90   0
+	B    bXPack bXPack thPack DetBlock1    ChamberIn Vacuum       none        P pRPack  45     Z0    1    -45  -90   0 
+	B    bXPack bXPack thPS   VetoPS1      DetBlock1 Scintillator MonitorSD     0       0      pZPS  1     0    0    0 
+	B    bXPack bXPack thESi  ESi1         DetBlock1 Silicon      MonitorSD     0       0      pZESi 1     0    0    0 
+	B    bXPack bXPack thdESi dESi1        DetBlock1 Silicon      MonitorSD     0       0      pZdES 1     0    0    0 
+	B    bXPack bXPack thPack DetBlock2    ChamberIn Vacuum       none        P pRPack -135    Z0    1    -45   90   0 
+	B    bXPack bXPack thPS   VetoPS2      DetBlock2 Scintillator MonitorSD     0       0      pZPS  1     0    0    0 
+	B    bXPack bXPack thESi  ESi2         DetBlock2 Silicon      MonitorSD     0       0      pZESi 1     0    0    0 
+	B    bXPack bXPack thdESi dESi2        DetBlock2 Silicon      MonitorSD     0       0      pZdES 1     0    0    0 
 
 #==================================================================================================================
 #	Target
