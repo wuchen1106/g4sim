@@ -181,6 +181,7 @@ void SimpleGeometrySvc::ConstructVolumes(){
 					RMax[i] = m_GeometryParameter->get_Polycone_RMax(SolidIndex,i);
 					RMin[i] = m_GeometryParameter->get_Polycone_RMin(SolidIndex,i);
 					Z[i] = m_GeometryParameter->get_Polycone_Z(SolidIndex,i);
+					std::cout<<i<<": RMax = "<<RMax[i]/mm<<"mm, RMin = "<<RMin[i]/mm<<"mm, "<<Z[i]/mm<<"mm"<<std::endl;
 				}
 				StartAng = m_GeometryParameter->get_Polycone_StartAng(SolidIndex);
 				SpanAng = m_GeometryParameter->get_Polycone_SpanAng(SolidIndex);

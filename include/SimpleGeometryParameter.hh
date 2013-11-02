@@ -110,55 +110,55 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 
 		//Torus info
 		G4int get_TorusNo() {return TorusNo;}
-		G4double get_Torus_RMax(G4int TorusId, G4int j = 0) {if( check_TorusId(TorusId) ) return Torus_RMax[TorusId]; else return 0;}
-		G4double get_Torus_RMin(G4int TorusId, G4int j = 0) {if( check_TorusId(TorusId) ) return Torus_RMin[TorusId]; else return 0;}
-		G4double get_Torus_Rtor(G4int TorusId, G4int j = 0) {if( check_TorusId(TorusId) ) return Torus_Rtor[TorusId]; else return 0;}
-		G4double get_Torus_StartAng(G4int TorusId, G4int j = 0) {if( check_TorusId(TorusId) ) return Torus_StartAng[TorusId]; else return 0;}
-		G4double get_Torus_SpanAng(G4int TorusId, G4int j = 0) {if( check_TorusId(TorusId) ) return Torus_SpanAng[TorusId]; else return 0;}
+		G4double get_Torus_RMax(G4int TorusId, G4int j = 0) {if( check_TorusId(TorusId) ) return Torus_RMax[TorusId][j]; else return 0;}
+		G4double get_Torus_RMin(G4int TorusId, G4int j = 0) {if( check_TorusId(TorusId) ) return Torus_RMin[TorusId][j]; else return 0;}
+		G4double get_Torus_Rtor(G4int TorusId, G4int j = 0) {if( check_TorusId(TorusId) ) return Torus_Rtor[TorusId][j]; else return 0;}
+		G4double get_Torus_StartAng(G4int TorusId, G4int j = 0) {if( check_TorusId(TorusId) ) return Torus_StartAng[TorusId][j]; else return 0;}
+		G4double get_Torus_SpanAng(G4int TorusId, G4int j = 0) {if( check_TorusId(TorusId) ) return Torus_SpanAng[TorusId][j]; else return 0;}
 
 		//Sphere info
 		G4int get_SphereNo() {return SphereNo;}
-		G4double get_Sphere_RMax(G4int SphereId, G4int j = 0) {if( check_SphereId(SphereId) ) return Sphere_RMax[SphereId]; else return 0;}
-		G4double get_Sphere_RMin(G4int SphereId, G4int j = 0) {if( check_SphereId(SphereId) ) return Sphere_RMin[SphereId]; else return 0;}
-		G4double get_Sphere_StartPhi(G4int SphereId, G4int j = 0) {if( check_SphereId(SphereId) ) return Sphere_StartPhi[SphereId]; else return 0;}
-		G4double get_Sphere_SpanPhi(G4int SphereId, G4int j = 0) {if( check_SphereId(SphereId) ) return Sphere_SpanPhi[SphereId]; else return 0;}
-		G4double get_Sphere_StartTheta(G4int SphereId, G4int j = 0) {if( check_SphereId(SphereId) ) return Sphere_StartTheta[SphereId]; else return 0;}
-		G4double get_Sphere_SpanTheta(G4int SphereId, G4int j = 0) {if( check_SphereId(SphereId) ) return Sphere_SpanTheta[SphereId]; else return 0;}
+		G4double get_Sphere_RMax(G4int SphereId, G4int j = 0) {if( check_SphereId(SphereId) ) return Sphere_RMax[SphereId][j]; else return 0;}
+		G4double get_Sphere_RMin(G4int SphereId, G4int j = 0) {if( check_SphereId(SphereId) ) return Sphere_RMin[SphereId][j]; else return 0;}
+		G4double get_Sphere_StartPhi(G4int SphereId, G4int j = 0) {if( check_SphereId(SphereId) ) return Sphere_StartPhi[SphereId][j]; else return 0;}
+		G4double get_Sphere_SpanPhi(G4int SphereId, G4int j = 0) {if( check_SphereId(SphereId) ) return Sphere_SpanPhi[SphereId][j]; else return 0;}
+		G4double get_Sphere_StartTheta(G4int SphereId, G4int j = 0) {if( check_SphereId(SphereId) ) return Sphere_StartTheta[SphereId][j]; else return 0;}
+		G4double get_Sphere_SpanTheta(G4int SphereId, G4int j = 0) {if( check_SphereId(SphereId) ) return Sphere_SpanTheta[SphereId][j]; else return 0;}
 
 		//Hype info
 		G4int get_HypeNo() {return HypeNo;}
-		G4double get_Hype_innerRadius(G4int HypeId, G4int j = 0) {if( check_HypeId(HypeId) ) return Hype_innerRadius[HypeId]; else return 0;}
-		G4double get_Hype_outerRadius(G4int HypeId, G4int j = 0) {if( check_HypeId(HypeId) ) return Hype_outerRadius[HypeId]; else return 0;}
-		G4double get_Hype_innerStereo(G4int HypeId, G4int j = 0) {if( check_HypeId(HypeId) ) return Hype_innerStereo[HypeId]; else return 0;}
-		G4double get_Hype_outerStereo(G4int HypeId, G4int j = 0) {if( check_HypeId(HypeId) ) return Hype_outerStereo[HypeId]; else return 0;}
-		G4double get_Hype_Length(G4int HypeId, G4int j = 0) {if( check_HypeId(HypeId) ) return Hype_Length[HypeId]; else return 0;}
+		G4double get_Hype_innerRadius(G4int HypeId, G4int j = 0) {if( check_HypeId(HypeId) ) return Hype_innerRadius[HypeId][j]; else return 0;}
+		G4double get_Hype_outerRadius(G4int HypeId, G4int j = 0) {if( check_HypeId(HypeId) ) return Hype_outerRadius[HypeId][j]; else return 0;}
+		G4double get_Hype_innerStereo(G4int HypeId, G4int j = 0) {if( check_HypeId(HypeId) ) return Hype_innerStereo[HypeId][j]; else return 0;}
+		G4double get_Hype_outerStereo(G4int HypeId, G4int j = 0) {if( check_HypeId(HypeId) ) return Hype_outerStereo[HypeId][j]; else return 0;}
+		G4double get_Hype_Length(G4int HypeId, G4int j = 0) {if( check_HypeId(HypeId) ) return Hype_Length[HypeId][j]; else return 0;}
 
 		//TwistedTubs info
 		G4int get_TwistedTubsNo() {return TwistedTubsNo;}
-		G4double get_TwistedTubs_twistedangle(G4int TwistedTubsId, G4int j = 0) {if( check_TwistedTubsId(TwistedTubsId) ) return TwistedTubs_twistedangle[TwistedTubsId]; else return 0;}
-		G4double get_TwistedTubs_endinnerrad(G4int TwistedTubsId, G4int j = 0) {if( check_TwistedTubsId(TwistedTubsId) ) return TwistedTubs_endinnerrad[TwistedTubsId]; else return 0;}
-		G4double get_TwistedTubs_endouterrad(G4int TwistedTubsId, G4int j = 0) {if( check_TwistedTubsId(TwistedTubsId) ) return TwistedTubs_endouterrad[TwistedTubsId]; else return 0;}
-		G4double get_TwistedTubs_Length(G4int TwistedTubsId, G4int j = 0) {if( check_TwistedTubsId(TwistedTubsId) ) return TwistedTubs_Length[TwistedTubsId]; else return 0;}
-		G4double get_TwistedTubs_dphi(G4int TwistedTubsId, G4int j = 0) {if( check_TwistedTubsId(TwistedTubsId) ) return TwistedTubs_dphi[TwistedTubsId]; else return 0;}
+		G4double get_TwistedTubs_twistedangle(G4int TwistedTubsId, G4int j = 0) {if( check_TwistedTubsId(TwistedTubsId) ) return TwistedTubs_twistedangle[TwistedTubsId][j]; else return 0;}
+		G4double get_TwistedTubs_endinnerrad(G4int TwistedTubsId, G4int j = 0) {if( check_TwistedTubsId(TwistedTubsId) ) return TwistedTubs_endinnerrad[TwistedTubsId][j]; else return 0;}
+		G4double get_TwistedTubs_endouterrad(G4int TwistedTubsId, G4int j = 0) {if( check_TwistedTubsId(TwistedTubsId) ) return TwistedTubs_endouterrad[TwistedTubsId][j]; else return 0;}
+		G4double get_TwistedTubs_Length(G4int TwistedTubsId, G4int j = 0) {if( check_TwistedTubsId(TwistedTubsId) ) return TwistedTubs_Length[TwistedTubsId][j]; else return 0;}
+		G4double get_TwistedTubs_dphi(G4int TwistedTubsId, G4int j = 0) {if( check_TwistedTubsId(TwistedTubsId) ) return TwistedTubs_dphi[TwistedTubsId][j]; else return 0;}
 
 		//Cons info
 		G4int get_ConsNo() {return ConsNo;}
-		G4double get_Cons_RMax1(G4int ConsId, G4int j = 0) {if( check_ConsId(ConsId) ) return Cons_RMax1[ConsId]; else return 0;}
-		G4double get_Cons_RMin1(G4int ConsId, G4int j = 0) {if( check_ConsId(ConsId) ) return Cons_RMin1[ConsId]; else return 0;}
-		G4double get_Cons_RMax2(G4int ConsId, G4int j = 0) {if( check_ConsId(ConsId) ) return Cons_RMax2[ConsId]; else return 0;}
-		G4double get_Cons_RMin2(G4int ConsId, G4int j = 0) {if( check_ConsId(ConsId) ) return Cons_RMin2[ConsId]; else return 0;}
-		G4double get_Cons_Length(G4int ConsId, G4int j = 0) {if( check_ConsId(ConsId) ) return Cons_Length[ConsId]; else return 0;}
-		G4double get_Cons_StartAng(G4int ConsId, G4int j = 0) {if( check_ConsId(ConsId) ) return Cons_StartAng[ConsId]; else return 0;}
-		G4double get_Cons_SpanAng(G4int ConsId, G4int j = 0) {if( check_ConsId(ConsId) ) return Cons_SpanAng[ConsId]; else return 0;}
+		G4double get_Cons_RMax1(G4int ConsId, G4int j = 0) {if( check_ConsId(ConsId) ) return Cons_RMax1[ConsId][j]; else return 0;}
+		G4double get_Cons_RMin1(G4int ConsId, G4int j = 0) {if( check_ConsId(ConsId) ) return Cons_RMin1[ConsId][j]; else return 0;}
+		G4double get_Cons_RMax2(G4int ConsId, G4int j = 0) {if( check_ConsId(ConsId) ) return Cons_RMax2[ConsId][j]; else return 0;}
+		G4double get_Cons_RMin2(G4int ConsId, G4int j = 0) {if( check_ConsId(ConsId) ) return Cons_RMin2[ConsId][j]; else return 0;}
+		G4double get_Cons_Length(G4int ConsId, G4int j = 0) {if( check_ConsId(ConsId) ) return Cons_Length[ConsId][j]; else return 0;}
+		G4double get_Cons_StartAng(G4int ConsId, G4int j = 0) {if( check_ConsId(ConsId) ) return Cons_StartAng[ConsId][j]; else return 0;}
+		G4double get_Cons_SpanAng(G4int ConsId, G4int j = 0) {if( check_ConsId(ConsId) ) return Cons_SpanAng[ConsId][j]; else return 0;}
 
 		//Polycone info
 		G4int get_PolyconeNo() {return PolyconeNo;}
 		G4int    get_Polycone_numZ(G4int PolyconeId, G4int j = 0) {if( check_PolyconeId(PolyconeId) ) return Polycone_numZ[PolyconeId]; else return 0;}
-		G4double get_Polycone_RMax(G4int PolyconeId,G4int i, G4int j = 0) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId] ) return Polycone_RMax[PolyconeId][i]; else return 0;}
-		G4double get_Polycone_RMin(G4int PolyconeId,G4int i, G4int j = 0) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId] ) return Polycone_RMin[PolyconeId][i]; else return 0;}
-		G4double get_Polycone_Z(G4int PolyconeId,G4int i, G4int j = 0) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId]) return Polycone_Z[PolyconeId][i]; else return 0;}
-		G4double get_Polycone_StartAng(G4int PolyconeId, G4int j = 0) {if( check_PolyconeId(PolyconeId) ) return Polycone_StartAng[PolyconeId]; else return 0;}
-		G4double get_Polycone_SpanAng(G4int PolyconeId, G4int j = 0) {if( check_PolyconeId(PolyconeId) ) return Polycone_SpanAng[PolyconeId]; else return 0;}
+		G4double get_Polycone_RMax(G4int PolyconeId,G4int i, G4int j = 0) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId] ) return Polycone_RMax[PolyconeId][i][j]; else return 0;}
+		G4double get_Polycone_RMin(G4int PolyconeId,G4int i, G4int j = 0) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId] ) return Polycone_RMin[PolyconeId][i][j]; else return 0;}
+		G4double get_Polycone_Z(G4int PolyconeId,G4int i, G4int j = 0) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId]) return Polycone_Z[PolyconeId][i][j]; else return 0;}
+		G4double get_Polycone_StartAng(G4int PolyconeId, G4int j = 0) {if( check_PolyconeId(PolyconeId) ) return Polycone_StartAng[PolyconeId][j]; else return 0;}
+		G4double get_Polycone_SpanAng(G4int PolyconeId, G4int j = 0) {if( check_PolyconeId(PolyconeId) ) return Polycone_SpanAng[PolyconeId][j]; else return 0;}
 
 		// BooleanSolid
 		G4String get_BooleanSolid_type(G4int BooleanSolidId) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_type[BooleanSolidId]; else return "";}
@@ -240,90 +240,90 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		void set_Tubs_SpanAng(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Tubs_SpanAng[i][j] = val;}
 
 		//Torus info
-		void set_Torus_RMax(G4int i,G4double val, G4int j = 0) { Torus_RMax[i] = val;}
-		void set_Torus_RMin(G4int i,G4double val, G4int j = 0) { Torus_RMin[i] = val;}
-		void set_Torus_Rtor(G4int i,G4double val, G4int j = 0) { Torus_Rtor[i] = val;}
-		void set_Torus_StartAng(G4int i,G4double val, G4int j = 0) { Torus_StartAng[i] = val;}
-		void set_Torus_SpanAng(G4int i,G4double val, G4int j = 0) { Torus_SpanAng[i] = val;}
+		void set_Torus_RMax(G4int i,G4double val, G4int j = 0) { Torus_RMax[i][j] = val;}
+		void set_Torus_RMin(G4int i,G4double val, G4int j = 0) { Torus_RMin[i][j] = val;}
+		void set_Torus_Rtor(G4int i,G4double val, G4int j = 0) { Torus_Rtor[i][j] = val;}
+		void set_Torus_StartAng(G4int i,G4double val, G4int j = 0) { Torus_StartAng[i][j] = val;}
+		void set_Torus_SpanAng(G4int i,G4double val, G4int j = 0) { Torus_SpanAng[i][j] = val;}
 
-		void set_Torus_RMax(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Torus_RMax[i] = val;}
-		void set_Torus_RMin(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Torus_RMin[i] = val;}
-		void set_Torus_Rtor(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Torus_Rtor[i] = val;}
-		void set_Torus_StartAng(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Torus_StartAng[i] = val;}
-		void set_Torus_SpanAng(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Torus_SpanAng[i] = val;}
+		void set_Torus_RMax(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Torus_RMax[i][j] = val;}
+		void set_Torus_RMin(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Torus_RMin[i][j] = val;}
+		void set_Torus_Rtor(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Torus_Rtor[i][j] = val;}
+		void set_Torus_StartAng(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Torus_StartAng[i][j] = val;}
+		void set_Torus_SpanAng(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Torus_SpanAng[i][j] = val;}
 
 		//Sphere info
-		void set_Sphere_RMax(G4int i,G4double val, G4int j = 0) { Sphere_RMax[i] = val;}
-		void set_Sphere_RMin(G4int i,G4double val, G4int j = 0) { Sphere_RMin[i] = val;}
-		void set_Sphere_StartPhi(G4int i,G4double val, G4int j = 0) { Sphere_StartPhi[i] = val;}
-		void set_Sphere_SpanPhi(G4int i,G4double val, G4int j = 0) { Sphere_SpanPhi[i] = val;}
-		void set_Sphere_StartTheta(G4int i,G4double val, G4int j = 0) { Sphere_StartTheta[i] = val;}
-		void set_Sphere_SpanTheta(G4int i,G4double val, G4int j = 0) { Sphere_SpanTheta[i] = val;}
+		void set_Sphere_RMax(G4int i,G4double val, G4int j = 0) { Sphere_RMax[i][j] = val;}
+		void set_Sphere_RMin(G4int i,G4double val, G4int j = 0) { Sphere_RMin[i][j] = val;}
+		void set_Sphere_StartPhi(G4int i,G4double val, G4int j = 0) { Sphere_StartPhi[i][j] = val;}
+		void set_Sphere_SpanPhi(G4int i,G4double val, G4int j = 0) { Sphere_SpanPhi[i][j] = val;}
+		void set_Sphere_StartTheta(G4int i,G4double val, G4int j = 0) { Sphere_StartTheta[i][j] = val;}
+		void set_Sphere_SpanTheta(G4int i,G4double val, G4int j = 0) { Sphere_SpanTheta[i][j] = val;}
 
-		void set_Sphere_RMax(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Sphere_RMax[i] = val;}
-		void set_Sphere_RMin(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Sphere_RMin[i] = val;}
-		void set_Sphere_StartPhi(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Sphere_StartPhi[i] = val;}
-		void set_Sphere_SpanPhi(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Sphere_SpanPhi[i] = val;}
-		void set_Sphere_StartTheta(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Sphere_StartTheta[i] = val;}
-		void set_Sphere_SpanTheta(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Sphere_SpanTheta[i] = val;}
+		void set_Sphere_RMax(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Sphere_RMax[i][j] = val;}
+		void set_Sphere_RMin(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Sphere_RMin[i][j] = val;}
+		void set_Sphere_StartPhi(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Sphere_StartPhi[i][j] = val;}
+		void set_Sphere_SpanPhi(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Sphere_SpanPhi[i][j] = val;}
+		void set_Sphere_StartTheta(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Sphere_StartTheta[i][j] = val;}
+		void set_Sphere_SpanTheta(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Sphere_SpanTheta[i][j] = val;}
 
 		//Hype info
-		void set_Hype_innerRadius(G4int i,G4double val, G4int j = 0) { Hype_innerRadius[i] = val;}
-		void set_Hype_outerRadius(G4int i,G4double val, G4int j = 0) { Hype_outerRadius[i] = val;}
-		void set_Hype_innerStereo(G4int i,G4double val, G4int j = 0) { Hype_innerStereo[i] = val;}
-		void set_Hype_outerStereo(G4int i,G4double val, G4int j = 0) { Hype_outerStereo[i] = val;}
-		void set_Hype_Length(G4int i,G4double val, G4int j = 0) { Hype_Length[i] = val;}
+		void set_Hype_innerRadius(G4int i,G4double val, G4int j = 0) { Hype_innerRadius[i][j] = val;}
+		void set_Hype_outerRadius(G4int i,G4double val, G4int j = 0) { Hype_outerRadius[i][j] = val;}
+		void set_Hype_innerStereo(G4int i,G4double val, G4int j = 0) { Hype_innerStereo[i][j] = val;}
+		void set_Hype_outerStereo(G4int i,G4double val, G4int j = 0) { Hype_outerStereo[i][j] = val;}
+		void set_Hype_Length(G4int i,G4double val, G4int j = 0) { Hype_Length[i][j] = val;}
 
-		void set_Hype_innerRadius(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Hype_innerRadius[i] = val;}
-		void set_Hype_outerRadius(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Hype_outerRadius[i] = val;}
-		void set_Hype_innerStereo(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Hype_innerStereo[i] = val;}
-		void set_Hype_outerStereo(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Hype_outerStereo[i] = val;}
-		void set_Hype_Length(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Hype_Length[i] = val;}
+		void set_Hype_innerRadius(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Hype_innerRadius[i][j] = val;}
+		void set_Hype_outerRadius(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Hype_outerRadius[i][j] = val;}
+		void set_Hype_innerStereo(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Hype_innerStereo[i][j] = val;}
+		void set_Hype_outerStereo(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Hype_outerStereo[i][j] = val;}
+		void set_Hype_Length(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Hype_Length[i][j] = val;}
 
 		//TwistedTubs info
-		void set_TwistedTubs_twistedangle(G4int i,G4double val, G4int j = 0) { TwistedTubs_twistedangle[i] = val;}
-		void set_TwistedTubs_endinnerrad(G4int i,G4double val, G4int j = 0) { TwistedTubs_endinnerrad[i] = val;}
-		void set_TwistedTubs_endouterrad(G4int i,G4double val, G4int j = 0) { TwistedTubs_endouterrad[i] = val;}
-		void set_TwistedTubs_Length(G4int i,G4double val, G4int j = 0) { TwistedTubs_Length[i] = val;}
-		void set_TwistedTubs_dphi(G4int i,G4double val, G4int j = 0) { TwistedTubs_dphi[i] = val;}
+		void set_TwistedTubs_twistedangle(G4int i,G4double val, G4int j = 0) { TwistedTubs_twistedangle[i][j] = val;}
+		void set_TwistedTubs_endinnerrad(G4int i,G4double val, G4int j = 0) { TwistedTubs_endinnerrad[i][j] = val;}
+		void set_TwistedTubs_endouterrad(G4int i,G4double val, G4int j = 0) { TwistedTubs_endouterrad[i][j] = val;}
+		void set_TwistedTubs_Length(G4int i,G4double val, G4int j = 0) { TwistedTubs_Length[i][j] = val;}
+		void set_TwistedTubs_dphi(G4int i,G4double val, G4int j = 0) { TwistedTubs_dphi[i][j] = val;}
 
-		void set_TwistedTubs_twistedangle(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); TwistedTubs_twistedangle[i] = val;}
-		void set_TwistedTubs_endinnerrad(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); TwistedTubs_endinnerrad[i] = val;}
-		void set_TwistedTubs_endouterrad(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); TwistedTubs_endouterrad[i] = val;}
-		void set_TwistedTubs_Length(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); TwistedTubs_Length[i] = val;}
-		void set_TwistedTubs_dphi(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); TwistedTubs_dphi[i] = val;}
+		void set_TwistedTubs_twistedangle(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); TwistedTubs_twistedangle[i][j] = val;}
+		void set_TwistedTubs_endinnerrad(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); TwistedTubs_endinnerrad[i][j] = val;}
+		void set_TwistedTubs_endouterrad(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); TwistedTubs_endouterrad[i][j] = val;}
+		void set_TwistedTubs_Length(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); TwistedTubs_Length[i][j] = val;}
+		void set_TwistedTubs_dphi(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); TwistedTubs_dphi[i][j] = val;}
 
 		//Cons info
-		void set_Cons_RMax1(G4int i,G4double val, G4int j = 0) { Cons_RMax1[i] = val;}
-		void set_Cons_RMin1(G4int i,G4double val, G4int j = 0) { Cons_RMin1[i] = val;}
-		void set_Cons_RMax2(G4int i,G4double val, G4int j = 0) { Cons_RMax2[i] = val;}
-		void set_Cons_RMin2(G4int i,G4double val, G4int j = 0) { Cons_RMin2[i] = val;}
-		void set_Cons_Length(G4int i,G4double val, G4int j = 0) { Cons_Length[i] = val;}
-		void set_Cons_StartAng(G4int i,G4double val, G4int j = 0) { Cons_StartAng[i] = val;}
-		void set_Cons_SpanAng(G4int i,G4double val, G4int j = 0) { Cons_SpanAng[i] = val;}
+		void set_Cons_RMax1(G4int i,G4double val, G4int j = 0) { Cons_RMax1[i][j] = val;}
+		void set_Cons_RMin1(G4int i,G4double val, G4int j = 0) { Cons_RMin1[i][j] = val;}
+		void set_Cons_RMax2(G4int i,G4double val, G4int j = 0) { Cons_RMax2[i][j] = val;}
+		void set_Cons_RMin2(G4int i,G4double val, G4int j = 0) { Cons_RMin2[i][j] = val;}
+		void set_Cons_Length(G4int i,G4double val, G4int j = 0) { Cons_Length[i][j] = val;}
+		void set_Cons_StartAng(G4int i,G4double val, G4int j = 0) { Cons_StartAng[i][j] = val;}
+		void set_Cons_SpanAng(G4int i,G4double val, G4int j = 0) { Cons_SpanAng[i][j] = val;}
 
-		void set_Cons_RMax1(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Cons_RMax1[i] = val;}
-		void set_Cons_RMin1(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Cons_RMin1[i] = val;}
-		void set_Cons_RMax2(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Cons_RMax2[i] = val;}
-		void set_Cons_RMin2(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Cons_RMin2[i] = val;}
-		void set_Cons_Length(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Cons_Length[i] = val;}
-		void set_Cons_StartAng(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Cons_StartAng[i] = val;}
-		void set_Cons_SpanAng(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Cons_SpanAng[i] = val;}
+		void set_Cons_RMax1(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Cons_RMax1[i][j] = val;}
+		void set_Cons_RMin1(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Cons_RMin1[i][j] = val;}
+		void set_Cons_RMax2(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Cons_RMax2[i][j] = val;}
+		void set_Cons_RMin2(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Cons_RMin2[i][j] = val;}
+		void set_Cons_Length(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Cons_Length[i][j] = val;}
+		void set_Cons_StartAng(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Cons_StartAng[i][j] = val;}
+		void set_Cons_SpanAng(G4String name,G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name)); Cons_SpanAng[i][j] = val;}
 
 		//Polycone info
 		void set_Polycone_numZ(G4int PolyconeId, G4int val, G4int j = 0) {if( check_PolyconeId(PolyconeId) ) Polycone_numZ[PolyconeId] = val;}
-		void set_Polycone_RMax(G4int PolyconeId,G4int i, G4double val, G4int j = 0) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId] ) Polycone_RMax[PolyconeId][i]=val;}
-		void set_Polycone_RMin(G4int PolyconeId,G4int i, G4double val, G4int j = 0) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId] ) Polycone_RMin[PolyconeId][i]=val;}
-		void set_Polycone_Z(G4int PolyconeId,G4int i, G4double val, G4int j = 0) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId]) Polycone_Z[PolyconeId][i]=val;}
-		void set_Polycone_StartAng(G4int PolyconeId, G4double val, G4int j = 0) {if( check_PolyconeId(PolyconeId) ) Polycone_StartAng[PolyconeId]=val;}
-		void set_Polycone_SpanAng(G4int PolyconeId, G4double val, G4int j = 0) {if( check_PolyconeId(PolyconeId) ) Polycone_SpanAng[PolyconeId]=val;}
+		void set_Polycone_RMax(G4int PolyconeId,G4int i, G4double val, G4int j = 0) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId] ) Polycone_RMax[PolyconeId][i][j] = val;}
+		void set_Polycone_RMin(G4int PolyconeId,G4int i, G4double val, G4int j = 0) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId] ) Polycone_RMin[PolyconeId][i][j] = val;}
+		void set_Polycone_Z(G4int PolyconeId,G4int i, G4double val, G4int j = 0) {if( check_PolyconeId(PolyconeId) && i < Polycone_numZ[PolyconeId]) Polycone_Z[PolyconeId][i][j] = val;}
+		void set_Polycone_StartAng(G4int PolyconeId, G4double val, G4int j = 0) {if( check_PolyconeId(PolyconeId) ) Polycone_StartAng[PolyconeId][j] = val;}
+		void set_Polycone_SpanAng(G4int PolyconeId, G4double val, G4int j = 0) {if( check_PolyconeId(PolyconeId) ) Polycone_SpanAng[PolyconeId][j] = val;}
 
 		void set_Polycone_numZ(G4String name, G4int val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_PolyconeId(i) ) Polycone_numZ[i] = val;}
-		void set_Polycone_RMax(G4String name,G4int iCone, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_PolyconeId(i) && iCone < Polycone_numZ[i] ) Polycone_RMax[i][iCone]=val;}
-		void set_Polycone_RMin(G4String name,G4int iCone, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_PolyconeId(i) && iCone < Polycone_numZ[i] ) Polycone_RMin[i][iCone]=val;}
-		void set_Polycone_Z(G4String name,G4int iCone, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_PolyconeId(i) && iCone < Polycone_numZ[i]) Polycone_Z[i][iCone]=val;}
-		void set_Polycone_StartAng(G4String name, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_PolyconeId(i) ) Polycone_StartAng[i]=val;}
-		void set_Polycone_SpanAng(G4String name, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_PolyconeId(i) ) Polycone_SpanAng[i]=val;}
+		void set_Polycone_RMax(G4String name,G4int iCone, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_PolyconeId(i) && iCone < Polycone_numZ[i] ) Polycone_RMax[i][iCone][j] = val;}
+		void set_Polycone_RMin(G4String name,G4int iCone, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_PolyconeId(i) && iCone < Polycone_numZ[i] ) Polycone_RMin[i][iCone][j] = val;}
+		void set_Polycone_Z(G4String name,G4int iCone, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_PolyconeId(i) && iCone < Polycone_numZ[i]) Polycone_Z[i][iCone][j] = val;}
+		void set_Polycone_StartAng(G4String name, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_PolyconeId(i) ) Polycone_StartAng[i][j] = val;}
+		void set_Polycone_SpanAng(G4String name, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_PolyconeId(i) ) Polycone_SpanAng[i][j] = val;}
 
 		//BooleanSolid info
 		void set_BooleanSolid_type(G4int BooleanSolidId, G4String val) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_type[BooleanSolidId]=val;}
@@ -594,60 +594,93 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 
 		//Torus info
 		G4int TorusNo;
-		std::vector<G4double> Torus_RMax;
-		std::vector<G4double> Torus_RMin;
-		std::vector<G4double> Torus_Rtor;
-		std::vector<G4double> Torus_StartAng;
-		std::vector<G4double> Torus_SpanAng;
+		std::vector<G4String> fTorus_RMax;
+		std::vector<G4String> fTorus_RMin;
+		std::vector<G4String> fTorus_Rtor;
+		std::vector<G4String> fTorus_StartAng;
+		std::vector<G4String> fTorus_SpanAng;
+		std::vector<std::vector<G4double> > Torus_RMax;
+		std::vector<std::vector<G4double> > Torus_RMin;
+		std::vector<std::vector<G4double> > Torus_Rtor;
+		std::vector<std::vector<G4double> > Torus_StartAng;
+		std::vector<std::vector<G4double> > Torus_SpanAng;
 		std::vector<G4int>    Torus_GenIndex;
 
 		//Sphere info
 		G4int SphereNo;
-		std::vector<G4double> Sphere_RMax;
-		std::vector<G4double> Sphere_RMin;
-		std::vector<G4double> Sphere_StartPhi;
-		std::vector<G4double> Sphere_SpanPhi;
-		std::vector<G4double> Sphere_StartTheta;
-		std::vector<G4double> Sphere_SpanTheta;
+		std::vector<G4String> fSphere_RMax;
+		std::vector<G4String> fSphere_RMin;
+		std::vector<G4String> fSphere_StartPhi;
+		std::vector<G4String> fSphere_SpanPhi;
+		std::vector<G4String> fSphere_StartTheta;
+		std::vector<G4String> fSphere_SpanTheta;
+		std::vector<std::vector<G4double> > Sphere_RMax;
+		std::vector<std::vector<G4double> > Sphere_RMin;
+		std::vector<std::vector<G4double> > Sphere_StartPhi;
+		std::vector<std::vector<G4double> > Sphere_SpanPhi;
+		std::vector<std::vector<G4double> > Sphere_StartTheta;
+		std::vector<std::vector<G4double> > Sphere_SpanTheta;
 		std::vector<G4int>    Sphere_GenIndex;
 
 		//Hype info
 		G4int HypeNo;
-		std::vector<G4double> Hype_innerRadius;
-		std::vector<G4double> Hype_outerRadius;
-		std::vector<G4double> Hype_innerStereo;
-		std::vector<G4double> Hype_outerStereo;
-		std::vector<G4double> Hype_Length;
+		std::vector<G4String> fHype_innerRadius;
+		std::vector<G4String> fHype_outerRadius;
+		std::vector<G4String> fHype_innerStereo;
+		std::vector<G4String> fHype_outerStereo;
+		std::vector<G4String> fHype_Length;
+		std::vector<std::vector<G4double> > Hype_innerRadius;
+		std::vector<std::vector<G4double> > Hype_outerRadius;
+		std::vector<std::vector<G4double> > Hype_innerStereo;
+		std::vector<std::vector<G4double> > Hype_outerStereo;
+		std::vector<std::vector<G4double> > Hype_Length;
 		std::vector<G4int>    Hype_GenIndex;
 
 		//TwistedTubs info
 		G4int TwistedTubsNo;
-		std::vector<G4double> TwistedTubs_twistedangle;
-		std::vector<G4double> TwistedTubs_endinnerrad;
-		std::vector<G4double> TwistedTubs_endouterrad;
-		std::vector<G4double> TwistedTubs_Length;
-		std::vector<G4double> TwistedTubs_dphi;
+		std::vector<G4String> fTwistedTubs_twistedangle;
+		std::vector<G4String> fTwistedTubs_endinnerrad;
+		std::vector<G4String> fTwistedTubs_endouterrad;
+		std::vector<G4String> fTwistedTubs_Length;
+		std::vector<G4String> fTwistedTubs_dphi;
+		std::vector<std::vector<G4double> > TwistedTubs_twistedangle;
+		std::vector<std::vector<G4double> > TwistedTubs_endinnerrad;
+		std::vector<std::vector<G4double> > TwistedTubs_endouterrad;
+		std::vector<std::vector<G4double> > TwistedTubs_Length;
+		std::vector<std::vector<G4double> > TwistedTubs_dphi;
 		std::vector<G4int>    TwistedTubs_GenIndex;
 
 		//Cons info
 		G4int ConsNo;
-		std::vector<G4double> Cons_RMax1;
-		std::vector<G4double> Cons_RMin1;
-		std::vector<G4double> Cons_RMax2;
-		std::vector<G4double> Cons_RMin2;
-		std::vector<G4double> Cons_Length;
-		std::vector<G4double> Cons_StartAng;
-		std::vector<G4double> Cons_SpanAng;
+		std::vector<G4String> fCons_RMax1;
+		std::vector<G4String> fCons_RMin1;
+		std::vector<G4String> fCons_RMax2;
+		std::vector<G4String> fCons_RMin2;
+		std::vector<G4String> fCons_Length;
+		std::vector<G4String> fCons_StartAng;
+		std::vector<G4String> fCons_SpanAng;
+		std::vector<std::vector<G4double> > Cons_RMax1;
+		std::vector<std::vector<G4double> > Cons_RMin1;
+		std::vector<std::vector<G4double> > Cons_RMax2;
+		std::vector<std::vector<G4double> > Cons_RMin2;
+		std::vector<std::vector<G4double> > Cons_Length;
+		std::vector<std::vector<G4double> > Cons_StartAng;
+		std::vector<std::vector<G4double> > Cons_SpanAng;
 		std::vector<G4int>    Cons_GenIndex;
 
 		//Polycone info
 		G4int PolyconeNo;
 		std::vector<G4int> Polycone_numZ;
-		std::vector<std::vector<G4double> > Polycone_RMax;
-		std::vector<std::vector<G4double> > Polycone_RMin;
-		std::vector<std::vector<G4double> > Polycone_Z;
-		std::vector<G4double> Polycone_StartAng;
-		std::vector<G4double> Polycone_SpanAng;
+		std::vector<std::vector<G4String> > fPolycone_RMax;
+		std::vector<std::vector<G4String> > fPolycone_RMin;
+		std::vector<std::vector<G4String> > fPolycone_Z;
+		std::vector<std::vector<std::vector<G4double> > > Polycone_RMax;
+		std::vector<std::vector<std::vector<G4double> > > Polycone_RMin;
+		std::vector<std::vector<std::vector<G4double> > > Polycone_Z;
+		std::vector<G4String> fPolycone_StartAng;
+		std::vector<G4String> fPolycone_SpanAng;
+		std::vector<std::vector<G4double> > Polycone_StartAng;
+		std::vector<std::vector<G4double> > Polycone_SpanAng;
 		std::vector<G4int>    Polycone_GenIndex;
 		G4int waited_Polycone_iVol;
 		G4int achieved_componets_Polycone;

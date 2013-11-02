@@ -22,6 +22,8 @@
 #include "MyVGeometryParameter.hh"
 #include "SimpleGeometryParameter.hh"
 
+#include "EventHeaderSvc.hh"
+
 #include "TFile.h"
 #include "TH1D.h"
 #include "TCanvas.h"
@@ -82,7 +84,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 		BuildHistoFromFile();
 	}
 	UseRoot = false;
-	if ( EnergyMode == "root" || PositionMode == "root" || TimeMode == "root" || pidMode == "root"){
+	if ( EnergyMode == "root" || PositionMode == "root" || TimeMode == "root" || pidMode == "root" || RandMode == "root"){
 		UseRoot = true;
 		root_build();
 	}
@@ -104,6 +106,14 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	if (UseRoot){
 		root_get_para();
 	}
+	if (RandMode=="root"){
+		long seeds[3];
+		seeds[0] = root_double[7];
+		seeds[1] = root_double[8];
+		seeds[2] = 0;
+		CLHEP::HepRandom::setTheSeeds(seeds);
+	}
+	EventHeaderSvc::GetEventHeaderSvc()->SetSeedsValue();
 
 	if (fType=="ion"){
 		if (!fParticle){
@@ -471,6 +481,9 @@ void PrimaryGeneratorAction::root_build(){
 		UseRoot = true;
 		root_set_pid();
 	}
+	if ( RandMode == "root" ){
+		root_set_Rand();
+	}
 }
 
 void PrimaryGeneratorAction::root_set_Position(){
@@ -488,6 +501,10 @@ void PrimaryGeneratorAction::root_set_Time(){
 }
 void PrimaryGeneratorAction::root_set_pid(){
 	m_TChain->SetBranchAddress("pid", &root_int[0]);
+}
+void PrimaryGeneratorAction::root_set_Rand(){
+	m_TChain->SetBranchAddress("R0", &root_double[7]);
+	m_TChain->SetBranchAddress("R1", &root_double[8]);
 }
 
 void PrimaryGeneratorAction::ReadCard(G4String file_name){
@@ -583,6 +600,9 @@ void PrimaryGeneratorAction::ReadCard(G4String file_name){
 		else if ( keyword == "Time:" ){
 			buf_card>>t;
 			t *= ns;
+		}
+		else if ( keyword == "RandMode:" ){
+			buf_card>>RandMode;
 		}
 		else if ( keyword == "EnergyMode:" ){
 			buf_card>>EnergyMode;

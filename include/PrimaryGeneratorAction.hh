@@ -57,6 +57,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 		void root_set_Energy();
 		void root_set_Time();
 		void root_set_pid();
+		void root_set_Rand();
 
 		//  typedef std::map<G4int, class G4ParticleDefinition *> ParticleCache;
 
@@ -87,6 +88,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 		G4double                   PosLimit2;
 		G4double                   MomSpread;
 		G4double                   EkinSpread;
+		G4String                   RandMode;
 		G4String                   EnergyMode;
 		G4String                   PositionMode;
 		G4String                   TimeMode;

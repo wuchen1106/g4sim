@@ -575,22 +575,25 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	if( edepIoni <= minedep ) return false;
 
 	//****************************Stopped or not****************************************
-	//std::cout<<"tid("<<trackID
-	//         <<"), pid("<<pid
-	//         <<"), e = "<<total_e/MeV
-	//         <<"MeV, edep = "<<edep/MeV
-	//         <<"MeV, t_in = "<<pointIn_time/ns
-	//         <<"ns, t_out = "<<pointOut_time/ns
-	//         <<"ns"
-	//         <<std::endl;
+//	std::cout<<"tid("<<trackID
+//	         <<"), pid("<<pid
+//	         <<"), e = "<<total_e/MeV
+//	         <<"MeV, edep = "<<edep/MeV
+//	         <<"MeV, t_in = "<<pointIn_time/ns
+//	         <<"ns, pos_in = "<<pointIn_pos/mm
+//	         <<"mm, On Boundary? "<<(prePoint->GetStepStatus() == fGeomBoundary)
+//	         <<", t_out = "<<pointOut_time/ns
+//	         <<"ns, pos_out = "<<pointOut_pos/mm
+//	         <<"mm, On Boundary? "<<(postPoint->GetStepStatus() == fGeomBoundary)
+//	         <<std::endl;
 	G4TrackStatus fTrackStatus = aTrack->GetTrackStatus();
-	//if (fTrackStatus == fAlive) std::cout<<"fAlive"<<std::endl;
-	//else if (fTrackStatus == fStopButAlive) std::cout<<"fStopButAlive"<<std::endl;
-	//else if (fTrackStatus == fStopAndKill) std::cout<<"fStopAndKill"<<std::endl;
-	//else if (fTrackStatus == fKillTrackAndSecondaries) std::cout<<"fKillTrackAndSecondaries"<<std::endl;
-	//else if (fTrackStatus == fSuspend) std::cout<<"fSuspend"<<std::endl;
-	//else if (fTrackStatus == fPostponeToNextEvent) std::cout<<"fPostponeToNextEvent"<<std::endl;
-	//else std::cout<<"What?!"<<std::endl;
+//	if (fTrackStatus == fAlive) std::cout<<"fAlive"<<std::endl;
+//	else if (fTrackStatus == fStopButAlive) std::cout<<"fStopButAlive"<<std::endl;
+//	else if (fTrackStatus == fStopAndKill) std::cout<<"fStopAndKill"<<std::endl;
+//	else if (fTrackStatus == fKillTrackAndSecondaries) std::cout<<"fKillTrackAndSecondaries"<<std::endl;
+//	else if (fTrackStatus == fSuspend) std::cout<<"fSuspend"<<std::endl;
+//	else if (fTrackStatus == fPostponeToNextEvent) std::cout<<"fPostponeToNextEvent"<<std::endl;
+//	else std::cout<<"What?!"<<std::endl;
 
 	bool stopped = false;
 	double stop_time = 0;
@@ -630,7 +633,7 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		if ( fabs(dt) < tres ){// dt too small, will not push
 			willPush = false;
 		}
-		if ( m_tid[index] == trackID&& prePoint->GetStepStatus() != fGeomBoundary ){ // If this particle was in this volume in last step, don't generate a new hit
+		if ( m_tid[index] == trackID&& prePoint->GetStepStatus() != fGeomBoundary || killed){ // If this particle was in this volume in last step, don't generate a new hit
 			willPush = false;
 		}
 		//if ( m_tid[index] == trackID ){

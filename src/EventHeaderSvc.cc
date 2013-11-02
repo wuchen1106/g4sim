@@ -132,6 +132,8 @@ void EventHeaderSvc::ShowOutCard(){
 void EventHeaderSvc::SetValue(const G4Event* evt, int runNb){
 	run_num = runNb;
 	evt_num = evt->GetEventID();
+}
+void EventHeaderSvc::SetSeedsValue(){
     R0 = CLHEP::HepRandom::getTheSeeds()[0];
     R1 = CLHEP::HepRandom::getTheSeeds()[1];
 }
