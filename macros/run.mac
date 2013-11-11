@@ -7,9 +7,9 @@
 #/control/execute {MYG4SIMROOT}/configure/setCut_A9.mac
 #/control/execute {MYG4SIMROOT}/configure/setCut_vis.mac
 #/g4sim/event/printModulo            1
-#/random/setSeeds 412516134 13221771
-#/g4sim/gun/root_index 14398
+#/random/setSeeds 1840647059 513551655
+#/g4sim/gun/root_index 814
 #/stacking/add_white_list 2112
 #/stacking/set_no_sec 1
 #/run/beamOn 5732
-/run/beamOn 10000
+#/run/beamOn 50000
