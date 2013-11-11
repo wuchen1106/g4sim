@@ -50,6 +50,7 @@ class MyTriggerSvc
 		CdcLayerSD* myCdcLayerSD;
 		CdcSD* myCdcSD;
 		CdcSimpleSD* myCdcSimpleSD;
+		MonitorSD* myMonitorSD;
 		MonitorSD* myTriggerSD;
 		McTruthSvc* myMcTruthSvc;
 		KillerSD* myKillerSD;
