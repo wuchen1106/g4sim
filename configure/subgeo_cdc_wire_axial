@@ -56,12 +56,13 @@
 	LF                                              798.00000                                 
 
 #Tubs info
-#	Type No  RMin       RMax       Length     StartAng SpanAng Name            MotVolume       Material        SDName posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
-#	         mm         mm         mm         deg      deg                                                            mm   mm   mm         mm         deg    deg    deg    deg    deg   
-	T    0   501.5      811        1540       0        360     CDCContainer    BLTCDC          ChamberGas9010  none   0    0    0    1     0          0      0      0      0      0     
-	T    1   501.5      502        1540       0        360     InnerCylinder   CDCContainer    CarbonFiber     none   0    0    0    1     0          0      0      0      0      0     
-	T    2   806        811        1540       0        360     OuterCylinder   CDCContainer    CarbonFiber     none   0    0    0    1     0          0      0      0      0      0     
-	T    3   502        806        20         0        360     EndPlate        CDCContainer    Aluminium       none   0    0    0    2     1520.0     0      0      0      0      0     
+DEFINE: pZep		(x-0.5)*1520
+#	Type RMin       RMax       Length     StartAng SpanAng Name            MotVolume       Material        SDName posX posY posZ RepNo Ephi   Etheta Epsi  
+#	     mm         mm         mm         deg      deg                                                            mm   mm   mm         deg    deg    deg   
+	T    501.5      811        1540       0        360     CDCContainer    BLTCDC          ChamberGas9010  none   0    0    0    1     0      0      0     
+	T    501.5      502        1540       0        360     InnerCylinder   CDCContainer    CarbonFiber     none   0    0    0    1     0      0      0     
+	T    806        811        1540       0        360     OuterCylinder   CDCContainer    CarbonFiber     none   0    0    0    1     0      0      0     
+	T    502        806        20         0        360     EndPlate        CDCContainer    Aluminium       none   0    0    pZep 2     0      0      0     
 
 #visual settings
 	VerboseLevel:    5

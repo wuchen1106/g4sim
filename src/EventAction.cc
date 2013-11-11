@@ -48,8 +48,8 @@
 #include "G4DCofThisEvent.hh"
 #include "G4VHitsCollection.hh"
 #include "G4VDigiCollection.hh"
-
 #include "Randomize.hh"
+
 #include <iomanip>
 
 #include "MyAnalysisSvc.hh"

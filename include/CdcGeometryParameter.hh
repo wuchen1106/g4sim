@@ -53,12 +53,12 @@
 
 #include "globals.hh"
 
-#include "FormulizedGeometryParameter.hh"
+#include "SimpleGeometryParameter.hh"
 
 #include <vector>
 #include <iostream>
 
-class CdcGeometryParameter : public FormulizedGeometryParameter
+class CdcGeometryParameter : public SimpleGeometryParameter
 {
 
 	public:

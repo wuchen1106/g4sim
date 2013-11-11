@@ -30,6 +30,7 @@
 MyTriggerSvc* MyTriggerSvc::fMyTriggerSvc = 0;
 
 MyTriggerSvc::MyTriggerSvc()
+ :pMyDetectorManager(0),myCdcLayerSD(0),myCdcSD(0),myCdcSimpleSD(0),myMonitorSD(0),myTriggerSD(0),myMcTruthSvc(0),myKillerSD(0)
 {
   if (fMyTriggerSvc){
     G4Exception("MyTriggerSvc::MyTriggerSvc()","Run0031",
@@ -143,9 +144,17 @@ void MyTriggerSvc::SetMyTrigger( G4String filename ){
 	}
 	if ( minCdcCellHits != -1 ){ 
 		myVSD = pMyDetectorManager->GetSD("CdcCell","CdcSD");
-		std::cout<<"myVSD @ ["<<(void*) myVSD<<"]"<<std::endl;
-		myCdcSD = dynamic_cast<CdcSD*> (myVSD);
-		std::cout<<"myCdcSD @ ["<<(void*) myCdcSD<<"]"<<std::endl;
+		if (!myVSD){
+			myVSD = pMyDetectorManager->GetSD("CdcCell","MonitorSD");
+			myMonitorSD = dynamic_cast<MonitorSD*> (myVSD);
+			std::cout<<"myVSD @ ["<<(void*) myVSD<<"]"<<std::endl;
+			std::cout<<"myMonitorSD @ ["<<(void*) myMonitorSD<<"]"<<std::endl;
+		}
+		else{
+			myCdcSD = dynamic_cast<CdcSD*> (myVSD);
+			std::cout<<"myVSD @ ["<<(void*) myVSD<<"]"<<std::endl;
+			std::cout<<"myCdcSD @ ["<<(void*) myCdcSD<<"]"<<std::endl;
+		}
 	}
 	if ( minTriggerHits != -1 ){ 
 		myVSD = pMyDetectorManager->GetSD("Trigger","MonitorSD");
@@ -168,7 +177,13 @@ bool MyTriggerSvc::TriggerIt( const G4Event* evt ){
 		if ( nHits_CDC < minCdcHits ) return false;
 	}
 	if ( minCdcCellHits != -1 ){
-		int nHits_CDC = myCdcSD->Get_nHits();
+		int nHits_CDC = 0;
+		if (myCdcSD){
+			nHits_CDC = myCdcSD->Get_nHits();
+		}
+		else{
+			nHits_CDC = myMonitorSD->Get_nHits();
+		}
 		MYTRI_LINEVAR( nHits_CDC )
 		if ( nHits_CDC < minCdcCellHits ) return false;
 	}

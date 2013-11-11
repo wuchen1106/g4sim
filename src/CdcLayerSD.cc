@@ -26,7 +26,7 @@
 #include <iostream>
 
 #include "MyString2Anything.hh"
-#include "FormulizedGeometryParameter.hh"
+#include "SimpleGeometryParameter.hh"
 #include "CdcLayerHit.hh"
 #include "MyRoot.hh"
 #include "MySD.hh"
@@ -41,12 +41,12 @@ typedef HepGeom::Vector3D<double> HepVector3D;
 CdcLayerSD::CdcLayerSD(G4String name, MyVGeometryParameter* pointer)
 :MySD(name, pointer), hitsCollection(0)
 {
-  m_GeometryParameter= dynamic_cast<FormulizedGeometryParameter*> (pointer);
+  m_GeometryParameter= dynamic_cast<SimpleGeometryParameter*> (pointer);
   if (!m_GeometryParameter){
-		std::cout<<"In CdcLayerSD::CdcLayerSD, cannot get FormulizedGeometryParameter pointer!!!"<<std::endl;
+		std::cout<<"In CdcLayerSD::CdcLayerSD, cannot get SimpleGeometryParameter pointer!!!"<<std::endl;
     G4Exception("CdcLayerSD::CdcLayerSD()",
         "InvalidSetup", FatalException,
-        "cannot get FormulizedGeometryParameter pointer");
+        "cannot get SimpleGeometryParameter pointer");
   }
 }
 

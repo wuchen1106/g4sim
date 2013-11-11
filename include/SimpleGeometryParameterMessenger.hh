@@ -54,9 +54,6 @@ class SimpleGeometryParameterMessenger : public MyVGeometryParameterMessenger
 		G4UIcmdWithAString*        set_material_cmd;
 		G4UIcmdWithAString*        set_SRepNo_cmd;
 		G4UIcmdWithAString*        set_RepNo_cmd;
-		G4UIcmdWithAString*        set_Space_cmd;
-		G4UIcmdWithAString*        set_DirTheta_cmd;
-		G4UIcmdWithAString*        set_DirPhi_cmd;
 		G4UIcmdWithAString*        set_Ephi_cmd;
 		G4UIcmdWithAString*        set_Etheta_cmd;
 		G4UIcmdWithAString*        set_Epsi_cmd;

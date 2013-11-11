@@ -19,7 +19,7 @@
 class G4Step;
 class G4HCofThisEvent;
 class MyVGeometryParameter;
-class FormulizedGeometryParameter;
+class SimpleGeometryParameter;
 
 class CdcLayerSD : public MySD
 {
@@ -78,7 +78,7 @@ class CdcLayerSD : public MySD
 
   private:
 
-    FormulizedGeometryParameter* m_GeometryParameter;
+    SimpleGeometryParameter* m_GeometryParameter;
 
     CdcLayerHitsCollection* hitsCollection;
 

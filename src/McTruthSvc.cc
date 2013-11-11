@@ -50,6 +50,7 @@ void McTruthSvc::Initialize(){
 	m_nTracks = 0;
 	m_dictpid.clear();
 	m_dicttid.clear();
+	m_dicttime.clear();
 	m_pid.clear();
 	m_tid.clear();
 	m_ptid.clear();
@@ -133,6 +134,7 @@ void McTruthSvc::ReadOutputCard(G4String filename){
 			else if( name == "nTracks" ) flag_nTracks = true;
 			else if( name == "pid" ) flag_pid = true;
 			else if( name == "tid2pid" ) flag_tid2pid= true;
+			else if( name == "tid2time" ) flag_tid2time= true;
 			else if( name == "tid" ) flag_tid = true;
 			else if( name == "ptid" ) flag_ptid = true;
 			else if( name == "ppid" ) flag_ppid = true;
@@ -217,6 +219,7 @@ void McTruthSvc::ReSet(){
 	flag_nTracks = false;
 	flag_pid = false;
 	flag_tid2pid = false;
+	flag_tid2time = false;
 	flag_tid = false;
 	flag_ptid = false;
 	flag_ppid = false;
@@ -247,6 +250,7 @@ void McTruthSvc::ShowOutCard(){
 	std::cout<<"output nTracks?       "<<(flag_nTracks?" yes":" no")<<std::endl;
 	std::cout<<"output pid?           "<<(flag_pid?" yes":" no")<<std::endl;
 	std::cout<<"enable tid2pid?       "<<(flag_tid2pid?" yes":" no")<<std::endl;
+	std::cout<<"enable tid2time?      "<<(flag_tid2time?" yes":" no")<<std::endl;
 	std::cout<<"output tid?           "<<(flag_tid?" yes":" no")<<std::endl;
 	std::cout<<"output ptid?          "<<(flag_ptid?" yes":" no")<<std::endl;
 	std::cout<<"output ppid?          "<<(flag_ppid?" yes":" no")<<std::endl;
@@ -286,10 +290,16 @@ void McTruthSvc::ShowOutCard(){
 
 void McTruthSvc::SetValuePre(const G4Track* aTrack){
 	G4int pid = aTrack->GetParticleDefinition()->GetPDGEncoding();
+	G4double globalT=aTrack->GetGlobalTime();//Time since the event in which the track belongs is created
 	G4int trackID= aTrack->GetTrackID(); //G4 track ID of current track.
-	if (flag_tid2pid){
-		m_dictpid.push_back(pid);
+	if (flag_tid2pid||flag_tid2time){
 		m_dicttid.push_back(trackID);
+		if (flag_tid2pid){
+			m_dictpid.push_back(pid);
+		}
+		if (flag_tid2time){
+			m_dicttime.push_back(globalT);
+		}
 	}
 	m_nTracksAll++;
 	//switch
@@ -301,7 +311,6 @@ void McTruthSvc::SetValuePre(const G4Track* aTrack){
 	//energy
 	if (m_mine&&aTrack->GetTotalEnergy()<m_mine) return;
 	//time window
-	G4double globalT=aTrack->GetGlobalTime();//Time since the event in which the track belongs is created
 	if (m_mint&&globalT<m_mint) return;
 	if (m_maxt&&globalT>m_maxt) return;
 	// white_list

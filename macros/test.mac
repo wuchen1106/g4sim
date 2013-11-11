@@ -12,7 +12,8 @@
 #/vis/viewer/addCutawayPlane 0 0 0 m 0 -1 0
 #/vis/viewer/addCutawayPlane 0 0 0 m 0 0 -1
 
-/vis/viewer/addCutawayPlane 0 6 0 cm 0 -1 0
+#/vis/viewer/addCutawayPlane 0 6 0 cm 0 -1 0
+#/vis/viewer/addCutawayPlane 0 0 0 cm 1 0  0
 
 /vis/viewer/zoom 2.5
 
@@ -23,10 +24,10 @@
 
 #/vis/viewer/set/lightsThetaPhi 60 100
 
-/vis/viewer/set/viewpointThetaPhi 270 0  
-#/vis/viewer/set/lightsThetaPhi 90 180
+#/vis/viewer/set/viewpointThetaPhi 270 0  
+/vis/viewer/set/lightsThetaPhi 90 180
 #/vis/viewer/set/lightsThetaPhi 270 150
-/vis/viewer/set/lightsThetaPhi 15 15
+#/vis/viewer/set/lightsThetaPhi 15 15
 
 #/vis/viewer/set/viewpointThetaPhi 90 90  
 #/vis/viewer/set/lightsThetaPhi 90 180
@@ -75,11 +76,11 @@
 /vis/scene/endOfEventAction accumulate -1
 /vis/ogl/set/displayListLimit 50000000
 
-/stacking/setEleCut 1.5 keV
-/stacking/setPosCut 1.5 keV
-/stacking/setGamCut 1.5 keV
-/stacking/clear_white_list
-/stacking/clear_black_list
+#/stacking/setEleCut 1.5 keV
+#/stacking/setPosCut 1.5 keV
+#/stacking/setGamCut 1.5 keV
+#/stacking/clear_white_list
+#/stacking/clear_black_list
 #/stacking/set_no_sec 1
 #/stacking/set_no_MC 1
 #/stacking/set_no_PC 1
@@ -87,8 +88,13 @@
 #/stacking/add_white_list -211
 #/stacking/add_white_list 2212
 #/g4sim/myAnalysisSvc/set_maxT 170000 ns
+/control/getEnv MYG4SIMROOT
+/control/execute {MYG4SIMROOT}/configure/verbose_default.mac
+/control/execute {MYG4SIMROOT}/configure/setCut_default.mac
 /run/setCut 0.001 mm
-/g4sim/myAnalysisSvc/set_ofile_name /home/chen/MyWorkArea/g4sim/output/test.root
+#/random/setSeeds 1840647059 513551655
+#/g4sim/gun/root_index 814
+#/g4sim/myAnalysisSvc/set_ofile_name /home/chen/MyWorkArea/g4sim/output/test.root
 #/run/setCut 0.5 mm
 #/run/beamOn 100
 #/vis/ogl/printEPS
