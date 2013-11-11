@@ -11,22 +11,24 @@
 	T    120    129.99  160     0        360     BLTShellCU2     BLTCDC          Copper     MonitorSD 0    0 -2354.6  1     0      0      0     
 	T    120    280     20      0        360     BLTShellEU      BLTCDC          Copper     MonitorSD 0    0 -2444.6  1     0      0      0     
 	T    0      129.99  1000    0        360     BLTCollimator0
-	T    0      120     1000    0        360     BLTCHole
-#	T    450    470     524.6   0        360     CDCShellCU      BLTCDC          Copper     none      0    0 -1012.3  1     0      0      0     
-#	T    200    450     20      0        360     CDCShellEU      BLTCDC          Copper     none      0    0 -1264.6  1     0      0      0     
+	T    0      120     1001    0        360     BLTCHole
+	T    450    470     524.6   0        360     CDCShellCU      BLTCDC          Copper     none      0    0 -1012.3  1     0      0      0     
+	T    200    450     20      0        360     CDCShellEU      BLTCDC          Copper     none      0    0 -1264.6  1     0      0      0     
 
 #	Coil
+DEFINE: pZcc	-1854.6+(x-2)*240
+DEFINE: pZdc	-376.6+(x-4.5)*235
 	T    400    450     355.9   0        360     TS3Coil         BLTCDC          Copper     none      0    0 -2612.55 1     0      0      0     
-	T    130    150     200     0        360     ColiCoil        BLTCDC          Copper     none      0    0 -1854.6  5     0      0      0     
-	T    180    200     200     0        360     ColiCoilout     BLTCDC          Copper     none      0    0 -1854.6  5     0      0      0     
-#	T    1070   1084.04 195     0        360     CDCCoil         BLTCDC          Copper     none      0    0  -372.6  10    0      0      0
+	T    130    150     200     0        360     ColiCoil        BLTCDC          Copper     none      0    0  pZcc    5     0      0      0     
+	T    180    200     200     0        360     ColiCoilout     BLTCDC          Copper     none      0    0  pZcc    5     0      0      0     
+	T    1070   1084.04 195     0        360     CDCCoil         BLTCDC          Copper     none      0    0  pZdc    10    0      0      0
 
-#	Yoke	
+#	Yoke
 	T    700    900     355.9   0        360     TS3Yoke         BLTCDC          Steel      none      0    0 -2612.55 1     0      0      0     
 	T    700    800     717     0        360     ColiYoke        BLTCDC          Steel      none      0    0 -2076.1  1     0      0      0     
-#	T    1647.5 1747.5  2500    0        360     CDCYokeC        BLTCDC          Steel      none      0    0 -367.6   1     0      0      0     
-#	T    700    1747.5  100     0        360     CDCYokeEU       BLTCDC          Steel      none      0    0 -1667.6  1     0      0      0     
-#	T    200    1747.5  100     0        360     CDCYokeED       BLTCDC          Steel      none      0    0  932.4   1     0      0      0     
+	T    1647.5 1747.5  2500    0        360     CDCYokeC        BLTCDC          Steel      none      0    0 -367.6   1     0      0      0     
+	T    700    1747.5  100     0        360     CDCYokeEU       BLTCDC          Steel      none      0    0 -1667.6  1     0      0      0     
+	T    200    1747.5  100     0        360     CDCYokeED       BLTCDC          Steel      none      0    0  932.4   1     0      0      0     
 
 #	Virtual
 #	T    0      900     1       0        360     BLTKillerE      World           Vacuum     KillerSD  0    0 -2797    1     0      0      0     
@@ -44,7 +46,7 @@ DEFINE: zTri	(2*x-1)*1250/2 # z position of triggers
 #	CDC	
 	T    0      100     0.2     0        360     Target          BLTCDC          Aluminium  Target/MonitorSD 0    0    zTgt  39    0      0      0
 #	T    0      100     0.2     0        360     Target          BLTCDC          Aluminium  Target/MonitorSD 0    0    0     17    0      0      0
-	T    471.5  501.5   250     0        360     Trigger         BLTCDC        Scintillator Target/MonitorSD 0    0    zTri  2     0      0      0
+	T    471.5  501.5   250     0        360     Trigger         BLTCDC        Scintillator Trigger/MonitorSD 0    0    zTri  2     0      0      0
 
 #Box info
 #	Type x       y       z     Name     MotVolume Material   SDName  posX   posY   posZ   RepNo Ephi Etheta Epsi
@@ -72,8 +74,8 @@ DEFINE: zTri	(2*x-1)*1250/2 # z position of triggers
 	vis_CDCShellEU        0.5    0.5    0.5
 	vis_TS3Coil           0.82   0.5    0.21  
 	vis_ColiCoil          0.82   0.5    0.21
+	vis_ColiCoilout       0.82   0.5    0.21
 	vis_CDCCoil           0.82   0.5    0.21
-	vis_CDCCoilout        0.82   0.5    0.21
 	vis_TS3Yoke           0      0      1
 	vis_ColiYoke          0      0      1
 	vis_CDCYokeC          0      0      1
