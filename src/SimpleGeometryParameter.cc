@@ -1407,10 +1407,9 @@ void SimpleGeometryParameter::DumpInfo() {
 						 <<std::setiosflags(std::ios::left)<<std::setw(10) <<BooleanSolid_Pos[i][j].phi()/deg
 						 <<std::setiosflags(std::ios::left)<<std::setw(10) <<BooleanSolid_Pos[i][j].theta()/deg;
 			}
-			std::cout<<std::setiosflags(std::ios::left)<<std::setw(6) <<RepNo[i]
-					 <<std::setiosflags(std::ios::left)<<std::setw(10) <<Ephi[i][j]/deg
-					 <<std::setiosflags(std::ios::left)<<std::setw(10) <<Etheta[i][j]/deg
-					 <<std::setiosflags(std::ios::left)<<std::setw(10) <<Epsi[i][j]/deg;
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(10) << BooleanSolid_Ephi[i][j]/deg
+					 <<std::setiosflags(std::ios::left)<<std::setw(10) << BooleanSolid_Etheta[i][j]/deg
+					 <<std::setiosflags(std::ios::left)<<std::setw(10) << BooleanSolid_Epsi[i][j]/deg;
 			dump_general_value(index,j);
 			std::cout<<std::endl;
 		}

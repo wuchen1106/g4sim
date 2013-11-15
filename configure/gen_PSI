@@ -20,6 +20,7 @@
 	PosSpread:        8.33 5   0
 	PosLimit:         17.5
 
+	RandMode:       none #(none/root)
 	EnergyMode:     gRand #(root/histo/none)
 	PositionMode:   gRand  #(uniform/root/none/gRand/uRand)
 	DirectionMode:  none #(none/uniform/histo)

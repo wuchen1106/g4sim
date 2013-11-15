@@ -119,7 +119,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 		G4int                      root_index;
 		G4String                   root_filename;
 		G4String                   root_treename;
-		G4double                   root_double[7];
+		G4double                   root_double[9];
 		G4int                      root_int[1];
 		TFile                      *fp;
 };
