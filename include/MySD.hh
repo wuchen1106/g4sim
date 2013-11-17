@@ -23,7 +23,7 @@ class MySD : public G4VSensitiveDetector
   virtual void SetBranch(void){};
 
 	//=>Access
-	G4String get_VolName(){ return m_VolName; }
+	G4String get_VolName(){ return m_VolumeName; }
  	int get_VerboseLevel(){ return fVerboseLevel; }
  	MyVGeometryParameter* get_GeometryParameter(){ return m_GeometryParameter; }
 
@@ -34,7 +34,7 @@ class MySD : public G4VSensitiveDetector
  private:
  	int fVerboseLevel;
  	MyVGeometryParameter* m_GeometryParameter;
- 	G4String m_VolName;
+ 	G4String m_VolumeName;
 };
 
 #endif

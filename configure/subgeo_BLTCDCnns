@@ -7,9 +7,9 @@
 	T    0      1747.5  5581    0        360     BLTCDC          World           Vacuum     none      0    0    0     1     0      0      0     
 
 #	Shell
-	T    280    300     355.9   0        360     BLTShellCU1     BLTCDC          Copper     MonitorSD 0    0 -2612.55 1     0      0      0     
-	T    120    129.99  160     0        360     BLTShellCU2     BLTCDC          Copper     MonitorSD 0    0 -2354.6  1     0      0      0     
-	T    120    280     20      0        360     BLTShellEU      BLTCDC          Copper     MonitorSD 0    0 -2444.6  1     0      0      0     
+	T    280    300     355.9   0        360     BLTShellCU1     BLTCDC          Copper   M/MonitorSD 0    0 -2612.55 1     0      0      0     
+	T    120    129.99  160     0        360     BLTShellCU2     BLTCDC          Copper   M/MonitorSD 0    0 -2354.6  1     0      0      0     
+	T    120    280     20      0        360     BLTShellEU      BLTCDC          Copper   M/MonitorSD 0    0 -2444.6  1     0      0      0     
 	T    0      129.99  1000    0        360     BLTCollimator0
 	T    0      120     1001    0        360     BLTCHole
 	T    450    470     524.6   0        360     CDCShellCU      BLTCDC          Copper     none      0    0 -1012.3  1     0      0      0     
@@ -36,7 +36,7 @@ DEFINE: pZdc	-376.6+(x-4.5)*235
 	T    200    280     1       0        360     TS3KillerE      BLTShellEU      Copper     KillerSD  0    0   9.5    1     0      0      0     
 	T   199.991 199.999 817     0        360     ColiKiller      BLTCDC          Vacuum     KillerSD  0    0 -2026.1  1     0      0      0     
 	T    900    901     2500    0        360     CDCKillerC      BLTCDC          Vacuum     KillerSD  0    0 -367.6   1     0      0      0     
-	T    0      200     1       0        360     CDCMonitor      BLTCDC          Vacuum     MonitorSD 0    0 -1274.1  1     0      0      0     
+	T    0      200     1       0        360     CDCMonitor      BLTCDC          Vacuum   M/MonitorSD 0    0 -1274.1  1     0      0      0     
 #	T    0      200     1       0        360     CDCKiller       BLTCDC          Vacuum     KillerSD  0    0 -1273.1  1     0      0      0     
 #	T    250    900     1       0        360     CDCKillerEU     BLTCDC          Vacuum     KillerSD  0    0 -1617.1  1     0      0      0     
 	T    0      900     1       0        360     CDCKillerED     BLTCDC          Vacuum     KillerSD  0    0  982.9   1     0      0      0     
@@ -44,9 +44,9 @@ DEFINE: pZdc	-376.6+(x-4.5)*235
 #	CDC	
 DEFINE: zTgt	30*(x-19)-600 # z position of targets
 DEFINE: zTri	(2*x-1)*1250/2 # z position of triggers
-	T    0      100     0.2     0        360     Target          BLTCDC          Aluminium  Target/MonitorSD 0    0    zTgt  39    0      0      0
-#	T    0      100     0.2     0        360     Target          BLTCDC          Aluminium  Target/MonitorSD 0    0    0     17    0      0      0
-	T    471.5  501.5   250     0        360     Trigger         BLTCDC        Scintillator Trigger/MonitorSD 0    0    zTri  2     0      0      0
+	T    0      100     0.2     0        360     Target          BLTCDC         Aluminium T/MonitorSD 0    0    zTgt  39    0      0      0
+#	T    0      100     0.2     0        360     Target          BLTCDC         Aluminium T/MonitorSD 0    0    0     17    0      0      0
+	T    471.5  501.5   250     0        360     Trigger         BLTCDC      Scintillator M/MonitorSD 0    0    zTri  2     0      0      0
 
 #Box info
 #	Type x       y       z     Name     MotVolume Material   SDName  posX   posY   posZ   RepNo Ephi Etheta Epsi
@@ -56,7 +56,7 @@ DEFINE: zTri	(2*x-1)*1250/2 # z position of triggers
 #BooelanSolid info
 #	Type type     vol1           vol2         Ephi    Etheta  Epsi   PosX    PosY    posZ    name          MotVolume       Material      SDName    posX posY posZ RepNo Ephi   Etheta Epsi  
 #	                                          deg     deg     deg    mm      mm      mm                                                            mm   mm   mm         deg    deg    deg   
-	BL   minus    BLTCollimator0 BLTCHole     0       0       0      0       0       0       BLTCollimator BLTCDC          Copper        MonitorSD 0    0 -1774.6  1    0      0      0     
+	BL   minus    BLTCollimator0 BLTCHole     0       0       0      0       0       0       BLTCollimator BLTCDC          Copper      T/MonitorSD 0    0 -1774.6  1    0      0      0     
 
 #visual settings
 	VerboseLevel:    5

@@ -10,9 +10,9 @@ MySD::MySD(G4String name, MyVGeometryParameter* pointer)
 		if ( c[i] == '/' ) c[i] = '_';
 	}
   collectionName.insert(c); //Make the HC name unique, so that one can keep many copies of the same SD during a run
-	m_VolName = GetPathName();
+	m_VolumeName = GetPathName();
 	char *pFast, *pSlow, *pC;
-	pC = pFast = pSlow = const_cast<char*> (m_VolName.c_str());
+	pC = pFast = pSlow = const_cast<char*> (m_VolumeName.c_str());
 	while( '\0' != *pFast ){
 		if ( *pFast == '/' ) pFast++;
 		else{
@@ -22,7 +22,7 @@ MySD::MySD(G4String name, MyVGeometryParameter* pointer)
 		}
 	}
 	*pSlow = '\0';
-	m_VolName = pC;
+	m_VolumeName = pC;
 }
 
 MySD::~MySD(){}
