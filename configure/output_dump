@@ -67,7 +67,7 @@ DumpMonitor_SECTION
 	ptid
 	tid
 	pid
-	particleName
+#	particleName
 #	charge
 #	stopped
 #	stop_time      ns

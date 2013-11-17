@@ -67,8 +67,8 @@ CdcCell_SECTION
 	tid
 	pid
 	charge
-	stopped
-	stop_time      ns
+#	stopped
+#	stop_time      ns
 #	killed
 #	kill_time      ns
 CdcCell_SECTION
@@ -114,8 +114,8 @@ Trigger_SECTION
 	charge
 	stopped
 	stop_time      ns
-#	killed
-#	kill_time      ns
+	killed
+	kill_time      ns
 Trigger_SECTION
 
 Trigger_FILTERSECTION
@@ -159,8 +159,8 @@ Target_SECTION
 	charge
 	stopped
 	stop_time      ns
-#	killed
-#	kill_time      ns
+	killed
+	kill_time      ns
 Target_SECTION
 
 Target_FILTERSECTION
