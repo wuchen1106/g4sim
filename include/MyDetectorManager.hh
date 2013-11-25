@@ -24,6 +24,8 @@
 #include "SimpleGeometrySvc.hh"
 #include "CdcGeometrySvc.hh"
 
+#include "SimpleGeometryParameter.hh"
+
 class G4SDManager;
 class G4VSensitiveDetector;
 class G4VPhysicalVolume;
@@ -90,6 +92,19 @@ class MyDetectorManager
 			for ( int i = 0; i < fSvcName.size(); i++ ){
 				if ( fSvcName[i] == name ){
 					pointer = fMyVGeometrySvc[i];
+					break;
+				}
+			}
+			return pointer;
+		}
+
+		//*************************GetSvc********************************
+		SimpleGeometryParameter* GetParaFromVolume( G4String name ){
+			SimpleGeometryParameter* pointer = 0;
+			for ( int i = 0; i < fMyVGeometrySvc.size(); i++ ){
+				SimpleGeometryParameter* ipointer = (SimpleGeometryParameter*) fMyVGeometrySvc[i]->get_GeometryParameter();
+				if ( ipointer->get_VolIndex(name) >= 0 ){
+					pointer = ipointer;
 					break;
 				}
 			}

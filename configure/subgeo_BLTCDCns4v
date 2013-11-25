@@ -56,7 +56,7 @@ DEFINE: pZdc	-372.6+(x-4.5)*235
 	T    0      900     1       0        360     CDCKillerED      BLTCDC          Vacuum     KillerSD  0    0  982.9   1     0      0      0     
 
 #	CDC	
-DEFINE: zTgt	30*(x-19)-600 # z position of targets
+DEFINE: zTgt	30*(x-19) # z position of targets
 DEFINE: zTri	(2*x-1)*1250/2 # z position of triggers
 	T    0      100     0.2     0        360     Target           BLTCDC          Aluminium  MonitorSD 0    0    zTgt  39    0      0      0
 #	T    0      100     0.2     0        360     Target           BLTCDC          Aluminium  MonitorSD 0    0    zTgt  17    0      0      0

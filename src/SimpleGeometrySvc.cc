@@ -295,36 +295,58 @@ G4VPhysicalVolume* SimpleGeometrySvc::PlaceVolumes(){
 		SRepNo = m_GeometryParameter->get_SRepNo(i_Vol);
 		RepNo = m_GeometryParameter->get_RepNo(i_Vol);
 		G4LogicalVolume* log_container;
-		if ( name == "World" ) log_container = 0;
-		else log_container = get_logicalVolume(motVolName);
-		for ( int i = 0; i < RepNo; i++ ){
-			G4String iname = name;
-			if (RepNo>1){
-				buffer.str("");
-				buffer.clear();
-				buffer<<name<<"_"<<i;
-				iname = buffer.str();
+		int motRepNo = 1;
+		if ( name == "World" ) motRepNo = 1;
+		else{
+			SimpleGeometryParameter* motPara = MyDetectorManager::GetMyDetectorManager()->GetParaFromVolume(motVolName);
+			if (motPara)
+				motRepNo = motPara->get_RepNo(motPara->get_VolIndex(motVolName));
+			else{
+				std::cout<<"We can't find parameter pointer!!"<<std::endl;
 			}
-			G4LogicalVolume* log_Vol = get_logicalVolume(iname);
-			PosX  = m_GeometryParameter->get_PosX(i_Vol,i);
-			PosY  = m_GeometryParameter->get_PosY(i_Vol,i);
-			PosZ  = m_GeometryParameter->get_PosZ(i_Vol,i);
-			G4ThreeVector pos(PosX ,PosY ,PosZ);
-			G4double Ephi = m_GeometryParameter->get_Ephi(i_Vol,i);
-			G4double Etheta = m_GeometryParameter->get_Etheta(i_Vol,i);
-			G4double Epsi = m_GeometryParameter->get_Epsi(i_Vol,i);
-			G4RotationMatrix* rotateMatrix=new G4RotationMatrix(Ephi,Etheta,Epsi);
-			if ( name == "World" ) rotateMatrix = 0;
-			G4VPhysicalVolume* phy_Vol =
-				new G4PVPlacement(rotateMatrix,                //rotation
-					pos,                              //position
-					log_Vol,                          //its logical volume
-					name,                             //its name
-					log_container,                    //its mother volume
-					false,                            //no boolean operation
-					i+SRepNo,                                //copy number
-					checkOverlap);                    //overlaps checking
-			if ( name == "World" ) world_pvol = phy_Vol;
+		}
+		std::cout<<name<<": "<<motVolName<<", "<<m_GeometryParameter->get_VolIndex(motVolName)<<", "<<motRepNo<<std::endl;
+		for ( int im = 0; im < motRepNo; im++ ){
+			if ( name == "World" ) log_container = 0;
+			else {
+				G4String imotVolName = motVolName;
+				if (motRepNo>1){
+					buffer.str("");
+					buffer.clear();
+					buffer<<motVolName<<"_"<<im;
+					imotVolName = buffer.str();
+				}
+				log_container = get_logicalVolume(imotVolName);
+			}
+			for ( int i = 0; i < RepNo; i++ ){
+				G4String iname = name;
+				if (RepNo>1){
+					buffer.str("");
+					buffer.clear();
+					buffer<<name<<"_"<<i;
+					iname = buffer.str();
+				}
+				G4LogicalVolume* log_Vol = get_logicalVolume(iname);
+				PosX  = m_GeometryParameter->get_PosX(i_Vol,i);
+				PosY  = m_GeometryParameter->get_PosY(i_Vol,i);
+				PosZ  = m_GeometryParameter->get_PosZ(i_Vol,i);
+				G4ThreeVector pos(PosX ,PosY ,PosZ);
+				G4double Ephi = m_GeometryParameter->get_Ephi(i_Vol,i);
+				G4double Etheta = m_GeometryParameter->get_Etheta(i_Vol,i);
+				G4double Epsi = m_GeometryParameter->get_Epsi(i_Vol,i);
+				G4RotationMatrix* rotateMatrix=new G4RotationMatrix(Ephi,Etheta,Epsi);
+				if ( name == "World" ) rotateMatrix = 0;
+				G4VPhysicalVolume* phy_Vol =
+					new G4PVPlacement(rotateMatrix,                //rotation
+							pos,                              //position
+							log_Vol,                          //its logical volume
+							name,                             //its name
+							log_container,                    //its mother volume
+							false,                            //no boolean operation
+							i+SRepNo,                                //copy number
+							checkOverlap);                    //overlaps checking
+				if ( name == "World" ) world_pvol = phy_Vol;
+			}
 		}
 	}
 //	std::cout<<"Finished!"<<std::endl; // to be deleted
