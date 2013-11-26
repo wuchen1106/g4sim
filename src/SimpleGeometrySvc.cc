@@ -305,7 +305,6 @@ G4VPhysicalVolume* SimpleGeometrySvc::PlaceVolumes(){
 				std::cout<<"We can't find parameter pointer!!"<<std::endl;
 			}
 		}
-		std::cout<<name<<": "<<motVolName<<", "<<m_GeometryParameter->get_VolIndex(motVolName)<<", "<<motRepNo<<std::endl;
 		for ( int im = 0; im < motRepNo; im++ ){
 			if ( name == "World" ) log_container = 0;
 			else {
