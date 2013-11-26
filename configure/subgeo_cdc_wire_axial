@@ -2,7 +2,7 @@
 #	checkoverlap
 	CellMaterial:              ChamberGas9010
 	MotherLogicalVolume:       CDCContainer
-	SensitiveDetector:         M/MonitorSD
+	SensitiveDetector:         C/MonitorSD
 	SDVolumeName:              CdcCell
 #	DigitizeModule:            CdcDigitizer
 #	DigitizeModule:            none
@@ -57,12 +57,12 @@
 
 #Tubs info
 DEFINE: pZep		(x-0.5)*1520
-#	Type RMin       RMax       Length     StartAng SpanAng Name            MotVolume       Material        SDName posX posY posZ RepNo Ephi   Etheta Epsi  
-#	     mm         mm         mm         deg      deg                                                            mm   mm   mm         deg    deg    deg   
-	T    501.5      811        1540       0        360     CDCContainer    BLTCDC          ChamberGas9010  none   0    0    0    1     0      0      0     
-	T    501.5      502        1540       0        360     InnerCylinder   CDCContainer    CarbonFiber     none   0    0    0    1     0      0      0     
-	T    806        811        1540       0        360     OuterCylinder   CDCContainer    CarbonFiber     none   0    0    0    1     0      0      0     
-	T    502        806        20         0        360     EndPlate        CDCContainer    Aluminium       none   0    0    pZep 2     0      0      0     
+#	Type RMin       RMax       Length     StartAng SpanAng Name           RepNo  MotVolume       Material        SDName posX posY posZ Ephi   Etheta Epsi  
+#	     mm         mm         mm         deg      deg                                                                  mm   mm   mm   deg    deg    deg   
+	T    501.5      811        1540       0        360     CDCContainer   1      BLTCDC          ChamberGas9010  none   0    0    0    0      0      0     
+	T    501.5      502        1540       0        360     InnerCylinder  1      CDCContainer    CarbonFiber     none   0    0    0    0      0      0     
+	T    806        811        1540       0        360     OuterCylinder  1      CDCContainer    CarbonFiber     none   0    0    0    0      0      0     
+	T    502        806        20         0        360     EndPlate       2      CDCContainer    Aluminium       none   0    0    pZep 0      0      0     
 
 #visual settings
 	VerboseLevel:    5

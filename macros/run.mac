@@ -12,4 +12,4 @@
 #/stacking/add_white_list 2112
 #/stacking/set_no_sec 1
 #/run/beamOn 5732
-#/run/beamOn 50000
+/run/beamOn 1000

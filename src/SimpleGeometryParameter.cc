@@ -920,7 +920,8 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 			G4String tMotherName;
 			G4String tMaterial;
 			G4bool   tSolidBoolean = true;
-			buf_card>>tName;
+			buf_card>>tName>>tRepCont;
+			get_RepCont(tRepCont,tSRepNo,tRepNo);
 			if(buf_card>>tMotherName){
 				tSolidBoolean = false;
 				buf_card>>tMaterial>>tSDName>>dump;
@@ -941,8 +942,7 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 					buf_card>>tPosY>>tPosZ;
 					tPosType = "Cartesian";
 				}
-				buf_card>>tRepCont>>tEphi>>tEtheta>>tEpsi;
-				get_RepCont(tRepCont,tSRepNo,tRepNo);
+				buf_card>>tEphi>>tEtheta>>tEpsi;
 			}
 			fPosX.push_back(tPosX);
 			fPosY.push_back(tPosY);
