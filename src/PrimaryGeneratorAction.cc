@@ -28,6 +28,7 @@
 #include "TH1D.h"
 #include "TCanvas.h"
 #include "TChain.h"
+#include "TF1.h"
 
 #include <stdlib.h>
 #include <iostream>
@@ -92,6 +93,8 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 
 PrimaryGeneratorAction::~PrimaryGeneratorAction()
 {
+	knownValueNames.clear();
+	knownValues.clear();
 	delete particleGun;
 	delete gunMessenger;
 	delete EM_hist;
@@ -530,6 +533,7 @@ void PrimaryGeneratorAction::ReadCard(G4String file_name){
 		else if ( c[offset] == '/' && c[offset+1] == '/' ) continue;
 		else if ( length - offset == 0 ) continue;
 		std::string keyword;
+		std::string temp;
 		buf_card>>keyword;
 		if ( keyword == "Type:" ){
 			buf_card>>fType;
@@ -550,56 +554,61 @@ void PrimaryGeneratorAction::ReadCard(G4String file_name){
 			buf_card>>E;
 		}
 		else if ( keyword == "Direction:" ){
-			buf_card>>Theta>>Phi;
-			Theta *= deg;
-			Phi *= deg;
+			buf_card>>temp;
+			Theta = CalFormula(ReplaceMacro(temp))*deg;
+			buf_card>>temp;
+			Phi = CalFormula(ReplaceMacro(temp))*deg;
 		}
 		else if ( keyword == "PhiSpread:" ){
-			buf_card>>PhiSpread;
-			PhiSpread*=deg;
+			buf_card>>temp;
+			PhiSpread = CalFormula(ReplaceMacro(temp))*deg;
 		}
 		else if ( keyword == "ThetaSpread:" ){
-			buf_card>>ThetaSpread;
-			ThetaSpread*=deg;
+			buf_card>>temp;
+			ThetaSpread = CalFormula(ReplaceMacro(temp))*deg;
 		}
 		else if ( keyword == "MomAmp:" ){
-			buf_card>>Pa;
-			Pa *= MeV;
+			buf_card>>temp;
+			Pa = CalFormula(ReplaceMacro(temp))*MeV;
 			EnergyType = 0;
 		}
 		else if ( keyword == "MomSpread:" ){
-			buf_card>>MomSpread;
-			MomSpread *= MeV;
+			buf_card>>temp;
+			MomSpread = CalFormula(ReplaceMacro(temp))*MeV;
 		}
 		else if ( keyword == "Ekin:" ){
-			buf_card>>Ekin;
-			Ekin *= MeV;
+			buf_card>>temp;
+			Ekin = CalFormula(ReplaceMacro(temp))*MeV;
 			EnergyType = 1;
 		}
 		else if ( keyword == "EkinSpread:" ){
-			buf_card>>EkinSpread;
-			EkinSpread *= MeV;
+			buf_card>>temp;
+			EkinSpread = CalFormula(ReplaceMacro(temp))*MeV;
 		}
 		else if ( keyword == "Position:" ){
-			buf_card>>x>>y>>z;
-			x *= mm;
-			y *= mm;
-			z *= mm;
+			buf_card>>temp;
+			x = CalFormula(ReplaceMacro(temp))*mm;
+			buf_card>>temp;
+			y = CalFormula(ReplaceMacro(temp))*mm;
+			buf_card>>temp;
+			z = CalFormula(ReplaceMacro(temp))*mm;
 		}
 		else if ( keyword == "PosSpread:" ){
-			buf_card>>xSpread>>ySpread>>zSpread;
-			xSpread *= mm;
-			ySpread *= mm;
-			zSpread *= mm;
+			buf_card>>temp;
+			xSpread = CalFormula(ReplaceMacro(temp))*mm;
+			buf_card>>temp;
+			ySpread = CalFormula(ReplaceMacro(temp))*mm;
+			buf_card>>temp;
+			zSpread = CalFormula(ReplaceMacro(temp))*mm;
 		}
 		else if ( keyword == "PosLimit:" ){
-			buf_card>>PosLimit2;
-			PosLimit2 *= mm;
+			buf_card>>temp;
+			PosLimit2 = CalFormula(ReplaceMacro(temp))*mm;
 			PosLimit2 *= PosLimit2;
 		}
 		else if ( keyword == "Time:" ){
-			buf_card>>t;
-			t *= ns;
+			buf_card>>temp;
+			t = CalFormula(ReplaceMacro(temp))*ns;
 		}
 		else if ( keyword == "RandMode:" ){
 			buf_card>>RandMode;
@@ -646,6 +655,25 @@ void PrimaryGeneratorAction::ReadCard(G4String file_name){
 		else if ( keyword == "UIV:" ){
 			buf_card>>UP_Type>>UP_SubDet>>UP_Volume;
 		}
+		else if ( keyword == "DEFINE:" ){
+			G4String MacroName;
+			G4String MacroValue;
+			buf_card>>MacroName>>MacroValue;
+//			std::cout<<"found DEFINE:"<<std::endl; // to be deleted
+			MacroValue = ReplaceMacro(MacroValue);
+			bool foundName = false;
+			for (int i = 0; i < knownValueNames.size(); i++){
+				if (knownValueNames[i]==MacroName){ // If this name occurred once, replace the value
+					foundName = true;
+					knownValues[i]=MacroValue;
+					break;
+				}
+			}
+			if (!foundName){
+				knownValueNames.push_back(MacroName);
+				knownValues.push_back(MacroValue);
+			}
+		}
 		else{
 			std::cout<<"In PrimaryGeneratorAction::ReadCard, unknown name: "<<keyword<<" in file "<<file_name<<std::endl;
 			std::cout<<"Will ignore this line!"<<std::endl;
@@ -656,6 +684,138 @@ void PrimaryGeneratorAction::ReadCard(G4String file_name){
 	buf_card.clear();
 	Dump();
 }
+
+double PrimaryGeneratorAction::CalFormula(G4String formula, int iRep){
+//	std::cout<<"TO Calculate for: \""<<formula<<"\" "<<iRep<<std::endl; // to be deleted
+	formula = ReplaceMacro(formula);
+	TF1 *f1 = new TF1("f1", formula);
+	double value = f1->Eval(iRep);
+	delete f1;
+	return value;
+}
+
+G4String PrimaryGeneratorAction::ReplaceMacro(G4String formula){
+//	std::cout<<"TO replace for: \""<<formula<<"\""<<std::endl; // to be deleted
+	std::vector<G4String> words = GetWords(formula);
+//	std::cout<<"	"<<words.size()<<" words"<<std::endl; // to be deleted
+	for (int iWord = 0; iWord < words.size(); iWord++ ){
+//		std::cout<<"		"<<iWord<<std::endl; // to be deleted
+		G4String value;
+		if (FindMacro(words[iWord],value)){
+			Replace(formula,words[iWord],value);
+		}
+	}
+	return formula;
+}
+
+std::vector<G4String> PrimaryGeneratorAction::GetWords(G4String formula){
+	std::vector<G4String> words;
+	words.clear();
+	const char* cformula = formula.c_str();
+	int length = strlen(cformula);
+	char temp[1240];
+	int tempoffset = 0;
+	for ( int offset = 0; offset < length; offset++ ){
+		char c = cformula[offset];
+		bool isword = false;
+		if (c>='a'&&c<='z'
+			||c>='A'&&c<='Z'
+			||c>='0'&&c<='9'
+			||c=='_'
+		   ){
+			temp[tempoffset++] = cformula[offset];
+			isword = true;
+		}
+		if (!isword||offset==length-1){
+			if (tempoffset>0){
+				temp[tempoffset++] = '\0';
+				tempoffset=0;
+				G4String word = temp;
+				bool found = false;
+				for(int iWord = 0; iWord<words.size(); iWord++){
+					if (words[iWord]==word){
+						found = true;
+						break;
+					}
+				}
+				if (!found){
+					words.push_back(word);
+				}
+			}
+		}
+	}
+	return words;
+}
+
+bool PrimaryGeneratorAction::FindMacro(G4String word, G4String& value){
+	bool found = false;
+	for (int i = 0; i< knownValues.size(); i++){
+		if (knownValueNames[i]==word){
+			value = knownValues[i];
+			found = true;
+			break;
+		}
+	}
+	return found;
+}
+
+void PrimaryGeneratorAction::Replace(G4String &formula, G4String word, G4String value){
+//	std::cout<<"-- \""<<formula<<"\""<<std::endl; // to be deleted
+	G4String newform = "";
+	const char* cformula = formula.c_str();
+	int length = strlen(cformula);
+	char temp[1024];
+	int tempoffset = 0;
+	char cnewform[1024];
+	int newformoffset = 0;
+	for ( int offset = 0; offset < length; offset++ ){
+		char c = cformula[offset];
+		bool isword = false;
+		if (c>='a'&&c<='z'
+			||c>='A'&&c<='Z'
+			||c>='0'&&c<='9'
+			||c=='_'
+		   ){
+			temp[tempoffset++] = cformula[offset];
+			isword = true;
+		}
+		if (!isword||offset==length-1){
+			if (tempoffset>0){
+				temp[tempoffset] = '\0';
+				tempoffset=0;
+				if (newformoffset>0){
+					cnewform[newformoffset] = '\0';
+					newformoffset=0;
+					G4String newformtemp = cnewform;
+					newform=newform+newformtemp;
+				}
+				G4String word = temp;
+//				std::cout<<"		\""<<word<<"\""<<std::endl; // to be deleted
+				G4String newword;
+				bool found = FindMacro(word,newword);
+				if (found){
+					newform=newform+"("+newword+")";
+				}
+				else{
+					newform=newform+word;
+				}
+//				std::cout<<"		to \""<<newword<<"\""<<std::endl; // to be deleted
+			}
+			if(!isword){
+				cnewform[newformoffset++] = cformula[offset];
+			}
+			if (offset==length-1){
+				cnewform[newformoffset] = '\0';
+				G4String newformtemp = cnewform;
+				newform=newform+newformtemp;
+			}
+		}
+	}
+//	std::cout<<"	-->\""<<newform<<"\""<<std::endl; // to be deleted
+	formula = newform;
+}
+
+
 void PrimaryGeneratorAction::Dump(){
 	std::cout<<"---------------PrimaryGeneratorAction---------------------"<<std::endl;
 	std::cout<<"Type:                                         "<<fType<<std::endl;

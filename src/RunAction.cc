@@ -95,7 +95,6 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
         }
     }
 
-/*
 //#################################################################################333	
 	//Print dE/dx tables with binning identical to the Geant3 JMATE bank.
 	//The printout is readable as Geant3 ffread data cards (by the program g4mat).
@@ -124,8 +123,8 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
 	G4cout.setf(std::ios::scientific,std::ios::floatfield);
 
 	G4ParticleDefinition*
-		part = G4ParticleTable::GetParticleTable()->FindParticle("e-");
-	//		part = G4ParticleTable::GetParticleTable()->FindParticle("mu-");
+	//	part = G4ParticleTable::GetParticleTable()->FindParticle("e-");
+			part = G4ParticleTable::GetParticleTable()->FindParticle("mu-");
 
 	G4ProductionCutsTable* theCoupleTable =
 		G4ProductionCutsTable::GetProductionCutsTable();
@@ -153,7 +152,6 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
 	G4cout.precision(prec);
 	G4cout.setf(mode,std::ios::floatfield);
 //#################################################################################333	
-*/
 
 
 }

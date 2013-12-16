@@ -16,10 +16,10 @@
 	T    662    742    1800     0        360     PTACSTargetCoilMS1    1     PTACSContainer     Copper        none      0    0  -125    0      0      0     
 	T    662    790    380      0        360     PTACSTargetCoilMS2    1     PTACSContainer     Copper        none      0    0   1035   0      0      0     
 DEFINE:		pi		3.14159265358
-DEFINE:		d		200
+DEFINE:		d		10
 DEFINE:		pX		d*sin(10*pi/180)
 DEFINE:		pZ		-1700-d*cos(10*pi/180)
-	T    0      10     600      0        360     PTACSProductionTarget 1     PTACSContainer     Graphite      none      pX   0   pZ     90    -10    -90    
+	T    0      10     600      0        360     PTACSProductionTarget 1     PTACSContainer     Graphite    T/MonitorSD pX   0   pZ     90    -10    -90    
 	T    0      298    1        0        360     PTACSKiller1          1     PTACSContainer     Vacuum        KillerSD  0    0  -2649.5 0      0      0     
 	T    300    590    1        0        360     PTACSKiller2          1     PTACSShieldsABC    Tungsten      KillerSD  0    0  -1699.5 0      0      0     
 	T    590    662    1        0        360     PTACSKiller3          1     PTACSContainer     Vacuum        KillerSD  0    0  -2649.5 0      0      0     

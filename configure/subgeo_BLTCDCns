@@ -57,7 +57,8 @@ DEFINE:  zTri	(2*x-1)*1250/2 # z position of triggers
 #BooelanSnfo                                                      
 #	Type type     vol1           vol2         Ephi    Etheta  Epsi  PosX    PosY    posZ    name          RepNo  MotVolume       Material      SDName    posX posY posZ Ephi   Etheta Epsi  
 #	                                          deg     deg     deg   mm      mm      mm                                                                   mm   mm   mm   deg    deg    deg   
-	BL   minus    BLTCollimator0 BLTCHole     0       0       0     0       0       0       BLTCollimator 1      BLTCDC          Copper        none      0    0 -1774.6 0      0      0     
+	BL   minus    BLTCollimator0 BLTCHole     0       0       0     0       0       0       BLTCollimator 1      BLTCDC          Copper        none      0    0 -2274.6 0      0      0     
+#	BL   minus    BLTCollimator0 BLTCHole     0       0       0     0       0       0       BLTCollimator 1      BLTCDC          Copper        none      0    0 -1774.6 0      0      0     
 #	BL   minus    TgtBody        TgtHole      0       0       0     0       0       0       Target        39     BLTCDC          Aluminium   T/MonitorSD 0    0    zTgt 0      0      0
 
 #visual settings

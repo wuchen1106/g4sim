@@ -12,8 +12,10 @@
 #/vis/viewer/addCutawayPlane 0 0 0 m 0 -1 0
 #/vis/viewer/addCutawayPlane 0 0 0 m 0 0 -1
 
-#/vis/viewer/addCutawayPlane 0 6 0 cm 0 -1 0
-#/vis/viewer/addCutawayPlane 0 0 0 cm 1 0  0
+/vis/viewer/addCutawayPlane 0 6 0 cm 0 -1 0
+/vis/viewer/addCutawayPlane 0 0 0 cm 1 0  0
+
+#/vis/viewer/addCutawayPlane -85 0 0 cm 1 0 0
 
 /vis/viewer/zoom 2.5
 
@@ -24,7 +26,7 @@
 
 #/vis/viewer/set/lightsThetaPhi 60 100
 
-#/vis/viewer/set/viewpointThetaPhi 270 0  
+/vis/viewer/set/viewpointThetaPhi 270 0  
 /vis/viewer/set/lightsThetaPhi 90 180
 #/vis/viewer/set/lightsThetaPhi 270 150
 #/vis/viewer/set/lightsThetaPhi 15 15
@@ -32,7 +34,7 @@
 #/vis/viewer/set/viewpointThetaPhi 90 90  
 #/vis/viewer/set/lightsThetaPhi 90 180
 
-/vis/viewer/set/background 1 1 1
+#/vis/viewer/set/background 1 1 1
 #/vis/viewer/set/culling coveredDaughters
 /vis/viewer/set/edge 0
 /vis/viewer/set/lineSegmentsPerCircle 50

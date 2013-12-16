@@ -2,8 +2,11 @@
 #/control/execute {MYG4SIMROOT}/configure/verbose_test.mac
 /control/execute {MYG4SIMROOT}/configure/verbose_default.mac
 /control/execute {MYG4SIMROOT}/configure/setCut_default.mac
+#/control/execute {MYG4SIMROOT}/configure/setCut_test.mac
 #/control/execute {MYG4SIMROOT}/configure/setCut_bp.mac
-/run/setCut 0.001 mm
+#/run/setCut 0.001 mm
+/run/setCut 0.01 mm
+#/run/setCut 1e14 m
 #/control/execute {MYG4SIMROOT}/configure/setCut_A9.mac
 #/control/execute {MYG4SIMROOT}/configure/setCut_vis.mac
 #/g4sim/event/printModulo            1
@@ -11,5 +14,8 @@
 #/g4sim/gun/root_index 814
 #/stacking/add_white_list 2112
 #/stacking/set_no_sec 1
+#/stacking/set_no_PC 1
+#/stacking/set_no_MC 1
 #/run/beamOn 5732
-/run/beamOn 500
+#/g4sim/myAnalysisSvc/set_ofile_name g60_1cm.raw
+/run/beamOn 500000

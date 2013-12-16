@@ -621,19 +621,22 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		if ( m_volName[i] == VolName && m_volID[i] == ReplicaNo ){
 			//std::cout<<"m_t["<<i<<"] = "<<m_t[i]*unit_t/ns<<"ns"<<std::endl;
 			G4double dtime = pointOut_time - m_t[i]*unit_t;
-			if ( dtime < dt ){
+			if ( fabs(dtime) < fabs(dt) ){
 				index = i;
 				dt = dtime;
 				//std::cout<<"dtime = "<<dtime/ns<<"ns < dt = "<<dt/ns<<"ns"<<std::endl;
 			}
 		}
 	}
-	//std::cout<<"At last, dt = "<<dt/ns<<"ns"<<std::endl;
+//	std::cout<<"At last, dt = "<<dt/ns<<"ns"<<std::endl;
 	if ( index != -1 ){// found a previous hit in the same volume
+//		std::cout<<"found a previous hit in the same volume!"<<std::endl;
 		if ( fabs(dt) < tres ){// dt too small, will not push
+//			std::cout<<"dt too small, will not push"<<std::endl;
 			willPush = false;
 		}
 		if ( m_tid[index] == trackID&& prePoint->GetStepStatus() != fGeomBoundary || killed){ // If this particle was in this volume in last step, don't generate a new hit
+//			std::cout<<"Was here last step"<<std::endl;
 			willPush = false;
 		}
 		//if ( m_tid[index] == trackID ){
@@ -726,20 +729,22 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		(*hitsCollection)[index]->SetEdep(edepTemp  + edepIoni);
 		(*hitsCollection)[index]->SetPos(pointOut_pos);
 		(*hitsCollection)[index]->SetGlobalT(pointOut_time);
-		if(flag_Ox) m_Ox[index] = pointOut_pos.x()/unit_Ox;
-		if(flag_Oy) m_Oy[index] = pointOut_pos.y()/unit_Oy;
-		if(flag_Oz) m_Oz[index] = pointOut_pos.z()/unit_Oz;
-		if(flag_Ot) m_Ot[index] = pointOut_time/unit_Ot;
-		if(flag_Opx) m_Opx[index] = pointOut_mom.x()/unit_Opx;
-		if(flag_Opy) m_Opy[index] = pointOut_mom.y()/unit_Opy;
-		if(flag_Opz) m_Opz[index] = pointOut_mom.z()/unit_Opz;
+		if (m_tid[index] == trackID){
+			if(flag_Ox) m_Ox[index] = pointOut_pos.x()/unit_Ox;
+			if(flag_Oy) m_Oy[index] = pointOut_pos.y()/unit_Oy;
+			if(flag_Oz) m_Oz[index] = pointOut_pos.z()/unit_Oz;
+			if(flag_Ot) m_Ot[index] = pointOut_time/unit_Ot;
+			if(flag_Opx) m_Opx[index] = pointOut_mom.x()/unit_Opx;
+			if(flag_Opy) m_Opy[index] = pointOut_mom.y()/unit_Opy;
+			if(flag_Opz) m_Opz[index] = pointOut_mom.z()/unit_Opz;
+			if(flag_stepL) m_stepL[index] += stepL/unit_stepL;
+			if(flag_stop_time&&stopped) m_stop_time[index] = stop_time/unit_stop_time; // modify only if it got stopped at this step
+			if(flag_kill_time&&killed) m_kill_time[index] = kill_time/unit_kill_time;// modify only if it got killed at this step
+			if(flag_stopped&&stopped) m_stopped[index] = stopped;// modify only if it got stopped at this step
+			if(flag_killed&&killed) m_killed[index] = killed;// modify only if it got killed at this step
+		}
 		if(flag_edep) m_edep[index] += edepIoni/unit_edep;
 		if(flag_edepAll) m_edepAll[index] += edep/unit_edepAll;
-		if(flag_stepL) m_stepL[index] += stepL/unit_stepL;
-		if(flag_stop_time&&stopped) m_stop_time[index] = stop_time/unit_stop_time; // modify only if it got stopped at this step
-		if(flag_kill_time&&killed) m_kill_time[index] = kill_time/unit_kill_time;// modify only if it got killed at this step
-		if(flag_stopped&&stopped) m_stopped[index] = stopped;// modify only if it got stopped at this step
-		if(flag_killed&&killed) m_killed[index] = killed;// modify only if it got killed at this step
 	}
 	return true;
 }
