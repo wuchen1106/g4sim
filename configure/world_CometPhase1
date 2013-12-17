@@ -1,5 +1,5 @@
 #general info
-	checkoverlap
+#	checkoverlap
 
 #Box info
 #	Type x       y       z      Name     RepNo MotVolume Material   SDName posX   posY   posZ   Ephi Etheta Epsi

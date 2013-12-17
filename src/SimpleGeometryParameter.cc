@@ -322,7 +322,7 @@ void SimpleGeometryParameter::Calculate(){
 
 double SimpleGeometryParameter::CalFormula(G4String formula, int iRep){
 //	std::cout<<"TO Calculate for: \""<<formula<<"\" "<<iRep<<std::endl; // to be deleted
-	formula = ReplaceMacro(formula);
+//	formula = ReplaceMacro(formula);
 	TF1 *f1 = new TF1("f1", formula);
 	double value = f1->Eval(iRep);
 	delete f1;
@@ -667,9 +667,9 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 				G4String tPolycone_RMin;
 				G4String tPolycone_Z;
 				buf_card>>tPolycone_Z>>tPolycone_RMin>>tPolycone_RMax;
-				fPolycone_RMax[waited_Polycone_iVol][achieved_componets_Polycone] = tPolycone_RMax;
-				fPolycone_RMin[waited_Polycone_iVol][achieved_componets_Polycone] = tPolycone_RMin;
-				fPolycone_Z[waited_Polycone_iVol][achieved_componets_Polycone] = tPolycone_Z;
+				fPolycone_RMax[waited_Polycone_iVol][achieved_componets_Polycone] = ReplaceMacro(tPolycone_RMax);
+				fPolycone_RMin[waited_Polycone_iVol][achieved_componets_Polycone] = ReplaceMacro(tPolycone_RMin);
+				fPolycone_Z[waited_Polycone_iVol][achieved_componets_Polycone] = ReplaceMacro(tPolycone_Z);
 				achieved_componets_Polycone++;
 			}
 			else {
@@ -740,11 +740,11 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 			G4String tTorus_StartAng;
 			G4String tTorus_SpanAng;
 			buf_card>>tTorus_RMin>>tTorus_RMax>>tTorus_Rtor>>tTorus_StartAng>>tTorus_SpanAng;
-			fTorus_RMax.push_back(tTorus_RMax);
-			fTorus_RMin.push_back(tTorus_RMin);
-			fTorus_Rtor.push_back(tTorus_Rtor);
-			fTorus_StartAng.push_back(tTorus_StartAng);
-			fTorus_SpanAng.push_back(tTorus_SpanAng);
+			fTorus_RMax.push_back(ReplaceMacro(tTorus_RMax));;
+			fTorus_RMin.push_back(ReplaceMacro(tTorus_RMin));;
+			fTorus_Rtor.push_back(ReplaceMacro(tTorus_Rtor));;
+			fTorus_StartAng.push_back(ReplaceMacro(tTorus_StartAng));;
+			fTorus_SpanAng.push_back(ReplaceMacro(tTorus_SpanAng));;
 			Torus_GenIndex.push_back(iVol);
 			TorusNo++;
 			foundVolume = true;
@@ -759,12 +759,12 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 			G4String tSphere_StartTheta;
 			G4String tSphere_SpanTheta;
 			buf_card>>tSphere_RMin>>tSphere_RMax>>tSphere_StartPhi>>tSphere_SpanPhi>>tSphere_StartTheta>>tSphere_SpanTheta;
-			fSphere_RMax.push_back(tSphere_RMax);
-			fSphere_RMin.push_back(tSphere_RMin);
-			fSphere_StartPhi.push_back(tSphere_StartPhi);
-			fSphere_SpanPhi.push_back(tSphere_SpanPhi);
-			fSphere_StartTheta.push_back(tSphere_StartTheta);
-			fSphere_SpanTheta.push_back(tSphere_SpanTheta);
+			fSphere_RMax.push_back(ReplaceMacro(tSphere_RMax));;
+			fSphere_RMin.push_back(ReplaceMacro(tSphere_RMin));;
+			fSphere_StartPhi.push_back(ReplaceMacro(tSphere_StartPhi));;
+			fSphere_SpanPhi.push_back(ReplaceMacro(tSphere_SpanPhi));;
+			fSphere_StartTheta.push_back(ReplaceMacro(tSphere_StartTheta));;
+			fSphere_SpanTheta.push_back(ReplaceMacro(tSphere_SpanTheta));;
 			Sphere_GenIndex.push_back(iVol);
 			SphereNo++;
 			foundVolume = true;
@@ -778,11 +778,11 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 			G4String tHype_outerStereo;
 			G4String tHype_Length;
 			buf_card>>tHype_innerRadius>>tHype_outerRadius>>tHype_innerStereo>>tHype_outerStereo>>tHype_Length;
-			fHype_innerRadius.push_back(tHype_innerRadius);
-			fHype_outerRadius.push_back(tHype_outerRadius);
-			fHype_innerStereo.push_back(tHype_innerStereo);
-			fHype_outerStereo.push_back(tHype_outerStereo);
-			fHype_Length.push_back(tHype_Length);
+			fHype_innerRadius.push_back(ReplaceMacro(tHype_innerRadius));;
+			fHype_outerRadius.push_back(ReplaceMacro(tHype_outerRadius));;
+			fHype_innerStereo.push_back(ReplaceMacro(tHype_innerStereo));;
+			fHype_outerStereo.push_back(ReplaceMacro(tHype_outerStereo));;
+			fHype_Length.push_back(ReplaceMacro(tHype_Length));;
 			Hype_GenIndex.push_back(iVol);
 			HypeNo++;
 			foundVolume = true;
@@ -796,11 +796,11 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 			G4String tTwistedTubs_Length;
 			G4String tTwistedTubs_dphi;
 			buf_card>>tTwistedTubs_twistedangle>>tTwistedTubs_endinnerrad>>tTwistedTubs_endouterrad>>tTwistedTubs_Length>>tTwistedTubs_dphi;
-			fTwistedTubs_twistedangle.push_back(tTwistedTubs_twistedangle);
-			fTwistedTubs_endinnerrad.push_back(tTwistedTubs_endinnerrad);
-			fTwistedTubs_endouterrad.push_back(tTwistedTubs_endouterrad);
-			fTwistedTubs_Length.push_back(tTwistedTubs_Length);
-			fTwistedTubs_dphi.push_back(tTwistedTubs_dphi);
+			fTwistedTubs_twistedangle.push_back(ReplaceMacro(tTwistedTubs_twistedangle));;
+			fTwistedTubs_endinnerrad.push_back(ReplaceMacro(tTwistedTubs_endinnerrad));;
+			fTwistedTubs_endouterrad.push_back(ReplaceMacro(tTwistedTubs_endouterrad));;
+			fTwistedTubs_Length.push_back(ReplaceMacro(tTwistedTubs_Length));;
+			fTwistedTubs_dphi.push_back(ReplaceMacro(tTwistedTubs_dphi));;
 			TwistedTubs_GenIndex.push_back(iVol);
 			TwistedTubsNo++;
 			foundVolume = true;
@@ -816,13 +816,13 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 			G4String tCons_StartAng;
 			G4String tCons_SpanAng;
 			buf_card>>tCons_RMin1>>tCons_RMax1>>tCons_RMin2>>tCons_RMax2>>tCons_Length>>tCons_StartAng>>tCons_SpanAng;
-			fCons_RMax1.push_back(tCons_RMax1);
-			fCons_RMin1.push_back(tCons_RMin1);
-			fCons_RMax2.push_back(tCons_RMax2);
-			fCons_RMin2.push_back(tCons_RMin2);
-			fCons_Length.push_back(tCons_Length);
-			fCons_StartAng.push_back(tCons_StartAng);
-			fCons_SpanAng.push_back(tCons_SpanAng);
+			fCons_RMax1.push_back(ReplaceMacro(tCons_RMax1));;
+			fCons_RMin1.push_back(ReplaceMacro(tCons_RMin1));;
+			fCons_RMax2.push_back(ReplaceMacro(tCons_RMax2));;
+			fCons_RMin2.push_back(ReplaceMacro(tCons_RMin2));;
+			fCons_Length.push_back(ReplaceMacro(tCons_Length));;
+			fCons_StartAng.push_back(ReplaceMacro(tCons_StartAng));;
+			fCons_SpanAng.push_back(ReplaceMacro(tCons_SpanAng));;
 			Cons_GenIndex.push_back(iVol);
 			ConsNo++;
 			foundVolume = true;
@@ -835,14 +835,14 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 			G4String tPolycone_SpanAng;
 			buf_card>>tPolycone_numZ>>tPolycone_StartAng>>tPolycone_SpanAng;
 			Polycone_numZ.push_back(tPolycone_numZ);
-			fPolycone_StartAng.push_back(tPolycone_StartAng);
-			fPolycone_SpanAng.push_back(tPolycone_SpanAng);
+			fPolycone_StartAng.push_back(ReplaceMacro(tPolycone_StartAng));;
+			fPolycone_SpanAng.push_back(ReplaceMacro(tPolycone_SpanAng));;
 			Polycone_GenIndex.push_back(iVol);
 			std::vector<G4String> empty_vec;
 			empty_vec.resize(tPolycone_numZ);
-			fPolycone_RMax.push_back(empty_vec);
-			fPolycone_RMin.push_back(empty_vec);
-			fPolycone_Z.push_back(empty_vec);
+			fPolycone_RMax.push_back(empty_vec);;
+			fPolycone_RMin.push_back(empty_vec);;
+			fPolycone_Z.push_back(empty_vec);;
 			waited_Polycone_iVol = PolyconeNo;
 			achieved_componets_Polycone = 0;
 			PolyconeNo++;
@@ -944,12 +944,12 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 				}
 				buf_card>>tEphi>>tEtheta>>tEpsi;
 			}
-			fPosX.push_back(tPosX);
-			fPosY.push_back(tPosY);
-			fPosZ.push_back(tPosZ);
-			fPosR.push_back(tPosR);
-			fPosPhi.push_back(tPosPhi);
-			fPosTheta.push_back(tPosTheta);
+			fPosX.push_back(ReplaceMacro(tPosX));;
+			fPosY.push_back(ReplaceMacro(tPosY));;
+			fPosZ.push_back(ReplaceMacro(tPosZ));;
+			fPosR.push_back(ReplaceMacro(tPosR));;
+			fPosPhi.push_back(ReplaceMacro(tPosPhi));;
+			fPosTheta.push_back(ReplaceMacro(tPosTheta));;
 			PosType.push_back(tPosType);
 			Name.push_back(tName);
 			MotherName.push_back(tMotherName);
@@ -957,9 +957,9 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 			SDName.push_back(tSDName);
 			SRepNo.push_back(tSRepNo);
 			RepNo.push_back(tRepNo);
-			fEphi.push_back(tEphi);
-			fEtheta.push_back(tEtheta);
-			fEpsi.push_back(tEpsi);
+			fEphi.push_back(ReplaceMacro(tEphi));;
+			fEtheta.push_back(ReplaceMacro(tEtheta));;
+			fEpsi.push_back(ReplaceMacro(tEpsi));;
 			SolidBoolean.push_back(tSolidBoolean);
 			VolNo++;
 //			std::cout<<"found Volume:"<<tName<<std::endl; // to be deleted
