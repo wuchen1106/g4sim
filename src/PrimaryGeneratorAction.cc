@@ -259,8 +259,8 @@ void PrimaryGeneratorAction::SetRandomEnergy(){
 		if(EnergyMode=="gRand"){
 			dE=G4RandGauss::shoot(0,EkinSpread);
 		}
-		else{
-			dE=2.*(G4UniformRand()-0.5)*EkinSpread;
+		else if(EnergyMode=="uRand"){
+			dE=(G4UniformRand()-0.5)*EkinSpread;
 		}
 		particleGun->SetParticleEnergy(Ekin+dE);
 	}
@@ -269,8 +269,8 @@ void PrimaryGeneratorAction::SetRandomEnergy(){
 		if(EnergyMode=="gRand"){
 			dMom=G4RandGauss::shoot(0,MomSpread);
 		}
-		else{
-			dMom=2.*(G4UniformRand()-0.5)*MomSpread;
+		else if(EnergyMode=="uRand"){
+			dMom=(G4UniformRand()-0.5)*MomSpread;
 		}
 		G4double ekin = sqrt((Pa+dMom)*(Pa+dMom)+mass*mass)-mass;
 		particleGun->SetParticleEnergy(ekin);
@@ -284,13 +284,13 @@ void PrimaryGeneratorAction::SetRandomDirection(){
 		if (PhiSpread) dPhi=G4RandGauss::shoot(Phi,PhiSpread);
 	}
 	else if (PhiMode=="uRand"){
-		if (PhiSpread) {dPhi=2.*(G4UniformRand()-0.5)*PhiSpread;} 
+		if (PhiSpread) {dPhi=(G4UniformRand()-0.5)*PhiSpread;} 
 	}
 	if(ThetaMode=="gRand"){
 		if (ThetaSpread) dTheta=G4RandGauss::shoot(Theta,ThetaSpread);
 	}
 	else if (ThetaMode=="uRand"){
-		if (ThetaSpread) {dTheta=2.*(G4UniformRand()-0.5)*ThetaSpread;} 
+		if (ThetaSpread) {dTheta=(G4UniformRand()-0.5)*ThetaSpread;} 
 	}
 	G4ThreeVector dir(1,1,1);
 	dir.setTheta(Theta+dTheta);
