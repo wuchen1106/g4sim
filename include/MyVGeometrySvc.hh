@@ -17,20 +17,22 @@
 
 #include "globals.hh"
 
+#include "MyConfigure.hh"
+
 class G4VPhysicalVolume;
 class G4LogicalVolume;
 class MyVGeometryParameter;
 
-class MyVGeometrySvc
+class MyVGeometrySvc : public MyConfigure
 {
-  public:
-    MyVGeometrySvc(G4String name, G4String opt = "");
-    virtual ~MyVGeometrySvc();
+	public:
+		MyVGeometrySvc(G4String name, G4String opt = "");
+		virtual ~MyVGeometrySvc();
 
 		//=> Crucial functions
-    virtual G4VPhysicalVolume* SetGeometry(){return 0;} //Setup geometry. Should be called before the begin of a run
+		virtual G4VPhysicalVolume* SetGeometry(){return 0;} //Setup geometry. Should be called before the begin of a run
 
-    void ReadCard(G4String);
+		void ReadCard(G4String);
 
 		//Special functions
 		void ConstructVolumes(){};
@@ -45,14 +47,14 @@ class MyVGeometrySvc
 
 		int get_VerboseLevel(){ return fVerboseLevel; }
 
-    G4String get_Name(){ return m_Name; }
+		G4String get_Name(){ return m_Name; }
 
 		//=> Modify
 		void set_GeometryParameter(MyVGeometryParameter* val){ m_GeometryParameter = val; }
 
 		void set_VerboseLevel(int val){ fVerboseLevel = val; }
 
-    void set_Name(G4String val){ m_Name = val; }
+		void set_Name(G4String val){ m_Name = val; }
 
 	private:
 
@@ -60,7 +62,7 @@ class MyVGeometrySvc
 
 		int fVerboseLevel;
 
-    G4String m_Name;
+		G4String m_Name;
 };
 
 #endif

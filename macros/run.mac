@@ -18,4 +18,4 @@
 #/stacking/set_no_MC 1
 #/run/beamOn 5732
 #/g4sim/myAnalysisSvc/set_ofile_name g60_1cm.raw
-/run/beamOn 100000
+/run/beamOn 50000

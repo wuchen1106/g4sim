@@ -14,6 +14,8 @@
 #include "G4VUserPrimaryGeneratorAction.hh"
 #include "globals.hh"
 
+#include "MyConfigure.hh"
+
 class G4ParticleGun;
 class G4Event;
 class PrimaryGeneratorMessenger;
@@ -22,7 +24,8 @@ class TFile;
 class TH1F;
 class G4ParticleDefinition;
 
-class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
+class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
+							   public MyConfigure
 {
 	public:
 		PrimaryGeneratorAction();    
@@ -31,16 +34,6 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 		void GeneratePrimaries(G4Event*);
 
 		void ReadCard(G4String);
-
-		double CalFormula(G4String formula, int iRep = 0);
-
-		G4String ReplaceMacro(G4String formula);
-
-		std::vector<G4String> GetWords(G4String);
-
-		bool FindMacro(G4String, G4String&);
-
-		void Replace(G4String &, G4String , G4String);
 
 		void set_EnergyMode(G4String val) { EnergyMode= val; }
 		void set_DirectionMode(G4String val) { DirectionMode= val; }
@@ -133,10 +126,6 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 		G4double                   root_double[9];
 		G4int                      root_int[1];
 		TFile                      *fp;
-
-		// macros
-		std::vector<G4String> knownValueNames;
-		std::vector<G4String> knownValues;
 };
 
 #endif

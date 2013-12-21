@@ -1,0 +1,77 @@
+#general info
+#	checkoverlap
+	CellMaterial:              ChamberGas9010
+	MotherLogicalVolume:       CDCContainer
+	SensitiveDetector:         C/MonitorSD
+	SDVolumeName:              CdcCell
+#	DigitizeModule:            CdcDigitizer
+#	DigitizeModule:            none
+
+#wire info
+	SignalWireMaterial:        Tungsten
+	FieldWireMaterial:         Aluminium
+	SignalWireRadius:          15  #micrometer
+	FieldWireRadius:           63  #micrometer
+
+#layer info
+	LayerNo:		18
+#	type  layerNo  sublayerNo  CellNo  Length       R            StartPhi  First   RotateCell 
+#	                                   mm           mm           rad       0:F/1:S            
+	F                                               510.00000                                 
+	S     0        0           224     2400.0       518.00000    0         1       0         
+	F                                               526.00000                                 
+	S     1        0           224     2400.0       534.00000    0         0       0          
+	F                                               542.00000                                 
+	S     2        0           224     2400.0       550.00000    0         1       0         
+	F                                               558.00000                                 
+	S     3        0           224     2400.0       566.00000    0         0       0          
+	F                                               574.00000                                 
+	S     4        0           240     2400.0       582.00000    0         1       0         
+	F                                               590.00000                                 
+	S     0        0           240     2400.0       598.00000    0         0       0          
+	F                                               606.00000                                 
+	S     6        0           240     2400.0       614.00000    0         1       0         
+	F                                               622.00000                                 
+	S     7        0           240     2400.0       630.00000    0         0       0          
+	F                                               638.00000                                 
+	S     8        0           256     2400.0       646.00000    0         1       0         
+	F                                               654.00000                                 
+	S     9        0           256     2400.0       662.00000    0         0       0          
+	F                                               670.00000                                 
+	S     10       0           256     2400.0       678.00000    0         1       0         
+	F                                               686.00000                                 
+	S     11       0           256     2400.0       694.00000    0         0       0          
+	F                                               702.00000                                 
+	S     12       0           272     2400.0       710.00000    0         1       0         
+	F                                               718.00000                                 
+	S     13       0           272     2400.0       726.00000    0         0       0          
+	F                                               734.00000                                 
+	S     14       0           272     2400.0       742.00000    0         1       0         
+	F                                               750.00000                                 
+	S     10       0           288     2400.0       758.00000    0         0       0          
+	F                                               766.00000                                 
+	S     16       0           288     2400.0       774.00000    0         1       0         
+	F                                               782.00000                                 
+	S     17       0           288     2400.0       790.00000    0         0       0          
+	LF                                              798.00000                                 
+
+#Tubs info
+DEFINE: pZep		(x-0.5)*2420
+#	Type RMin       RMax       Length     StartAng SpanAng Name           RepNo  MotVolume       Material        SDName posX posY posZ Ephi   Etheta Epsi  
+#	     mm         mm         mm         deg      deg                                                                  mm   mm   mm   deg    deg    deg   
+	T    501.5      811        2440       0        360     CDCContainer   1      BLTCDC          ChamberGas9010  none   0    0  pZCDCY 0      0      0     
+	T    501.5      502        2440       0        360     InnerCylinder  1      CDCContainer    CarbonFiber     none   0    0    0    0      0      0     
+	T    806        811        2440       0        360     OuterCylinder  1      CDCContainer    CarbonFiber     none   0    0    0    0      0      0     
+	T    502        806        20         0        360     EndPlate       2      CDCContainer    Aluminium       none   0    0    pZep 0      0      0     
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name                 red    green  blue  
+#	vis_cell             0      1      0     
+#	vis_SignalWire       1      0      0     
+#	vis_FieldWire        0      0      1     
+#	vis_CDCContainer     0      1      1     
+	vis_InnerCylinder    199    205    250   
+	vis_EndPlate         0      0      1     
+	vis_OuterCylinder    199    205    250   

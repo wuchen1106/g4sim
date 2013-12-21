@@ -17,9 +17,12 @@
 #include <string>
 #include <iostream>
 
+#include "MyConfigure.hh"
+
 class MyVGeometryParameterMessenger;
 
-class MyVGeometryParameter{
+class MyVGeometryParameter : public MyConfigure
+{
 
 	public:
 		MyVGeometryParameter(G4String name, G4String opt = "");

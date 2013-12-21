@@ -43,16 +43,6 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 
 		void DumpInfo(void);  //Output info
 
-		double CalFormula(G4String formula, int iRep = 0);
-
-		G4String ReplaceMacro(G4String formula);
-
-		std::vector<G4String> GetWords(G4String);
-
-		bool FindMacro(G4String, G4String&);
-
-		void Replace(G4String &, G4String , G4String);
-
 	private:
 
 		void ReSetVis(); //Reset parameters to default values
@@ -712,10 +702,6 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 
 		//to control
 		bool notReSetVis;
-
-		// macros
-		std::vector<G4String> knownValueNames;
-		std::vector<G4String> knownValues;
 
 };
 

@@ -21,7 +21,9 @@
 
 #include "MyVGeometryParameter.hh"
 
-MyVGeometryParameter::MyVGeometryParameter(G4String name, G4String opt ){
+MyVGeometryParameter::MyVGeometryParameter(G4String name, G4String opt )
+	: MyConfigure()
+{
 	if ( opt == "" ){
 		std::cout<<"MyVGeometryParameter is a virtual class, should be called with opt not empty!"<<std::endl;
     G4Exception("MyVGeometryParameter::MyVGeometryParameter()","Run0031",
