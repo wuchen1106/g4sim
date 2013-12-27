@@ -3,16 +3,17 @@
 
 #*************************************************************************************************
 #	Shells
+DEFINE:		pZst 		-2790.5  # Start position
 DEFINE:		RI			180  # Inner radius of beam pipe ( before Gap Section )
 DEFINE:		RO			200  # Outer radius of beam pipe ( before Gap Section )
-DEFINE:		LTS3S		355.9  # Length of TS3 Section
-DEFINE:		LCollS		1160  # Length of Collimator Section
-DEFINE:		LGapS		524.6  # Length of Gap (Between Collimator and CDC) Section
-DEFINE:		LCDCS		1500  # Length of CDC Section
+DEFINE:		LTS3S		355.9  # Length of TS3 Shell
+#DEFINE:		LCollS		1160  # Length of Collimator Shell
+DEFINE:		LCollS		717  # Length of Collimator Shell
 DEFINE:		RI1			450  # Inner radius of beam pipe (In Gap Section)
 DEFINE:		RO1			470  # Outer radius of beam pipe (In Gap Section)
 DEFINE:		RIC			140  # Inner radius of Collimator
 DEFINE:		LColl		1000  # Length of Collimator
+DEFINE:		thMyl		0.05  # Thickness of Mylar Window
 #	Coils
 DEFINE:		RITS3		400  # Inner radius of TS3 Coil
 DEFINE:		ROTS3		450  # Outer radius of TS3 Coil
@@ -30,42 +31,45 @@ DEFINE:		RITS3Y		700  # Inner radius of TS3 Yoke
 DEFINE:		ROTS3Y		900  # Outer radius of TS3 Yoke
 DEFINE:		RICollY		700  # Inner radius of Collimator Yoke
 DEFINE:		ROCollY		800  # Outer radius of Collimator Yoke
-DEFINE:		LCollY		717  # Length of Collimator Yoke
+DEFINE:		LTS3Y		LTS3S  # Length of TS3 Shell
+#DEFINE:		LCollY		717  # Length of Collimator Yoke
+DEFINE:		LCollY		LCollS  # Length of Collimator Yoke
+DEFINE:		LCDCY		2500  # Length of Collimator Yoke
 DEFINE:		RICDCY		1647.5  # Inner radius of Collimator Yoke
 DEFINE:		ROCDCY		1747.5  # Outer radius of Collimator Yoke
-DEFINE:		LCDCY		2500  # Length of CDC Yoke
 DEFINE:		RHoleD		200  # Radius of the hole on the downstream end
 #	CDC
-DEFINE:		GTgt	30  # Gap Between Targets (Neglecting Thickness)
-DEFINE:		thTgt	0.2  # Thickness of Targets
-DEFINE:		RTgt	100  # Radius of Targets
+DEFINE:		LCDC		2400
+DEFINE:		thTgt		0.2  # Thickness of Targets
+DEFINE:		RTgt		100  # Radius of Targets
 DEFINE:		RITri		471.5
 DEFINE:		ROTri		501.5
 DEFINE:		LTri		250
 #*************************************************************************************************
 
 #Tubs info
-DEFINE:		pZTS3		-(LTS3S/2+LCollS+LGapS+LCDCS/2)  # CDC Section is in the center of BLTCDC
-DEFINE:		pZColl		-(-LColl/2+LCollS+LGapS+LCDCS/2+LTS3S) # Start from TS3 Section
-DEFINE:		pZCollS		-(LCollS/2+LGapS+LCDCS/2)
-DEFINE:		pZGap 		-(LGapS/2+LCDCS/2)
 #	Type  RMin   RMax    Length  StartAng SpanAng Name            RepNo MotVolume       Material   SDName    posX posY posZ  Ephi   Etheta Epsi  
 #	      mm     mm      mm      deg      deg                                                                mm   mm   mm    deg    deg    deg   
-DEFINE:		L			(LTS3S+LCollS+LGapS+LCDCS/2)*2
-	T     0      ROCDCY  L       0        360     BLTCDC          1     World           Vacuum     none      0    0    0     0      0      0     
+DEFINE:		L			LTS3Y+LCollY+LCDCY+100
+DEFINE:		pZBC		pZst+L/2
+	T     0      ROCDCY  L       0        360     BLTCDC          1     World           Vacuum     none      0    0    pZBC  0      0      0     
                                                                         
 #	Shell                                                         
+DEFINE:		pZTS3		LTS3S/2-L/2
 	T     RI     RO      LTS3S   0        360     ShellTS3        1     BLTCDC          Copper     none      0    0  pZTS3   0      0      0     
+DEFINE:		pZColl		pZTS3-LTS3S/2+LColl/2
+DEFINE:		pZCollS		pZTS3+LTS3S/2+LCollS/2
 	T     RI     RO      LCollS  0        360     ShellColl       1     BLTCDC          Copper     none      0    0  pZCollS 0      0      0     
-	T     RIC    RO      LColl   0        360     Collimator      1     BLTCDC          Copper     none      0    0  pZColl  0      0      0     
-	T     RI1    RO1     LGapS   0        360     ShellGap        1     BLTCDC          Copper     none      0    0  pZGap   0      0      0     
-DEFINE:		pZ			pZGap-LGapS/2+10
-	T     RI     RI1     20      0        360     ShellGapE       1     BLTCDC          Copper     none      0    0  pZ      0      0      0     
+	T     RIC    RI      LColl   0        360     Collimator      1     BLTCDC          Copper     none      0    0  pZColl  0      0      0     
+DEFINE:		pZMyl		pZCollS+LCollS/2-thMyl/2
+	T     0      RI      thMyl   0        360     MylarSD         1     BLTCDC          Mylar      none      0    0  pZMyl   0      0      0     
+DEFINE:		pZMyl		pZCollS-LCollS/2-thMyl/2
+	T     0      RI      thMyl   0        360     MylarSD         1     BLTCDC          Mylar      none      0    0  pZMyl   0      0      0     
                                                                        
 #	Coil                                                               
 	T     RITS3  ROTS3   LTS3S   0        360     CoilTS3         1     BLTCDC          Copper     none      0    0  pZTS3   0      0      0     
-DEFINE: pZ		pZCollS+(x-2)*(LCC+GCC)
-	T     RIColl ROColl  LCC     0        360     CoilColl        5     BLTCDC          Copper     none      0    0  pZ      0      0      0     
+DEFINE: pZ		pZTS3+LTS3S/2+LCC/2+x*(LCC+GCC)
+	T     RIColl ROColl  LCC     0        360     CoilColl        3     BLTCDC          Copper     none      0    0  pZ      0      0      0     
 DEFINE: pZ		pZTS3+LTS3S/2+LCollY+DCD+LCD/2+x*(LCD+GCD)
 	T     RICDC  ROCDC   LCD     0        360     CoilCDC         10    BLTCDC          Copper     none      0    0  pZ      0      0      0
                                                                         
@@ -81,35 +85,28 @@ DEFINE: pZ		pZTS3+LTS3S/2+LCollY+LCDCY+50
 	T    RHoleD  ROCDCY  100     0        360     YokeCDCED       1     BLTCDC          Steel      none      0    0  pZ      0      0      0     
                                                                         
 #	Virtual
-DEFINE: pZ		pZTS3-LTS3S/2-10
+DEFINE: pZ		pZst-10
 	T     0      ROTS3Y  1       0        360     KillerTS3EU     1     World           Vacuum     KillerSD  0    0  pZ      0      0      0     
-	T     RO-1   RO      LTS3S   0        360     KillerTS3C      1     BLTCDC          Vacuum     KillerSD  0    0  pZTS3   0      0      0     
-	T     RO-1   RO      LCollS  0        360     KillerCollC     1     ShellColl       Copper     KillerSD  0    0  0       0      0      0     
+	T     RO     RO+1    LTS3S   0        360     KillerTS3C      1     BLTCDC          Vacuum     KillerSD  0    0  pZTS3   0      0      0     
+	T    RO-1    RO      LCollS  0        360     KillerCollC     1     ShellColl       Copper     KillerSD  0    0  0       0      0      0     
 	T   RICDC-1  RICDC   LCDCY   0        360     KillerCDCC      1     BLTCDC          Vacuum     KillerSD  0    0  pZCDCY  0      0      0     
 #	T     0      RO      1       0        360     MonitorCDC      1     BLTCDC          Vacuum   M/MonitorSD 0    0 -1274.1  0      0      0     
 #	T     0      RO      1       0        360     KillerCDC       1     BLTCDC          Vacuum     KillerSD  0    0 -1273.1  0      0      0     
 DEFINE: pZ		pZCDCY-LCDCY/2+0.5
-	T   ROColl  ROColl+1 1       0        360     KillerCDCEU     1     BLTCDC          Vacuum     KillerSD  0    0  pZ      0      0      0     
+	T   ROColl  RICDC-1  1       0        360     KillerCDCEU     1     BLTCDC          Vacuum     KillerSD  0    0  pZ      0      0      0     
 DEFINE: pZ		pZCDCY+LCDCY/2-0.5
 	T     0     RICDC    1       0        360     KillerCDCED     1     BLTCDC          Vacuum     KillerSD  0    0  pZ      0      0      0     
                                                                         
 #	CDC	                                                                
-DEFINE:	zTgt	pZCDCY+GTgt*(x-19) # z position of targets                       
-DEFINE:	zTri	pZCDCY+(x-0.5)*(LCDCS-LTri)  # z position of triggers                 
-	T     0      RTgt    thTgt   0        360     Target          39    BLTCDC         Aluminium T/MonitorSD 0    0    zTgt  0      0      0
-#	T     0      RTgt    thTgt   0        360     TgtBody         39    
-#	T     0      RTgt/2  thTgt+1 0        360     TgtHole         39    
-	T     RITri  ROTri   LTri    0        360     Trigger         2     BLTCDC      Scintillator M/MonitorSD 0    0    zTri  0      0      0
+DEFINE:		zTri	(x-0.5)*(LCDC-LTri)  # z position of triggers                 
+DEFINE: 	RCDC	501.5
+	T     0      RCDC    LCDC    0        360     CDCInner        39    BLTCDC         Helium      none      0    0   pZCDCY 0      0      0
+	T     RITri  ROTri   LTri    0        360     Trigger         2     CDCInner    Scintillator M/MonitorSD 0    0    zTri  0      0      0
                                                                         
 #Box info                                                         
 #	Type x       y       z     Name     RepNo MotVolume Material   SDNamRepNo    posX   posY   posZ   Ephi Etheta Epsi
 #	     mm      mm      mm                                                      mm     mm     mm     deg  deg    deg
 #	B    1200    1200    1200  BLTCYMin 1                                
-                                                                        
-#BooelanSnfo                                                      
-#	Type type     vol1           vol2         Ephi    Etheta  Epsi  PosX    PosY    posZ    name          RepNo  MotVolume       Material      SDName    posX posY posZ Ephi   Etheta Epsi  
-#	                                          deg     deg     deg   mm      mm      mm                                                                   mm   mm   mm   deg    deg    deg   
-#	BL   minus    TgtBody        TgtHole      0       0       0     0       0       0       Target        39     BLTCDC          Aluminium   T/MonitorSD 0    0    zTgt 0      0      0
 
 #visual settings
 	VerboseLevel:    5
@@ -120,6 +117,7 @@ DEFINE:	zTri	pZCDCY+(x-0.5)*(LCDCS-LTri)  # z position of triggers
 	vis_ShellColl         0.5    0.5    0.5
 	vis_ShellGap          0.5    0.5    0.5
 	vis_ShellGapE         0.5    0.5    0.5
+	vis_MylarSD           0      1      0      0.5
 	vis_Collimator        0.5    0.5    0.5
 	vis_CoilTS3           0.82   0.5    0.21  
 	vis_CoilColl          0.82   0.5    0.21
@@ -137,5 +135,4 @@ DEFINE:	zTri	pZCDCY+(x-0.5)*(LCDCS-LTri)  # z position of triggers
 	vis_MonitorCDC        0      1      0
 	vis_KillerCDCEU       1      0      0
 	vis_KillerCDCED       1      0      0
-	vis_Target            0.8    0.8    0.8
 	vis_Trigger           0      1      0

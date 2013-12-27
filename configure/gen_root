@@ -1,6 +1,8 @@
+	PhysicsList: QGSP_BERT
+
 #General setting  
-	Type:      simple
-	Particle:  e-     #(e+/e-/chargedgeantino/gamma/...)
+	Type:      simple #(simple/stable/ion)
+	Particle:  e- #(e+/e-/deuteron/chargedgeantino/gamma/...)
 
 #Default Direction
 #	           Theta    Phi
@@ -18,9 +20,12 @@
 	Position:         0    0   0           
 	PosSpread:        0    0   0
 
+	RandMode:       none #(none/root)
 	EnergyMode:     root #(root/histo/none)
-	PositionMode:   root #(uniform/root/none/random)
+	PositionMode:   root #(uniform/root/none/gRand/uRand)
 	DirectionMode:  none #(none/uniform/histo)
+	ThetaMode:      none #(none/gRand/uRand)
+	PhiMode:        none #(none/gRand/uRand)
 	TimeMode:       root #(none/root)
 	pidMode:        root #(none/root)
 #Default Time
@@ -40,5 +45,6 @@
 #	DMHHN:          theta
 
 #ROOT file name
-	RFN:            MT1.EP.em.g40cm10mm.003T.g4s.QBH.root
+#	RFN:            MT1.EP.em.g60cm10mm.005T.g4s.QBH.root
+	RFN:            MT1.EP.mum.g60cm10mm.005T.g4s.QBH.root
 	RTN:            t

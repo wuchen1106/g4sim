@@ -27,8 +27,8 @@
 #/vis/viewer/set/lightsThetaPhi 60 100
 
 /vis/viewer/set/viewpointThetaPhi 270 0  
-/vis/viewer/set/lightsThetaPhi 90 180
-#/vis/viewer/set/lightsThetaPhi 270 150
+#/vis/viewer/set/lightsThetaPhi 90 180
+/vis/viewer/set/lightsThetaPhi 270 150
 #/vis/viewer/set/lightsThetaPhi 15 15
 
 #/vis/viewer/set/viewpointThetaPhi 90 90  

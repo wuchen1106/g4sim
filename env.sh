@@ -11,12 +11,12 @@ export CONFIGUREDATAROOT=$MYG4SIMDATAROOT
 export FIELDMAPSROOT=$MYFIELDMAPSROOT
 
 #for detector construction
-export MATERIALLISTROOT=material_default
-export GEOCARDROOT=geometry_default
+export MATERIALLISTROOT=material_list
+export GEOCARDROOT=geometry_A9
 #for magField
-export MAGFIELDCARDROOT=MagField_default
+export MAGFIELDCARDROOT=MagField_A9_130927
 #for generator
-export GENFILEROOT=gen_default
+export GENFILEROOT=gen_root
 #for output
 export OFILENAMEROOT=$MYG4SIMROOT/output/raw_g4sim.root
 export RUNNAMEROOT=TEST
