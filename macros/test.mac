@@ -1,5 +1,5 @@
 /vis/viewer/clearCutawayPlanes
-/vis/viewer/addCutawayPlane 0 0 0 m -1 0 0
+#/vis/viewer/addCutawayPlane 0 0 0 m -1 0 0
 #/vis/viewer/addCutawayPlane 0 0 0 m 0 -1 0
 #/vis/viewer/addCutawayPlane 0 0 0 m 0 0 -1
 #/vis/viewer/addCutawayPlane -0.3 0.3 0 m 1 -1 0
@@ -27,8 +27,8 @@
 #/vis/viewer/set/lightsThetaPhi 60 100
 
 /vis/viewer/set/viewpointThetaPhi 270 0  
-#/vis/viewer/set/lightsThetaPhi 90 180
-/vis/viewer/set/lightsThetaPhi 270 150
+/vis/viewer/set/lightsThetaPhi 90 180
+#/vis/viewer/set/lightsThetaPhi 270 150
 #/vis/viewer/set/lightsThetaPhi 15 15
 
 #/vis/viewer/set/viewpointThetaPhi 90 90  

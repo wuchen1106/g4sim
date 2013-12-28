@@ -2,7 +2,7 @@
 #	checkoverlap
 	CellMaterial:              ChamberGas9010
 	MotherLogicalVolume:       CDCContainer
-	SensitiveDetector:         MonitorSD
+	SensitiveDetector:         C/MonitorSD
 	SDVolumeName:              CdcCell
 #	DigitizeModule:            CdcDigitizer
 #	DigitizeModule:            none
@@ -56,16 +56,17 @@
 	LF                                              798.00000                                 
 
 #Tubs info
-DEFINE: pZep		(x-0.5)*1520
-#	Type RMin   RMax    Length  StartAng SpanAng Name            MotVolume       Material        SDName posX posY posZ RepNo Ephi   Etheta Epsi  
-#	     mm     mm      mm      deg      deg                                                            mm   mm   mm         deg    deg    deg   
-	T    501.5  811     1540    0        360     CDCContainer    BLTCDC          ChamberGas9010  none   0    0    0    1     0      0      0     
-	T    501.5  502     1500.0  90       180     InnerCylinder1  CDCContainer    CarbonFiber     none   0    0    0    1     0      0      0     
-	T    501.5  502     1500.0  270      180     InnerCylinder2  CDCContainer    CarbonFiber     none   0    0    0    1     0      0      0     
-	T    806    811     1500.0  90       180     OuterCylinder1  CDCContainer    CarbonFiber     none   0    0    0    1     0      0      0     
-	T    806    811     1500.0  270      180     OuterCylinder2  CDCContainer    CarbonFiber     none   0    0    0    1     0      0      0     
-	T    470    811     20      90       180     EndPlate1       BLTCDC          Aluminium       none   0    0    pZep 2     0      0      0     
-	T    470    811     20      270      180     EndPlate2       BLTCDC          Aluminium       none   0    0    pZep 2     0      0      0     
+DEFINE:		pZep		(x-0.5)*(LCDC+20)
+DEFINE:		thMyl		0.05  # Thickness of Mylar Window
+#	Type RMin       RMax       Length     StartAng SpanAng Name           RepNo  MotVolume       Material        SDName posX posY posZ Ephi   Etheta Epsi  
+#	     mm         mm         mm         deg      deg                                                                  mm   mm   mm   deg    deg    deg   
+	T    RCDCi      811        LCDC+40    0        360     CDCContainer   1      BLTCDC          ChamberGas9010  none   0    0  pZCDCY 0      0      0     
+	T    RCDCi      RCDC       LCDC+40    270        180     InnerCylinder  1      CDCContainer    Mylar           none   0    0    0    0      0      0     
+	T    RCDCi      RCDC       LCDC+40    90        180     InnerCylinderiv  1      CDCContainer    Mylar           none   0    0    0    0      0      0     
+	T    806        811        LCDC+40    270        180     OuterCylinder  1      CDCContainer    CarbonFiber     none   0    0    0    0      0      0     
+	T    806        811        LCDC+40    90        180     OuterCylinderiv  1      CDCContainer    CarbonFiber     none   0    0    0    0      0      0     
+	T    502        806        20         270        180     EndPlate       2      CDCContainer    Aluminium       none   0    0    pZep 0      0      0     
+	T    502        806        20         90        180     EndPlateiv       2      CDCContainer    Aluminium       none   0    0    pZep 0      0      0     
 
 #visual settings
 	VerboseLevel:    5
@@ -75,12 +76,7 @@ DEFINE: pZep		(x-0.5)*1520
 #	vis_SignalWire       1      0      0     
 #	vis_FieldWire        0      0      1     
 #	vis_CDCContainer     0      1      1     
-#	vis_InnerCylinder1     0.4    0.4    0.4
-	vis_InnerCylinder2     0.4    0.4    0.4
-#	vis_InnerKiller       1      0      0
-#	vis_OuterKiller       1      0      0
-#	vis_OuterCylinder1     0.4    0.4    0.4
-	vis_OuterCylinder2     0.4    0.4    0.4
-#	vis_EndPlate1          1      1      1
-	vis_EndPlate2          1      1      1
-#	vis_EndKiller         1      0      0
+	vis_InnerCylinder    199    205    250   
+	vis_EndPlate         0      0      1     
+	vis_OuterCylinder    199    205    250   
+	vis_MylarCDC         0      1      0     0.5
