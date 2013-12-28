@@ -1,8 +1,9 @@
 /control/getEnv MYG4SIMROOT
 #/control/execute {MYG4SIMROOT}/configure/verbose_test.mac
 /control/execute {MYG4SIMROOT}/configure/verbose_default.mac
-#/control/execute {MYG4SIMROOT}/configure/setCut_default.mac
-/control/execute {MYG4SIMROOT}/configure/setCut_bm.mac
+/control/execute {MYG4SIMROOT}/configure/setCut_default.mac
+#/control/execute {MYG4SIMROOT}/configure/setCut_A9.mac
+#/control/execute {MYG4SIMROOT}/configure/setCut_bm.mac
 #/control/execute {MYG4SIMROOT}/configure/setCut_test.mac
 #/control/execute {MYG4SIMROOT}/configure/setCut_bp.mac
 #/run/setCut 0.001 mm
@@ -19,4 +20,4 @@
 #/stacking/set_no_MC 1
 #/run/beamOn 5732
 #/g4sim/myAnalysisSvc/set_ofile_name g60_1cm.raw
-/run/beamOn 10000
+/run/beamOn 10

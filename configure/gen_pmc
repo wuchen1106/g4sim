@@ -2,21 +2,18 @@
 
 #General setting  
 	Type:      simple
-	Particle:  gamma #(e+/e-/chargedgeantino/gamma/...)
+	Particle:  proton #(e+/e-/chargedgeantino/gamma/...)
 
 #Default Direction
 #	           Theta    Phi
 #	           deg      deg
-	Direction: 10        0
+	Direction: 0        0
 #Default Momentum Amplitude
 #	         MeV
-	MomAmp:  104.97
-#	MomAmp:  7944.78729048504562
-#	MomAmp:  1.25e4
-#	MomAmp:  1e5
+	MomAmp:  1
 #Default Position     x   y   z
 #	                  mm  mm  mm
-	Position:         0   0   -750
+	Position:         0   0   0
 
 	RandMode:       none #(none/root)
 	EnergyMode:     histo #(root/histo/none)
@@ -30,18 +27,10 @@
 #	         ns
 	Time:    0
 
-#Uniform In Volume:
-#	                Type   SubDet   Volume
-#	UIV:            Simple Cdc      Target
-
 #Histogram file name
-	EMHFN:          RPC_Mg.root
-	EMHHN:          hRPC
-
-#Histogram file name
-#	DMHFN:          ph2e.root
-#	DMHHN:          theta
+	EMHFN:          ProtonEmissionMC.root
+	EMHHN:          h
 
 #ROOT file name
-	RFN:            pim.2p4.17.root
+	RFN:            mum.2p4.17.root
 	RTN:            t

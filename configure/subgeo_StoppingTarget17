@@ -1,8 +1,9 @@
 #general info
 	checkoverlap
 
-DEFINE:		GTgt	50  # Gap Between Targets (Neglecting Thickness)
-DEFINE:		zTgt	GTgt*(x-9) # z position of targets                       
+DEFINE:		GTgt		50  # Gap Between Targets (Neglecting Thickness)
+DEFINE:		zTgt		GTgt*(x-9) # z position of targets                       
+DEFINE:		RTgt		100  # Radius of Targets
 
 #Tubs info
 #	Type  RMin   RMax    Length  StartAng SpanAng Name            RepNo MotVolume       Material   SDName    posX posY posZ  Ephi   Etheta Epsi  

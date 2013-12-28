@@ -37,8 +37,8 @@
 #	UIV:            Simple World    Target
 
 #Histogram file name
-#	EMHFN:          RMC_Al.root
-#	EMHHN:          hRMC
+	EMHFN:          ProtonEmissionMC.root
+	EMHHN:          h
 
 #Histogram file name
 #	DMHFN:          ph2e.root
@@ -47,4 +47,5 @@
 #ROOT file name
 #	RFN:            MT1.EP.em.g60cm10mm.005T.g4s.QBH.root
 	RFN:            MT1.EP.mum.g60cm10mm.005T.g4s.QBH.root
+#	RFN:            MT1.pim.pim.g60cm10mm.005T.g4s.QBH.root
 	RTN:            t

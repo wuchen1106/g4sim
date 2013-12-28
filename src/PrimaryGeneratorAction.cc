@@ -153,7 +153,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
 	if ( EnergyMode == "histo"){
 		G4double mom = EM_hist->GetRandom() * MeV;
-		G4double ekin = sqrt(Pa*Pa+mass*mass)-mass;
+		G4double ekin = sqrt(mom*mom+mass*mass)-mass;
 		particleGun->SetParticleEnergy(ekin);
 	}
 	else if ( EnergyMode == "root" ){

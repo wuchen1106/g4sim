@@ -3,9 +3,9 @@
 
 #ServiceName        ServiceType         FileName
 	World           Simple              world_CometPhase1
-	BLTCDC          Simple              subgeo_BLTCDC2p4
-#	BLTCDC          Simple              subgeo_BLTCDC1p5
-#	BLTCDC          Simple              subgeo_StoppingTarget39
-	BLTCDC          Simple              subgeo_StoppingTarget17
-	Cdc             Cdc                 subgeo_cdc_wire_axial2p4
-#	Cdc             Cdc                 subgeo_cdc_wire_axial1p5
+#	BLTCDC          Simple              subgeo_BLTCDC2p4
+#	Cdc             Cdc                 subgeo_cdc_wire_axial2p4
+	BLTCDC          Simple              subgeo_BLTCDC1p5
+	Cdc             Cdc                 subgeo_cdc_wire_axial1p5
+	BLTCDC          Simple              subgeo_StoppingTarget39
+#	BLTCDC          Simple              subgeo_StoppingTarget17

@@ -39,7 +39,6 @@ DEFINE:		RHoleD		200  # Radius of the hole on the downstream end
 #	CDC
 DEFINE:		LCDC		1500
 DEFINE:		thTgt		0.2  # Thickness of Targets
-DEFINE:		RTgt		100  # Radius of Targets
 DEFINE:		RITri		471.5
 DEFINE:		ROTri		501.5
 DEFINE:		LTri		250
@@ -84,7 +83,8 @@ DEFINE: pZ		pZst-10
 	T     RO     RO+1    LTS3S   0        360     KillerTS3C      1     BLTCDC          Vacuum     KillerSD  0    0  pZTS3   0      0      0     
 	T    RO-1    RO      LCollS  0        360     KillerCollC     1     ShellColl       Copper     KillerSD  0    0  0       0      0      0     
 	T   RICDC-1  RICDC   LCDCY   0        360     KillerCDCC      1     BLTCDC          Vacuum     KillerSD  0    0  pZCDCY  0      0      0     
-#	T     0      RO      1       0        360     MonitorCDC      1     BLTCDC          Vacuum   M/MonitorSD 0    0 -1274.1  0      0      0     
+DEFINE: pZ		pZColl+LColl/2+0.5
+	T     0      RO      1       0        360     EndColl         1     BLTCDC          Vacuum   M/MonitorSD 0    0  pZ      0      0      0     
 #	T     0      RO      1       0        360     KillerCDC       1     BLTCDC          Vacuum     KillerSD  0    0 -1273.1  0      0      0     
 DEFINE: pZ		pZCDCY-LCDCY/2+0.5
 	T   ROColl  RICDC-1  1       0        360     KillerCDCEU     1     BLTCDC          Vacuum     KillerSD  0    0  pZ      0      0      0     
@@ -94,7 +94,7 @@ DEFINE: pZ		pZCDCY+LCDCY/2-0.5
 #	CDC	                                                                
 DEFINE:		zTri	(x-0.5)*(LCDC-LTri)  # z position of triggers                 
 DEFINE: 	RCDC	501.5
-	T     0      RCDC    LCDC    0        360     CDCInner        39    BLTCDC         Vacuum      none      0    0   pZCDCY 0      0      0
+	T     0      RCDC    LCDC    0        360     CDCInner        1     BLTCDC         Vacuum      none      0    0   pZCDCY 0      0      0
 	T     RITri  ROTri   LTri    0        360     Trigger         2     CDCInner    Scintillator M/MonitorSD 0    0    zTri  0      0      0
                                                                         
 #Box info                                                         

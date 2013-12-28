@@ -16,9 +16,9 @@ export GEOCARDROOT=geometry_A9
 #for magField
 export MAGFIELDCARDROOT=MagField_A9_130927
 #for generator
-export GENFILEROOT=gen_root
+export GENFILEROOT=gen_rpc
 #for output
-export OFILENAMEROOT=$MYG4SIMROOT/output/raw_g4sim.root
+export OFILENAMEROOT=$MYG4SIMROOT/output/test.root
 export RUNNAMEROOT=TEST
 export OUTCARDROOT=output_default
 #for log
