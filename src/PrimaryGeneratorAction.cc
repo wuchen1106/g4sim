@@ -351,18 +351,12 @@ void PrimaryGeneratorAction::SetUniformPosition(){
 					"cannot convert volume");
 		}
 		G4String sol_type = pSimpleGeometryParameter->get_SolidType(index);
+		G4ThreeVector pos(1,0,0);
+		G4int n = pSimpleGeometryParameter->get_RepNo(index);
+		G4int ivol = G4UniformRand()*n;
 		if ( sol_type == "Tubs" ){
 			G4double RMax,RMin,length,StartPhi,SpanPhi;
-			G4double xp,yp,zp,space,n,theta,phi;
-			G4int ivol;
-
-			n = pSimpleGeometryParameter->get_RepNo(index);
-			ivol = G4UniformRand()*n;
-
 			G4int iTubs = pSimpleGeometryParameter->get_SolidIndex(index);
-			xp = pSimpleGeometryParameter->get_PosX(index,ivol);
-			yp = pSimpleGeometryParameter->get_PosY(index,ivol);
-			zp = pSimpleGeometryParameter->get_PosZ(index,ivol);
 			RMax = pSimpleGeometryParameter->get_Tubs_RMax(iTubs,ivol);
 			RMin = pSimpleGeometryParameter->get_Tubs_RMin(iTubs,ivol);
 			length = pSimpleGeometryParameter->get_Tubs_Length(iTubs,ivol);
@@ -374,12 +368,9 @@ void PrimaryGeneratorAction::SetUniformPosition(){
 			iphi = G4UniformRand()*SpanPhi + StartPhi;
 			ir = G4UniformRand()*(RMax*RMax-RMin*RMin)+RMin*RMin;
 			ir = sqrt(ir);
-			G4ThreeVector pos(1,0,0);
 			pos.setPhi(iphi);
 			pos.setRho(ir);
 			pos.setZ(iz);
-			pos += G4ThreeVector(xp,yp,zp);
-			particleGun->SetParticlePosition(pos);
 		}
 		else{
 			std::cout<<"ERROR: in PrimaryGeneratorAction::SetUniformPosition unsupported solid type: "<<sol_type<<"!!!"<<std::endl;
@@ -387,6 +378,28 @@ void PrimaryGeneratorAction::SetUniformPosition(){
 					"InvalidInput", FatalException,
 					"unsupported solid type");
 		}
+		G4double xp,yp,zp;
+		xp = pSimpleGeometryParameter->get_PosX(index,ivol);
+		yp = pSimpleGeometryParameter->get_PosY(index,ivol);
+		zp = pSimpleGeometryParameter->get_PosZ(index,ivol);
+		pos += G4ThreeVector(xp,yp,zp);
+		//>>>>
+		G4String mot_volume = pSimpleGeometryParameter->get_MotherName(index);
+		SimpleGeometryParameter * pmotSimpleGeometryParameter = 0;
+		int temp_index = index;
+		int mot_index = -1;
+		while (mot_volume!="None"){
+			pmotSimpleGeometryParameter = MyDetectorManager::GetMyDetectorManager()->GetParaFromVolume(mot_volume);
+			int mot_index = pmotSimpleGeometryParameter->get_VolIndex(mot_volume);
+			G4double mot_xp = pmotSimpleGeometryParameter->get_PosX(mot_index);
+			G4double mot_yp = pmotSimpleGeometryParameter->get_PosY(mot_index);
+			G4double mot_zp = pmotSimpleGeometryParameter->get_PosZ(mot_index);
+			pos += G4ThreeVector(mot_xp,mot_yp,mot_zp);
+			temp_index = mot_index;
+			mot_volume = pmotSimpleGeometryParameter->get_MotherName(temp_index);
+		}
+		//<<<<
+		particleGun->SetParticlePosition(pos);
 	}
 	else{
 		std::cout<<"ERROR: in PrimaryGeneratorAction::SetUniformPosition unsopported parameter class type: "<<UP_Type<<"!!!"<<std::endl;

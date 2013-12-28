@@ -7,7 +7,6 @@ DEFINE:		pZst 		-2790.5  # Start position
 DEFINE:		RI			180  # Inner radius of beam pipe ( before Gap Section )
 DEFINE:		RO			200  # Outer radius of beam pipe ( before Gap Section )
 DEFINE:		LTS3S		355.9  # Length of TS3 Shell
-#DEFINE:		LCollS		1160  # Length of Collimator Shell
 DEFINE:		LCollS		717  # Length of Collimator Shell
 DEFINE:		RI1			450  # Inner radius of beam pipe (In Gap Section)
 DEFINE:		RO1			470  # Outer radius of beam pipe (In Gap Section)
@@ -62,8 +61,6 @@ DEFINE:		pZCollS		pZTS3+LTS3S/2+LCollS/2
 	T     RIC    RI      LColl   0        360     Collimator      1     BLTCDC          Copper     none      0    0  pZColl  0      0      0     
 DEFINE:		pZMyl		pZCollS+LCollS/2-thMyl/2
 	T     0      RI      thMyl   0        360     MylarSD         1     BLTCDC          Mylar      none      0    0  pZMyl   0      0      0     
-DEFINE:		pZMyl		pZCollS-LCollS/2-thMyl/2
-	T     0      RI      thMyl   0        360     MylarSD         1     BLTCDC          Mylar      none      0    0  pZMyl   0      0      0     
                                                                        
 #	Coil                                                               
 	T     RITS3  ROTS3   LTS3S   0        360     CoilTS3         1     BLTCDC          Copper     none      0    0  pZTS3   0      0      0     
@@ -90,7 +87,7 @@ DEFINE: pZ		pZst-10
 	T    RO-1    RO      LCollS  0        360     KillerCollC     1     ShellColl       Copper     KillerSD  0    0  0       0      0      0     
 	T   RICDC-1  RICDC   LCDCY   0        360     KillerCDCC      1     BLTCDC          Vacuum     KillerSD  0    0  pZCDCY  0      0      0     
 DEFINE: pZ		pZColl+LColl/2+0.5
-	T     0      RO      1       0        360     EndColl         1     BLTCDC          Vacuum   M/MonitorSD 0    0  pZ      0      0      0     
+	T     0      RI      1       0        360     EndColl         1     BLTCDC          Vacuum   M/MonitorSD 0    0  pZ      0      0      0     
 #	T     0      RO      1       0        360     KillerCDC       1     BLTCDC          Vacuum     KillerSD  0    0 -1273.1  0      0      0     
 DEFINE: pZ		pZCDCY-LCDCY/2+0.5
 	T   ROColl  RICDC-1  1       0        360     KillerCDCEU     1     BLTCDC          Vacuum     KillerSD  0    0  pZ      0      0      0     
