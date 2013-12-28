@@ -99,8 +99,10 @@ DEFINE: pZ		pZCDCY+LCDCY/2-0.5
                                                                         
 #	CDC	                                                                
 DEFINE:		zTri	(x-0.5)*(LCDC-LTri)  # z position of triggers                 
-DEFINE: 	RCDC	501.5
-	T     0      RCDC    LCDC    0        360     CDCInner        1     BLTCDC         Helium      none      0    0   pZCDCY 0      0      0
+DEFINE:		RCDC	502
+DEFINE:		thCi	50e-3
+DEFINE: 	RCDCi	RCDC-thCi
+	T     0      RCDCi   LCDC    0        360     CDCInner        1     BLTCDC         Helium      none      0    0   pZCDCY 0      0      0
 	T     RITri  ROTri   LTri    0        360     Trigger         2     CDCInner    Scintillator M/MonitorSD 0    0    zTri  0      0      0
                                                                         
 #Box info                                                         

@@ -328,7 +328,6 @@ void PrimaryGeneratorAction::SetRandomPosition(){
 }
 
 void PrimaryGeneratorAction::SetUniformPosition(){
-	/*
 	MyVGeometryParameter* pMyVGeometryParameter = MyDetectorManager::GetMyDetectorManager()->GetSvc(UP_SubDet)->get_GeometryParameter();
 	if (!pMyVGeometryParameter){
 		std::cout<<"ERROR: in PrimaryGeneratorAction::SetUniformPosition cannot find : "<<UP_SubDet<<"!!!"<<std::endl;
@@ -355,37 +354,31 @@ void PrimaryGeneratorAction::SetUniformPosition(){
 		if ( sol_type == "Tubs" ){
 			G4double RMax,RMin,length,StartPhi,SpanPhi;
 			G4double xp,yp,zp,space,n,theta,phi;
-			G4int iTubs = pSimpleGeometryParameter->get_SolidIndex(index);
-			xp = pSimpleGeometryParameter->get_PosX(index);
-			yp = pSimpleGeometryParameter->get_PosY(index);
-			zp = pSimpleGeometryParameter->get_PosZ(index);
-			space = pSimpleGeometryParameter->get_Space(index);
+			G4int ivol;
+
 			n = pSimpleGeometryParameter->get_RepNo(index);
-			theta = pSimpleGeometryParameter->get_DirTheta(index);
-			phi = pSimpleGeometryParameter->get_DirPhi(index);
-			RMax = pSimpleGeometryParameter->get_Tubs_RMax(iTubs);
-			RMin = pSimpleGeometryParameter->get_Tubs_RMin(iTubs);
-			length = pSimpleGeometryParameter->get_Tubs_Length(iTubs);
-			StartPhi = pSimpleGeometryParameter->get_Tubs_StartAng(iTubs);
-			SpanPhi = pSimpleGeometryParameter->get_Tubs_SpanAng(iTubs);
+			ivol = G4UniformRand()*n;
+
+			G4int iTubs = pSimpleGeometryParameter->get_SolidIndex(index);
+			xp = pSimpleGeometryParameter->get_PosX(index,ivol);
+			yp = pSimpleGeometryParameter->get_PosY(index,ivol);
+			zp = pSimpleGeometryParameter->get_PosZ(index,ivol);
+			RMax = pSimpleGeometryParameter->get_Tubs_RMax(iTubs,ivol);
+			RMin = pSimpleGeometryParameter->get_Tubs_RMin(iTubs,ivol);
+			length = pSimpleGeometryParameter->get_Tubs_Length(iTubs,ivol);
+			StartPhi = pSimpleGeometryParameter->get_Tubs_StartAng(iTubs,ivol);
+			SpanPhi = pSimpleGeometryParameter->get_Tubs_SpanAng(iTubs,ivol);
 
 			G4double iz, iphi, ir;
-			G4int ivol;
 			iz = G4UniformRand()*length -length/2;
 			iphi = G4UniformRand()*SpanPhi + StartPhi;
 			ir = G4UniformRand()*(RMax*RMax-RMin*RMin)+RMin*RMin;
 			ir = sqrt(ir);
-			ivol = G4UniformRand()*n;
 			G4ThreeVector pos(1,0,0);
 			pos.setPhi(iphi);
 			pos.setRho(ir);
 			pos.setZ(iz);
 			pos += G4ThreeVector(xp,yp,zp);
-			G4ThreeVector dir(1, 0, 0);
-			dir.setTheta(theta);
-			dir.setPhi(phi);
-			dir.setMag(space);
-			pos += dir * (2*ivol - n + 1)/2.;
 			particleGun->SetParticlePosition(pos);
 		}
 		else{
@@ -401,7 +394,6 @@ void PrimaryGeneratorAction::SetUniformPosition(){
 				"InvalidInput", FatalException,
 				"unsopported parameter class type");
 	}
-*/
 }
 
 void PrimaryGeneratorAction::BuildHistoFromFile(){

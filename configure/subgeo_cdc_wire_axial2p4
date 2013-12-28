@@ -60,8 +60,8 @@ DEFINE:		pZep		(x-0.5)*(LCDC+20)
 DEFINE:		thMyl		0.05  # Thickness of Mylar Window
 #	Type RMin       RMax       Length     StartAng SpanAng Name           RepNo  MotVolume       Material        SDName posX posY posZ Ephi   Etheta Epsi  
 #	     mm         mm         mm         deg      deg                                                                  mm   mm   mm   deg    deg    deg   
-	T    RCDC       811        LCDC+40    0        360     CDCContainer   1      BLTCDC          ChamberGas9010  none   0    0  pZCDCY 0      0      0     
-	T    RCDC       502        LCDC+40    0        360     InnerCylinder  1      CDCContainer    CarbonFiber     none   0    0    0    0      0      0     
+	T    RCDCi      811        LCDC+40    0        360     CDCContainer   1      BLTCDC          ChamberGas9010  none   0    0  pZCDCY 0      0      0     
+	T    RCDCi      RCDC       LCDC+40    0        360     InnerCylinder  1      CDCContainer    Mylar           none   0    0    0    0      0      0     
 	T    806        811        LCDC+40    0        360     OuterCylinder  1      CDCContainer    CarbonFiber     none   0    0    0    0      0      0     
 	T    502        806        20         0        360     EndPlate       2      CDCContainer    Aluminium       none   0    0    pZep 0      0      0     
 DEFINE:		pZMyl		(x-0.5)*(LCDC-thMyl)
