@@ -71,7 +71,7 @@ DEFINE:		pZMyl		(x-0.5)*(LCDC-thMyl)
 #Tubs info
 #	Type RMin   RMax    Length  StartAng SpanAng Name           RepNo MotVolume     Material        SDName      posX posY posZ Ephi   Etheta Epsi  
 #	     mm     mm      mm      deg      deg                                                                    mm   mm   mm   deg    deg    deg   
-	T    0      RCDCi   LCDC    0        360     CDCInner       1     BLTCDC        Helium          none        0    0  pZCDCY 0      0      0
+	T    0      RCDCi   LCDC    0        360     CDCInner       1     BLTCDC        Vacuum          none        0    0  pZCDCY 0      0      0
 	T    RCDCi  811     LCDC+40 0        360     CDCContainer   1     BLTCDC        ChamberGas9010  none        0    0  pZCDCY 0      0      0     
 	T    RITri  ROTri   LTri    0        360     Trigger        2     CDCInner      Scintillator    M/MonitorSD 0    0   zTri  0      0      0
 	T    RCDCi  RCDC    LCDC+40 0        360     InnerCylinder  1     CDCContainer  CarbonFiber     none        0    0    0    0      0      0     
