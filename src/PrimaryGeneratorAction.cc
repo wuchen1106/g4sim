@@ -416,7 +416,7 @@ void PrimaryGeneratorAction::BuildHistoFromFile(){
 	// EnergyMode
 	if (EnergyMode=="histo"){
 		G4String full_infile_name = dir_name +  EM_hist_filename;
-		if (fp) delete fp;
+//		if (fp) delete fp;
 		fp = new TFile(full_infile_name.c_str());
 		if (fp==NULL) {
 			std::cout<<"ERROR: Can not find file: "<<full_infile_name<<"!!!"<<std::endl;

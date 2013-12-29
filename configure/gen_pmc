@@ -21,7 +21,7 @@
 	DirectionMode:  uniform #(none/uniform/histo)
 	ThetaMode:      none #(none/gRand/uRand)
 	PhiMode:        none #(none/gRand/uRand)
-	TimeMode:       root #(none/root)
+	TimeMode:       none #(none/root)
 	pidMode:        none #(none/root)
 #Default Time
 #	         ns
