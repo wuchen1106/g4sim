@@ -17,7 +17,7 @@ DEFINE:		RIColl		200  # Inner radius of Collimator Coil
 DEFINE:		ROColl		250  # Outer radius of Collimator Coil
 DEFINE:		RICDC		1070  # Inner radius of CDC Coil
 DEFINE:		ROCDC		1084.04  # Outer radius of CDC Coil
-DEFINE:		LTS3		340.5 # Length of TS3 Coil
+DEFINE:		LTS3		LTS3S # Length of TS3 Coil
 DEFINE:		LCC			200  # Length of Collimator Coil
 DEFINE:		GCC			40  # Gap of Collimator Coil
 DEFINE:		LCD			195  # Length of CDC Coil
@@ -31,7 +31,7 @@ DEFINE:		ROCollY		800  # Outer radius of Collimator Yoke
 DEFINE:		RICDCY		1647.5  # Inner radius of CDC Yoke
 DEFINE:		ROCDCY		1747.5  # Outer radius of CDC Yoke
 DEFINE:		LTS3Y		LTS3S  # Length of TS3 Shell
-DEFINE:		LCollY		LCollS  # Length of Collimator Yoke
+DEFINE:		LCollY		717     # Length of Collimator Yoke
 DEFINE:		LCDCY		2500  # Length of CDC Yoke
 DEFINE:		RHoleD		200  # Radius of the hole on the downstream end
 #*************************************************************************************************
@@ -48,7 +48,7 @@ DEFINE:		pZTS3S		LTS3S/2-L/2
 	T     RI     RO      LTS3S   270        180     ShellTS3        1     BLTCDC          Copper     none      0    0  pZTS3S  0      0      0     
 	T     RI     RO      LTS3S   90        180     ShellTS3iv        1     BLTCDC          Copper     none      0    0  pZTS3S  0      0      0     
 DEFINE:		pZCollS		pZTS3S+LTS3S/2+LCollS/2
-DEFINE:		pZColl		pZCollS+LCollS/2-LColl/2
+DEFINE:		pZColl		pZTS3S-LTS3S/2+LColl/2
 	T     RI     RO      LCollS  270        180     ShellColl       1     BLTCDC          Copper     none      0    0  pZCollS 0      0      0     
 	T     RI     RO      LCollS  90        180     ShellColliv       1     BLTCDC          Copper     none      0    0  pZCollS 0      0      0     
 	T     RIC    RI      LColl   270        180     Collimator      1     BLTCDC          Copper     none      0    0  pZColl  0      0      0     

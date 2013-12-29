@@ -14,8 +14,8 @@
 #	export MAGFIELDCARDROOT=MagField_A9_130927
 	export MAGFIELDCARDROOT=MagField_A9_130731
 #	for generator
-	export GENFILEROOT=gen_rpc
+	export GENFILEROOT=gen_rmc
 #	for output
 	export OFILENAMEROOT=$MYG4SIMROOT/output/raw_g4sim.root
 	export RUNNAMEROOT=TEST
-	export OUTCARDROOT=output_rpc
+	export OUTCARDROOT=output_rmc
