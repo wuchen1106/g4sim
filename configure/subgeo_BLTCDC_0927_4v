@@ -53,6 +53,9 @@ DEFINE:		pZColl		pZCollS+LCollS/2-LColl/2
 	T     RI     RO      LCollS  90        180     ShellColliv       1     BLTCDC          Copper     none      0    0  pZCollS 0      0      0     
 	T     RIC    RI      LColl   270        180     Collimator      1     BLTCDC          Copper     none      0    0  pZColl  0      0      0     
 	T     RIC    RI      LColl   90        180     Collimatoriv      1     BLTCDC          Copper     none      0    0  pZColl  0      0      0     
+DEFINE:		thMl		50e-3
+DEFINE:		pZ			pZCollS+LCollS/2+thMl/2
+	T     0      RI      thMl    0        360     MylarSD         1     BLTCDC          Mylar      none      0    0  pZ      0      0      0     
                                                                        
 #	Coil                                                               
 DEFINE:		pZTS3		LTS3/2-L/2
@@ -90,8 +93,8 @@ DEFINE: pZ		pZst-10
 	T    RO-1    RO      LCollS  270        180     KillerCollC     1     ShellColl       Copper     KillerSD  0    0  0       0      0      0     
 	T    RO-1    RO      LCollS  90        180     KillerCollCiv     1     ShellColliv     Copper     KillerSD  0    0  0       0      0      0     
 	T   RICDC-1  RICDC   LCDCY   0        360     KillerCDCC      1     BLTCDC          Vacuum     KillerSD  0    0  pZCDCY  0      0      0     
-DEFINE: pZ		pZColl+LColl/2+0.5
-	T     0      RI      1       0        360     EndColl         1     BLTCDC          Vacuum   M/MonitorSD 0    0  pZ      0      0      0     
+DEFINE: pZ		pZColl+LColl/2-0.5
+	T     0      RIC     1       0        360     EndColl         1     BLTCDC          Vacuum   M/MonitorSD 0    0  pZ      0      0      0     
 #	T     0      RO      1       0        360     KillerCDC       1     BLTCDC          Vacuum     KillerSD  0    0 -1273.1  0      0      0     
 DEFINE: pZ		pZCDCY-LCDCY/2+0.5
 	T   ROColl  RICDC-1  1       0        360     KillerCDCEU     1     BLTCDC          Vacuum     KillerSD  0    0  pZ      0      0      0     
@@ -122,6 +125,6 @@ DEFINE: pZ		pZCDCY+LCDCY/2-0.5
 #	vis_KillerCollC       1      0      0 
 #	vis_KillerCDCC        1      0      0
 #	vis_KillerCDC         1      0      0
-#	vis_MonitorCDC        0      1      0
+	vis_EndColl           1      0      0   0.3
 #	vis_KillerCDCEU       1      0      0
 #	vis_KillerCDCED       1      0      0

@@ -57,7 +57,7 @@
 
                                                                         
 #	CDC
-DEFINE:		LCDC		1500
+DEFINE:		LCDC		2400
 DEFINE:		RITri		471.5
 DEFINE:		ROTri		501.5
 DEFINE:		LTri		250
