@@ -1,6 +1,7 @@
 #general info
 	checkoverlap
 
+DEFINE:		thTgt		0.2  # Thickness of Targets
 DEFINE:		GTgt		50  # Gap Between Targets (Neglecting Thickness)
 DEFINE:		zTgt		GTgt*(x-9) # z position of targets                       
 DEFINE:		RTgt		100  # Radius of Targets

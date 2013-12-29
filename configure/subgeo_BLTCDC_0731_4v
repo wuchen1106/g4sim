@@ -33,12 +33,6 @@ DEFINE:		LTS3Y		440.5  # Length of TS3 Yoke
 DEFINE:		LCollY		1059.5  # Length of Collimator Yoke
 DEFINE:		LCDCY		3780.5  # Length of CDC Yoke
 DEFINE:		RHoleD		200  # Radius of the hole on the downstream end
-#	CDC
-DEFINE:		LCDC		1500
-DEFINE:		thTgt		0.2  # Thickness of Targets
-DEFINE:		RITri		471.5
-DEFINE:		ROTri		501.5
-DEFINE:		LTri		250
 #*************************************************************************************************
 
 #Tubs info
@@ -50,37 +44,50 @@ DEFINE:		pZBC		pZst+L/2
                                                                         
 #	Shell                                                         
 DEFINE:		pZTS3S		LTS3S/2-L/2
-	T     RI     RO      LTS3S   0        360     ShellTS3        1     BLTCDC          Copper     none      0    0  pZTS3S  0      0      0     
+	T     RI     RO      LTS3S   270        180     ShellTS3        1     BLTCDC          Copper     none      0    0  pZTS3S  0      0      0     
+	T     RI     RO      LTS3S   90        180     ShellTS3iv        1     BLTCDC          Copper     none      0    0  pZTS3S  0      0      0     
 DEFINE:		pZCollS		pZTS3S+LTS3S/2+LCollS/2
 DEFINE:		pZColl		pZCollS+LCollS/2-LColl/2
-	T     RI     RO      LCollS  0        360     ShellColl       1     BLTCDC          Copper     none      0    0  pZCollS 0      0      0     
-	T     RIC    RI      LColl   0        360     Collimator      1     BLTCDC          Copper     none      0    0  pZColl  0      0      0     
+	T     RI     RO      LCollS  270        180     ShellColl       1     BLTCDC          Copper     none      0    0  pZCollS 0      0      0     
+	T     RI     RO      LCollS  90        180     ShellColliv       1     BLTCDC          Copper     none      0    0  pZCollS 0      0      0     
+	T     RIC    RI      LColl   270        180     Collimator      1     BLTCDC          Copper     none      0    0  pZColl  0      0      0     
+	T     RIC    RI      LColl   90        180     Collimatoriv      1     BLTCDC          Copper     none      0    0  pZColl  0      0      0     
                                                                        
 #	Coil                                                               
 DEFINE:		pZTS3		LTS3/2-L/2
-	T     RITS3  ROTS3   LTS3    0        360     CoilTS3         1     BLTCDC          Copper     none      0    0  pZTS3   0      0      0     
+	T     RITS3  ROTS3   LTS3    270        180     CoilTS3         1     BLTCDC          Copper     none      0    0  pZTS3   0      0      0     
+	T     RITS3  ROTS3   LTS3    90        180     CoilTS3iv         1     BLTCDC          Copper     none      0    0  pZTS3   0      0      0     
 DEFINE: pZ		pZTS3+LTS3/2+LCC/2
-	T     RIColl ROColl  LCC     0        360     CoilColl        1     BLTCDC          Copper     none      0    0  pZ      0      0      0     
+	T     RIColl ROColl  LCC     270        180     CoilColl        1     BLTCDC          Copper     none      0    0  pZ      0      0      0     
+	T     RIColl ROColl  LCC     90        180     CoilColliv        1     BLTCDC          Copper     none      0    0  pZ      0      0      0     
 DEFINE: pZ		pZTS3+LTS3/2+LCollY+DCD+LCD/2+x*(LCD+GCD)
-	T     RICDC  ROCDC   LCD     0        360     CoilCDC         15    BLTCDC          Copper     none      0    0  pZ      0      0      0
+	T     RICDC  ROCDC   LCD     270        180     CoilCDC         15    BLTCDC          Copper     none      0    0  pZ      0      0      0
+	T     RICDC  ROCDC   LCD     90        180     CoilCDCiv         15    BLTCDC          Copper     none      0    0  pZ      0      0      0
                                                                         
 #	Yoke                                                                
 DEFINE:		pZTS3Y		LTS3Y/2-L/2
-	T     RITS3Y ROTS3Y  LTS3Y   0        360     YokeTS3         1     BLTCDC          Steel      none      0    0  pZTS3Y  0      0      0     
+	T     RITS3Y ROTS3Y  LTS3Y   270        180     YokeTS3         1     BLTCDC          Steel      none      0    0  pZTS3Y  0      0      0     
+	T     RITS3Y ROTS3Y  LTS3Y   90        180     YokeTS3iv         1     BLTCDC          Steel      none      0    0  pZTS3Y  0      0      0     
 DEFINE: pZ		pZTS3Y+LTS3Y/2+LCollY/2
-	T    RICollY ROCollY LCollY  0        360     YokeColl        1     BLTCDC          Steel      none      0    0  pZ      0      0      0     
+	T    RICollY ROCollY LCollY  270        180     YokeColl        1     BLTCDC          Steel      none      0    0  pZ      0      0      0     
+	T    RICollY ROCollY LCollY  90        180     YokeColliv        1     BLTCDC          Steel      none      0    0  pZ      0      0      0     
 DEFINE: pZCDCY	pZTS3Y+LTS3Y/2+LCollY+LCDCY/2
-	T    RICDCY  ROCDCY  LCDCY   0        360     YokeCDC         1     BLTCDC          Steel      none      0    0  pZCDCY  0      0      0     
+	T    RICDCY  ROCDCY  LCDCY   270        180     YokeCDC         1     BLTCDC          Steel      none      0    0  pZCDCY  0      0      0     
+	T    RICDCY  ROCDCY  LCDCY   90        180     YokeCDCiv         1     BLTCDC          Steel      none      0    0  pZCDCY  0      0      0     
 DEFINE: pZ		pZTS3Y+LTS3Y/2+LCollY-50
-	T    ROCollY ROCDCY  100     0        360     YokeCDCEU       1     BLTCDC          Steel      none      0    0  pZ      0      0      0     
+	T    ROCollY ROCDCY  100     270        180     YokeCDCEU       1     BLTCDC          Steel      none      0    0  pZ      0      0      0     
+	T    ROCollY ROCDCY  100     90        180     YokeCDCEUiv       1     BLTCDC          Steel      none      0    0  pZ      0      0      0     
 DEFINE: pZ		pZTS3Y+LTS3Y/2+LCollY+LCDCY+50
-	T    RHoleD  ROCDCY  100     0        360     YokeCDCED       1     BLTCDC          Steel      none      0    0  pZ      0      0      0     
+	T    RHoleD  ROCDCY  100     270        180     YokeCDCED       1     BLTCDC          Steel      none      0    0  pZ      0      0      0     
+	T    RHoleD  ROCDCY  100     90        180     YokeCDCEDiv       1     BLTCDC          Steel      none      0    0  pZ      0      0      0     
                                                                         
 #	Virtual
 DEFINE: pZ		pZst-10
 	T     0      ROTS3Y  1       0        360     KillerTS3EU     1     World           Vacuum     KillerSD  0    0  pZ      0      0      0     
-	T    RO-1    RO      LTS3S   0        360     KillerTS3C      1     ShellTS3        Copper     KillerSD  0    0  0       0      0      0     
-	T    RO-1    RO      LCollS  0        360     KillerCollC     1     ShellColl       Copper     KillerSD  0    0  0       0      0      0     
+	T    RO-1    RO      LTS3S   270        180     KillerTS3C      1     ShellTS3        Copper     KillerSD  0    0  0       0      0      0     
+	T    RO-1    RO      LTS3S   90        180     KillerTS3Civ      1     ShellTS3iv      Copper     KillerSD  0    0  0       0      0      0     
+	T    RO-1    RO      LCollS  270        180     KillerCollC     1     ShellColl       Copper     KillerSD  0    0  0       0      0      0     
+	T    RO-1    RO      LCollS  90        180     KillerCollCiv     1     ShellColliv     Copper     KillerSD  0    0  0       0      0      0     
 	T   RICDC-1  RICDC   LCDCY   0        360     KillerCDCC      1     BLTCDC          Vacuum     KillerSD  0    0  pZCDCY  0      0      0     
 DEFINE: pZ		pZColl+LColl/2+0.5
 	T     0      RI      1       0        360     EndColl         1     BLTCDC          Vacuum   M/MonitorSD 0    0  pZ      0      0      0     
@@ -89,25 +96,12 @@ DEFINE: pZ		pZCDCY-LCDCY/2+0.5
 	T   ROColl  RICDC-1  1       0        360     KillerCDCEU     1     BLTCDC          Vacuum     KillerSD  0    0  pZ      0      0      0     
 DEFINE: pZ		pZCDCY+LCDCY/2-0.5
 	T     0     RICDC-1  1       0        360     KillerCDCED     1     BLTCDC          Vacuum     KillerSD  0    0  pZ      0      0      0     
-                                                                        
-#	CDC	                                                                
-DEFINE:		zTri	(x-0.5)*(LCDC-LTri)  # z position of triggers                 
-DEFINE:		RCDC	502
-DEFINE:		thCi	50e-3
-DEFINE: 	RCDCi	RCDC-thCi
-	T     0      RCDCi   LCDC    0        360     CDCInner        1     BLTCDC         Helium      none      0    0   pZCDCY 0      0      0
-	T     RITri  ROTri   LTri    0        360     Trigger         2     CDCInner    Scintillator M/MonitorSD 0    0    zTri  0      0      0
-                                                                        
-#Box info                                                         
-#	Type x       y       z     Name     RepNo MotVolume Material   SDNamRepNo    posX   posY   posZ   Ephi Etheta Epsi
-#	     mm      mm      mm                                                      mm     mm     mm     deg  deg    deg
-#	B    1200    1200    1200  BLTCYMin 1                                
 
 #visual settings
 	VerboseLevel:    5
 	VISSETTING  #Keep this line to call Reset
 #	Name                 red    green  blue  
-	vis_BLTCDC            1      1      1      0.3
+#	vis_BLTCDC            1      1      1      0.3
 	vis_ShellTS3          0.5    0.5    0.5
 	vis_ShellColl         0.5    0.5    0.5
 	vis_ShellGap          0.5    0.5    0.5
@@ -122,12 +116,11 @@ DEFINE: 	RCDCi	RCDC-thCi
 	vis_YokeCDC           0      0      1
 	vis_YokeCDCEU         0      0      1
 	vis_YokeCDCED         0      0      1
-	vis_KillerTS3EU       1      0      0
-	vis_KillerTS3C        1      0      0 
-	vis_KillerCollC       1      0      0 
-	vis_KillerCDCC        1      0      0
-	vis_KillerCDC         1      0      0
-	vis_MonitorCDC        0      1      0
-	vis_KillerCDCEU       1      0      0
-	vis_KillerCDCED       1      0      0
-	vis_Trigger           0      1      0
+#	vis_KillerTS3EU       1      0      0
+#	vis_KillerTS3C        1      0      0 
+#	vis_KillerCollC       1      0      0 
+#	vis_KillerCDCC        1      0      0
+#	vis_KillerCDC         1      0      0
+#	vis_MonitorCDC        0      1      0
+#	vis_KillerCDCEU       1      0      0
+#	vis_KillerCDCED       1      0      0

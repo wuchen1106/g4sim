@@ -33,12 +33,6 @@ DEFINE:		LTS3Y		440.5  # Length of TS3 Yoke
 DEFINE:		LCollY		1059.5  # Length of Collimator Yoke
 DEFINE:		LCDCY		3780.5  # Length of CDC Yoke
 DEFINE:		RHoleD		200  # Radius of the hole on the downstream end
-#	CDC
-DEFINE:		LCDC		2400
-DEFINE:		thTgt		0.2  # Thickness of Targets
-DEFINE:		RITri		471.5
-DEFINE:		ROTri		501.5
-DEFINE:		LTri		250
 #*************************************************************************************************
 
 #Tubs info
@@ -89,25 +83,12 @@ DEFINE: pZ		pZCDCY-LCDCY/2+0.5
 	T   ROColl  RICDC-1  1       0        360     KillerCDCEU     1     BLTCDC          Vacuum     KillerSD  0    0  pZ      0      0      0     
 DEFINE: pZ		pZCDCY+LCDCY/2-0.5
 	T     0     RICDC-1  1       0        360     KillerCDCED     1     BLTCDC          Vacuum     KillerSD  0    0  pZ      0      0      0     
-                                                                        
-#	CDC	                                                                
-DEFINE:		zTri	(x-0.5)*(LCDC-LTri)  # z position of triggers                 
-DEFINE:		RCDC	502
-DEFINE:		thCi	50e-3
-DEFINE: 	RCDCi	RCDC-thCi
-	T     0      RCDCi   LCDC    0        360     CDCInner        1     BLTCDC         Helium      none      0    0   pZCDCY 0      0      0
-	T     RITri  ROTri   LTri    0        360     Trigger         2     CDCInner    Scintillator M/MonitorSD 0    0    zTri  0      0      0
-                                                                        
-#Box info                                                         
-#	Type x       y       z     Name     RepNo MotVolume Material   SDNamRepNo    posX   posY   posZ   Ephi Etheta Epsi
-#	     mm      mm      mm                                                      mm     mm     mm     deg  deg    deg
-#	B    1200    1200    1200  BLTCYMin 1                                
 
 #visual settings
 	VerboseLevel:    5
 	VISSETTING  #Keep this line to call Reset
 #	Name                 red    green  blue  
-	vis_BLTCDC            1      1      1      0.3
+#	vis_BLTCDC            1      1      1      0.3
 	vis_ShellTS3          0.5    0.5    0.5
 	vis_ShellColl         0.5    0.5    0.5
 	vis_ShellGap          0.5    0.5    0.5
@@ -122,12 +103,11 @@ DEFINE: 	RCDCi	RCDC-thCi
 	vis_YokeCDC           0      0      1
 	vis_YokeCDCEU         0      0      1
 	vis_YokeCDCED         0      0      1
-	vis_KillerTS3EU       1      0      0
-	vis_KillerTS3C        1      0      0 
-	vis_KillerCollC       1      0      0 
-	vis_KillerCDCC        1      0      0
-	vis_KillerCDC         1      0      0
-	vis_MonitorCDC        0      1      0
-	vis_KillerCDCEU       1      0      0
-	vis_KillerCDCED       1      0      0
-	vis_Trigger           0      1      0
+#	vis_KillerTS3EU       1      0      0
+#	vis_KillerTS3C        1      0      0 
+#	vis_KillerCollC       1      0      0 
+#	vis_KillerCDCC        1      0      0
+#	vis_KillerCDC         1      0      0
+#	vis_MonitorCDC        0      1      0
+#	vis_KillerCDCEU       1      0      0
+#	vis_KillerCDCED       1      0      0

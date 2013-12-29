@@ -3,7 +3,7 @@
 
 #ServiceName        ServiceType         FileName
 	World           Simple              world_CometPhase1
-	BLTCDC          Simple              subgeo_BLTCDC1p5_0731
-	Cdc             Cdc                 subgeo_cdc_wire_axial1p5
-	Target          Simple              subgeo_StoppingTarget17
-#	Target          Simple              subgeo_StoppingTarget39
+	BLTCDC          Simple              subgeo_BLTCDC_0731
+	Cdc             Cdc                 subgeo_CDC_BL_1p5
+	Target          Simple              subgeo_ST_17
+#	Target          Simple              subgeo_ST_39

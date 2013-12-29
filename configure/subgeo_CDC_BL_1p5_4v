@@ -55,14 +55,30 @@
 	S     17       0           288     1500.0       790.00000    0         0       0          
 	LF                                              798.00000                                 
 
+                                                                        
+#	CDC
+DEFINE:		LCDC		1500
+DEFINE:		RITri		471.5
+DEFINE:		ROTri		501.5
+DEFINE:		LTri		250
+DEFINE:		pZep		(x-0.5)*(LCDC+20)
+DEFINE:		zTri		(x-0.5)*(LCDC-LTri)  # z position of triggers                 
+DEFINE:		RCDC		502
+DEFINE:		thCi		50e-3
+DEFINE: 	RCDCi		RCDC-thCi
 #Tubs info
-DEFINE: pZep		(x-0.5)*1520
-#	Type RMin       RMax       Length     StartAng SpanAng Name           RepNo  MotVolume       Material        SDName posX posY posZ Ephi   Etheta Epsi  
-#	     mm         mm         mm         deg      deg                                                                  mm   mm   mm   deg    deg    deg   
-	T    501.5      811        1540       0        360     CDCContainer   1      BLTCDC          ChamberGas9010  none   0    0    0    0      0      0     
-	T    501.5      502        1540       0        360     InnerCylinder  1      CDCContainer    CarbonFiber     none   0    0    0    0      0      0     
-	T    806        811        1540       0        360     OuterCylinder  1      CDCContainer    CarbonFiber     none   0    0    0    0      0      0     
-	T    502        806        20         0        360     EndPlate       2      CDCContainer    Aluminium       none   0    0    pZep 0      0      0     
+#	Type RMin   RMax    Length  StartAng SpanAng Name           RepNo MotVolume     Material        SDName      posX posY posZ Ephi   Etheta Epsi  
+#	     mm     mm      mm      deg      deg                                                                    mm   mm   mm   deg    deg    deg   
+	T    0      RCDCi   LCDC    0        360     CDCInner       1     BLTCDC        Helium          none        0    0  pZCDCY 0      0      0
+	T    RCDCi  811     LCDC+40 0        360     CDCContainer   1     BLTCDC        ChamberGas9010  none        0    0  pZCDCY 0      0      0     
+	T    RITri  ROTri   LTri    270        180     Trigger        2     CDCInner      Scintillator    M/MonitorSD 0    0   zTri  0      0      0
+	T    RITri  ROTri   LTri    90        180     Triggeriv        2     CDCInner      Scintillator    M/MonitorSD 0    0   zTri  0      0      0
+	T    RCDCi  RCDC    LCDC+40 270        180     InnerCylinder  1     CDCContainer  CarbonFiber     none        0    0    0    0      0      0     
+	T    RCDCi  RCDC    LCDC+40 90        180     InnerCylinderiv  1     CDCContainer  CarbonFiber     none        0    0    0    0      0      0     
+	T    806    811     LCDC+40 270        180     OuterCylinder  1     CDCContainer  CarbonFiber     none        0    0    0    0      0      0     
+	T    806    811     LCDC+40 90        180     OuterCylinderiv  1     CDCContainer  CarbonFiber     none        0    0    0    0      0      0     
+	T    502    806     20      270        180     EndPlate       2     CDCContainer  Aluminium       none        0    0    pZep 0      0      0     
+	T    502    806     20      90        180     EndPlateiv       2     CDCContainer  Aluminium       none        0    0    pZep 0      0      0     
 
 #visual settings
 	VerboseLevel:    5
@@ -75,3 +91,5 @@ DEFINE: pZep		(x-0.5)*1520
 	vis_InnerCylinder    199    205    250   
 	vis_EndPlate         0      0      1     
 	vis_OuterCylinder    199    205    250   
+	vis_MylarCDC         0      1      0     0.5
+	vis_Trigger          0      1      0
