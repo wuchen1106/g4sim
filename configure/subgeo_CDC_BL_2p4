@@ -77,7 +77,7 @@ DEFINE:		pZMyl		(x-0.5)*(LCDC-thMyl)
 	T    RCDCi  RCDC    LCDC+40 0        360     InnerCylinder  1     CDCContainer  Mylar           none        0    0    0    0      0      0     
 	T    806    811     LCDC+40 0        360     OuterCylinder  1     CDCContainer  CarbonFiber     none        0    0    0    0      0      0     
 	T    502    806     20      0        360     EndPlate       2     CDCContainer  Aluminium       none        0    0    pZep 0      0      0     
-	T    0      RCDC    thMyl   0        360     MylarCDC       2     CDCContainer  Mylar           none        0    0   pZMyl 0      0      0     
+	T    0      RCDC    thMyl   0        360     MylarCDC       2     CDCInner      Mylar           none        0    0   pZMyl 0      0      0     
 
 #visual settings
 	VerboseLevel:    5
