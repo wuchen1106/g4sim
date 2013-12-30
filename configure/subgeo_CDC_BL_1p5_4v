@@ -64,7 +64,7 @@ DEFINE:		LTri		250
 DEFINE:		pZep		(x-0.5)*(LCDC+20)
 DEFINE:		zTri		(x-0.5)*(LCDC-LTri)  # z position of triggers                 
 DEFINE:		RCDC		502
-DEFINE:		thCi		50e-3
+DEFINE:		thCi		500e-3
 DEFINE: 	RCDCi		RCDC-thCi
 DEFINE:		thMyl		0.05  # Thickness of Mylar Window
 DEFINE:		pZMyl		(x-0.5)*(LCDC-thMyl)
