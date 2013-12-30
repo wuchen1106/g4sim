@@ -2,7 +2,7 @@
 
 #for detector construction
 export MATERIALLISTROOT=material_list
-export GEOCARDROOT=geometry_A9
+export GEOCARDROOT=geometry_A9_1p5_0927
 #for magField
 export MAGFIELDCARDROOT=MagField_A9_130927
 #for generator

@@ -1,30 +1,45 @@
 #general info
 	 checkoverlap
 
+DEFINE:		thMyl		0.05  # Thickness of Mylar Window
 DEFINE:		LCDC		1500
 DEFINE:		RITri		471.5
 DEFINE:		ROTri		501.5
-DEFINE:		LTri		250
+DEFINE:		LTri		300
 DEFINE:		pZep		(x-0.5)*(LCDC+20)
-DEFINE:		zTri		(x-0.5)*(LCDC-LTri)  # z position of triggers                 
+DEFINE:		pZTri		(x-0.5)*(LCDC-LTri-2*thMyl)  # z position of triggers                 
 DEFINE:		RCDC		502
-DEFINE:		thCi		500e-3
-DEFINE: 	RCDCi		RCDC-thCi
-DEFINE:		thMyl		0.05  # Thickness of Mylar Window
+#DEFINE:		thCi		500e-3
+DEFINE:		thCi		99e-3
+DEFINE:		thAl		1e-3
+DEFINE: 	RCDCii		RCDC-thCi
+DEFINE: 	RCDCi		RCDCii-thAl
+DEFINE:		Dist		20
+DEFINE:		thAbs		2
+DEFINE:		RAbsO		RCDCi-Dist
+DEFINE:		RAbsI		RAbsO-thAbs
+DEFINE:		LAbs		LCDC-2*LTri-2*thMyl
 DEFINE:		pZMyl		(x-0.5)*(LCDC-thMyl)
-DEFINE:		RCL			RCDC+64
+#DEFINE:		RCL			RCDC+64
+DEFINE:		RCL			RCDC
 #Tubs info
 #	Type RMin   RMax    Length  StartAng SpanAng Name           RepNo MotVolume     Material        SDName      posX posY posZ Ephi   Etheta Epsi  
 #	     mm     mm      mm      deg      deg                                                                    mm   mm   mm   deg    deg    deg   
 	T    0      RCDCi   LCDC    0        360     CDCInner       1     BLTCDC        Helium          none        0    0  pZCDCY 0      0      0
 	T    RCDCi  811     LCDC+40 0        360     CDCContainer   1     BLTCDC        ChamberGas9010  none        0    0  pZCDCY 0      0      0     
-	T    RITri  ROTri   LTri    0        360     Trigger        2     CDCInner      Scintillator    M/MonitorSD 0    0   zTri  0      0      0
-	T    RCDCi  RCDC    LCDC+40 0        360     InnerCylinder  1     CDCContainer  CarbonFiber     none        0    0    0    0      0      0     
-	T    RCL    RCL+0.1 LCDC    0        360     CDCLayer       1     CDCContainer  ChamberGas9010  C/MonitorSD 0    0    0    0      0      0     
+	T    RITri  ROTri   LTri    0        360     Trigger        2     CDCInner      Scintillator    M/MonitorSD 0    0  pZTri  0      0      0
+#	T    RCDCi  RCDC    LCDC+40 0        360     InnerCylinder  1     CDCContainer  CarbonFiber     none        0    0    0    0      0      0     
+#	T    RCDCii RCDC    LCDC+40 0        360     InnerCylinder  1     CDCContainer  Mylar           none        0    0    0    0      0      0     
+#	T    RCDCi  RCDCii  LCDC+40 0        360     InnerCylinderI 1     CDCContainer  Aluminium       none        0    0    0    0      0      0     
+#	T   RAbsI-1 RAbsI   LAbs    0        360     AbsorberI      1     CDCInner      Helium          M/MonitorSD 0    0    0    0      0      0     
+#	T    RAbsI  RAbsO   LAbs    0        360     Absorber       1     CDCInner      CarbonFiber     none        0    0    0    0      0      0     
+#	T    RAbsO  RAbsO+1 LAbs    0        360     AbsorberO      1     CDCInner      Helium          M/MonitorSD 0    0    0    0      0      0     
+	T    RCL    RCL+0.1 LCDC    0        360     CDCLayer       1     CDCContainer  Vacuum          C/MonitorSD 0    0    0    0      0      0     
+#	T    RCL    RCL+0.1 LCDC    0        360     CDCLayer       1     CDCContainer  ChamberGas9010  C/MonitorSD 0    0    0    0      0      0     
 	T   RCL+0.1 RCL+0.2 LCDC    0        360     InnerKiller    1     CDCContainer  ChamberGas9010  KillerSD    0    0    0    0      0      0     
 	T    806    811     LCDC+40 0        360     OuterCylinder  1     CDCContainer  CarbonFiber     none        0    0    0    0      0      0     
 	T    502    806     20      0        360     EndPlate       2     CDCContainer  Aluminium       none        0    0    pZep 0      0      0     
-	T    0      RCDC    thMyl   0        360     MylarCDC       2     CDCInner      Mylar           none        0    0   pZMyl 0      0      0     
+	T    0      RCDCi   thMyl   0        360     MylarCDC       2     CDCInner      Mylar           none        0    0   pZMyl 0      0      0     
 
 #visual settings
 	VerboseLevel:    5
@@ -37,3 +52,4 @@ DEFINE:		RCL			RCDC+64
 	vis_MylarCDC         0      1      0     0.5
 	vis_Trigger          0      1      0
 	vis_CDCLayer         1      0      0     0.3
+	vis_Absorber         1      1      0

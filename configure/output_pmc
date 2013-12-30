@@ -44,6 +44,33 @@ MCTRUTHFILTER_SECTION
 #	BL            2112
 MCTRUTHFILTER_SECTION
 
+M_SECTION
+	x              cm
+	y              cm
+	z              cm
+	t              ns
+	px             GeV
+	py             GeV
+	pz             GeV
+	edep           GeV
+	volID
+	volName
+	ovolName
+	oprocess
+	ppid
+	ptid
+	tid
+	pid
+#	particleName
+M_SECTION
+
+M_FILTERSECTION
+	Switch                        //if commented, then program wil not generate any hit
+	neutralCut                    //if not commented, then neutral tracks will not be recorded
+	tres           1     ns       //time resolution
+#	minedep        1     eV       //minimum energy deposition cut
+M_FILTERSECTION
+
 C_SECTION
 	nHits
 	Ox             cm
