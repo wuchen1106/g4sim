@@ -5,7 +5,8 @@
 #	export GEOCARDROOT=geometry_A9_2p4_0927
 #	export GEOCARDROOT=geometry_A9_2p4_0927_4v
 #	export GEOCARDROOT=geometry_A9_2p4_0731
-	export GEOCARDROOT=geometry_A9_2p4_0731_4v
+	export GEOCARDROOT=geometry_A9_2p4_0731_simple
+#	export GEOCARDROOT=geometry_A9_2p4_0731_4v
 #	export GEOCARDROOT=geometry_A9_1p5_0927
 #	export GEOCARDROOT=geometry_A9_1p5_0927_4v
 #	export GEOCARDROOT=geometry_A9_1p5_0731
@@ -18,4 +19,5 @@
 #	for output
 	export OFILENAMEROOT=$MYG4SIMROOT/output/raw_g4sim.root
 	export RUNNAMEROOT=TEST
-	export OUTCARDROOT=output_rpc
+#	export OUTCARDROOT=output_rpc
+	export OUTCARDROOT=output_rpc_simple

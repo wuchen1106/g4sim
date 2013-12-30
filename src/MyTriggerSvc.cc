@@ -138,9 +138,17 @@ void MyTriggerSvc::SetMyTrigger( G4String filename ){
 	G4VSensitiveDetector* myVSD = 0;
 	if ( minCdcHits != -1 ){ 
 		myVSD = pMyDetectorManager->GetSD("CDCLayer","CdcLayerSD");
-		std::cout<<"myVSD @ ["<<(void*) myVSD<<"]"<<std::endl;
-		myCdcLayerSD = dynamic_cast<CdcLayerSD*> (myVSD);
-		std::cout<<"myCdcLayerSD @ ["<<(void*) myCdcLayerSD<<"]"<<std::endl;
+		if (!myVSD){
+			myVSD = pMyDetectorManager->GetSD("CDCLayer","C/MonitorSD");
+			myMonitorSD = dynamic_cast<MonitorSD*> (myVSD);
+			std::cout<<"myVSD @ ["<<(void*) myVSD<<"]"<<std::endl;
+			std::cout<<"myMonitorSD @ ["<<(void*) myMonitorSD<<"]"<<std::endl;
+		}
+		else{
+			myCdcLayerSD = dynamic_cast<CdcLayerSD*> (myVSD);
+			std::cout<<"myVSD @ ["<<(void*) myVSD<<"]"<<std::endl;
+			std::cout<<"myCdcLayerSD @ ["<<(void*) myCdcLayerSD<<"]"<<std::endl;
+		}
 	}
 	if ( minCdcCellHits != -1 ){ 
 		myVSD = pMyDetectorManager->GetSD("CdcCell","CdcSD");
@@ -173,7 +181,13 @@ void MyTriggerSvc::SetMyTrigger( G4String filename ){
 bool MyTriggerSvc::TriggerIt( const G4Event* evt ){
 
 	if ( minCdcHits != -1 ){
-		int nHits_CDC = myCdcLayerSD->Get_nHits();
+		int nHits_CDC = 0;
+		if (myCdcLayerSD){
+			nHits_CDC = myCdcLayerSD->Get_nHits();
+		}
+		else{
+			nHits_CDC = myMonitorSD->Get_nHits();
+		}
 		if ( nHits_CDC < minCdcHits ) return false;
 	}
 	if ( minCdcCellHits != -1 ){
