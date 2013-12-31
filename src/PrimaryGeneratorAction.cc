@@ -33,9 +33,16 @@
 #include <iostream>
 #include <fstream>
 
+PrimaryGeneratorAction* PrimaryGeneratorAction::fPrimaryGeneratorAction = 0;
+
 PrimaryGeneratorAction::PrimaryGeneratorAction()
 	:root_index(0), MyConfigure()
 {
+	if (fPrimaryGeneratorAction){
+		G4Exception("PrimaryGeneratorAction::PrimaryGeneratorAction()","Run0031",
+				FatalException, "PrimaryGeneratorAction constructed twice.");
+	}
+	fPrimaryGeneratorAction = this;
 	//create a messenger for this class
 	gunMessenger = new PrimaryGeneratorMessenger(this);
 
@@ -88,6 +95,18 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 		UseRoot = true;
 		root_build();
 	}
+	root_double[9]=1; // weight
+	root_double[10]=-1;
+	root_double[11]=-1;
+	root_double[12]=-1;
+	root_double[13]=-1;
+	root_double[14]=-1;
+	root_double[15]=-1;
+	root_double[16]=-1;
+	root_str[0]=new std::string("NULL");
+	root_str[1]=new std::string("NULL");
+	root_int[1]=-1;
+	root_int[2]=-1;
 }
 
 PrimaryGeneratorAction::~PrimaryGeneratorAction()
@@ -97,6 +116,29 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
 	delete EM_hist;
 	delete DM_hist;
 	delete m_TChain;
+}
+
+PrimaryGeneratorAction* PrimaryGeneratorAction::GetPrimaryGeneratorAction(){
+	if ( !fPrimaryGeneratorAction ){
+		fPrimaryGeneratorAction = new PrimaryGeneratorAction;
+	}
+	return fPrimaryGeneratorAction;
+}
+
+void* PrimaryGeneratorAction::get_extra(G4String name){
+	if (name=="weight") {if(!flag_weight)  return &root_double[9];}
+	else if (name=="ox") {if(!flag_ox)  return &root_double[10];}
+	else if (name=="oy") {if(!flag_oy)  return &root_double[11];}
+	else if (name=="oz") {if(!flag_oz)  return &root_double[12];}
+	else if (name=="opx") {if(!flag_opx)  return &root_double[13];}
+	else if (name=="opy") {if(!flag_opy)  return &root_double[14];}
+	else if (name=="opz") {if(!flag_opz)  return &root_double[15];}
+	else if (name=="ot") {if(!flag_ot)  return &root_double[16];}
+	else if (name=="ppid") {if(!flag_ppid)  return &root_int[1];}
+	else if (name=="ptid") {if(!flag_ptid)  return &root_int[2];}
+	else if (name=="process") {if(!flag_process)  return root_str[0];}
+	else if (name=="volume") {if(!flag_volume)  return root_str[1];}
+	return NULL;
 }
 
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
@@ -470,6 +512,7 @@ void PrimaryGeneratorAction::root_build(){
 	m_TChain = new TChain("t");
 	m_TChain->Add(m_TFile_name.c_str());
 	root_num = m_TChain->GetEntries();
+	root_set_extra();
 	if ( EnergyMode == "root" ){
 		UseRoot = true;
 		root_set_Energy();
@@ -510,6 +553,20 @@ void PrimaryGeneratorAction::root_set_pid(){
 void PrimaryGeneratorAction::root_set_Rand(){
 	m_TChain->SetBranchAddress("R0", &root_double[7]);
 	m_TChain->SetBranchAddress("R1", &root_double[8]);
+}
+void PrimaryGeneratorAction::root_set_extra(){
+	flag_weight=m_TChain->SetBranchAddress("weight", &root_double[9]);
+	flag_ox=m_TChain->SetBranchAddress("ox", &root_double[10]);
+	flag_oy=m_TChain->SetBranchAddress("oy", &root_double[11]);
+	flag_oz=m_TChain->SetBranchAddress("oz", &root_double[12]);
+	flag_opx=m_TChain->SetBranchAddress("opx", &root_double[13]);
+	flag_opy=m_TChain->SetBranchAddress("opy", &root_double[14]);
+	flag_opz=m_TChain->SetBranchAddress("opz", &root_double[15]);
+	flag_ot=m_TChain->SetBranchAddress("ot", &root_double[16]);
+	flag_process=m_TChain->SetBranchAddress("process",&root_str[0]);
+	flag_volume=m_TChain->SetBranchAddress("volume",&root_str[1]);
+	flag_ppid=m_TChain->SetBranchAddress("ppid",&root_int[1]);
+	flag_ptid=m_TChain->SetBranchAddress("ptid",&root_int[2]);
 }
 
 void PrimaryGeneratorAction::ReadCard(G4String file_name){

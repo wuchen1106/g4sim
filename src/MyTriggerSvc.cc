@@ -153,7 +153,7 @@ void MyTriggerSvc::SetMyTrigger( G4String filename ){
 	if ( minCdcCellHits != -1 ){ 
 		myVSD = pMyDetectorManager->GetSD("CdcCell","CdcSD");
 		if (!myVSD){
-			myVSD = pMyDetectorManager->GetSD("CdcSD","C/MonitorSD");
+			myVSD = pMyDetectorManager->GetSD("CdcCell","C/MonitorSD");
 			myMonitorSD = dynamic_cast<MonitorSD*> (myVSD);
 			std::cout<<"myVSD @ ["<<(void*) myVSD<<"]"<<std::endl;
 			std::cout<<"myMonitorSD @ ["<<(void*) myMonitorSD<<"]"<<std::endl;

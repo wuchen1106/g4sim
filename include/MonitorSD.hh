@@ -19,6 +19,7 @@
 class G4Step;
 class G4HCofThisEvent;
 class MyVGeometryParameter;
+class PrimaryGeneratorAction;
 
 class MonitorSD : public MySD
 {
@@ -136,6 +137,7 @@ class MonitorSD : public MySD
 		void ShowOutCard();
 
 		MonitorHitsCollection* hitsCollection;
+		PrimaryGeneratorAction* pPrimaryGeneratorAction;
 
 		//For root objects
 		std::vector<double> m_Ox;

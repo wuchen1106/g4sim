@@ -15,4 +15,4 @@ DEFINE:		RTgt		100  # Radius of Targets
 	VerboseLevel:    5
 	VISSETTING  #Keep this line to call Reset
 #	Name                 red    green  blue  
-	vis_Target            0.8    0.8    0.8
+	vis_Target           1      1      1

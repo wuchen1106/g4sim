@@ -101,79 +101,79 @@ void SimpleGeometrySvc::ConstructVolumes(){
 			}
 			if ( SolidType == "Box" ){
 				G4double halfX, halfY, halfZ;
-				halfX = m_GeometryParameter->get_Box_X(SolidIndex)/2;
-				halfY = m_GeometryParameter->get_Box_Y(SolidIndex)/2;
-				halfZ = m_GeometryParameter->get_Box_Z(SolidIndex)/2;
+				halfX = m_GeometryParameter->get_Box_X(SolidIndex,i)/2;
+				halfY = m_GeometryParameter->get_Box_Y(SolidIndex,i)/2;
+				halfZ = m_GeometryParameter->get_Box_Z(SolidIndex,i)/2;
 				sol_Vol=new G4Box(iname,halfX,halfY,halfZ);
 			}
 			else if ( SolidType == "EllipticalTube" ){
 				G4double halfX, halfY, halfZ;
-				halfX = m_GeometryParameter->get_EllipticalTube_X(SolidIndex)/2;
-				halfY = m_GeometryParameter->get_EllipticalTube_Y(SolidIndex)/2;
-				halfZ = m_GeometryParameter->get_EllipticalTube_Z(SolidIndex)/2;
+				halfX = m_GeometryParameter->get_EllipticalTube_X(SolidIndex,i)/2;
+				halfY = m_GeometryParameter->get_EllipticalTube_Y(SolidIndex,i)/2;
+				halfZ = m_GeometryParameter->get_EllipticalTube_Z(SolidIndex,i)/2;
 				sol_Vol=new G4EllipticalTube(iname,halfX,halfY,halfZ);
 			}
 			else if ( SolidType == "Tubs" ){
 				G4double RMax, RMin, halfLength, StartAng, SpanAng;
-				RMax = m_GeometryParameter->get_Tubs_RMax(SolidIndex);
-				RMin = m_GeometryParameter->get_Tubs_RMin(SolidIndex);
-				halfLength = m_GeometryParameter->get_Tubs_Length(SolidIndex)/2;
-				StartAng = m_GeometryParameter->get_Tubs_StartAng(SolidIndex);
-				SpanAng = m_GeometryParameter->get_Tubs_SpanAng(SolidIndex);
+				RMax = m_GeometryParameter->get_Tubs_RMax(SolidIndex,i);
+				RMin = m_GeometryParameter->get_Tubs_RMin(SolidIndex,i);
+				halfLength = m_GeometryParameter->get_Tubs_Length(SolidIndex,i)/2;
+				StartAng = m_GeometryParameter->get_Tubs_StartAng(SolidIndex,i);
+				SpanAng = m_GeometryParameter->get_Tubs_SpanAng(SolidIndex,i);
 				sol_Vol=new G4Tubs(iname,RMin,RMax,halfLength,StartAng,SpanAng);
 			}
 			else if ( SolidType == "Torus" ){
 				G4double RMax, RMin, Rtor, StartAng, SpanAng;
-				RMax = m_GeometryParameter->get_Torus_RMax(SolidIndex);
-				RMin = m_GeometryParameter->get_Torus_RMin(SolidIndex);
-				Rtor = m_GeometryParameter->get_Torus_Rtor(SolidIndex);
-				StartAng = m_GeometryParameter->get_Torus_StartAng(SolidIndex);
-				SpanAng = m_GeometryParameter->get_Torus_SpanAng(SolidIndex);
+				RMax = m_GeometryParameter->get_Torus_RMax(SolidIndex,i);
+				RMin = m_GeometryParameter->get_Torus_RMin(SolidIndex,i);
+				Rtor = m_GeometryParameter->get_Torus_Rtor(SolidIndex,i);
+				StartAng = m_GeometryParameter->get_Torus_StartAng(SolidIndex,i);
+				SpanAng = m_GeometryParameter->get_Torus_SpanAng(SolidIndex,i);
 				sol_Vol=new G4Torus(iname,RMin,RMax,Rtor,StartAng,SpanAng);
 			}
 			else if ( SolidType == "Sphere" ){
 				G4double RMax, RMin, StartPhi, SpanPhi, StartTheta, SpanTheta;
-				RMax = m_GeometryParameter->get_Sphere_RMax(SolidIndex);
-				RMin = m_GeometryParameter->get_Sphere_RMin(SolidIndex);
-				StartPhi = m_GeometryParameter->get_Sphere_StartPhi(SolidIndex);
-				SpanPhi = m_GeometryParameter->get_Sphere_SpanPhi(SolidIndex);
-				StartTheta = m_GeometryParameter->get_Sphere_StartTheta(SolidIndex);
-				SpanTheta = m_GeometryParameter->get_Sphere_SpanTheta(SolidIndex);
+				RMax = m_GeometryParameter->get_Sphere_RMax(SolidIndex,i);
+				RMin = m_GeometryParameter->get_Sphere_RMin(SolidIndex,i);
+				StartPhi = m_GeometryParameter->get_Sphere_StartPhi(SolidIndex,i);
+				SpanPhi = m_GeometryParameter->get_Sphere_SpanPhi(SolidIndex,i);
+				StartTheta = m_GeometryParameter->get_Sphere_StartTheta(SolidIndex,i);
+				SpanTheta = m_GeometryParameter->get_Sphere_SpanTheta(SolidIndex,i);
 				sol_Vol=new G4Sphere(iname,RMin,RMax,StartPhi,SpanPhi,StartTheta,SpanTheta);
 			}
 			else if ( SolidType == "Hype" ){
 				G4double innerRadius, outerRadius, halfLength, innerStereo, outerStereo;
-				innerRadius = m_GeometryParameter->get_Hype_innerRadius(SolidIndex);
-				outerRadius = m_GeometryParameter->get_Hype_outerRadius(SolidIndex);
-				halfLength = m_GeometryParameter->get_Hype_Length(SolidIndex)/2;
-				innerStereo = m_GeometryParameter->get_Hype_innerStereo(SolidIndex);
-				outerStereo = m_GeometryParameter->get_Hype_outerStereo(SolidIndex);
+				innerRadius = m_GeometryParameter->get_Hype_innerRadius(SolidIndex,i);
+				outerRadius = m_GeometryParameter->get_Hype_outerRadius(SolidIndex,i);
+				halfLength = m_GeometryParameter->get_Hype_Length(SolidIndex,i)/2;
+				innerStereo = m_GeometryParameter->get_Hype_innerStereo(SolidIndex,i);
+				outerStereo = m_GeometryParameter->get_Hype_outerStereo(SolidIndex,i);
 				sol_Vol=new G4Hype(iname,innerRadius,outerRadius,innerStereo,outerStereo,halfLength);
 			}
 			else if ( SolidType == "TwistedTubs" ){
 				G4double endinnerrad, endouterrad, halfLength, twistedangle, dphi;
-				twistedangle = m_GeometryParameter->get_TwistedTubs_twistedangle(SolidIndex);
-				endinnerrad = m_GeometryParameter->get_TwistedTubs_endinnerrad(SolidIndex);
-				endouterrad = m_GeometryParameter->get_TwistedTubs_endouterrad(SolidIndex);
-				halfLength = m_GeometryParameter->get_TwistedTubs_Length(SolidIndex)/2;
-				dphi = m_GeometryParameter->get_TwistedTubs_dphi(SolidIndex);
+				twistedangle = m_GeometryParameter->get_TwistedTubs_twistedangle(SolidIndex,i);
+				endinnerrad = m_GeometryParameter->get_TwistedTubs_endinnerrad(SolidIndex,i);
+				endouterrad = m_GeometryParameter->get_TwistedTubs_endouterrad(SolidIndex,i);
+				halfLength = m_GeometryParameter->get_TwistedTubs_Length(SolidIndex,i)/2;
+				dphi = m_GeometryParameter->get_TwistedTubs_dphi(SolidIndex,i);
 				sol_Vol=new G4TwistedTubs(iname,twistedangle,endinnerrad,endouterrad,halfLength,dphi);
 			}
 			else if ( SolidType == "Cons" ){
 				G4double RMax1, RMin1, RMax2, RMin2, halfLength, StartAng, SpanAng;
-				RMax1 = m_GeometryParameter->get_Cons_RMax1(SolidIndex);
-				RMin1 = m_GeometryParameter->get_Cons_RMin1(SolidIndex);
-				RMax2 = m_GeometryParameter->get_Cons_RMax2(SolidIndex);
-				RMin2 = m_GeometryParameter->get_Cons_RMin2(SolidIndex);
-				halfLength = m_GeometryParameter->get_Cons_Length(SolidIndex)/2;
-				StartAng = m_GeometryParameter->get_Cons_StartAng(SolidIndex);
-				SpanAng = m_GeometryParameter->get_Cons_SpanAng(SolidIndex);
+				RMax1 = m_GeometryParameter->get_Cons_RMax1(SolidIndex,i);
+				RMin1 = m_GeometryParameter->get_Cons_RMin1(SolidIndex,i);
+				RMax2 = m_GeometryParameter->get_Cons_RMax2(SolidIndex,i);
+				RMin2 = m_GeometryParameter->get_Cons_RMin2(SolidIndex,i);
+				halfLength = m_GeometryParameter->get_Cons_Length(SolidIndex,i)/2;
+				StartAng = m_GeometryParameter->get_Cons_StartAng(SolidIndex,i);
+				SpanAng = m_GeometryParameter->get_Cons_SpanAng(SolidIndex,i);
 				sol_Vol=new G4Cons(iname,RMin1,RMax1,RMin2,RMax2,halfLength,StartAng,SpanAng);
 			}
 			else if ( SolidType == "Polycone" ){
 				G4double StartAng, SpanAng;
 				G4int numZ;
-				numZ = m_GeometryParameter->get_Polycone_numZ(SolidIndex);
+				numZ = m_GeometryParameter->get_Polycone_numZ(SolidIndex,i);
 				G4double *RMax = new G4double[numZ];
 				G4double *RMin = new G4double[numZ];
 				G4double *Z = new G4double[numZ];
@@ -183,17 +183,17 @@ void SimpleGeometrySvc::ConstructVolumes(){
 					Z[i] = m_GeometryParameter->get_Polycone_Z(SolidIndex,i);
 					std::cout<<i<<": RMax = "<<RMax[i]/mm<<"mm, RMin = "<<RMin[i]/mm<<"mm, "<<Z[i]/mm<<"mm"<<std::endl;
 				}
-				StartAng = m_GeometryParameter->get_Polycone_StartAng(SolidIndex);
-				SpanAng = m_GeometryParameter->get_Polycone_SpanAng(SolidIndex);
+				StartAng = m_GeometryParameter->get_Polycone_StartAng(SolidIndex,i);
+				SpanAng = m_GeometryParameter->get_Polycone_SpanAng(SolidIndex,i);
 				sol_Vol=new G4Polycone(iname,StartAng,SpanAng,numZ,Z,RMin,RMax);
 			}
 			else if ( SolidType == "BooleanSolid" ){
-				G4double Ephi = m_GeometryParameter->get_BooleanSolid_Ephi(SolidIndex);
-				G4double Etheta = m_GeometryParameter->get_BooleanSolid_Etheta(SolidIndex);
-				G4double Epsi = m_GeometryParameter->get_BooleanSolid_Epsi(SolidIndex);
-				G4double PosX  = m_GeometryParameter->get_BooleanSolid_PosX(SolidIndex);
-				G4double PosY  = m_GeometryParameter->get_BooleanSolid_PosY(SolidIndex);
-				G4double PosZ  = m_GeometryParameter->get_BooleanSolid_PosZ(SolidIndex);
+				G4double Ephi = m_GeometryParameter->get_BooleanSolid_Ephi(SolidIndex,i);
+				G4double Etheta = m_GeometryParameter->get_BooleanSolid_Etheta(SolidIndex,i);
+				G4double Epsi = m_GeometryParameter->get_BooleanSolid_Epsi(SolidIndex,i);
+				G4double PosX  = m_GeometryParameter->get_BooleanSolid_PosX(SolidIndex,i);
+				G4double PosY  = m_GeometryParameter->get_BooleanSolid_PosY(SolidIndex,i);
+				G4double PosZ  = m_GeometryParameter->get_BooleanSolid_PosZ(SolidIndex,i);
 				G4RotationMatrix* rot =new G4RotationMatrix(Ephi,Etheta,Epsi);
 				G4ThreeVector trans(PosX ,PosY ,PosZ);
 				G4String type = m_GeometryParameter->get_BooleanSolid_type(SolidIndex);

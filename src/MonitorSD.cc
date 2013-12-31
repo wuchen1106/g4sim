@@ -32,6 +32,7 @@
 #include "MyRoot.hh"
 #include "MySD.hh"
 #include "McTruthSvc.hh"
+#include "PrimaryGeneratorAction.hh"
 
 #include "MonitorSD.hh"
 
@@ -51,6 +52,7 @@ MonitorSD::~MonitorSD(){
 //Will be called by geant4 automatically at the beginning of each event
 void MonitorSD::Initialize(G4HCofThisEvent* HCE)
 {
+	pPrimaryGeneratorAction = PrimaryGeneratorAction::GetPrimaryGeneratorAction();
 	hitsCollection = new MonitorHitsCollection
 		(SensitiveDetectorName,collectionName[0]);
 	//	std::cout<<"====>In MonitorSD::Initialize(), created hitsCollection at ("<<(void*)hitsCollection<<std::endl;
@@ -682,10 +684,21 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		if(flag_killed) m_killed.push_back(killed); // always false unless killed at the first step
 		if(flag_stop_time) m_stop_time.push_back(stop_time/unit_stop_time); // always 0 unless stopped at the first step
 		if(flag_kill_time) m_kill_time.push_back(kill_time/unit_kill_time); // always 0 unless killed at the first step
-		if(flag_ptid) m_ptid.push_back(aTrack->GetParentID());
+		if(flag_ptid){
+			int ptid = aTrack->GetParentID();
+			if (trackID==1){
+				void *result = pPrimaryGeneratorAction->get_extra("ptid");
+				if (result) ptid = *((int*)result);
+			}
+			m_ptid.push_back(ptid);
+		}
 		if(flag_ppid){
 			int ptid = aTrack->GetParentID();
 			int ppid = McTruthSvc::GetMcTruthSvc()->tid2pid(ptid);
+			if (trackID==1){
+				void *result = pPrimaryGeneratorAction->get_extra("ppid");
+				if (result) ppid = *((int*)result);
+			}
 			m_ppid.push_back(ppid);
 		}
 		if(flag_oprocess){
@@ -697,30 +710,65 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 			else{
 				processName = "NULL";
 			}
+			if (trackID==1){
+				void *result = pPrimaryGeneratorAction->get_extra("process");
+				if (result) processName = *((std::string*)result);
+			}
 			m_oprocess.push_back(processName);
 		}
 		if(flag_ovolName){
 			G4String volume = aTrack->GetLogicalVolumeAtVertex()->GetName();
+			if (trackID==1){
+				void *result = pPrimaryGeneratorAction->get_extra("volume");
+				if (result) volume = *((std::string*)result);
+			}
 			m_ovolName.push_back(volume);
 		}
 		if (flag_ox||flag_oy||flag_oz){
 			G4ThreeVector pos_3vec = aTrack->GetVertexPosition();
-			if(flag_ox) m_ox.push_back(pos_3vec.x()/unit_ox);
-			if(flag_oy) m_oy.push_back(pos_3vec.y()/unit_oy);
-			if(flag_oz) m_oz.push_back(pos_3vec.z()/unit_oz);
+			double ox = pos_3vec.x()/unit_ox;
+			double oy = pos_3vec.y()/unit_oy;
+			double oz = pos_3vec.z()/unit_oz;
+			if (trackID==1){
+				void *result = pPrimaryGeneratorAction->get_extra("ox");
+				if (result) ox = *((double*)result)*mm/unit_ox;
+				result = pPrimaryGeneratorAction->get_extra("oy");
+				if (result) oy = *((double*)result)*mm/unit_oy;
+				result = pPrimaryGeneratorAction->get_extra("oz");
+				if (result) oz = *((double*)result)*mm/unit_oz;
+			}
+			if(flag_ox) m_ox.push_back(ox);
+			if(flag_oy) m_oy.push_back(oy);
+			if(flag_oz) m_oz.push_back(oz);
 		}
 		if(flag_ot){
-			G4double globalT = McTruthSvc::GetMcTruthSvc()->tid2time(trackID);
-			m_ot.push_back(globalT/unit_ot);
+			double ot;
+			ot = McTruthSvc::GetMcTruthSvc()->tid2time(trackID)/unit_ot;
+			if (trackID==1){
+				void *result = pPrimaryGeneratorAction->get_extra("ox");
+				if (result) ot = *((double*)result)*ns/unit_ot;
+			}
+			m_ot.push_back(ot);
 		}
 		if (flag_opx||flag_opy||flag_opz){
 			G4ThreeVector mom_dir = aTrack->GetVertexMomentumDirection();
 			G4double Ekin = aTrack->GetVertexKineticEnergy();
 			G4double mass = aTrack->GetDynamicParticle()->GetMass();
 			G4double mom = sqrt((mass+Ekin)*(mass+Ekin)-mass*mass);
-			if(flag_opx) m_opx.push_back(mom*mom_dir.x()/unit_opx);
-			if(flag_opy) m_opy.push_back(mom*mom_dir.y()/unit_opy);
-			if(flag_opz) m_opz.push_back(mom*mom_dir.z()/unit_opz);
+			double opx = mom*mom_dir.x()/unit_opx;
+			double opy = mom*mom_dir.y()/unit_opy;
+			double opz = mom*mom_dir.z()/unit_opz;
+			if (trackID==1){
+				void *result = pPrimaryGeneratorAction->get_extra("opx");
+				if (result) opx = *((double*)result)*mm/unit_opx;
+				result = pPrimaryGeneratorAction->get_extra("opy");
+				if (result) opy = *((double*)result)*mm/unit_opy;
+				result = pPrimaryGeneratorAction->get_extra("opz");
+				if (result) opz = *((double*)result)*mm/unit_opz;
+			}
+			if(flag_opx) m_opx.push_back(opx);
+			if(flag_opy) m_opy.push_back(opy);
+			if(flag_opz) m_opz.push_back(opz);
 		}
 		nHits++;
 	}

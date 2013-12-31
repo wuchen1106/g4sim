@@ -22,6 +22,7 @@ class MyDetectorManager;
 class McTruthSvc;
 class ProcessCountingSvc;
 class MyTriggerSvc;
+class PrimaryGeneratorAction;
 
 class MyAnalysisSvc
 {
@@ -79,6 +80,7 @@ class MyAnalysisSvc
 		McTruthSvc* pMcTruthSvc;
 		ProcessCountingSvc* pProcessCountingSvc;
 		MyTriggerSvc* pMyTriggerSvc;
+		PrimaryGeneratorAction* pPrimaryGeneratorAction;
 
 };
 

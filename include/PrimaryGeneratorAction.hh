@@ -35,6 +35,10 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
 
 		void ReadCard(G4String);
 
+		void* get_extra(G4String);
+
+		static PrimaryGeneratorAction* GetPrimaryGeneratorAction();
+
 		void set_EnergyMode(G4String val) { EnergyMode= val; }
 		void set_DirectionMode(G4String val) { DirectionMode= val; }
 		void set_PositionMode(G4String val) { PositionMode= val; }
@@ -62,6 +66,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
 		void root_set_Time();
 		void root_set_pid();
 		void root_set_Rand();
+		void root_set_extra();
 
 		//  typedef std::map<G4int, class G4ParticleDefinition *> ParticleCache;
 
@@ -75,6 +80,8 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
 		G4ParticleGun*             particleGun;	 //pointer a to G4  class
 		PrimaryGeneratorMessenger* gunMessenger;   //messenger of this class
 		G4ParticleDefinition*      fParticle;
+
+		static PrimaryGeneratorAction* fPrimaryGeneratorAction;
 
 		//general options
 		G4String                   fType;
@@ -123,9 +130,24 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
 		G4int                      root_index;
 		G4String                   root_filename;
 		G4String                   root_treename;
-		G4double                   root_double[9];
-		G4int                      root_int[1];
+		double                     root_double[17];
+		int                        root_int[3];
+		std::string                *root_str[2];
 		TFile                      *fp;
+
+		//For extra
+		bool flag_weight;
+		bool flag_ox;
+		bool flag_oy;
+		bool flag_oz;
+		bool flag_opx;
+		bool flag_opy;
+		bool flag_opz;
+		bool flag_ot;
+		bool flag_process;
+		bool flag_volume;
+		bool flag_ppid;
+		bool flag_ptid;
 };
 
 #endif

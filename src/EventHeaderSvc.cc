@@ -47,6 +47,7 @@ void EventHeaderSvc::SetBranch(){
 	MyRoot::GetMyRoot()->SetBranch("evt_num", &evt_num);
 	MyRoot::GetMyRoot()->SetBranch("R0", &R0);
 	MyRoot::GetMyRoot()->SetBranch("R1", &R1);
+	MyRoot::GetMyRoot()->SetBranch("weight", &weight);
 }
 
 void EventHeaderSvc::ReadOutputCard(G4String filename){
@@ -92,6 +93,7 @@ void EventHeaderSvc::ReadOutputCard(G4String filename){
 			else if( name == "run_num" ) flag_run_num = true;
 			else if( name == "R0" ) flag_R0 = true;
 			else if( name == "R1" ) flag_R1 = true;
+			else if( name == "weight" ) flag_weight = true;
 			else{
 				std::cout<<"In EventHeaderSvc::ReadOutputCard, unknown name: "<<name<<" in file "<<filename<<std::endl;
 				std::cout<<"Will ignore this line!"<<std::endl;
@@ -119,6 +121,7 @@ void EventHeaderSvc::ReSet(){
 	flag_run_num = false;
 	flag_R0 = false;
 	flag_R1 = false;
+	flag_R1 = false;
 }
 
 void EventHeaderSvc::ShowOutCard(){
@@ -127,11 +130,13 @@ void EventHeaderSvc::ShowOutCard(){
 	std::cout<<"output run_num?"<<(flag_run_num?" yes":" no")<<std::endl;
 	std::cout<<"output R0?"<<(flag_R0?" yes":" no")<<std::endl;
 	std::cout<<"output R1?"<<(flag_R1?" yes":" no")<<std::endl;
+	std::cout<<"output weight?"<<(flag_weight?" yes":" no")<<std::endl;
 }
 
-void EventHeaderSvc::SetValue(const G4Event* evt, int runNb){
+void EventHeaderSvc::SetValue(const G4Event* evt, int runNb, double w){
 	run_num = runNb;
 	evt_num = evt->GetEventID();
+	weight = w;
 }
 void EventHeaderSvc::SetSeedsValue(){
     R0 = CLHEP::HepRandom::getTheSeeds()[0];

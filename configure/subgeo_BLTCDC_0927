@@ -93,12 +93,12 @@ DEFINE: pZ		pZCDCY+LCDCY/2-0.5
 	VISSETTING  #Keep this line to call Reset
 #	Name                 red    green  blue  
 #	vis_BLTCDC            1      1      1      0.3
-	vis_ShellTS3          0.5    0.5    0.5
-	vis_ShellColl         0.5    0.5    0.5
-	vis_ShellGap          0.5    0.5    0.5
-	vis_ShellGapE         0.5    0.5    0.5
-	vis_MylarSD           0      1      0      0.5
-	vis_Collimator        0.5    0.5    0.5
+	vis_ShellTS3          0.7    0.7    0.7
+	vis_ShellColl         0.7    0.7    0.7
+	vis_ShellGap          0.7    0.7    0.7
+	vis_ShellGapE         0.7    0.7    0.7
+	vis_MylarSD           1      0      0      0.5
+	vis_Collimator        0.7    0.7    0.7
 	vis_CoilTS3           0.82   0.5    0.21  
 	vis_CoilColl          0.82   0.5    0.21
 	vis_CoilCDC           0.82   0.5    0.21
@@ -112,6 +112,6 @@ DEFINE: pZ		pZCDCY+LCDCY/2-0.5
 #	vis_KillerCollC       1      0      0 
 #	vis_KillerCDCC        1      0      0
 #	vis_KillerCDC         1      0      0
-	vis_EndColl           1      0      0   0.3
+#	vis_EndColl           1      0      0   0.3
 #	vis_KillerCDCEU       1      0      0
 #	vis_KillerCDCED       1      0      0

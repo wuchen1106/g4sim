@@ -20,6 +20,7 @@
 #include "McTruthSvc.hh"
 #include "ProcessCountingSvc.hh"
 #include "MyTriggerSvc.hh"
+#include "PrimaryGeneratorAction.hh"
 
 #include "DEBUG.hh"
 
@@ -40,6 +41,7 @@ MyAnalysisSvc::MyAnalysisSvc()
 	pMcTruthSvc = McTruthSvc::GetMcTruthSvc();
 	pProcessCountingSvc = ProcessCountingSvc::GetProcessCountingSvc();
 	pMyTriggerSvc = MyTriggerSvc::GetMyTriggerSvc();
+	pPrimaryGeneratorAction  = PrimaryGeneratorAction::GetPrimaryGeneratorAction();
 
 	//default logfile
 	run_name = getenv("RUNNAMEROOT");
@@ -139,7 +141,10 @@ void MyAnalysisSvc::EndOfEventAction(const G4Event* evt){
 	//Digitze
 	pMyDetectorManager->Digitize();
 	//Set event header 
-	pEventHeaderSvc->SetValue(evt,run_num);
+	double weight = 1;
+	void *result = pPrimaryGeneratorAction->get_extra("weight");
+	if (result) weight = *((double*)result);
+	pEventHeaderSvc->SetValue(evt,run_num,weight);
 
 	//Fill
 	if ( pMyTriggerSvc->TriggerIt(evt) ) pMyRoot->Fill();

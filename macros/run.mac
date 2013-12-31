@@ -13,12 +13,12 @@
 #/control/execute {MYG4SIMROOT}/configure/setCut_A9.mac
 #/control/execute {MYG4SIMROOT}/configure/setCut_vis.mac
 #/g4sim/event/printModulo            1
-#/random/setSeeds 1840647059 513551655
-#/g4sim/gun/root_index 814
+/random/setSeeds  0 4249
+/g4sim/gun/root_index 1
 #/stacking/add_white_list 2112
 #/stacking/set_no_sec 1
 #/stacking/set_no_PC 1
 #/stacking/set_no_MC 1
 #/run/beamOn 5732
-#/g4sim/myAnalysisSvc/set_ofile_name g60_1cm.raw
+/g4sim/myAnalysisSvc/set_ofile_name output/test.root
 /run/beamOn 10000
