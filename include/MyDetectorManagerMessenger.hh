@@ -14,6 +14,7 @@
 class MyDetectorManager;
 class G4UIdirectory;
 class G4UIcmdWithAString;
+class G4UIcmdWithoutParameter;
 
 class MyDetectorManagerMessenger: public G4UImessenger
 {
@@ -28,7 +29,8 @@ class MyDetectorManagerMessenger: public G4UImessenger
     
     G4UIdirectory*             g4simDir;
     G4UIdirectory*             detDir;
-    G4UIcmdWithAString*        ReadCardCmd;
+    G4UIcmdWithAString*        AddGeoCmd;
+    G4UIcmdWithoutParameter*        ClearGeoCmd;
 };
 
 #endif

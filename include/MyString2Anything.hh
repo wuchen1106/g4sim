@@ -78,6 +78,11 @@ class MyString2Anything
 			buf>>m_str>>m_str2;
 		}
 
+		static void get_SSS( G4String cont, G4String& m_str, G4String& m_str2, G4String& m_str3 ){
+			std::stringstream buf(cont);
+			buf>>m_str>>m_str2>>m_str3;
+		}
+
 		static void get_SIS( G4String cont, G4String& m_str, G4int& m_int, G4String& m_str2 ){
 			std::stringstream buf(cont);
 			buf>>m_str>>m_int>>m_str2;

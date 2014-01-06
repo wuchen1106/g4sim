@@ -1,9 +1,0 @@
-# The Segment which includes World should be put at the first line!!
-	VerboseLevel    1
-
-#ServiceName        ServiceType         FileName
-	World           Simple              world_CometPhase1
-	BLTCDC          Simple              subgeo_BLTCDC_0927
-	Cdc             Cdc                 subgeo_CDC_BL_1p5
-	Target          Simple              subgeo_ST_17
-#	Target          Simple              subgeo_ST_39

@@ -15,6 +15,7 @@
 /gui/addButton run test "/control/execute macros/test.mac"
 /gui/addButton run grid_ol "/control/execute macros/grid_ol.mac"
 /gui/addButton run line_ol "/control/execute macros/line_ol.mac"
+/gui/addButton run coll "/control/execute macros/coll.mac"
 #
 # Gun menu :
 /gui/addMenu gun Gun

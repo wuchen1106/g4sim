@@ -41,6 +41,8 @@ private:
   G4UIcmdWithAString*       DM_hist_histname_cmd;
   G4UIcmdWithAString*       root_filename_cmd;
   G4UIcmdWithAString*       root_treename_cmd;
+  G4UIcmdWithAString*       ReadCardCmd;
+  G4UIcmdWithoutParameter*  InitializeCmd;
   G4UIcmdWithoutParameter*  histo_build_cmd;
   G4UIcmdWithoutParameter*  root_build_cmd;
 };

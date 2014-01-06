@@ -8,10 +8,6 @@
 #	           Theta    Phi
 #	           deg      deg
 	Direction: 0        0
-#Default Momentum Amplitude
-#	         MeV
-#	MomAmp:  1.25e4
-#	MomAmp:  1e5
 #Default Kinetic Energy
 #	         MeV
 	Ekin:    1     
@@ -32,21 +28,6 @@
 #	         ns
 	Time:    0
 
-#Uniform In Volume:
-#	                Type   SubDet   Volume
-#	UIV:            Simple World    Target
-
-#Histogram file name
-	EMHFN:          ProtonEmissionMC.root
-	EMHHN:          h
-
-#Histogram file name
-#	DMHFN:          ph2e.root
-#	DMHHN:          theta
-
 #ROOT file name
-	RFN:            MT1.EP.em.g60cm10mm.005T.g4s.QBH.root
-#	RFN:            MT1.EP.OT.g60cm10mm.005T.g4s.QBH.root
-#	RFN:            MT1.EP.mum.g60cm10mm.005T.g4s.QBH.root
-#	RFN:            MT1.pim.pim.g60cm10mm.005T.g4s.QBH.root
+	RFN:            Dummy.root
 	RTN:            t

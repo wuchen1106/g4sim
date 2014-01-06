@@ -22,6 +22,17 @@ PrimaryGeneratorMessenger::PrimaryGeneratorMessenger(
 {
   gunDir = new G4UIdirectory("/g4sim/gun/");
   gunDir->SetGuidance("PrimaryGenerator control");
+
+  InitializeCmd = new G4UIcmdWithoutParameter("/g4sim/gun/initialize",this);
+  InitializeCmd->SetGuidance("Initialize PrimaryGeneratorAction.");
+  InitializeCmd->SetGuidance("This command MUST be applied before \"beamOn\" ");
+  InitializeCmd->SetGuidance("if you changed geometrical value(s).");
+  InitializeCmd->AvailableForStates(G4State_Idle);
+       
+  ReadCardCmd = new G4UIcmdWithAString("/g4sim/gun/ReadCard",this);
+  ReadCardCmd->SetGuidance("Read PrimaryGeneratorAction file.");
+  ReadCardCmd->SetGuidance("You have to call update before you start a new run.");
+  ReadCardCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
    
   EnergyMode_cmd = new G4UIcmdWithAString("/g4sim/gun/EnergyMode",this);
   EnergyMode_cmd->SetGuidance("Choose energy model:");
@@ -104,6 +115,8 @@ PrimaryGeneratorMessenger::PrimaryGeneratorMessenger(
 
 PrimaryGeneratorMessenger::~PrimaryGeneratorMessenger()
 {
+  delete InitializeCmd;
+  delete ReadCardCmd;
   delete EnergyMode_cmd;
   delete DirectionMode_cmd;
   delete PositionMode_cmd;
@@ -134,6 +147,8 @@ void PrimaryGeneratorMessenger::SetNewValue(
   if( command == DM_hist_histname_cmd )    { Action->set_DM_hist_histname(newValue);}
   if( command == histo_build_cmd)    { Action->BuildHistoFromFile();}
   if( command == root_build_cmd)    { Action->root_build();}
+  if( command == ReadCardCmd ) { Action->ReadCard(newValue); }
+  if( command == InitializeCmd ) { Action->Initialize(); }
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

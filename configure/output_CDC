@@ -54,8 +54,12 @@ C_SECTION
 	px                GeV
 	py                GeV
 	pz                GeV
+	x               cm 
+	y               cm 
+	z               cm 
 	volID
 	pid
+	tid
 C_SECTION
 
 C_FILTERSECTION

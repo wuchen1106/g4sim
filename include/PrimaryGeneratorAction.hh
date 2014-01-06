@@ -33,6 +33,8 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
 
 		void GeneratePrimaries(G4Event*);
 
+		void Initialize();
+
 		void ReadCard(G4String);
 
 		void* get_extra(G4String);

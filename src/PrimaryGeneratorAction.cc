@@ -48,65 +48,8 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 
 	// default particle kinematic
 	G4String file_name = getenv("GENFILEROOT");
-	size_t sLast = file_name.last('/');
-	if(sLast==std::string::npos){ // file name only
-		G4String dir_name = getenv("CONFIGUREROOT");
-		if (dir_name[dir_name.size()-1] != '/') dir_name.append("/");
-		file_name = dir_name + file_name;
-	}
 	ReadCard(file_name);
-	if (fType == "simple" || fType == "stable" || fType == "ion" ){
-		G4int n_particle = 1;
-		particleGun  = new G4ParticleGun(n_particle);
-	}
-	else {
-		G4Exception("PrimaryGeneratorAction::PrimaryGeneratorAction()","Run0031",
-				FatalException, "unknown generator type.");
-	}
-
-	G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
-	G4ParticleDefinition* particle = particleTable->FindParticle(ParticleName);
-	if (!particle){
-		std::cout<<"ERROR: In PrimaryGeneratorAction::PrimaryGeneratorAction() Cannot find particle "<<ParticleName<<"!!!"<<std::endl;
-		G4Exception("PrimaryGeneratorAction::PrimaryGeneratorAction()","Run0031",
-				FatalException, "Cannot find particle.");
-	}
-	if (fType == "stable"){
-		particle->SetPDGStable(true);
-	}
-	particleGun->SetParticleDefinition(particle);
-	mass = particleGun->GetParticleDefinition()->GetPDGMass();
-	G4ThreeVector dir(1,0,0);
-	dir.setTheta(Theta);
-	dir.setPhi(Phi);
-	particleGun->SetParticleMomentumDirection(dir.unit());
-	if (EnergyType==0){
-		Ekin = sqrt(Pa*Pa+mass*mass)-mass;
-	}
-	particleGun->SetParticleEnergy(Ekin);
-	particleGun->SetParticlePosition(G4ThreeVector(x,y,z));
-	particleGun->SetParticleTime(t);
-
-	if (EnergyMode == "histo" || DirectionMode == "histo" ){
-		BuildHistoFromFile();
-	}
-	UseRoot = false;
-	if ( EnergyMode == "root" || PositionMode == "root" || TimeMode == "root" || pidMode == "root" || RandMode == "root"){
-		UseRoot = true;
-		root_build();
-	}
-	root_double[9]=1; // weight
-	root_double[10]=-1;
-	root_double[11]=-1;
-	root_double[12]=-1;
-	root_double[13]=-1;
-	root_double[14]=-1;
-	root_double[15]=-1;
-	root_double[16]=-1;
-	root_str[0]=new std::string("NULL");
-	root_str[1]=new std::string("NULL");
-	root_int[1]=-1;
-	root_int[2]=-1;
+	Initialize();
 }
 
 PrimaryGeneratorAction::~PrimaryGeneratorAction()
@@ -570,6 +513,12 @@ void PrimaryGeneratorAction::root_set_extra(){
 }
 
 void PrimaryGeneratorAction::ReadCard(G4String file_name){
+	size_t sLast = file_name.last('/');
+	if(sLast==std::string::npos){ // file name only
+		G4String dir_name = getenv("CONFIGUREROOT");
+		if (dir_name[dir_name.size()-1] != '/') dir_name.append("/");
+		file_name = dir_name + file_name;
+	}
 	std::ifstream fin_card(file_name);
 	if ( !fin_card ){
 		std::cout<<"generator file \""<<file_name<<"\" is not available!!!"<<std::endl;
@@ -742,6 +691,61 @@ void PrimaryGeneratorAction::ReadCard(G4String file_name){
 	buf_card.str("");
 	buf_card.clear();
 	Dump();
+}
+
+void PrimaryGeneratorAction::Initialize(){
+	if (fType == "simple" || fType == "stable" || fType == "ion" ){
+		G4int n_particle = 1;
+		particleGun  = new G4ParticleGun(n_particle);
+	}
+	else {
+		G4Exception("PrimaryGeneratorAction::PrimaryGeneratorAction()","Run0031",
+				FatalException, "unknown generator type.");
+	}
+
+	G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
+	G4ParticleDefinition* particle = particleTable->FindParticle(ParticleName);
+	if (!particle){
+		std::cout<<"ERROR: In PrimaryGeneratorAction::PrimaryGeneratorAction() Cannot find particle "<<ParticleName<<"!!!"<<std::endl;
+		G4Exception("PrimaryGeneratorAction::PrimaryGeneratorAction()","Run0031",
+				FatalException, "Cannot find particle.");
+	}
+	if (fType == "stable"){
+		particle->SetPDGStable(true);
+	}
+	particleGun->SetParticleDefinition(particle);
+	mass = particleGun->GetParticleDefinition()->GetPDGMass();
+	G4ThreeVector dir(1,0,0);
+	dir.setTheta(Theta);
+	dir.setPhi(Phi);
+	particleGun->SetParticleMomentumDirection(dir.unit());
+	if (EnergyType==0){
+		Ekin = sqrt(Pa*Pa+mass*mass)-mass;
+	}
+	particleGun->SetParticleEnergy(Ekin);
+	particleGun->SetParticlePosition(G4ThreeVector(x,y,z));
+	particleGun->SetParticleTime(t);
+
+	if (EnergyMode == "histo" || DirectionMode == "histo" ){
+		BuildHistoFromFile();
+	}
+	UseRoot = false;
+	if ( EnergyMode == "root" || PositionMode == "root" || TimeMode == "root" || pidMode == "root" || RandMode == "root"){
+		UseRoot = true;
+		root_build();
+	}
+	root_double[9]=1; // weight
+	root_double[10]=-1;
+	root_double[11]=-1;
+	root_double[12]=-1;
+	root_double[13]=-1;
+	root_double[14]=-1;
+	root_double[15]=-1;
+	root_double[16]=-1;
+	root_str[0]=new std::string("NULL");
+	root_str[1]=new std::string("NULL");
+	root_int[1]=-1;
+	root_int[2]=-1;
 }
 
 void PrimaryGeneratorAction::Dump(){
