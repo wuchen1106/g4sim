@@ -1,0 +1,77 @@
+tree_name                   tree
+AutoSave                    0         //0: no auto save; n(n>0): call m_tree->AutoSave() every n events
+Circular                    0         //0: do not set circular; n(n>0): call m_tree->SetCircular(n)
+Verbose                     0         //for classes related to output, including MyRoot, Cdc*SD, etc.
+PrintModule                 1000      //for classes related to output, including MyRoot, Cdc*SD, etc.
+
+EVENTHEADER_SECTION
+	evt_num
+	run_num
+	R0
+	R1
+	weight
+EVENTHEADER_SECTION
+
+MCTRUTH_SECTION
+#	nTracks
+	pid
+#	tid
+#	ptid
+#	ppid
+	time              ns
+	px                GeV
+	py                GeV
+	pz                GeV
+	e                 GeV
+	x                 cm
+	y                 cm
+	z                 cm
+#	charge
+#	particleName
+#	process
+#	volume
+	tid2pid
+	tid2time
+MCTRUTH_SECTION
+
+MCTRUTHFILTER_SECTION
+	Switch                     //if commented, then program wil not generate any hit
+	nTracks       1            //maximum tracks cut
+#	minp          0      MeV   //minimum momentum cut
+#	mine          80     MeV   //minimum momentum cut
+#	mint          0      ns    //left end of time window, 0 means no lower limit
+#	maxt          0      ns    //right end of time window, 0 means no upper limit
+#	WL            11
+#	BL            2112
+MCTRUTHFILTER_SECTION
+
+T_SECTION
+	nHits
+#	Ox             cm
+#	Oy             cm
+#	Oz             cm
+#	Ot             ns
+#	volID
+T_SECTION
+
+T_FILTERSECTION
+	Switch                        //if commented, then program wil not generate any hit
+	stopped                       //need to be stopped inside
+	tres          1     ns       //time resolution
+T_FILTERSECTION
+
+M_SECTION
+	nHits
+M_SECTION
+
+M_FILTERSECTION
+	Switch                        //if commented, then program wil not generate any hit
+M_FILTERSECTION
+
+TRIGGERSECTION
+	minCdcHits        -1           // minimum required CDCLayer nHits. Would be set invalid if minCdcHits = -1
+	minCdcCellHits    -1           // minimum required CDCCell nHits. Would be set invalid if minCdcCellHits = -1
+	minTriggerHits    -1           // minimum required Trigger nHits. Would be set invalid if minTriggerHits = -1
+	minEleMom         -1  MeV      // minimum required Electron momentum. Would be set invalid if minEleMom = -1 MeV
+	minAntipNum       -1           // minimum required Anti-Proton number. Would be set invalid if minAntipNum = -1
+TRIGGERSECTION

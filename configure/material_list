@@ -39,6 +39,7 @@ TYPE Molecule_Materials
 # Mix elements with atom number
 #	name           density(g/cm3) rel_dens ncomponents element natoms
 #	               (in document)  (change to STP)
+	Acrylic        1.18           1        3           Carbon  5      Hydrogen 8  Oxygen 2
 	Scintillator   1.032          1        2           Carbon  10     Hydrogen 11
 	Ethane         1.282e-3       0.96646  2           Carbon  2      Hydrogen 6
 	Isobutane      2.51e-3        0.96646  2           Carbon  4      Hydrogen 10
