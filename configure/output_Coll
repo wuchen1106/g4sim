@@ -57,7 +57,6 @@ T_SECTION
 T_FILTERSECTION
 	Switch                        //if commented, then program wil not generate any hit
 	stopped                       //need to be stopped inside
-	tres          1     ns       //time resolution
 T_FILTERSECTION
 
 V_SECTION
