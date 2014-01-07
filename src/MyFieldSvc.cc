@@ -81,12 +81,20 @@ void MyFieldSvc::SetField(G4LogicalVolume* fLogicWorld){
 	Dump();
 	//Setup the field
 	G4String opt = "";
+	if(fMagField) delete fMagField;
+	if(fEleField) delete fEleField;
+	if(fFieldMaps.size()>0){
+		for (int ifm = 0; ifm < fFieldMaps.size(); ifm++){
+			if (fFieldMaps[ifm]) delete fFieldMaps[ifm];
+		}
+		fFieldMaps.clear();
+	}
+
 	if ( fType == "Uniform" ){
 		G4ThreeVector MagField_vec(1,0,0);
 		MagField_vec.setTheta(UniF_Theta);
 		MagField_vec.setPhi(UniF_Phi);
 		MagField_vec = MagField_vec.unit() * UniF_Intensity;
-		if(fMagField) delete fMagField;
 		if(MagField_vec!= G4ThreeVector(0.,0.,0.))
 		{ 
 			fMagField = new G4UniformMagField(MagField_vec);
@@ -102,7 +110,6 @@ void MyFieldSvc::SetField(G4LogicalVolume* fLogicWorld){
 		EleField_vec.setTheta(UniEF_Theta);
 		EleField_vec.setPhi(UniEF_Phi);
 		EleField_vec = EleField_vec.unit() * UniEF_Intensity;
-		if(fEleField) delete fEleField;
 		if(EleField_vec!= G4ThreeVector(0.,0.,0.))
 		{ 
 			fEleField = new  G4UniformElectricField(EleField_vec);
@@ -131,7 +138,7 @@ void MyFieldSvc::SetField(G4LogicalVolume* fLogicWorld){
 		}
 		opt = "fieldMap";
 	}
-	else{
+	else if ( fType != "None" && fType != "none" && fType != "NONE"){
 		std::cout<<"Field Type "<<fType<<" is not not supported yet!!!"<<std::endl;
 		G4Exception("MyFieldSvc::SetField()","Run0031",
 				FatalException, "Field Type is not not supported.");
@@ -348,6 +355,9 @@ void MyFieldSvc::Dump(){
 				<<std::setiosflags(std::ios::left)<<std::setw(6) <<fFieldMapScalings[ifieldmap]
 				<<std::endl;
 		}
+	}
+	else if ( fType == "none" || fType == "NONE" || fType == "None" ){
+		std::cout<<"No Field!"<<std::endl;
 	}
 	std::cout<<"******************************************************************"<<std::endl;
 }

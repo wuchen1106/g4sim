@@ -13,7 +13,7 @@ export FIELDMAPSROOT=$MYFIELDMAPSROOT
 #for detector construction
 export MATERIALLISTROOT=material_list
 #for magField
-export MAGFIELDCARDROOT=MagField_default
+export MAGFIELDCARDROOT=MagField_none
 #for generator
 export GENFILEROOT=gen_default
 #for output
