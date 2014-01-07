@@ -47,11 +47,11 @@ MCTRUTHFILTER_SECTION
 
 T_SECTION
 	nHits
-#	Ox             cm
-#	Oy             cm
-#	Oz             cm
-#	Ot             ns
-#	volID
+	Ox             cm
+	Oy             cm
+	Oz             cm
+	Ot             ns
+	volID
 T_SECTION
 
 T_FILTERSECTION

@@ -5,12 +5,13 @@
 /control/execute {MYG4SIMROOT}/configure/setCut_default.mac
 
 # No secondary needed for coll study:
+/run/setCut 0.01 mm
 /stacking/set_no_sec 1
 
 # Generator:
 /g4sim/gun/ReadCard gen_root
-#/g4sim/gun/root_filename MT1.EP.mum.g60cm10mm.005T.g4s.QBH.root
-/g4sim/gun/root_filename MT1.pim.pim.g60cm10mm.005T.g4s.QBH.root
+/g4sim/gun/root_filename MT1.EP.mum.g60cm10mm.005T.g4s.QBH.root
+#/g4sim/gun/root_filename MT1.pim.pim.g60cm10mm.005T.g4s.QBH.root
 /g4sim/gun/initialize
 
 # Geometry:
