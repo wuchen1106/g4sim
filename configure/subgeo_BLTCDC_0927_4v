@@ -4,12 +4,13 @@
 #*************************************************************************************************
 #	Shells
 DEFINE:		pZst 		-2790.5  # Start position
-DEFINE:		RI			180  # Inner radius of beam pipe ( before Gap Section )
+DEFINE:		RI			190  # Inner radius of beam pipe ( before Gap Section )
 DEFINE:		RO			200  # Outer radius of beam pipe ( before Gap Section )
 DEFINE:		RIC			140  # Inner radius of Collimator
 DEFINE:		LTS3S		355.9  # Length of TS3 Shell
 DEFINE:		LCollS		1160  # Length of Collimator Shell
 DEFINE:		LColl		1000  # Length of Collimator
+DEFINE:		thAl 		0.2  # thickness of Al window
 #	Coils
 DEFINE:		RITS3		400  # Inner radius of TS3 Coil
 DEFINE:		ROTS3		450  # Outer radius of TS3 Coil
@@ -41,12 +42,15 @@ DEFINE:		RHoleD		200  # Radius of the hole on the downstream end
 #	      mm     mm      mm      deg      deg                                                                mm   mm   mm    deg    deg    deg   
 DEFINE:		L			LTS3Y+LCollY+LCDCY+100
 DEFINE:		pZBC		pZst+L/2
-	T     0      ROCDCY  L       0        360     BLTCDC          1     World           Vacuum     none      0    0    pZBC  0      0      0     
+	T     0      ROCDCY  L       0        360     BLTCDC          1     World           Helium     none      0    0    pZBC  0      0      0     
                                                                         
 #	Shell                                                         
 DEFINE:		pZTS3S		LTS3S/2-L/2
 	T     RI     RO      LTS3S   270        180     ShellTS3        1     BLTCDC          Copper     none      0    0  pZTS3S  0      0      0     
 	T     RI     RO      LTS3S   90        180     ShellTS3iv        1     BLTCDC          Copper     none      0    0  pZTS3S  0      0      0     
+DEFINE:		pZ			pZTS3S-LTS3S/2+thAl+1
+	T     0      RI      thAl    270        180     AlWindow        1     BLTCDC          Aluminium  none      0    0  pZ      0      0      0     
+	T     0      RI      thAl    90        180     AlWindowiv        1     BLTCDC          Aluminium  none      0    0  pZ      0      0      0     
 DEFINE:		pZCollS		pZTS3S+LTS3S/2+LCollS/2
 DEFINE:		pZColl		pZTS3S-LTS3S/2+LColl/2
 	T     RI     RO      LCollS  270        180     ShellColl       1     BLTCDC          Copper     none      0    0  pZCollS 0      0      0     
@@ -111,7 +115,8 @@ DEFINE: pZ		pZCDCY+LCDCY/2-0.5
 	vis_ShellColl         0.7    0.7    0.7
 	vis_ShellGap          0.7    0.7    0.7
 	vis_ShellGapE         0.7    0.7    0.7
-	vis_MylarSD           1      0      0      0.5
+#	vis_MylarSD           1      0      0      0.5
+	vis_AlWindow          0.3    0.3    0.3    0.5
 	vis_Collimator        0.7    0.7    0.7
 	vis_CoilTS3           0.82   0.5    0.21  
 	vis_CoilColl          0.82   0.5    0.21

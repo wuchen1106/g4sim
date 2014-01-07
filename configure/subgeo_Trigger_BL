@@ -1,15 +1,15 @@
 #general info
 	checkoverlap
 
-DEFINE:		RCDCI		502
+DEFINE:		PI			3.14159265
+DEFINE:		RCDCI		500
 DEFINE:		thCi		99e-3
 DEFINE:		thAl		1e-3
 DEFINE: 	RCDCii		RCDCI-thCi
 DEFINE: 	RCDCi		RCDCii-thAl
 DEFINE:		LCDC		1500
 DEFINE:		thMyl		0.05  # Thickness of Mylar Window
-DEFINE:		thAbs		2
-DEFINE:		PI			3.14159265
+DEFINE:		thAbs		1
 DEFINE:		LTri		300
 DEFINE:		thTriP		5
 DEFINE:		thTriA		30
@@ -43,8 +43,8 @@ DEFINE:		pY			(thTriP-thTri)/2
 #Tubs info
 #	Type RMin   RMax    Length  StartAng SpanAng Name           RepNo MotVolume     Material        SDName      posX posY posZ Ephi   Etheta Epsi  
 #	     mm     mm      mm      deg      deg                                                                    mm   mm   mm   deg    deg    deg   
-DEFINE:		pZMyl		(x-0.5)*(LCDC-thMyl)
-	T    0      RCDCi   thMyl   0        360     MylarCDC       2     CDCInner      Mylar           none        0    0   pZMyl 0      0      0     
+DEFINE:		pZMyl		(LCDC-thMyl)/2
+	T    0      RCDCi   thMyl   0        360     MylarCDC       0     CDCInner      Mylar           none        0    0   pZMyl 0      0      0     
 DEFINE:		RAbsI		RITri
 DEFINE:		RAbsO		RAbsI+thAbs
 DEFINE:		LAbs		LCDC-2*LTri-2*thMyl

@@ -16,60 +16,63 @@
 
 #layer info
 	LayerNo:		18
-#	type  layerNo  sublayerNo  CellNo  Length       R            StartPhi  First   RotateCell 
-#	                                   mm           mm           rad       0:F/1:S            
-	F                                               510.00000                                 
-	S     0        0           224     1500.00      518.00000    0         1       -0         
-	F                                               526.00000                                 
-	S     1        0           224     1513.48      534.00000    0         0       0          
-	F                                               542.00000                                 
-	S     2        0           224     1526.97      550.00000    0         1       -0         
-	F                                               558.00000                                 
-	S     3        0           224     1540.46      566.00000    0         0       0          
-	F                                               574.00000                                 
-	S     4        0           240     1553.95      582.00000    0         1       -0         
-	F                                               590.00000                                 
-	S     0        0           240     1567.44      598.00000    0         0       0          
-	F                                               606.00000                                 
-	S     6        0           240     1580.92      614.00000    0         1       -0         
-	F                                               622.00000                                 
-	S     7        0           240     1594.41      630.00000    0         0       0          
-	F                                               638.00000                                 
-	S     8        0           256     1607.90      646.00000    0         1       -0         
-	F                                               654.00000                                 
-	S     9        0           256     1621.39      662.00000    0         0       0          
-	F                                               670.00000                                 
-	S     10       0           256     1634.88      678.00000    0         1       -0         
-	F                                               686.00000                                 
-	S     11       0           256     1648.37      694.00000    0         0       0          
-	F                                               702.00000                                 
-	S     12       0           272     1661.85      710.00000    0         1       -0         
-	F                                               718.00000                                 
-	S     13       0           272     1675.34      726.00000    0         0       0          
-	F                                               734.00000                                 
-	S     14       0           272     1688.83      742.00000    0         1       -0         
-	F                                               750.00000                                 
-	S     15       0           288     1702.32      758.00000    0         0       0          
-	F                                               766.00000                                 
-	S     16       0           288     1715.81      774.00000    0         1       -0         
-	F                                               782.00000                                 
-	S     17       0           288     1729.30      790.00000    0         0       0          
-	LF                                              798.00000                                 
+#	type  layerNo  sublayerNo  CellNo  Length       R          StartPhi  First   RotateCell 
+#	                                   mm           mm         rad       0:F/1:S            
 
+#	G     -1       0           198     1482.275     514.000    0         0       0
+	F                                               522.000                                 
+	S     0        0           198     1493.922     530.000    0         1       -0         
+	F                                               538.000                                 
+	S     1        0           204     1505.569     546.000    0         0       0          
+	F                                               554.000                                 
+	S     2        0           210     1517.216     562.000    0         1       -0         
+	F                                               570.000                                 
+	S     3        0           216     1528.863     578.000    0         0       0          
+	F                                               586.000                                 
+	S     4        0           222     1540.510     594.000    0         1       -0         
+	F                                               602.000                                 
+	S     0        0           228     1552.157     610.000    0         0       0          
+	F                                               618.000                                 
+	S     6        0           234     1563.804     626.000    0         1       -0         
+	F                                               634.000                                 
+	S     7        0           240     1575.451     642.000    0         0       0          
+	F                                               650.000                                 
+	S     8        0           246     1587.098     658.000    0         1       -0         
+	F                                               666.000                                 
+	S     9        0           252     1598.745     674.000    0         0       0          
+	F                                               682.000                                 
+	S     10       0           258     1610.392     690.000    0         1       -0         
+	F                                               698.000                                 
+	S     11       0           264     1622.039     706.000    0         0       0          
+	F                                               714.000                                 
+	S     12       0           270     1633.686     722.000    0         1       -0         
+	F                                               730.000                                 
+	S     13       0           276     1645.333     738.000    0         0       0          
+	F                                               746.000                                 
+	S     14       0           282     1656.980     754.000    0         1       -0         
+	F                                               762.000                                 
+	S     15       0           288     1668.627     770.000    0         0       0          
+	F                                               778.000                                 
+	S     16       0           294     1680.275     786.000    0         1       -0         
+	F                                               794.000                                 
+	S     17       0           300     1691.922     802.000    0         0       0          
+	LF                                              810.000                                 
+#	G     18       0           306     1703.569     818.000    0         0       0
 
 DEFINE:		LCDCO		1729.3
-DEFINE:		RCDCO		806
-DEFINE:		RCDCI		502
+DEFINE:		RCDCO		826
 DEFINE:		Dist		20
 DEFINE:		thEP		10
+DEFINE:		thOW		5
 #Tubs info
 #	Type RMin   RMax    Length  StartAng SpanAng Name           RepNo MotVolume     Material        SDName      posX posY posZ Ephi   Etheta Epsi  
 #	     mm     mm      mm      deg      deg                                                                    mm   mm   mm   deg    deg    deg   
 DEFINE:		LCDCC		LCDCO+2*thEP
-	T    RCDCi  811     LCDCC   0        360     CDCContainer   1     BLTCDC        ChamberGas9010  none        0    0  pZCDCY 0      0      0     
+DEFINE:		RCDCOO		RCDCO+thOW
+	T    RCDCi  RCDCOO  LCDCC   0        360     CDCContainer   1     BLTCDC        ChamberGas9010  none        0    0  pZCDCY 0      0      0     
 	T    RCDCii RCDCI   LCDC    0        360     InnerCylinder  1     CDCContainer  Mylar           none        0    0    0    0      0      0     
 	T    RCDCi  RCDCii  LCDC    0        360     InnerCylinderI 1     CDCContainer  Aluminium       none        0    0    0    0      0      0     
-	T    RCDCO  811     LCDCO   0        360     OuterCylinder  1     CDCContainer  CarbonFiber     none        0    0    0    0      0      0     
+	T    RCDCO  RCDCOO  LCDCO   0        360     OuterCylinder  1     CDCContainer  CarbonFiber     none        0    0    0    0      0      0     
 DEFINE:		N			18
 DEFINE:		th			(RCDCO-RCDCI)/N
 DEFINE:		RI			RCDCI+x*th

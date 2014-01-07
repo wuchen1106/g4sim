@@ -16,6 +16,7 @@
 /gui/addButton run grid_ol "/control/execute macros/grid_ol.mac"
 /gui/addButton run line_ol "/control/execute macros/line_ol.mac"
 /gui/addButton run coll "/control/execute configure/coll_4v.mac"
+/gui/addButton run cdchit "/control/execute configure/cdchit_4v.mac"
 #
 # Gun menu :
 /gui/addMenu gun Gun

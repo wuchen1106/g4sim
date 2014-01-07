@@ -17,7 +17,7 @@ MCTRUTH_SECTION
 	pid
 #	tid
 #	ptid
-#	ppid
+#	ttid
 	time              ns
 	px                GeV
 	py                GeV

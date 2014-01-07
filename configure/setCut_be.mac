@@ -1,8 +1,0 @@
-/stacking/setEleCut 100 MeV
-/stacking/setPosCut 100 MeV
-/stacking/setGamCut 100 MeV
-/stacking/clear_white_list
-/stacking/clear_black_list
-/stacking/add_white_list 11
-/g4sim/myAnalysisSvc/set_maxT 170000 ns
-/run/setCut 0.001 mm
