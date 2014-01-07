@@ -60,13 +60,13 @@ T_FILTERSECTION
 	tres          1     ns       //time resolution
 T_FILTERSECTION
 
-M_SECTION
+V_SECTION
 	nHits
-M_SECTION
+V_SECTION
 
-M_FILTERSECTION
+V_FILTERSECTION
 	Switch                        //if commented, then program wil not generate any hit
-M_FILTERSECTION
+V_FILTERSECTION
 
 TRIGGERSECTION
 	minCdcHits        -1           // minimum required CDCLayer nHits. Would be set invalid if minCdcHits = -1

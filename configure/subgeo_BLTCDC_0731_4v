@@ -93,7 +93,7 @@ DEFINE: pZ		pZst-10
 	T    RO-1    RO      LCollS  90        180     KillerCollCiv     1     ShellColliv     Copper     KillerSD  0    0  0       0      0      0     
 	T   RICDC-1  RICDC   LCDCY   0        360     KillerCDCC      1     BLTCDC          Vacuum     KillerSD  0    0  pZCDCY  0      0      0     
 DEFINE: pZ		pZColl+LColl/2-0.5
-	T     0      RIC     1       0        360     EndColl         1     BLTCDC          Vacuum   M/MonitorSD 0    0  pZ      0      0      0     
+	T     0      RIC     1       0        360     EndColl         1     BLTCDC          Vacuum   V/MonitorSD 0    0  pZ      0      0      0     
 #	T     0      RO      1       0        360     KillerCDC       1     BLTCDC          Vacuum     KillerSD  0    0 -1273.1  0      0      0     
 DEFINE: pZ		pZCDCY-LCDCY/2+0.5
 	T   ROColl  RICDC-1  1       0        360     KillerCDCEU     1     BLTCDC          Vacuum     KillerSD  0    0  pZ      0      0      0     

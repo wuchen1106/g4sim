@@ -34,11 +34,11 @@ DEFINE:		Phi			x*360/64-90
 	B    wTri    thTri   LTri   TriggerU  64    CDCInner  Helium       none        P RTri   Phi    pZ     90-aTri+Phi 0      0
 	B    wTri    thTri   LTri   TriggerD  64    CDCInner  Helium       none        P RTri   Phi   -pZ     90-aTri+Phi 0      0
 DEFINE:		pY			-(thTriA-thTri)/2
-	B    wTri    thTriA  LTri   TriCheU   1     TriggerU  Acrylic      MonitorSD     0      pY     0      0    0      0
-	B    wTri    thTriA  LTri   TriCheD   1     TriggerD  Acrylic      MonitorSD     0      pY     0      0    0      0
+	B    wTri    thTriA  LTri   TriCheU   1     TriggerU  Acrylic      M/MonitorSD     0      pY     0      0    0      0
+	B    wTri    thTriA  LTri   TriCheD   1     TriggerD  Acrylic      M/MonitorSD     0      pY     0      0    0      0
 DEFINE:		pY			(thTriP-thTri)/2
-	B    wTri    thTriP  LTri   TriSciU   1     TriggerU  Scintillator MonitorSD     0      pY     0      0    0      0
-	B    wTri    thTriP  LTri   TriSciD   1     TriggerD  Scintillator MonitorSD     0      pY     0      0    0      0
+	B    wTri    thTriP  LTri   TriSciU   1     TriggerU  Scintillator M/MonitorSD     0      pY     0      0    0      0
+	B    wTri    thTriP  LTri   TriSciD   1     TriggerD  Scintillator M/MonitorSD     0      pY     0      0    0      0
 
 #Tubs info
 #	Type RMin   RMax    Length  StartAng SpanAng Name           RepNo MotVolume     Material        SDName      posX posY posZ Ephi   Etheta Epsi  
