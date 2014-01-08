@@ -11,8 +11,9 @@
 /run/setCut 0.01 mm
 
 # Generator:
-/g4sim/gun/ReadCard gen_rmc
-/g4sim/gun/root_filename mum.1p5.17.root
+/g4sim/gun/ReadCard gen_rpc
+#/g4sim/gun/ReadCard gen_rmc
+#/g4sim/gun/root_filename mum.1p5.17.root
 /g4sim/gun/initialize
 
 # Geometry:

@@ -9,7 +9,8 @@ DEFINE:		RTgt		100  # Radius of Targets
 #Tubs info
 #	Type  RMin   RMax    Length  StartAng SpanAng Name            RepNo MotVolume       Material   SDName    posX posY posZ  Ephi   Etheta Epsi  
 #	      mm     mm      mm      deg      deg                                                                mm   mm   mm    deg    deg    deg   
-	T     0      RTgt    thTgt   0        360     Target          17    CDCInner       Aluminium T/MonitorSD 0    0    zTgt  0      0      0
+	T     0      RTgt    thTgt   0        360     TargetC         17    CDCInner       Aluminium   none      0    0    zTgt  0      0      0
+	T     0      RTgt    thTgt   0        360     Target          1     TargetC        Aluminium T/MonitorSD 0    0    0     0      0      0
                                                                         
 #visual settings
 	VerboseLevel:    5
