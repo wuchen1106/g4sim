@@ -42,7 +42,7 @@ DEFINE:		RHoleD		200  # Radius of the hole on the downstream end
 #	      mm     mm      mm      deg      deg                                                                mm   mm   mm    deg    deg    deg   
 DEFINE:		L			LTS3Y+LCollY+LCDCY+100
 DEFINE:		pZBC		pZst+L/2
-	T     0      ROCDCY  L       0        360     BLTCDC          1     World           Helium     none      0    0    pZBC  0      0      0     
+	T     0      ROCDCY  L       0        360     BLTCDC          1     World           Vacuum     none      0    0    pZBC  0      0      0     
                                                                         
 #	Shell                                                         
 DEFINE:		pZTS3S		LTS3S/2-L/2
