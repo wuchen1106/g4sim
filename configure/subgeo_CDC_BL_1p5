@@ -62,7 +62,7 @@
 DEFINE:		LCDCO		1729.3
 DEFINE:		RCDCO		826
 DEFINE:		Dist		20
-DEFINE:		thEP		20
+DEFINE:		thEP		10
 DEFINE:		thOW		5
 #Tubs info
 #	Type RMin   RMax    Length  StartAng SpanAng Name           RepNo MotVolume     Material        SDName      posX posY posZ Ephi   Etheta Epsi  

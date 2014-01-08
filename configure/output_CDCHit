@@ -36,8 +36,8 @@ C_SECTION
 C_FILTERSECTION
 	Switch                        //if commented, then program wil not generate any hit
 	neutralCut                    //if not commented, then neutral tracks will not be recorded
-#	tres          400    ns       //time resolution
-#	minedep       1      eV      //minimum energy deposition cut
+	tres          400    ns       //time resolution
+	minedep       1      eV      //minimum energy deposition cut
 C_FILTERSECTION
 
 TRIGGERSECTION
