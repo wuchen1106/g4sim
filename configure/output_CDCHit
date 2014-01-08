@@ -13,12 +13,16 @@ EVENTHEADER_SECTION
 EVENTHEADER_SECTION
 
 MCTRUTH_SECTION
+	e
+	pid
+	tid
+	volume
 	tid2pid
 	tid2time
 MCTRUTH_SECTION
 
 MCTRUTHFILTER_SECTION
-#	Switch                     //if commented, then program wil not generate any hit
+	Switch                     //if commented, then program wil not generate any hit
 MCTRUTHFILTER_SECTION
 
 C_SECTION
@@ -38,7 +42,7 @@ C_FILTERSECTION
 
 TRIGGERSECTION
 	minCdcHits        -1           # minimum required CDCLayer nHits. Would be set invalid if minCdcHits = -1
-	minCdcCellHits     1            # minimum required CDCCell nHits. Would be set invalid if minCdcCellHits = -1
+	minCdcCellHits    -1            # minimum required CDCCell nHits. Would be set invalid if minCdcCellHits = -1
 	minTriggerHits    -1           # minimum required Trigger nHits. Would be set invalid if minTriggerHits = -1
 	minEleMom         -1  MeV      # minimum required Electron momentum. Would be set invalid if minEleMom = -1 MeV
 	minAntipNum       -1           # minimum required Anti-Proton number. Would be set invalid if minAntipNum = -1

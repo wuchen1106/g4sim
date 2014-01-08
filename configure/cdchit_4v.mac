@@ -8,11 +8,11 @@
 /run/setCut 0.01 mm
 
 # Generator:
-/g4sim/gun/ReadCard gen_signal
-#/g4sim/gun/ReadCard gen_root
+#/g4sim/gun/ReadCard gen_signal
+/g4sim/gun/ReadCard gen_root
 #/g4sim/gun/root_filename MT1.EP.OT.g40cm10mm.005T.g4s.QBH.root
 #/g4sim/gun/root_filename MT1.EP.OT.g60cm10mm.005T.g4s.QBH.root
-#/g4sim/gun/root_filename MT1.EP.em.g60cm10mm.005T.g4s.QBH.root
+/g4sim/gun/root_filename MT1.EP.em.g60cm10mm.005T.g4s.QBH.root
 /g4sim/gun/initialize
 
 # Geometry:
@@ -23,12 +23,13 @@
 /g4sim/det/AddGeo CDC       subgeo_CDC_BL_1p5_4v     Cdc   
 /g4sim/det/AddGeo Target    subgeo_ST_17          Simple
 # Modify:
-/g4sim/det/BLTCDC/SimpleGeometry/Tubs_RMin Collimator 11 cm
-/g4sim/det/BLTCDC/SimpleGeometry/PosZ Collimator -1.58645 m
-/g4sim/det/BLTCDC/SimpleGeometry/Tubs_Length Collimator 50 cm
+#/g4sim/det/BLTCDC/SimpleGeometry/Tubs_RMin Collimator 11 cm
+#/g4sim/det/BLTCDC/SimpleGeometry/PosZ Collimator -1.58645 m
+#/g4sim/det/BLTCDC/SimpleGeometry/Tubs_Length Collimator 50 cm
 #/g4sim/det/BLTCDC/SimpleGeometry/Tubs_RMin Collimator 10 cm
 #/g4sim/det/BLTCDC/SimpleGeometry/PosZ Collimator -1.71145 m
 #/g4sim/det/BLTCDC/SimpleGeometry/Tubs_Length Collimator 25 cm
+/g4sim/det/BLTCDC/SimpleGeometry/PosZ Collimator -0.80645 m
 #
 /g4sim/mag/ReadCard MagField_A9_130927
 /g4sim/det/update

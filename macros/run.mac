@@ -1,7 +1,7 @@
 /control/getEnv MYG4SIMROOT
-#/control/execute {MYG4SIMROOT}/configure/cdchit.mac
+/control/execute {MYG4SIMROOT}/configure/cdchit.mac
 #/control/execute {MYG4SIMROOT}/configure/coll.mac
-/control/execute {MYG4SIMROOT}/configure/cdctrack.mac
+#/control/execute {MYG4SIMROOT}/configure/cdctrack.mac
 
 #/stacking/setEleCut 1.5 keV
 #/stacking/setPosCut 1.5 keV
@@ -13,6 +13,6 @@
 
 /random/setSeeds  1 2249
 #/g4sim/gun/root_index 86050
-/g4sim/myAnalysisSvc/set_ofile_name output/rmc.11.p5.root
+/g4sim/myAnalysisSvc/set_ofile_name output/test.root
 #/run/beamOn  5437151
 /run/beamOn  100000
