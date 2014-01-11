@@ -25,3 +25,6 @@ currentRun.rndm
 g4sim
 logfile.txt
 output/
+data/
+fieldMaps/
+runlog/
