@@ -3,7 +3,7 @@
 	TYPE: Uniform
 #Intensity     Theta Phi 
 #         T    deg   deg
-	UniF: 0    0     0
+	UniF: 1    0     0
 
 #	TYPE: Electric_Uniform
 #Type    Intensity	Theta Phi StepL StepT

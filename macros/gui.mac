@@ -15,9 +15,11 @@
 /gui/addButton run test "/control/execute macros/test.mac"
 /gui/addButton run grid_ol "/control/execute macros/grid_ol.mac"
 /gui/addButton run line_ol "/control/execute macros/line_ol.mac"
-/gui/addButton run coll "/control/execute configure/coll_4v.mac"
-/gui/addButton run cdchit "/control/execute configure/cdchit_4v.mac"
-/gui/addButton run cdctrack "/control/execute configure/cdctrack_4v.mac"
+/gui/addButton run coll "/control/execute configure/coll.mac"
+/gui/addButton run coll_4v "/control/execute configure/coll_4v.mac"
+/gui/addButton run cdchit_4v "/control/execute configure/cdchit_4v.mac"
+/gui/addButton run cdctrack_4v "/control/execute configure/cdctrack_4v.mac"
+/gui/addButton run TriCt_4v "/control/execute configure/TriCt_4v.mac"
 #
 # Gun menu :
 /gui/addMenu gun Gun

@@ -4,13 +4,12 @@
 /control/execute {MYG4SIMROOT}/configure/verbose_default.mac
 /control/execute {MYG4SIMROOT}/configure/setCut_default.mac
 
-# To save some time ...
+# No secondary needed for coll study:
 /run/setCut 0.01 mm
+/stacking/set_no_sec 1
 
 # Generator:
-/g4sim/gun/ReadCard gen_root
-#/g4sim/gun/root_filename MT1.EP.OT.g60cm10mm.005T.g4s.QBH.root
-/g4sim/gun/root_filename MT1.EP.em.g60cm10mm.005T.g4s.QBH.root
+/g4sim/gun/ReadCard gen_dio
 /g4sim/gun/initialize
 
 # Geometry:
@@ -24,9 +23,13 @@
 /g4sim/det/BLTCDC/SimpleGeometry/Tubs_RMin Collimator 11 cm
 /g4sim/det/BLTCDC/SimpleGeometry/PosZ Collimator -1.58645 m
 /g4sim/det/BLTCDC/SimpleGeometry/Tubs_Length Collimator 50 cm
+#/g4sim/det/BLTCDC/SimpleGeometry/Tubs_RMin Collimator 10 cm
+#/g4sim/det/BLTCDC/SimpleGeometry/PosZ Collimator -1.71145 m
+#/g4sim/det/BLTCDC/SimpleGeometry/Tubs_Length Collimator 25 cm
 #
 /g4sim/mag/ReadCard MagField_A9_130927
+#/g4sim/mag/ReadCard MagField_uniform
 /g4sim/det/update
 
 # Output:
-/g4sim/myAnalysisSvc/set_out_card output_CDCHit
+/g4sim/myAnalysisSvc/set_out_card output_TriCt

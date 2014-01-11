@@ -15,6 +15,7 @@ DEFINE:		thTriP		5
 DEFINE:		thTriA		30
 DEFINE:		wTri		45
 DEFINE:		gTri		29.6
+#DEFINE:		gTri		0
 DEFINE:		aTri		56.6
 #Tubs info
 #	Type RMin   RMax    Length  StartAng SpanAng Name           RepNo MotVolume     Material        SDName      posX posY posZ Ephi   Etheta Epsi  
@@ -22,8 +23,8 @@ DEFINE:		aTri		56.6
 	T    0      RCDCi   LCDC    0        360     CDCInner       1     BLTCDC        Helium          none        0    0  pZCDCY 0      0      0
 
 DEFINE:		thTri 		thTriP+thTriA
-DEFINE:		RTri		RCDCi-gTri-wTri/2/sin(aTri*PI/180)
-DEFINE:		RITri		RCDCi-gTri-wTri/sin(aTri*PI/180)
+DEFINE:		RTri		RCDCi-gTri-thTri/2*cos(aTri)-wTri/2*sin(aTri)
+DEFINE:		RITri		RCDCi-gTri-thTri*cos(aTri)-wTri*sin(aTri)
 #Box info
 #	Type x       y       z      Name      RepNo MotVolume Material     SDName        posX   posY   posZ   Ephi Etheta Epsi
 #	     mm      mm      mm                                                          mm     mm     mm     deg  deg    deg
@@ -31,8 +32,8 @@ DEFINE:		RITri		RCDCi-gTri-wTri/sin(aTri*PI/180)
 #	                                                                               S R      Phi    Theta  
 DEFINE:		pZ			-(LCDC-LTri)/2+thMyl
 DEFINE:		Phi			x*360/64-90
-	B    wTri    thTri   LTri   TriggerU  64    CDCInner  Helium       none        P RTri   Phi    pZ     90-aTri+Phi 0      0
-	B    wTri    thTri   LTri   TriggerD  64    CDCInner  Helium       none        P RTri   Phi   -pZ     90-aTri+Phi 0      0
+	B    wTri    thTri   LTri   TriggerU  32    CDCInner  Helium       none        P RTri   Phi    pZ     90-aTri+Phi 0      0
+	B    wTri    thTri   LTri   TriggerD  32    CDCInner  Helium       none        P RTri   Phi   -pZ     90-aTri+Phi 0      0
 DEFINE:		pY			-(thTriA-thTri)/2
 	B    wTri    thTriA  LTri   TriCheU   1     TriggerU  Acrylic      M/MonitorSD     0      pY     0      0    0      0
 	B    wTri    thTriA  LTri   TriCheD   1     TriggerD  Acrylic      M/MonitorSD     0      pY     0      0    0      0
@@ -44,11 +45,13 @@ DEFINE:		pY			(thTriP-thTri)/2
 #	Type RMin   RMax    Length  StartAng SpanAng Name           RepNo MotVolume     Material        SDName      posX posY posZ Ephi   Etheta Epsi  
 #	     mm     mm      mm      deg      deg                                                                    mm   mm   mm   deg    deg    deg   
 DEFINE:		pZMyl		(LCDC-thMyl)/2
-	T    0      RCDCi   thMyl   0        360     MylarCDC       0     CDCInner      Mylar           none        0    0   pZMyl 0      0      0     
+	T    0      RCDCi   thMyl   270        180     MylarCDC       1     CDCInner      Mylar           none        0    0   pZMyl 0      0      0     
+	T    0      RCDCi   thMyl   90        180     MylarCDCiv       1     CDCInner      Mylar           none        0    0   pZMyl 0      0      0     
 DEFINE:		RAbsI		RITri
 DEFINE:		RAbsO		RAbsI+thAbs
 DEFINE:		LAbs		LCDC-2*LTri-2*thMyl
-	T    RAbsI  RAbsO   LAbs    0        360     Absorber       1     CDCInner      CarbonFiber     none        0    0    0    0      0      0     
+	T    RAbsI  RAbsO   LAbs    270        180     Absorber       1     CDCInner      CarbonFiber     none        0    0    0    0      0      0     
+	T    RAbsI  RAbsO   LAbs    90        180     Absorberiv       1     CDCInner      CarbonFiber     none        0    0    0    0      0      0     
 
 #visual settings
 	VerboseLevel:    5
