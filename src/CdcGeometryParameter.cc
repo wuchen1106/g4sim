@@ -84,7 +84,7 @@ void CdcGeometryParameter::InitFromFile( G4String file_name ){
 
 	std::ifstream fin_card(file_name);
 	if(!fin_card){
-		DEBUG("CdcGeometryParameter::InitFromFile(), cannot find output card");
+		DEBUG("CdcGeometryParameter::InitFromFile(), cannot find subgeometry card: \""+file_name+"\"");
 	}
 	std::string s_card;
 	while(getline(fin_card,s_card)){

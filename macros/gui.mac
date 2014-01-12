@@ -12,14 +12,14 @@
 /gui/addMenu run Run
 /gui/addButton run "beamOn 1" "/run/beamOn 1"
 /gui/addButton run run "/control/execute macros/run.mac"
-/gui/addButton run test "/control/execute macros/test.mac"
+/gui/addButton run setvis "/control/execute macros/setvis.mac"
 /gui/addButton run grid_ol "/control/execute macros/grid_ol.mac"
 /gui/addButton run line_ol "/control/execute macros/line_ol.mac"
-/gui/addButton run coll "/control/execute configure/coll.mac"
-/gui/addButton run coll_4v "/control/execute configure/coll_4v.mac"
-/gui/addButton run cdchit_4v "/control/execute configure/cdchit_4v.mac"
-/gui/addButton run cdctrack_4v "/control/execute configure/cdctrack_4v.mac"
-/gui/addButton run TriCt_4v "/control/execute configure/TriCt_4v.mac"
+/gui/addButton run coll "/control/execute macros/coll.mac"
+/gui/addButton run coll.4v "/control/execute macros/coll.4v.mac"
+/gui/addButton run cdchit.4v "/control/execute macros/cdchit.4v.mac"
+/gui/addButton run cdctrack.4v "/control/execute macros/cdctrack.4v.mac"
+/gui/addButton run TriCt.4v "/control/execute macros/TriCt.4v.mac"
 #
 # Gun menu :
 /gui/addMenu gun Gun

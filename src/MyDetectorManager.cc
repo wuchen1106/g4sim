@@ -61,6 +61,83 @@ MyDetectorManager* MyDetectorManager::GetMyDetectorManager(){
   return fMyDetectorManager;
 }
 
+//***************************************ReadCard********************************************
+//OBJECTIVE: Call recorded geometry service objects recursively to read input file for geometry settings
+//PROCEDURE:
+//0. delete existing geometry service objects
+//1. read $CONFIGUREROOT/file_name(or file_name), decide how many services are needed and what files they need.
+//2. create(or modify if exist) geometry service objects, push to vector, and call SetGeometry recursively with those file names.
+//NOTICE.1: file_name here should either be a complete file name with path or a pure file name w.r.t $CONFIGUREROOT,
+//  cause MyVGeometry calsses would prepend $CONFIGUREROOT to file_name if not found '/' in it.
+void MyDetectorManager::ReadCard(G4String file_name){
+	//delete and clear
+	for ( int i = 0; i < fMyVGeometrySvc.size(); i++ ){
+		if (fMyVGeometrySvc[i]) delete (fMyVGeometrySvc[i]);
+	}
+	fMyVGeometrySvc.clear();
+	fSvcName.clear();
+
+	//get the file
+	size_t sLast = file_name.last('/');
+	if(sLast==std::string::npos){ // file name only
+		G4String dir_name = getenv("CONFIGUREROOT");
+		if (dir_name[dir_name.size()-1] != '/') dir_name.append("/");
+		file_name = dir_name + file_name;
+	}
+	//std::cout<<"MyDetectorManager: Reading \""<<file_name<<"\""<<std::endl;
+  std::ifstream fin_card(file_name);
+  if ( !fin_card ){
+    std::cout<<"Geometry file: "<<file_name<<" is not available!!!"<<std::endl;
+    G4Exception("MyDetectorManager::ReadCard()","Run0031",
+        FatalException, "Geometry file is not available.");
+  }
+
+	//read line by line
+  std::stringstream buf_card;
+  std::string s_card;
+  while(getline(fin_card,s_card)){
+    buf_card.str("");
+    buf_card.clear();
+    buf_card<<s_card;
+    const char* c = s_card.c_str();
+    int length = strlen(c);
+    int offset = 0;
+    for ( ; offset < length; offset++ ){
+      if ( c[offset] != ' ' ) break;
+    }
+    if ( c[offset] == '#' ) continue;
+    else if ( c[offset] == '/' && c[offset+1] == '/' ) continue;
+    else if ( length - offset == 0 ) continue;
+
+		G4String name, type, file;
+		MyVGeometrySvc* aGSvc = 0;
+		buf_card>>name;
+		//std::cout<<"MyDetectorManager: "<<buf_card.str()<<std::endl;
+		if ( name == "VerboseLevel" ){
+			buf_card>>fVerboseLevel;
+		}
+		else{
+			buf_card>>type>>file;
+			if( type == "Simple" ){
+				aGSvc = new SimpleGeometrySvc( name );
+			}
+			else if( type == "Cdc" ){
+				aGSvc = new CdcGeometrySvc( name );
+			}
+			else{
+				std::cout<<"In MyDetectorManager::ReadCard, unsupported GeometrySvc type: "<<type<<"! Will ignore this line!"<<std::endl;
+			}
+		}
+		if (aGSvc){
+			aGSvc->set_VerboseLevel(fVerboseLevel);
+			//push and call ReadCard
+			fMyVGeometrySvc.push_back(aGSvc);
+			fSvcName.push_back(name);
+			aGSvc->ReadCard(file);
+		}
+	}
+}
+
 //***************************************AddGeo********************************************
 //OBJECTIVE: Add Geometry
 //PROCEDURE:

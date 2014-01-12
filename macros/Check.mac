@@ -1,8 +1,8 @@
 /control/getEnv MYG4SIMROOT
 
 # Get default settings
-/control/execute {MYG4SIMROOT}/configure/verbose_default.mac
-/control/execute {MYG4SIMROOT}/configure/setCut_default.mac
+/control/execute {MYG4SIMROOT}/macros/verbose_default.mac
+/control/execute {MYG4SIMROOT}/macros/setCut_default.mac
 
 # To save time
 /run/setCut 0.01 mm

@@ -98,8 +98,6 @@ DEFINE: pZ		pZCDCY+LCDCY/2-0.5
 #	vis_BLTCDC            1      1      1      0.3
 	vis_ShellTS3          0.7    0.7    0.7
 	vis_ShellColl         0.7    0.7    0.7
-	vis_ShellGap          0.7    0.7    0.7
-	vis_ShellGapE         0.7    0.7    0.7
 #	vis_MylarSD           1      0      0      0.5
 	vis_AlWindow          0.3    0.3    0.3    0.5
 	vis_Collimator        0.7    0.7    0.7

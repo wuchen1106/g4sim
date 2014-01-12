@@ -35,15 +35,21 @@ class MyDetectorManagerMessenger;
 
 class MyDetectorManager
 {
-  public:
-    MyDetectorManager();
-     ~MyDetectorManager();
+	public:
+		MyDetectorManager();
+		~MyDetectorManager();
 
-    static MyDetectorManager* GetMyDetectorManager();
+		static MyDetectorManager* GetMyDetectorManager();
 
 		//***************************************ReadCard********************************************
 		//OBJECTIVE: Call recorded geometry service objects recursively to read input file for geometry settings
 		//PROCEDURE:
+		//0. delete existing geometry service objects
+		//1. read $CONFIGUREROOT/file_name(or file_name), decide how many services are needed and what files they need.
+		//2. create(or modify if exists) geometry service objects, push to vector, and call SetGeometry recursively with those file names.
+		//NOTICE.1: file_name here should either be a complete file name with path or a pure file name w.r.t $CONFIGUREROOT,
+		//  cause MyVGeometry calsses would prepend $CONFIGUREROOT to file_name if not found '/' in it.
+		void ReadCard(G4String);
 		void AddGeo(G4String, G4String, G4String);
 		void ClearGeo();
 
@@ -117,15 +123,15 @@ class MyDetectorManager
 		//==> Access
 		void SetVerbose(int val){fVerboseLevel = val;};
 
-  private:
+	private:
 
 		void DEBUG(G4String);
 
-  private:
+	private:
 
-    static MyDetectorManager* fMyDetectorManager;
+		static MyDetectorManager* fMyDetectorManager;
 
-    MyDetectorManagerMessenger* m_MyDetectorManagerMessenger;  //pointer to the Messenger
+		MyDetectorManagerMessenger* m_MyDetectorManagerMessenger;  //pointer to the Messenger
 
 		//For MySD
 

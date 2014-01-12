@@ -1,8 +1,3 @@
-/vis/open OGL 1024x768-0+0
-/vis/viewer/set/autoRefresh false
-/vis/drawVolume
-/vis/scene/add/trajectories smooth
-
 /vis/viewer/clearCutawayPlanes
 #/vis/viewer/addCutawayPlane 0 0 0 m -1 0 0
 #/vis/viewer/addCutawayPlane 0 0 0 m 0 -1 0
@@ -10,19 +5,36 @@
 #/vis/viewer/addCutawayPlane -0.3 0.3 0 m 1 -1 0
 #/vis/viewer/addCutawayPlane 0 0 0 m 0 0 -1
 #/vis/viewer/addCutawayPlane 0 0 0 m 0 1 0
+#/vis/viewer/addCutawayPlane 0 0 0 m 1 0 0
 #/vis/viewer/set/viewpointVector 0 0 -1
 
-#/vis/viewer/zoom 2.4
+#/vis/viewer/addCutawayPlane 0 0 0 m -1 0 0
+#/vis/viewer/addCutawayPlane 0 0 0 m 0 -1 0
+#/vis/viewer/addCutawayPlane 0 0 0 m 0 0 -1
+
+#/vis/viewer/addCutawayPlane 0 6 0 cm 0 -1 0
+#/vis/viewer/addCutawayPlane 0 0 0 cm 1 0  0
+
+#/vis/viewer/addCutawayPlane -85 0 0 cm 1 0 0
+
+/vis/viewer/zoom 2.5
 
 #/vis/viewer/set/viewpointThetaPhi 0 0
 
 #/vis/viewer/set/viewpointThetaPhi 300 -20
 #/vis/viewer/set/lightsThetaPhi 90 150
 
-/vis/viewer/set/viewpointThetaPhi 270 0  
-/vis/viewer/set/lightsThetaPhi 90 180
+#/vis/viewer/set/lightsThetaPhi 60 100
 
-/vis/viewer/set/background 1 1 1
+/vis/viewer/set/viewpointThetaPhi 270 0  
+/vis/viewer/set/lightsThetaPhi 80 180
+#/vis/viewer/set/lightsThetaPhi 270 150
+#/vis/viewer/set/lightsThetaPhi 15 15
+
+#/vis/viewer/set/viewpointThetaPhi 90 90  
+#/vis/viewer/set/lightsThetaPhi 90 180
+
+#/vis/viewer/set/background 1 1 1
 #/vis/viewer/set/culling coveredDaughters
 /vis/viewer/set/edge 0
 /vis/viewer/set/lineSegmentsPerCircle 50
@@ -31,13 +43,9 @@
 /vis/viewer/set/style s
 #/vis/viewer/set/style w
 
-/vis/modeling/trajectories/create/drawByCharge
-/vis/modeling/trajectories/drawByCharge-0/default/setStepPtsSize 0.3
-/vis/modeling/trajectories/drawByCharge-0/default/setAuxPtsSize 0.3
-
-/vis/filtering/trajectories/create/chargeFilter
-/vis/filtering/trajectories/chargeFilter-0/add 0
-/vis/filtering/trajectories/chargeFilter-0/invert true
+#/vis/filtering/trajectories/create/chargeFilter
+#/vis/filtering/trajectories/chargeFilter-0/add 0
+#/vis/filtering/trajectories/chargeFilter-0/invert true
 
 /vis/filtering/trajectories/create/particleFilter
 #/vis/filtering/trajectories/particleFilter-0/add 2112
@@ -59,10 +67,10 @@
 /vis/modeling/trajectories/drawByParticleID-0/default/setAuxPtsSize 0.3
 /vis/modeling/trajectories/drawByParticleID-0/set e+   red
 /vis/modeling/trajectories/drawByParticleID-0/set e-   blue
-/vis/modeling/trajectories/drawByParticleID-0/set p-   cyan
-/vis/modeling/trajectories/drawByParticleID-0/set p+   cyan
-/vis/modeling/trajectories/drawByParticleID-0/set pi-  black
-/vis/modeling/trajectories/drawByParticleID-0/set pi+  black
+/vis/modeling/trajectories/drawByParticleID-0/set p-   black
+/vis/modeling/trajectories/drawByParticleID-0/set p+   black
+/vis/modeling/trajectories/drawByParticleID-0/set pi-  cyan
+/vis/modeling/trajectories/drawByParticleID-0/set pi+  cyan
 /vis/modeling/trajectories/drawByParticleID-0/set mu-  magenta
 /vis/modeling/trajectories/drawByParticleID-0/set mu+  magenta
 /vis/modeling/trajectories/drawByParticleID-0/set neutron green
@@ -70,18 +78,20 @@
 /vis/scene/endOfEventAction accumulate -1
 /vis/ogl/set/displayListLimit 50000000
 
-/stacking/setEleCut 1.5 keV
-/stacking/setPosCut 1.5 keV
-/stacking/setGamCut 1.5 keV
-/stacking/clear_white_list
-/stacking/clear_black_list
+#/stacking/setEleCut 1.5 keV
+#/stacking/setPosCut 1.5 keV
+#/stacking/setGamCut 1.5 keV
+#/stacking/clear_white_list
+#/stacking/clear_black_list
 #/stacking/set_no_sec 1
-/stacking/set_no_MC 1
-/stacking/set_no_PC 1
+#/stacking/set_no_MC 1
+#/stacking/set_no_PC 1
 #/stacking/add_white_list 11
 #/stacking/add_white_list -211
 #/stacking/add_white_list 2212
-/g4sim/myAnalysisSvc/set_maxT 170000 ns
+#/g4sim/myAnalysisSvc/set_maxT 170000 ns
+/control/getEnv MYG4SIMROOT
+/control/execute {MYG4SIMROOT}/macros/verbose_default.mac
+/control/execute {MYG4SIMROOT}/macros/setCut_default.mac
 /run/setCut 0.001 mm
-/run/beamOn 100
-/vis/ogl/printEPS
+#/vis/ogl/printEPS

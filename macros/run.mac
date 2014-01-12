@@ -1,0 +1,24 @@
+/control/getEnv MYG4SIMROOT
+/control/execute {MYG4SIMROOT}/macros/cdchit.mac
+#/control/execute {MYG4SIMROOT}/macros/coll.mac
+
+#/stacking/setEleCut 1.5 keV
+#/stacking/setPosCut 1.5 keV
+#/stacking/setGamCut 1.5 keV
+#/stacking/clear_white_list
+#/stacking/clear_black_list
+#/stacking/set_no_MC 1
+#/stacking/set_no_PC 1
+
+/random/setSeeds  0 4249
+#/g4sim/gun/root_index 86050
+/g4sim/myAnalysisSvc/set_ofile_name output/OT.11.p5.root
+# mum
+#/run/beamOn  860498
+# pim
+#/run/beamOn  5437151
+# em
+#/run/beamOn  1126785
+# OT
+/run/beamOn  1601258
+#/run/beamOn  10000

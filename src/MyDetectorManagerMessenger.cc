@@ -13,39 +13,46 @@
 #include "MyString2Anything.hh"
 #include "G4UIcmdWithoutParameter.hh"
 
-MyDetectorManagerMessenger::MyDetectorManagerMessenger(MyDetectorManager* pointer)
+	MyDetectorManagerMessenger::MyDetectorManagerMessenger(MyDetectorManager* pointer)
 :m_MyDetectorManager(pointer)
 { 
-  g4simDir = new G4UIdirectory("/g4sim/");
-  g4simDir->SetGuidance("UI commands of this example");
-  
-  detDir = new G4UIdirectory("/g4sim/det/");
-  detDir->SetGuidance("detector control");
-       
-  AddGeoCmd = new G4UIcmdWithAString("/g4sim/det/AddGeo",this);
-  AddGeoCmd->SetGuidance("Read geometry file.");
-  AddGeoCmd->SetGuidance("You have to call update before you start a new run.");
-  AddGeoCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
-       
-  ClearGeoCmd = new G4UIcmdWithoutParameter("/g4sim/det/ClearGeo",this);
-  ClearGeoCmd->SetGuidance("Clear geometry.");
-  ClearGeoCmd->AvailableForStates(G4State_Idle);
+	g4simDir = new G4UIdirectory("/g4sim/");
+	g4simDir->SetGuidance("UI commands of this example");
+
+	detDir = new G4UIdirectory("/g4sim/det/");
+	detDir->SetGuidance("detector control");
+
+	ReadCardCmd = new G4UIcmdWithAString("/g4sim/det/ReadCard",this);
+	ReadCardCmd->SetGuidance("Read geometry file.");
+	ReadCardCmd->SetGuidance("You have to call update before you start a new run.");
+	ReadCardCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+	AddGeoCmd = new G4UIcmdWithAString("/g4sim/det/AddGeo",this);
+	AddGeoCmd->SetGuidance("Read geometry file.");
+	AddGeoCmd->SetGuidance("You have to call update before you start a new run.");
+	AddGeoCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+	ClearGeoCmd = new G4UIcmdWithoutParameter("/g4sim/det/ClearGeo",this);
+	ClearGeoCmd->SetGuidance("Clear geometry.");
+	ClearGeoCmd->AvailableForStates(G4State_Idle);
 }
 
 MyDetectorManagerMessenger::~MyDetectorManagerMessenger()
 {
 	delete g4simDir;
 	delete detDir;
-  delete AddGeoCmd;
-  delete ClearGeoCmd;
+	delete ReadCardCmd;
+	delete AddGeoCmd;
+	delete ClearGeoCmd;
 }
 
 void MyDetectorManagerMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
 { 
-  if( command == AddGeoCmd ) {
-  	  G4String file, type, name;
-	  MyString2Anything::get_SSS(newValue, name, file, type);
-  	  m_MyDetectorManager->AddGeo(name, file, type);
-  }
-  if (command == ClearGeoCmd){ m_MyDetectorManager->ClearGeo(); }
+	if( command == ReadCardCmd ) { m_MyDetectorManager->ReadCard(newValue); }
+	if( command == AddGeoCmd ) {
+		G4String file, type, name;
+		MyString2Anything::get_SSS(newValue, name, file, type);
+		m_MyDetectorManager->AddGeo(name, file, type);
+	}
+	if (command == ClearGeoCmd){ m_MyDetectorManager->ClearGeo(); }
 }

@@ -29,8 +29,9 @@ class MyDetectorManagerMessenger: public G4UImessenger
     
     G4UIdirectory*             g4simDir;
     G4UIdirectory*             detDir;
+    G4UIcmdWithAString*        ReadCardCmd;
     G4UIcmdWithAString*        AddGeoCmd;
-    G4UIcmdWithoutParameter*        ClearGeoCmd;
+    G4UIcmdWithoutParameter*   ClearGeoCmd;
 };
 
 #endif

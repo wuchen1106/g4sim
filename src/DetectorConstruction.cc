@@ -41,6 +41,10 @@ G4VPhysicalVolume* DetectorConstruction::Construct(){
 	CardName = getenv("MAGFIELDCARDROOT");
 	pMyFieldSvc->ReadCard( CardName );
 
+	//=>Geometry
+	CardName = getenv("GEOCARDROOT");
+	pMyDetectorManager->ReadCard( CardName );
+
 	//=>ConstructDetector
   return ConstructDetector();
 }
