@@ -8,13 +8,15 @@
 /stacking/setEleCut 95 MeV
 /stacking/setPosCut 95 MeV
 /stacking/setGamCut 95 MeV
+/stacking/set_no_MC 1
+/stacking/set_no_PC 1
 /run/setCut 0.01 mm
 
 # Generator:
-/g4sim/gun/ReadCard gen_rpc
+#/g4sim/gun/ReadCard gen_rpc
 #/g4sim/gun/ReadCard gen_rmc
 #/g4sim/gun/root_filename mum.1p5.17.root
-/g4sim/gun/initialize
+#/g4sim/gun/initialize
 
 # Geometry:
 /g4sim/det/ClearGeo
