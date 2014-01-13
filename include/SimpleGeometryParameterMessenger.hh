@@ -54,9 +54,6 @@ class SimpleGeometryParameterMessenger : public MyVGeometryParameterMessenger
 		G4UIcmdWithAString*        set_material_cmd;
 		G4UIcmdWithAString*        set_SRepNo_cmd;
 		G4UIcmdWithAString*        set_RepNo_cmd;
-		G4UIcmdWithAString*        set_Space_cmd;
-		G4UIcmdWithAString*        set_DirTheta_cmd;
-		G4UIcmdWithAString*        set_DirPhi_cmd;
 		G4UIcmdWithAString*        set_Ephi_cmd;
 		G4UIcmdWithAString*        set_Etheta_cmd;
 		G4UIcmdWithAString*        set_Epsi_cmd;
@@ -72,6 +69,13 @@ class SimpleGeometryParameterMessenger : public MyVGeometryParameterMessenger
 		G4UIcmdWithAString*        set_Tubs_Length_cmd;
 		G4UIcmdWithAString*        set_Tubs_StartAng_cmd;
 		G4UIcmdWithAString*        set_Tubs_SpanAng_cmd;
+
+		//Torus info
+		G4UIcmdWithAString*        set_Torus_RMax_cmd;
+		G4UIcmdWithAString*        set_Torus_RMin_cmd;
+		G4UIcmdWithAString*        set_Torus_Rtor_cmd;
+		G4UIcmdWithAString*        set_Torus_StartAng_cmd;
+		G4UIcmdWithAString*        set_Torus_SpanAng_cmd;
 
 		//Sphere info
 		G4UIcmdWithAString*        set_Sphere_RMax_cmd;
@@ -103,6 +107,14 @@ class SimpleGeometryParameterMessenger : public MyVGeometryParameterMessenger
 		G4UIcmdWithAString*        set_Cons_Length_cmd;
 		G4UIcmdWithAString*        set_Cons_StartAng_cmd;
 		G4UIcmdWithAString*        set_Cons_SpanAng_cmd;
+
+		//Polycone info
+		G4UIcmdWithAString*        set_Polycone_numZ_cmd;
+		G4UIcmdWithAString*        set_Polycone_RMax_cmd;
+		G4UIcmdWithAString*        set_Polycone_RMin_cmd;
+		G4UIcmdWithAString*        set_Polycone_Z_cmd;
+		G4UIcmdWithAString*        set_Polycone_StartAng_cmd;
+		G4UIcmdWithAString*        set_Polycone_SpanAng_cmd;
 
 		//other settings
 		G4UIcmdWithAString*        set_vis_cmd;

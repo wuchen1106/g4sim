@@ -24,6 +24,7 @@
 #include "MyVGeometryParameter.hh"
 
 MyVGeometrySvc::MyVGeometrySvc(G4String name, G4String opt )
+	:MyConfigure()
 {
 	if ( opt == "" ){
 		std::cout<<"MyVGeometrySvc is a virtual class, should be called with opt not empty!"<<std::endl;

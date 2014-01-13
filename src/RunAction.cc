@@ -40,14 +40,14 @@
 #include "G4EnergyLossTables.hh"
 #include "G4ProductionCutsTable.hh"
 #include "G4ParticleDefinition.hh"
-
+#include "G4LossTableManager.hh"
 
 #include "G4EmCalculator.hh"
-#include "G4ParticleDefinition.hh"
 #include "G4ParticleTable.hh"
 #include "G4VPhysicalVolume.hh"
 
 #include "DetectorConstruction.hh"
+#include "MyGlobalField.hh"
 
 #include "MyAnalysisSvc.hh"
 
@@ -83,7 +83,78 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
 	MyAnalysisSvc::GetMyAnalysisSvc()->BeginOfRunAction();
 
 	//t_begin = (double)clock();
-	//t_begin = (double)clock();
+
+    FieldList* fields = MyGlobalField::getObject()->getFields();
+    if (fields) {
+        if (fields->size()>0) {
+            FieldList::iterator i;
+            for (i=fields->begin(); i!=fields->end(); ++i) {
+                (*i)->construct();
+                //G4cout << "Constructed field " << G4endl;
+            }
+        }
+    }
+
+	/*
+//#################################################################################333	
+	//Print dE/dx tables with binning identical to the Geant3 JMATE bank.
+	//The printout is readable as Geant3 ffread data cards (by the program g4mat).
+	//
+	const G4double tkmin=10*keV, tkmax=20*GeV;
+	const G4int nbin=100;
+	G4double tk[nbin];
+
+	const G4int ncolumn = 1;
+
+	//compute the kinetic energies
+	//
+	const G4double dp = std::log10(tkmax/tkmin)/nbin;
+	const G4double dt = std::pow(10.,dp);
+	tk[0] = tkmin;
+	for (G4int i=1; i<nbin; ++i) tk[i] = tk[i-1]*dt;
+
+	//print the kinetic energies
+	//
+	std::ios::fmtflags mode = G4cout.flags();
+	G4cout.setf(std::ios::fixed,std::ios::floatfield);
+	G4int  prec = G4cout.precision(3);
+
+	//print the dE/dx tables
+	//
+	G4cout.setf(std::ios::scientific,std::ios::floatfield);
+
+	G4ParticleDefinition*
+	//	part = G4ParticleTable::GetParticleTable()->FindParticle("e-");
+			part = G4ParticleTable::GetParticleTable()->FindParticle("mu-");
+
+	G4ProductionCutsTable* theCoupleTable =
+		G4ProductionCutsTable::GetProductionCutsTable();
+	size_t numOfCouples = theCoupleTable->GetTableSize();
+	const G4MaterialCutsCouple* couple = 0;
+
+	for (size_t i=0; i<numOfCouples; i++) {
+		couple = theCoupleTable->GetMaterialCutsCouple(i);
+		const G4Material* mat = couple->GetMaterial();
+		G4cout << "\nLIST";
+		G4cout << "\nC \nC  dE/dx (MeV/cm) for " << part->GetParticleName()
+			<< " in " << mat ->GetName() << "\nC";
+		G4cout.precision(6);
+		G4cout << "\nEnergy/MeV   dE/dx (MeV/cm)\n ";
+		for (G4int l=0;l<nbin; ++l)
+		{
+			G4cout << tk[l]/MeV<< "\t";
+			G4double dedx = G4LossTableManager::Instance()
+				->GetDEDX(part,tk[l],couple);
+			G4cout << dedx/(MeV/cm) << "\n";
+		}
+		G4cout << G4endl;
+	}
+
+	G4cout.precision(prec);
+	G4cout.setf(mode,std::ios::floatfield);
+//#################################################################################333	
+	*/
+
 
 }
 

@@ -1,0 +1,64 @@
+#general info
+	checkoverlap
+
+#Box info
+#	Type x     y     z      Name        RepNo  MotVolume Material     SDName         posX  posY posZ   Ephi Ethe Epsi
+#	     mm    mm    mm                                                              mm    mm   mm     deg  deg  deg
+#	                                                                               P R     Phi  Z
+#	                                                                               S R     Phi  Theta  
+#	B    100   100   25     Degrader    1      World     Aluminium    none           0     0   -26     0    0    0 
+DEFINE:		N   1
+DEFINE:		th  0.065/N
+#DEFINE:		th  1.5/N
+DEFINE:		pZ  th*x
+	B    100   100   th     Target      1       World     Silicon      T/MonitorSD    0     0    pZ    90   45   90 
+
+#Tubs info
+#	Type No  RMin       RMax       Length     StartAng SpanAng Name            MotVolume       Material      SDName    posX posY posZ  RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
+#	         mm         mm         mm         deg      deg                                                             mm   mm   mm          mm         deg    deg    deg    deg    deg   
+#	T    0   0.         100        0.2        0        360     BLTCollimator   World           Aluminium     none      0    0    0     1     0          0      0      0      0      0     
+#	T    0   0.         100        7.8        0        360     Target          World           Aluminium     none      0    0    0     1     0          0      0      0      0      0     
+#	T   0   0.         10         0.5        0        360     Cover           World           Aluminium     none      0    0    60.75 1     0          0      0      0      0      0     
+#	T    0   0.         10         1          0        360     Source          World           Strontium     none      0    0    61    1     0          0      0      0      0      0     
+#	T    0   0.         80         120        0        360     Scintillator    World           Scintillator  MonitorSD 0    0    0     1     0          0      0      0      0      0     
+
+#Sphere info
+#	No    RMin  RMax  StartPhi SpanPhi StartThe SpanThe Name     MotVolume Material     SDName posX posY posZ RepNo Space DirTheta DirPhi Ephi Etheta Epsi
+#	      mm    mm    deg      deg     deg      deg                                            mm   mm   mm         mm    deg      deg    deg  deg    deg
+#	Sph 0 0     1000  0        360.    0.       180.    World    None      Vacuum       none   0.   0.   0.   1     0     0        0      0    0      0
+
+#Hype info
+#	No   iRadius oRadius iStereo oStereo Length Name          MotVolume    Material     SDName posX posY posZ RepNo Space DirTheta DirPhi Ephi Etheta Epsi
+#	     mm      mm      deg     deg     mm                                                    mm   mm   mm         mm    deg      deg    deg  deg    deg
+#	H 0  300     500     20      20      750    Hype_test     World        Vacuum       none   0    0    0    1     0     0        0      0    0      0
+
+#TwistedTubs info
+#	No   tAngle eRadInn eRadOut Length dphi Name          MotVolume    Material     SDName posX posY posZ RepNo Space DirTheta DirPhi Ephi Etheta Epsi
+#	     deg    mm      mm      mm     deg                                                 mm   mm   mm         mm    deg      deg    deg  deg    deg
+#	TT 0 30     3.94956 600     1500   25   TTubs_test    World        Vacuum       none   0    0    0    1     0     0        0      0    0      0
+#	TT 0 15     384.791 500     1500   10   TTubs_test    World        Vacuum       none   0    0    0    1     0     0        0      0    0      0
+#	TT 0 -17.5  194.993 494.958 1500   45   TTubs         World        Vacuum       none   0    0    0    1     0     0        0      0    0      0
+
+#BooelanSolid info
+#	Type No  type     vol1         vol2         Ephi    Etheta  Epsi   PosX    PosY    posZ    name          MotVolume       Material      SDName    posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
+#	                                            deg     deg     deg    mm      mm      mm                                                            mm   mm   mm         mm         deg    deg    deg    deg    deg   
+#	BC   0   minus    BLTCHole0    BLTCYMin     0       0       0      0       -675    0       BLTCHole      BLTCollimator   Vacuum        none      0    0    0    1     0          0      0      0      0      0     
+
+#fTubs info
+#	No      RMin      RMax      Length StartAng SpanAng posX posY posZ Name     MotVolume    Material     SDName     RepNo Ephi Etheta Epsi
+#	        mm        mm        mm     deg      deg     mm   mm   mm                                                       deg  deg    deg
+#	fT   0  550+10*x  560+10*x  1500   0.       360.    0.   0.   0.   CDCLayer CDCContainer ChamberGas   MonitorSD  29    0    0      0
+#	fT   0  550+10*x  560+10*x  1500   0.       360.    0.   0.   0.   CDCLayer CDCContainer ChamberGas   CdcLayerSD 29    0    0      0
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name             red green blue
+#	vis_World        0    0    1
+#	vis_BLTCollimator 0   0    1
+	vis_Target       0   0    1
+	vis_Degrader     0   1    0
+	vis_Monitor      1   0    0
+#	vis_Source       1   0    0
+#	vis_Cover        0   0    1
+#	vis_Scintillator 0   1    0

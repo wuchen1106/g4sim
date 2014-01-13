@@ -16,14 +16,15 @@
 
 //supported SD
 #include "CdcSD.hh"
+#include "CdcSimpleSD.hh"
 #include "CdcIonSD.hh"
 #include "MonitorSD.hh"
 #include "CdcLayerSD.hh"
+#include "KillerSD.hh"
 
 //supported Svc
 #include "SimpleGeometrySvc.hh"
 #include "CdcGeometrySvc.hh"
-#include "FormulizedGeometrySvc.hh"
 
 #include "MyVGeometrySvc.hh"
 #include "MyVGeometryParameter.hh"
@@ -123,9 +124,6 @@ void MyDetectorManager::ReadCard(G4String file_name){
 			else if( type == "Cdc" ){
 				aGSvc = new CdcGeometrySvc( name );
 			}
-			else if( type == "Formulized" ){
-				aGSvc = new FormulizedGeometrySvc( name );
-			}
 			else{
 				std::cout<<"In MyDetectorManager::ReadCard, unsupported GeometrySvc type: "<<type<<"! Will ignore this line!"<<std::endl;
 			}
@@ -140,11 +138,42 @@ void MyDetectorManager::ReadCard(G4String file_name){
 	}
 }
 
+//***************************************AddGeo********************************************
+//OBJECTIVE: Add Geometry
+//PROCEDURE:
+void MyDetectorManager::AddGeo(G4String name, G4String file, G4String type){
+	MyVGeometrySvc* aGSvc = 0;
+	if( type == "Simple" ){
+		aGSvc = new SimpleGeometrySvc( name );
+	}
+	else if( type == "Cdc" ){
+		aGSvc = new CdcGeometrySvc( name );
+	}
+	else{
+		std::cout<<"In MyDetectorManager::ReadCard, unsupported GeometrySvc type: "<<type<<"! Will ignore this line!"<<std::endl;
+	}
+	if (aGSvc){
+		aGSvc->set_VerboseLevel(fVerboseLevel);
+		//push and call ReadCard
+		fMyVGeometrySvc.push_back(aGSvc);
+		fSvcName.push_back(name);
+		aGSvc->ReadCard(file);
+	}
+}
+void MyDetectorManager::ClearGeo(){
+	fSvcName.clear();
+	fMyVGeometrySvc.clear();
+	printf("MyDetectorManager::ClearGeo()\n");
+}
+
 //***************************************SetGeometry********************************************
 //OBJECTIVE: Call recorded geometry service objects recursively to setup geometry
 //NOTICE.1: a return value is needed as the pointer to the physical volume of world.
 //  According to conventions, this pointer would be returned by the first geometry service object.
 G4VPhysicalVolume* MyDetectorManager::SetGeometry(){
+	if (fMyVGeometrySvc.size()==0){
+		AddGeo("default","world_default","Simple");
+	}
 	G4VPhysicalVolume* vol_world = (fMyVGeometrySvc[0])->SetGeometry();
 	for ( int i = 1; i < fMyVGeometrySvc.size(); i++ ){
 		(fMyVGeometrySvc[i])->SetGeometry();
@@ -236,6 +265,14 @@ G4VSensitiveDetector* MyDetectorManager::GetSD(G4String VolName, G4String SDName
 		G4String FullSDName = newVolName + "/" + newSDName;
 		if ( newSDName == "CdcSD" ){
 			aG4SD = new CdcSD( FullSDName, pPara );
+			fSDman->AddNewDetector( aG4SD );
+		}
+		else if ( newSDName == "CdcSimpleSD" ){
+			aG4SD = new CdcSimpleSD( FullSDName, pPara );
+			fSDman->AddNewDetector( aG4SD );
+		}
+		else if ( newSDName == "KillerSD" ){
+			aG4SD = new KillerSD( FullSDName, pPara );
 			fSDman->AddNewDetector( aG4SD );
 		}
 		else if ( newSDName == "CdcIonSD" ){

@@ -1,0 +1,19 @@
+#general info
+	checkoverlap
+
+DEFINE:		thTgt		0.2  # Thickness of Targets
+DEFINE:		GTgt		50  # Gap Between Targets (Neglecting Thickness)
+DEFINE:		zTgt		GTgt*(x-9) # z position of targets                       
+DEFINE:		RTgt		100  # Radius of Targets
+
+#Tubs info
+#	Type  RMin   RMax    Length  StartAng SpanAng Name            RepNo MotVolume       Material   SDName    posX posY posZ  Ephi   Etheta Epsi  
+#	      mm     mm      mm      deg      deg                                                                mm   mm   mm    deg    deg    deg   
+	T     0      RTgt    thTgt   0        360     TargetC         17    CDCInner       Aluminium   none      0    0    zTgt  0      0      0
+	T     0      RTgt    thTgt   0        360     Target          1     TargetC        Aluminium T/MonitorSD 0    0    0     0      0      0
+                                                                        
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name                 red    green  blue  
+	vis_Target           1      1      1

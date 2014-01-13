@@ -1,0 +1,71 @@
+#general info
+	checkoverlap
+
+#Box info
+#	Type No  x       y       z     Name           MotVolume     Material      SDName    posX   posY   posZ   RepNo Space DirTheta DirPhi Ephi Etheta Epsi
+#	         mm      mm      mm                                                         mm     mm     mm           mm    deg      deg    deg  deg    deg
+	B    0   50      69      60    Box0           
+	B    0   100     69      60    Block0         
+	B    0   110     16      8     HoleS          
+	B    0   76      100     10    FrontPlate0    
+	B    0   30      30      22    Target2        
+	B    0   3e3     3e3     3e3   World1         World         Air           none      0      0      0      1     0     0        0      90   45     -90   
+	B    0   50      100     60    BoxContainer   World1        Vacuum        none      0      0      0      1     0     0        0      0    0      0     
+
+#Tubs info
+#	Type No  RMin  RMax Length  StartAng SpanAng Name            MotVolume  Material  SDName    posX posY posZ  RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
+#	         mm    mm   mm      deg      deg                                                    mm   mm   mm          mm         deg    deg    deg    deg    deg   
+	T    0   0.    15   100     0        360     Hole30
+	T    0   0.    20   100     0        360     Hole40
+	T    0   0.    25   12      0        360     Target0
+	T    0   0.    15   48      0        360     Target1
+
+#BooelanSolid info
+#	Type No  type     vol1              vol2            Ephi    Etheta  Epsi   PosX    PosY    posZ    name             MotVolume       Material      SDName    posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
+#	                                                    deg     deg     deg    mm      mm      mm                                                               mm   mm   mm         mm         deg    deg    deg    deg    deg   
+	BL   0   minus    Box0              Hole40          0       0       0      0       0       0       Box1         
+	BL   0   minus    Box1              Hole30          90      90      0      0       0       0       Box2         
+	BL   0   minus    Box2              Hole30          0       90      0      0       0       0       Box              BoxContainer    Aluminium     none      0    0    0    1     0          0        0      0    0      0
+	BL   0   minus    FrontPlate0       Hole40          0       0       0      0       0       0       FrontPlate       World1          Aluminium     none      0    0   -35   1     0          0        0      0    0      0
+	BL   0   plus     Target1           Target0         0       0       0      0       0       30      Target3      
+	BL   0   minus    Target3           Target2         0       0       0      15      0      -13      Target           BoxContainer    Copper        none      0   -11.5 0    1     0          0        0      0    90    -45
+	BL   0   minus    Block0            HoleS           0       0       0      0       0       0       Block            World1          Lead          none      75   0    0    1     0          0        0      0    0      0
+
+#Box info
+#	Type No  x       y       z     Name           MotVolume     Material      SDName    posX   posY   posZ   RepNo Space DirTheta DirPhi Ephi Etheta Epsi
+#	         mm      mm      mm                                                         mm     mm     mm           mm    deg      deg    deg  deg    deg
+	B    0   30      22     3.5e-3 BoronSurface   Target        Boron         none     -1.75e-3 0     -13    1     0     0        0      90   90     0     
+	B    0   0.5     16      8     Monitor1       World1        Scintillator  MonitorSD 125    0      0      1     0     0        0      0    0      0
+	B    0   0.5     16      8     Monitor2       World1        Scintillator  MonitorSD 625    0      0      1     0     0        0      0    0      0
+
+#Tubs info
+#	Type No  RMin  RMax Length  StartAng SpanAng Name            MotVolume        Material  SDName    posX posY posZ  RepNo Space DirThe DirPhi Ephi   Etheta Epsi  
+#	         mm    mm   mm      deg      deg                                                          mm   mm   mm          mm    deg    deg    deg    deg    deg   
+	T    0   0.    20   5       0        360     EndPlate        BoxContainer     Aluminium none      0    0    27.5  1     0     0      0      0      0      0     
+	T    0   0.    15   5       0        360     BottomPlate     BoxContainer     Aluminium none      0    34.5 0     1     0     0      0      0      90     0     
+	T    0   0     15   0.05    0        360     Mylar1          BoxContainer     Mylar     none  -24.975  0    0     1     0     0      0      90     -90    0
+	T    0   0     15   0.05    0        360     Mylar2          BoxContainer     Mylar     none   24.975  0    0     1     0     0      0      90     90     0
+	T    0   0     80   120     0        360     EDetector       World1       Scintillator MonitorSD  693  0    0     1     0     0      0      90     90     0
+
+#Sphere info
+#	No    RMin  RMax  StartPhi SpanPhi StartThe SpanThe Name     MotVolume Material  SDName    posX posY posZ RepNo Space DirTheta DirPhi Ephi Etheta Epsi
+#	      mm    mm    deg      deg     deg      deg                                            mm   mm   mm         mm    deg      deg    deg  deg    deg
+#	Sph 0 45    46    0        360.    0.       180.    Monitor  World1    Vacuum    MonitorSD 0.   0.   0.   1     0     0        0      0    0      0
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name                 red    green  blue  
+	vis_Box                0      0      1     
+	vis_FrontPlate         0      0      1     
+	vis_EndPlate           0.5    0.5    0.5   
+	vis_BottomPlate        0.5    0.5    0.5   
+	vis_Block              0.5    0.5    0.5   
+	vis_Target             0.82   0.5    0.2   
+	vis_Plate              0      0      1     
+	vis_BoronSurface       0.8    0.8    0.8   
+	vis_Mylar1             1      1      0
+	vis_Mylar2             1      1      0
+	vis_Monitor1           1      0      0
+	vis_Monitor2           1      0      0
+	vis_EDetector          0      1      0

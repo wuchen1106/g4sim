@@ -13,10 +13,29 @@ class MyString2Anything
     MyString2Anything();
     ~MyString2Anything();
 
+		static void get_SD( G4String cont, G4String& m_str, G4double& m_dou ){
+			std::stringstream buf(cont);
+			buf>>m_str>>m_dou;
+		}
+
+		static void get_SDUI( G4String cont, G4String& m_str, G4double& m_dou, G4int& m_int){
+			G4String m_unit;
+			std::stringstream buf(cont);
+			buf>>m_str>>m_dou>>m_unit>>m_int;
+			m_dou *= G4UnitDefinition::GetValueOf(m_unit);
+		}
+
 		static void get_SIDU( G4String cont, G4String& m_str, G4int& m_int, G4double& m_dou ){
 			G4String m_unit;
 			std::stringstream buf(cont);
 			buf>>m_str>>m_int>>m_dou>>m_unit;
+			m_dou *= G4UnitDefinition::GetValueOf(m_unit);
+		}
+
+		static void get_SIDUI( G4String cont, G4String& m_str, G4int& m_int, G4double& m_dou, G4int& m_int2 ){
+			G4String m_unit;
+			std::stringstream buf(cont);
+			buf>>m_str>>m_int>>m_dou>>m_unit>>m_int2;
 			m_dou *= G4UnitDefinition::GetValueOf(m_unit);
 		}
 
@@ -39,9 +58,29 @@ class MyString2Anything
 			buf>>m_str>>m_int>>m_dou;
 		}
 
+		static void get_SI( G4String cont, G4String& m_str, G4int& m_int ){
+			std::stringstream buf(cont);
+			buf>>m_str>>m_int;
+		}
+
 		static void get_SII( G4String cont, G4String& m_str, G4int& m_int, G4int& m_int2 ){
 			std::stringstream buf(cont);
 			buf>>m_str>>m_int>>m_int2;
+		}
+
+		static void get_SB( G4String cont, G4String& m_str, G4bool& m_bool){
+			std::stringstream buf(cont);
+			buf>>m_str>>m_bool;
+		}
+
+		static void get_SS( G4String cont, G4String& m_str, G4String& m_str2 ){
+			std::stringstream buf(cont);
+			buf>>m_str>>m_str2;
+		}
+
+		static void get_SSS( G4String cont, G4String& m_str, G4String& m_str2, G4String& m_str3 ){
+			std::stringstream buf(cont);
+			buf>>m_str>>m_str2>>m_str3;
 		}
 
 		static void get_SIS( G4String cont, G4String& m_str, G4int& m_int, G4String& m_str2 ){

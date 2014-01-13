@@ -1,0 +1,94 @@
+#general info
+#	checkoverlap
+	CellMaterial:              ChamberGas9010
+	MotherLogicalVolume:       CDCContainer
+#	SensitiveDetector:         CdcSimpleSD
+	SensitiveDetector:         C/MonitorSD
+	SDVolumeName:              CdcCell
+#	DigitizeModule:            CdcDigitizer
+#	DigitizeModule:            none
+
+#wire info
+	SignalWireMaterial:        Tungsten
+	FieldWireMaterial:         Aluminium
+	SignalWireRadius:          15  #micrometer
+	FieldWireRadius:           40  #micrometer
+
+#layer info
+	LayerNo:		18
+#	type  layerNo  sublayerNo  CellNo  Length       R          StartPhi  First   RotateCell 
+#	                                   mm           mm         rad       0:F/1:S            
+
+#	G     -1       0           198     1482.275     514.000    0         0       0
+	F                                               522.000                                 
+	S     0        0           198     1493.922     530.000    0         1       -0         
+	F                                               538.000                                 
+	S     1        0           204     1505.569     546.000    0         0       0          
+	F                                               554.000                                 
+	S     2        0           210     1517.216     562.000    0         1       -0         
+	F                                               570.000                                 
+	S     3        0           216     1528.863     578.000    0         0       0          
+	F                                               586.000                                 
+	S     4        0           222     1540.510     594.000    0         1       -0         
+	F                                               602.000                                 
+	S     0        0           228     1552.157     610.000    0         0       0          
+	F                                               618.000                                 
+	S     6        0           234     1563.804     626.000    0         1       -0         
+	F                                               634.000                                 
+	S     7        0           240     1575.451     642.000    0         0       0          
+	F                                               650.000                                 
+	S     8        0           246     1587.098     658.000    0         1       -0         
+	F                                               666.000                                 
+	S     9        0           252     1598.745     674.000    0         0       0          
+	F                                               682.000                                 
+	S     10       0           258     1610.392     690.000    0         1       -0         
+	F                                               698.000                                 
+	S     11       0           264     1622.039     706.000    0         0       0          
+	F                                               714.000                                 
+	S     12       0           270     1633.686     722.000    0         1       -0         
+	F                                               730.000                                 
+	S     13       0           276     1645.333     738.000    0         0       0          
+	F                                               746.000                                 
+	S     14       0           282     1656.980     754.000    0         1       -0         
+	F                                               762.000                                 
+	S     15       0           288     1668.627     770.000    0         0       0          
+	F                                               778.000                                 
+	S     16       0           294     1680.275     786.000    0         1       -0         
+	F                                               794.000                                 
+	S     17       0           300     1691.922     802.000    0         0       0          
+	LF                                              810.000                                 
+#	G     18       0           306     1703.569     818.000    0         0       0
+
+DEFINE:		LCDCO		1729.3
+DEFINE:		RCDCO		826
+DEFINE:		Dist		20
+DEFINE:		thEP		10
+DEFINE:		thOW		5
+#Tubs info
+#	Type RMin   RMax    Length  StartAng SpanAng Name           RepNo MotVolume     Material        SDName      posX posY posZ Ephi   Etheta Epsi  
+#	     mm     mm      mm      deg      deg                                                                    mm   mm   mm   deg    deg    deg   
+DEFINE:		LCDCC		LCDCO+2*thEP
+DEFINE:		RCDCOO		RCDCO+thOW
+	T    RCDCi  RCDCOO  LCDCC   0        360     CDCContainer   1     BLTCDC        ChamberGas9010  none        0    0  pZCDCY 0      0      0     
+	T    RCDCii RCDCI   LCDC    0        360     InnerCylinder  1     CDCContainer  Mylar           none        0    0    0    0      0      0     
+	T    RCDCi  RCDCii  LCDC    0        360     InnerCylinderI 1     CDCContainer  Aluminium       none        0    0    0    0      0      0     
+	T    RCDCO  RCDCOO  LCDCO   0        360     OuterCylinder  1     CDCContainer  CarbonFiber     none        0    0    0    0      0      0     
+DEFINE:		N			18
+DEFINE:		th			(RCDCO-RCDCI)/N
+DEFINE:		RI			RCDCI+x*th
+DEFINE:		RO			RI+th
+DEFINE:		id			(LCDCO-LCDC)/2/(N-1)
+DEFINE:		pZep		-(LCDC+thEP)/2-id*x
+	T    RI     RO      thEP    0        360     EndPlateU      18    CDCContainer  Aluminium       none        0    0    pZep 0      0      0     
+	T    RI     RO      thEP    0        360     EndPlateD      18    CDCContainer  Aluminium       none        0    0   -pZep 0      0      0     
+
+#visual settings
+	VerboseLevel:    5
+  VISSETTING  #Keep this line to call Reset
+#	Name             red green blue
+#	vis_CDCContainer     0      1      1     
+	vis_InnerCylinder    1      0      0     0.5
+	vis_EndPlateU        0.8    0.8    0.8   
+	vis_EndPlateD        0.8    0.8    0.8   
+	vis_OuterCylinder    0.3    0.3	   0.3
+#	vis_CDCLayer         1      0      0     0.3

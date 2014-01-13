@@ -31,12 +31,12 @@
 #include <sstream>
 #include <iostream>
 
-#include "FormulizedGeometrySvc.hh"
+#include "SimpleGeometrySvc.hh"
 #include "CdcGeometryParameter.hh"
 #include "MyDetectorManager.hh"
 
 CdcGeometrySvc::CdcGeometrySvc(G4String name, G4String opt )
-	: FormulizedGeometrySvc(name, "S") // Use a not-empty opt to stop inherited class from creating new GeometryParameter
+	: SimpleGeometrySvc(name, "S") // Use a not-empty opt to stop inherited class from creating new GeometryParameter
 {
 	if ( opt == "" ){//called directly by user. set up parameter class.
 		CdcGeometryParameter *pointer = new CdcGeometryParameter(name);
@@ -52,7 +52,7 @@ CdcGeometrySvc::~CdcGeometrySvc(){
 //------------------------Modify-------------------------------
 void CdcGeometrySvc::set_GeometryParameter( CdcGeometryParameter* val ){
 	m_GeometryParameter = val;
-	FormulizedGeometrySvc::set_GeometryParameter(m_GeometryParameter);
+	SimpleGeometrySvc::set_GeometryParameter(m_GeometryParameter);
 }
 
 //---------------------------SetGeometry---------------------------------
@@ -67,7 +67,7 @@ G4VPhysicalVolume* CdcGeometrySvc::SetGeometry(){
 //-------------------------Special functions-----------------------------
 //=> ConstructVolumes
 void CdcGeometrySvc::ConstructVolumes(){
-	FormulizedGeometrySvc::ConstructVolumes();
+	SimpleGeometrySvc::ConstructVolumes();
 	bool vis;
 	double r, g, b;
 
@@ -321,7 +321,7 @@ void CdcGeometrySvc::ConstructVolumes(){
 
 		if ( layer_type != 0 && layer_type != 1 ){
 			if ( get_VerboseLevel() >=10 ){
-				std::cout<<"sol_Subtraction4Cell: twistedangle = "<<twistedangle4subt/rad
+				std::cout<<"sol_Subtraction4Cell: twisteddangle = "<<twistedangle4subt/rad
 					<<"rad, endinnerrad = "<<endinnerrad4subt/mm
 					<<"mm, endouterrad = "<<endouterrad4subt/mm
 					<<"mm, halfzlen = "<<halfzlen/mm
@@ -464,7 +464,7 @@ void CdcGeometrySvc::ConstructVolumes(){
 			G4double SPhi = m_GeometryParameter->get_layer_cell_phi(layerId,cellId);
 			G4double phi = SPhi - wireR2Phi;
 			G4RotationMatrix* rotateMatrix=new G4RotationMatrix();
-			rotateMatrix->rotateZ(-phi);	
+			rotateMatrix->rotateZ(-phi);
 			int ReplicaNo = m_GeometryParameter->get_ReplicaNo( layerId, cellId );
 			if ( get_VerboseLevel() >=10 ){
 				std::cout<<"Placing cell: phi = "<<phi/deg<<"deg"<<std::endl;
@@ -503,7 +503,7 @@ void CdcGeometrySvc::ConstructVolumes(){
 //=>Place Volumes
 G4VPhysicalVolume* CdcGeometrySvc::PlaceVolumes(){
 	G4VPhysicalVolume* world_pvol = 0;
-	G4VPhysicalVolume *former = FormulizedGeometrySvc::PlaceVolumes();
+	G4VPhysicalVolume *former = SimpleGeometrySvc::PlaceVolumes();
 	if (!world_pvol) world_pvol=former;
 	return world_pvol;
 }

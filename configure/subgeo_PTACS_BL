@@ -1,0 +1,65 @@
+#general info
+	checkoverlap
+
+#Tubs info
+#	Type RMin   RMax   Length   StartAng SpanAng Name                  RepNo MotVolume          Material      SDName    posX posY posZ  Ephi   Etheta Epsi  
+#	     mm     mm     mm       deg      deg                                                                            mm   mm   mm    deg    deg    deg   
+	T    0.     807    5300     0        360     PTACSContainer        1     World              Vacuum        none      5650 0  -5790.5 90   -90     -90     
+	T    200    250    1505     0        360     PTACSBeamPipe         1     PTACSContainer     Steel         none      0    0   1897.5 0      0      0     
+	T    250    266    210      0        360     PTACSCaptureCoilTS1a  1     PTACSContainer     Copper        none      0    0   1250   0      0      0     
+	T    250    282    390      0        360     PTACSCaptureCoilTS1b  1     PTACSContainer     Copper        none      0    0   1675   0      0      0     
+	T    250    298    310      0        360     PTACSCaptureCoilTS1c  1     PTACSContainer     Copper        none      0    0   2125   0      0      0     
+	T    250    282    180      0        360     PTACSCaptureCoilTS1d  1     PTACSContainer     Copper        none      0    0   2430   0      0      0     
+	T    500    590    2189.9   0        360     PTACSShieldE          1     PTACSContainer     Tungsten      none      0    0   145.05 0      0      0     
+	T    662    806    175      0        360     PTACSTargetCoilCS0    1     PTACSContainer     Copper        none      0    0  -2562.5 0      0      0     
+	T    662    806    1350     0        360     PTACSTargetCoilCS1    1     PTACSContainer     Copper        none      0    0  -1750   0      0      0     
+	T    662    742    1800     0        360     PTACSTargetCoilMS1    1     PTACSContainer     Copper        none      0    0  -125    0      0      0     
+	T    662    790    380      0        360     PTACSTargetCoilMS2    1     PTACSContainer     Copper        none      0    0   1035   0      0      0     
+	T    0      298    1        0        360     PTACSKiller1          1     PTACSContainer     Vacuum        KillerSD  0    0  -2649.5 0      0      0     
+	T    300    590    1        0        360     PTACSKiller2          1     PTACSShieldsABC    Tungsten      KillerSD  0    0  -1699.5 0      0      0     
+	T    590    662    1        0        360     PTACSKiller3          1     PTACSContainer     Vacuum        KillerSD  0    0  -2649.5 0      0      0     
+	T    662    806    1        0        360     PTACSKiller4          1     PTACSTargetCoilCS0 Copper        KillerSD  0    0  -87     0      0      0     
+	T    806    807    5300     0        360     PTACSKiller5          1     PTACSContainer     Vacuum        KillerSD  0    0   0      0      0      0     
+	T    0      350    1        0        360     PTACSMonitor          1     PTACSContainer     Vacuum      M/MonitorSD 0    0  -950    0      0      0     
+
+#Polycone info
+#	Type numZ       StartAng SpanAng Name            RepNo MotVolume        Material     SDName    posX posY posZ  Ephi   Etheta Epsi  
+#	                deg      deg                                                                   mm   mm   mm    deg    deg    deg   
+	PC   4          0        360     PTACSShieldsABC 1     PTACSContainer   Tungsten     none      0    0   -950   0      0      0
+#        z          rInner  rOuter
+#        mm         mm      mm
+	PCI  0          350     590
+	PCI -750        150     590
+	PCI -1000       150     590
+	PCI -1700       300     590
+#	Type numZ       StartAng SpanAng Name            RepNo MotVolume        Material     SDName    posX posY posZ  Ephi   Etheta Epsi  
+#	                deg      deg                                                                   mm   mm   mm    deg    deg    deg   
+	PC   2          0        360     PTACSShieldD    1     PTACSContainer   Tungsten     none      0    0   -949.9 0      0      0
+#        z          rInner  rOuter
+#        mm         mm      mm
+	PCI  0          500     590
+	PCI -0.1        350     590
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name                        red    green  blue  
+#	vis_PTACSContainer          1      1      1     
+	vis_PTACSBeamPipe           0.5    0.5    0.5
+	vis_PTACSCaptureCoilTS1a    0      0      1     
+	vis_PTACSCaptureCoilTS1b    0      0      1     
+	vis_PTACSCaptureCoilTS1c    0      0      1     
+	vis_PTACSCaptureCoilTS1d    0      0      1     
+	vis_PTACSShieldE            0      1      0     
+	vis_PTACSShieldD            0      1      0     
+	vis_PTACSShieldsABC         0      1      0     
+	vis_PTACSTargetCoilCS0      0      0      1     
+	vis_PTACSTargetCoilCS1      0      0      1     
+	vis_PTACSTargetCoilMS1      0      0      1     
+	vis_PTACSTargetCoilMS2      0      0      1     
+	vis_PTACSKiller1            1      0      0
+	vis_PTACSKiller2            1      0      0
+	vis_PTACSKiller3            1      0      0
+	vis_PTACSKiller4            1      0      0
+	vis_PTACSKiller5            1      0      0
+#	vis_PTACSMonitor            1      0      0

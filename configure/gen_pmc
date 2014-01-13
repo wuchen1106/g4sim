@@ -1,0 +1,40 @@
+	PhysicsList: QGSP_BERT
+
+#General setting  
+	Type:      simple
+	Particle:  proton #(e+/e-/chargedgeantino/gamma/...)
+
+#Default Direction
+#	           Theta    Phi
+#	           deg      deg
+	Direction: 0        0
+#Default Momentum Amplitude
+#	         MeV
+	MomAmp:  1
+#Default Position     x   y   z
+#	                  mm  mm  mm
+	Position:         0   0   0
+
+	RandMode:       none #(none/root)
+	EnergyMode:     histo #(root/histo/none)
+	PositionMode:   uniform #(uniform/root/none)
+	DirectionMode:  uniform #(none/uniform/histo)
+	ThetaMode:      none #(none/gRand/uRand)
+	PhiMode:        none #(none/gRand/uRand)
+	TimeMode:       none #(none/root)
+	pidMode:        none #(none/root)
+#Default Time
+#	         ns
+	Time:    0
+
+#Uniform In Volume:
+#	                Type   SubDet   Volume
+	UIV:            Simple Target   Target
+
+#Histogram file name
+	EMHFN:          ProtonEmissionMC.root
+	EMHHN:          h
+
+#ROOT file name
+	RFN:            mum.2p4.17.root
+	RTN:            t

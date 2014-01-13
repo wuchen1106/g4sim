@@ -23,6 +23,15 @@
 //                 |o  o  |
 //                 --------
 //
+//         TYPE 1: Out most layer
+//                 ________ each cell is a twisted(or not) tube with 
+//                 |o  o  | 5 field wires and 1 signal wire inside
+//                 |      |
+//                 |o  x  |
+//                 |      |
+//                 |o  o  |
+//                 --------
+//
 //         TYPE 2/3/4/5: Stereo layer upon an axial layer/
 //                       Axial layer beneath a stereo layer/
 //                       Axial layer upon a stereo layer/
@@ -46,13 +55,13 @@
 
 #include <CLHEP/Units/PhysicalConstants.h>
 
-#include "FormulizedGeometryParameter.hh"
+#include "SimpleGeometryParameter.hh"
 #include "CdcGeometryParameterMessenger.hh"
 
 #include "CdcGeometryParameter.hh"
 
 CdcGeometryParameter::CdcGeometryParameter(G4String name, G4String opt )
-	: FormulizedGeometryParameter(name, "S") // Use a not-empty opt to stop inherited class from creating new GeometryParameterMessenger
+	: SimpleGeometryParameter(name, "S") // Use a not-empty opt to stop inherited class from creating new GeometryParameterMessenger
 {
 	if ( opt == "" ){
 		CdcGeometryParameterMessenger *pointer = new CdcGeometryParameterMessenger(this, name);
@@ -75,7 +84,7 @@ void CdcGeometryParameter::InitFromFile( G4String file_name ){
 
 	std::ifstream fin_card(file_name);
 	if(!fin_card){
-		DEBUG("CdcGeometryParameter::InitFromFile(), cannot find output card");
+		DEBUG("CdcGeometryParameter::InitFromFile(), cannot find subgeometry card: \""+file_name+"\"");
 	}
 	std::string s_card;
 	while(getline(fin_card,s_card)){
@@ -102,7 +111,7 @@ void CdcGeometryParameter::Dump(){
 
 bool CdcGeometryParameter::CheckInfo(){
 	bool flag = false;// false means no problem
-	flag = FormulizedGeometryParameter::CheckInfo();
+	flag = SimpleGeometryParameter::CheckInfo();
 	if (flag) return flag;// if something is wrong with its Parent Class, then return the status.
 
 	//examine
@@ -114,7 +123,7 @@ bool CdcGeometryParameter::CheckInfo(){
 }
 
 void CdcGeometryParameter::Preset(){
-	FormulizedGeometryParameter::Preset();// Call its Parent class to preset
+	SimpleGeometryParameter::Preset();// Call its Parent class to preset
 	vis_cell = false;
 	vis_layer = false;
 	vis_SignalWire = false;
@@ -124,7 +133,7 @@ void CdcGeometryParameter::Preset(){
 
 
 int CdcGeometryParameter::GetValue(G4String s_card){
-	if (!FormulizedGeometryParameter::GetValue(s_card)) return 0; // if found by Parent Class, then return.
+	if (!SimpleGeometryParameter::GetValue(s_card)) return 0; // if found by Parent Class, then return.
 	int status = 0;// 0 means found the value
 	std::stringstream buf_card;
 	buf_card.str("");
@@ -207,7 +216,7 @@ int CdcGeometryParameter::GetValue(G4String s_card){
 //--------------------------Calculate---------------------------------
 //
 void CdcGeometryParameter::Calculate(){
-	FormulizedGeometryParameter::Calculate();
+	SimpleGeometryParameter::Calculate();
 	layer_angle4rotate.resize(LayerNo);
 	layer_type.resize(LayerNo);
 	layer_cell_startNo.resize(LayerNo+1);
@@ -227,14 +236,14 @@ void CdcGeometryParameter::Calculate(){
 		layer_angle4rotate[i] = 2*pi*layer_ncells4rotate[i]/layer_cell_num[i];
 		//set layer_cell_dphi
 		layer_cell_dphi[i] = 2*pi/layer_cell_num[i];
-    G4double R;
-    if (i == LayerNo - 1) R = Cdc_RMax;
+		G4double R;
+		if (i == LayerNo - 1) R = Cdc_RMax;
 		else R = layer_RMin[i+1];
 		//set layer_type
 		if ( i == LayerNo -1 ){
 			layer_type[i] = 1;//TYPE 1: Out most layer
 		}
-		else if ( layer_ncells4rotate[i] != layer_ncells4rotate[i+1] ){
+		else if ( fabs(layer_ncells4rotate[i]) != fabs(layer_ncells4rotate[i+1]) ){
 			if ( layer_ncells4rotate[i] == 0 ){
 				layer_type[i] = 3;//TYPE 3: Axial layer beneath a stereo layer
 			}
@@ -242,7 +251,7 @@ void CdcGeometryParameter::Calculate(){
 				layer_type[i] = 5;//TYPE 5: Stereo layer beneath an axial layer
 			}
 		}
-		else if ( i != 0 ? layer_ncells4rotate[i] != layer_ncells4rotate[i-1] : 0 ){
+		else if ( i != 0 ? fabs(layer_ncells4rotate[i]) != fabs(layer_ncells4rotate[i-1]) : 0 ){
 			if ( layer_ncells4rotate[i] == 0 ){
 				layer_type[i] = 4;//TYPE 4: Axial layer upon a stereo layer
 			}
@@ -259,7 +268,7 @@ void CdcGeometryParameter::Calculate(){
 //---------------------------DumpInfo---------------------------------
 //output information
 void CdcGeometryParameter::DumpInfo() {
-	FormulizedGeometryParameter::DumpInfo();// dump info of its Parent Class first
+	SimpleGeometryParameter::DumpInfo();// dump info of its Parent Class first
 	std::cout<<"------CdcGeometry info :--------"<<std::endl;
 	std::cout<<"=>General info:"<<std::endl;
 	std::cout<<" MotherLogicalVolume:  "<<MotherLogicalVolume<<std::endl;
@@ -275,36 +284,36 @@ void CdcGeometryParameter::DumpInfo() {
 	std::cout<<"=>Layers info:"<<std::endl;
 	std::cout<<" LayerNo: "<<LayerNo<<std::endl;
 	std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<"No."
-					 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"StartR"
-					 <<std::setiosflags(std::ios::left)<<std::setw(8) <<"MiddleR"
-					 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"length"
-					 <<std::setiosflags(std::ios::left)<<std::setw(9) <<"StartPhi"
-					 <<std::setiosflags(std::ios::left)<<std::setw(11)<<"RotateCell"
-					 <<std::setiosflags(std::ios::left)<<std::setw(17)<<"FirstWire"
-					 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"CellNo"
-					 <<std::setiosflags(std::ios::left)<<std::setw(5) <<"type"
-					 <<std::endl;
+		<<std::setiosflags(std::ios::left)<<std::setw(7) <<"StartR"
+		<<std::setiosflags(std::ios::left)<<std::setw(8) <<"MiddleR"
+		<<std::setiosflags(std::ios::left)<<std::setw(7) <<"length"
+		<<std::setiosflags(std::ios::left)<<std::setw(9) <<"StartPhi"
+		<<std::setiosflags(std::ios::left)<<std::setw(11)<<"RotateCell"
+		<<std::setiosflags(std::ios::left)<<std::setw(17)<<"FirstWire"
+		<<std::setiosflags(std::ios::left)<<std::setw(7) <<"CellNo"
+		<<std::setiosflags(std::ios::left)<<std::setw(5) <<"type"
+		<<std::endl;
 	std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<""
-					 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
-					 <<std::setiosflags(std::ios::left)<<std::setw(8) <<"mm"
-					 <<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
-					 <<std::setiosflags(std::ios::left)<<std::setw(9) <<"rad"
-					 <<std::setiosflags(std::ios::left)<<std::setw(11)<<""
-					 <<std::setiosflags(std::ios::left)<<std::setw(17)<<"1:signal/0:field"
-					 <<std::setiosflags(std::ios::left)<<std::setw(7) <<""
-					 <<std::setiosflags(std::ios::left)<<std::setw(5) <<""
-					 <<std::endl;
+		<<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
+		<<std::setiosflags(std::ios::left)<<std::setw(8) <<"mm"
+		<<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
+		<<std::setiosflags(std::ios::left)<<std::setw(9) <<"rad"
+		<<std::setiosflags(std::ios::left)<<std::setw(11)<<""
+		<<std::setiosflags(std::ios::left)<<std::setw(17)<<"1:signal/0:field"
+		<<std::setiosflags(std::ios::left)<<std::setw(7) <<""
+		<<std::setiosflags(std::ios::left)<<std::setw(5) <<""
+		<<std::endl;
 	for ( G4int i = 0; i < LayerNo; i++ ){
 		std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<i
-             <<std::setiosflags(std::ios::left)<<std::setw(7) <<layer_RMin[i]/mm
-             <<std::setiosflags(std::ios::left)<<std::setw(8) <<layer_RMid[i]/mm
-             <<std::setiosflags(std::ios::left)<<std::setw(7) <<layer_length[i]/mm
-             <<std::setiosflags(std::ios::left)<<std::setw(9) <<layer_SPhi[i]/rad
-						 <<std::setiosflags(std::ios::left)<<std::setw(11)<<layer_ncells4rotate[i]
-             <<std::setiosflags(std::ios::left)<<std::setw(17)<<layer_firstWire[i]
-						 <<std::setiosflags(std::ios::left)<<std::setw(7) <<layer_cell_num[i]
-						 <<std::setiosflags(std::ios::left)<<std::setw(5) <<layer_type[i]
-             <<std::endl;
+			<<std::setiosflags(std::ios::left)<<std::setw(7) <<layer_RMin[i]/mm
+			<<std::setiosflags(std::ios::left)<<std::setw(8) <<layer_RMid[i]/mm
+			<<std::setiosflags(std::ios::left)<<std::setw(7) <<layer_length[i]/mm
+			<<std::setiosflags(std::ios::left)<<std::setw(9) <<layer_SPhi[i]/rad
+			<<std::setiosflags(std::ios::left)<<std::setw(11)<<layer_ncells4rotate[i]
+			<<std::setiosflags(std::ios::left)<<std::setw(17)<<layer_firstWire[i]
+			<<std::setiosflags(std::ios::left)<<std::setw(7) <<layer_cell_num[i]
+			<<std::setiosflags(std::ios::left)<<std::setw(5) <<layer_type[i]
+			<<std::endl;
 	}
 	std::cout<<"Out most radius: "<<Cdc_RMax<<"mm"<<std::endl;
 }

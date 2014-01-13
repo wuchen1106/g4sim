@@ -14,7 +14,9 @@
 #include "MyDetectorManager.hh"
 #include "CdcLayerSD.hh"
 #include "CdcSD.hh"
+#include "CdcSimpleSD.hh"
 #include "MonitorSD.hh"
+#include "KillerSD.hh"
 #include "MyString2Anything.hh"
 #include "McTruthSvc.hh"
 
@@ -27,25 +29,26 @@
 
 MyTriggerSvc* MyTriggerSvc::fMyTriggerSvc = 0;
 
-MyTriggerSvc::MyTriggerSvc()
+	MyTriggerSvc::MyTriggerSvc()
+:pMyDetectorManager(0),myCdcLayerSD(0),myCdcSD(0),myCdcSimpleSD(0),myMonitorSD(0),myMonitorSD2(0),myMcTruthSvc(0),myKillerSD(0)
 {
-  if (fMyTriggerSvc){
-    G4Exception("MyTriggerSvc::MyTriggerSvc()","Run0031",
-        FatalException, "MyTriggerSvc constructed twice.");
-  }
-  fMyTriggerSvc = this;
+	if (fMyTriggerSvc){
+		G4Exception("MyTriggerSvc::MyTriggerSvc()","Run0031",
+				FatalException, "MyTriggerSvc constructed twice.");
+	}
+	fMyTriggerSvc = this;
 }
 
 MyTriggerSvc::~MyTriggerSvc()
 {
-  printf("~MyTriggerSvc\n");
+	printf("~MyTriggerSvc\n");
 }
 
 MyTriggerSvc* MyTriggerSvc::GetMyTriggerSvc(){
-  if ( !fMyTriggerSvc ){
-    fMyTriggerSvc = new MyTriggerSvc;
-  }
-  return fMyTriggerSvc;
+	if ( !fMyTriggerSvc ){
+		fMyTriggerSvc = new MyTriggerSvc;
+	}
+	return fMyTriggerSvc;
 }
 
 void MyTriggerSvc::SetMyTrigger( G4String filename ){
@@ -53,9 +56,9 @@ void MyTriggerSvc::SetMyTrigger( G4String filename ){
 	std::ifstream fin_card(filename);
 	if(!fin_card){
 		std::cout<<"In MyTriggerSvc::ReadOutputCard, cannot open "<<filename<<"!!!"<<std::endl;
-    G4Exception("MyTriggerSvc::ReadOutputCard()",
-        "InvalidSetup", FatalException,
-        "cannot find output card");
+		G4Exception("MyTriggerSvc::ReadOutputCard()",
+				"InvalidSetup", FatalException,
+				"cannot find output card");
 	}
 	std::stringstream buf_card;
 	G4String s_card;
@@ -67,15 +70,15 @@ void MyTriggerSvc::SetMyTrigger( G4String filename ){
 		buf_card<<s_card;
 
 		//eleminate useless lines
-    const char* c_card = s_card.c_str();
-    int length = strlen(c_card);
-    int offset = 0;
-    for ( ; offset < length; offset++ ){
-      if ( c_card[offset] != ' ' ) break;
-    }
-    if ( c_card[offset] == '#' || (c_card[offset] == '/' && c_card[offset+1] == '/') || length - offset == 0 ){
-    	continue;
-    }
+		const char* c_card = s_card.c_str();
+		int length = strlen(c_card);
+		int offset = 0;
+		for ( ; offset < length; offset++ ){
+			if ( c_card[offset] != ' ' ) break;
+		}
+		if ( c_card[offset] == '#' || (c_card[offset] == '/' && c_card[offset+1] == '/') || length - offset == 0 ){
+			continue;
+		}
 
 		G4String name, unit;
 		buf_card>>name;
@@ -94,11 +97,11 @@ void MyTriggerSvc::SetMyTrigger( G4String filename ){
 			else if ( name == "minCdcHits" ){
 				minCdcHits = para;
 			}
-			else if ( name == "minCdcCellHits" ){
-				minCdcCellHits = para;
+			else if ( name == "minM_Hits" ){
+				minM_Hits = para;
 			}
-			else if ( name == "minTriggerHits" ){
-				minTriggerHits = para;
+			else if ( name == "minCorM_Hits" ){
+				minCorM_Hits = para;
 			}
 			else if ( name == "minEleMom" ){
 				std::string unit;
@@ -107,6 +110,9 @@ void MyTriggerSvc::SetMyTrigger( G4String filename ){
 			}
 			else if ( name == "minAntipNum" ){
 				minAntipNum = para;
+			}
+			else if ( name == "minTracks" ){
+				minTracks = para;
 			}
 			else{
 				std::cout<<"In MyTriggerSvc::SetMyTrigger, unknown name: "<<name<<" in file "<<filename<<std::endl;
@@ -121,37 +127,58 @@ void MyTriggerSvc::SetMyTrigger( G4String filename ){
 	buf_card.str("");
 	buf_card.clear();
 	if ( n_TRIGGER_section_symbol<= 1 ){
-	  std::cout<<"*****************WARNING********************"<<std::endl;
+		std::cout<<"*****************WARNING********************"<<std::endl;
 		std::cout<<"In MyTriggerSvc::ReadOutputCard, failed to find enough section seperators \""<<TRIGGERSECTIONNAME<<"\" for TRIGGER in file "<<filename<<std::endl;
 		std::cout<<"Will use default settings."<<std::endl;
 		std::cout<<"********************************************"<<std::endl;
 	}
 	fin_card.close();
 	ShowOutCard();
-  pMyDetectorManager = MyDetectorManager::GetMyDetectorManager();
+	pMyDetectorManager = MyDetectorManager::GetMyDetectorManager();
 	G4VSensitiveDetector* myVSD = 0;
-	if ( minCdcHits != -1 ){ 
-		myVSD = pMyDetectorManager->GetSD("CDCLayer","CdcLayerSD");
-		std::cout<<"myVSD @ ["<<(void*) myVSD<<"]"<<std::endl;
-		myCdcLayerSD = dynamic_cast<CdcLayerSD*> (myVSD);
-		std::cout<<"myCdcLayerSD @ ["<<(void*) myCdcLayerSD<<"]"<<std::endl;
+	G4VSensitiveDetector* myVSD2 = 0;
+	if ( minM_Hits != -1 ){ 
+		myVSD = pMyDetectorManager->GetSD("","M/MonitorSD");
+		if (myVSD){
+			myMonitorSD = dynamic_cast<MonitorSD*> (myVSD);
+			std::cout<<"myVSD @ ["<<(void*) myVSD<<"]"<<std::endl;
+			std::cout<<"myMonitorSD @ ["<<(void*) myMonitorSD<<"]"<<std::endl;
+		}
 	}
-	if ( minCdcCellHits != -1 ){ 
+	if ( minCorM_Hits != -1 ){ 
+		myVSD2 = pMyDetectorManager->GetSD("","M/MonitorSD");
+		if (myVSD2){
+			myMonitorSD2 = dynamic_cast<MonitorSD*> (myVSD2);
+			std::cout<<"myVSD2 @ ["<<(void*) myVSD2<<"]"<<std::endl;
+			std::cout<<"myMonitorSD2 @ ["<<(void*) myMonitorSD2<<"]"<<std::endl;
+		}
+	}
+	if ( minCdcHits != -1 || minCorM_Hits != -1 ){ 
 		myVSD = pMyDetectorManager->GetSD("CdcCell","CdcSD");
-		std::cout<<"myVSD @ ["<<(void*) myVSD<<"]"<<std::endl;
-		myCdcSD = dynamic_cast<CdcSD*> (myVSD);
-		std::cout<<"myCdcSD @ ["<<(void*) myCdcSD<<"]"<<std::endl;
+		if (myVSD){
+			myCdcSD = dynamic_cast<CdcSD*> (myVSD);
+			std::cout<<"myVSD @ ["<<(void*) myVSD<<"]"<<std::endl;
+			std::cout<<"myCdcSD @ ["<<(void*) myCdcSD<<"]"<<std::endl;
+		}
+		else{
+			myVSD = pMyDetectorManager->GetSD("CDCLayer","CdcLayerSD");
+			if (myVSD){
+				myCdcLayerSD = dynamic_cast<CdcLayerSD*> (myVSD);
+				std::cout<<"myVSD @ ["<<(void*) myVSD<<"]"<<std::endl;
+				std::cout<<"myCdcLayerSD @ ["<<(void*) myCdcLayerSD<<"]"<<std::endl;
+			}
+			else{
+				myVSD = pMyDetectorManager->GetSD("","C/MonitorSD");
+				myMonitorSD = dynamic_cast<MonitorSD*> (myVSD);
+				std::cout<<"myVSD @ ["<<(void*) myVSD<<"]"<<std::endl;
+				std::cout<<"myMonitorSD @ ["<<(void*) myMonitorSD<<"]"<<std::endl;
+			}
+		}
 	}
-	if ( minTriggerHits != -1 ){ 
-		myVSD = pMyDetectorManager->GetSD("Trigger","MonitorSD");
-		std::cout<<"myVSD @ ["<<(void*) myVSD<<"]"<<std::endl;
-		myTriggerSD = dynamic_cast<MonitorSD*> (myVSD);
-		std::cout<<"myTriggerSD @ ["<<(void*)myTriggerSD<<"]"<<std::endl;
-	}
-	if ( minEleMom != -1 ){
+	if ( minEleMom != -1*MeV ){
 		myMcTruthSvc = McTruthSvc::GetMcTruthSvc();
 	}
-	if ( minAntipNum != -1 ){
+	if ( minAntipNum != -1 || minTracks != -1 ){
 		myMcTruthSvc = McTruthSvc::GetMcTruthSvc();
 	}
 }
@@ -159,19 +186,37 @@ void MyTriggerSvc::SetMyTrigger( G4String filename ){
 bool MyTriggerSvc::TriggerIt( const G4Event* evt ){
 
 	if ( minCdcHits != -1 ){
-		int nHits_CDC = myCdcLayerSD->Get_nHits();
+		int nHits_CDC = 0;
+		if (myCdcLayerSD){
+			nHits_CDC = myCdcLayerSD->Get_nHits();
+		}
+		else{
+			nHits_CDC = myMonitorSD->Get_nHits();
+		}
 		if ( nHits_CDC < minCdcHits ) return false;
 	}
-	if ( minCdcCellHits != -1 ){
-		int nHits_CDC = myCdcSD->Get_nHits();
-		MYTRI_LINEVAR( nHits_CDC )
-		if ( nHits_CDC < minCdcCellHits ) return false;
+	if ( minM_Hits != -1 ){
+		int nHits = 0;
+		if (myMonitorSD){
+			nHits = myMonitorSD->Get_nHits();
+		}
+		if ( nHits < minM_Hits ) return false;
 	}
-	if ( minTriggerHits != -1 ){
-		int nHits_Trigger = myTriggerSD->Get_nHits();
-		if ( nHits_Trigger < minTriggerHits ) return false;
+	if ( minCorM_Hits != -1 ){
+		int nHits = 0;
+		if (myMonitorSD2){
+			nHits = myMonitorSD2->Get_nHits();
+		}
+		int nHits_CDC = 0;
+		if (myCdcLayerSD){
+			nHits_CDC = myCdcLayerSD->Get_nHits();
+		}
+		else{
+			nHits_CDC = myMonitorSD->Get_nHits();
+		}
+		if ( nHits+nHits_CDC < minCorM_Hits ) return false;
 	}
-	if ( minEleMom != -1 ){
+	if ( minEleMom != -1*MeV ){
 		bool foundit = false;
 		int nTracks = myMcTruthSvc->get_nTracks();
 		for ( int i = 0; i < nTracks; i++ ){
@@ -180,8 +225,6 @@ bool MyTriggerSvc::TriggerIt( const G4Event* evt ){
 			double py = myMcTruthSvc->get_py(i)*GeV;
 			double pz = myMcTruthSvc->get_pz(i)*GeV;
 			double pa = sqrt(px*px+py*py+pz*pz);
-			MYTRI_LINEVAR( pa )
-			MYTRI_LINEVAR( pid )
 			if ( pid == 11 && pa > minEleMom ) foundit = true;
 		}
 		if (!foundit) return false;
@@ -195,26 +238,31 @@ bool MyTriggerSvc::TriggerIt( const G4Event* evt ){
 		}
 		if (!foundit) return false;
 	}
+	if ( minTracks!= -1 ){
+		int nTracks = myMcTruthSvc->get_nTracks();
+		if (nTracks<minTracks) return false;
+	}
 	//std::cout<<"Passed Cut!"<<std::endl;
-	MYTRI_LINECONT( "Passed Cut!" )
 
 	return true;
 }
 
 void MyTriggerSvc::ReSet(){
 	minCdcHits = -1;
-	minCdcCellHits = -1;
-	minTriggerHits = -1;
-	minEleMom = -1;
+	minM_Hits = -1;
+	minCorM_Hits = -1;
+	minEleMom = -1*MeV;
 	minAntipNum = -1;
+	minTracks = -1;
 }
 
 void MyTriggerSvc::ShowOutCard(){
 	std::cout<<"*************************Trigger settings"<<"***************************"<<std::endl;
-	std::cout<<"minTriggerHits = "<<minTriggerHits<<std::endl;
 	std::cout<<"minCdcHits =     "<<minCdcHits<<std::endl;
-	std::cout<<"minCdcCellHits = "<<minCdcCellHits<<std::endl;
+	std::cout<<"minM_Hits = "<<minM_Hits<<std::endl;
+	std::cout<<"minCorM_Hits = "<<minCorM_Hits<<std::endl;
 	std::cout<<"minEleMom=       "<<minEleMom/MeV<<", MeV"<<std::endl;
 	std::cout<<"minAntipNum=     "<<minAntipNum<<std::endl;
+	std::cout<<"minTracks =      "<<minTracks<<std::endl;
 	std::cout<<"******************************************************************************"<<std::endl;
 }

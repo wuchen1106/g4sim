@@ -14,6 +14,7 @@
 class MyAnalysisSvc;
 class G4UIdirectory;
 class G4UIcmdWithAString;
+class G4UIcmdWithADoubleAndUnit;
 
 class MyAnalysisSvcMessenger: public G4UImessenger
 {
@@ -34,6 +35,10 @@ class MyAnalysisSvcMessenger: public G4UImessenger
     //about root file
     G4UIcmdWithAString*        ofile_name_cmd;
     G4UIcmdWithAString*        tree_name_cmd;
+
+	//about cut
+	G4UIcmdWithADoubleAndUnit* set_minT_cmd;
+	G4UIcmdWithADoubleAndUnit* set_maxT_cmd;
 
     //about log
     G4UIcmdWithAString*        run_name_cmd;

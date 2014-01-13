@@ -14,14 +14,17 @@
 
 //supported SD
 #include "CdcSD.hh"
+#include "CdcSimpleSD.hh"
 #include "CdcIonSD.hh"
 #include "MonitorSD.hh"
 #include "CdcLayerSD.hh"
+#include "KillerSD.hh"
 
 //supported Svc
 #include "SimpleGeometrySvc.hh"
 #include "CdcGeometrySvc.hh"
-#include "FormulizedGeometrySvc.hh"
+
+#include "SimpleGeometryParameter.hh"
 
 class G4SDManager;
 class G4VSensitiveDetector;
@@ -32,11 +35,11 @@ class MyDetectorManagerMessenger;
 
 class MyDetectorManager
 {
-  public:
-    MyDetectorManager();
-     ~MyDetectorManager();
+	public:
+		MyDetectorManager();
+		~MyDetectorManager();
 
-    static MyDetectorManager* GetMyDetectorManager();
+		static MyDetectorManager* GetMyDetectorManager();
 
 		//***************************************ReadCard********************************************
 		//OBJECTIVE: Call recorded geometry service objects recursively to read input file for geometry settings
@@ -47,6 +50,8 @@ class MyDetectorManager
 		//NOTICE.1: file_name here should either be a complete file name with path or a pure file name w.r.t $CONFIGUREROOT,
 		//  cause MyVGeometry calsses would prepend $CONFIGUREROOT to file_name if not found '/' in it.
 		void ReadCard(G4String);
+		void AddGeo(G4String, G4String, G4String);
+		void ClearGeo();
 
 		//***************************************SetGeometry********************************************
 		//OBJECTIVE: Call recorded geometry service objects recursively to setup geometry
@@ -95,6 +100,19 @@ class MyDetectorManager
 			return pointer;
 		}
 
+		//*************************GetSvc********************************
+		SimpleGeometryParameter* GetParaFromVolume( G4String name ){
+			SimpleGeometryParameter* pointer = 0;
+			for ( int i = 0; i < fMyVGeometrySvc.size(); i++ ){
+				SimpleGeometryParameter* ipointer = (SimpleGeometryParameter*) fMyVGeometrySvc[i]->get_GeometryParameter();
+				if ( ipointer->get_VolIndex(name) >= 0 ){
+					pointer = ipointer;
+					break;
+				}
+			}
+			return pointer;
+		}
+
 		//**************************************RegistorDM & Digitize************************************************
 		//OBJECTIVE: For digitizing control.
 		//Not well supported yet...
@@ -105,15 +123,15 @@ class MyDetectorManager
 		//==> Access
 		void SetVerbose(int val){fVerboseLevel = val;};
 
-  private:
+	private:
 
 		void DEBUG(G4String);
 
-  private:
+	private:
 
-    static MyDetectorManager* fMyDetectorManager;
+		static MyDetectorManager* fMyDetectorManager;
 
-    MyDetectorManagerMessenger* m_MyDetectorManagerMessenger;  //pointer to the Messenger
+		MyDetectorManagerMessenger* m_MyDetectorManagerMessenger;  //pointer to the Messenger
 
 		//For MySD
 

@@ -31,13 +31,18 @@ public:
 private:
   PrimaryGeneratorAction*   Action;
   G4UIdirectory*            gunDir; 
+  G4UIcmdWithAnInteger*     root_index_cmd;
   G4UIcmdWithAString*       EnergyMode_cmd;
   G4UIcmdWithAString*       DirectionMode_cmd;
   G4UIcmdWithAString*       PositionMode_cmd;
   G4UIcmdWithAString*       EM_hist_filename_cmd;
   G4UIcmdWithAString*       EM_hist_histname_cmd;
+  G4UIcmdWithAString*       DM_hist_filename_cmd;
+  G4UIcmdWithAString*       DM_hist_histname_cmd;
   G4UIcmdWithAString*       root_filename_cmd;
   G4UIcmdWithAString*       root_treename_cmd;
+  G4UIcmdWithAString*       ReadCardCmd;
+  G4UIcmdWithoutParameter*  InitializeCmd;
   G4UIcmdWithoutParameter*  histo_build_cmd;
   G4UIcmdWithoutParameter*  root_build_cmd;
 };

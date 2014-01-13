@@ -1,0 +1,62 @@
+#general info
+	checkoverlap
+
+#Tubs info
+#	Type No  RMin   RMax   Length   StartAng SpanAng Name                  MotVolume          Material      SDName    posX posY posZ  RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
+#	         mm     mm     mm       deg      deg                                                                      mm   mm   mm          mm         deg    deg    deg    deg    deg   
+	T    11  0      2200   300      90       180     DumpWallBL1
+	T    11  0      2200   300      270      180     DumpWallBL2
+	T    11  0      5000   1000     90       180     DumpBL1
+	T    11  0      5000   1000     270      180     DumpBL2    
+	T    11  0      4000   10300    90       180     DumpContainerBL1
+	T    11  0      4000   10300    270      180     DumpContainerBL2
+	T    11  0      700    1440     0        360     DumpHole1 
+	T    11  0      250    6300     0        360     DumpHole2 
+	T    11  0      1750   4300     90       180     Dump1BL1
+	T    11  0      1750   4300     270      180     Dump1BL2
+	T    11  0      4000   2000     90       180     Dump2BL1
+	T    11  0      4000   2000     270      180     Dump2BL2
+
+#BooelanSolid info
+#	Type No  type     vol1             vol2        Ephi    Etheta  Epsi   PosX    PosY    posZ    name           MotVolume           Material SDName    posX posY posZ RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
+#	                                               deg     deg     deg    mm      mm      mm                                                            mm   mm   mm         mm         deg    deg    deg    deg    deg   
+	BL   11  minus    DumpWallBL1      DumpHole1   0       10      0 0 550.464723  -355.177271    DumpWall1      World               Steel    none 9916.6633 0 -5790.5 1     0          0      0      270    90     0
+	BL   11  minus    DumpWallBL2      DumpHole1   0       10      0 0 550.464723  -355.177271    DumpWall2      World               Steel    none 9916.6633 0 -5790.5 1     0          0      0      270    90     0
+	BL   11  minus    DumpContainerBL1 DumpBL1     0      -10      0 0 -384.919543  5416.01279    DumpContainer1 World               Vacuum   none 14834.5 0 -4470.774 1     0          0      0      270   100     0
+	BL   11  minus    DumpContainerBL2 DumpBL2     0      -10      0 0 -384.919543  5416.01279    DumpContainer2 World               Vacuum   none 14834.5 0 -4470.774 1     0          0      0      270   100     0
+	BL   11  minus    Dump1BL1         DumpBL1     0      -10      0 0 -384.919543  2416.01279    Dump1BL11
+	BL   11  minus    Dump1BL2         DumpBL2     0      -10      0 0 -384.919543  2416.01279    Dump1BL12
+	BL   11  minus    Dump1BL11        DumpHole1   0       0       0      0       0       1590    Dump1BL21
+	BL   11  minus    Dump1BL12        DumpHole1   0       0       0      0       0       1590    Dump1BL22
+	BL   11  minus    Dump1BL21        DumpHole2   0       0       0      0       0      -1000    Dump11         DumpContainer1 Steel    none      0    0    3000 1     0          0      0      0      0      0
+	BL   11  minus    Dump1BL22        DumpHole2   0       0       0      0       0      -1000    Dump12         DumpContainer2 Steel    none      0    0    3000 1     0          0      0      0      0      0
+	BL   11  minus    Dump2BL1         DumpHole2   0       0       0      0       0       0       Dump21         DumpContainer1 Steel    none      0    0    -150 1     0          0      0      0      0      0
+	BL   11  minus    Dump2BL2         DumpHole2   0       0       0      0       0       0       Dump22         DumpContainer2 Steel    none      0    0    -150 1     0          0      0      0      0      0
+
+#Tubs info
+#	Type No  RMin   RMax   Length   StartAng SpanAng Name             MotVolume       Material      SDName    posX posY posZ  RepNo Space      DirThe DirPhi Ephi   Etheta Epsi  
+#	         mm     mm     mm       deg      deg                                                              mm   mm   mm          mm         deg    deg    deg    deg    deg   
+	T    11  0      2000   4000     90       180     Dump31            DumpContainer1 Steel         none      0    0  -3150   1     0          0      0      0      0      0
+	T    11  0      2000   4000     270      180     Dump32            DumpContainer2 Steel         none      0    0  -3150   1     0          0      0      0      0      0
+	T    11  4000   4001   10300    0        360     DumpKiller1       World          Vacuum        KillerSD  14834.5 0 -4470.774 1 0          0      0      270   100     0
+	T    7   1000   4000   1        0        360     DumpKiller21      World          Vacuum        KillerSD  8301 0  -5790.5 1     0          0      0      270    90     0     
+#	T    7   0      4000   1        0        360     DumpKiller22      World          Vacuum        KillerSD  8301 0  -5790.5 1     0          0      0      270    90     0     
+	T    7   0      1000   1        0        360     DumpMonitor       World          Vacuum        MonitorSD 8302 0  -5790.5 1     0          0      0      270    90     0     
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name                        red    green  blue  
+#	vis_DumpContainer1      0      0      1     
+#	vis_DumpContainer2      0      0      1     
+#	vis_DumpWall1           0      1      1     
+	vis_DumpWall2           0      1      1     
+#	vis_Dump11              1      0      0     
+	vis_Dump12              1      0      0     
+#	vis_Dump21              1      0      0     
+	vis_Dump22              1      0      0     
+#	vis_Dump31              1      0      0     
+	vis_Dump32              1      0      0     
+#	vis_DumpKiller1         1      0      0     
+#	vis_DumpKiller2         1      0      0     
+	vis_DumpMonitor         1      0      0

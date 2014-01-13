@@ -8,6 +8,7 @@ static const char* MyStackingAction_hh =
 "@(#) $Id: MyStackingAction.hh 80 2007-12-09 10:01:09Z comet $";
 
 #include <map>
+#include <vector>
 #include "globals.hh"
 
 class MyStackingActionMessenger;
@@ -118,6 +119,14 @@ class MyStackingAction : public G4UserStackingAction {
         G4double GetPosCut() {return fPosCut;};
         G4double GetGamCut() {return fGamCut;};
 
+		void add_white_list(int val) {m_white_list.push_back(val);};
+		void add_black_list(int val) {m_black_list.push_back(val);};
+		void clear_white_list() {m_white_list.clear();};
+		void clear_black_list() {m_black_list.clear();};
+		void set_no_PC(bool val) {m_no_PC=val;};
+		void set_no_MC(bool val) {m_no_MC=val;};
+		void set_no_sec(bool val) {m_no_sec=val;};
+
     public:
 
         G4int GetDepthFromParent(G4int aTrack, G4int parentTrack);
@@ -137,6 +146,12 @@ class MyStackingAction : public G4UserStackingAction {
         G4double fEleCut;
         G4double fPosCut;
         G4double fGamCut;
+
+		bool m_no_PC;
+		bool m_no_MC;
+		bool m_no_sec;
+		std::vector<int> m_white_list;
+		std::vector<int> m_black_list;
 
 };
 #endif

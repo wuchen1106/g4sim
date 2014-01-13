@@ -23,8 +23,18 @@ G4History.macro
 currentEvent.rndm
 currentRun.rndm
 g4sim
-logfile.txt
+
+# often modified files
+fieldMaps/
+data/
+configure/MagField_default
+configure/geometry_default
+configure/gen_default
+configure/output_default
 output/
 data/
 fieldMaps/
 runlog/
+logfile
+log
+err

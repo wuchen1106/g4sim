@@ -145,6 +145,16 @@ void MyRoot::SetBranch(std::string name, int* pI ){
 	}
 }
 
+void MyRoot::SetBranch(std::string name, double* pD ){
+  m_tree->Branch(name.c_str(), pD);
+	if ( fVerbose >= 5 ){
+		std::cout<<"In MyRoot::SetBranch"<<std::endl;
+		std::cout<<"  New branch created!!"<<std::endl;
+		std::cout<<"  Name: "<<name<<std::endl;
+		std::cout<<"  Type: double"<<std::endl;
+	}
+}
+
 void MyRoot::SetBranch(std::string name, std::vector<std::string>* pVecCa){
   m_tree->Branch(name.c_str(), pVecCa);
 	if ( fVerbose >= 5 ){

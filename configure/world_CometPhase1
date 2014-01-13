@@ -1,0 +1,13 @@
+#general info
+#	checkoverlap
+
+#Box info
+#	Type x       y       z      Name     RepNo MotVolume Material   SDName posX   posY   posZ   Ephi Etheta Epsi
+#	     mm      mm      mm                                                mm     mm     mm     deg  deg    deg
+	B    5e4     5e4     5e4    World    1     None      Vacuum     none   0.     0.     0.     0    0      0
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name                 red    green  blue  
+#	vis_World            0      0      1     0.2

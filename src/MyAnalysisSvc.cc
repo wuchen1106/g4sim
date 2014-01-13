@@ -20,6 +20,7 @@
 #include "McTruthSvc.hh"
 #include "ProcessCountingSvc.hh"
 #include "MyTriggerSvc.hh"
+#include "PrimaryGeneratorAction.hh"
 
 #include "DEBUG.hh"
 
@@ -27,41 +28,44 @@ MyAnalysisSvc* MyAnalysisSvc::fMyAnalysisSvc = 0;
 
 MyAnalysisSvc::MyAnalysisSvc()
 {
-  if (fMyAnalysisSvc){
-    G4Exception("MyAnalysisSvc::MyAnalysisSvc()","Run0031",
-        FatalException, "MyAnalysisSvc constructed twice.");
-  }
-  fMyAnalysisSvc = this;
-  //get pointers
-  pMyAnalysisSvcMessenger = new MyAnalysisSvcMessenger(this);
-  pMyRoot = MyRoot::GetMyRoot();
-  pMyDetectorManager = MyDetectorManager::GetMyDetectorManager();
-  pEventHeaderSvc = EventHeaderSvc::GetEventHeaderSvc();
-  pMcTruthSvc = McTruthSvc::GetMcTruthSvc();
-  pProcessCountingSvc = ProcessCountingSvc::GetProcessCountingSvc();
-  pMyTriggerSvc = MyTriggerSvc::GetMyTriggerSvc();
+	if (fMyAnalysisSvc){
+		G4Exception("MyAnalysisSvc::MyAnalysisSvc()","Run0031",
+				FatalException, "MyAnalysisSvc constructed twice.");
+	}
+	fMyAnalysisSvc = this;
+	//get pointers
+	pMyAnalysisSvcMessenger = new MyAnalysisSvcMessenger(this);
+	pMyRoot = MyRoot::GetMyRoot();
+	pMyDetectorManager = MyDetectorManager::GetMyDetectorManager();
+	pEventHeaderSvc = EventHeaderSvc::GetEventHeaderSvc();
+	pMcTruthSvc = McTruthSvc::GetMcTruthSvc();
+	pProcessCountingSvc = ProcessCountingSvc::GetProcessCountingSvc();
+	pMyTriggerSvc = MyTriggerSvc::GetMyTriggerSvc();
+	pPrimaryGeneratorAction  = PrimaryGeneratorAction::GetPrimaryGeneratorAction();
 
 	//default logfile
 	run_name = getenv("RUNNAMEROOT");
-  //default output file
-  ofile_name = getenv("OFILENAMEROOT");
-  //set default output card, read it, and inform relative files.
+	//default output file
+	ofile_name = getenv("OFILENAMEROOT");
+	//set default output card, read it, and inform relative files.
 	std::string out_card = getenv("OUTCARDROOT");
-  set_out_card(out_card.c_str());
-  //default trigger card
+	set_out_card(out_card.c_str());
+	//default trigger card
+	m_minT = -1;
+	m_maxT = -1;
 
 }
 
 MyAnalysisSvc::~MyAnalysisSvc()
- {
-   delete pMyAnalysisSvcMessenger;
- }
+{
+	delete pMyAnalysisSvcMessenger;
+}
 
 MyAnalysisSvc* MyAnalysisSvc::GetMyAnalysisSvc(){
-  if ( !fMyAnalysisSvc ){
-    fMyAnalysisSvc = new MyAnalysisSvc;
-  }
-  return fMyAnalysisSvc;
+	if ( !fMyAnalysisSvc ){
+		fMyAnalysisSvc = new MyAnalysisSvc;
+	}
+	return fMyAnalysisSvc;
 }
 
 void MyAnalysisSvc::set_out_card(G4String file_name){
@@ -80,28 +84,28 @@ void MyAnalysisSvc::set_out_card(G4String file_name){
 	//read output card
 	ReadOutputCard(file_name);
 	//set verbose
-  pMyRoot->SetVerbose(fVerbose);
-  pMyRoot->SetPrintModule(fPrintModule);
+	pMyRoot->SetVerbose(fVerbose);
+	pMyRoot->SetPrintModule(fPrintModule);
 }
 
 void MyAnalysisSvc::BeginOfRunAction(){
-  //deal with log
+	//deal with log
 	std::string log_name = getenv("LOGFILEROOT");
-  if ( std::strlen(log_name.c_str()) != 0 ){
+	if ( std::strlen(log_name.c_str()) != 0 ){
 		LogSvc::GetLogSvc()->SetLogFile( log_name.c_str() );
-  }
-  run_num = LogSvc::GetLogSvc()->AddLog( run_name.c_str() );
+	}
+	run_num = LogSvc::GetLogSvc()->AddLog( run_name.c_str() );
 	std::cout<<"logfile finished for "<<run_name<<", "<<run_num<<std::endl;
 
 	//set root file
-  pMyRoot->OpenFile(ofile_name);
-  pMyRoot->CreateTree(tree_name, fCircular);
+	pMyRoot->OpenFile(ofile_name);
+	pMyRoot->CreateTree(tree_name, fCircular);
 
-  //set branches
-  pMyDetectorManager->SetBranch();
+	//set branches
+	pMyDetectorManager->SetBranch();
 	pEventHeaderSvc->SetBranch();
-  pMcTruthSvc->SetBranch();
-  pProcessCountingSvc->SetBranch();
+	pMcTruthSvc->SetBranch();
+	pProcessCountingSvc->SetBranch();
 
 	t_begin = (double)clock();
 }
@@ -123,8 +127,8 @@ void MyAnalysisSvc::EndOfRunAction(const G4Run* aRun){
 	std::cout<<"TOTAL TIME COST IS:  "<<(double)(t_end-t_begin)/CLOCKS_PER_SEC*1000<<"ms"<<std::endl;
 	std::cout<<"TIME COST PER EVENT: "<<(double)(t_end-t_begin)/CLOCKS_PER_SEC/NbOfEvents*1000<<"ms"<<std::endl;
 	std::cout<<"##############################################\n"<<std::endl;
-  pMyRoot->Write();
-  pMyRoot->Close();
+	pMyRoot->Write();
+	pMyRoot->Close();
 }
 
 void MyAnalysisSvc::BeginOfEventAction(){
@@ -135,15 +139,18 @@ void MyAnalysisSvc::BeginOfEventAction(){
 
 void MyAnalysisSvc::EndOfEventAction(const G4Event* evt){
 	//Digitze
-  pMyDetectorManager->Digitize();
+	pMyDetectorManager->Digitize();
 	//Set event header 
-	pEventHeaderSvc->SetValue(evt,run_num);
+	double weight = 1;
+	void *result = pPrimaryGeneratorAction->get_extra("weight");
+	if (result) weight = *((double*)result);
+	pEventHeaderSvc->SetValue(evt,run_num,weight);
 
 	//Fill
-  if ( pMyTriggerSvc->TriggerIt(evt) ) pMyRoot->Fill();
+	if ( pMyTriggerSvc->TriggerIt(evt) ) pMyRoot->Fill();
 
-  //AutoSave
-  if (fAutoSave){
+	//AutoSave
+	if (fAutoSave){
 		int evt_num = evt->GetEventID();
 		if ( evt_num%fAutoSave == 0 ){
 			pMyRoot->Save();
@@ -156,6 +163,13 @@ void MyAnalysisSvc::EndOfEventAction(const G4Event* evt){
 void MyAnalysisSvc::SteppingAction(const G4Step* aStep){
 	//set ProcessCounting
 	pProcessCountingSvc->SetValue(aStep);
+	G4Track* aTrack = aStep->GetTrack() ;
+	G4int nSteps = aTrack->GetCurrentStepNumber();
+	if (nSteps>2e4)
+		aTrack->SetTrackStatus(fStopAndKill);
+	G4double globalT=aTrack->GetGlobalTime();//Time since the event in which the track belongs is created
+	if ((m_minT>=0&&m_minT>globalT)&&(m_maxT>=0&&m_maxT<globalT))
+		aTrack->SetTrackStatus(fStopAndKill);
 }
 
 void MyAnalysisSvc::InitialStepAction(const G4Step* aStep){
@@ -174,9 +188,9 @@ void MyAnalysisSvc::ReadOutputCard(G4String file_name){
 	std::ifstream fin_card(file_name);
 	if(!fin_card){
 		std::cout<<"In MyAnalysisSvc::ReadOutputCard, cannot open "<<file_name<<"!!!"<<std::endl;
-    G4Exception("MyAnalysisSvc::ReadOutputCard()",
-        "InvalidSetup", FatalException,
-        "cannot find output card");
+		G4Exception("MyAnalysisSvc::ReadOutputCard()",
+				"InvalidSetup", FatalException,
+				"cannot find output card");
 	}
 	std::stringstream buf_card;
 	std::string s_card;
@@ -191,15 +205,15 @@ void MyAnalysisSvc::ReadOutputCard(G4String file_name){
 		buf_card<<s_card;
 
 		//eleminate useless lines
-    const char* c_card = s_card.c_str();
-    int length = strlen(c_card);
-    int offset = 0;
-    for ( ; offset < length; offset++ ){
-      if ( c_card[offset] != ' ' ) break;
-    }
-    if ( c_card[offset] == '#' || (c_card[offset] == '/' && c_card[offset+1] == '/') || length - offset == 0 ){
-    	continue;
-    }
+		const char* c_card = s_card.c_str();
+		int length = strlen(c_card);
+		int offset = 0;
+		for ( ; offset < length; offset++ ){
+			if ( c_card[offset] != ' ' ) break;
+		}
+		if ( c_card[offset] == '#' || (c_card[offset] == '/' && c_card[offset+1] == '/') || length - offset == 0 ){
+			continue;
+		}
 		std::string name;
 		buf_card>>name;
 		if ( name == "tree_name" ){

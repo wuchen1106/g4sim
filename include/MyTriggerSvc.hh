@@ -14,7 +14,9 @@ class G4Event;
 class MyDetectorManager;
 class CdcLayerSD;
 class CdcSD;
+class CdcSimpleSD;
 class MonitorSD;
+class KillerSD;
 class McTruthSvc;
 
 class MyTriggerSvc
@@ -38,16 +40,20 @@ class MyTriggerSvc
 		void ShowOutCard();
 
 		int minCdcHits;
-		int minCdcCellHits;
-		int minTriggerHits;
+		int minM_Hits;
+		int minCorM_Hits;
 		double minEleMom;
 		int minAntipNum;
+		int minTracks;
 
 		MyDetectorManager* pMyDetectorManager;
 		CdcLayerSD* myCdcLayerSD;
 		CdcSD* myCdcSD;
-		MonitorSD* myTriggerSD;
+		CdcSimpleSD* myCdcSimpleSD;
+		MonitorSD* myMonitorSD;
+		MonitorSD* myMonitorSD2;
 		McTruthSvc* myMcTruthSvc;
+		KillerSD* myKillerSD;
 
 };
 

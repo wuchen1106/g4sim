@@ -1,0 +1,38 @@
+/control/getEnv MYG4SIMROOT
+
+# Get default settings
+/control/execute {MYG4SIMROOT}/macros/verbose_default.mac
+/control/execute {MYG4SIMROOT}/macros/setCut_default.mac
+
+# To save some time ...
+/stacking/setEleCut 95 MeV
+/stacking/setPosCut 95 MeV
+/stacking/setGamCut 95 MeV
+/run/setCut 0.01 mm
+
+# Generator:
+#/g4sim/gun/ReadCard gen_rmc
+/g4sim/gun/ReadCard gen_rpc
+/g4sim/gun/root_filename mum.1p5.17.root
+/g4sim/gun/initialize
+
+# Geometry:
+/g4sim/det/ClearGeo
+/g4sim/det/AddGeo World     world_CometPhase1     Simple
+/g4sim/det/AddGeo BLTCDC    subgeo_BLTCDC_0927.4v Simple
+/g4sim/det/AddGeo Trigger   subgeo_Trigger_BL.4v  Simple
+/g4sim/det/AddGeo CDC       subgeo_CDC_BL.4v  Cdc
+/g4sim/det/AddGeo Target    subgeo_ST_17          Simple
+# Modify:
+/g4sim/det/BLTCDC/SimpleGeometry/Tubs_RMin Collimator 11 cm
+/g4sim/det/BLTCDC/SimpleGeometry/PosZ Collimator -1.58645 m
+/g4sim/det/BLTCDC/SimpleGeometry/Tubs_Length Collimator 50 cm
+#/g4sim/det/BLTCDC/SimpleGeometry/Tubs_RMin Collimator 10 cm
+#/g4sim/det/BLTCDC/SimpleGeometry/PosZ Collimator -1.71145 m
+#/g4sim/det/BLTCDC/SimpleGeometry/Tubs_Length Collimator 25 cm
+#
+/g4sim/mag/ReadCard MagField_A9_130927
+/g4sim/det/update
+
+# Output:
+/g4sim/myAnalysisSvc/set_out_card output_CDCTrack

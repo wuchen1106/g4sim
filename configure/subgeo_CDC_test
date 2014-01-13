@@ -1,0 +1,45 @@
+#general info
+	checkoverlap
+	CellMaterial:              ChamberGas
+	MotherLogicalVolume:       World
+	SensitiveDetector:         CdcSD
+#	SensitiveDetector:         CdcIonSD
+	SDVolumeName:              CdcCell
+#	DigitizeModule:            CdcDigitizer
+#	DigitizeModule:            none
+
+#wire info
+	SignalWireMaterial:        Tungsten
+	FieldWireMaterial:         Aluminium
+	SignalWireRadius:          1000  #micrometer
+	FieldWireRadius:           5000  #micrometer
+
+#layer info
+	LayerNo:              2
+#	layer    WireNo   Length   R        StartPhi  First RotateCell
+#	                  mm       mm       rad     0:F/1:S
+	F                          475
+	S  0  0  240       1500    487.5    0         1      4
+	F                          500
+	S  1  1  240       1500    512.5    0         0     -4
+	LF                         525
+
+#Tubs info
+#	No   RMin  RMax  Length StartAng SpanAng Name          MotVolume  Material     SDName posX posY posZ  RepNo Space DirTheta DirPhi Ephi Etheta Epsi
+#	     mm    mm    mm     deg      deg                                                  mm   mm   mm          mm    deg      deg    deg  deg    deg
+	T 0  380   380.4 1500   0.       360     InWall        World      Aluminium    none   0.   0.   0     1     0     0        0      0    0      0
+#	T 0  0     1100  2      0.       360     Entrance      World      ChamberGas   none   0.   0.   -751. 1     0     0        0      0    0      0
+#	T 0  0     381.4 1500   0.       360     For_Test      World      Vacuum       none   0.   0.   0.    1     0     0        0      0    0      0
+#	T 0  0     382.4 201    0.       360     For_Test      World      Vacuum       none   0.   0.   475.  1     0     0        0      0    0      0
+#	T 0  0     394.957 10.3 0.       360     For_Test      World      Vacuum       none   0.   0. 750.    1     0     0        0      0    0      0
+#	T 0  0     384.033 2    0.       360     For_Test      World      Vacuum       none   0.   0. 260.296 1     0     0        0      0    0      0
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name             red green blue
+	vis_World        0    0    1
+	vis_InWall       1    0    0
+	vis_cell         0    1    0
+	vis_FieldWire    1    1    1
+	vis_SignalWire   1    0    0

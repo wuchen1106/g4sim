@@ -22,36 +22,40 @@ class MyDetectorManager;
 class McTruthSvc;
 class ProcessCountingSvc;
 class MyTriggerSvc;
+class PrimaryGeneratorAction;
 
 class MyAnalysisSvc
 {
-  public:
-    MyAnalysisSvc();
-     ~MyAnalysisSvc();
+	public:
+		MyAnalysisSvc();
+		~MyAnalysisSvc();
 
-    static MyAnalysisSvc* GetMyAnalysisSvc();
+		static MyAnalysisSvc* GetMyAnalysisSvc();
 		void set_out_card(G4String filename);
 
 		void set_ofile_name(G4String& val){ ofile_name = val; };
 		void set_tree_name(G4String& val){ tree_name = val; };
 		void set_run_name(G4String& val){ run_name = val; };
 
+		void set_minT(double val){m_minT=val;};
+		void set_maxT(double val){m_maxT=val;};
+
 		void ReadOutputCard(G4String filename);
 		int  GetRunID(){return run_num;};
 
 		void BeginOfRunAction();
-	  void EndOfRunAction(const G4Run*);
+		void EndOfRunAction(const G4Run*);
 		void PreUserTrackingAction(const G4Track*);
 		void PostUserTrackingAction(const G4Track*);
-	  void BeginOfEventAction();
-	  void EndOfEventAction(const G4Event*);
-	  void InitialStepAction(const G4Step*);
-	  void SteppingAction(const G4Step*);
-	  void ASDI(G4String);
-	  void PSDI(G4String);
+		void BeginOfEventAction();
+		void EndOfEventAction(const G4Event*);
+		void InitialStepAction(const G4Step*);
+		void SteppingAction(const G4Step*);
+		void ASDI(G4String);
+		void PSDI(G4String);
 
-  private:
-    static MyAnalysisSvc* fMyAnalysisSvc;
+	private:
+		static MyAnalysisSvc* fMyAnalysisSvc;
 		MyAnalysisSvcMessenger* pMyAnalysisSvcMessenger;
 
 		G4String out_card;
@@ -64,15 +68,19 @@ class MyAnalysisSvc
 		int fVerbose;
 		int fPrintModule;
 
+		double m_minT;
+		double m_maxT;
+
 		clock_t t_begin;
 		clock_t t_end;
 
-	  MyRoot* pMyRoot;
-	  EventHeaderSvc* pEventHeaderSvc;
-	  MyDetectorManager* pMyDetectorManager;
-	  McTruthSvc* pMcTruthSvc;
-	  ProcessCountingSvc* pProcessCountingSvc;
-	  MyTriggerSvc* pMyTriggerSvc;
+		MyRoot* pMyRoot;
+		EventHeaderSvc* pEventHeaderSvc;
+		MyDetectorManager* pMyDetectorManager;
+		McTruthSvc* pMcTruthSvc;
+		ProcessCountingSvc* pProcessCountingSvc;
+		MyTriggerSvc* pMyTriggerSvc;
+		PrimaryGeneratorAction* pPrimaryGeneratorAction;
 
 };
 

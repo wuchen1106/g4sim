@@ -57,11 +57,12 @@ G4VPhysicalVolume* DetectorConstruction::ConstructDetector()
 	G4LogicalVolumeStore::GetInstance()->Clean();
 	G4SolidStore::GetInstance()->Clean();
 
-	//MagField
-	pMyFieldSvc->SetField();
-
 	// Geometry
 	G4VPhysicalVolume* world_pvol = pMyDetectorManager->SetGeometry();
+
+	//MagField
+	G4LogicalVolume* world_lvol = world_pvol->GetLogicalVolume();
+	pMyFieldSvc->SetField(world_lvol);
 
 	//always return the physical world
 	return world_pvol;

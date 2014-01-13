@@ -1,0 +1,42 @@
+#General setting  
+	Type:      simple
+	Particle:  deuteron #(e+/e-/deuteron/chargedgeantino/gamma/...)
+
+#Default Direction
+#	           Theta    Phi
+#	           deg      deg
+	Direction: 180      0
+#Default Kinetic Energy
+#	             MeV
+	Ekin:        3
+	EkinSpread:  2
+#Default Position     x    y   z
+#	                  mm   mm  mm
+	Position:         0    0   20          
+#	PosSpread:        0    0   0
+
+	EnergyMode:     uRand #(root/histo/none/gRand/uRand)
+	PositionMode:   none #(uniform/root/none/gRand/uRand)
+	DirectionMode:  none #(none/uniform/histo)
+	TimeMode:       none #(none/root)
+	pidMode:        none #(none/root)
+
+#Default Time
+#	         ns
+	Time:    0
+
+#Uniform In Volume:
+#	                Type   SubDet   Volume
+#	UIV:            Simple BLTCDC   Target
+
+#Histogram file name
+#	EMHFN:          scan.0_100.root
+#	EMHHN:          h1
+
+#Histogram file name
+#	DMHFN:          ph2e.root
+#	DMHHN:          theta
+
+#ROOT file name
+#	RFN:            MT1.EP.mum.g40cm10mm.005T.g4s.QBH.root
+#	RTN:            t
