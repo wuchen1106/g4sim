@@ -7,22 +7,16 @@ PrintModule                 1000      //for classes related to output, including
 EVENTHEADER_SECTION
 	evt_num
 	run_num
-	R0
-	R1
 	weight
 EVENTHEADER_SECTION
 
 MCTRUTH_SECTION
-	e
-	pid
-	tid
-	volume
 	tid2pid
 	tid2time
 MCTRUTH_SECTION
 
 MCTRUTHFILTER_SECTION
-	Switch                     //if commented, then program wil not generate any hit
+#	Switch                     //if commented, then program wil not generate any hit
 MCTRUTHFILTER_SECTION
 
 C_SECTION
@@ -31,6 +25,12 @@ C_SECTION
 	edep           GeV
 	volID
 	pid
+	opx            GeV
+	opy            GeV
+	opz            GeV
+	ppid
+	ovolName
+	oprocess
 C_SECTION
 
 C_FILTERSECTION
@@ -40,10 +40,28 @@ C_FILTERSECTION
 	minedep       1      eV      //minimum energy deposition cut
 C_FILTERSECTION
 
+M_SECTION
+	nHits
+	t              ns
+	edep           GeV
+	volID
+	volName
+	pid
+	opx            GeV
+	opy            GeV
+	opz            GeV
+	ppid
+	ovolName
+	oprocess
+M_SECTION
+
+M_FILTERSECTION
+	Switch                        //if commented, then program wil not generate any hit
+	neutralCut                    //if not commented, then neutral tracks will not be recorded
+	tres          50    ns       //time resolution
+#	minedep       1      eV      //minimum energy deposition cut
+M_FILTERSECTION
+
 TRIGGERSECTION
-	minCdcHits        -1           # minimum required CDCLayer nHits. Would be set invalid if minCdcHits = -1
-	minCdcCellHits     1            # minimum required CDCCell nHits. Would be set invalid if minCdcCellHits = -1
-	minTriggerHits    -1           # minimum required Trigger nHits. Would be set invalid if minTriggerHits = -1
-	minEleMom         -1  MeV      # minimum required Electron momentum. Would be set invalid if minEleMom = -1 MeV
-	minAntipNum       -1           # minimum required Anti-Proton number. Would be set invalid if minAntipNum = -1
+	minCorM_Hits       1            # minimum required M nHits. Would be set invalid if = -1
 TRIGGERSECTION

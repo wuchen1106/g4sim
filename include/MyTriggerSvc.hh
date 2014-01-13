@@ -40,8 +40,8 @@ class MyTriggerSvc
 		void ShowOutCard();
 
 		int minCdcHits;
-		int minCdcCellHits;
-		int minTriggerHits;
+		int minM_Hits;
+		int minCorM_Hits;
 		double minEleMom;
 		int minAntipNum;
 		int minTracks;
@@ -51,7 +51,7 @@ class MyTriggerSvc
 		CdcSD* myCdcSD;
 		CdcSimpleSD* myCdcSimpleSD;
 		MonitorSD* myMonitorSD;
-		MonitorSD* myTriggerSD;
+		MonitorSD* myMonitorSD2;
 		McTruthSvc* myMcTruthSvc;
 		KillerSD* myKillerSD;
 

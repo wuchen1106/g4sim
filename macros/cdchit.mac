@@ -20,7 +20,7 @@
 /g4sim/det/AddGeo World     world_CometPhase1     Simple
 /g4sim/det/AddGeo BLTCDC    subgeo_BLTCDC_0927    Simple
 /g4sim/det/AddGeo Trigger   subgeo_Trigger_BL     Simple
-/g4sim/det/AddGeo CDC       subgeo_CDC_BL        Cdc   
+/g4sim/det/AddGeo CDC       subgeo_CDC_BL         Cdc   
 /g4sim/det/AddGeo Target    subgeo_ST_17          Simple
 # Modify:
 /g4sim/det/BLTCDC/SimpleGeometry/Tubs_RMin Collimator 11 cm

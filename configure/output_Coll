@@ -22,7 +22,6 @@ MCTRUTH_SECTION
 	px                GeV
 	py                GeV
 	pz                GeV
-	e                 GeV
 	x                 cm
 	y                 cm
 	z                 cm
@@ -57,10 +56,20 @@ T_SECTION
 T_FILTERSECTION
 	Switch                        //if commented, then program wil not generate any hit
 	stopped                       //need to be stopped inside
+	WL            -211
+	WL            13
 T_FILTERSECTION
 
 V_SECTION
 	nHits
+	pid
+	t                 ns
+	px                GeV
+	py                GeV
+	pz                GeV
+	x                 cm
+	y                 cm
+	z                 cm
 V_SECTION
 
 V_FILTERSECTION
@@ -68,9 +77,8 @@ V_FILTERSECTION
 V_FILTERSECTION
 
 TRIGGERSECTION
-	minCdcHits        -1           // minimum required CDCLayer nHits. Would be set invalid if minCdcHits = -1
-	minCdcCellHits    -1           // minimum required CDCCell nHits. Would be set invalid if minCdcCellHits = -1
-	minTriggerHits    -1           // minimum required Trigger nHits. Would be set invalid if minTriggerHits = -1
+	minM_Hits         -1            # minimum required M nHits. Would be set invalid if = -1
+	minCdcHits        -1           # minimum required Cdc nHits. Would be set invalid if minCdcHits = -1
 	minEleMom         -1  MeV      // minimum required Electron momentum. Would be set invalid if minEleMom = -1 MeV
 	minAntipNum       -1           // minimum required Anti-Proton number. Would be set invalid if minAntipNum = -1
 TRIGGERSECTION
