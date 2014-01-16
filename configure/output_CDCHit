@@ -11,12 +11,13 @@ EVENTHEADER_SECTION
 EVENTHEADER_SECTION
 
 MCTRUTH_SECTION
+	pid
 	tid2pid
 	tid2time
 MCTRUTH_SECTION
 
 MCTRUTHFILTER_SECTION
-#	Switch                     //if commented, then program wil not generate any hit
+	Switch                     //if commented, then program wil not generate any hit
 MCTRUTHFILTER_SECTION
 
 C_SECTION

@@ -23,9 +23,6 @@
 /g4sim/det/AddGeo CDC       subgeo_CDC_BL         Cdc   
 /g4sim/det/AddGeo Target    subgeo_ST_17          Simple
 # Modify:
-/g4sim/det/BLTCDC/SimpleGeometry/Tubs_RMin Collimator 11 cm
-/g4sim/det/BLTCDC/SimpleGeometry/PosZ Collimator -1.58645 m
-/g4sim/det/BLTCDC/SimpleGeometry/Tubs_Length Collimator 50 cm
 #
 /g4sim/mag/ReadCard MagField_A9_130927
 /g4sim/det/update

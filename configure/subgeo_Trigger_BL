@@ -1,7 +1,7 @@
 #general info
 	checkoverlap
 
-DEFINE:		PI			3.14159265
+DEFINE:		PI			3.1415926536
 DEFINE:		RCDCI		500
 DEFINE:		thCi		99e-3
 DEFINE:		thAl		1e-3
@@ -14,17 +14,18 @@ DEFINE:		LTri		300
 DEFINE:		thTriP		5
 DEFINE:		thTriA		30
 DEFINE:		wTri		45
-DEFINE:		gTri		29.6
-#DEFINE:		gTri		0
-DEFINE:		aTri		56.6*PI/180
+#DEFINE:		gTri		29.6
+DEFINE:		gTri		0
+DEFINE:		aTri		56.6
+DEFINE:		aTrir		aTri*PI/180
 #Tubs info
 #	Type RMin   RMax    Length  StartAng SpanAng Name           RepNo MotVolume     Material        SDName      posX posY posZ Ephi   Etheta Epsi  
 #	     mm     mm      mm      deg      deg                                                                    mm   mm   mm   deg    deg    deg   
 	T    0      RCDCi   LCDC    0        360     CDCInner       1     BLTCDC        Helium          none        0    0  pZCDCY 0      0      0
 
 DEFINE:		thTri 		thTriP+thTriA
-DEFINE:		RTri		RCDCi-gTri-thTri/2*cos(aTri)-wTri/2*sin(aTri)
-DEFINE:		RITri		RCDCi-gTri-thTri*cos(aTri)-wTri*sin(aTri)
+DEFINE:		RTri		RCDCi-gTri-thTri/2*cos(aTrir)-wTri/2*sin(aTrir)
+DEFINE:		RITri		RCDCi-gTri-thTri*cos(aTrir)-wTri*sin(aTrir)
 #Box info
 #	Type x       y       z      Name      RepNo MotVolume Material     SDName        posX   posY   posZ   Ephi Etheta Epsi
 #	     mm      mm      mm                                                          mm     mm     mm     deg  deg    deg
