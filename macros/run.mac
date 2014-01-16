@@ -1,5 +1,5 @@
 /control/getEnv MYG4SIMROOT
-/control/execute {MYG4SIMROOT}/macros/cdchit.mac
+#/control/execute {MYG4SIMROOT}/macros/cdchit.mac
 #/control/execute {MYG4SIMROOT}/macros/coll.mac
 
 #/stacking/setEleCut 1.5 keV
@@ -10,10 +10,10 @@
 #/stacking/set_no_MC 1
 #/stacking/set_no_PC 1
 
-/g4sim/gun/ReadCard gen_root
+#/g4sim/gun/ReadCard gen_root
 #/g4sim/gun/root_filename Coll.OT.g60cm10mm.005T.g4s.QBH.root
-/g4sim/gun/root_filename MT1.OT.g60cm10mm.005T.g4s.QBH.root
-/g4sim/gun/initialize
+#/g4sim/gun/root_filename MT1.OT.g60cm10mm.005T.g4s.QBH.root
+#/g4sim/gun/initialize
 
 /random/setSeeds  0 4249
 #/g4sim/gun/root_index 86050
