@@ -1,7 +1,9 @@
 /control/getEnv MYG4SIMROOT
 #/control/execute {MYG4SIMROOT}/macros/cdchit.mac
+/control/execute {MYG4SIMROOT}/macros/cdctrack.mac
 #/control/execute {MYG4SIMROOT}/macros/coll.mac
 
+/run/setCut 0.7 mm
 #/stacking/setEleCut 1.5 keV
 #/stacking/setPosCut 1.5 keV
 #/stacking/setGamCut 1.5 keV
