@@ -3,6 +3,8 @@
 /control/execute {MYG4SIMROOT}/macros/cdctrack.mac
 #/control/execute {MYG4SIMROOT}/macros/coll.mac
 
+/g4sim/event/printModulo            100
+
 /run/setCut 0.7 mm
 #/stacking/setEleCut 1.5 keV
 #/stacking/setPosCut 1.5 keV
@@ -28,4 +30,4 @@
 #/run/beamOn  1126785
 # OT
 #/run/beamOn  1601258
-/run/beamOn  1000
+/run/beamOn  100000

@@ -20,13 +20,6 @@ endif()
 #
 include(${Geant4_USE_FILE})
 #include(${Geant4_USE_FILE} ${ROOT_USE_FILE})
-IF (CMAKE_COMPILER_IS_GNUCC)
-	SET(CMAKE_C_FLAGS "-g ${CMAKE_C_FLAGS}")
-	SET(CMAKE_CXX_FLAGS "-g ${CMAKE_CXX_FLAGS}")
-	message("Will use -g option!!!")
-	message("CMAKE_C_FLAGS = ${CMAKE_C_FLAGS}")
-	message("CMAKE_CXX_FLAGS = ${CMAKE_CXX_FLAGS}")
-ENDIF()
 
 #----------------------------------------------------------------------------
 # Find ROOT (required package)
@@ -81,13 +74,6 @@ target_link_libraries(g4simlib ${Geant4_LIBRARIES} ${ROOT_LIBRARIES} Cintex Refl
 #
 add_executable(g4sim g4sim.cc ${sources} ${headers})
 target_link_libraries(g4sim g4simlib ${Geant4_LIBRARIES} ${ROOT_LIBRARIES})
-
-#----------------------------------------------------------------------------
-# Add test executables , and link it to the Geant4 libraries
-#
-project(testg4)
-add_executable(testg4 testg4.cc ${sources} ${headers})
-target_link_libraries(testg4 g4simlib ${Geant4_LIBRARIES} ${ROOT_LIBRARIES})
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
