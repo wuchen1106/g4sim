@@ -36,7 +36,13 @@
 PrimaryGeneratorAction* PrimaryGeneratorAction::fPrimaryGeneratorAction = 0;
 
 PrimaryGeneratorAction::PrimaryGeneratorAction()
-	:root_index(0), MyConfigure()
+	: MyConfigure(),
+	root_index(0),
+	m_TChain(0),
+	particleGun(0),	 //pointer a to G4  class
+	gunMessenger(0),   //messenger of this class
+	fParticle(0),
+	fp(0)
 {
 	if (fPrimaryGeneratorAction){
 		G4Exception("PrimaryGeneratorAction::PrimaryGeneratorAction()","Run0031",
@@ -63,7 +69,7 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
 
 PrimaryGeneratorAction* PrimaryGeneratorAction::GetPrimaryGeneratorAction(){
 	if ( !fPrimaryGeneratorAction ){
-		fPrimaryGeneratorAction = new PrimaryGeneratorAction;
+		new PrimaryGeneratorAction();
 	}
 	return fPrimaryGeneratorAction;
 }
@@ -513,6 +519,7 @@ void PrimaryGeneratorAction::root_set_extra(){
 }
 
 void PrimaryGeneratorAction::ReadCard(G4String file_name){
+	Reset();
 	size_t sLast = file_name.last('/');
 	if(sLast==std::string::npos){ // file name only
 		G4String dir_name = getenv("CONFIGUREROOT");
@@ -688,14 +695,80 @@ void PrimaryGeneratorAction::ReadCard(G4String file_name){
 		}
 	}
 	fin_card.close();
+	delete fin_card;
 	buf_card.str("");
 	buf_card.clear();
 	Dump();
 }
 
+void PrimaryGeneratorAction::Reset(){
+	fType = "simple";
+	RandMode = "none";
+	EnergyMode = "none";
+	PositionMode = "none";
+	TimeMode = "none";
+	pidMode = "none";
+	DirectionMode = "none";
+	PhiMode = "none";
+	ThetaMode = "none";
+	ParticleName = "chargedgeantino";
+	EM_hist_filename = "";
+	EM_hist_histname = "";
+	DM_hist_filename = "";
+	DM_hist_histname = "";
+	root_filename = "";
+	root_treename = "";
+	UP_SubDet = "";
+	UP_Volume = "";
+	UP_Type = "";
+	EnergyType = 1;
+	Z = 1;
+	A = 1;
+	C = 0;
+	E = 0;
+	Pa = 0;
+	Ekin = 0;
+	mass = 0;
+	Px = 0;
+	Py = 0;
+	Pz = 0;
+	Theta = 0;
+	Phi = 0;
+	x = 0;
+	y = 0;
+	z = 0;
+	t = 0;
+	xSpread = 0;
+	ySpread = 0;
+	zSpread = 0;
+	PosLimit2 = 0;
+	MomSpread = 0;
+	EkinSpread = 0;
+	ThetaSpread = 0;
+	PhiSpread = 0;
+	EM_hist = 0;
+	DM_hist = 0;
+	root_num = 0;
+	root_index = 0;
+	UseRoot = false;
+	flag_weight = false;
+	flag_ox = false;
+	flag_oy = false;
+	flag_oz = false;
+	flag_opx = false;
+	flag_opy = false;
+	flag_opz = false;
+	flag_ot = false;
+	flag_process = false;
+	flag_volume = false;
+	flag_ppid = false;
+	flag_ptid = false;
+}
+
 void PrimaryGeneratorAction::Initialize(){
 	if (fType == "simple" || fType == "stable" || fType == "ion" ){
 		G4int n_particle = 1;
+		if (particleGun) delete particleGun;
 		particleGun  = new G4ParticleGun(n_particle);
 	}
 	else {
@@ -742,8 +815,8 @@ void PrimaryGeneratorAction::Initialize(){
 	root_double[14]=-1;
 	root_double[15]=-1;
 	root_double[16]=-1;
-	root_str[0]=new std::string("NULL");
-	root_str[1]=new std::string("NULL");
+	root_str[0]=0;
+	root_str[1]=0;
 	root_int[1]=-1;
 	root_int[2]=-1;
 }

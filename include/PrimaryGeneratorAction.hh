@@ -41,6 +41,10 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
 
 		static PrimaryGeneratorAction* GetPrimaryGeneratorAction();
 
+		void Dump();
+
+		void Reset();
+
 		void set_EnergyMode(G4String val) { EnergyMode= val; }
 		void set_DirectionMode(G4String val) { DirectionMode= val; }
 		void set_PositionMode(G4String val) { PositionMode= val; }
@@ -77,7 +81,6 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
 
 	private:
 		//	G4double get_mom_from_histo();
-		void Dump();
 
 		G4ParticleGun*             particleGun;	 //pointer a to G4  class
 		PrimaryGeneratorMessenger* gunMessenger;   //messenger of this class
