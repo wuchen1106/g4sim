@@ -3,7 +3,7 @@
 /control/execute {MYG4SIMROOT}/macros/cdctrack.mac
 #/control/execute {MYG4SIMROOT}/macros/coll.mac
 
-/g4sim/event/printModulo            100
+#/g4sim/event/printModulo            100
 
 /run/setCut 0.7 mm
 #/stacking/setEleCut 1.5 keV
@@ -21,7 +21,7 @@
 
 /random/setSeeds  0 4249
 #/g4sim/gun/root_index 86050
-/g4sim/myAnalysisSvc/set_ofile_name output/test.root
+/g4sim/myAnalysisSvc/set_ofile_name output/rpc.root
 # mum
 #/run/beamOn  860498
 # pim
@@ -30,4 +30,4 @@
 #/run/beamOn  1126785
 # OT
 #/run/beamOn  1601258
-/run/beamOn  100000
+/run/beamOn  5623400

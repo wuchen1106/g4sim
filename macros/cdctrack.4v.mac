@@ -13,9 +13,11 @@
 /stacking/setGamCut 95 MeV
 
 # Generator:
-/g4sim/gun/ReadCard gen_root
+/g4sim/gun/ReadCard gen_rpc
+/g4sim/gun/root_filename ST_Shell.pim.g60cm10mm.005T.BL.g4s.QBH.root
+#/g4sim/gun/ReadCard gen_root
 #/g4sim/gun/root_filename MT1.OT_bkg.g60cm10mm.005T.g4s.QBH.root
-/g4sim/gun/root_filename MT1.pim.g60cm10mm.005T.g4s.QBH.root
+#/g4sim/gun/root_filename MT1.pim.g60cm10mm.005T.g4s.QBH.root
 /g4sim/gun/initialize
 
 # Geometry:

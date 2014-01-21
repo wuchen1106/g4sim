@@ -46,6 +46,7 @@ MCTRUTHFILTER_SECTION
 
 T_SECTION
 	nHits
+	pid
 	Ox             cm
 	Oy             cm
 	Oz             cm
@@ -62,6 +63,7 @@ T_FILTERSECTION
 
 T2_SECTION
 	nHits
+	pid
 	Ox             cm
 	Oy             cm
 	Oz             cm

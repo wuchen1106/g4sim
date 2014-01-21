@@ -8,6 +8,7 @@
 /run/setCut 0.01 mm
 /stacking/set_no_MC 1
 /stacking/set_no_PC 1
+/stacking/set_no_sec 1
 
 # Generator:
 /g4sim/gun/ReadCard gen_root
