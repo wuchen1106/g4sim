@@ -7,6 +7,8 @@ PrintModule                 1000      //for classes related to output, including
 EVENTHEADER_SECTION
 	evt_num
 	run_num
+	R0
+	R1
 	weight
 EVENTHEADER_SECTION
 
