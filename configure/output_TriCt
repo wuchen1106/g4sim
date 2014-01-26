@@ -2,7 +2,7 @@ tree_name                   tree
 AutoSave                    0         //0: no auto save; n(n>0): call m_tree->AutoSave() every n events
 Circular                    0         //0: do not set circular; n(n>0): call m_tree->SetCircular(n)
 Verbose                     0         //for classes related to output, including MyRoot, Cdc*SD, etc.
-PrintModule                 1000      //for classes related to output, including MyRoot, Cdc*SD, etc.
+PrintModulo                 1000      //for classes related to output, including MyRoot, Cdc*SD, etc.
 
 M_SECTION
 	nHits

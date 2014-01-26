@@ -23,15 +23,18 @@ class McTruthSvc;
 class ProcessCountingSvc;
 class MyTriggerSvc;
 class PrimaryGeneratorAction;
+class MyProcessManager;
 
 class MyAnalysisSvc
 {
 	public:
 		MyAnalysisSvc();
-		~MyAnalysisSvc();
+		virtual ~MyAnalysisSvc();
 
 		static MyAnalysisSvc* GetMyAnalysisSvc();
 		void set_out_card(G4String filename);
+
+		void set_PrintModulo(int i){fPrintModulo = i;};
 
 		void set_ofile_name(G4String& val){ ofile_name = val; };
 		void set_tree_name(G4String& val){ tree_name = val; };
@@ -66,7 +69,7 @@ class MyAnalysisSvc
 		int fAutoSave;
 		int fCircular;
 		int fVerbose;
-		int fPrintModule;
+		int fPrintModulo;
 
 		double m_minT;
 		double m_maxT;
@@ -81,7 +84,7 @@ class MyAnalysisSvc
 		ProcessCountingSvc* pProcessCountingSvc;
 		MyTriggerSvc* pMyTriggerSvc;
 		PrimaryGeneratorAction* pPrimaryGeneratorAction;
-
+		MyProcessManager* pMyProcessManager;
 };
 
 #endif

@@ -22,6 +22,7 @@
 #include "MyTriggerSvc.hh"
 #include "PrimaryGeneratorAction.hh"
 
+#include "MyProcessManager.hh"
 #include "DEBUG.hh"
 
 MyAnalysisSvc* MyAnalysisSvc::fMyAnalysisSvc = 0;
@@ -42,6 +43,7 @@ MyAnalysisSvc::MyAnalysisSvc()
 	pProcessCountingSvc = ProcessCountingSvc::GetProcessCountingSvc();
 	pMyTriggerSvc = MyTriggerSvc::GetMyTriggerSvc();
 	pPrimaryGeneratorAction  = PrimaryGeneratorAction::GetPrimaryGeneratorAction();
+	pMyProcessManager = MyProcessManager::GetMyProcessManager();
 
 	//default logfile
 	run_name = getenv("RUNNAMEROOT");
@@ -53,6 +55,7 @@ MyAnalysisSvc::MyAnalysisSvc()
 	//default trigger card
 	m_minT = -1;
 	m_maxT = -1;
+	fPrintModulo = 1000;
 
 }
 
@@ -85,7 +88,7 @@ void MyAnalysisSvc::set_out_card(G4String file_name){
 	ReadOutputCard(file_name);
 	//set verbose
 	pMyRoot->SetVerbose(fVerbose);
-	pMyRoot->SetPrintModule(fPrintModule);
+	pMyRoot->SetPrintModulo(fPrintModulo);
 }
 
 void MyAnalysisSvc::BeginOfRunAction(){
@@ -138,6 +141,7 @@ void MyAnalysisSvc::BeginOfEventAction(){
 }
 
 void MyAnalysisSvc::EndOfEventAction(const G4Event* evt){
+	int evt_num = evt->GetEventID();
 	//Digitze
 	pMyDetectorManager->Digitize();
 	//Set event header 
@@ -151,12 +155,16 @@ void MyAnalysisSvc::EndOfEventAction(const G4Event* evt){
 
 	//AutoSave
 	if (fAutoSave){
-		int evt_num = evt->GetEventID();
 		if ( evt_num%fAutoSave == 0 ){
 			pMyRoot->Save();
 			int nBytes = pMyRoot->FlushBaskets();
 			std::cout<<"Event "<<evt_num<<", "<<nBytes<<"Bytes data written"<<std::endl;
 		}
+	}
+
+	//print per event (modulo n)
+	if (evt_num%fPrintModulo == 0) { 
+		std::cout << "-->BeginOfEvent: " << evt_num<< " MemSize: "<<pMyProcessManager->GetMemorySize()<<" MB"<<std::endl;
 	}
 }
 
@@ -198,7 +206,7 @@ void MyAnalysisSvc::ReadOutputCard(G4String file_name){
 	bool find_AutoSave = false;
 	bool find_Circular = false;
 	bool find_Verbose = false;
-	bool find_PrintModule = false;
+	bool find_PrintModulo = false;
 	while(getline(fin_card,s_card)){
 		buf_card.str("");
 		buf_card.clear();
@@ -236,12 +244,12 @@ void MyAnalysisSvc::ReadOutputCard(G4String file_name){
 			std::cout<<"In MyAnalysisSvc::ReadOutputCard, fVerbose will be set to "<<fVerbose<<std::endl;
 			find_Verbose = true;
 		}
-		else if ( name == "PrintModule" ){
-			buf_card>>fPrintModule;
-			std::cout<<"In MyAnalysisSvc::ReadOutputCard, fPrintModule will be set to "<<fPrintModule<<std::endl;
-			find_PrintModule = true;
+		else if ( name == "PrintModulo" ){
+			buf_card>>fPrintModulo;
+			std::cout<<"In MyAnalysisSvc::ReadOutputCard, fPrintModulo will be set to "<<fPrintModulo<<std::endl;
+			find_PrintModulo = true;
 		}
-		if ( find_Verbose && find_PrintModule && find_Circular && find_AutoSave && find_tree_name ) break;
+		if ( find_Verbose && find_PrintModulo && find_Circular && find_AutoSave && find_tree_name ) break;
 	}
 	if (!find_tree_name){
 		std::cout<<"In MyAnalysisSvc::ReadOutputCard, tree_name not found in card, will be set to t as default"<<std::endl;
@@ -259,9 +267,9 @@ void MyAnalysisSvc::ReadOutputCard(G4String file_name){
 		std::cout<<"In MyAnalysisSvc::ReadOutputCard, Verbose not found in card, will be set to 0 as default"<<std::endl;
 		fVerbose = 0;
 	}
-	if (!find_PrintModule){
-		std::cout<<"In MyAnalysisSvc::ReadOutputCard, PrintModule not found in card, will be set to 0 as default"<<std::endl;
-		fPrintModule = 0;
+	if (!find_PrintModulo){
+		std::cout<<"In MyAnalysisSvc::ReadOutputCard, PrintModulo not found in card, will be set to 0 as default"<<std::endl;
+		fPrintModulo = 1000;
 	}
 	fin_card.close();
 	buf_card.str("");

@@ -43,14 +43,14 @@ public:
   void Close();
 
 	void SetVerbose( int val ){fVerbose = val;};
-	void SetPrintModule( int val ){fPrintModule = val;};
+	void SetPrintModulo( int val ){fPrintModulo = val;};
 
 private:
 
   static MyRoot* fMyRoot;
 
 	int fVerbose;
-	int fPrintModule;
+	int fPrintModulo;
 	int nbFilled;
 
   //about root file

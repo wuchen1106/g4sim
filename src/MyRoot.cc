@@ -19,7 +19,7 @@ MyRoot::MyRoot()
         FatalException, "MyRoot constructed twice.");
   }
   fVerbose = 0;
-  fPrintModule = 0;
+  fPrintModulo = 0;
   fMyRoot = this;
 	if ( fVerbose >= 5 ){
 		printf("MyRoot\n");
@@ -73,8 +73,8 @@ void MyRoot::Fill(){
   m_tree->Fill();
 	nbFilled++;
 	if ( fVerbose >= 5 ){
-		if ( fPrintModule ){
-			if ( nbFilled%fPrintModule == 0 ){
+		if ( fPrintModulo ){
+			if ( nbFilled%fPrintModulo == 0 ){
 				std::cout<<"In MyRoot::Fill"<<std::endl;
 				std::cout<<"  m_tree->Fill()"<<std::endl;
 				std::cout<<"  "<<nbFilled<<" times for this tree"<<std::endl;

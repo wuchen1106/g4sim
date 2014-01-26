@@ -54,12 +54,8 @@ public:
   void  BeginOfEventAction(const G4Event*);
   void    EndOfEventAction(const G4Event*);
 
-  void SetPrintModulo(G4int    val)  {printModulo = val;};
-
 private:
    RunAction*  runAct;
-
-   G4int     printModulo;
                              
    EventActionMessenger*  eventMessenger;
 };

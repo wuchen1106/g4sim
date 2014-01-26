@@ -63,6 +63,11 @@
 	run_name_cmd->SetDefaultValue("test");
 	run_name_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
+	//about PrintModulo
+	PrintCmd = new G4UIcmdWithAnInteger("/g4sim/myAnalysisSvc/printModulo",this);
+	PrintCmd->SetGuidance("Print events modulo n");
+	PrintCmd->SetParameterName("EventNb",false);
+	PrintCmd->SetRange("EventNb>0");
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -83,6 +88,9 @@ MyAnalysisSvcMessenger::~MyAnalysisSvcMessenger()
 
 	//about log
 	delete run_name_cmd;
+
+	//about PrintModulo
+	delete PrintCmd;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -102,6 +110,9 @@ void MyAnalysisSvcMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
 
 	//about log
 	if(command==run_name_cmd){m_myAnalysisSvc->set_run_name(newValue);}
+
+	//about PrintModulo
+	if(command == PrintCmd){m_myAnalysisSvc->set_PrintModulo(PrintCmd->GetNewIntValue(newValue));}
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

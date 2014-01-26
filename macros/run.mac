@@ -3,7 +3,7 @@
 #/control/execute {MYG4SIMROOT}/macros/cdctrack.mac
 #/control/execute {MYG4SIMROOT}/macros/coll.mac
 
-#/g4sim/event/printModulo            100
+#/g4sim/myAnalysisSvc/printModulo            100
 
 #/run/setCut 0.7 mm
 #/stacking/setEleCut 1.5 keV

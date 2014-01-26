@@ -695,7 +695,6 @@ void PrimaryGeneratorAction::ReadCard(G4String file_name){
 		}
 	}
 	fin_card.close();
-	delete fin_card;
 	buf_card.str("");
 	buf_card.clear();
 	Dump();

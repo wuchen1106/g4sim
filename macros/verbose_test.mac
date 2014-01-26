@@ -14,4 +14,4 @@
 #/process/verbose                    1
 #/material/verbose                   1
 #/tracking/verbose                    1
-/g4sim/event/printModulo      1
+/g4sim/myAnalysisSvc/printModulo      1

@@ -60,7 +60,6 @@ EventAction::EventAction()
 {
   runAct = (RunAction*)G4RunManager::GetRunManager()->GetUserRunAction();
   eventMessenger = new EventActionMessenger(this);
-  printModulo = 1000;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -74,32 +73,16 @@ EventAction::~EventAction()
 
 void EventAction::BeginOfEventAction(const G4Event* evt)
 {  
-  G4int evtNb = evt->GetEventID();
-
 	//deal with analysis
 	MyAnalysisSvc::GetMyAnalysisSvc()->BeginOfEventAction();
-
-  //print per event (modulo n)
-  if (evtNb%printModulo == 0) { 
-    std::cout << "\n---> Begin of event: " << evtNb << std::endl;
-    CLHEP::HepRandom::showEngineStatus();
-  }
-
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void EventAction::EndOfEventAction(const G4Event* evt)
 {
-  G4int evtNb = evt->GetEventID();
-
 	//deal with analysis
 	MyAnalysisSvc::GetMyAnalysisSvc()->EndOfEventAction(evt);
-
-  //print per event (modulo n)
-  if (evtNb%printModulo == 0) {
-    std::cout << "---> End of event: " << evtNb << std::endl;	
-  }
 }  
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

@@ -44,21 +44,12 @@
 EventActionMessenger::EventActionMessenger(EventAction* EvAct)
 :eventAction(EvAct)
 {
-  eventDir = new G4UIdirectory("/g4sim/event/");
-  eventDir->SetGuidance("event control");
-   
-  PrintCmd = new G4UIcmdWithAnInteger("/g4sim/event/printModulo",this);
-  PrintCmd->SetGuidance("Print events modulo n");
-  PrintCmd->SetParameterName("EventNb",false);
-  PrintCmd->SetRange("EventNb>0");
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 EventActionMessenger::~EventActionMessenger()
 {
-  delete PrintCmd;
-  delete eventDir;   
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -66,8 +57,6 @@ EventActionMessenger::~EventActionMessenger()
 void EventActionMessenger::SetNewValue(
                                         G4UIcommand* command,G4String newValue)
 { 
-  if(command == PrintCmd)
-    {eventAction->SetPrintModulo(PrintCmd->GetNewIntValue(newValue));}
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

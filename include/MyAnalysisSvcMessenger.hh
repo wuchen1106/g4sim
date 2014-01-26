@@ -15,6 +15,7 @@ class MyAnalysisSvc;
 class G4UIdirectory;
 class G4UIcmdWithAString;
 class G4UIcmdWithADoubleAndUnit;
+class G4UIcmdWithAnInteger;
 
 class MyAnalysisSvcMessenger: public G4UImessenger
 {
@@ -42,6 +43,9 @@ class MyAnalysisSvcMessenger: public G4UImessenger
 
     //about log
     G4UIcmdWithAString*        run_name_cmd;
+
+	// about PrintModulo
+	G4UIcmdWithAnInteger* PrintCmd;
 };
 
 #endif

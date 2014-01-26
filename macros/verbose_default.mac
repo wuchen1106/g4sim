@@ -12,4 +12,4 @@
 #/particle/process/verbose           1   -1
 #/process/verbose                    0
 #/material/verbose                   0
-#/g4sim/event/printModulo            100
+#/g4sim/myAnalysisSvc/printModulo    100
