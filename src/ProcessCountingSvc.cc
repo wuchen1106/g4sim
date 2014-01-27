@@ -475,6 +475,7 @@ void ProcessCountingSvc::ShowOutCard(){
 }
 
 void ProcessCountingSvc::InitialStep(const G4Step* aStep){
+	std::cout<<"In ProcessCountingSvc::InitialStep"<<std::endl;
 	// get volume info
 	const G4VTouchable *touchable = aStep->GetPreStepPoint()->GetTouchable();
 	VolName = touchable->GetVolume(0)->GetName();
@@ -646,7 +647,9 @@ void ProcessCountingSvc::SetValue(const G4Step* aStep){
 void ProcessCountingSvc::CheckFilter(const G4Step* aStep){
 	PASSEDFILTER = true;
 	//switch
+	std::cout<<"In ProcessCountingSvc::CheckFilter"<<std::endl;
 	if (!m_Switch) {PASSEDFILTER = false; return;}
+	std::cout<<__LINE__<<std::endl;
 
 	// get information at the beginning and at the end of step
 	G4StepPoint* prePoint  = aStep->GetPreStepPoint() ;
@@ -658,24 +661,34 @@ void ProcessCountingSvc::CheckFilter(const G4Step* aStep){
 //*************************filter***********************
 	//nTracks
 	if (m_maxnTracks&&m_TrackIDs.size()>m_maxnTracks) {PASSEDFILTER = false; return;}
+	std::cout<<__LINE__<<std::endl;
 	//nSteps
 	if (m_maxnSteps&&m_nSteps>=m_maxnSteps) {PASSEDFILTER = false; return;}
+	std::cout<<__LINE__<<std::endl;
 	//momentum
 	if (m_minp&&pointIn_pa<m_minp) {PASSEDFILTER = false; return;}
+	std::cout<<__LINE__<<std::endl;
 	//energy
 	if (m_mine&&pointIn_e<m_mine) {PASSEDFILTER = false; return;}
+	std::cout<<__LINE__<<std::endl;
 	//time window
 	if (m_mint&&pointIn_time<m_mint) {PASSEDFILTER = false; return;}
+	std::cout<<__LINE__<<std::endl;
 	if (m_maxt&&pointIn_time>m_maxt) {PASSEDFILTER = false; return;}
+	std::cout<<__LINE__<<std::endl;
 	if (m_Volumes.size()>0){
 		PASSEDFILTER = false;
 		for ( int i = 0; i< m_Volumes.size(); i++ ){
+			std::cout<<"TO Check \""<<m_Volumes[i]<<"\""<<std::endl;
+			std::cout<<"Current Volume: \""<<VolName<<"\""<<std::endl;
 			if ( VolName == m_Volumes[i] ){
+				std::cout<<"Same!"<<std::endl;
 				PASSEDFILTER = true;
 				break;
 			}
 		}
 	}
+	std::cout<<"Still Passed? "<<PASSEDFILTER<<std::endl;
 }
 
 void ProcessCountingSvc::CheckTrack(const G4Step* aStep){

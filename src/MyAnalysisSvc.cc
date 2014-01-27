@@ -138,15 +138,12 @@ void MyAnalysisSvc::EndOfRunAction(const G4Run* aRun){
 }
 
 void MyAnalysisSvc::BeginOfEventAction(){
-	CLHEP::HepRandom::showEngineStatus();
 	//Initialize
 	pMcTruthSvc->Initialize();
 	pProcessCountingSvc->Initialize();
-	CLHEP::HepRandom::showEngineStatus();
 }
 
 void MyAnalysisSvc::EndOfEventAction(const G4Event* evt){
-	CLHEP::HepRandom::showEngineStatus();
 	int evt_num = evt->GetEventID();
 	//Digitze
 	pMyDetectorManager->Digitize();

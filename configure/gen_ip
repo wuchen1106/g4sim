@@ -17,7 +17,7 @@ DEFINE:		LTgt	600
 DEFINE:		pi		3.14159265358
 DEFINE:		d		0
 DEFINE:		pZ		-5790.5-(-d+LTgt/2)*sin(10*pi/180)
-DEFINE:		pX		5650-1700+(-d+LTgt/2)*cos(10*pi/180)
+DEFINE:		pX		5650+1700-(-d+LTgt/2)*cos(10*pi/180)
 	Position:         pX   0   pZ
 	PosSpread:        0    2   2
 

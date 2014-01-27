@@ -21,6 +21,7 @@
 /gui/addButton run cdchit.4v "/control/execute macros/cdchit.4v.mac"
 /gui/addButton run cdctrack.4v "/control/execute macros/cdctrack.4v.mac"
 /gui/addButton run TriCt.4v "/control/execute macros/TriCt.4v.mac"
+/gui/addButton run b9 "/control/execute macros/b9.mac"
 #
 # Gun menu :
 /gui/addMenu gun Gun
