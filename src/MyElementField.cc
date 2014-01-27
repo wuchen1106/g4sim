@@ -76,8 +76,8 @@ void MyElementField::construct() {
         G4TransportationManager::GetTransportationManager()->
         GetNavigatorForTracking();
 
-    G4cout << "-AK- In MyElementField::construct, lvolume is "
-        << lvolume->GetName() << G4endl;
+//    G4cout << "-AK- In MyElementField::construct, lvolume is "
+//        << lvolume->GetName() << G4endl;
 
     if (!aNavigator) {
         aNavigator = new G4Navigator();
@@ -93,20 +93,20 @@ void MyElementField::construct() {
     }
 
     aNavigator->LocateGlobalPointAndSetup(center,0,false);
-    G4cout << "-AK- MyElementField::construct, center is " << center << G4endl;
+//    G4cout << "-AK- MyElementField::construct, center is " << center << G4endl;
 
     G4TouchableHistoryHandle fTouchable = aNavigator->
         CreateTouchableHistoryHandle();
 
     G4int depth = fTouchable->GetHistoryDepth();
-    G4cout << "-AK- fTouchable->GetHistoryDepth is " << depth << G4endl;
+//    G4cout << "-AK- fTouchable->GetHistoryDepth is " << depth << G4endl;
 
     for (G4int i = 0; i<depth; ++i) {
-        G4cout << "-AK- In MyElementField::construct, volume is "
-            << fTouchable->GetVolume()->GetLogicalVolume()->GetName() << G4endl;
+//        G4cout << "-AK- In MyElementField::construct, volume is "
+ //           << fTouchable->GetVolume()->GetLogicalVolume()->GetName() << G4endl;
         if(fTouchable->GetVolume()->GetLogicalVolume() == lvolume) {
-            G4cout << "-AK- In MyElementField::construct, found lvolume "
-                << lvolume->GetName() << G4endl;
+//            G4cout << "-AK- In MyElementField::construct, found lvolume "
+//                << lvolume->GetName() << G4endl;
             break;
         }
 

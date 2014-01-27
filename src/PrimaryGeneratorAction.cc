@@ -87,6 +87,8 @@ void* PrimaryGeneratorAction::get_extra(G4String name){
 	else if (name=="ptid") {if(!flag_ptid)  return &root_int[2];}
 	else if (name=="process") {if(!flag_process)  return root_str[0];}
 	else if (name=="volume") {if(!flag_volume)  return root_str[1];}
+	else if (name=="R0") {if(!flag_volume)  return &root_double[7];}
+	else if (name=="R1") {if(!flag_volume)  return &root_double[8];}
 	return NULL;
 }
 
@@ -102,6 +104,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 		seeds[0] = root_double[7];
 		seeds[1] = root_double[8];
 		seeds[2] = 0;
+		std::cout<<"setTheSeeds("<<(int)seeds[0]<<","<<(int)seeds[1]<<")"<<std::endl;
 		CLHEP::HepRandom::setTheSeeds(seeds);
 	}
 	EventHeaderSvc::GetEventHeaderSvc()->SetSeedsValue();

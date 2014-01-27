@@ -17,6 +17,7 @@
 /gui/addButton run line_ol "/control/execute macros/line_ol.mac"
 /gui/addButton run coll "/control/execute macros/coll.mac"
 /gui/addButton run coll.4v "/control/execute macros/coll.4v.mac"
+/gui/addButton run cdchit "/control/execute macros/cdchit.mac"
 /gui/addButton run cdchit.4v "/control/execute macros/cdchit.4v.mac"
 /gui/addButton run cdctrack.4v "/control/execute macros/cdctrack.4v.mac"
 /gui/addButton run TriCt.4v "/control/execute macros/TriCt.4v.mac"

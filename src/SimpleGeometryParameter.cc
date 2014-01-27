@@ -907,7 +907,7 @@ void SimpleGeometryParameter::ReSetVis() {
 void SimpleGeometryParameter::DumpInfo() {
 	MyVGeometryParameter::DumpInfo();// dump info of its Parent Class first
 	std::cout<<"------SimpleGeometry info :--------"<<std::endl;
-	std::cout<<std::scientific<<std::setprecision(2);
+//	std::cout<<std::scientific<<std::setprecision(2);
 	for( G4int i = 0; i < BoxNo; i++ ){
 		if ( i == 0 ){
 			std::cout<<"=>Box info:"<<BoxNo<<std::endl;

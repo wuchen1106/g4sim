@@ -36,6 +36,9 @@ class EventHeaderSvc
 		void set_R1(double val){R1 = val;};
 		void set_weight(double val){weight = val;};
 
+		int get_R0(){return R0;};
+		int get_R1(){return R1;};
+
 	private:
 
 		void ReSet();
@@ -46,8 +49,8 @@ class EventHeaderSvc
 
 		int run_num;
 		int evt_num;
-		double R0;
-		double R1;
+		int R0;
+		int R1;
 		double weight;
 
 		bool flag_run_num;

@@ -55,7 +55,7 @@ MyAnalysisSvc::MyAnalysisSvc()
 	//default trigger card
 	m_minT = -1;
 	m_maxT = -1;
-	fPrintModulo = 1000;
+	fPrintModulo = 1;
 
 }
 
@@ -111,6 +111,8 @@ void MyAnalysisSvc::BeginOfRunAction(){
 	pProcessCountingSvc->SetBranch();
 
 	t_begin = (double)clock();
+	std::cout<<"evt_num  memSize  time  R0  R1"<<std::endl;
+	std::cout<<"         MB       sec         "<<std::endl;
 }
 
 void MyAnalysisSvc::PreUserTrackingAction(const G4Track* aTrack){
@@ -164,7 +166,12 @@ void MyAnalysisSvc::EndOfEventAction(const G4Event* evt){
 
 	//print per event (modulo n)
 	if (evt_num%fPrintModulo == 0) { 
-		std::cout << "-->BeginOfEvent: " << evt_num<< " MemSize: "<<pMyProcessManager->GetMemorySize()<<" MB"<<std::endl;
+		std::cout <<evt_num
+		   <<"  "<<pMyProcessManager->GetMemorySize()
+		   <<"  "<<(((double)clock()-t_begin)/CLOCKS_PER_SEC)
+		   <<"  "<<pEventHeaderSvc->get_R0()
+		   <<"  "<<pEventHeaderSvc->get_R1()
+		   <<std::endl;
 	}
 }
 
@@ -269,7 +276,7 @@ void MyAnalysisSvc::ReadOutputCard(G4String file_name){
 	}
 	if (!find_PrintModulo){
 		std::cout<<"In MyAnalysisSvc::ReadOutputCard, PrintModulo not found in card, will be set to 0 as default"<<std::endl;
-		fPrintModulo = 1000;
+		fPrintModulo = 1;
 	}
 	fin_card.close();
 	buf_card.str("");
