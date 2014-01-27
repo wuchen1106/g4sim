@@ -243,6 +243,22 @@ void McTruthSvc::ReSet(){
 	m_maxt = 0;
 	white_list.clear();
 	black_list.clear();
+	unitName_time="s";
+	unitName_px	="GeV";
+	unitName_py	="GeV";
+	unitName_pz	="GeV";
+	unitName_e	="GeV";
+	unitName_x	="cm";
+	unitName_y	="cm";
+	unitName_z	="cm";
+	unit_time=s;
+	unit_px	=GeV;
+	unit_py	=GeV;
+	unit_pz	=GeV;
+	unit_e	=GeV;
+	unit_x	=cm;
+	unit_y	=cm;
+	unit_z	=cm;
 }
 
 void McTruthSvc::ShowOutCard(){
@@ -356,6 +372,7 @@ void McTruthSvc::SetValuePre(const G4Track* aTrack){
 	}
 	if(flag_time) m_time.push_back(globalT/unit_time);
 	if(flag_px) m_px.push_back(mom_3vec.x()/unit_px);
+	std::cout<<"m_px.push_back("<<(mom_3vec.x()/unit_px)<<")"<<std::endl;
 	if(flag_py) m_py.push_back(mom_3vec.y()/unit_py);
 	if(flag_pz) m_pz.push_back(mom_3vec.z()/unit_pz);
 	if(flag_e) m_e.push_back(energy/unit_e);

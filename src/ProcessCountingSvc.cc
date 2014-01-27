@@ -365,6 +365,46 @@ void ProcessCountingSvc::ReSet(){
 	m_mint = 0;
 	m_maxt = 0;
 	m_Volumes.clear();
+    unitName_time	="s";
+    unitName_stepL	="cm";
+    unitName_prePx	="GeV";
+    unitName_prePy	="GeV";
+    unitName_prePz	="GeV";
+    unitName_postPx	="GeV";
+    unitName_postPy	="GeV";
+    unitName_postPz	="GeV";
+    unitName_dTheta	="rad";
+    unitName_dE	="GeV";
+    unitName_edepT	="GeV";
+    unitName_edepN	="GeV";
+    unitName_edepI	="GeV";
+    unitName_e	="GeV";
+    unitName_preX	="cm";
+    unitName_preY	="cm";
+    unitName_preZ	="cm";
+    unitName_postX	="cm";
+    unitName_postY	="cm";
+    unitName_postZ	="cm";
+    unit_time	=s;
+    unit_stepL	=cm;
+    unit_prePx	=GeV;
+    unit_prePy	=GeV;
+    unit_prePz	=GeV;
+    unit_postPx	=GeV;
+    unit_postPy	=GeV;
+    unit_postPz	=GeV;
+    unit_dTheta	=rad;
+    unit_dE	=GeV;
+    unit_edepT	=GeV;
+    unit_edepN	=GeV;
+    unit_edepI	=GeV;
+    unit_e	=GeV;
+    unit_preX	=cm;
+    unit_preY	=cm;
+    unit_preZ	=cm;
+    unit_postX	=cm;
+    unit_postY	=cm;
+    unit_postZ	=cm;
 }
 
 void ProcessCountingSvc::ShowOutCard(){

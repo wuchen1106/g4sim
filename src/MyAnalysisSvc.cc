@@ -21,6 +21,7 @@
 #include "ProcessCountingSvc.hh"
 #include "MyTriggerSvc.hh"
 #include "PrimaryGeneratorAction.hh"
+#include "Randomize.hh"
 
 #include "MyProcessManager.hh"
 #include "DEBUG.hh"
@@ -137,12 +138,15 @@ void MyAnalysisSvc::EndOfRunAction(const G4Run* aRun){
 }
 
 void MyAnalysisSvc::BeginOfEventAction(){
+	CLHEP::HepRandom::showEngineStatus();
 	//Initialize
 	pMcTruthSvc->Initialize();
 	pProcessCountingSvc->Initialize();
+	CLHEP::HepRandom::showEngineStatus();
 }
 
 void MyAnalysisSvc::EndOfEventAction(const G4Event* evt){
+	CLHEP::HepRandom::showEngineStatus();
 	int evt_num = evt->GetEventID();
 	//Digitze
 	pMyDetectorManager->Digitize();
