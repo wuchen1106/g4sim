@@ -18,7 +18,7 @@
 
 	RandMode:       none #(none/root)
 	EnergyMode:     root #(root/histo/none)
-	PositionMode:   uniform #(uniform/root/none/gRand/uRand)
+	PositionMode:   root #(uniform/root/none/gRand/uRand)
 	DirectionMode:  none #(none/uniform/histo)
 	ThetaMode:      none #(none/gRand/uRand)
 	PhiMode:        none #(none/gRand/uRand)
@@ -31,7 +31,3 @@
 #ROOT file name
 	RFN:            PT.AP.TH0.root
 	RTN:            t
-
-Uniform In Volume:
-	                Type   SubDet   Volume
-	UIV:            Simple PT       PTACSProductionTarget

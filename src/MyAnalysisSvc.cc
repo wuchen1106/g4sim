@@ -138,6 +138,8 @@ void MyAnalysisSvc::EndOfRunAction(const G4Run* aRun){
 }
 
 void MyAnalysisSvc::BeginOfEventAction(){
+	event_start_time = (double) clock();
+//	std::cout<<"event_start_time = "<<event_start_time<<std::endl;
 	//Initialize
 	pMcTruthSvc->Initialize();
 	pProcessCountingSvc->Initialize();
@@ -178,14 +180,24 @@ void MyAnalysisSvc::EndOfEventAction(const G4Event* evt){
 
 void MyAnalysisSvc::SteppingAction(const G4Step* aStep){
 	//set ProcessCounting
+	double current_time = (double) clock();
+//	std::cout<<"current_time = "<<current_time<<", deltaT = "<<(current_time - event_start_time)/CLOCKS_PER_SEC<<std::endl;
 	pProcessCountingSvc->SetValue(aStep);
 	G4Track* aTrack = aStep->GetTrack() ;
 	G4int nSteps = aTrack->GetCurrentStepNumber();
-	if (nSteps>2e4)
+	if (nSteps>2e4){
 		aTrack->SetTrackStatus(fStopAndKill);
+		std::cout<<"### This track is killed for that nSteps>2e4 ###"<<std::endl;
+	}
 	G4double globalT=aTrack->GetGlobalTime();//Time since the event in which the track belongs is created
-	if ((m_minT>=0&&m_minT>globalT)&&(m_maxT>=0&&m_maxT<globalT))
+	if ((m_minT>=0&&m_minT>globalT)&&(m_maxT>=0&&m_maxT<globalT)){
 		aTrack->SetTrackStatus(fStopAndKill);
+		std::cout<<"### This track is killed for that globalT < "<<m_minT<<" || globalT > "<<m_maxT<<" ###"<<std::endl;
+	}
+	if (( current_time - event_start_time > 5*CLOCKS_PER_SEC)){
+		aTrack->SetTrackStatus(fStopAndKill);
+		std::cout<<"### This track is killed for that elapsed time in this event is larger than 5 sec ###"<<std::endl;
+	}
 }
 
 void MyAnalysisSvc::InitialStepAction(const G4Step* aStep){

@@ -35,9 +35,9 @@ ProcessCountingSvc::ProcessCountingSvc()
 }
 
 ProcessCountingSvc::~ProcessCountingSvc()
- {
-	 printf("~ProcessCountingSvc\n");
- }
+{
+	printf("~ProcessCountingSvc\n");
+}
 
 ProcessCountingSvc* ProcessCountingSvc::GetProcessCountingSvc(){
 	if ( !fProcessCountingSvc ){
@@ -47,54 +47,54 @@ ProcessCountingSvc* ProcessCountingSvc::GetProcessCountingSvc(){
 }
 
 void ProcessCountingSvc::Initialize(){
-    m_TrackIDs.clear();
-		m_nSteps = 0;
-		m_pid.clear();
-		m_tid.clear();
-		m_nSec.clear();
-		m_time.clear();
-		m_stepL.clear();
-		m_prePx.clear();
-		m_prePy.clear();
-		m_prePz.clear();
-		m_postPx.clear();
-		m_postPy.clear();
-		m_postPz.clear();
-		m_dTheta.clear();
-		m_dE.clear();
-		m_edepT.clear();
-		m_edepN.clear();
-		m_edepI.clear();
-		m_e.clear();
-		m_preX.clear();
-		m_preY.clear();
-		m_preZ.clear();
-		m_postX.clear();
-		m_postY.clear();
-		m_postZ.clear();
-		m_particleName.clear();
-		m_charge.clear();
-		m_process.clear();
-		m_ASDI_msc.clear();
-		m_ASDI_hPairProd.clear();
-		m_ASDI_ProtonInelastic.clear();
-		m_ASDI_Transportation.clear();
-		m_ASDI_hBrems.clear();
-		m_ASDI_eBrem.clear();
-		m_ASDI_eIoni.clear();
-		m_PSDI_eIoni.clear();
-		m_PSDI_eBrem.clear();
-		m_PSDI_msc.clear();
-		m_PSDI_hPairProd.clear();
-		m_PSDI_ProtonInelastic.clear();
-		m_PSDI_hIoni.clear();
-		m_PSDI_hadElastic.clear();
-		m_PSDI_ionIoni.clear();
-		m_PSDI_Decay.clear();
-		m_PSDI_Transportation.clear();
-		m_PSDI_hBrems.clear();
-		m_volume.clear();
-		VolName = "";
+	m_TrackIDs.clear();
+	m_nSteps = 0;
+	m_pid.clear();
+	m_tid.clear();
+	m_nSec.clear();
+	m_time.clear();
+	m_stepL.clear();
+	m_prePx.clear();
+	m_prePy.clear();
+	m_prePz.clear();
+	m_postPx.clear();
+	m_postPy.clear();
+	m_postPz.clear();
+	m_dTheta.clear();
+	m_dE.clear();
+	m_edepT.clear();
+	m_edepN.clear();
+	m_edepI.clear();
+	m_e.clear();
+	m_preX.clear();
+	m_preY.clear();
+	m_preZ.clear();
+	m_postX.clear();
+	m_postY.clear();
+	m_postZ.clear();
+	m_particleName.clear();
+	m_charge.clear();
+	m_process.clear();
+	m_ASDI_msc.clear();
+	m_ASDI_hPairProd.clear();
+	m_ASDI_ProtonInelastic.clear();
+	m_ASDI_Transportation.clear();
+	m_ASDI_hBrems.clear();
+	m_ASDI_eBrem.clear();
+	m_ASDI_eIoni.clear();
+	m_PSDI_eIoni.clear();
+	m_PSDI_eBrem.clear();
+	m_PSDI_msc.clear();
+	m_PSDI_hPairProd.clear();
+	m_PSDI_ProtonInelastic.clear();
+	m_PSDI_hIoni.clear();
+	m_PSDI_hadElastic.clear();
+	m_PSDI_ionIoni.clear();
+	m_PSDI_Decay.clear();
+	m_PSDI_Transportation.clear();
+	m_PSDI_hBrems.clear();
+	m_volume.clear();
+	VolName = "";
 }
 
 void ProcessCountingSvc::SetBranch(){
@@ -358,53 +358,53 @@ void ProcessCountingSvc::ReSet(){
 	flag_PSDI_hBrems = false;
 	flag_volume = false;
 	m_Switch = false;
-  m_maxnTracks = 0;
+	m_maxnTracks = 0;
 	m_minp = 0;
 	m_mine = 0;
 	m_maxnSteps = 0;
 	m_mint = 0;
 	m_maxt = 0;
 	m_Volumes.clear();
-    unitName_time	="s";
-    unitName_stepL	="cm";
-    unitName_prePx	="GeV";
-    unitName_prePy	="GeV";
-    unitName_prePz	="GeV";
-    unitName_postPx	="GeV";
-    unitName_postPy	="GeV";
-    unitName_postPz	="GeV";
-    unitName_dTheta	="rad";
-    unitName_dE	="GeV";
-    unitName_edepT	="GeV";
-    unitName_edepN	="GeV";
-    unitName_edepI	="GeV";
-    unitName_e	="GeV";
-    unitName_preX	="cm";
-    unitName_preY	="cm";
-    unitName_preZ	="cm";
-    unitName_postX	="cm";
-    unitName_postY	="cm";
-    unitName_postZ	="cm";
-    unit_time	=s;
-    unit_stepL	=cm;
-    unit_prePx	=GeV;
-    unit_prePy	=GeV;
-    unit_prePz	=GeV;
-    unit_postPx	=GeV;
-    unit_postPy	=GeV;
-    unit_postPz	=GeV;
-    unit_dTheta	=rad;
-    unit_dE	=GeV;
-    unit_edepT	=GeV;
-    unit_edepN	=GeV;
-    unit_edepI	=GeV;
-    unit_e	=GeV;
-    unit_preX	=cm;
-    unit_preY	=cm;
-    unit_preZ	=cm;
-    unit_postX	=cm;
-    unit_postY	=cm;
-    unit_postZ	=cm;
+	unitName_time	="s";
+	unitName_stepL	="cm";
+	unitName_prePx	="GeV";
+	unitName_prePy	="GeV";
+	unitName_prePz	="GeV";
+	unitName_postPx	="GeV";
+	unitName_postPy	="GeV";
+	unitName_postPz	="GeV";
+	unitName_dTheta	="rad";
+	unitName_dE	="GeV";
+	unitName_edepT	="GeV";
+	unitName_edepN	="GeV";
+	unitName_edepI	="GeV";
+	unitName_e	="GeV";
+	unitName_preX	="cm";
+	unitName_preY	="cm";
+	unitName_preZ	="cm";
+	unitName_postX	="cm";
+	unitName_postY	="cm";
+	unitName_postZ	="cm";
+	unit_time	=s;
+	unit_stepL	=cm;
+	unit_prePx	=GeV;
+	unit_prePy	=GeV;
+	unit_prePz	=GeV;
+	unit_postPx	=GeV;
+	unit_postPy	=GeV;
+	unit_postPz	=GeV;
+	unit_dTheta	=rad;
+	unit_dE	=GeV;
+	unit_edepT	=GeV;
+	unit_edepN	=GeV;
+	unit_edepI	=GeV;
+	unit_e	=GeV;
+	unit_preX	=cm;
+	unit_preY	=cm;
+	unit_preZ	=cm;
+	unit_postX	=cm;
+	unit_postY	=cm;
+	unit_postZ	=cm;
 }
 
 void ProcessCountingSvc::ShowOutCard(){
@@ -463,7 +463,7 @@ void ProcessCountingSvc::ShowOutCard(){
 	std::cout<<"minp =                "<<m_minp/MeV<<"MeV"<<std::endl;
 	std::cout<<"mine =                "<<m_mine/MeV<<"MeV"<<std::endl;
 	std::cout<<"maxnSteps =           "<<m_maxnSteps<<std::endl;
-  std::cout<<"maxnTracks =          "<<m_maxnTracks<<std::endl;
+	std::cout<<"maxnTracks =          "<<m_maxnTracks<<std::endl;
 	std::cout<<"mint =                "<<m_mint/ns<<"ns"<<std::endl;
 	std::cout<<"maxt =                "<<m_maxt/ns<<"ns"<<std::endl;
 	std::cout<<m_Volumes.size()<<" Volumes Selected:";
@@ -544,9 +544,12 @@ void ProcessCountingSvc::AddPSDI(G4String name){
 }
 
 void ProcessCountingSvc::SetValue(const G4Step* aStep){
+	const G4VTouchable *touchable = aStep->GetPreStepPoint()->GetTouchable();
+	VolName = touchable->GetVolume(0)->GetName();
+	CheckFilter(aStep);
 	if (!PASSEDFILTER) return;
 
-//*************************get useful variables***********************
+	//*************************get useful variables***********************
 
 	// get track info
 	G4Track* aTrack = aStep->GetTrack() ;
@@ -586,27 +589,27 @@ void ProcessCountingSvc::SetValue(const G4Step* aStep){
 		nSec = -1;
 	}
 
-//	if ( nSec > 0 ){
-//		std::cout<<"==["<<nSec<<"] @ ("<<pointIn_pos.x()/mm<<","<<pointIn_pos.y()/mm<<","<<pointIn_pos.z()/mm<<")/mm"<<std::endl;
-//		G4String tProcessName, tParticleName;
-//		G4int tTid;
-//		G4double tEnergy;
-//		G4ThreeVector tPoint;
-//		for ( int i = 0; i < nSec; i++ ){
-//			tTid = (*pVTracks)[i]->GetTrackID(); //G4 track ID of current track.
-//			tParticleName = (*pVTracks)[i]->GetParticleDefinition()->GetParticleName();
-//			const G4VProcess* process = (*pVTracks)[i]->GetCreatorProcess();
-//			if (process) {
-//				tProcessName = process->GetProcessName();
-//			}
-//			else{
-//				tProcessName = "NULL";
-//			}
-//			tEnergy = (*pVTracks)[i]->GetTotalEnergy();
-//			tPoint = (*pVTracks)[i]->GetVertexPosition();
-//			std::cout<<"    "<<i<<": "<<tTid<<", "<<tParticleName<<", "<<tProcessName<<", "<<tEnergy/MeV<<"MeV, @ ("<<tPoint.x()/mm<<","<<tPoint.y()/mm<<","<<tPoint.z()/mm<<")/mm"<<std::endl;
-//		}
-//	}
+	//	if ( nSec > 0 ){
+	//		std::cout<<"==["<<nSec<<"] @ ("<<pointIn_pos.x()/mm<<","<<pointIn_pos.y()/mm<<","<<pointIn_pos.z()/mm<<")/mm"<<std::endl;
+	//		G4String tProcessName, tParticleName;
+	//		G4int tTid;
+	//		G4double tEnergy;
+	//		G4ThreeVector tPoint;
+	//		for ( int i = 0; i < nSec; i++ ){
+	//			tTid = (*pVTracks)[i]->GetTrackID(); //G4 track ID of current track.
+	//			tParticleName = (*pVTracks)[i]->GetParticleDefinition()->GetParticleName();
+	//			const G4VProcess* process = (*pVTracks)[i]->GetCreatorProcess();
+	//			if (process) {
+	//				tProcessName = process->GetProcessName();
+	//			}
+	//			else{
+	//				tProcessName = "NULL";
+	//			}
+	//			tEnergy = (*pVTracks)[i]->GetTotalEnergy();
+	//			tPoint = (*pVTracks)[i]->GetVertexPosition();
+	//			std::cout<<"    "<<i<<": "<<tTid<<", "<<tParticleName<<", "<<tProcessName<<", "<<tEnergy/MeV<<"MeV, @ ("<<tPoint.x()/mm<<","<<tPoint.y()/mm<<","<<tPoint.z()/mm<<")/mm"<<std::endl;
+	//		}
+	//	}
 
 	G4double deltaTheta = pointOut_mom.theta(pointIn_mom);
 	G4double deltaE = pointIn_e - pointOut_e;
@@ -647,9 +650,7 @@ void ProcessCountingSvc::SetValue(const G4Step* aStep){
 void ProcessCountingSvc::CheckFilter(const G4Step* aStep){
 	PASSEDFILTER = true;
 	//switch
-	std::cout<<"In ProcessCountingSvc::CheckFilter"<<std::endl;
 	if (!m_Switch) {PASSEDFILTER = false; return;}
-	std::cout<<__LINE__<<std::endl;
 
 	// get information at the beginning and at the end of step
 	G4StepPoint* prePoint  = aStep->GetPreStepPoint() ;
@@ -658,37 +659,27 @@ void ProcessCountingSvc::CheckFilter(const G4Step* aStep){
 	G4double pointIn_pa = pointIn_mom.mag();
 	G4double pointIn_time = prePoint->GetGlobalTime();//Time since the event in which the track belongs is created
 
-//*************************filter***********************
+	//*************************filter***********************
 	//nTracks
 	if (m_maxnTracks&&m_TrackIDs.size()>m_maxnTracks) {PASSEDFILTER = false; return;}
-	std::cout<<__LINE__<<std::endl;
 	//nSteps
 	if (m_maxnSteps&&m_nSteps>=m_maxnSteps) {PASSEDFILTER = false; return;}
-	std::cout<<__LINE__<<std::endl;
 	//momentum
 	if (m_minp&&pointIn_pa<m_minp) {PASSEDFILTER = false; return;}
-	std::cout<<__LINE__<<std::endl;
 	//energy
 	if (m_mine&&pointIn_e<m_mine) {PASSEDFILTER = false; return;}
-	std::cout<<__LINE__<<std::endl;
 	//time window
 	if (m_mint&&pointIn_time<m_mint) {PASSEDFILTER = false; return;}
-	std::cout<<__LINE__<<std::endl;
 	if (m_maxt&&pointIn_time>m_maxt) {PASSEDFILTER = false; return;}
-	std::cout<<__LINE__<<std::endl;
 	if (m_Volumes.size()>0){
 		PASSEDFILTER = false;
 		for ( int i = 0; i< m_Volumes.size(); i++ ){
-			std::cout<<"TO Check \""<<m_Volumes[i]<<"\""<<std::endl;
-			std::cout<<"Current Volume: \""<<VolName<<"\""<<std::endl;
 			if ( VolName == m_Volumes[i] ){
-				std::cout<<"Same!"<<std::endl;
 				PASSEDFILTER = true;
 				break;
 			}
 		}
 	}
-	std::cout<<"Still Passed? "<<PASSEDFILTER<<std::endl;
 }
 
 void ProcessCountingSvc::CheckTrack(const G4Step* aStep){

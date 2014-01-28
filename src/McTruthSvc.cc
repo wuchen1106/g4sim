@@ -372,7 +372,7 @@ void McTruthSvc::SetValuePre(const G4Track* aTrack){
 	}
 	if(flag_time) m_time.push_back(globalT/unit_time);
 	if(flag_px) m_px.push_back(mom_3vec.x()/unit_px);
-	std::cout<<"m_px.push_back("<<(mom_3vec.x()/unit_px)<<")"<<std::endl;
+//	std::cout<<"m_px.push_back("<<(mom_3vec.x()/unit_px)<<")"<<std::endl;
 	if(flag_py) m_py.push_back(mom_3vec.y()/unit_py);
 	if(flag_pz) m_pz.push_back(mom_3vec.z()/unit_pz);
 	if(flag_e) m_e.push_back(energy/unit_e);
