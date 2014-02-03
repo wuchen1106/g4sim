@@ -100,6 +100,9 @@ void MyTriggerSvc::SetMyTrigger( G4String filename ){
 			else if ( name == "minM_Hits" ){
 				minM_Hits = para;
 			}
+			else if ( name == "minV_Hits" ){
+				minV_Hits = para;
+			}
 			else if ( name == "minCorM_Hits" ){
 				minCorM_Hits = para;
 			}
@@ -139,6 +142,14 @@ void MyTriggerSvc::SetMyTrigger( G4String filename ){
 	G4VSensitiveDetector* myVSD2 = 0;
 	if ( minM_Hits != -1 ){ 
 		myVSD = pMyDetectorManager->GetSD("","M/MonitorSD");
+		if (myVSD){
+			myMonitorSD = dynamic_cast<MonitorSD*> (myVSD);
+			std::cout<<"myVSD @ ["<<(void*) myVSD<<"]"<<std::endl;
+			std::cout<<"myMonitorSD @ ["<<(void*) myMonitorSD<<"]"<<std::endl;
+		}
+	}
+	if ( minV_Hits != -1 ){ 
+		myVSD = pMyDetectorManager->GetSD("","V/MonitorSD");
 		if (myVSD){
 			myMonitorSD = dynamic_cast<MonitorSD*> (myVSD);
 			std::cout<<"myVSD @ ["<<(void*) myVSD<<"]"<<std::endl;
@@ -202,6 +213,13 @@ bool MyTriggerSvc::TriggerIt( const G4Event* evt ){
 		}
 		if ( nHits < minM_Hits ) return false;
 	}
+	if ( minV_Hits != -1 ){
+		int nHits = 0;
+		if (myMonitorSD){
+			nHits = myMonitorSD->Get_nHits();
+		}
+		if ( nHits < minV_Hits ) return false;
+	}
 	if ( minCorM_Hits != -1 ){
 		int nHits = 0;
 		if (myMonitorSD2){
@@ -250,6 +268,7 @@ bool MyTriggerSvc::TriggerIt( const G4Event* evt ){
 void MyTriggerSvc::ReSet(){
 	minCdcHits = -1;
 	minM_Hits = -1;
+	minV_Hits = -1;
 	minCorM_Hits = -1;
 	minEleMom = -1*MeV;
 	minAntipNum = -1;
@@ -260,6 +279,7 @@ void MyTriggerSvc::ShowOutCard(){
 	std::cout<<"*************************Trigger settings"<<"***************************"<<std::endl;
 	std::cout<<"minCdcHits =     "<<minCdcHits<<std::endl;
 	std::cout<<"minM_Hits = "<<minM_Hits<<std::endl;
+	std::cout<<"minV_Hits = "<<minV_Hits<<std::endl;
 	std::cout<<"minCorM_Hits = "<<minCorM_Hits<<std::endl;
 	std::cout<<"minEleMom=       "<<minEleMom/MeV<<", MeV"<<std::endl;
 	std::cout<<"minAntipNum=     "<<minAntipNum<<std::endl;

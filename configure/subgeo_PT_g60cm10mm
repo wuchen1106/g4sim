@@ -8,7 +8,7 @@ DEFINE:		pi		3.14159265358
 DEFINE:		d		0
 DEFINE:		pX		d*sin(10*pi/180)
 DEFINE:		pZ		-1700-d*cos(10*pi/180)
-	T    0      10     600      0        360     PTACSProductionTarget 1     PTACSContainer     Graphite    T/MonitorSD pX   0   pZ     90    -10    -90    
+	T    0      20     600      0        360     PTACSProductionTarget 1     PTACSContainer     Graphite    T/MonitorSD pX   0   pZ     90    -10    -90    
 
 
 #visual settings

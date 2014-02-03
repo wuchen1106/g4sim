@@ -41,6 +41,7 @@ class MyTriggerSvc
 
 		int minCdcHits;
 		int minM_Hits;
+		int minV_Hits;
 		int minCorM_Hits;
 		double minEleMom;
 		int minAntipNum;

@@ -56,7 +56,7 @@ MyAnalysisSvc::MyAnalysisSvc()
 	//default trigger card
 	m_minT = -1;
 	m_maxT = -1;
-	fPrintModulo = 1;
+	fPrintModulo = 100;
 
 }
 
@@ -289,7 +289,7 @@ void MyAnalysisSvc::ReadOutputCard(G4String file_name){
 	}
 	if (!find_PrintModulo){
 		std::cout<<"In MyAnalysisSvc::ReadOutputCard, PrintModulo not found in card, will be set to 0 as default"<<std::endl;
-		fPrintModulo = 1;
+		fPrintModulo = 100;
 	}
 	fin_card.close();
 	buf_card.str("");

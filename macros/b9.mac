@@ -8,18 +8,18 @@
 /run/setCut 0.01 mm
 #/stacking/set_no_MC 1
 #/stacking/set_no_PC 1
-#/stacking/set_no_sec 1
+/stacking/set_no_sec 1
 
 # Geometry:
 /g4sim/det/ClearGeo
 /g4sim/det/AddGeo World     world_CometPhase1     Simple
 /g4sim/det/AddGeo CS        subgeo_CS_BL          Simple
 /g4sim/det/AddGeo PT        subgeo_PT_g60cm10mm   Simple
-/g4sim/det/AddGeo MT1       subgeo_MT1_BL         Simple
+#/g4sim/det/AddGeo MT1       subgeo_MT1_BL         Simple
 # Modify:
 #
-#/g4sim/mag/ReadCard MagField_PT
-/g4sim/mag/ReadCard MagField_B9_005T
+/g4sim/mag/ReadCard MagField_PT
+#/g4sim/mag/ReadCard MagField_B9_005T
 /g4sim/det/update
 
 # Generator:

@@ -1,11 +1,11 @@
 /control/getEnv MYG4SIMROOT
-#/control/execute {MYG4SIMROOT}/macros/b9.mac
-/control/execute {MYG4SIMROOT}/macros/cdchit.mac
+/control/execute {MYG4SIMROOT}/macros/b9.mac
+#/control/execute {MYG4SIMROOT}/macros/cdchit.mac
 #/control/execute {MYG4SIMROOT}/macros/cdctrack.mac
 #/control/execute {MYG4SIMROOT}/macros/coll.mac
 
 #/tracking/verbose                   1
-/g4sim/myAnalysisSvc/printModulo            1
+#/g4sim/myAnalysisSvc/printModulo	1
 
 #/run/setCut 0.7 mm
 #/stacking/setEleCut 1.5 keV
@@ -21,12 +21,12 @@
 #/g4sim/gun/root_filename Coll.OT.g60cm10mm.005T.g4s.QBH.root
 #/g4sim/gun/root_filename MT1.OT.g60cm10mm.005T.g4s.QBH.root
 #/g4sim/gun/root_filename Dummy.root
-/g4sim/gun/root_filename ST.mum.g60cm10mm.005T.BL.g4s.QBH.root
-/g4sim/gun/initialize
+#/g4sim/gun/root_filename ST.mum.g60cm10mm.005T.BL.g4s.QBH.root
+#/g4sim/gun/initialize
 
 #/random/setSeeds  0 328143772
-/random/setSeeds 1273585045  362125560
-/g4sim/gun/root_index 129263
+#/random/setSeeds 2081595876  1218399571
+#/g4sim/gun/root_index 1745541
 #/g4sim/myAnalysisSvc/set_ofile_name output/rpc.root
 # mum
 #/run/beamOn  860498
@@ -37,4 +37,5 @@
 # OT
 #/run/beamOn  1601258
 #/run/beamOn  5623400
-/run/beamOn  10
+#/run/beamOn  1959260 # for PT.AP
+/run/beamOn  10000
