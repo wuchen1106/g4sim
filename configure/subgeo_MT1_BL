@@ -9,6 +9,7 @@
 	Tor  600        800        3000       0        90      MT1Yoke         1     MT1Containor    Steel         none      0    0    0    0      0      0     
 	Tor  800        801        3000       0        90      MT1Killer1      1     MT1Containor    Vacuum        KillerSD  0    0    0    0      0      0     
 	Tor  0          180        3000       0.1      0.1     MT1Monitor      1     MT1Containor    Vacuum      V/MonitorSD 0    0    0    0      0      0     
+#	Tor  0          180        3000       45     9.55e-3   MT1Window       1     MT1Containor    Aluminium  T2/MonitorSD 0    0    0    0      0      0     
 #	Tor  0          180        3000       0        0.1     MT1Killer5      1     MT1Containor    Vacuum        KillerSD  0    0    0    0      0      0     
 #	Tor  180        230        3000       0        0.1     MT1Killer2      1     MT1Shell        Steel         KillerSD  0    0    0    0      0      0     
 #	Tor  230        600        3000       0        0.1     MT1Killer3      1     MT1Containor    Vacuum        KillerSD  0    0    0    0      0      0     

@@ -3,4 +3,4 @@
 
 #ServiceName        ServiceType         FileName
 	World           Simple              world_test
-#	CDC             Cdc                 subgeo_cdc   
+	Test            Simple              subgeo_test  

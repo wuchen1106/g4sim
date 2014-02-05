@@ -60,9 +60,9 @@ DEFINE:		LAbs		LCDC-2*LTri-2*thMyl
 #	Name				 red    green  blue
 #	vis_TriggerU         0      1      0
 #	vis_TriggerD         0      1      0
-	vis_TriCheU          0      1      0
-	vis_TriCheD          0      1      0
-	vis_TriSciU          1      0      0
-	vis_TriSciD          1      0      0
-	vis_Absorber         0.3    0.3    0.3
-	vis_MylarCDC         1      0      0     0.5
+	vis_TriCheUiv        0      1      0
+	vis_TriCheDiv        0      1      0
+	vis_TriSciUiv        1      0      0
+	vis_TriSciDiv        1      0      0
+	vis_Absorberiv       0.3    0.3    0.3
+	vis_MylarCDCiv       1      0      0     0.5

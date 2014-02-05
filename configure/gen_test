@@ -1,6 +1,6 @@
 #General setting  
 	Type:      simple
-	Particle:  mu-     #(e+/e-/chargedgeantino/gamma/...)
+	Particle:  anti_proton     #(e+/e-/chargedgeantino/gamma/...)
 
 #Default Direction
 #	           Theta    Phi

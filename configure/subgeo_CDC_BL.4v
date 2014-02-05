@@ -91,8 +91,8 @@ DEFINE:		pZep		-(LCDC+thEP)/2-id*x
   VISSETTING  #Keep this line to call Reset
 #	Name             red green blue
 #	vis_CDCContainer     0      1      1     
-	vis_InnerCylinder    1      0      0     0.5
-	vis_EndPlateU        0.8    0.8    0.8   
-	vis_EndPlateD        0.8    0.8    0.8   
-	vis_OuterCylinder    0.3    0.3	   0.3
+	vis_InnerCylinderiv  1      0      0     0.5
+	vis_EndPlateUiv      0.8    0.8    0.8   
+	vis_EndPlateDiv      0.8    0.8    0.8   
+	vis_OuterCylinderiv  0.3    0.3	   0.3
 #	vis_CDCLayer         1      0      0     0.3
