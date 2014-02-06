@@ -105,7 +105,7 @@ PROCESSCOUNTINGFILTER_SECTION
 PROCESSCOUNTINGFILTER_SECTION
 
 TRIGGERSECTION
-	minV_Hits         -1            # minimum required V nHits. Would be set invalid if = -1
+	minV_Hits         1            # minimum required V nHits. Would be set invalid if = -1
 	minM_Hits         -1            # minimum required M nHits. Would be set invalid if = -1
 	minCdcHits        -1           # minimum required Cdc nHits. Would be set invalid if minCdcHits = -1
 	minEleMom         -1  MeV      // minimum required Electron momentum. Would be set invalid if minEleMom = -1 MeV
