@@ -29,6 +29,8 @@ class EventHeaderSvc
 
 		void SetSeedsValue();
 
+		void SetInitialMomentum(double, double, double);
+
 		//=> Modify
 		void set_run_num(int val){run_num = val;};
 		void set_evt_num(int val){evt_num = val;};
@@ -51,12 +53,18 @@ class EventHeaderSvc
 		int evt_num;
 		int R0;
 		int R1;
+		double ipx;
+		double ipy;
+		double ipz;
 		double weight;
 
 		bool flag_run_num;
 		bool flag_evt_num;
 		bool flag_R0;
 		bool flag_R1;
+		bool flag_ipx;
+		bool flag_ipy;
+		bool flag_ipz;
 		bool flag_weight;
 
 		PrimaryGeneratorAction* pPrimaryGeneratorAction;

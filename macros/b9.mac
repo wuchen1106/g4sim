@@ -24,9 +24,10 @@
 
 # Generator:
 /g4sim/gun/ReadCard gen_root
-/g4sim/gun/ReadCard gen_APinPT
+#/g4sim/gun/ReadCard gen_APinPT
 #/g4sim/gun/ReadCard gen_ip
-/g4sim/gun/root_filename PT.AP_all.TH0.root
+#/g4sim/gun/root_filename PT.AP_all.TH0.root
+/g4sim/gun/root_filename PTM.AP.TH0.root
 #/g4sim/gun/root_filename PTACS.AP_all.g60cm10mm.TH0.g4s.QBH.root
 #/g4sim/gun/root_filename PTACS.AP.g60cm10mm.TH0.g4s.QBH.root
 #/g4sim/gun/root_filename MT1.OT.g60cm10mm.005T.g4s.QBH.root

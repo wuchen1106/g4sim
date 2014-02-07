@@ -108,6 +108,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 		CLHEP::HepRandom::setTheSeeds(seeds);
 	}
 	EventHeaderSvc::GetEventHeaderSvc()->SetSeedsValue();
+	EventHeaderSvc::GetEventHeaderSvc()->SetInitialMomentum(root_double[17],root_double[18],root_double[19]);
 
 	if (fType=="ion"){
 		if (!fParticle){
@@ -515,6 +516,9 @@ void PrimaryGeneratorAction::root_set_extra(){
 	flag_opy=m_TChain->SetBranchAddress("opy", &root_double[14]);
 	flag_opz=m_TChain->SetBranchAddress("opz", &root_double[15]);
 	flag_ot=m_TChain->SetBranchAddress("ot", &root_double[16]);
+	flag_ipx=m_TChain->SetBranchAddress("ipx", &root_double[17]);
+	flag_ipy=m_TChain->SetBranchAddress("ipy", &root_double[18]);
+	flag_ipz=m_TChain->SetBranchAddress("ipz", &root_double[19]);
 	flag_process=m_TChain->SetBranchAddress("process",&root_str[0]);
 	flag_volume=m_TChain->SetBranchAddress("volume",&root_str[1]);
 	flag_ppid=m_TChain->SetBranchAddress("ppid",&root_int[1]);
@@ -760,6 +764,9 @@ void PrimaryGeneratorAction::Reset(){
 	flag_opx = false;
 	flag_opy = false;
 	flag_opz = false;
+	flag_ipx = false;
+	flag_ipy = false;
+	flag_ipz = false;
 	flag_ot = false;
 	flag_process = false;
 	flag_volume = false;
