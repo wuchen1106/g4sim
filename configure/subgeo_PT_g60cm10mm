@@ -8,7 +8,25 @@ DEFINE:		pi		3.14159265358
 DEFINE:		d		0
 DEFINE:		pX		d*sin(10*pi/180)
 DEFINE:		pZ		-1700-d*cos(10*pi/180)
-	T    0      20     600      0        360     PTACSProductionTarget 1     PTACSContainer     Graphite    T/MonitorSD pX   0   pZ     90    -10    -90    
+	T    0      20     600      0        360     PTACSProductionTarget 1     PTACSContainer     Graphite      none      pX   0   pZ     90    -10    -90    
+	T    20     21     600      0        360     PTACSPTMonitor        1     PTACSContainer     Vacuum      V/MonitorSD pX   0   pZ     90    -10    -90    
+	T    21     22     600      0        360     PTACSPTKiller         1     PTACSContainer     Vacuum        KillerSD  pX   0   pZ     90    -10    -90    
+DEFINE:		d		301
+DEFINE:		pX		d*sin(10*pi/180)
+DEFINE:		pZ		-1700-d*cos(10*pi/180)
+	T    0      21     2        0        360     PTACSPTMonitorU       1     PTACSContainer     Vacuum      V/MonitorSD pX   0   pZ     90    -10    -90    
+DEFINE:		d		303
+DEFINE:		pX		d*sin(10*pi/180)
+DEFINE:		pZ		-1700-d*cos(10*pi/180)
+	T    0      21     2        0        360     PTACSPTKillelU        1     PTACSContainer     Vacuum        KillerSD  pX   0   pZ     90    -10    -90    
+DEFINE:		d		301
+DEFINE:		pX		d*sin(10*pi/180)
+DEFINE:		pZ		-1700-d*cos(10*pi/180)
+	T    0      21     2        0        360     PTACSPTMonitorD       1     PTACSContainer     Vacuum      V/MonitorSD pX   0   pZ     90    -10    -90    
+DEFINE:		d		303
+DEFINE:		pX		d*sin(10*pi/180)
+DEFINE:		pZ		-1700-d*cos(10*pi/180)
+	T    0      21     2        0        360     PTACSPTKillelD        1     PTACSContainer     Vacuum        KillerSD  pX   0   pZ     90    -10    -90    
 
 
 #visual settings
@@ -16,3 +34,9 @@ DEFINE:		pZ		-1700-d*cos(10*pi/180)
 	VISSETTING  #Keep this line to call Reset
 #	Name                        red    green  blue  
 	vis_PTACSProductionTarget   1      0      0     
+	vis_PTACSPTKiller           0      1      0     
+	vis_PTACSPTMonitor          0      1      0     
+	vis_PTACSPTKillerU          0      1      0     
+	vis_PTACSPTMonitorU         0      1      0     
+	vis_PTACSPTKillerD          0      1      0     
+	vis_PTACSPTMonitorD         0      1      0     
