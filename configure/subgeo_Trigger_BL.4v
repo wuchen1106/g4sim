@@ -32,7 +32,7 @@ DEFINE:		RITri		RCDCi-gTri-thTri*cos(aTrir)-wTri*sin(aTrir)
 #	                                                                               P R      Phi    Z
 #	                                                                               S R      Phi    Theta  
 DEFINE:		pZ			-(LCDC-LTri)/2+thMyl
-DEFINE:		Phi			x*360/64-90
+DEFINE:		Phi			(x+32)*360/64-90
 	B    wTri    thTri   LTri   TriggerU  32    CDCInner  Helium       none        P RTri   Phi    pZ     90-aTri+Phi 0      0
 	B    wTri    thTri   LTri   TriggerD  32    CDCInner  Helium       none        P RTri   Phi   -pZ     90-aTri+Phi 0      0
 DEFINE:		pY			-(thTriA-thTri)/2
@@ -60,9 +60,9 @@ DEFINE:		LAbs		LCDC-2*LTri-2*thMyl
 #	Name				 red    green  blue
 #	vis_TriggerU         0      1      0
 #	vis_TriggerD         0      1      0
-	vis_TriCheUiv        0      1      0
-	vis_TriCheDiv        0      1      0
-	vis_TriSciUiv        1      0      0
-	vis_TriSciDiv        1      0      0
+	vis_TriCheU          0      1      0
+	vis_TriCheD          0      1      0
+	vis_TriSciU          1      0      0
+	vis_TriSciD          1      0      0
 	vis_Absorberiv       0.3    0.3    0.3
-	vis_MylarCDCiv       1      0      0     0.5
+	vis_MylarCDCiv       0.44   0.31   0.14 0.3

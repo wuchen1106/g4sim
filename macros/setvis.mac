@@ -17,7 +17,7 @@
 
 #/vis/viewer/addCutawayPlane -85 0 0 cm 1 0 0
 
-/vis/viewer/zoom 2.5
+/vis/viewer/zoom 2.6
 
 #/vis/viewer/set/viewpointThetaPhi 0 0
 
@@ -26,8 +26,8 @@
 
 #/vis/viewer/set/lightsThetaPhi 60 100
 
-/vis/viewer/set/viewpointThetaPhi 270 0  
-/vis/viewer/set/lightsThetaPhi 80 180
+/vis/viewer/set/viewpointThetaPhi 120 10  
+/vis/viewer/set/lightsThetaPhi 110 20
 #/vis/viewer/set/lightsThetaPhi 270 150
 #/vis/viewer/set/lightsThetaPhi 15 15
 
