@@ -25,6 +25,7 @@
 #include "G4TwistedTubs.hh"
 #include "G4Cons.hh"
 #include "G4Polycone.hh"
+#include "G4ExtrudedSolid.hh"
 #include "G4Sphere.hh"
 #include "G4IntersectionSolid.hh"
 #include "G4SubtractionSolid.hh"
@@ -35,6 +36,7 @@
 #include "G4VisAttributes.hh"
 
 #include <iostream>
+#include <vector>
 
 #include "MyVGeometrySvc.hh"
 #include "SimpleGeometryParameter.hh"
@@ -177,15 +179,33 @@ void SimpleGeometrySvc::ConstructVolumes(){
 				G4double *RMax = new G4double[numZ];
 				G4double *RMin = new G4double[numZ];
 				G4double *Z = new G4double[numZ];
-				for ( int i = 0; i < numZ; i++ ){
-					RMax[i] = m_GeometryParameter->get_Polycone_RMax(SolidIndex,i);
-					RMin[i] = m_GeometryParameter->get_Polycone_RMin(SolidIndex,i);
-					Z[i] = m_GeometryParameter->get_Polycone_Z(SolidIndex,i);
-					std::cout<<i<<": RMax = "<<RMax[i]/mm<<"mm, RMin = "<<RMin[i]/mm<<"mm, "<<Z[i]/mm<<"mm"<<std::endl;
+				for ( int j = 0; j < numZ; j++ ){
+					RMax[j] = m_GeometryParameter->get_Polycone_RMax(SolidIndex,j,i);
+					RMin[j] = m_GeometryParameter->get_Polycone_RMin(SolidIndex,j,i);
+					Z[j] = m_GeometryParameter->get_Polycone_Z(SolidIndex,j,i);
+					std::cout<<j<<": RMax = "<<RMax[j]/mm<<"mm, RMin = "<<RMin[j]/mm<<"mm, "<<Z[j]/mm<<"mm"<<std::endl;
 				}
 				StartAng = m_GeometryParameter->get_Polycone_StartAng(SolidIndex,i);
 				SpanAng = m_GeometryParameter->get_Polycone_SpanAng(SolidIndex,i);
 				sol_Vol=new G4Polycone(iname,StartAng,SpanAng,numZ,Z,RMin,RMax);
+			}
+			else if ( SolidType == "ExtrudedSolid" ){
+				G4int numZ, numP;
+				numZ = m_GeometryParameter->get_ExtrudedSolid_numZ(SolidIndex,i);
+				numP = m_GeometryParameter->get_ExtrudedSolid_numP(SolidIndex,i);
+				std::vector<G4TwoVector> polygon;
+				std::vector<G4ExtrudedSolid::ZSection>    zsections;
+				for ( int j = 0; j < numZ; j++ ){
+					zsections.push_back(G4ExtrudedSolid::ZSection(m_GeometryParameter->get_ExtrudedSolid_Z(SolidIndex,j,i),
+							                     G4TwoVector(m_GeometryParameter->get_ExtrudedSolid_X0(SolidIndex,j,i),
+							                                 m_GeometryParameter->get_ExtrudedSolid_Y0(SolidIndex,j,i)),
+							                     m_GeometryParameter->get_ExtrudedSolid_Scale(SolidIndex,j,i)));
+				}
+				for ( int j = 0; j < numP; j++ ){
+					polygon.push_back(G4TwoVector(m_GeometryParameter->get_ExtrudedSolid_X(SolidIndex,j,i),
+							                      m_GeometryParameter->get_ExtrudedSolid_Y(SolidIndex,j,i)));
+				}
+				sol_Vol=new G4ExtrudedSolid(iname,polygon,zsections);
 			}
 			else if ( SolidType == "BooleanSolid" ){
 				G4double Ephi = m_GeometryParameter->get_BooleanSolid_Ephi(SolidIndex,i);

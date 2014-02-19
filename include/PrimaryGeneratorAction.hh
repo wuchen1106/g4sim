@@ -113,6 +113,9 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
 		G4String                   PhiMode;
 		G4String                   ThetaMode;
 		G4double                   ThetaSpread,PhiSpread;
+		G4double                   Ephi;
+		G4double                   Etheta;
+		G4double                   Epsi;
 
 		//For EnergyMode
 		TH1F*                      EM_hist;

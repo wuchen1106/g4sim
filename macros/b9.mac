@@ -15,11 +15,11 @@
 /g4sim/det/AddGeo World     world_CometPhase1     Simple
 /g4sim/det/AddGeo CS        subgeo_CS_BL          Simple
 /g4sim/det/AddGeo PT        subgeo_PT_g60cm10mm   Simple
-#/g4sim/det/AddGeo MT1       subgeo_MT1_BL         Simple
+/g4sim/det/AddGeo MT1       subgeo_MT1_BL         Simple
 # Modify:
 #
-/g4sim/mag/ReadCard MagField_PT
-#/g4sim/mag/ReadCard MagField_B9_005T
+#/g4sim/mag/ReadCard MagField_PT
+/g4sim/mag/ReadCard MagField_B9_005T
 /g4sim/det/update
 
 # Generator:

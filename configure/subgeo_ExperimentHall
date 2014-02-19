@@ -1,0 +1,47 @@
+#general info
+#	checkoverlap
+DEFINE:		PI	3.14159265358
+#------------ExperimentHall-----------------
+DEFINE:		ExperimentHall_Width				13.5e3*2
+DEFINE:		ExperimentHall_Height				8.35e3*2
+DEFINE:		ExperimentHall_Length				9.55e3*2
+
+#------------ProtonBeamline--------------------
+DEFINE:		ProtonBeamline_DistanceToProdTgt	8.1e3
+DEFINE:		ProtonBeamline_Angle				49.6*PI/180.
+
+#------------Beamline--------------------
+DEFINE:		Beamline_Height					2.3e3
+DEFINE:		Beamline_Angle 					10*PI/180.
+
+#------------ConcreteShield---------------
+DEFINE:		Ceiling_Height					0.5e3*2
+DEFINE:		Floor_Height					0.5e3*2
+
+#------------ActivePixelTarget-----------------
+DEFINE:		ActivePixelTarget_Width				200*2
+DEFINE:		ActivePixelTarget_Height			200*2
+DEFINE:		ActivePixelTarget_Length			0.3*2
+DEFINE:		ActivePixelTarget_Num				17
+
+#Box info
+#	Type x       y       z      Name                  RepNo MotVolume Material   SDName posX   posY   posZ   Ephi Etheta Epsi
+#	     mm      mm      mm                                                             mm     mm     mm     deg  deg    deg
+	B    9e4     9e4     9e4    World                 1     None      Air        none   0.     0.     0.     0    0      0
+DEFINE:		X	ExperimentHall_Width
+DEFINE:		Y	ExperimentHall_Height
+DEFINE:		Z	ExperimentHall_Length
+DEFINE:		pX	ExperimentHall_Width/2+ProtonBeamline_DistanceToProdTgt
+DEFINE:		pY	ExperimentHall_Height/2-Floor_Height-Beamline_Height
+DEFINE:		pZ	ExperimentHall_Length/2
+DEFINE:		a	ProtonBeamline_Angle-Beamline_Angle
+DEFINE:		pXr pX*cos(a)-pZ*sin(a)
+DEFINE:		pZr pZ*cos(a)+pX*sin(a)
+	B    X       Y       Z      ExperimentHall        1     World     Air        none   pX    pY     pZ     90   a/PI*180     -90
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name                 red    green  blue  
+	vis_World            0      0      1     0.1
+	vis_ExperimentHall   0.5    0.5    0.5   0.2

@@ -1,0 +1,208 @@
+#general info
+#	checkoverlap
+DEFINE:		PI	3.14159265358
+
+DEFINE:		WallThickness						0.5e3*2
+#------------LeftWall-----------------
+DEFINE:		LeftWall_Width						WallThickness
+DEFINE:		LeftWall_Height						ExperimentHall_Height-Ceiling_Height-Floor_Height
+DEFINE:		LeftWall_Length						ExperimentHall_Length
+DEFINE:		LeftWall_pX							ExperimentHall_Width/2-LeftWall_Width/2
+DEFINE:		LeftWall_pY							0
+DEFINE:		LeftWall_pZ							0
+
+#------------RightWall-----------------
+DEFINE:		RightWall_Width						WallThickness
+DEFINE:		RightWall_Height					LeftWall_Height
+DEFINE:		RightWall_Length					LeftWall_Length
+DEFINE:		RightWall_pX						-ExperimentHall_Width/2+RightWall_Width/2
+DEFINE:		RightWall_pY						0
+DEFINE:		RightWall_pZ						0
+
+#------------FrontWall-----------------
+DEFINE:		FrontWall_Width						ExperimentHall_Width-LeftWall_Width-RightWall_Width
+DEFINE:		FrontWall_Height					LeftWall_Height
+DEFINE:		FrontWall_Length					WallThickness
+DEFINE:		FrontWall_pX						0
+DEFINE:		FrontWall_pY						0
+DEFINE:		FrontWall_pZ						-ExperimentHall_Length/2+FrontWall_Length/2
+
+#------------BackWallLeft-----------------
+DEFINE:		BackWallLeft_Width					1.9e3*2
+DEFINE:		BackWallLeft_Height					LeftWall_Height
+DEFINE:		BackWallLeft_Length					WallThickness
+DEFINE:		BackWallLeft_pX						LeftWall_pX-LeftWall_Width/2-BackWallLeft_Width/2
+DEFINE:		BackWallLeft_pY						0
+DEFINE:		BackWallLeft_pZ						ExperimentHall_Length/2-BackWallLeft_Length/2
+
+#------------BackWallRight-----------------
+DEFINE:		BackWallRight_Width					2e3*2
+DEFINE:		BackWallRight_Height				LeftWall_Height
+DEFINE:		BackWallRight_Length				WallThickness
+DEFINE:		BackWallRight_pX					RightWall_pX+RightWall_Width/2+BackWallRight_Width/2
+DEFINE:		BackWallRight_pY					0
+DEFINE:		BackWallRight_pZ					ExperimentHall_Length/2-BackWallRight_Length/2
+
+#------------BackWallCentreLeft-----------------
+DEFINE:		BackWallCentreLeft_Width			LeftWall_Width/sin(ProtonBeamline_Angle)
+DEFINE:		BackWallCentreLeft_Height			LeftWall_Height
+DEFINE:		BackWallCentreLeft_Length			WallThickness
+DEFINE:		BackWallCentreLeft_pX				BackWallLeft_pX-BackWallLeft_Width/2-BackWallCentreLeft_Width/2
+DEFINE:		BackWallCentreLeft_pY				0
+DEFINE:		BackWallCentreLeft_pZ				ExperimentHall_Length/2-BackWallCentreLeft_Length/2
+
+#------------BackWallCentre-----------------
+DEFINE:		BackWallCentre_Width				FrontWall_Width-BackWallCentreLeft_Width-BackWallLeft_Width-BackWallRight_Width
+DEFINE:		BackWallCentre_Height				LeftWall_Height
+DEFINE:		BackWallCentre_Length				WallThickness
+DEFINE:		BackWallCentre_pX					BackWallRight_pX+BackWallRight_Width/2+BackWallCentre_Width/2
+DEFINE:		BackWallCentre_pY					0
+DEFINE:		BackWallCentre_pZ					ExperimentHall_Length/2-BackWallCentre_Length/2
+
+#------------Ceiling---------------
+DEFINE:		Ceiling_Width						ExperimentHall_Width
+DEFINE:		Ceiling_Length						ExperimentHall_Length
+DEFINE:		Ceiling_pX							0
+DEFINE:		Ceiling_pY							ExperimentHall_Height/2-Ceiling_Height/2
+DEFINE:		Ceiling_pZ							0
+
+#------------Floor---------------
+DEFINE:		Floor_Width							ExperimentHall_Width
+DEFINE:		Floor_Length						ExperimentHall_Length
+DEFINE:		Floor_pX							0
+DEFINE:		Floor_pY							-ExperimentHall_Height/2+Floor_Height/2
+DEFINE:		Floor_pZ							0
+
+#------------BeamPipe---------------
+DEFINE:		BeamPipe_PDTRS						4.3e3*2
+DEFINE:		BeamPipe_PDTLS						4.0e3*2
+
+#------------LeftSide---------------
+DEFINE:		LeftSide_PassThru_pX				BackWallCentreLeft_pX-BackWallCentre_Width/2+LeftSide_PassThru_Width/2*sin(ProtonBeamline_Angle)+LeftSide_PassThru_Length/2*cos(ProtonBeamline_Angle)
+DEFINE:		LeftSide_PassThru_pY				BackWallCentreLeft_pY
+DEFINE:		LeftSide_PassThru_pZ				BackWallCentreLeft_pZ-BackWallCentreLeft_Length/2-LeftSide_PassThru_Width/2*cos(ProtonBeamline_Angle)-LeftSide_PassThru_Length/2*sin(ProtonBeamline_Angle)
+DEFINE:		LeftSide_Start_pX					LeftSide_PassThru_pX+LeftSide_PassThru_Width/2*sin(ProtonBeamline_Angle)+LeftSide_PassThru_Length/2*cos(ProtonBeamline_Angle)
+DEFINE:		LeftSide_Start_pY					LeftSide_PassThru_pY
+DEFINE:		LeftSide_Start_pZ					LeftSide_PassThru_pZ-LeftSide_PassThru_Width/2*cos(ProtonBeamline_Angle)-LeftSide_PassThru_Length/2*sin(ProtonBeamline_Angle)
+
+#------------BeamDump---------------
+DEFINE:		BeamDump_ShoulderDepth				3e3*2
+DEFINE:		BeamDump_LeftShoulderLength			2.0e3*2
+DEFINE:		BeamDump_RightShoulderLength		2.3e3*2
+DEFINE:		BeamDump_Left_LeftEdgeLength		4.0e3*2
+DEFINE:		BeamDump_Left_RightEdgeLength		BeamDump_LeftShoulderLength+BeamDump_Left_LeftEdgeLength/cos(ProtonBeamline_Angle)
+DEFINE:		BeamDump_Right_LeftEdgeLength		BeamDump_ShoulderDepth
+DEFINE:		BeamDump_Behind_LeftEdgeLength		BeamDump_Left_RightEdgeLength-BeamDump_ShoulderDepth
+DEFINE:		BeamDump_Behind_Width               BeamPipe_PDTRS+BeamPipe_PDTLS-BeamDump_LeftShoulderLength-BeamDump_RightShoulderLength
+DEFINE:		BeamDump_Left_TotalWidth			BeamDump_LeftShoulderLength*sin(ProtonBeamline_Angle)+BeamDump_LeftShoulderLength*cos(ProtonBeamline_Angle)*cot(ProtonBeamline_Angle)+BeamDump_Left_LeftEdgeLength*cot(ProtonBeamline_Angle)
+DEFINE:		BeamDump_Left_pX					LeftSide_Start_pX
+DEFINE:		BeamDump_Left_pY					-BeamDump_Left_TotalWidth/2
+DEFINE:		BeamDump_Left_pZ					FrontWall_pZ-FrontWall_Length/2
+
+#------------RightSide---------------
+DEFINE:		RightSide_pX						BeamDump_Left_pX-BeamDump_Left_TotalWidth+BeamDump_Behind_LeftEdgeLength*cos(ProtonBeamline_Angle)-BeamDump_Behind_Width*sin(ProtonBeamline_Angle)+BeamDump_Right_LeftEdgeLength*cos(ProtonBeamline_Angle)-BeamDump_RightShoulderLength*sin(ProtonBeamline_Angle)
+DEFINE:		RightSide_pY						BeamDump_Left_pY
+DEFINE:		RightSide_pZ						BeamDump_Left_pZ+BeamDump_LeftShoulderLength/2*sin(ProtonBeamline_Angle)+BeamDump_Left_LeftEdgeLength/2*tan(ProtonBeamline_Angle)+BeamDump_Behind_Width*cos(ProtonBeamline_Angle)+BeamDump_Right_LeftEdgeLength/2*sin(ProtonBeamline_Angle)+BeamDump_RightShoulderLength*cos(ProtonBeamline_Angle)
+DEFINE:		RightSide_InnerLength               (BackWallCentre_pZ-BackWallCentre_Length/2-RightSide_pZ)/cos(ProtonBeamline_Angle)
+
+#Box info
+#	Type x       y       z      Name                  RepNo MotVolume          Material   SDName posX   posY   posZ   Ephi Etheta Epsi
+#	     mm      mm      mm                                                                      mm     mm     mm     deg  deg    deg
+DEFINE:		X	LeftWall_Width
+DEFINE:		Y	LeftWall_Height
+DEFINE:		Z	LeftWall_Length
+DEFINE:		pX	LeftWall_pX
+DEFINE:		pY	LeftWall_pY
+DEFINE:		pZ	LeftWall_pZ
+	B    X       Y       Z      LeftWall              1     ExperimentHall     Concrete   none   pX     pY     pZ     0    0      0
+DEFINE:		X	RightWall_Width
+DEFINE:		Y	RightWall_Height
+DEFINE:		Z	RightWall_Length
+DEFINE:		pX	RightWall_pX
+DEFINE:		pY	RightWall_pY
+DEFINE:		pZ	RightWall_pZ
+	B    X       Y       Z      RightWall              1     ExperimentHall     Concrete   none   pX     pY     pZ    0    0      0
+DEFINE:		X	FrontWall_Width
+DEFINE:		Y	FrontWall_Height
+DEFINE:		Z	FrontWall_Length
+DEFINE:		pX	FrontWall_pX
+DEFINE:		pY	FrontWall_pY
+DEFINE:		pZ	FrontWall_pZ
+	B    X       Y       Z      FrontWall              1     ExperimentHall     Concrete   none   pX     pY     pZ    0    0      0
+DEFINE:		X	BackWallLeft_Width
+DEFINE:		Y	BackWallLeft_Height
+DEFINE:		Z	BackWallLeft_Length
+DEFINE:		pX	BackWallLeft_pX
+DEFINE:		pY	BackWallLeft_pY
+DEFINE:		pZ	BackWallLeft_pZ
+	B    X       Y       Z      BackWallLeft           1     ExperimentHall     Concrete   none   pX     pY     pZ     0    0      0
+DEFINE:		X	BackWallRight_Width
+DEFINE:		Y	BackWallRight_Height
+DEFINE:		Z	BackWallRight_Length
+DEFINE:		pX	BackWallRight_pX
+DEFINE:		pY	BackWallRight_pY
+DEFINE:		pZ	BackWallRight_pZ
+	B    X       Y       Z      BackWallRight          1     ExperimentHall     Concrete   none   pX     pY     pZ     0    0      0
+DEFINE:		X	BackWallCentre_Width
+DEFINE:		Y	BackWallCentre_Height
+DEFINE:		Z	BackWallCentre_Length
+DEFINE:		pX	BackWallCentre_pX
+DEFINE:		pY	BackWallCentre_pY
+DEFINE:		pZ	BackWallCentre_pZ
+	B    X       Y       Z      BackWallCentre         1     ExperimentHall     Concrete   none   pX     pY     pZ     0    0      0
+DEFINE:		X	BackWallCentreLeft_Width
+DEFINE:		Y	BackWallCentreLeft_Height
+DEFINE:		Z	BackWallCentreLeft_Length
+DEFINE:		pX	BackWallCentreLeft_pX
+DEFINE:		pY	BackWallCentreLeft_pY
+DEFINE:		pZ	BackWallCentreLeft_pZ
+	B    X       Y       Z      BackWallCentreLeft     1     ExperimentHall     Concrete   none   pX     pY     pZ     0    0      0
+DEFINE:		X	Ceiling_Width
+DEFINE:		Y	Ceiling_Height
+DEFINE:		Z	Ceiling_Length
+DEFINE:		pX	Ceiling_pX
+DEFINE:		pY	Ceiling_pY
+DEFINE:		pZ	Ceiling_pZ
+	B    X       Y       Z      Ceiling                1     ExperimentHall     Concrete   none   pX     pY     pZ     0    0      0
+DEFINE:		X	Floor_Width
+DEFINE:		Y	Floor_Height
+DEFINE:		Z	Floor_Length
+DEFINE:		pX	Floor_pX
+DEFINE:		pY	Floor_pY
+DEFINE:		pZ	Floor_pZ
+	B    X       Y       Z      Floor                  1     ExperimentHall     Concrete   none   pX     pY     pZ     0    0      0
+
+#ExtrudedSolid info
+#	Type numZ  numP Name                               RepNo MotVolume          Material   SDName posX   posY   posZ   Ephi Etheta Epsi  
+#	                                                                                              mm     mm     mm     deg  deg    deg   
+DEFINE:		pX	RightSide_pX
+DEFINE:		pY	RightSide_pY
+DEFINE:		pZ	RightSide_pZ
+#DEFINE:		pZ	0
+	ES   2     4    RightSide                          1     ExperimentHall     Concrete   none   pX     pY     pZ     0    0      0
+#        x             y
+#        mm            mm 
+	ESP  0             0
+	ESP  0             RightSide_InnerLength
+	ESP  WallThickness RightSide_InnerLength-WallThickness*cot(ProtonBeamline_Angle
+	ESP  WallThickness 0  
+#	     z                  x0       y0       scale
+#	     mm                 mm       mm
+	ESZ  -LeftWall_Height/2 0        0        1
+	ESZ  LeftWall_Height/2  0        0        1
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name                   red    green  blue  
+	vis_World              0      0      1     0.1
+	vis_LeftWall           0.3    0.3    0.3   1  
+	vis_RightWall          0.3    0.3    0.3   1  
+	vis_FrontWall          0.3    0.3    0.3   1  
+	vis_BackWallLeft       0.3    0.3    0.3   1  
+	vis_BackWallRight      0.3    0.3    0.3   1  
+	vis_BackWallCentre     0.3    0.3    0.3   1  
+	vis_BackWallCentreLeft 0.3    0.3    0.3   1  
+	vis_Ceiling            0.3    0.3    0.3   0.25  
+	vis_Floor              0.3    0.3    0.3   1  
+	vis_RightSide          0.3    0.3    0.3   1  

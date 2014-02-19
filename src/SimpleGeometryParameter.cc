@@ -314,6 +314,46 @@ void SimpleGeometryParameter::Calculate(){
 			Polycone_RMin.push_back(iPolycone_RMin);
 			Polycone_Z.push_back(iPolycone_Z);
 		}
+		else if( SolidType[VolId] == "ExtrudedSolid" ){
+			std::vector<std::vector<G4double> > iExtrudedSolid_X;
+			std::vector<std::vector<G4double> > iExtrudedSolid_Y;
+			std::vector<std::vector<G4double> > iExtrudedSolid_Z;
+			std::vector<std::vector<G4double> > iExtrudedSolid_X0;
+			std::vector<std::vector<G4double> > iExtrudedSolid_Y0;
+			std::vector<std::vector<G4double> > iExtrudedSolid_Scale;
+			for ( int ConeId = 0; ConeId < ExtrudedSolid_numZ[SolId]; ConeId++ ){
+				std::vector<G4double> tExtrudedSolid_Z;
+				std::vector<G4double> tExtrudedSolid_X0;
+				std::vector<G4double> tExtrudedSolid_Y0;
+				std::vector<G4double> tExtrudedSolid_Scale;
+				for ( int RepId = 0; RepId < RepNo[VolId]; RepId++ ){
+					tExtrudedSolid_Z.push_back(CalFormula(fExtrudedSolid_Z[SolId][ConeId],RepId)*mm);
+					tExtrudedSolid_X0.push_back(CalFormula(fExtrudedSolid_X0[SolId][ConeId],RepId)*mm);
+					tExtrudedSolid_Y0.push_back(CalFormula(fExtrudedSolid_Y0[SolId][ConeId],RepId)*mm);
+					tExtrudedSolid_Scale.push_back(CalFormula(fExtrudedSolid_Scale[SolId][ConeId],RepId));
+				}
+				iExtrudedSolid_Z.push_back(tExtrudedSolid_Z);
+				iExtrudedSolid_X0.push_back(tExtrudedSolid_X0);
+				iExtrudedSolid_Y0.push_back(tExtrudedSolid_Y0);
+				iExtrudedSolid_Scale.push_back(tExtrudedSolid_Scale);
+			}
+			for ( int ConeId = 0; ConeId < ExtrudedSolid_numP[SolId]; ConeId++ ){
+				std::vector<G4double> tExtrudedSolid_X;
+				std::vector<G4double> tExtrudedSolid_Y;
+				for ( int RepId = 0; RepId < RepNo[VolId]; RepId++ ){
+					tExtrudedSolid_X.push_back(CalFormula(fExtrudedSolid_X[SolId][ConeId],RepId)*mm);
+					tExtrudedSolid_Y.push_back(CalFormula(fExtrudedSolid_Y[SolId][ConeId],RepId)*mm);
+				}
+				iExtrudedSolid_X.push_back(tExtrudedSolid_X);
+				iExtrudedSolid_Y.push_back(tExtrudedSolid_Y);
+			}
+			ExtrudedSolid_X.push_back(iExtrudedSolid_X);
+			ExtrudedSolid_Y.push_back(iExtrudedSolid_Y);
+			ExtrudedSolid_Z.push_back(iExtrudedSolid_Z);
+			ExtrudedSolid_X0.push_back(iExtrudedSolid_X0);
+			ExtrudedSolid_Y0.push_back(iExtrudedSolid_Y0);
+			ExtrudedSolid_Scale.push_back(iExtrudedSolid_Scale);
+		}
 	}
 //	std::cout<<"End of SimpleGeometryParameter::Calculate"<<std::endl; // to be deleted
 }
@@ -346,6 +386,7 @@ void SimpleGeometryParameter::Preset(){
 	TwistedTubsNo = 0;
 	ConsNo = 0;
 	PolyconeNo = 0;
+	ExtrudedSolidNo = 0;
 	BooleanSolidNo = 0;
 
 	//General info about volume
@@ -491,6 +532,26 @@ void SimpleGeometryParameter::Preset(){
 	waited_Polycone_iVol = -1;
 	achieved_componets_Polycone = 0;
 
+	//ExtrudedSolid info
+	fExtrudedSolid_X.clear();
+	fExtrudedSolid_Y.clear();
+	fExtrudedSolid_Z.clear();
+	fExtrudedSolid_X0.clear();
+	fExtrudedSolid_Y0.clear();
+	fExtrudedSolid_Scale.clear();
+	ExtrudedSolid_X.clear();
+	ExtrudedSolid_Y.clear();
+	ExtrudedSolid_Z.clear();
+	ExtrudedSolid_X0.clear();
+	ExtrudedSolid_Y0.clear();
+	ExtrudedSolid_Scale.clear();
+	ExtrudedSolid_numZ.clear();
+	ExtrudedSolid_numP.clear();
+	ExtrudedSolid_GenIndex.clear();
+	waited_ExtrudedSolid_iVol = -1;
+	achieved_Z_ExtrudedSolid = 0;
+	achieved_P_ExtrudedSolid = 0;
+
 	//BooleanSolid info
 	BooleanSolid_type.clear();
 	BooleanSolid_sol1.clear();
@@ -547,6 +608,38 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 				waited_Polycone_iVol=-1;
 				achieved_componets_Polycone=0;
 			}
+		}
+	}
+	else if (waited_ExtrudedSolid_iVol>=0){
+		GoOn = false;
+		if (achieved_Z_ExtrudedSolid<ExtrudedSolid_numZ[waited_ExtrudedSolid_iVol]){
+			if (name=="ESZ"){
+				G4String tExtrudedSolid_Z;
+				G4String tExtrudedSolid_X0;
+				G4String tExtrudedSolid_Y0;
+				G4String tExtrudedSolid_Scale;
+				buf_card>>tExtrudedSolid_Z>>tExtrudedSolid_X0>>tExtrudedSolid_Y0>>tExtrudedSolid_Scale;
+				fExtrudedSolid_Z[waited_ExtrudedSolid_iVol][achieved_Z_ExtrudedSolid] = ReplaceMacro(tExtrudedSolid_Z);
+				fExtrudedSolid_X0[waited_ExtrudedSolid_iVol][achieved_Z_ExtrudedSolid] = ReplaceMacro(tExtrudedSolid_X0);
+				fExtrudedSolid_Y0[waited_ExtrudedSolid_iVol][achieved_Z_ExtrudedSolid] = ReplaceMacro(tExtrudedSolid_Y0);
+				fExtrudedSolid_Scale[waited_ExtrudedSolid_iVol][achieved_Z_ExtrudedSolid] = ReplaceMacro(tExtrudedSolid_Scale);
+				achieved_Z_ExtrudedSolid++;
+			}
+		}
+		if (achieved_P_ExtrudedSolid<ExtrudedSolid_numP[waited_ExtrudedSolid_iVol]){
+			if (name=="ESP"){
+				G4String tExtrudedSolid_X;
+				G4String tExtrudedSolid_Y;
+				buf_card>>tExtrudedSolid_X>>tExtrudedSolid_Y;
+				fExtrudedSolid_X[waited_ExtrudedSolid_iVol][achieved_P_ExtrudedSolid] = ReplaceMacro(tExtrudedSolid_X);
+				fExtrudedSolid_Y[waited_ExtrudedSolid_iVol][achieved_P_ExtrudedSolid] = ReplaceMacro(tExtrudedSolid_Y);
+				achieved_P_ExtrudedSolid++;
+			}
+		}
+		if (ExtrudedSolid_numP[waited_ExtrudedSolid_iVol]==achieved_P_ExtrudedSolid&&ExtrudedSolid_numZ[waited_ExtrudedSolid_iVol]==achieved_Z_ExtrudedSolid){
+			waited_ExtrudedSolid_iVol=-1;
+			achieved_P_ExtrudedSolid=0;
+			achieved_Z_ExtrudedSolid=0;
 		}
 	}
 	if (GoOn){
@@ -712,6 +805,30 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 			waited_Polycone_iVol = PolyconeNo;
 			achieved_componets_Polycone = 0;
 			PolyconeNo++;
+			foundVolume = true;
+		}
+		else if( name == "ES" ){
+			SolidType.push_back("ExtrudedSolid");
+			SolidIndex.push_back(ExtrudedSolidNo);
+			G4int tExtrudedSolid_numZ;
+			G4int tExtrudedSolid_numP;
+			buf_card>>tExtrudedSolid_numZ>>tExtrudedSolid_numP;
+			ExtrudedSolid_numZ.push_back(tExtrudedSolid_numZ);
+			ExtrudedSolid_numP.push_back(tExtrudedSolid_numP);
+			ExtrudedSolid_GenIndex.push_back(iVol);
+			std::vector<G4String> empty_vec;
+			empty_vec.resize(tExtrudedSolid_numP);
+			fExtrudedSolid_X.push_back(empty_vec);;
+			fExtrudedSolid_Y.push_back(empty_vec);;
+			empty_vec.resize(tExtrudedSolid_numZ);
+			fExtrudedSolid_Z.push_back(empty_vec);;
+			fExtrudedSolid_X0.push_back(empty_vec);;
+			fExtrudedSolid_Y0.push_back(empty_vec);;
+			fExtrudedSolid_Scale.push_back(empty_vec);;
+			waited_ExtrudedSolid_iVol = ExtrudedSolidNo;
+			achieved_P_ExtrudedSolid = 0;
+			achieved_Z_ExtrudedSolid = 0;
+			ExtrudedSolidNo++;
 			foundVolume = true;
 		}
 		else if( name == "BL" ){
@@ -1216,6 +1333,64 @@ void SimpleGeometryParameter::DumpInfo() {
 					<<std::setiosflags(std::ios::left)<<std::setw(10) <<Polycone_Z[i][k][j]/mm
 					<<std::setiosflags(std::ios::left)<<std::setw(10) <<Polycone_RMin[i][k][j]/mm
 					<<std::setiosflags(std::ios::left)<<std::setw(10) <<Polycone_RMax[i][k][j]/mm
+					<<std::endl;
+			}
+		}
+	}
+	for( G4int i = 0; i < ExtrudedSolidNo; i++ ){
+		if ( i == 0 ){
+			std::cout<<"=>ExtrudedSolid info:"<<std::endl;
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<"No."
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"numZ"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"numP";
+			dump_general_header();
+			std::cout<<std::endl;
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<""
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<""
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"";
+			dump_general_note();
+			std::cout<<std::endl;
+		}
+		int index = ExtrudedSolid_GenIndex[i];
+		int repNo = RepNo[index];
+		for ( G4int j = 0; j < repNo; j++ ){
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<i
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<ExtrudedSolid_numZ[i]
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<ExtrudedSolid_numP[i];
+			dump_general_value(index);
+			std::cout<<std::endl;
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<"No."
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"Z"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"X0"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"Y0"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"Scale"
+				<<std::endl;
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<""
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"mm"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"mm"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"mm"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<""
+				<<std::endl;
+			for (int k = 0; k< ExtrudedSolid_numZ[i]; k++){
+				std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<k
+					<<std::setiosflags(std::ios::left)<<std::setw(10) <<ExtrudedSolid_Z[i][k][j]/mm
+					<<std::setiosflags(std::ios::left)<<std::setw(10) <<ExtrudedSolid_X0[i][k][j]/mm
+					<<std::setiosflags(std::ios::left)<<std::setw(10) <<ExtrudedSolid_Y0[i][k][j]/mm
+					<<std::setiosflags(std::ios::left)<<std::setw(10) <<ExtrudedSolid_Scale[i][k][j]
+					<<std::endl;
+			}
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<"No."
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"X"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"Y"
+				<<std::endl;
+			std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<""
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"mm"
+				<<std::setiosflags(std::ios::left)<<std::setw(10) <<"mm"
+				<<std::endl;
+			for (int k = 0; k< ExtrudedSolid_numP[i]; k++){
+				std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<k
+					<<std::setiosflags(std::ios::left)<<std::setw(10) <<ExtrudedSolid_X[i][k][j]/mm
+					<<std::setiosflags(std::ios::left)<<std::setw(10) <<ExtrudedSolid_Y[i][k][j]/mm
 					<<std::endl;
 			}
 		}

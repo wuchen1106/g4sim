@@ -14,6 +14,7 @@
 #include "G4ParticleGun.hh"
 #include "G4ParticleTable.hh"
 #include "G4ParticleDefinition.hh"
+#include "G4RotationMatrix.hh"
 #include "Randomize.hh"
 
 //supported geometry
@@ -287,6 +288,8 @@ void PrimaryGeneratorAction::SetRandomDirection(){
 	G4ThreeVector dir(1,1,1);
 	dir.setTheta(Theta+dTheta);
 	dir.setPhi(Phi+dPhi);
+	G4RotationMatrix rot(Ephi,Etheta,Epsi);
+	dir = rot*dir;
 	particleGun->SetParticleMomentumDirection(dir.unit());
 }
 
@@ -585,6 +588,18 @@ void PrimaryGeneratorAction::ReadCard(G4String file_name){
 			buf_card>>temp;
 			PhiSpread = CalFormula(ReplaceMacro(temp))*deg;
 		}
+		else if ( keyword == "Ephi:" ){
+			buf_card>>temp;
+			Ephi = CalFormula(ReplaceMacro(temp))*deg;
+		}
+		else if ( keyword == "Etheta:" ){
+			buf_card>>temp;
+			Etheta = CalFormula(ReplaceMacro(temp))*deg;
+		}
+		else if ( keyword == "Epsi:" ){
+			buf_card>>temp;
+			Epsi = CalFormula(ReplaceMacro(temp))*deg;
+		}
 		else if ( keyword == "ThetaSpread:" ){
 			buf_card>>temp;
 			ThetaSpread = CalFormula(ReplaceMacro(temp))*deg;
@@ -752,6 +767,9 @@ void PrimaryGeneratorAction::Reset(){
 	EkinSpread = 0;
 	ThetaSpread = 0;
 	PhiSpread = 0;
+	Ephi = 0;
+	Etheta = 0;
+	Epsi = 0;
 	EM_hist = 0;
 	DM_hist = 0;
 	root_num = 0;
@@ -844,6 +862,9 @@ void PrimaryGeneratorAction::Dump(){
 	}
 	std::cout<<"Default Momentum Direction: theta =           "<<Theta/deg<<"deg, phi = "<<Phi/deg<<"deg"<<std::endl;
 	std::cout<<"Default Phi Spread:                           "<<PhiSpread/deg<<"deg"<<std::endl;
+	std::cout<<"Default Ephi Spread:                          "<<Ephi/deg<<"deg"<<std::endl;
+	std::cout<<"Default Etheta Spread:                        "<<Etheta/deg<<"deg"<<std::endl;
+	std::cout<<"Default Epsi Spread:                          "<<Epsi/deg<<"deg"<<std::endl;
 	std::cout<<"Default Theta Spread:                         "<<ThetaSpread/deg<<"deg"<<std::endl;
 	if (EnergyType==0){
 	std::cout<<"Default Momentum Amplitude:                   "<<Pa/MeV<<"MeV"<<std::endl;

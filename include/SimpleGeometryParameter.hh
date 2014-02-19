@@ -150,6 +150,17 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		G4double get_Polycone_StartAng(G4int PolyconeId, G4int j = 0) {if( check_PolyconeId(PolyconeId) ) return Polycone_StartAng[PolyconeId][j]; else return 0;}
 		G4double get_Polycone_SpanAng(G4int PolyconeId, G4int j = 0) {if( check_PolyconeId(PolyconeId) ) return Polycone_SpanAng[PolyconeId][j]; else return 0;}
 
+		//ExtrudedSolid info
+		G4int get_ExtrudedSolidNo() {return ExtrudedSolidNo;}
+		G4int    get_ExtrudedSolid_numZ(G4int ExtrudedSolidId, G4int j = 0) {if( check_ExtrudedSolidId(ExtrudedSolidId) ) return ExtrudedSolid_numZ[ExtrudedSolidId]; else return 0;}
+		G4int    get_ExtrudedSolid_numP(G4int ExtrudedSolidId, G4int j = 0) {if( check_ExtrudedSolidId(ExtrudedSolidId) ) return ExtrudedSolid_numP[ExtrudedSolidId]; else return 0;}
+		G4double get_ExtrudedSolid_X(G4int ExtrudedSolidId,G4int i, G4int j = 0) {if( check_ExtrudedSolidId(ExtrudedSolidId) && i < ExtrudedSolid_numP[ExtrudedSolidId] ) return ExtrudedSolid_X[ExtrudedSolidId][i][j]; else return 0;}
+		G4double get_ExtrudedSolid_Y(G4int ExtrudedSolidId,G4int i, G4int j = 0) {if( check_ExtrudedSolidId(ExtrudedSolidId) && i < ExtrudedSolid_numP[ExtrudedSolidId] ) return ExtrudedSolid_Y[ExtrudedSolidId][i][j]; else return 0;}
+		G4double get_ExtrudedSolid_Z(G4int ExtrudedSolidId,G4int i, G4int j = 0) {if( check_ExtrudedSolidId(ExtrudedSolidId) && i < ExtrudedSolid_numZ[ExtrudedSolidId]) return ExtrudedSolid_Z[ExtrudedSolidId][i][j]; else return 0;}
+		G4double get_ExtrudedSolid_X0(G4int ExtrudedSolidId,G4int i, G4int j = 0) {if( check_ExtrudedSolidId(ExtrudedSolidId) && i < ExtrudedSolid_numZ[ExtrudedSolidId]) return ExtrudedSolid_X0[ExtrudedSolidId][i][j]; else return 0;}
+		G4double get_ExtrudedSolid_Y0(G4int ExtrudedSolidId,G4int i, G4int j = 0) {if( check_ExtrudedSolidId(ExtrudedSolidId) && i < ExtrudedSolid_numZ[ExtrudedSolidId]) return ExtrudedSolid_Y0[ExtrudedSolidId][i][j]; else return 0;}
+		G4double get_ExtrudedSolid_Scale(G4int ExtrudedSolidId,G4int i, G4int j = 0) {if( check_ExtrudedSolidId(ExtrudedSolidId) && i < ExtrudedSolid_numZ[ExtrudedSolidId]) return ExtrudedSolid_Scale[ExtrudedSolidId][i][j]; else return 0;}
+
 		// BooleanSolid
 		G4String get_BooleanSolid_type(G4int BooleanSolidId) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_type[BooleanSolidId]; else return "";}
 		G4String get_BooleanSolid_sol1(G4int BooleanSolidId) {if( check_BooleanSolidId(BooleanSolidId) ) return BooleanSolid_sol1[BooleanSolidId]; else return "";}
@@ -315,6 +326,25 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		void set_Polycone_StartAng(G4String name, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_PolyconeId(i) ) Polycone_StartAng[i][j] = val;}
 		void set_Polycone_SpanAng(G4String name, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_PolyconeId(i) ) Polycone_SpanAng[i][j] = val;}
 
+		//ExtrudedSolid info
+		void set_ExtrudedSolid_numZ(G4int ExtrudedSolidId, G4int val, G4int j = 0) {if( check_ExtrudedSolidId(ExtrudedSolidId) ) ExtrudedSolid_numZ[ExtrudedSolidId] = val;}
+		void set_ExtrudedSolid_numP(G4int ExtrudedSolidId, G4int val, G4int j = 0) {if( check_ExtrudedSolidId(ExtrudedSolidId) ) ExtrudedSolid_numP[ExtrudedSolidId] = val;}
+		void set_ExtrudedSolid_X(G4int ExtrudedSolidId,G4int i, G4double val, G4int j = 0) {if( check_ExtrudedSolidId(ExtrudedSolidId) && i < ExtrudedSolid_numP[ExtrudedSolidId] ) ExtrudedSolid_X[ExtrudedSolidId][i][j] = val;}
+		void set_ExtrudedSolid_Y(G4int ExtrudedSolidId,G4int i, G4double val, G4int j = 0) {if( check_ExtrudedSolidId(ExtrudedSolidId) && i < ExtrudedSolid_numP[ExtrudedSolidId] ) ExtrudedSolid_Y[ExtrudedSolidId][i][j] = val;}
+		void set_ExtrudedSolid_Z(G4int ExtrudedSolidId,G4int i, G4double val, G4int j = 0) {if( check_ExtrudedSolidId(ExtrudedSolidId) && i < ExtrudedSolid_numZ[ExtrudedSolidId]) ExtrudedSolid_Z[ExtrudedSolidId][i][j] = val;}
+		void set_ExtrudedSolid_X0(G4int ExtrudedSolidId,G4int i, G4double val, G4int j = 0) {if( check_ExtrudedSolidId(ExtrudedSolidId) && i < ExtrudedSolid_numZ[ExtrudedSolidId]) ExtrudedSolid_X0[ExtrudedSolidId][i][j] = val;}
+		void set_ExtrudedSolid_Y0(G4int ExtrudedSolidId,G4int i, G4double val, G4int j = 0) {if( check_ExtrudedSolidId(ExtrudedSolidId) && i < ExtrudedSolid_numZ[ExtrudedSolidId]) ExtrudedSolid_Y0[ExtrudedSolidId][i][j] = val;}
+		void set_ExtrudedSolid_Scale(G4int ExtrudedSolidId,G4int i, G4double val, G4int j = 0) {if( check_ExtrudedSolidId(ExtrudedSolidId) && i < ExtrudedSolid_numZ[ExtrudedSolidId]) ExtrudedSolid_Scale[ExtrudedSolidId][i][j] = val;}
+
+		void set_ExtrudedSolid_numZ(G4String name, G4int val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_ExtrudedSolidId(i) ) ExtrudedSolid_numZ[i] = val;}
+		void set_ExtrudedSolid_numP(G4String name, G4int val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_ExtrudedSolidId(i) ) ExtrudedSolid_numP[i] = val;}
+		void set_ExtrudedSolid_X(G4String name,G4int iCone, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_ExtrudedSolidId(i) && iCone < ExtrudedSolid_numP[i] ) ExtrudedSolid_X[i][iCone][j] = val;}
+		void set_ExtrudedSolid_Y(G4String name,G4int iCone, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_ExtrudedSolidId(i) && iCone < ExtrudedSolid_numP[i] ) ExtrudedSolid_Y[i][iCone][j] = val;}
+		void set_ExtrudedSolid_Z(G4String name,G4int iCone, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_ExtrudedSolidId(i) && iCone < ExtrudedSolid_numZ[i]) ExtrudedSolid_Z[i][iCone][j] = val;}
+		void set_ExtrudedSolid_X0(G4String name,G4int iCone, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_ExtrudedSolidId(i) && iCone < ExtrudedSolid_numZ[i]) ExtrudedSolid_X0[i][iCone][j] = val;}
+		void set_ExtrudedSolid_Y0(G4String name,G4int iCone, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_ExtrudedSolidId(i) && iCone < ExtrudedSolid_numZ[i]) ExtrudedSolid_Y0[i][iCone][j] = val;}
+		void set_ExtrudedSolid_Scale(G4String name,G4int iCone, G4double val, G4int j = 0) {int i = get_SolidIndex(get_VolIndex(name));if( check_ExtrudedSolidId(i) && iCone < ExtrudedSolid_numZ[i]) ExtrudedSolid_Scale[i][iCone][j] = val;}
+
 		//BooleanSolid info
 		void set_BooleanSolid_type(G4int BooleanSolidId, G4String val) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_type[BooleanSolidId]=val;}
 		void set_BooleanSolid_sol1(G4int BooleanSolidId, G4String val) {if( check_BooleanSolidId(BooleanSolidId) ) BooleanSolid_sol1[BooleanSolidId]=val;}
@@ -369,6 +399,7 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 			else if ( type == "TwistedTubs" && check_TwistedTubsId(i) ) k = TwistedTubs_GenIndex[i];
 			else if ( type == "Cons" && check_ConsId(i) ) k = Cons_GenIndex[i];
 			else if ( type == "Polycone" && check_PolyconeId(i) ) k = Polycone_GenIndex[i];
+			else if ( type == "ExtrudedSolid_Scale" && check_ExtrudedSolidId(i) ) k = ExtrudedSolid_GenIndex[i];
 			else if ( type == "BooleanSolid" && check_BooleanSolidId(i) ) k = BooleanSolid_GenIndex[i];
 			else DEBUG("Wrong index number or unknown volume type!");
 			return k;
@@ -497,6 +528,20 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		bool check_PolyconeNo( int No ){
 			if( No != PolyconeNo ){
 				std::cout<<"In SimpleGeometryParameter::InitFromFile(), insufficient Polycone info! PolyconeNo = "<<PolyconeNo<<", while only "<<No<<" Polycone were found."<<std::endl;
+				return false;
+			}
+			else return true;
+		}
+		bool check_ExtrudedSolidId(int ExtrudedSolidId){
+			if ( ExtrudedSolidId < ExtrudedSolidNo ) return true;
+			else{
+				std::cout<<"In SimpleGeometryParameter, ExtrudedSolidId is out of range! ExtrudedSolidId = "<<ExtrudedSolidId<<", ExtrudedSolidNo = "<<ExtrudedSolidNo<<std::endl;
+				return false;
+			}
+		}
+		bool check_ExtrudedSolidNo( int No ){
+			if( No != ExtrudedSolidNo ){
+				std::cout<<"In SimpleGeometryParameter::InitFromFile(), insufficient ExtrudedSolid info! ExtrudedSolidNo = "<<ExtrudedSolidNo<<", while only "<<No<<" ExtrudedSolid were found."<<std::endl;
 				return false;
 			}
 			else return true;
@@ -674,6 +719,27 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		std::vector<G4int>    Polycone_GenIndex;
 		G4int waited_Polycone_iVol;
 		G4int achieved_componets_Polycone;
+
+		//ExtrudedSolid info
+		G4int ExtrudedSolidNo;
+		std::vector<G4int> ExtrudedSolid_numZ;
+		std::vector<G4int> ExtrudedSolid_numP;
+		std::vector<std::vector<G4String> > fExtrudedSolid_X;
+		std::vector<std::vector<G4String> > fExtrudedSolid_Y;
+		std::vector<std::vector<G4String> > fExtrudedSolid_Z;
+		std::vector<std::vector<G4String> > fExtrudedSolid_X0;
+		std::vector<std::vector<G4String> > fExtrudedSolid_Y0;
+		std::vector<std::vector<G4String> > fExtrudedSolid_Scale;
+		std::vector<std::vector<std::vector<G4double> > > ExtrudedSolid_X;
+		std::vector<std::vector<std::vector<G4double> > > ExtrudedSolid_Y;
+		std::vector<std::vector<std::vector<G4double> > > ExtrudedSolid_Z;
+		std::vector<std::vector<std::vector<G4double> > > ExtrudedSolid_X0;
+		std::vector<std::vector<std::vector<G4double> > > ExtrudedSolid_Y0;
+		std::vector<std::vector<std::vector<G4double> > > ExtrudedSolid_Scale;
+		std::vector<G4int>    ExtrudedSolid_GenIndex;
+		G4int waited_ExtrudedSolid_iVol;
+		G4int achieved_P_ExtrudedSolid;
+		G4int achieved_Z_ExtrudedSolid;
 
 		// BooleanSolidId
 		G4int BooleanSolidNo;

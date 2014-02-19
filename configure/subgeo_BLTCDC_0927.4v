@@ -4,8 +4,10 @@
 #*************************************************************************************************
 #	Shells
 DEFINE:		pZst 		-2790.5  # Start position
-DEFINE:		RI			190  # Inner radius of beam pipe ( before Gap Section )
-DEFINE:		RO			200  # Outer radius of beam pipe ( before Gap Section )
+DEFINE:		RI			120  # Inner radius of beam pipe ( before Gap Section )
+DEFINE:		RO			130  # Outer radius of beam pipe ( before Gap Section )
+#DEFINE:		RI			190  # Inner radius of beam pipe ( before Gap Section )
+#DEFINE:		RO			200  # Outer radius of beam pipe ( before Gap Section )
 DEFINE:		RIC			110  # Inner radius of Collimator
 DEFINE:		LTS3S		355.9  # Length of TS3 Shell
 DEFINE:		LCollS		1160  # Length of Collimator Shell
@@ -55,8 +57,8 @@ DEFINE:		pZCollS		pZTS3S+LTS3S/2+LCollS/2
 DEFINE:		pZColl		pZTS3S-LTS3S/2+LColl/2
 	T     RI     RO      LCollS  270        180     ShellColl       1     BLTCDC          Copper     none      0    0  pZCollS 0      0      0     
 	T     RI     RO      LCollS  90        180     ShellColliv       1     BLTCDC          Copper     none      0    0  pZCollS 0      0      0     
-	T     RIC    RI      LColl   270        180     Collimator      1     BLTCDC          Copper     none      0    0  pZColl  0      0      0     
-	T     RIC    RI      LColl   90        180     Collimatoriv      1     BLTCDC          Copper     none      0    0  pZColl  0      0      0     
+#	T     RIC    RI      LColl   270        180     Collimator      1     BLTCDC          Copper     none      0    0  pZColl  0      0      0     
+#	T     RIC    RI      LColl   90        180     Collimatoriv      1     BLTCDC          Copper     none      0    0  pZColl  0      0      0     
 DEFINE:		thMl		50e-3
 DEFINE:		pZ			pZCollS+LCollS/2+thMl/2
 #	T     0      RI      thMl    270        180     MylarSD         1     BLTCDC          Mylar      none      0    0  pZ      0      0      0     
