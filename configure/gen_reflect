@@ -5,8 +5,8 @@
 #Default Direction
 #	           Theta    Phi
 #	           deg      deg
-	Direction: 89.5     0
-	ThetaSpread:        1 
+	Direction: 85       0
+	ThetaSpread:        10
 	PhiSpread:          360
 	Ephi:               -90
 	Etheta:             -90
