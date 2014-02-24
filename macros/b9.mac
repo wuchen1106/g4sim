@@ -5,7 +5,7 @@
 /control/execute {MYG4SIMROOT}/macros/setCut_default.mac
 
 # to save time ...
-/run/setCut 0.01 mm
+/run/setCut 0.7 mm
 #/stacking/set_no_MC 1
 #/stacking/set_no_PC 1
 /stacking/set_no_sec 1
@@ -27,7 +27,7 @@
 #/g4sim/gun/ReadCard gen_APinPT
 #/g4sim/gun/ReadCard gen_ip
 #/g4sim/gun/root_filename PT.AP_all.TH0.root
-/g4sim/gun/root_filename PTM.AP_500MeV.TH0.root
+#/g4sim/gun/root_filename PTM.AP_500MeV.TH0.root
 #/g4sim/gun/root_filename PTM.AP.TH0.root
 #/g4sim/gun/root_filename PTACS.AP_all.g60cm10mm.TH0.g4s.QBH.root
 #/g4sim/gun/root_filename PTACS.AP.g60cm10mm.TH0.g4s.QBH.root

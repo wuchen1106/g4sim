@@ -94,7 +94,7 @@ V_SECTION
 V_SECTION
 
 V_FILTERSECTION
-	minp         100   MeV
+#	minp         100   MeV
 	Switch                        //if commented, then program wil not generate any hit
 V_FILTERSECTION
 

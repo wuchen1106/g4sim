@@ -23,6 +23,7 @@
 /gui/addButton run TriCt.4v "/control/execute macros/TriCt.4v.mac"
 /gui/addButton run b9 "/control/execute macros/b9.mac"
 /gui/addButton run b9.4v "/control/execute macros/b9.4v.mac"
+/gui/addButton run reflect "/control/execute macros/reflect.mac"
 /gui/addButton run CP2 "/control/execute macros/COMETPhaseII.mac"
 #
 # Gun menu :

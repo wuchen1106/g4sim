@@ -16,7 +16,7 @@
 	Position:         0    0   0           
 	PosSpread:        0    0   0
 
-	RandMode:       none #(none/root)
+	RandMode:       root #(none/root)
 	EnergyMode:     root #(root/histo/none)
 	PositionMode:   root #(uniform/root/none/gRand/uRand)
 	DirectionMode:  none #(none/uniform/histo)
@@ -29,5 +29,5 @@
 	Time:    0
 
 #ROOT file name
-	RFN:            MT1.pim.g60cm10mm.005T.g4s.QBH.root
+	RFN:            SCAN.root
 	RTN:            t

@@ -139,7 +139,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
 		G4String                   root_filename;
 		G4String                   root_treename;
 		double                     root_double[20];
-		int                        root_int[3];
+		int                        root_int[5];
 		std::string                *root_str[2];
 		TFile                      *fp;
 
@@ -157,6 +157,8 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
 		bool flag_ot;
 		bool flag_process;
 		bool flag_volume;
+		bool flag_R0;
+		bool flag_R1;
 		bool flag_ppid;
 		bool flag_ptid;
 };

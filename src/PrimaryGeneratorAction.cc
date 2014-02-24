@@ -88,8 +88,10 @@ void* PrimaryGeneratorAction::get_extra(G4String name){
 	else if (name=="ptid") {if(!flag_ptid)  return &root_int[2];}
 	else if (name=="process") {if(!flag_process)  return root_str[0];}
 	else if (name=="volume") {if(!flag_volume)  return root_str[1];}
-	else if (name=="R0") {if(!flag_volume)  return &root_double[7];}
-	else if (name=="R1") {if(!flag_volume)  return &root_double[8];}
+//	else if (name=="R0") {if(!flag_R0)  return &root_double[7];}
+//	else if (name=="R1") {if(!flag_R1)  return &root_double[8];}
+	else if (name=="R0") {if(!flag_R0)  return &root_int[3];}
+	else if (name=="R1") {if(!flag_R1)  return &root_int[4];}
 	return NULL;
 }
 
@@ -102,12 +104,19 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	}
 	if (RandMode=="root"){
 		long seeds[3];
-		seeds[0] = root_double[7];
-		seeds[1] = root_double[8];
+//		seeds[0] = root_double[7];
+//		seeds[1] = root_double[8];
+		seeds[0] = root_int[3];
+		seeds[1] = root_int[4];
 		seeds[2] = 0;
 		std::cout<<"setTheSeeds("<<(int)seeds[0]<<","<<(int)seeds[1]<<")"<<std::endl;
 		CLHEP::HepRandom::setTheSeeds(seeds);
 	}
+
+	// Show Status:
+	std::cout<<"==>Event "<<root_index<<std::endl;
+    CLHEP::HepRandom::showEngineStatus();
+
 	EventHeaderSvc::GetEventHeaderSvc()->SetSeedsValue();
 	EventHeaderSvc::GetEventHeaderSvc()->SetInitialMomentum(root_double[17],root_double[18],root_double[19]);
 
@@ -132,6 +141,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 		mass = particleGun->GetParticleDefinition()->GetPDGMass();
 		particleGun->SetParticleCharge(C*eplus);
 	}
+
 	if ( pidMode == "root"){
 		G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
 		G4ParticleDefinition* particle = particleTable->FindParticle(root_int[0]);
@@ -229,8 +239,14 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 				"InvalidSetup", FatalException,
 				"unknown TimeMode");
 	}
-
 	particleGun->GeneratePrimaryVertex(anEvent);
+
+	std::cout.precision(17);
+	std::cout<<"\tDirection: "<<particleGun->GetParticleMomentumDirection()<<std::endl;
+	std::cout<<"\tEnergy: "<<particleGun->GetParticleEnergy()/MeV<<" MeV"<<std::endl;
+	std::cout.precision(3);
+    CLHEP::HepRandom::showEngineStatus();
+	if (!UseRoot) root_index++;
 }
 
 void PrimaryGeneratorAction::SetUniformDirection(){
@@ -507,8 +523,10 @@ void PrimaryGeneratorAction::root_set_pid(){
 	m_TChain->SetBranchAddress("pid", &root_int[0]);
 }
 void PrimaryGeneratorAction::root_set_Rand(){
-	m_TChain->SetBranchAddress("R0", &root_double[7]);
-	m_TChain->SetBranchAddress("R1", &root_double[8]);
+//	flag_R0 = m_TChain->SetBranchAddress("R0", &root_double[7]);
+//	flag_R1 = m_TChain->SetBranchAddress("R1", &root_double[8]);
+	flag_R0 = m_TChain->SetBranchAddress("R0", &root_int[3]);
+	flag_R1 = m_TChain->SetBranchAddress("R1", &root_int[4]);
 }
 void PrimaryGeneratorAction::root_set_extra(){
 	flag_weight=m_TChain->SetBranchAddress("weight", &root_double[9]);
@@ -788,6 +806,8 @@ void PrimaryGeneratorAction::Reset(){
 	flag_ot = false;
 	flag_process = false;
 	flag_volume = false;
+	flag_R0 = false;
+	flag_R1 = false;
 	flag_ppid = false;
 	flag_ptid = false;
 }

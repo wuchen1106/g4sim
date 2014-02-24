@@ -13,10 +13,10 @@
 	Epsi:               90
 #Default Momentum Amplitude
 #	         MeV
-#	MomAmp:  1.25e4
-#	MomAmp:  1e5
 	MomAmp:  300
 	MomSpread:  400
+#	MomAmp:  30 
+#	MomSpread:  10 
 #Default Kinetic Energy
 #	         MeV
 #	Ekin:         105
@@ -25,7 +25,7 @@
 	Position:         4500 0   -5790.5     
 	PosSpread:        0    200 200
 
-	RandMode:       none #(none/root)
+	RandMode:       root #(none/root)
 	EnergyMode:     uRand #(root/histo/none)
 	PositionMode:   sRand #(uniform/root/none/gRadn/sRand/bRand)
 	DirectionMode:  none #(none/uniform/histo)
@@ -50,5 +50,5 @@
 #	DMHHN:          theta
 
 #ROOT file name
-#	RFN:            MT1.EP.em.g40cm10mm.005T.g4s.QBH.root
-#	RTN:            t
+	RFN:            SCAN.root
+	RTN:            t
