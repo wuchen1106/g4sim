@@ -23,8 +23,8 @@
 /g4sim/det/update
 
 # Generator:
-/g4sim/gun/ReadCard gen_reflect
-#/g4sim/gun/ReadCard gen_root
+#/g4sim/gun/ReadCard gen_reflect
+/g4sim/gun/ReadCard gen_root
 #/g4sim/gun/ReadCard gen_APinPT
 #/g4sim/gun/ReadCard gen_ip
 #/g4sim/gun/root_filename PT.AP_all.TH0.root

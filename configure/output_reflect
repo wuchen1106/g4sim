@@ -94,9 +94,32 @@ V_SECTION
 V_SECTION
 
 V_FILTERSECTION
-#	minp         100   MeV
+	minp         100   MeV
 	Switch                        //if commented, then program wil not generate any hit
 V_FILTERSECTION
+
+V2_SECTION
+	nHits
+	pid
+	tid
+	t                 ns
+	px                GeV
+	py                GeV
+	pz                GeV
+	opx               GeV
+	opy               GeV
+	opz               GeV
+	x                 cm
+	y                 cm
+	z                 cm
+#	volName
+	volID
+V2_SECTION
+
+V2_FILTERSECTION
+#	minp         100   MeV
+	Switch                        //if commented, then program wil not generate any hit
+V2_FILTERSECTION
 
 PROCESSCOUNTING_SECTION
 	prePx GeV 
