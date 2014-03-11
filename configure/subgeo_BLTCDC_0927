@@ -6,6 +6,7 @@
 DEFINE:		pZst 		-2790.5  # Start position
 DEFINE:		RI			120  # Inner radius of beam pipe ( before Gap Section )
 DEFINE:		RO			130  # Outer radius of beam pipe ( before Gap Section )
+DEFINE:		ROL			200  # Outer radius of beam pipe ( before Gap Section )
 #DEFINE:		RI			190  # Inner radius of beam pipe ( before Gap Section )
 #DEFINE:		RO			200  # Outer radius of beam pipe ( before Gap Section )
 DEFINE:		RIC			130  # Inner radius of Collimator
@@ -49,6 +50,7 @@ DEFINE:		pZBC		pZst+L/2
 #	Shell                                                         
 DEFINE:		pZTS3S		LTS3S/2-L/2
 	T     RI     RO      LTS3S   0        360     ShellTS3        1     BLTCDC          Steel  T2/MonitorSD  0    0  pZTS3S  0      0      0     
+	T     RO     ROL     LTS3S   0        360     ShellTS3O       1     BLTCDC          Steel  T2/MonitorSD  0    0  pZTS3S  0      0      0     
 DEFINE:		pZ			pZTS3S-LTS3S/2+thAl+1
 	T     0      RIC     thAl    0        360     AlWindow        1     BLTCDC          Aluminium T2/MonitorSD 0  0  pZ      0      0      0     
 DEFINE:		pZCollS		pZTS3S+LTS3S/2+LCollS/2
@@ -73,6 +75,7 @@ DEFINE:		pZTS3Y		LTS3Y/2-L/2
 DEFINE: pZ		pZTS3Y+LTS3Y/2+LCollY/2
 	T    RICollY ROCollY LCollY  0        360     YokeColl        1     BLTCDC          Steel      none      0    0  pZ      0      0      0     
 DEFINE: pZCDCY	pZTS3Y+LTS3Y/2+LCollY+LCDCY/2
+DEFINE: pZCDC	pZCDCY+250
 	T    RICDCY  ROCDCY  LCDCY   0        360     YokeCDC         1     BLTCDC          Steel      none      0    0  pZCDCY  0      0      0     
 DEFINE: pZ		pZTS3Y+LTS3Y/2+LCollY-50
 	T    ROCollY ROCDCY  100     0        360     YokeCDCEU       1     BLTCDC          Steel      none      0    0  pZ      0      0      0     

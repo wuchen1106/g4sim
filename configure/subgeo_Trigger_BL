@@ -21,7 +21,7 @@ DEFINE:		aTrir		aTri*PI/180
 #Tubs info
 #	Type RMin   RMax    Length  StartAng SpanAng Name           RepNo MotVolume     Material        SDName      posX posY posZ Ephi   Etheta Epsi  
 #	     mm     mm      mm      deg      deg                                                                    mm   mm   mm   deg    deg    deg   
-	T    0      RCDCi   LCDC    0        360     CDCInner       1     BLTCDC        Helium          none        0    0  pZCDCY 0      0      0
+	T    0      RCDCi   LCDC    0        360     CDCInner       1     BLTCDC        Helium          none        0    0  pZCDC 0      0      0
 
 DEFINE:		thTri 		thTriP+thTriA
 DEFINE:		RTri		RCDCi-gTri-thTri/2*cos(aTrir)-wTri/2*sin(aTrir)

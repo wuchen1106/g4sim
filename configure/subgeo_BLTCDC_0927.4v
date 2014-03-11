@@ -6,6 +6,7 @@
 DEFINE:		pZst 		-2790.5  # Start position
 DEFINE:		RI			120  # Inner radius of beam pipe ( before Gap Section )
 DEFINE:		RO			130  # Outer radius of beam pipe ( before Gap Section )
+DEFINE:		ROL			200  # Outer radius of beam pipe ( before Gap Section )
 #DEFINE:		RI			190  # Inner radius of beam pipe ( before Gap Section )
 #DEFINE:		RO			200  # Outer radius of beam pipe ( before Gap Section )
 DEFINE:		RIC			110  # Inner radius of Collimator
@@ -49,7 +50,9 @@ DEFINE:		pZBC		pZst+L/2
 #	Shell                                                         
 DEFINE:		pZTS3S		LTS3S/2-L/2
 	T     RI     RO      LTS3S   270        180     ShellTS3        1     BLTCDC          Copper     none      0    0  pZTS3S  0      0      0     
+	T     RO     ROL     LTS3S   270        150   ShellTS3O       1     BLTCDC          Copper T2/MonitorSD  0    0  pZTS3S  0      0      0     
 	T     RI     RO      LTS3S   90        180     ShellTS3iv        1     BLTCDC          Copper     none      0    0  pZTS3S  0      0      0     
+	T     RO     ROL     LTS3S   90       180     ShellTS3Oiv     1     BLTCDC          Copper T2/MonitorSD  0    0  pZTS3S  0      0      0     
 DEFINE:		pZ			pZTS3S-LTS3S/2+thAl+1
 	T     0      RIC    thAl    270        180     AlWindow        1     BLTCDC          Aluminium  none      0    0  pZ      0      0      0     
 	T     0      RIC    thAl    90        180     AlWindowiv        1     BLTCDC          Aluminium  none      0    0  pZ      0      0      0     
@@ -83,6 +86,7 @@ DEFINE: pZ		pZTS3Y+LTS3Y/2+LCollY/2
 	T    RICollY ROCollY LCollY  270        180     YokeColl        1     BLTCDC          Steel      none      0    0  pZ      0      0      0     
 	T    RICollY ROCollY LCollY  90        180     YokeColliv        1     BLTCDC          Steel      none      0    0  pZ      0      0      0     
 DEFINE: pZCDCY	pZTS3Y+LTS3Y/2+LCollY+LCDCY/2
+DEFINE: pZCDC	pZCDCY+250
 	T    RICDCY  ROCDCY  LCDCY   270        180     YokeCDC         1     BLTCDC          Steel      none      0    0  pZCDCY  0      0      0     
 	T    RICDCY  ROCDCY  LCDCY   90        180     YokeCDCiv         1     BLTCDC          Steel      none      0    0  pZCDCY  0      0      0     
 DEFINE: pZ		pZTS3Y+LTS3Y/2+LCollY-50
@@ -114,6 +118,7 @@ DEFINE: pZ		pZCDCY+LCDCY/2-0.5
 #	Name                 red    green  blue  
 #	vis_BLTCDC            1      1      1      0.3
 	vis_ShellTS3iv        0.7    0.7    0.7
+	vis_ShellTS3Oiv       0.6    0.6    0.6
 	vis_ShellColliv       0.7    0.7    0.7
 #	vis_MylarSDiv         1      0      0      0.5
 	vis_AlWindowiv        0.3    0.3    0.3    0.5

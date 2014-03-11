@@ -69,7 +69,7 @@ DEFINE:		thOW		5
 #	     mm     mm      mm      deg      deg                                                                    mm   mm   mm   deg    deg    deg   
 DEFINE:		LCDCC		LCDCO+2*thEP
 DEFINE:		RCDCOO		RCDCO+thOW
-	T    RCDCi  RCDCOO  LCDCC   0        360     CDCContainer   1     BLTCDC        ChamberGas9010  none        0    0  pZCDCY 0      0      0     
+	T    RCDCi  RCDCOO  LCDCC   0        360     CDCContainer   1     BLTCDC        ChamberGas9010  none        0    0  pZCDC  0      0      0     
 	T    RCDCii RCDCI   LCDC    0        360     InnerCylinder  1     CDCContainer  Mylar           none        0    0    0    0      0      0     
 	T    RCDCi  RCDCii  LCDC    0        360     InnerCylinderI 1     CDCContainer  Aluminium       none        0    0    0    0      0      0     
 	T    RCDCO  RCDCOO  LCDCO   0        360     OuterCylinder  1     CDCContainer  CarbonFiber     none        0    0    0    0      0      0     
