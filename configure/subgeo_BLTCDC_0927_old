@@ -4,14 +4,12 @@
 #*************************************************************************************************
 #	Shells
 DEFINE:		pZst 		-2790.5  # Start position
-DEFINE:		RI			120  # Inner radius of beam pipe ( before Gap Section )
-DEFINE:		RO			130  # Outer radius of beam pipe ( before Gap Section )
-#DEFINE:		RI			190  # Inner radius of beam pipe ( before Gap Section )
-#DEFINE:		RO			200  # Outer radius of beam pipe ( before Gap Section )
-DEFINE:		RIC			130  # Inner radius of Collimator
+DEFINE:		RI			190  # Inner radius of beam pipe ( before Gap Section )
+DEFINE:		RO			200  # Outer radius of beam pipe ( before Gap Section )
+DEFINE:		RIC			140  # Inner radius of Collimator
 DEFINE:		LTS3S		355.9  # Length of TS3 Shell
 DEFINE:		LCollS		1160  # Length of Collimator Shell
-DEFINE:		LColl		500  # Length of Collimator
+DEFINE:		LColl		1000  # Length of Collimator
 DEFINE:		thAl 		0.2  # thickness of Al window
 #	Coils
 DEFINE:		RITS3		400  # Inner radius of TS3 Coil
@@ -50,11 +48,13 @@ DEFINE:		pZBC		pZst+L/2
 DEFINE:		pZTS3S		LTS3S/2-L/2
 	T     RI     RO      LTS3S   0        360     ShellTS3        1     BLTCDC          Steel  T2/MonitorSD  0    0  pZTS3S  0      0      0     
 DEFINE:		pZ			pZTS3S-LTS3S/2+thAl+1
-	T     0      RIC     thAl    0        360     AlWindow        1     BLTCDC          Aluminium T2/MonitorSD 0  0  pZ      0      0      0     
+	T     0      RI      thAl    0        360     AlWindow        1     BLTCDC          Aluminium T2/MonitorSD 0  0  pZ      0      0      0     
 DEFINE:		pZCollS		pZTS3S+LTS3S/2+LCollS/2
 DEFINE:		pZColl		pZTS3S-LTS3S/2+LColl/2
 	T     RI     RO      LCollS  0        360     ShellColl       1     BLTCDC          Steel  T2/MonitorSD  0    0  pZCollS 0      0      0     
-#	T     RIC    RI      LColl   0        360     Collimator      1     BLTCDC          Steel  T2/MonitorSD  0    0  pZColl  0      0      0     
+DEFINE:		pZ			pZCollS+LCollS/2+225
+#	T     RO     450     300     0        360     Blocker         1     BLTCDC          Steel      none      0    0    pZ    0      0      0     
+	T     RIC    RI      LColl   0        360     Collimator      1     BLTCDC          Steel  T2/MonitorSD  0    0  pZColl  0      0      0     
 DEFINE:		thMl		50e-3
 DEFINE:		pZ			pZCollS+LCollS/2+thMl/2
 #	T     0      RI      thMl    0        360     MylarSD         1     BLTCDC          Mylar      none      0    0  pZ      0      0      0     
@@ -98,19 +98,20 @@ DEFINE: pZ		pZCDCY+LCDCY/2-0.5
 	VISSETTING  #Keep this line to call Reset
 #	Name                 red    green  blue  
 #	vis_BLTCDC            1      1      1      0.3
-	vis_ShellTS3          0.7    0.7    0.7   0.3
-	vis_ShellColl         0.7    0.7    0.7   0.3
+	vis_Blocker           0.5    0.5    0.5   0.8
+	vis_ShellTS3          0.7    0.7    0.7   0.1
+	vis_ShellColl         0.7    0.7    0.7   0.1
 #	vis_MylarSD           1      0      0      0.5
 	vis_AlWindow          0.3    0.3    0.3    0.5
 	vis_Collimator        0.7    0.7    0.7
-	vis_CoilTS3           0.82   0.5    0.21     0.3
-	vis_CoilColl          0.82   0.5    0.21   0.3
-	vis_CoilCDC           0.82   0.5    0.21   0.3
-	vis_YokeTS3           0      0      1   0.3
-	vis_YokeColl          0      0      1   0.3
-	vis_YokeCDC           0      0      1   0.3
-	vis_YokeCDCEU         0      0      1   0.3
-	vis_YokeCDCED         0      0      1   0.3
+	vis_CoilTS3           0.82   0.5    0.21     0.1
+	vis_CoilColl          0.82   0.5    0.21   0.1
+	vis_CoilCDC           0.82   0.5    0.21   0.1
+	vis_YokeTS3           0      0      1   0.1
+	vis_YokeColl          0      0      1   0.1
+	vis_YokeCDC           0      0      1   0.1
+	vis_YokeCDCEU         0      0      1   0.1
+	vis_YokeCDCED         0      0      1   0.1
 #	vis_KillerTS3EU       1      0      0
 #	vis_KillerTS3C        1      0      0 
 #	vis_KillerCollC       1      0      0 

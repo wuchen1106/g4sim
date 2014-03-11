@@ -1,0 +1,136 @@
+#general info
+	checkoverlap
+
+#*************************************************************************************************
+#	Shells
+DEFINE:		pZst 		-2790.5  # Start position
+DEFINE:		RI			190  # Inner radius of beam pipe ( before Gap Section )
+DEFINE:		RO			200  # Outer radius of beam pipe ( before Gap Section )
+DEFINE:		RIC			140  # Inner radius of Collimator
+DEFINE:		LTS3S		355.9  # Length of TS3 Shell
+DEFINE:		LCollS		1160  # Length of Collimator Shell
+DEFINE:		LColl		1000  # Length of Collimator
+DEFINE:		thAl 		0.2  # thickness of Al window
+#	Coils
+DEFINE:		RITS3		400  # Inner radius of TS3 Coil
+DEFINE:		ROTS3		450  # Outer radius of TS3 Coil
+DEFINE:		RIColl		200  # Inner radius of Collimator Coil
+DEFINE:		ROColl		250  # Outer radius of Collimator Coil
+DEFINE:		RICDC		1070  # Inner radius of CDC Coil
+DEFINE:		ROCDC		1084.04  # Outer radius of CDC Coil
+DEFINE:		LTS3		LTS3S # Length of TS3 Coil
+DEFINE:		LCC			200  # Length of Collimator Coil
+DEFINE:		GCC			40  # Gap of Collimator Coil
+DEFINE:		LCD			195  # Length of CDC Coil
+DEFINE:		GCD			40  # Gap of CDC Coil
+DEFINE:		DCD			143.01  # Distance between the start of CDC Coil and the start of Gap Section
+#	Yokes
+DEFINE:		RITS3Y		700  # Inner radius of TS3 Yoke
+DEFINE:		ROTS3Y		900  # Outer radius of TS3 Yoke
+DEFINE:		RICollY		700  # Inner radius of Collimator Yoke
+DEFINE:		ROCollY		800  # Outer radius of Collimator Yoke
+DEFINE:		RICDCY		1647.5  # Inner radius of CDC Yoke
+DEFINE:		ROCDCY		1747.5  # Outer radius of CDC Yoke
+DEFINE:		LTS3Y		LTS3S  # Length of TS3 Shell
+DEFINE:		LCollY		717     # Length of Collimator Yoke
+DEFINE:		LCDCY		2500  # Length of CDC Yoke
+DEFINE:		RHoleD		200  # Radius of the hole on the downstream end
+#*************************************************************************************************
+
+#Tubs info
+#	Type  RMin   RMax    Length  StartAng SpanAng Name            RepNo MotVolume       Material   SDName    posX posY posZ  Ephi   Etheta Epsi  
+#	      mm     mm      mm      deg      deg                                                                mm   mm   mm    deg    deg    deg   
+DEFINE:		L			LTS3Y+LCollY+LCDCY+100
+DEFINE:		pZBC		pZst+L/2
+	T     0      ROCDCY  L       0        360     BLTCDC          1     World           Helium     none      0    0    pZBC  0      0      0     
+                                                                        
+#	Shell                                                         
+DEFINE:		pZTS3S		LTS3S/2-L/2
+	T     RI     RO      LTS3S   270        180     ShellTS3        1     BLTCDC          Copper     none      0    0  pZTS3S  0      0      0     
+	T     RI     RO      LTS3S   90        180     ShellTS3iv        1     BLTCDC          Copper     none      0    0  pZTS3S  0      0      0     
+DEFINE:		pZ			pZTS3S-LTS3S/2+thAl+1
+	T     0      RI      thAl    270        180     AlWindow        1     BLTCDC          Aluminium  none      0    0  pZ      0      0      0     
+	T     0      RIC    thAl    90        180     AlWindowiv        1     BLTCDC          Aluminium  none      0    0  pZ      0      0      0     
+DEFINE:		pZCollS		pZTS3S+LTS3S/2+LCollS/2
+DEFINE:		pZColl		pZTS3S-LTS3S/2+LColl/2
+	T     RI     RO      LCollS  270        180     ShellColl       1     BLTCDC          Copper     none      0    0  pZCollS 0      0      0     
+	T     RI     RO      LCollS  90         180     ShellColliv       1     BLTCDC          Copper     none      0    0  pZCollS 0      0      0     
+DEFINE:		pZ			pZCollS+LCollS/2+225
+	T     RO     450     300     270      180     Blocker         1     BLTCDC          Plastic    none      0    0    pZ    0      0      0     
+	T     RO     450     300     90       180     Blockeriv       1     BLTCDC          Plastic    none      0    0    pZ    0      0      0     
+	T     RIC    RI      LColl   270        180     Collimator      1     BLTCDC          Copper     none      0    0  pZColl  0      0      0     
+	T     RIC    RI      LColl   90        180     Collimatoriv      1     BLTCDC          Copper     none      0    0  pZColl  0      0      0     
+DEFINE:		thMl		50e-3
+DEFINE:		pZ			pZCollS+LCollS/2+thMl/2
+#	T     0      RI      thMl    270        180     MylarSD         1     BLTCDC          Mylar      none      0    0  pZ      0      0      0     
+#	T     0      RI      thMl    90        180     MylarSDiv         1     BLTCDC          Mylar      none      0    0  pZ      0      0      0     
+                                                                       
+#	Coil                                                               
+DEFINE:		pZTS3		LTS3/2-L/2
+	T     RITS3  ROTS3   LTS3    270        180     CoilTS3         1     BLTCDC          Copper     none      0    0  pZTS3   0      0      0     
+	T     RITS3  ROTS3   LTS3    90        180     CoilTS3iv         1     BLTCDC          Copper     none      0    0  pZTS3   0      0      0     
+DEFINE: pZ		pZTS3+LTS3/2+LCC/2+x*(LCC+GCC)
+	T     RIColl ROColl  LCC     270        180     CoilColl        5     BLTCDC          Copper     none      0    0  pZ      0      0      0     
+	T     RIColl ROColl  LCC     90        180     CoilColliv        5     BLTCDC          Copper     none      0    0  pZ      0      0      0     
+DEFINE: pZ		pZTS3+LTS3/2+LCollY+DCD+LCD/2+x*(LCD+GCD)
+	T     RICDC  ROCDC   LCD     270        180     CoilCDC         10    BLTCDC          Copper     none      0    0  pZ      0      0      0
+	T     RICDC  ROCDC   LCD     90        180     CoilCDCiv         10    BLTCDC          Copper     none      0    0  pZ      0      0      0
+                                                                        
+#	Yoke                                                                
+DEFINE:		pZTS3Y		LTS3Y/2-L/2
+	T     RITS3Y ROTS3Y  LTS3Y   270        180     YokeTS3         1     BLTCDC          Steel      none      0    0  pZTS3Y  0      0      0     
+	T     RITS3Y ROTS3Y  LTS3Y   90        180     YokeTS3iv         1     BLTCDC          Steel      none      0    0  pZTS3Y  0      0      0     
+DEFINE: pZ		pZTS3Y+LTS3Y/2+LCollY/2
+	T    RICollY ROCollY LCollY  270        180     YokeColl        1     BLTCDC          Steel      none      0    0  pZ      0      0      0     
+	T    RICollY ROCollY LCollY  90        180     YokeColliv        1     BLTCDC          Steel      none      0    0  pZ      0      0      0     
+DEFINE: pZCDCY	pZTS3Y+LTS3Y/2+LCollY+LCDCY/2
+	T    RICDCY  ROCDCY  LCDCY   270        180     YokeCDC         1     BLTCDC          Steel      none      0    0  pZCDCY  0      0      0     
+	T    RICDCY  ROCDCY  LCDCY   90        180     YokeCDCiv         1     BLTCDC          Steel      none      0    0  pZCDCY  0      0      0     
+DEFINE: pZ		pZTS3Y+LTS3Y/2+LCollY-50
+	T    ROCollY ROCDCY  100     270        180     YokeCDCEU       1     BLTCDC          Steel      none      0    0  pZ      0      0      0     
+	T    ROCollY ROCDCY  100     90        180     YokeCDCEUiv       1     BLTCDC          Steel      none      0    0  pZ      0      0      0     
+DEFINE: pZ		pZTS3Y+LTS3Y/2+LCollY+LCDCY+50
+	T    RHoleD  ROCDCY  100     270        180     YokeCDCED       1     BLTCDC          Steel      none      0    0  pZ      0      0      0     
+	T    RHoleD  ROCDCY  100     90        180     YokeCDCEDiv       1     BLTCDC          Steel      none      0    0  pZ      0      0      0     
+                                                                        
+#	Virtual
+DEFINE: pZ		pZst-10
+	T     0      ROTS3Y  1       0        360     KillerTS3EU     1     World           Helium     KillerSD  0    0  pZ      0      0      0     
+	T    RO-1    RO      LTS3S   0        360     KillerTS3C      1     ShellTS3        Copper     KillerSD  0    0  0       0      0      0     
+	T    RO-1    RO      LCollS  0        360     KillerCollC     1     ShellColl       Copper     KillerSD  0    0  0       0      0      0     
+	T   RICDC-1  RICDC   LCDCY   0        360     KillerCDCC      1     BLTCDC          Helium     KillerSD  0    0  pZCDCY  0      0      0     
+DEFINE: pZ		pZColl+LColl/2-0.5
+	T     0      RIC     1       0        360     EndColl         1     BLTCDC          Helium   V/MonitorSD 0    0  pZ      0      0      0     
+#	T     0      RO      1       0        360     KillerCDC       1     BLTCDC          Helium     KillerSD  0    0 -1273.1  0      0      0     
+DEFINE: pZ		pZCDCY-LCDCY/2+0.5
+	T   ROColl  RICDC-1  1       0        360     KillerCDCEU     1     BLTCDC          Helium     KillerSD  0    0  pZ      0      0      0     
+DEFINE: pZ		pZCDCY+LCDCY/2-0.5
+	T     0     RICDC-1  1       0        360     KillerCDCED     1     BLTCDC          Helium     KillerSD  0    0  pZ      0      0      0     
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name                 red    green  blue  
+#	vis_BLTCDC            1      1      1      0.3
+	vis_Blockeriv         0.5    0.5    0.5
+	vis_ShellTS3iv        0.7    0.7    0.7
+	vis_ShellColliv       0.7    0.7    0.7
+#	vis_MylarSDiv         1      0      0      0.5
+	vis_AlWindowiv        0.3    0.3    0.3    0.5
+	vis_Collimatoriv      0.82   0.5    0.21
+	vis_CoilTS3iv         0.82   0.5    0.21  
+	vis_CoilColliv        0.82   0.5    0.21
+	vis_CoilCDCiv         0.82   0.5    0.21
+	vis_YokeTS3iv         0      0      1
+	vis_YokeColliv        0      0      1
+	vis_YokeCDCiv         0      0      1
+	vis_YokeCDCEUiv       0      0      1
+	vis_YokeCDCEDiv       0      0      1
+#	vis_KillerTS3EU       1      0      0
+#	vis_KillerTS3C        1      0      0 
+#	vis_KillerCollC       1      0      0 
+#	vis_KillerCDCC        1      0      0
+#	vis_KillerCDC         1      0      0
+#	vis_EndColl           1      0      0   0.3
+#	vis_KillerCDCEU       1      0      0
+#	vis_KillerCDCED       1      0      0

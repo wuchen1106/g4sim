@@ -62,5 +62,5 @@ DEFINE:		LAbs		LCDC-2*LTri-2*thMyl
 	vis_TriCheD          0      1      0
 	vis_TriSciU          1      0      0
 	vis_TriSciD          1      0      0
-	vis_Absorber         0.3    0.3    0.3
+	vis_Absorber         0.3    0.3    0.3   0.3
 	vis_MylarCDC         1      0      0     0.5

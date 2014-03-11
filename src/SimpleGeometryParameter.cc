@@ -953,6 +953,7 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 			buf_card>>MacroName>>MacroValue;
 //			std::cout<<"found DEFINE:"<<std::endl; // to be deleted
 			MacroValue = ReplaceMacro(MacroValue);
+			std::cout<<"Define: "<<MacroName<<":\t"<<MacroValue<<std::endl;
 			bool foundName = false;
 			for (int i = 0; i < knownValueNames.size(); i++){
 				if (knownValueNames[i]==MacroName){ // If this name occurred once, replace the value

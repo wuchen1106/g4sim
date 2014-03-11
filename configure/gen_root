@@ -23,7 +23,7 @@
 	ThetaMode:      none #(none/gRand/uRand)
 	PhiMode:        none #(none/gRand/uRand)
 	TimeMode:       root #(none/root)
-	pidMode:        none #(none/root)
+	pidMode:        root #(none/root)
 #Default Time
 #	         ns
 	Time:    0

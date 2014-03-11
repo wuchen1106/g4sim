@@ -1,8 +1,14 @@
 #general info
 #	checkoverlap
-DEFINE:		PI	3.14159265358
+DEFINE:		PI	3.1415926535898
 
 DEFINE:		WallThickness						0.5e3*2
+DEFINE:		LeftSide_WallThickness				WallThickness*2
+DEFINE:		RightSide_WallThickness				2e3
+
+#------------Torus1---------------
+DEFINE:		Torus1_OuterRadius					7e2
+
 #------------LeftWall-----------------
 DEFINE:		LeftWall_Width						WallThickness
 DEFINE:		LeftWall_Height						ExperimentHall_Height-Ceiling_Height-Floor_Height
@@ -77,32 +83,51 @@ DEFINE:		Floor_pZ							0
 DEFINE:		BeamPipe_PDTRS						4.3e3*2
 DEFINE:		BeamPipe_PDTLS						4.0e3*2
 
-#------------LeftSide---------------
-DEFINE:		LeftSide_PassThru_pX				BackWallCentreLeft_pX-BackWallCentre_Width/2+LeftSide_PassThru_Width/2*sin(ProtonBeamline_Angle)+LeftSide_PassThru_Length/2*cos(ProtonBeamline_Angle)
-DEFINE:		LeftSide_PassThru_pY				BackWallCentreLeft_pY
-DEFINE:		LeftSide_PassThru_pZ				BackWallCentreLeft_pZ-BackWallCentreLeft_Length/2-LeftSide_PassThru_Width/2*cos(ProtonBeamline_Angle)-LeftSide_PassThru_Length/2*sin(ProtonBeamline_Angle)
-DEFINE:		LeftSide_Start_pX					LeftSide_PassThru_pX+LeftSide_PassThru_Width/2*sin(ProtonBeamline_Angle)+LeftSide_PassThru_Length/2*cos(ProtonBeamline_Angle)
-DEFINE:		LeftSide_Start_pY					LeftSide_PassThru_pY
-DEFINE:		LeftSide_Start_pZ					LeftSide_PassThru_pZ-LeftSide_PassThru_Width/2*cos(ProtonBeamline_Angle)-LeftSide_PassThru_Length/2*sin(ProtonBeamline_Angle)
-
 #------------BeamDump---------------
 DEFINE:		BeamDump_ShoulderDepth				3e3*2
 DEFINE:		BeamDump_LeftShoulderLength			2.0e3*2
 DEFINE:		BeamDump_RightShoulderLength		2.3e3*2
 DEFINE:		BeamDump_Left_LeftEdgeLength		4.0e3*2
-DEFINE:		BeamDump_Left_RightEdgeLength		BeamDump_LeftShoulderLength+BeamDump_Left_LeftEdgeLength/cos(ProtonBeamline_Angle)
+DEFINE:		BeamDump_Left_RightEdgeLength		BeamDump_LeftShoulderLength/tan(ProtonBeamline_Angle)+BeamDump_Left_LeftEdgeLength/sin(ProtonBeamline_Angle)
 DEFINE:		BeamDump_Right_LeftEdgeLength		BeamDump_ShoulderDepth
 DEFINE:		BeamDump_Behind_LeftEdgeLength		BeamDump_Left_RightEdgeLength-BeamDump_ShoulderDepth
 DEFINE:		BeamDump_Behind_Width               BeamPipe_PDTRS+BeamPipe_PDTLS-BeamDump_LeftShoulderLength-BeamDump_RightShoulderLength
-DEFINE:		BeamDump_Left_TotalWidth			BeamDump_LeftShoulderLength*sin(ProtonBeamline_Angle)+BeamDump_LeftShoulderLength*cos(ProtonBeamline_Angle)*cot(ProtonBeamline_Angle)+BeamDump_Left_LeftEdgeLength*cot(ProtonBeamline_Angle)
-DEFINE:		BeamDump_Left_pX					LeftSide_Start_pX
-DEFINE:		BeamDump_Left_pY					-BeamDump_Left_TotalWidth/2
-DEFINE:		BeamDump_Left_pZ					FrontWall_pZ-FrontWall_Length/2
+DEFINE:		BeamDump_Left_TotalWidth			BeamDump_LeftShoulderLength*sin(ProtonBeamline_Angle)+BeamDump_LeftShoulderLength*cos(ProtonBeamline_Angle)/tan(ProtonBeamline_Angle)+BeamDump_Left_LeftEdgeLength/tan(ProtonBeamline_Angle)
+
+DEFINE:		BeamDump_Left_pY					0
+DEFINE:		BeamDump_Left_pZ					FrontWall_pZ+FrontWall_Length/2
+
+#------------LeftSide---------------
+DEFINE:		LeftSide_PassThru_SpaceR			1e2
+DEFINE:		LeftSide_PassThru_CutOutRadius		Torus1_OuterRadius+LeftSide_PassThru_SpaceR
+DEFINE:		LeftSide_PassThru_DistanceFromStart	2.75e3
+DEFINE:		LeftSide_PassThru_Width             LeftSide_WallThickness/2
+DEFINE:		LeftSide_PassThru_Length			(LeftSide_PassThru_CutOutRadius+LeftSide_PassThru_DistanceFromStart/2)*2
+
+DEFINE:		LeftSide_PassThru_pX				BackWallCentreLeft_pX-BackWallCentreLeft_Width/2+LeftSide_PassThru_Width/2*sin(ProtonBeamline_Angle)-LeftSide_PassThru_Length/2*cos(ProtonBeamline_Angle)
+DEFINE:		LeftSide_PassThru_pY				BackWallCentreLeft_pY
+DEFINE:		LeftSide_PassThru_pZ				BackWallCentreLeft_pZ-BackWallCentreLeft_Length/2-LeftSide_PassThru_Width/2*cos(ProtonBeamline_Angle)-LeftSide_PassThru_Length/2*sin(ProtonBeamline_Angle)
+DEFINE:		LeftSide_Start_pX					LeftSide_PassThru_pX+LeftSide_PassThru_Width/2*sin(ProtonBeamline_Angle)-LeftSide_PassThru_Length/2*cos(ProtonBeamline_Angle)
+DEFINE:		LeftSide_Start_pY					LeftSide_PassThru_pY
+DEFINE:		LeftSide_Start_pZ					LeftSide_PassThru_pZ-LeftSide_PassThru_Width/2*cos(ProtonBeamline_Angle)-LeftSide_PassThru_Length/2*sin(ProtonBeamline_Angle)
+
+DEFINE:		LeftSide_TotalWidth					LeftSide_WallThickness*sin(ProtonBeamline_Angle)+(LeftSide_Start_pZ*2+LeftSide_WallThickness*cos(ProtonBeamline_Angle)-BeamDump_Left_pZ*2-BeamDump_Left_LeftEdgeLength)/tan(ProtonBeamline_Angle)
+
+#------------BeamDump 2 ---------------
+DEFINE:		BeamDump_Left_pX					LeftSide_Start_pX-LeftSide_TotalWidth/2
+
+DEFINE:		BeamDump_Behind_pY					BeamDump_Left_pX-BeamDump_Left_TotalWidth/2
+DEFINE:		BeamDump_Behind_pY					BeamDump_Left_pY
+DEFINE:		BeamDump_Behind_pZ					BeamDump_Left_pZ
+
+DEFINE:		BeamDump_Right_pX					BeamDump_Behind_pX-BeamDump_Behind_Width/2*sin(ProtonBeamline_Angle)+BeamDump_Behind_LeftEdgeLength/2*cos(ProtonBeamline_Angle)
+DEFINE:		BeamDump_Right_pY					BeamDump_Behind_pY
+DEFINE:		BeamDump_Right_pZ					BeamDump_Behind_pZ+BeamDump_Behind_Width/2*cos(ProtonBeamline_Angle)+BeamDump_Behind_LeftEdgeLength/2*sin(ProtonBeamline_Angle)
 
 #------------RightSide---------------
-DEFINE:		RightSide_pX						BeamDump_Left_pX-BeamDump_Left_TotalWidth+BeamDump_Behind_LeftEdgeLength*cos(ProtonBeamline_Angle)-BeamDump_Behind_Width*sin(ProtonBeamline_Angle)+BeamDump_Right_LeftEdgeLength*cos(ProtonBeamline_Angle)-BeamDump_RightShoulderLength*sin(ProtonBeamline_Angle)
-DEFINE:		RightSide_pY						BeamDump_Left_pY
-DEFINE:		RightSide_pZ						BeamDump_Left_pZ+BeamDump_LeftShoulderLength/2*sin(ProtonBeamline_Angle)+BeamDump_Left_LeftEdgeLength/2*tan(ProtonBeamline_Angle)+BeamDump_Behind_Width*cos(ProtonBeamline_Angle)+BeamDump_Right_LeftEdgeLength/2*sin(ProtonBeamline_Angle)+BeamDump_RightShoulderLength*cos(ProtonBeamline_Angle)
+DEFINE:		RightSide_pX						BeamDump_Right_pX-BeamDump_Left_TotalWidth/2+BeamDump_Behind_LeftEdgeLength*cos(ProtonBeamline_Angle)-BeamDump_Behind_Width*sin(ProtonBeamline_Angle)+BeamDump_Right_LeftEdgeLength*cos(ProtonBeamline_Angle)-BeamDump_RightShoulderLength*sin(ProtonBeamline_Angle)
+DEFINE:		RightSide_pY						BeamDump_Right_pY
+DEFINE:		RightSide_pZ						BeamDump_Right_pZ+BeamDump_LeftShoulderLength/2*sin(ProtonBeamline_Angle)+BeamDump_Left_LeftEdgeLength/2*tan(ProtonBeamline_Angle)+BeamDump_Behind_Width*cos(ProtonBeamline_Angle)+BeamDump_Right_LeftEdgeLength/2*sin(ProtonBeamline_Angle)+BeamDump_RightShoulderLength*cos(ProtonBeamline_Angle)
 DEFINE:		RightSide_InnerLength               (BackWallCentre_pZ-BackWallCentre_Length/2-RightSide_pZ)/cos(ProtonBeamline_Angle)
 
 #Box info
@@ -184,7 +209,7 @@ DEFINE:		pZ	RightSide_pZ
 #        mm            mm 
 	ESP  0             0
 	ESP  0             RightSide_InnerLength
-	ESP  WallThickness RightSide_InnerLength-WallThickness*cot(ProtonBeamline_Angle
+	ESP  WallThickness RightSide_InnerLength-WallThickness/tan(ProtonBeamline_Angle)
 	ESP  WallThickness 0  
 #	     z                  x0       y0       scale
 #	     mm                 mm       mm

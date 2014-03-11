@@ -25,6 +25,7 @@ double MyConfigure::CalFormula(G4String formula, int iRep){
 //	formula = ReplaceMacro(formula);
 	TF1 *f1 = new TF1("f1", formula);
 	double value = f1->Eval(iRep);
+//	std::cout<<"\t=>"<<value<<std::endl;
 	delete f1;
 	return value;
 }
@@ -40,6 +41,7 @@ G4String MyConfigure::ReplaceMacro(G4String formula){
 			Replace(formula,words[iWord],value);
 		}
 	}
+//	std::cout<<"\t=>"<<formula<<std::endl;
 	return formula;
 }
 

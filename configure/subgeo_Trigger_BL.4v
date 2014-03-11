@@ -35,12 +35,17 @@ DEFINE:		pZ			-(LCDC-LTri)/2+thMyl
 DEFINE:		Phi			(x+32)*360/64-90
 	B    wTri    thTri   LTri   TriggerU  32    CDCInner  Helium       none        P RTri   Phi    pZ     90-aTri+Phi 0      0
 	B    wTri    thTri   LTri   TriggerD  32    CDCInner  Helium       none        P RTri   Phi   -pZ     90-aTri+Phi 0      0
+DEFINE:		Phi			x*360/64-90
+	B    wTri    thTri   LTri  TriggerUiv 32    CDCInner  Helium       none        P RTri   Phi    pZ     90-aTri+Phi 0      0
+	B    wTri    thTri   LTri  TriggerDiv 32    CDCInner  Helium       none        P RTri   Phi   -pZ     90-aTri+Phi 0      0
 DEFINE:		pY			-(thTriA-thTri)/2
 	B    wTri    thTriA  LTri   TriCheU   1     TriggerU  Acrylic      M/MonitorSD     0      pY     0      0    0      0
 	B    wTri    thTriA  LTri   TriCheD   1     TriggerD  Acrylic      M/MonitorSD     0      pY     0      0    0      0
+	B    wTri    thTriA  LTri   TriCheUiv 1     TriggerUiv Acrylic      M/MonitorSD     0      pY     0      0    0      0
+	B    wTri    thTriA  LTri   TriCheDiv 1     TriggerDiv Acrylic      M/MonitorSD     0      pY     0      0    0      0
 DEFINE:		pY			(thTriP-thTri)/2
-	B    wTri    thTriP  LTri   TriSciU   1     TriggerU  Scintillator M/MonitorSD     0      pY     0      0    0      0
-	B    wTri    thTriP  LTri   TriSciD   1     TriggerD  Scintillator M/MonitorSD     0      pY     0      0    0      0
+	B    wTri    thTriP  LTri   TriSciUiv 1     TriggerUiv Scintillator M/MonitorSD     0      pY     0      0    0      0
+	B    wTri    thTriP  LTri   TriSciDiv 1     TriggerDiv Scintillator M/MonitorSD     0      pY     0      0    0      0
 
 #Tubs info
 #	Type RMin   RMax    Length  StartAng SpanAng Name           RepNo MotVolume     Material        SDName      posX posY posZ Ephi   Etheta Epsi  
