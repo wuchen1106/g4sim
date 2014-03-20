@@ -45,7 +45,7 @@
 #include "SteppingVerbose.hh"
 #include "QGSP_BERT.hh"
 #include "QGSP_BERT_HP.hh"
-#include "myQGSP_BERT_HP.hh"
+//#include "myQGSP_BERT_HP.hh"
 
 #ifdef G4VIS_USE
 #include "G4VisExecutive.hh"
@@ -136,9 +136,9 @@ int main(int argc,char** argv)
 	if (PhysicsListName=="QGSP_BERT_HP"){
 		runManager->SetUserInitialization(new QGSP_BERT_HP);
 	}
-	else if (PhysicsListName=="myQGSP_BERT_HP"){
-		runManager->SetUserInitialization(new myQGSP_BERT_HP);
-	}
+//	else if (PhysicsListName=="myQGSP_BERT_HP"){
+//		runManager->SetUserInitialization(new myQGSP_BERT_HP);
+//	}
 	else if (PhysicsListName=="PhysicsList"){
 		runManager->SetUserInitialization(new PhysicsList);
 	}

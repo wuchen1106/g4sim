@@ -54,14 +54,20 @@
 #include "G4EmStandardPhysics.hh"
 #include "G4EmExtraPhysics.hh"
 #include "G4IonPhysics.hh"
-#include "G4QStoppingPhysics.hh"
+// TODO:
+// /home/chen/MyWorkArea/g4sim/src/PhysicsList.cc:57:33: fatal error: G4QStoppingPhysics.hh: No such file or directory
+//#include "G4QStoppingPhysics.hh"
 #include "G4HadronElasticPhysics.hh"
 #include "G4NeutronTrackingCut.hh"
-#include "G4LHEPStoppingPhysics.hh"
+// TODO:
+// /home/chen/MyWorkArea/g4sim/src/PhysicsList.cc:62:36: fatal error: G4LHEPStoppingPhysics.hh: No such file or directory
+//#include "G4LHEPStoppingPhysics.hh"
 
 #include "G4DataQuestionaire.hh"
-#include "HadronPhysicsQGSP_BERT.hh"
-#include "HadronPhysicsQGSP_BERT_HP.hh"
+// TODO:
+// /home/chen/MyWorkArea/g4sim/src/PhysicsList.cc:67:37: fatal error: HadronPhysicsQGSP_BERT.hh: No such file or directory
+//#include "HadronPhysicsQGSP_BERT.hh"
+//#include "HadronPhysicsQGSP_BERT_HP.hh"
 
 #include "MyDecayPhysics.hh"
 #include "MyPionPhysics.hh"
@@ -93,10 +99,10 @@ PhysicsList::PhysicsList(int ver):  G4VModularPhysicsList()
 
   // Hadron Physics
   //RegisterPhysics( new HadronPhysicsQGSP_BERT_HP(ver));
-  RegisterPhysics( new HadronPhysicsQGSP_BERT(ver));
+//  RegisterPhysics( new HadronPhysicsQGSP_BERT(ver));
 
   // Stopping Physics
-  RegisterPhysics( new G4QStoppingPhysics(ver) );
+//  RegisterPhysics( new G4QStoppingPhysics(ver) );
   //RegisterPhysics( new G4LHEPStoppingPhysics(ver) );
 
   // Ion Physics

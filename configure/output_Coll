@@ -9,6 +9,9 @@ EVENTHEADER_SECTION
 	run_num
 	R0
 	R1
+	ipx
+	ipy
+	ipz
 	weight
 EVENTHEADER_SECTION
 

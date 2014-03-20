@@ -20,8 +20,8 @@
 	VISSETTING  #Keep this line to call Reset
 #	Name                 red    green  blue  
 #	vis_MT1Containor       1      1      1     
-	vis_MT1Yoke            0      0      1     0.1
-	vis_MT1Shell           0.5    0.5    0.5   0.2
+	vis_MT1Yoke            0      0      1     0.5
+	vis_MT1Shell           0.5    0.5    0.5
 #	vis_MT1Monitor         1      0      0  
 #	vis_M13                1      0      0  
 #	vis_MT1Killer1         1      0      0  

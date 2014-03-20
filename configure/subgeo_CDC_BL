@@ -3,6 +3,7 @@
 	CellMaterial:              ChamberGas9010
 	MotherLogicalVolume:       CDCContainer
 #	SensitiveDetector:         CdcSimpleSD
+#	SensitiveDetector:         C/CdcSD
 	SensitiveDetector:         C/MonitorSD
 	SDVolumeName:              CdcCell
 #	DigitizeModule:            CdcDigitizer

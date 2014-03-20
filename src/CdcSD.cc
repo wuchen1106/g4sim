@@ -78,7 +78,7 @@ void CdcSD::Initialize(G4HCofThisEvent* HCE)
 {
 	hitsCollection = new CdcHitsCollection
 		(SensitiveDetectorName,collectionName[0]);
-	//	std::cout<<"====>In CdcSD::Initialize(), created hitsCollection at ("<<(void*)hitsCollection<<std::endl;
+	std::cout<<"====>In CdcSD::Initialize(), created hitsCollection at ("<<(void*)hitsCollection<<std::endl;
 	G4int HCID = -1;
 	HCID = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
 	if ( HCID < 0 ){
@@ -273,12 +273,14 @@ void CdcSD::ReadOutputCard(G4String filename){
 	if ( n_output_section_symbol <= 1 ){
 		std::cout<<"*****************WARNING********************"<<std::endl;
 		std::cout<<"In CdcSD::ReadOutputCard, failed to find enough section seperators for output in file "<<filename<<std::endl;
+		std::cout<<"Seperator: "<<BRANCHSECTIONNAME<<std::endl;
 		std::cout<<"Will use default settings."<<std::endl;
 		std::cout<<"********************************************"<<std::endl;
 	}
 	if ( n_filter_section_symbol<= 1 ){
 		std::cout<<"*****************WARNING********************"<<std::endl;
 		std::cout<<"In CdcSD::ReadOutputCard, failed to find enough section seperators for filter in file "<<filename<<std::endl;
+		std::cout<<"Seperator: "<<FILTERSECTIONNAME<<std::endl;
 		std::cout<<"Will use default settings."<<std::endl;
 		std::cout<<"********************************************"<<std::endl;
 	}
@@ -374,6 +376,7 @@ void CdcSD::ShowOutCard(){
 G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 {
 
+	std::cout<<"In CdcSD::ProcessHits()"<<std::endl;
 	//*************************get useful variables***********************
 
 	int status;
@@ -493,10 +496,10 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	}
 	double driftD_err = 0.2*mm;
 	double driftD_smeared;
-	while (1) {
-		driftD_smeared = gRandom->Gaus(driftD, driftD_err);
-		if (driftD_smeared>0) break;
-	}
+//	while (1) {
+//		driftD_smeared = gRandom->Gaus(driftD, driftD_err);
+//		if (driftD_smeared>0) break;
+//	}
 	// TODO: Should move this part to Digitizer
 	//hitPosition = pointIn_pos;
 	G4double driftV = 0.025*mm/ns;

@@ -109,13 +109,13 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 		seeds[0] = root_int[3];
 		seeds[1] = root_int[4];
 		seeds[2] = 0;
-		std::cout<<"setTheSeeds("<<(int)seeds[0]<<","<<(int)seeds[1]<<")"<<std::endl;
+//		std::cout<<"setTheSeeds("<<(int)seeds[0]<<","<<(int)seeds[1]<<")"<<std::endl;
 		CLHEP::HepRandom::setTheSeeds(seeds);
 	}
 
 	// Show Status:
-	std::cout<<"==>Event "<<root_index<<std::endl;
-    CLHEP::HepRandom::showEngineStatus();
+//	std::cout<<"==>Event "<<root_index<<std::endl;
+//    CLHEP::HepRandom::showEngineStatus();
 
 	EventHeaderSvc::GetEventHeaderSvc()->SetSeedsValue();
 	EventHeaderSvc::GetEventHeaderSvc()->SetInitialMomentum(root_double[17],root_double[18],root_double[19]);
@@ -241,11 +241,11 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	}
 	particleGun->GeneratePrimaryVertex(anEvent);
 
-	std::cout.precision(17);
-	std::cout<<"\tDirection: "<<particleGun->GetParticleMomentumDirection()<<std::endl;
-	std::cout<<"\tEnergy: "<<particleGun->GetParticleEnergy()/MeV<<" MeV"<<std::endl;
-	std::cout.precision(3);
-    CLHEP::HepRandom::showEngineStatus();
+//	std::cout.precision(17);
+//	std::cout<<"\tDirection: "<<particleGun->GetParticleMomentumDirection()<<std::endl;
+//	std::cout<<"\tEnergy: "<<particleGun->GetParticleEnergy()/MeV<<" MeV"<<std::endl;
+//	std::cout.precision(3);
+//    CLHEP::HepRandom::showEngineStatus();
 	if (!UseRoot) root_index++;
 }
 

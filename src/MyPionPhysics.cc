@@ -45,7 +45,9 @@
 #include "G4ParticleDefinition.hh"
 #include "G4ProcessManager.hh"
 
-#include "G4PiMinusAbsorptionAtRest.hh"
+// TODO:
+// /home/chen/MyWorkArea/g4sim/src/MyPionPhysics.cc:48:40: fatal error: G4PiMinusAbsorptionAtRest.hh: No such file or directory
+//#include "G4PiMinusAbsorptionAtRest.hh"
 
 #include "G4ParticleTypes.hh"
 #include "G4ParticleTable.hh"
@@ -82,18 +84,18 @@ void MyPionPhysics::ConstructProcess()
   G4PhysicsListHelper* ph = G4PhysicsListHelper::GetPhysicsListHelper();
 
   // Add Decay Process
-  fPiMinusAbsorptionAtRest = new G4PiMinusAbsorptionAtRest();
-  theParticleIterator->reset();
+//  fPiMinusAbsorptionAtRest = new G4PiMinusAbsorptionAtRest();
+//  theParticleIterator->reset();
   G4ParticleDefinition* particle=0;
 
-  while( (*theParticleIterator)() )
-  {
-    particle = theParticleIterator->value();
-		if ( particle->GetParticleName() == "pi-" ){
-			// Add the pion capture process
-			G4ProcessManager* pmanager = particle->GetProcessManager();
-			pmanager->AddRestProcess(fPiMinusAbsorptionAtRest);
-		}
-  }
+ // while( (*theParticleIterator)() )
+ // {
+ //   particle = theParticleIterator->value();
+ //   	if ( particle->GetParticleName() == "pi-" ){
+ //   		// Add the pion capture process
+ //   		G4ProcessManager* pmanager = particle->GetProcessManager();
+ //			pmanager->AddRestProcess(fPiMinusAbsorptionAtRest);
+ //   	}
+ // }
 
 }

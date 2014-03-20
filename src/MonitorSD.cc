@@ -659,10 +659,10 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		if(flag_Oy) m_Oy.push_back(pointOut_pos.y()/unit_Oy);
 		if(flag_Oz) m_Oz.push_back(pointOut_pos.z()/unit_Oz);
 		if(flag_Ot) m_Ot.push_back(pointOut_time/unit_Ot);
-		if(flag_x) m_x.push_back(pointOut_pos.x()/unit_x);
-		if(flag_y) m_y.push_back(pointOut_pos.y()/unit_y);
-		if(flag_z) m_z.push_back(pointOut_pos.z()/unit_z);
-		m_t.push_back(pointOut_time/unit_t);
+		if(flag_x) m_x.push_back(pointIn_pos.x()/unit_x);
+		if(flag_y) m_y.push_back(pointIn_pos.y()/unit_y);
+		if(flag_z) m_z.push_back(pointIn_pos.z()/unit_z);
+		m_t.push_back(pointIn_time/unit_t);
 		//std::cout<<"m_t = pointOut_time/"<<unitName_t<<" = pointOut_time/"<<unit_t/ns<<"ns = "<<pointOut_time/unit_t<<unitName_t<<std::endl;
 		if(flag_Opx) m_Opx.push_back(pointOut_mom.x()/unit_Opx);
 		if(flag_Opy) m_Opy.push_back(pointOut_mom.y()/unit_Opy);

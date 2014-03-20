@@ -65,6 +65,9 @@ void SteppingVerbose::StepInfo()
 				<< std::setw( 6) << "Y"         << " "  
 				<< std::setw( 6) << "Z"         << " "
 				<< std::setw( 6) << "t"         << " "
+				<< std::setw( 6) << "pX"        << " "
+				<< std::setw( 6) << "pY"        << " "  
+				<< std::setw( 6) << "pZ"        << " "
 				<< std::setw( 9) << "KineE"     << " "
 				<< std::setw( 9) << "dEStep"    << " "
 				<< std::setw(10) << "StepLeng"  << " "
@@ -78,6 +81,9 @@ void SteppingVerbose::StepInfo()
 			<< std::setw(6) << G4BestUnit(fTrack->GetPosition().y(),"Length")
 			<< std::setw(6) << G4BestUnit(fTrack->GetPosition().z(),"Length")
 			<< std::setw(6) << G4BestUnit(fTrack->GetGlobalTime(),"Time")
+			<< std::setw(6) << G4BestUnit(fTrack->GetMomentum().x(),"Energy")
+			<< std::setw(6) << G4BestUnit(fTrack->GetMomentum().y(),"Energy")
+			<< std::setw(6) << G4BestUnit(fTrack->GetMomentum().z(),"Energy")
 			<< std::setw(6) << G4BestUnit(fTrack->GetKineticEnergy(),"Energy")
 			<< std::setw(6) << G4BestUnit(fStep->GetTotalEnergyDeposit(),"Energy")
 			<< std::setw(6) << G4BestUnit(fStep->GetStepLength(),"Length")
@@ -137,6 +143,9 @@ void SteppingVerbose::TrackingStarted()
 			<< std::setw( 6) << "Y"         << " "  
 			<< std::setw( 6) << "Z"         << " "
 			<< std::setw( 6) << "t"         << " "
+			<< std::setw( 6) << "pX"        << " "
+			<< std::setw( 6) << "pY"        << " "  
+			<< std::setw( 6) << "pZ"        << " "
 			<< std::setw( 9) << "KineE"     << " "
 			<< std::setw( 9) << "dEStep"    << " "
 			<< std::setw(10) << "StepLeng"  << " "
@@ -149,7 +158,9 @@ void SteppingVerbose::TrackingStarted()
 			<< std::setw(6) << G4BestUnit(fTrack->GetPosition().y(),"Length")
 			<< std::setw(6) << G4BestUnit(fTrack->GetPosition().z(),"Length")
 			<< std::setw(6) << G4BestUnit(fTrack->GetGlobalTime(),"Time")
-			<< std::setw(6) << G4BestUnit(fTrack->GetKineticEnergy(),"Energy")
+			<< std::setw(6) << G4BestUnit(fTrack->GetMomentum().x(),"Energy")
+			<< std::setw(6) << G4BestUnit(fTrack->GetMomentum().y(),"Energy")
+			<< std::setw(6) << G4BestUnit(fTrack->GetMomentum().z(),"Energy")
 			<< std::setw(6) << G4BestUnit(fStep->GetTotalEnergyDeposit(),"Energy")
 			<< std::setw(6) << G4BestUnit(fStep->GetStepLength(),"Length")
 			<< std::setw(6) << G4BestUnit(fTrack->GetTrackLength(),"Length")

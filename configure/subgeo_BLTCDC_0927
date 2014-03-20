@@ -9,7 +9,7 @@ DEFINE:		RO			130  # Outer radius of beam pipe ( before Gap Section )
 DEFINE:		ROL			200  # Outer radius of beam pipe ( before Gap Section )
 #DEFINE:		RI			190  # Inner radius of beam pipe ( before Gap Section )
 #DEFINE:		RO			200  # Outer radius of beam pipe ( before Gap Section )
-DEFINE:		RIC			130  # Inner radius of Collimator
+DEFINE:		RIC			110  # Inner radius of Collimator
 DEFINE:		LTS3S		355.9  # Length of TS3 Shell
 DEFINE:		LCollS		1160  # Length of Collimator Shell
 DEFINE:		LColl		500  # Length of Collimator

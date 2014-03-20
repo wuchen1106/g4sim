@@ -128,19 +128,20 @@ void MyDecayPhysics::ConstructProcess()
 
   // Add Decay Process
   fDecayProcess = new G4Decay();
-  theParticleIterator->reset();
+// TODO:
+//  theParticleIterator->reset();
   G4ParticleDefinition* particle=0;
 
-  while( (*theParticleIterator)() )
-  {
-    particle = theParticleIterator->value();
-    if( fDecayProcess->IsApplicable(*particle) ) 
-    { 
-      if(verbose > 1) {
-        G4cout << "### Decays for " << particle->GetParticleName() << G4endl;
-      }
-      ph->RegisterProcess(fDecayProcess, particle);
-    }
-  }
+//  while( (*theParticleIterator)() )
+//  {
+//    particle = theParticleIterator->value();
+//    if( fDecayProcess->IsApplicable(*particle) ) 
+//    { 
+//      if(verbose > 1) {
+//        G4cout << "### Decays for " << particle->GetParticleName() << G4endl;
+//      }
+//      ph->RegisterProcess(fDecayProcess, particle);
+//    }
+//  }
 
 }
