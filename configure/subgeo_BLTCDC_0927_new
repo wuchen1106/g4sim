@@ -4,15 +4,21 @@
 #*************************************************************************************************
 #	Shells
 DEFINE:		pZst 		-2790.5  # Start position
-#DEFINE:		RI			120  # Inner radius of beam pipe ( before Gap Section )
-#DEFINE:		RO			130  # Outer radius of beam pipe ( before Gap Section )
-DEFINE:		RI			190  # Inner radius of beam pipe ( before Gap Section )
-DEFINE:		RO			200  # Outer radius of beam pipe ( before Gap Section )
+DEFINE:		RI			120  # Inner radius of beam pipe ( before Gap Section )
+DEFINE:		RO			130  # Outer radius of beam pipe ( before Gap Section )
+DEFINE:		ROMT1		230  # Outer radius of MT1 beam pipe ( before Gap Section )
+#DEFINE:		RI			190  # Inner radius of beam pipe ( before Gap Section )
+#DEFINE:		RO			200  # Outer radius of beam pipe ( before Gap Section )
 DEFINE:		RIC			110  # Inner radius of Collimator
 DEFINE:		LTS3S		355.9  # Length of TS3 Shell
 DEFINE:		LCollS		1160  # Length of Collimator Shell
 DEFINE:		LColl		500  # Length of Collimator
 DEFINE:		thAl 		0.2  # thickness of Al window
+#	Cryostat
+DEFINE:		RCI			RO+1 # Inner radius of Cryostat ( before Gap Section )
+DEFINE:		RCO			450  # Outer radius of Cryostat ( before Gap Section )
+DEFINE:		thC			20   # Thickness of Cryostat ( before Gap Section )
+DEFINE:		LCE			200  # Extension Length of Cryostat ( before Gap Section )
 #	Coils
 DEFINE:		RITS3		400  # Inner radius of TS3 Coil
 DEFINE:		ROTS3		450  # Outer radius of TS3 Coil
@@ -49,15 +55,27 @@ DEFINE:		pZBC		pZst+L/2
 #	Shell                                                         
 DEFINE:		pZTS3S		LTS3S/2-L/2
 	T     RI     RO      LTS3S   0        360     ShellTS3        1     BLTCDC          Steel  T2/MonitorSD  0    0  pZTS3S  0      0      0     
+DEFINE:		pZ    		(RO-RI)/2-L/2
+	T     RO     ROMT1   RO-RI   0        360     ShellTS3E       1     BLTCDC          Steel  T2/MonitorSD  0    0    pZ    0      0      0     
 DEFINE:		pZ			pZTS3S-LTS3S/2+thAl+1
 	T     0      RIC     thAl    0        360     AlWindow        1     BLTCDC          Aluminium T2/MonitorSD 0  0  pZ      0      0      0     
 DEFINE:		pZCollS		pZTS3S+LTS3S/2+LCollS/2
 DEFINE:		pZColl		pZTS3S-LTS3S/2+LColl/2
 	T     RI     RO      LCollS  0        360     ShellColl       1     BLTCDC          Steel  T2/MonitorSD  0    0  pZCollS 0      0      0     
-	T     RIC    RI      LColl   0        360     Collimator      1     BLTCDC          Steel  T2/MonitorSD  0    0  pZColl  0      0      0     
+#	T     RIC    RI      LColl   0        360     Collimator      1     BLTCDC          Steel  T2/MonitorSD  0    0  pZColl  0      0      0     
 DEFINE:		thMl		50e-3
 DEFINE:		pZ			pZCollS+LCollS/2+thMl/2
 #	T     0      RI      thMl    0        360     MylarSD         1     BLTCDC          Mylar      none      0    0  pZ      0      0      0     
+                                                                        
+#	Cryostat
+DEFINE:		LC			LCollS+LCE
+DEFINE:		pZ    		LC/2+LTS3S-L/2
+	T     RCI    RCI+thC LC      0        360     CryostatI       1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
+	T     RCO-thC RCO    LC      0        360     CryostatO       1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
+DEFINE:		pZ    		LC+LTS3S-thC/2-L/2
+	T    RCI+thC RCO-thC thC     0        360     CryostatED      1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
+#DEFINE:		pZ    		thC/2-L/2
+#	T    RCI+thC ROTS3   thC     0        360     CryostatEU      1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
                                                                        
 #	Coil                                                               
 DEFINE:		pZTS3		LTS3/2-L/2
@@ -73,7 +91,7 @@ DEFINE:		pZTS3Y		LTS3Y/2-L/2
 DEFINE: pZ		pZTS3Y+LTS3Y/2+LCollY/2
 	T    RICollY ROCollY LCollY  0        360     YokeColl        1     BLTCDC          Steel      none      0    0  pZ      0      0      0     
 DEFINE: pZCDCY	pZTS3Y+LTS3Y/2+LCollY+LCDCY/2
-DEFINE: pZCDC	pZCDCY
+DEFINE: pZCDC	pZCDCY+250
 	T    RICDCY  ROCDCY  LCDCY   0        360     YokeCDC         1     BLTCDC          Steel      none      0    0  pZCDCY  0      0      0     
 DEFINE: pZ		pZTS3Y+LTS3Y/2+LCollY-50
 	T    ROCollY ROCDCY  100     0        360     YokeCDCEU       1     BLTCDC          Steel      none      0    0  pZ      0      0      0     
@@ -100,7 +118,12 @@ DEFINE: pZ		pZCDCY+LCDCY/2-0.5
 #	Name                 red    green  blue  
 #	vis_BLTCDC            1      1      1      0.3
 	vis_ShellTS3          0.7    0.7    0.7   0.3
+	vis_ShellTS3E         0.7    0.7    0.7   0.3
 	vis_ShellColl         0.7    0.7    0.7   0.3
+	vis_CryostatI         0.2    0.2    0.7   0.3
+	vis_CryostatO         0.2    0.2    0.7   0.3
+	vis_CryostatEU        0.2    0.2    0.7   0.3
+	vis_CryostatED        0.2    0.2    0.7   0.3
 #	vis_MylarSD           1      0      0      0.5
 	vis_AlWindow          0.3    0.3    0.3    0.5
 	vis_Collimator        0.7    0.7    0.7

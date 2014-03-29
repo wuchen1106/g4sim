@@ -65,7 +65,7 @@ DEFINE: pRGe		300+LGe/2 # R position of Germanium Detector
 	T    0    Rp1I  thTp   0     360  BeamWindowT       1     World     Plastic   none    S pRw0+thw0/2+thTp/2   0    180    0      0      0
 	T    0    Rp2I  thw1   0     360  DetectorWindow    1     World     Mylar     none    S pRw1   0    45    90   -135      0 
 #	T    0    RGe   LGe    0     360  Ge                1     World     Germanium none    S pRGe   0    45    90   -135      0 
-	T    0    RGe   LGe    0     360  Ge                1     World     Germanium TEST/MonitorSD S pRGe   0    135   90   -45      0 
+	T    0    RGe   LGe    0     360  Ge                1     World     Germanium T/MonitorSD S pRGe   0    135   90   -45      0 
 #BooelanSolid info
 #	Type type  vol1         vol2              Ephi Ethe Epsi PosX  PosY PosZ   name         RepNo MotVolume  Material SDName    posX posY posZ Ephi Ethe Epsi  
 #	                                          deg  deg  deg  mm    mm   mm                                                      mm   mm   mm   deg  deg  deg   
@@ -129,7 +129,7 @@ DEFINE: pw  		-XGas/2.+Rwire+(x+1)*gwire # X/Y position of Verticle/Horizental W
 DEFINE:	pZSCF		thSC/2+thTp/2
 	B    XFoil XFoil thTp   MuSC_FU      1     MuSC_T    Plastic      none           0     0    pZSCF   0    0    0 
 	B    XFoil XFoil thTp   MuSC_FD      1     MuSC_T    Plastic      none           0     0   -pZSCF   0    0    0 
-#	B    XFoil XFoil thSC   MuSC         1     ChamberIn Scintillator M/MonitorSD  P pRSC  0    Z0     90   90    0 
+#	B    XFoil XFoil thSC   MuSC         1     ChamberIn Scintillator T/MonitorSD  P pRSC  0    Z0     90   90    0 
 	B    XFoil XFoil thSCA  bMuSCA_Whole          
 #Tubs info
 #	Type RMin RMax  Length  Start Span Name              RepNo MotVolume Material  SDName    posX posY  posZ  Ephi   Ethe   Epsi  

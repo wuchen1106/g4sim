@@ -25,6 +25,7 @@
 /gui/addButton run b9.4v "/control/execute macros/b9.4v.mac"
 /gui/addButton run reflect "/control/execute macros/reflect.mac"
 /gui/addButton run CP1 "/control/execute macros/COMETPhaseI.mac"
+/gui/addButton run alcap "/control/execute macros/alcap.mac"
 #
 # Gun menu :
 /gui/addMenu gun Gun

@@ -1,6 +1,7 @@
 /control/getEnv MYG4SIMROOT
 #/control/execute {MYG4SIMROOT}/macros/reflect.mac
-/control/execute {MYG4SIMROOT}/macros/b9.mac
+#/control/execute {MYG4SIMROOT}/macros/b9.mac
+/control/execute {MYG4SIMROOT}/macros/alcap.mac
 #/control/execute {MYG4SIMROOT}/macros/cdchit.mac
 #/control/execute {MYG4SIMROOT}/macros/COMETPhaseI.mac
 #/control/execute {MYG4SIMROOT}/macros/cdctrack.mac
@@ -50,4 +51,4 @@
 #/random/setSeeds 1184827826 1879590332
 #/run/beamOn   10
 #/run/beamOn    80944
-/run/beamOn    1000
+/run/beamOn    5000000

@@ -76,22 +76,22 @@ PrimaryGeneratorAction* PrimaryGeneratorAction::GetPrimaryGeneratorAction(){
 }
 
 void* PrimaryGeneratorAction::get_extra(G4String name){
-	if (name=="weight") {if(!flag_weight)  return &root_double[9];}
-	else if (name=="ox") {if(!flag_ox)  return &root_double[10];}
-	else if (name=="oy") {if(!flag_oy)  return &root_double[11];}
-	else if (name=="oz") {if(!flag_oz)  return &root_double[12];}
-	else if (name=="opx") {if(!flag_opx)  return &root_double[13];}
-	else if (name=="opy") {if(!flag_opy)  return &root_double[14];}
-	else if (name=="opz") {if(!flag_opz)  return &root_double[15];}
-	else if (name=="ot") {if(!flag_ot)  return &root_double[16];}
-	else if (name=="ppid") {if(!flag_ppid)  return &root_int[1];}
-	else if (name=="ptid") {if(!flag_ptid)  return &root_int[2];}
-	else if (name=="process") {if(!flag_process)  return root_str[0];}
-	else if (name=="volume") {if(!flag_volume)  return root_str[1];}
-//	else if (name=="R0") {if(!flag_R0)  return &root_double[7];}
-//	else if (name=="R1") {if(!flag_R1)  return &root_double[8];}
-	else if (name=="R0") {if(!flag_R0)  return &root_int[3];}
-	else if (name=="R1") {if(!flag_R1)  return &root_int[4];}
+	if (name=="weight") {if(flag_weight)  return &root_double[9];}
+	else if (name=="ox") {if(flag_ox)  return &root_double[10];}
+	else if (name=="oy") {if(flag_oy)  return &root_double[11];}
+	else if (name=="oz") {if(flag_oz)  return &root_double[12];}
+	else if (name=="opx") {if(flag_opx)  return &root_double[13];}
+	else if (name=="opy") {if(flag_opy)  return &root_double[14];}
+	else if (name=="opz") {if(flag_opz)  return &root_double[15];}
+	else if (name=="ot") {if(flag_ot)  return &root_double[16];}
+	else if (name=="ppid") {if(flag_ppid)  return &root_int[1];}
+	else if (name=="ptid") {if(flag_ptid)  return &root_int[2];}
+	else if (name=="process") {if(flag_process)  return root_str[0];}
+	else if (name=="volume") {if(flag_volume)  return root_str[1];}
+//	else if (name=="R0") {if(flag_R0)  return &root_double[7];}
+//	else if (name=="R1") {if(flag_R1)  return &root_double[8];}
+	else if (name=="R0") {if(flag_R0)  return &root_int[3];}
+	else if (name=="R1") {if(flag_R1)  return &root_int[4];}
 	return NULL;
 }
 
@@ -547,9 +547,9 @@ void PrimaryGeneratorAction::root_set_extra(){
 }
 
 void PrimaryGeneratorAction::ReadCard(G4String file_name){
+	std::cout<<" -- PrimaryGeneratorAction: Reading from \""<<file_name<<"\""<<std::endl;
 	Reset();
-	size_t sLast = file_name.last('/');
-	if(sLast==std::string::npos){ // file name only
+	if(file_name[0] != '/'){ // Relative Dir
 		G4String dir_name = getenv("CONFIGUREROOT");
 		if (dir_name[dir_name.size()-1] != '/') dir_name.append("/");
 		file_name = dir_name + file_name;
