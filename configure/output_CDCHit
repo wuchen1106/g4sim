@@ -9,6 +9,9 @@ EVENTHEADER_SECTION
 	run_num
 	R0
 	R1
+	ipx
+	ipy
+	ipz
 	weight
 EVENTHEADER_SECTION
 
@@ -35,20 +38,19 @@ C_SECTION
 	t              ns
 	edep           GeV
 	pid
-	t             ns 
-	x             cm 
-	y             cm 
-	z             cm 
-	px            GeV
-	py            GeV
-	pz            GeV
+	px             GeV
+	py             GeV
+	pz             GeV
+	x              cm 
+	y              cm 
+	z              cm 
 	ppid
 	ovolName
 	oprocess
 	volID
 	layerID
 	cellID
-	driftD         cm
+	driftD          cm
 	status
 	error
 	nTry
@@ -67,6 +69,8 @@ M_SECTION
 	edep           GeV
 	volID
 	volName
+	volID
+	particleName
 	pid
 	opx            GeV
 	opy            GeV
@@ -84,6 +88,6 @@ M_FILTERSECTION
 M_FILTERSECTION
 
 TRIGGERSECTION
-	minCdcHits         1           # minimum required Cdc nHits. Would be set invalid if minCdcHits = -1
-#	minCorM_Hits       1            # minimum required M nHits. Would be set invalid if = -1
+#	minCdcHits         1           # minimum required Cdc nHits. Would be set invalid if minCdcHits = -1
+	minCorM_Hits       1            # minimum required M nHits. Would be set invalid if = -1
 TRIGGERSECTION

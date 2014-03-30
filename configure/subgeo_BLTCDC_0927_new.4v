@@ -16,9 +16,11 @@ DEFINE:		LColl		500  # Length of Collimator
 DEFINE:		thAl 		0.2  # thickness of Al window
 #	Cryostat
 DEFINE:		RCI			RO+1 # Inner radius of Cryostat ( before Gap Section )
-DEFINE:		RCO			450  # Outer radius of Cryostat ( before Gap Section )
-DEFINE:		thC			20   # Thickness of Cryostat ( before Gap Section )
+DEFINE:		RCO			350  # Outer radius of Cryostat ( before Gap Section )
+DEFINE:		thC			10   # Thickness of Cryostat ( before Gap Section )
 DEFINE:		LCE			200  # Extension Length of Cryostat ( before Gap Section )
+DEFINE:		RCI2		RCO   # Inner radius of Cryostat ( before Gap Section )
+DEFINE:		RCO2		500  # Outer radius of Cryostat ( before Gap Section )
 #	Coils
 DEFINE:		RITS3		400  # Inner radius of TS3 Coil
 DEFINE:		ROTS3		450  # Outer radius of TS3 Coil
@@ -73,31 +75,41 @@ DEFINE:		pZ			pZCollS+LCollS/2+thMl/2
 #	T     0      RI      thMl    270        180     MylarSD         1     BLTCDC          Mylar      none      0    0  pZ      0      0      0     
 #	T     0      RI      thMl    90        180     MylarSDiv         1     BLTCDC          Mylar      none      0    0  pZ      0      0      0     
 
-#	Cryostat
-DEFINE:		LC			LCollS+LCE
-DEFINE:		pZ    		LC/2+LTS3S-L/2
-	T     RCI    RCI+thC LC      270      180     CryostatI       1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
-	T     RCI    RCI+thC LC      90       180     CryostatIiv     1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
-	T     RCO-thC RCO    LC      270      180     CryostatO       1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
-	T     RCO-thC RCO    LC      90       180     CryostatOiv     1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
-DEFINE:		pZ    		LC+LTS3S-thC/2-L/2
-	T    RCI+thC RCO-thC thC     270      180     CryostatED      1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
-	T    RCI+thC RCO-thC thC     90       180     CryostatEDiv    1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
-#DEFINE:		pZ    		thC/2-L/2
-#	T    RCI+thC ROTS3   thC     270      180     CryostatEU      1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
-#	T    RCI+thC ROTS3   thC     90       180     CryostatEUiv    1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
-                                                                       
 #	Coil                                                               
 DEFINE:		pZTS3		LTS3/2-L/2
 	T     RITS3  ROTS3   LTS3    270        180     CoilTS3         1     BLTCDC          Copper     none      0    0  pZTS3   0      0      0     
 	T     RITS3  ROTS3   LTS3    90        180     CoilTS3iv         1     BLTCDC          Copper     none      0    0  pZTS3   0      0      0     
-DEFINE: pZ		pZTS3+LTS3/2+LCC/2+x*(LCC+GCC)
-	T     RIColl ROColl  LCC     270        180     CoilColl        5     BLTCDC          Copper     none      0    0  pZ      0      0      0     
-	T     RIColl ROColl  LCC     90        180     CoilColliv        5     BLTCDC          Copper     none      0    0  pZ      0      0      0     
-DEFINE: pZ		pZTS3+LTS3/2+LCollY+DCD+LCD/2+x*(LCD+GCD)
-	T     RICDC  ROCDC   LCD     270        180     CoilCDC         10    BLTCDC          Copper     none      0    0  pZ      0      0      0
-	T     RICDC  ROCDC   LCD     90        180     CoilCDCiv         10    BLTCDC          Copper     none      0    0  pZ      0      0      0
+DEFINE:		pZCC		pZTS3+LTS3/2+LCC/2+2*(LCC+GCC)
+DEFINE:		pZCCx		pZCC+(x-2)*(LCC+GCC)
+	T     RIColl ROColl  LCC     270        180     CoilColl        5     BLTCDC          Copper     none      0    0  pZCCx   0      0      0     
+	T     RIColl ROColl  LCC     90        180     CoilColliv        5     BLTCDC          Copper     none      0    0  pZCCx   0      0      0     
+DEFINE:		pZCD		pZTS3+LTS3/2+LCollY+DCD+LCD/2+x*(LCD+GCD)
+	T     RICDC  ROCDC   LCD     270        180     CoilCDC         10    BLTCDC          Copper     none      0    0  pZCD    0      0      0
+	T     RICDC  ROCDC   LCD     90        180     CoilCDCiv         10    BLTCDC          Copper     none      0    0  pZCD    0      0      0
                                                                         
+#	Cryostat
+DEFINE:		LC			LCollS+LCE*2
+	T     RCI    RCI+thC LC      270      180     CryostatI       1     BLTCDC          Steel  T2/MonitorSD  0    0  pZCC    0      0      0     
+	T     RCI    RCI+thC LC      90       180     CryostatIiv     1     BLTCDC          Steel  T2/MonitorSD  0    0  pZCC    0      0      0     
+	T     RCO-thC RCO    LC      270      180     CryostatO       1     BLTCDC          Steel  T2/MonitorSD  0    0  pZCC    0      0      0     
+	T     RCO-thC RCO    LC      90       180     CryostatOiv     1     BLTCDC          Steel  T2/MonitorSD  0    0  pZCC    0      0      0     
+DEFINE:		pZ    		pZCC+LC/2-thC/2
+	T    RCI+thC RCO-thC thC     270      180     CryostatED      1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
+	T    RCI+thC RCO-thC thC     90       180     CryostatEDiv    1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
+DEFINE:		pZ    		pZCC-LC/2+thC/2
+	T    RCI+thC RCO-thC thC     270      180     CryostatEU      1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
+	T    RCI+thC RCO-thC thC     90       180     CryostatEUiv    1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
+DEFINE:		LC2			LTS3+thC*2
+	T     RCI2   RCI2+thC LC2    270      180     Cryostat2I      1     BLTCDC          Steel  T2/MonitorSD  0    0  pZTS3   0      0      0     
+	T     RCI2   RCI2+thC LC2    90       180     Cryostat2Iiv    1     BLTCDC          Steel  T2/MonitorSD  0    0  pZTS3   0      0      0     
+	T     RCO2-thC RCO2   LC2    270      180     Cryostat2O      1     BLTCDC          Steel  T2/MonitorSD  0    0  pZTS3   0      0      0     
+	T     RCO2-thC RCO2   LC2    90       180     Cryostat2Oiv    1     BLTCDC          Steel  T2/MonitorSD  0    0  pZTS3   0      0      0     
+DEFINE:		pZ    		pZTS3+LC2/2-thC/2
+	T     RCI2   RCO2    thC     270      180     Cryostat2ED     1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
+	T     RCI2   RCO2    thC     90       180     Cryostat2EDiv   1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
+DEFINE:		pZ    		pZTS3-LC2/2+thC/2
+	T     RCI2   RCO2    thC     270      180     Cryostat2EU     1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
+	T     RCI2   RCO2    thC     90       180     Cryostat2EUiv   1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
 #	Yoke                                                                
 DEFINE:		pZTS3Y		LTS3Y/2-L/2
 	T     RITS3Y ROTS3Y  LTS3Y   270        180     YokeTS3         1     BLTCDC          Steel      none      0    0  pZTS3Y  0      0      0     
@@ -140,10 +152,14 @@ DEFINE: pZ		pZCDCY+LCDCY/2-0.5
 	vis_ShellTS3iv        0.7    0.7    0.7
 	vis_ShellTS3Eiv       0.6    0.6    0.6
 	vis_ShellColliv       0.7    0.7    0.7
-	vis_CryostatIiv       0.2    0.2    0.7
-	vis_CryostatOiv       0.2    0.2    0.7
-	vis_CryostatEUiv      0.2    0.2    0.7
-	vis_CryostatEDiv      0.2    0.2    0.7
+	vis_CryostatIiv       0.2    0.5    0.7
+	vis_CryostatOiv       0.2    0.5    0.7
+	vis_CryostatEUiv      0.2    0.5    0.7
+	vis_CryostatEDiv      0.2    0.5    0.7
+	vis_Cryostat2Iiv      0.4    0.5    0.7
+	vis_Cryostat2Oiv      0.4    0.5    0.7
+	vis_Cryostat2EUiv     0.4    0.5    0.7
+	vis_Cryostat2EDiv     0.4    0.5    0.7
 #	vis_MylarSDiv         1      0      0      0.5
 	vis_AlWindowiv        0.3    0.3    0.3    0.5
 	vis_Collimatoriv      0.82   0.5    0.21
