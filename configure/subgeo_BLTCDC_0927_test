@@ -58,8 +58,10 @@ DEFINE:		pZBC		pZst+L/2
 #	Shell                                                         
 DEFINE:		pZTS3S		LTS3S/2-L/2
 	T     RI     RO      LTS3S   0        360     ShellTS3        1     BLTCDC          Steel  T2/MonitorSD  0    0  pZTS3S  0      0      0     
-DEFINE:		pZ    		(RO-RI)/2-L/2
-	T     RO     ROMT1   RO-RI   0        360     ShellTS3E       1     BLTCDC          Steel  T2/MonitorSD  0    0    pZ    0      0      0     
+DEFINE:		pZ    		(100)/2-L/2
+	T     RO     ROMT1   100     0        360     ShellTS3E       1     BLTCDC          Steel  T2/MonitorSD  0    0    pZ    0      0      0     
+DEFINE:		pZ    		100+(100)/2-L/2
+	T     RO     ROMT1   100     0        360     ShellTS3E2      1     BLTCDC         Plastic T2/MonitorSD  0    0    pZ    0      0      0     
 DEFINE:		pZ			pZTS3S-LTS3S/2+thAl+1
 	T     0      RIC    thAl    0        360     AlWindow        1     BLTCDC          Aluminium T2/MonitorSD 0  0  pZ      0      0      0     
 DEFINE:		pZCollS		pZTS3S+LTS3S/2+LCollS/2
