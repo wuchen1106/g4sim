@@ -23,8 +23,8 @@
 /g4sim/gun/ReadCard gen_root
 ###/g4sim/gun/root_filename Coll.OT.g60cm10mm.005T.g4s.QBH.root
 #/g4sim/gun/root_filename MT1.mum.g60cm10mm.005T.g4s.QBH.root
-#/g4sim/gun/root_filename MT1.OT.g60cm10mm.005T.g4s.QBH.root
-/g4sim/gun/root_filename MT1.pim.g60cm10mm.005T.g4s.QBH.root
+/g4sim/gun/root_filename MT1.OT.g60cm10mm.005T.g4s.QBH.root
+#/g4sim/gun/root_filename MT1.pim.g60cm10mm.005T.g4s.QBH.root
 ##/g4sim/gun/root_filename SCAN_3.root
 ###/g4sim/gun/root_filename ST.mum.g60cm10mm.005T.BL.g4s.QBH.root
 #/g4sim/gun/root_filename OT.CDCHit.HE.root
@@ -57,4 +57,4 @@
 #/run/beamOn    860498
 #/run/beamOn    5437151
 #/run/beamOn    2718576
-/run/beamOn    50000
+/run/beamOn    1000

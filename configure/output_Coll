@@ -88,6 +88,8 @@ V_SECTION
 	x                 cm
 	y                 cm
 	z                 cm
+	volID
+	volName
 V_SECTION
 
 V_FILTERSECTION
