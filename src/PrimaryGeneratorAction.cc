@@ -76,7 +76,7 @@ PrimaryGeneratorAction* PrimaryGeneratorAction::GetPrimaryGeneratorAction(){
 }
 
 void* PrimaryGeneratorAction::get_extra(G4String name){
-	if (name=="weight") {if(flag_weight)  return &root_double[9];}
+	if (name=="weight") {if(!flag_weight)  return &root_double[9];}
 	else if (name=="ox") {if(flag_ox)  return &root_double[10];}
 	else if (name=="oy") {if(flag_oy)  return &root_double[11];}
 	else if (name=="oz") {if(flag_oz)  return &root_double[12];}
