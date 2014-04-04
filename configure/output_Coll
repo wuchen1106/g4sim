@@ -80,6 +80,7 @@ T2_FILTERSECTION
 
 V_SECTION
 	nHits
+	tid
 	pid
 	t                 ns
 	px                GeV
@@ -90,6 +91,8 @@ V_SECTION
 	z                 cm
 	volID
 	volName
+	ovolume
+	oprocess
 V_SECTION
 
 V_FILTERSECTION
