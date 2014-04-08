@@ -135,6 +135,7 @@ DEFINE: pZ		pZCDCY+LCDCY/2-0.5
 #	vis_BLTCDC            1      1      1      1
 	vis_ShellTS3          0.7    0.7    0.7   1
 	vis_ShellTS3E         0.7    0.7    0.7   1
+	vis_ShellTS3E2        0.4    0.5    0.6   0.5
 	vis_ShellColl         0.7    0.7    0.7   1
 	vis_CryostatI         0.2    0.2    0.7   1
 	vis_CryostatO         0.2    0.2    0.7   1

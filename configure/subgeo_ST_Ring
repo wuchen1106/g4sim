@@ -2,7 +2,7 @@
 	checkoverlap
 
 DEFINE:		GTgt	50  # Gap Between Targets (Neglecting Thickness)
-DEFINE:		zTgt	GTgt*(x-9) # z position of targets                       
+DEFINE:		zTgt	pZCDC+GTgt*(x-9) # z position of targets                       
 
 #Tubs info
 #	Type  RMin   RMax    Length  StartAng SpanAng Name            RepNo MotVolume       Material   SDName    posX posY posZ  Ephi   Etheta Epsi  
@@ -13,7 +13,7 @@ DEFINE:		zTgt	GTgt*(x-9) # z position of targets
 #BooelanSnfo                                                      
 #	Type type     vol1           vol2         Ephi    Etheta  Epsi  PosX    PosY    posZ    name          RepNo  MotVolume       Material      SDName    posX posY posZ Ephi   Etheta Epsi  
 #	                                          deg     deg     deg   mm      mm      mm                                                                   mm   mm   mm   deg    deg    deg   
-	BL   minus    TgtBody        TgtHole      0       0       0     0       0       0       Target        17     CDCInner        Aluminium   T/MonitorSD 0    0    zTgt 0      0      0
+	BL   minus    TgtBody        TgtHole      0       0       0     0       0       0       Target        17     BLTCDC          Aluminium   T/MonitorSD 0    0    zTgt 0      0      0
                                                                         
 #visual settings
 	VerboseLevel:    5

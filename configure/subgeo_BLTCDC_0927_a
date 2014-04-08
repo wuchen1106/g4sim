@@ -1,0 +1,172 @@
+#general info
+	checkoverlap
+
+#*************************************************************************************************
+DEFINE:		pZst 		-2790.5  # Start position
+DEFINE:		RIMT1		230      # Inner radius of MT1 beam pipe ( before Gap Section )
+DEFINE:		ROMT1		250      # Outer radius of MT1 beam pipe ( before Gap Section )
+#	Coils
+DEFINE:		RITS3		400  # Inner radius of TS3 Coil
+DEFINE:		ROTS3		450  # Outer radius of TS3 Coil
+DEFINE:		RIColl		RIMT1 # Inner radius of Collimator Coil
+DEFINE:		ROColl		ROMT1 # Outer radius of Collimator Coil
+DEFINE:		RICDC		1070  # Inner radius of CDC Coil
+DEFINE:		ROCDC		1084.04  # Outer radius of CDC Coil
+DEFINE:		LTS3		355.9 # Length of TS3 Coil
+DEFINE:		LCC			200  # Length of Collimator Coil
+DEFINE:		GCC			40  # Gap of Collimator Coil
+DEFINE:		LCD			195  # Length of CDC Coil
+DEFINE:		GCD			40  # Gap of CDC Coil
+DEFINE:		DCD			143.01  # Distance between the start of CDC Coil and the start of Gap Section
+#	Yokes
+DEFINE:		RITS3Y		700  # Inner radius of TS3 Yoke
+DEFINE:		ROTS3Y		900  # Outer radius of TS3 Yoke
+DEFINE:		RICollY		700  # Inner radius of Collimator Yoke
+DEFINE:		ROCollY		800  # Outer radius of Collimator Yoke
+DEFINE:		RICDCY		1647.5  # Inner radius of CDC Yoke
+DEFINE:		ROCDCY		1747.5  # Outer radius of CDC Yoke
+DEFINE:		LTS3Y		LTS3    # Length of TS3 Shell
+DEFINE:		LCollY		717     # Length of Collimator Yoke
+DEFINE:		LCDCY		2500  # Length of CDC Yoke
+DEFINE:		RHoleD		200  # Radius of the hole on the downstream end
+#	Collimator
+DEFINE:		thC			20       # thickness of Collimator
+DEFINE:		thBL		10       # thickness of Blocker
+DEFINE:		LColl		100      # Length of Collimator
+#	Windows
+DEFINE:		thAl 		0.2      # thickness of Al window
+#	Cryostat
+DEFINE:		SW			100  # Safety margin for warm bore
+DEFINE:		SC			40   # Safety margin for cold bore
+DEFINE:		thCS		10   # Thickness of cryostat shell
+#	Shells
+DEFINE:		LTS3S		LTS3    # Length of TS3 Shell
+DEFINE:		LCollS		5*LCC+4*GCC # Length of Collimator Shell
+#*************************************************************************************************
+
+#Tubs info
+#	Type  RMin   RMax    Length  StartAng SpanAng Name            RepNo MotVolume       Material   SDName    posX posY posZ  Ephi   Etheta Epsi  
+#	      mm     mm      mm      deg      deg                                                                mm   mm   mm    deg    deg    deg   
+DEFINE:		L			LTS3Y+LCollY+LCDCY+100  # Total length of BLTCDC Section, 100mm extension is safety margin
+DEFINE:		pZBC		pZst+L/2                # Start from the end of MT1 (start position)
+	T     0      ROCDCY  L       0        360     BLTCDC          1     World           Helium     none      0    0    pZBC  0      0      0     
+                                                                       
+#	Coil                                                               
+DEFINE:		pZTS3		LTS3/2-L/2              # TS3 coil starts from the beginning of BLTCDC
+	T     RITS3  ROTS3   LTS3    0        360     CoilTS3         1     BLTCDC          Copper     none      0    0  pZTS3   0      0      0     
+DEFINE:		pZCC		pZTS3+LTS3/2+LCC/2+2*(LCC+GCC) # Centre of collimator coils. Collimator coils starts from end of TS3 coil
+DEFINE:		pZCCx		pZCC+(x-2)*(LCC+GCC)           # Positions of collimator coils
+	T     RIColl ROColl  LCC     0        360     CoilColl        5     BLTCDC          Copper     none      0    0  pZCCx   0      0      0     
+DEFINE:		pZCD		pZTS3+LTS3/2+LCollY+DCD+5*(LCD+GCD)-GCD/2 # Centre of detector coils. Start from the end of Collimator Yoke with a distance of DCD
+DEFINE:		pZCDx		pZCD+(x-4.5)*(LCD+GCD)  # Positions of detector coils. Start from the end of Collimator Yoke with a distance of DCD
+DEFINE:		pZCDC		pZCD                    # position of CDC
+	T     RICDC  ROCDC   LCD     0        360     CoilCDC         10    BLTCDC          Copper     none      0    0  pZCDx   0      0      0
+                                                                        
+#	Yoke                                                                
+DEFINE:		pZTS3Y		LTS3Y/2-L/2             # TS3 yoke starts from the beginning of BLTCDC
+	T     RITS3Y ROTS3Y  LTS3Y   0        360     YokeTS3         1     BLTCDC          Steel      none      0    0  pZTS3Y  0      0      0     
+DEFINE:		pZCollY		pZTS3Y+LTS3Y/2+LCollY/2 # Collimator yoke starts from the end of TS3 yoke
+	T    RICollY ROCollY LCollY  0        360     YokeColl        1     BLTCDC          Steel      none      0    0  pZCollY 0      0      0     
+DEFINE:		pZCDCY		pZCollY+LCollY/2+LCDCY/2 # CDC yoke starts from the end of collimator yoke
+	T    RICDCY  ROCDCY  LCDCY   0        360     YokeCDC         1     BLTCDC          Steel      none      0    0  pZCDCY  0      0      0     
+DEFINE:		pZ			pZCDCY-LCDCY/2-50       # 100 is the thickness of end yokes
+	T    ROCollY ROCDCY  100     0        360     YokeCDCEU       1     BLTCDC          Steel      none      0    0  pZ      0      0      0     
+DEFINE:		pZ			pZCDCY+LCDCY/2+50       # 
+	T    RHoleD  ROCDCY  100     0        360     YokeCDCED       1     BLTCDC          Steel      none      0    0  pZ      0      0      0     
+                                                                        
+#	Cryostat
+DEFINE:		LC				LCollS+SW+LTS3-SC-thCS      # Length of collimator cryostat shell, connected with the end of MT1 cryostat downstream endplate
+DEFINE:		ROCI			RIColl-SW           # Outer radius of Inner Shell of collimator coil cryostat
+DEFINE:		RICI			ROCI-thCS           # Inner radius of Inner Shell of collimator coil cryostat
+DEFINE:		pZC				pZTS3-LTS3/2+SC+thCS+LC/2 # Position of collimator cryostat shell
+	T     RICI  ROCI     LC      0        360     CryostatCollI   1     BLTCDC          Steel  T2/MonitorSD  0    0  pZC     0      0      0     
+DEFINE:		RICO	      	ROColl+SW           # Inner radius of Outer Shell of collimator coil cryostat
+DEFINE:		ROCO	      	RICO+thCS           # Outer radius of Outer Shell of collimator coil cryostat
+	T     RICO  ROCO     LC      0        360     CryostatCollO   1     BLTCDC          Steel  T2/MonitorSD  0    0  pZC     0      0      0     
+DEFINE:		pZ		      	pZC+LC/2+thCS/2
+	T     RICI  ROCO     thCS    0        360     CryostatCollED  1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
+DEFINE:		pZ		      	pZTS3+LTS3/2-SW-thCS/2
+	T     ROCI  RICO     thCS    0        360     CryostatCollEU  1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
+DEFINE:		LC2				LTS3+SC             # Length of TS3 cryostat shell
+DEFINE:		RIC2O			ROTS3+SC            # Inner radius of Outer Shell of TS3 coil cryostat
+DEFINE:		ROC2O			RIC2O+thCS          # Outer radius of Outer Shell of TS3 coil cryostat
+DEFINE:		pZ				-L/2+LC2/2
+	T     RIC2O ROC2O    LC2     0        360     CryostatTS3O    1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
+DEFINE:		pZ				pZTS3+LTS3/2+SC+thCS/2
+	T     ROCO  ROC2O    thCS    0        360     CryostatTS3ED   1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
+DEFINE:		RIC3O			ROMT1+SC            # Inner radius of Outer Shell of MT1 coil cryostat
+DEFINE:		ROC3O			RIC3O+thCS          # Outer radius of Outer Shell of MT1 coil cryostat
+DEFINE:		ROC3I			RIMT1-SC            # Outer radius of Inner Shell of MT1 coil cryostat
+DEFINE:		RIC3I			ROC3I-thCS          # Inner radius of Inner Shell of MT1 coil cryostat
+DEFINE:		LC3 			SC                  # Length of MT1 coil cryostat inner shell
+DEFINE:		pZ			    -L/2+LC3/2
+	T     RIC3I ROC3I    LC3     0        360     CryostatMT1I    1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
+#DEFINE:		pZ				pZTS3-LC2/2+thCS/2
+#	T     RIC3O ROC2O    thCS    0        360     CryostatTS3EU   1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
+DEFINE:		pZ				-L/2+SC+thCS/2
+	T     RIC3I ROCO     thCS    0        360     CryostatMT1ED   1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
+DEFINE:		pZ				-L/2+SC+thBL/2
+	T     ROCI  RIC3I    thBL    0        360     MT1Blocker      1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
+
+#	Collimator
+DEFINE:		RIC			RICI-thC # Inner radius of collimator
+DEFINE:		pZColl		-L/2+SC+LColl/2  # Collimator starts from the beginning of MT1 cryostat downstream endplate
+	T     RIC    RICI    LColl   0        360     Collimator      1     BLTCDC          Steel  T2/MonitorSD  0    0  pZColl  0      0      0     
+
+#	Windows
+DEFINE:		pZ			pZColl-LColl/2+thAl        # Window starts from the beginning of Collimator
+	T     0      RIC     thAl    0        360     AlWindow        1     BLTCDC          Aluminium T2/MonitorSD 0  0  pZ      0      0      0     
+                                                                        
+#	Virtual
+#DEFINE: pZ		-L/2-10
+#	T     0      ROTS3Y  1       0        360     KillerTS3EU     1     World           Helium     KillerSD  0    0  pZ      0      0      0     
+#	T    ROCI-1  ROCI    LTS3S   0        360     KillerTS3C      1     ShellTS3        Copper     KillerSD  0    0  0       0      0      0     
+#	T    ROCI-1  ROCI    LCollS  0        360     KillerCollC     1     ShellColl       Copper     KillerSD  0    0  0       0      0      0     
+#	T   RICDC-1  RICDC   LCDCY   0        360     KillerCDCC      1     BLTCDC          Helium     KillerSD  0    0  pZCDCY  0      0      0     
+DEFINE: pZ		pZC+LC/2+thSC+0.5
+	T     0      400     1       0        360     EndCryo         1     BLTCDC          Helium   V/MonitorSD 0    0  pZ      0      0      0     
+##	T     0      ROCI    1       0        360     KillerCDC       1     BLTCDC          Helium     KillerSD  0    0 -1273.1  0      0      0     
+#DEFINE: pZ		pZCDCY-LCDCY/2+0.5
+#	T   ROColl  RICDC-1  1       0        360     KillerCDCEU     1     BLTCDC          Helium     KillerSD  0    0  pZ      0      0      0     
+#DEFINE: pZ		pZCDCY+LCDCY/2-0.5
+#	T     0     RICDC-1  1       0        360     KillerCDCED     1     BLTCDC          Helium     KillerSD  0    0  pZ      0      0      0     
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name                 red    green  blue  
+#	vis_BLTCDC            1      1      1      1
+	vis_ShellTS3          0.7    0.7    0.7   1
+	vis_ShellTS3E         0.7    0.7    0.7   1
+	vis_ShellColl         0.7    0.7    0.7   1
+	vis_CryostatCollI     0.2    0.5    0.7   1
+	vis_CryostatCollO     0.2    0.5    0.7   1
+	vis_CryostatCollEU    0.2    0.5    0.7   1
+	vis_CryostatCollED    0.2    0.5    0.7   1
+	vis_CryostatTS3I      0.2    0.5    0.7   1
+	vis_CryostatTS3O      0.2    0.5    0.7   1
+	vis_CryostatTS3EU     0.2    0.5    0.7   1
+	vis_CryostatTS3ED     0.2    0.5    0.7   1
+	vis_CryostatMT1I      0.2    0.5    0.7   1
+	vis_CryostatMT1O      0.2    0.5    0.7   1
+	vis_CryostatMT1EU     0.2    0.5    0.7   1
+	vis_CryostatMT1ED     0.2    0.5    0.7   1
+	vis_MT1Blocker        0.3    0.3    0.3   1
+	vis_AlWindow          0.3    0.3    0.3    0.5
+	vis_Collimator        0.7    0.7    0.7
+	vis_CoilTS3           0.82   0.5    0.21     1
+	vis_CoilColl          0.82   0.5    0.21   1
+	vis_CoilCDC           0.82   0.5    0.21   1
+	vis_YokeTS3           0      0      1   1
+	vis_YokeColl          0      0      1   1
+	vis_YokeCDC           0      0      1   1
+	vis_YokeCDCEU         0      0      1   1
+	vis_YokeCDCED         0      0      1   1
+#	vis_KillerTS3EU       1      0      0
+#	vis_KillerTS3C        1      0      0 
+#	vis_KillerCollC       1      0      0 
+#	vis_KillerCDCC        1      0      0
+#	vis_KillerCDC         1      0      0
+	vis_EndCryo           1      0      0   1
+#	vis_KillerCDCEU       1      0      0
+#	vis_KillerCDCED       1      0      0

@@ -81,8 +81,10 @@ DEFINE:		RI			RCDCI+x*th
 DEFINE:		RO			RI+th
 DEFINE:		id			(LCDCO-LCDC)/2/(N-1)
 DEFINE:		pZep		-(LCDC+thEP)/2-id*x
-	T    RI     RO      thEP    0          360     EndPlateU      18    CDCContainer  Aluminium       none        0    0    pZep 0      0      0     
-	T    RI     RO      thEP    0          360     EndPlateD      18    CDCContainer  Aluminium       none        0    0   -pZep 0      0      0     
+	T    RI     RO      thEP    270          180     EndPlateU      18    CDCContainer  Aluminium       none        0    0    pZep 0      0      0     
+	T    RI     RO      thEP    90          180     EndPlateUiv      18    CDCContainer  Aluminium       none        0    0    pZep 0      0      0     
+	T    RI     RO      thEP    270          180     EndPlateD      18    CDCContainer  Aluminium       none        0    0   -pZep 0      0      0     
+	T    RI     RO      thEP    90          180     EndPlateDiv      18    CDCContainer  Aluminium       none        0    0   -pZep 0      0      0     
 
 #visual settings
 	VerboseLevel:    5
@@ -90,7 +92,7 @@ DEFINE:		pZep		-(LCDC+thEP)/2-id*x
 #	Name             red green blue
 #	vis_CDCContainer     0      1      1     
 	vis_InnerCylinderiv  1      0      0     0.5
-	vis_EndPlateU        0.8    0.8    0.8   
-	vis_EndPlateD        0.8    0.8    0.8   
+	vis_EndPlateUiv      0.8    0.8    0.8   
+	vis_EndPlateDiv      0.8    0.8    0.8   
 	vis_OuterCylinderiv  0.3    0.3	   0.3
 #	vis_CDCLayer         1      0      0     0.3

@@ -3,13 +3,13 @@
 
 DEFINE:		thTgt		0.2  # Thickness of Targets
 DEFINE:		GTgt		30  # Gap Between Targets (Neglecting Thickness)
-DEFINE:		zTgt		GTgt*(x-19) # z position of targets                       
+DEFINE:		zTgt		pZCDC+GTgt*(x-19) # z position of targets                       
 DEFINE:		RTgt		100  # Radius of Targets
 
 #Tubs info
 #	Type  RMin   RMax    Length  StartAng SpanAng Name            RepNo MotVolume       Material   SDName    posX posY posZ  Ephi   Etheta Epsi  
 #	      mm     mm      mm      deg      deg                                                                mm   mm   mm    deg    deg    deg   
-	T     0      RTgt    thTgt   0        360     Target          39    CDCInner       Aluminium T/MonitorSD 0    0    zTgt  0      0      0
+	T     0      RTgt    thTgt   0        360     Target          39    BLTCDC         Aluminium T/MonitorSD 0    0    zTgt  0      0      0
                                                                         
 #visual settings
 	VerboseLevel:    5
