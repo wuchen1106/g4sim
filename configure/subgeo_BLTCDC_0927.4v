@@ -94,20 +94,20 @@ DEFINE: pZ		pZTS3Y+LTS3Y/2+LCollY+LCDCY+50
 	T    RHoleD  ROCDCY  100     90        180     YokeCDCEDiv       1     BLTCDC          Steel      none      0    0  pZ      0      0      0     
                                                                         
 #	Virtual
-DEFINE: pZ		pZst-10
-	T     0      ROTS3Y  1       0        360     KillerTS3EU     1     World           Vacuum     KillerSD  0    0  pZ      0      0      0     
-	T    RO-1    RO      LTS3S   270        180     KillerTS3C      1     ShellTS3        Copper     KillerSD  0    0  0       0      0      0     
-	T    RO-1    RO      LTS3S   90        180     KillerTS3Civ      1     ShellTS3iv      Copper     KillerSD  0    0  0       0      0      0     
-	T    RO-1    RO      LCollS  270        180     KillerCollC     1     ShellColl       Copper     KillerSD  0    0  0       0      0      0     
-	T    RO-1    RO      LCollS  90        180     KillerCollCiv     1     ShellColliv     Copper     KillerSD  0    0  0       0      0      0     
-	T   RICDC-1  RICDC   LCDCY   0        360     KillerCDCC      1     BLTCDC          Vacuum     KillerSD  0    0  pZCDCY  0      0      0     
+#DEFINE: pZ		pZst-10
+#	T     0      ROTS3Y  1       0        360     KillerTS3EU     1     World           Vacuum     KillerSD  0    0  pZ      0      0      0     
+#	T    RO-1    RO      LTS3S   270        180     KillerTS3C      1     ShellTS3        Copper     KillerSD  0    0  0       0      0      0     
+#	T    RO-1    RO      LTS3S   90        180     KillerTS3Civ      1     ShellTS3iv      Copper     KillerSD  0    0  0       0      0      0     
+#	T    RO-1    RO      LCollS  270        180     KillerCollC     1     ShellColl       Copper     KillerSD  0    0  0       0      0      0     
+#	T    RO-1    RO      LCollS  90        180     KillerCollCiv     1     ShellColliv     Copper     KillerSD  0    0  0       0      0      0     
+#	T   RICDC-1  RICDC   LCDCY   0        360     KillerCDCC      1     BLTCDC          Vacuum     KillerSD  0    0  pZCDCY  0      0      0     
 DEFINE: pZ		pZColl+LColl/2-0.5
 	T     0      RIC     1       0        360     EndColl         1     BLTCDC          Vacuum   V/MonitorSD 0    0  pZ      0      0      0     
 #	T     0      RO      1       0        360     KillerCDC       1     BLTCDC          Vacuum     KillerSD  0    0 -1273.1  0      0      0     
-DEFINE: pZ		pZCDCY-LCDCY/2+0.5
-	T   ROColl  RICDC-1  1       0        360     KillerCDCEU     1     BLTCDC          Vacuum     KillerSD  0    0  pZ      0      0      0     
-DEFINE: pZ		pZCDCY+LCDCY/2-0.5
-	T     0     RICDC-1  1       0        360     KillerCDCED     1     BLTCDC          Vacuum     KillerSD  0    0  pZ      0      0      0     
+#DEFINE: pZ		pZCDCY-LCDCY/2+0.5
+#	T   ROColl  RICDC-1  1       0        360     KillerCDCEU     1     BLTCDC          Vacuum     KillerSD  0    0  pZ      0      0      0     
+#DEFINE: pZ		pZCDCY+LCDCY/2-0.5
+#	T     0     RICDC-1  1       0        360     KillerCDCED     1     BLTCDC          Vacuum     KillerSD  0    0  pZ      0      0      0     
 
 #visual settings
 	VerboseLevel:    5

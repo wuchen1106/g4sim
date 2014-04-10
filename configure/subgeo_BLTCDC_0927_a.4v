@@ -30,9 +30,9 @@ DEFINE:		LCollY		717     # Length of Collimator Yoke
 DEFINE:		LCDCY		2500  # Length of CDC Yoke
 DEFINE:		RHoleD		200  # Radius of the hole on the downstream end
 #	Collimator
-DEFINE:		thC			10       # thickness of Collimator
+DEFINE:		thC			35       # thickness of Collimator
 DEFINE:		thBL		10       # thickness of Blocker
-DEFINE:		LColl		1000     # Length of Collimator
+DEFINE:		LColl		300      # Length of Collimator
 #	Windows
 DEFINE:		thAl 		0.2      # thickness of Al window
 #	Cryostat
