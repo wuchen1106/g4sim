@@ -118,7 +118,7 @@ DEFINE: pZ		pZTS3Y+LTS3Y/2+LCollY/2
 	T    RICollY ROCollY LCollY  270        180     YokeColl        1     BLTCDC          Steel      none      0    0  pZ      0      0      0     
 	T    RICollY ROCollY LCollY  90        180     YokeColliv        1     BLTCDC          Steel      none      0    0  pZ      0      0      0     
 DEFINE: pZCDCY	pZTS3Y+LTS3Y/2+LCollY+LCDCY/2
-DEFINE: pZCDC	pZCDCY
+DEFINE: pZCDC	pZCDCY+250
 	T    RICDCY  ROCDCY  LCDCY   270        180     YokeCDC         1     BLTCDC          Steel      none      0    0  pZCDCY  0      0      0     
 	T    RICDCY  ROCDCY  LCDCY   90        180     YokeCDCiv         1     BLTCDC          Steel      none      0    0  pZCDCY  0      0      0     
 DEFINE: pZ		pZTS3Y+LTS3Y/2+LCollY-50

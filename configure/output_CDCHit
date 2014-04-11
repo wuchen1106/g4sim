@@ -24,13 +24,14 @@ MCTRUTH_SECTION
 	py            GeV
 	pz            GeV
 	pid
+	tid
 	tid2pid
 	tid2time
 MCTRUTH_SECTION
 
 MCTRUTHFILTER_SECTION
 	Switch                     //if commented, then program wil not generate any hit
-	nTracks       1
+#	nTracks       1
 MCTRUTHFILTER_SECTION
 
 C_SECTION
@@ -45,6 +46,7 @@ C_SECTION
 	y              cm 
 	z              cm 
 	ppid
+	ptid
 	ovolName
 	oprocess
 	volID
