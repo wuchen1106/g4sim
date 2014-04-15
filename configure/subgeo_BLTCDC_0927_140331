@@ -86,13 +86,13 @@ DEFINE:		pZ    		pZCC+LC/2-thC/2
 	T    RCI+thC RCO-thC thC     0        360     CryostatED      1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
 DEFINE:		pZ    		pZCC-LC/2+thC/2
 	T    RCI+thC RCO-thC thC     0        360     CryostatEU      1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
-DEFINE:		LC2			LTS3+thC*2
+DEFINE:		LC2			LTS3
 	T     RCI2   RCI2+thC LC2    0        360     Cryostat2I      1     BLTCDC          Steel  T2/MonitorSD  0    0  pZTS3   0      0      0     
 	T     RCO2-thC RCO2   LC2    0        360     Cryostat2O      1     BLTCDC          Steel  T2/MonitorSD  0    0  pZTS3   0      0      0     
-DEFINE:		pZ    		pZTS3+LC2/2-thC/2
+DEFINE:		pZ    		pZTS3+LC2/2+thC/2
 	T     RCI2   RCO2    thC     0        360     Cryostat2ED     1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
-DEFINE:		pZ    		pZTS3-LC2/2+thC/2
-	T     RCI2   RCO2    thC     0        360     Cryostat2EU     1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
+#DEFINE:		pZ    		pZTS3-LC2/2+thC/2
+#	T     RCI2   RCO2    thC     0        360     Cryostat2EU     1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
                                                                         
 #	Yoke                                                                
 DEFINE:		pZTS3Y		LTS3Y/2-L/2
@@ -108,18 +108,18 @@ DEFINE: pZ		pZTS3Y+LTS3Y/2+LCollY+LCDCY+50
 	T    RHoleD  ROCDCY  100     0        360     YokeCDCED       1     BLTCDC          Steel      none      0    0  pZ      0      0      0     
                                                                         
 #	Virtual
-DEFINE: pZ		pZst-10
-	T     0      ROTS3Y  1       0        360     KillerTS3EU     1     World           Helium     KillerSD  0    0  pZ      0      0      0     
-	T    RO-1    RO      LTS3S   0        360     KillerTS3C      1     ShellTS3        Copper     KillerSD  0    0  0       0      0      0     
-	T    RO-1    RO      LCollS  0        360     KillerCollC     1     ShellColl       Copper     KillerSD  0    0  0       0      0      0     
-	T   RICDC-1  RICDC   LCDCY   0        360     KillerCDCC      1     BLTCDC          Helium     KillerSD  0    0  pZCDCY  0      0      0     
-DEFINE: pZ		pZColl+LColl/2-0.5
-	T     0      RIC     1       0        360     EndColl         1     BLTCDC          Helium   V/MonitorSD 0    0  pZ      0      0      0     
-#	T     0      RO      1       0        360     KillerCDC       1     BLTCDC          Helium     KillerSD  0    0 -1273.1  0      0      0     
-DEFINE: pZ		pZCDCY-LCDCY/2+0.5
-	T   ROColl  RICDC-1  1       0        360     KillerCDCEU     1     BLTCDC          Helium     KillerSD  0    0  pZ      0      0      0     
-DEFINE: pZ		pZCDCY+LCDCY/2-0.5
-	T     0     RICDC-1  1       0        360     KillerCDCED     1     BLTCDC          Helium     KillerSD  0    0  pZ      0      0      0     
+#DEFINE: pZ		pZst-10
+#	T     0      ROTS3Y  1       0        360     KillerTS3EU     1     World           Helium     KillerSD  0    0  pZ      0      0      0     
+#	T    RO-1    RO      LTS3S   0        360     KillerTS3C      1     ShellTS3        Copper     KillerSD  0    0  0       0      0      0     
+#	T    RO-1    RO      LCollS  0        360     KillerCollC     1     ShellColl       Copper     KillerSD  0    0  0       0      0      0     
+#	T   RICDC-1  RICDC   LCDCY   0        360     KillerCDCC      1     BLTCDC          Helium     KillerSD  0    0  pZCDCY  0      0      0     
+#DEFINE: pZ		pZColl+LColl/2-0.5
+#	T     0      RIC     1       0        360     EndColl         1     BLTCDC          Helium   V/MonitorSD 0    0  pZ      0      0      0     
+##	T     0      RO      1       0        360     KillerCDC       1     BLTCDC          Helium     KillerSD  0    0 -1273.1  0      0      0     
+#DEFINE: pZ		pZCDCY-LCDCY/2+0.5
+#	T   ROColl  RCO2-thC 1       0        360     KillerCDCEU     1     BLTCDC          Helium     KillerSD  0    0  pZ      0      0      0     
+#DEFINE: pZ		pZCDCY+LCDCY/2-0.5
+#	T     0     RICDC-1  1       0        360     KillerCDCED     1     BLTCDC          Helium     KillerSD  0    0  pZ      0      0      0     
 
 #visual settings
 	VerboseLevel:    5

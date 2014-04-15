@@ -22,11 +22,11 @@
 
 # Geometry:
 /g4sim/det/ClearGeo
-/g4sim/det/AddGeo World     world_CometPhase1     Simple
-/g4sim/det/AddGeo BLTCDC    subgeo_BLTCDC_0927.4v Simple
-/g4sim/det/AddGeo Trigger   subgeo_Trigger_BL.4v  Simple
-/g4sim/det/AddGeo CDC       subgeo_CDC_BL.4v  Cdc
-/g4sim/det/AddGeo Target    subgeo_ST_17          Simple
+/g4sim/det/AddGeo World     world_CometPhase1       Simple
+/g4sim/det/AddGeo BLTCDC    subgeo_BLTCDC_0927_a.4v Simple
+/g4sim/det/AddGeo Trigger   subgeo_Trigger_BL.4v    Simple
+/g4sim/det/AddGeo CDC       subgeo_CDC_BL.4v        Cdc
+/g4sim/det/AddGeo Target    subgeo_ST_17            Simple
 # Modify:
 #
 /g4sim/mag/ReadCard MagField_A9_130927

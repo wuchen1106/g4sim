@@ -2,7 +2,7 @@
 
 #General setting  
 	Type:      simple #(simple/stable/ion)
-	Particle:  chargedgeantino #(e+/e-/deuteron/chargedgeantino/gamma/...)
+	Particle:  gamma #(e+/e-/deuteron/chargedgeantino/gamma/...)
 
 #Default Direction
 #	           Theta    Phi
@@ -12,16 +12,23 @@
 #	PhiSpread:          180
 #Default Momentum Amplitude
 #	             MeV
-	MomAmp:      10
+#	MomAmp:      0.12178
+#	MomAmp:      0.2447
+#	MomAmp:      0.34427
+#	MomAmp:      0.7789
+#	MomAmp:      0.96401
+#	MomAmp:      1.08578
+	MomAmp:      1.40795
 #Default Position     x    y   z
 #	                  mm   mm  mm
 	Position:         0    0   0
-	PosSpread:        30  30 30 
+#	PosSpread:        30  30 30 
 #	PosLimit:         17.5
 
 	RandMode:       none #(none/root)
 	EnergyMode:     none #(root/histo/none)
-	PositionMode:   bRand #(uniform/root/none/gRand/uRand)
+#	PositionMode:   bRand #(uniform/root/none/gRand/uRand)
+	PositionMode:   none #(uniform/root/none/gRand/uRand)
 	DirectionMode:  uniform #(none/uniform/histo)
 	ThetaMode:      none #(none/gRand/uRand)
 	PhiMode:        none #(none/gRand/uRand)
