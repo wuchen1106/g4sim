@@ -30,9 +30,9 @@ DEFINE:		LCollY		717     # Length of Collimator Yoke
 DEFINE:		LCDCY		2500  # Length of CDC Yoke
 DEFINE:		RHoleD		200  # Radius of the hole on the downstream end
 #	Collimator
-DEFINE:		thC			35       # thickness of Collimator
-DEFINE:		thBL		50       # thickness of Blocker
-DEFINE:		LColl		300       # Length of Collimator
+DEFINE:		thC			0.1      # thickness of Collimator
+DEFINE:		thBL		10       # thickness of Blocker
+DEFINE:		LColl		0.1       # Length of Collimator
 #	Windows
 DEFINE:		thAl 		0.2      # thickness of Al window
 #	Cryostat
@@ -112,8 +112,8 @@ DEFINE:		pZ				-L/2+SC+thBL/2
 DEFINE:		RIC			RICI-thC # Inner radius of collimator
 DEFINE:		pZColl		-L/2+SC+LColl/2  # Collimator starts from the beginning of MT1 cryostat downstream endplate
 	T     RIC    RICI    LColl   0        360     Collimator      1     BLTCDC          Steel  T2/MonitorSD  0    0  pZColl  0      0      0     
-DEFINE:		pZ			500+pZTS3+LTS3/2+SC+thCS
-	T     ROCO  ROCO+200 1000    0        360     BlockerOut      1     BLTCDC       Aluminium T2/MonitorSD  0    0  pZ      0      0      0     
+#DEFINE:		pZ			500+pZTS3+LTS3/2+SC+thCS
+#	T     ROCO  ROCO+200 1000    0        360     BlockerOut      1     BLTCDC       Aluminium T2/MonitorSD  0    0  pZ      0      0      0     
 
 #	Windows
 DEFINE:		pZ			pZColl-LColl/2+thAl        # Window starts from the beginning of Collimator

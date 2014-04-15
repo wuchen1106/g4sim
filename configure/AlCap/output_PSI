@@ -96,7 +96,7 @@ T_FILTERSECTION
 #	mine          0      GeV      //minimum energy cut
 #	mint          0      ns       //left end of time window, 0 means no lower limit
 #	maxt          0      ns       //right end of time window, 0 means no upper limit
-#	tres          0      ns       //time resolution
+	tres          5000   ns       //time resolution
 	minedep       -1     GeV      //minimum energy deposition cut
 #	WL            13           // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
 #	WL            -211         // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
