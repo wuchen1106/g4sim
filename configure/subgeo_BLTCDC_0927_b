@@ -31,9 +31,9 @@ DEFINE:		LCollY		717     # Length of Collimator Yoke
 DEFINE:		LCDCY		2500  # Length of CDC Yoke
 DEFINE:		RHoleD		200  # Radius of the hole on the downstream end
 #	Collimator
-DEFINE:		thC			30       # thickness of Collimator
-DEFINE:		thBL		10        # thickness of Blocker
-DEFINE:		LColl		500       # Length of Collimator
+DEFINE:		thC			35       # thickness of Collimator
+DEFINE:		thBL		50        # thickness of Blocker
+DEFINE:		LColl		300       # Length of Collimator
 #	Windows
 DEFINE:		thAl 		0.2      # thickness of Al window
 #	Cryostat
@@ -101,9 +101,11 @@ DEFINE:		ROtemp		ROCI+dRColl
 DEFINE:		RICO	      	ROColl+SW           # Inner radius of Outer Shell of collimator coil cryostat
 DEFINE:		ROCO	      	RICO+thCS           # Outer radius of Outer Shell of collimator coil cryostat
 	T     RICO  ROCO     LC1O    0        360     CryostatCollO1  1     BLTCDC          Steel  T2/MonitorSD  0    0  pZC1O   0      0      0     
+	T     ROCO  ROCO+200  LC1O-LTS3-thCS   0        360     BlockerOut1     1     BLTCDC       Aluminium T2/MonitorSD  0    0  pZC1O+(LTS3+thCS)/2   0      0      0     
 DEFINE:		RItemp		RICO+dRColl
 DEFINE:		ROtemp		ROCO+dRColl
 	T     RItemp ROtemp  LC2O    0        360     CryostatCollO2  1     BLTCDC          Steel  T2/MonitorSD  0    0  pZC2O   0      0      0     
+	T ROtemp ROtemp+200 LC2O-300 0        360     BlockerOut2     1     BLTCDC       Aluminium T2/MonitorSD  0    0  pZC2O-150   0      0      0     
 DEFINE:		pZ		      	pZC+LC/2+thCS/2
 DEFINE:		RItemp		RICI+dRColl
 DEFINE:		ROtemp		ROCO+dRColl
@@ -115,7 +117,7 @@ DEFINE:		ROtemp		ROCI+dRColl
 DEFINE:		pZ		      	pZC-LC/2+LC1O-thCS/2
 DEFINE:		RItemp		RICO
 DEFINE:		ROtemp		RICO+dRColl
-	T     RItemp ROtemp  thCS    0        360     CryostatCollEM2 1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
+#	T     RItemp ROtemp  thCS    0        360     CryostatCollEM2 1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
 DEFINE:		pZ		      	pZTS3+LTS3/2-SW-thCS/2
 	T     ROCI  RICO     thCS    0        360     CryostatCollEU  1     BLTCDC          Steel  T2/MonitorSD  0    0  pZ      0      0      0     
 DEFINE:		LC2				LTS3+SC             # Length of TS3 cryostat shell
@@ -189,6 +191,8 @@ DEFINE: pZ		pZC+LC/2+thCS+0.5
 	vis_MT1Blocker        0.3    0.3    0.3   1
 	vis_AlWindow          0.3    0.3    0.3    0.5
 	vis_Collimator        0.7    0.7    0.7
+	vis_BlockerOut1       0.2    0.2    0.7
+	vis_BlockerOut2       0.2    0.2    0.7
 	vis_CoilTS3           0.82   0.5    0.21     1
 	vis_CoilColl          0.82   0.5    0.21   1
 	vis_CoilColl2         0.82   0.5    0.21   1

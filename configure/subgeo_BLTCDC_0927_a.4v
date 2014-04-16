@@ -31,7 +31,7 @@ DEFINE:		LCDCY		2500  # Length of CDC Yoke
 DEFINE:		RHoleD		200  # Radius of the hole on the downstream end
 #	Collimator
 DEFINE:		thC			35       # thickness of Collimator
-DEFINE:		thBL		50       # thickness of Blocker
+DEFINE:		thBL		10       # thickness of Blocker
 DEFINE:		LColl		300      # Length of Collimator
 #	Windows
 DEFINE:		thAl 		0.2      # thickness of Al window
@@ -134,9 +134,9 @@ DEFINE:		RIC			RICI-thC # Inner radius of collimator
 DEFINE:		pZColl		-L/2+SC+LColl/2  # Collimator starts from the beginning of MT1 cryostat downstream endplate
 	T     RIC    RICI    LColl   270        180     Collimator      1     BLTCDC          Steel  T2/MonitorSD  0    0  pZColl  0      0      0     
 	T     RIC    RICI    LColl   90        180     Collimatoriv      1     BLTCDC          Steel  T2/MonitorSD  0    0  pZColl  0      0      0     
-DEFINE:		pZ			500+pZTS3+LTS3/2+SC+thCS
-	T     ROCO  ROCO+200 1000    270        180     BlockerOut      1     BLTCDC       Aluminium T2/MonitorSD  0    0  pZ      0      0      0     
-	T     ROCO  ROCO+200 1000    90         180     BlockerOutiv    1     BLTCDC       Aluminium T2/MonitorSD  0    0  pZ      0      0      0     
+#DEFINE:		pZ			500+pZTS3+LTS3/2+SC+thCS
+#	T     ROCO  ROCO+200 1000    270        180     BlockerOut      1     BLTCDC       Aluminium T2/MonitorSD  0    0  pZ      0      0      0     
+#	T     ROCO  ROCO+200 1000    90        180     BlockerOutiv      1     BLTCDC       Aluminium T2/MonitorSD  0    0  pZ      0      0      0     
 
 #	Windows
 DEFINE:		pZ			pZColl-LColl/2+thAl        # Window starts from the beginning of Collimator
@@ -149,8 +149,8 @@ DEFINE:		pZ			pZColl-LColl/2+thAl        # Window starts from the beginning of C
 #	T    ROCI-1  ROCI    LTS3S   0        360     KillerTS3C      1     ShellTS3        Copper     KillerSD  0    0  0       0      0      0     
 #	T    ROCI-1  ROCI    LCollS  0        360     KillerCollC     1     ShellColl       Copper     KillerSD  0    0  0       0      0      0     
 #	T   RICDC-1  RICDC   LCDCY   0        360     KillerCDCC      1     BLTCDC          Helium     KillerSD  0    0  pZCDCY  0      0      0     
-#DEFINE: pZ		pZColl+LColl/2-0.5
-#	T     0      RIC     1       0        360     EndColl         1     BLTCDC          Helium   V/MonitorSD 0    0  pZ      0      0      0     
+DEFINE: pZ		pZC+LC/2+thSC+0.5
+	T     0      400     1       0        360     EndCryo         1     BLTCDC          Helium   V/MonitorSD 0    0  pZ      0      0      0     
 ##	T     0      ROCI    1       0        360     KillerCDC       1     BLTCDC          Helium     KillerSD  0    0 -1273.1  0      0      0     
 #DEFINE: pZ		pZCDCY-LCDCY/2+0.5
 #	T   ROColl  RICDC-1  1       0        360     KillerCDCEU     1     BLTCDC          Helium     KillerSD  0    0  pZ      0      0      0     
@@ -194,6 +194,6 @@ DEFINE:		pZ			pZColl-LColl/2+thAl        # Window starts from the beginning of C
 #	vis_KillerCollC       1      0      0 
 #	vis_KillerCDCC        1      0      0
 #	vis_KillerCDC         1      0      0
-#	vis_EndColl           1      0      0   1
+#	vis_EndCryo           1      0      0   1
 #	vis_KillerCDCEU       1      0      0
 #	vis_KillerCDCED       1      0      0
