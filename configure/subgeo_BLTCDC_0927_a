@@ -112,8 +112,8 @@ DEFINE:		pZ				-L/2+SC+thBL/2
 DEFINE:		RIC			RICI-thC # Inner radius of collimator
 DEFINE:		pZColl		-L/2+SC+LColl/2  # Collimator starts from the beginning of MT1 cryostat downstream endplate
 	T     RIC    RICI    LColl   0        360     Collimator      1     BLTCDC          Steel  T2/MonitorSD  0    0  pZColl  0      0      0     
-DEFINE:		pZ			500+pZTS3+LTS3/2+SC+thCS
-	T     ROCO  ROCO+200 1000    0        360     BlockerOut      1     BLTCDC       Aluminium T2/MonitorSD  0    0  pZ      0      0      0     
+DEFINE:		pZ			250+pZTS3+LTS3/2+SC+thCS
+	T     ROCO  ROCO+200  500    0        180     BlockerOut      1     BLTCDC       Aluminium T2/MonitorSD  0    0  pZ      0      0      0     
 
 #	Windows
 DEFINE:		pZ			pZColl-LColl/2+thAl        # Window starts from the beginning of Collimator
@@ -156,6 +156,7 @@ DEFINE: pZ		pZC+LC/2+thSC+0.5
 	vis_MT1Blocker        0.3    0.3    0.3   1
 	vis_AlWindow          0.3    0.3    0.3    0.5
 	vis_Collimator        0.7    0.7    0.7
+	vis_BlockerOut        0.2    0.2    0.7
 	vis_CoilTS3           0.82   0.5    0.21     1
 	vis_CoilColl          0.82   0.5    0.21   1
 	vis_CoilCDC           0.82   0.5    0.21   1
