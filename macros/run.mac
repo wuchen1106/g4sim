@@ -1,11 +1,11 @@
 /control/getEnv MYG4SIMROOT
 #/control/execute {MYG4SIMROOT}/macros/reflect.mac
-#/control/execute {MYG4SIMROOT}/macros/b9.mac
+/control/execute {MYG4SIMROOT}/macros/b9.mac
 #/control/execute {MYG4SIMROOT}/macros/alcap.mac
 #/control/execute {MYG4SIMROOT}/macros/cdchit.mac
 #/control/execute {MYG4SIMROOT}/macros/COMETPhaseI.mac
 #/control/execute {MYG4SIMROOT}/macros/cdctrack.mac
-/control/execute {MYG4SIMROOT}/macros/cdchit.mac
+#/control/execute {MYG4SIMROOT}/macros/cdchit.mac
 #
 #/tracking/verbose                   1
 #/g4sim/myAnalysisSvc/printModulo	1
@@ -20,16 +20,16 @@
 #/stacking/set_no_PC 1
 #/stacking/set_no_sec 1
 
-#/g4sim/gun/ReadCard gen_root
-/g4sim/gun/ReadCard gen_rand
-###/g4sim/gun/root_filename Coll.OT.g60cm10mm.005T.g4s.QBH.root
-#/g4sim/gun/root_filename MT1.ep.g60cm10mm.005T.g4s.QBH.root
-#/g4sim/gun/root_filename MT1.OT.g60cm10mm.005T.g4s.QBH.root
-#/g4sim/gun/root_filename MT1.pim.g60cm10mm.005T.g4s.QBH.root
-/g4sim/gun/root_filename OT.CDCHit.140331.root
-###/g4sim/gun/root_filename ST.mum.g60cm10mm.005T.BL.g4s.QBH.root
-##/g4sim/gun/root_filename pim.CDCHit.root
-/g4sim/gun/initialize
+##/g4sim/gun/ReadCard gen_root
+#/g4sim/gun/ReadCard gen_rand
+####/g4sim/gun/root_filename Coll.OT.g60cm10mm.005T.g4s.QBH.root
+##/g4sim/gun/root_filename MT1.ep.g60cm10mm.005T.g4s.QBH.root
+##/g4sim/gun/root_filename MT1.OT.g60cm10mm.005T.g4s.QBH.root
+##/g4sim/gun/root_filename MT1.pim.g60cm10mm.005T.g4s.QBH.root
+#/g4sim/gun/root_filename OT.CDCHit.140331.root
+####/g4sim/gun/root_filename ST.mum.g60cm10mm.005T.BL.g4s.QBH.root
+###/g4sim/gun/root_filename pim.CDCHit.root
+#/g4sim/gun/initialize
 
 #/random/setSeeds 1844211379 853976860
 #/g4sim/gun/root_index 1987283   # OT
@@ -58,4 +58,4 @@
 #/run/beamOn    860498
 #/run/beamOn    5437151
 #/run/beamOn    2718576
-/run/beamOn    53713
+/run/beamOn    1000
