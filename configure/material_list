@@ -29,7 +29,7 @@ TYPE Simple_Materials
 	Aluminium   13  26.9815386 2.699          1
 	Silicon     14  28.085     2.329          1
 	Argon       18  39.948     1.784e-3       0.90447
-	Titanium    22  47.867     4.506e-3       1
+	Titanium    22  47.867     4.506          1
 	Iron        26  55.845     7.874          1
 	Copper      29  63.546     8.960          1 
 	Germanium   32  72.630     5.323          1 
