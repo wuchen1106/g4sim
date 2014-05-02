@@ -5,7 +5,7 @@
 #	Type RMin   RMax   Length   StartAng SpanAng Name                  RepNo MotVolume          Material      SDName    posX posY posZ  Ephi   Etheta Epsi  
 #	     mm     mm     mm       deg      deg                                                                            mm   mm   mm    deg    deg    deg   
 	T    0.     807    5300     0        360     PTACSContainer        1     World              Vacuum        none      5650 0  -5790.5 90   -90     -90     
-	T    0      200    0.2      0        360     PTACSWindow           1     PTACSContainer     Aluminium  T2/MonitorSD 0    0   1145   0      0      0     
+	T    0      200    0.2      0        360     PTACSWindow           1     PTACSContainer     Aluminium  T2/MonitorSD 0    0   2650   0      0      0     
 	T    200    250    1505     0        360     PTACSBeamPipe         1     PTACSContainer     Steel         none      0    0   1897.5 0      0      0     
 #DEFINE:		pZ     (x-75)*10+1897.5
 #	T    0      200    0.1      0        360     PBPMonitors           150   PTACSContainer     Vacuum     V2/MonitorSD 0    0    pZ    0      0      0     
