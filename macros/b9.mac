@@ -32,9 +32,10 @@
 #/g4sim/gun/root_filename PTM.AP.TH0.root
 #/g4sim/gun/root_filename PTACS.AP_all.g60cm10mm.TH0.g4s.QBH.root
 #/g4sim/gun/root_filename PTACS.AP.g60cm10mm.TH0.g4s.QBH.root
-/g4sim/gun/root_filename PTACS.EP.EP.g60cm10mm.g4s.QBH.root
+#/g4sim/gun/root_filename PTACS.EP.EP.g60cm10mm.g4s.QBH.root
 #/g4sim/gun/root_filename MT1.OT.g60cm10mm.005T.g4s.QBH.root
 #/g4sim/gun/root_filename MT1.pim.g60cm10mm.005T.g4s.QBH.root
+/g4sim/gun/root_filename MT0.EP.EP.g60cm10mm.005T.Ti1000.g4s.QBH.root
 /g4sim/gun/initialize
 
 # Output:
