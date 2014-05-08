@@ -57,7 +57,7 @@ DEFINE:		SaEDCrCoColl2 50              # Safety Margin of Cold Bore Collimator C
 #	Cryostat - Warm bore
 DEFINE:		thCrWaThin    10              # Thickness of Thin Warm Bore Cryostat
 DEFINE:		thCrWaThic    20              # Thickness of Thick Warm Bore Cryostat
-DEFINE:		ROICrWa1      100             # Outer Radius of Inner Warm Bore Cryostat 1
+DEFINE:		ROICrWa1      140             # Outer Radius of Inner Warm Bore Cryostat 1
 DEFINE:		RIOCrWa       640             # Inner Radius of Outer Warm Bore Cryostat
 DEFINE:		SaEDCrWa1     210             # Safety Margin of Warm Bore Cryostat 1 at Downstream End
 DEFINE: 	LICrWa1       Ltot/2+(pZCC-LCC/2-GCC+SaEDCrWa1)

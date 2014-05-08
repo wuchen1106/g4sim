@@ -52,10 +52,10 @@
 #/g4sim/myAnalysisSvc/set_ofile_name output/1.root
 #/random/setSeeds 932056206 1331909965
 #/run/beamOn   1
-#/g4sim/myAnalysisSvc/set_ofile_name output/2.root
+/g4sim/myAnalysisSvc/set_ofile_name output/90.root
 #/random/setSeeds 1184827826 1879590332
 #/run/beamOn   10
 #/run/beamOn    860498
 #/run/beamOn    5437151
 #/run/beamOn    2718576
-/run/beamOn    1000
+/run/beamOn    86049
