@@ -340,7 +340,7 @@ DEFINE:		pZ			pZCrWa3ED+thCrWaED/2+thw4S2/2
 #DEFINE: pZ		pZC+LC/2+thCS+0.5
 #	T     0      400     1       0        360     EndCryo         1     BLTCDC          Helium   V/MonitorSD 0    0  pZ      0      0      0     
 DEFINE: pZ		pZw1+Lw1/2+0.5
-	T     0  ROICrWa2-thCrWaThin 1       0        360     EndCrWa1        1     BLTCDC          Helium   V/MonitorSD 0    0  pZ      0      0      0     
+	T     0  ROICrWa2-thCrWaThic 1       0        360     EndCrWa1        1     BLTCDC          Helium   V/MonitorSD 0    0  pZ      0      0      0     
 ##	T     0      ROCI    1       0        360     KillerCDC       1     BLTCDC          Helium     KillerSD  0    0 -1273.1  0      0      0     
 #DEFINE: pZ		pZCDCY-LCDCY/2+0.5
 #	T   ROColl  RICDC-1  1       0        360     KillerCDCEU     1     BLTCDC          Helium     KillerSD  0    0  pZ      0      0      0     
