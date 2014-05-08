@@ -12,7 +12,7 @@
 # Generator:
 /g4sim/gun/ReadCard gen_root
 #/g4sim/gun/ReadCard gen_signal
-/g4sim/gun/root_filename MT1.OT.g60cm10mm.005T.g4s.QBH.root
+/g4sim/gun/root_filename MT1.EP.OT.g60cm10mm.005T.g4s.QBH.root
 #/g4sim/gun/root_filename MT1.pim.g60cm10mm.005T.g4s.QBH.root
 #/g4sim/gun/root_filename OT.CDCHit.root
 #/g4sim/gun/root_filename OT.CDCHit.HE.root
@@ -23,8 +23,7 @@
 /g4sim/det/ClearGeo
 /g4sim/det/AddGeo World     world_CometPhase1     Simple
 /g4sim/det/AddGeo BLTCDC    subgeo_BLTCDC_0506    Simple
-#/g4sim/det/AddGeo BLTCDC    subgeo_BLTCDC_0927_c  Simple
-/g4sim/det/AddGeo Trigger   subgeo_Trigger_BL     Simple
+/g4sim/det/AddGeo Trigger   subgeo_Trigger_new    Simple
 /g4sim/det/AddGeo CDC       subgeo_CDC_new        Cdc
 /g4sim/det/AddGeo Target    subgeo_ST_17          Simple
 # Modify:
