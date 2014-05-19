@@ -4,5 +4,5 @@
 
 # Generator:
 /g4sim/gun/ReadCard gen_rand
-/g4sim/gun/root_filename 0506.em.output.root
+/g4sim/gun/root_filename 0424.em.output.root
 /g4sim/gun/initialize

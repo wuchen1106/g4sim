@@ -22,7 +22,7 @@
 # Geometry:
 /g4sim/det/ClearGeo
 /g4sim/det/AddGeo World     world_CometPhase1     Simple
-/g4sim/det/AddGeo BLTCDC    subgeo_BLTCDC_0506    Simple
+/g4sim/det/AddGeo BLTCDC    subgeo_BLTCDC_0424    Simple
 /g4sim/det/AddGeo Trigger   subgeo_Trigger_new    Simple
 /g4sim/det/AddGeo CDC       subgeo_CDC_new        Cdc
 /g4sim/det/AddGeo Target    subgeo_ST_17          Simple

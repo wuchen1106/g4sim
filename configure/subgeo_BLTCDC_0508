@@ -11,11 +11,13 @@ DEFINE:		RITS3		400  # Inner radius of TS3 Coil
 DEFINE:		ROTS3		450  # Outer radius of TS3 Coil
 DEFINE:		RIColl		230   # Inner radius of Collimator Coil 1
 DEFINE:		ROColl		273   # Outer radius of Collimator Coil 1
-DEFINE:		dRColl 		130 # Extension for last 3 Collimator Collimator
+DEFINE:		dRColl 		80  # Extension for last 3 Collimator Collimator
 DEFINE:		RICDC		1070  # Inner radius of CDC Coil
 DEFINE:		ROCDC		1084.04  # Outer radius of CDC Coil
 DEFINE:		LCC			200  # Length of Collimator Coil
 DEFINE:		GCC			40  # Gap of Collimator Coil
+DEFINE:		GCC2		50  # Gap of Collimator Coil
+DEFINE:		GCC3		35  # Gap of Collimator Coil
 DEFINE:		LCD			195  # Length of CDC Coil
 DEFINE:		GCD			40  # Gap of CDC Coil
 DEFINE:		OCD			147.5  # Overlap between CDC Coils and Collimator Coils
@@ -51,17 +53,17 @@ DEFINE:		RIOCrCoColl1 ROColl+50        # Inner Radius of Outer Cold Bore Collima
 DEFINE:		SaEUCrCoColl1 90              # Safety Margin of Cold Bore Collimator Cryostat 1 at Upstream End
 DEFINE:		SaEDCrCoColl1 150             # Safety Margin of Cold Bore Collimator Cryostat 1 at Downstream End
 DEFINE:		ROICrCoColl2 RIColl+dRColl-45 # Outer Radius of Inner Cold Bore Collimator Cryostat 2
-DEFINE:		RIOCrCoColl2 ROColl+dRColl+50 # Inner Radius of Outer Cold Bore Collimator Cryostat 2
+DEFINE:		RIOCrCoColl2 ROColl+dRColl+100 # Inner Radius of Outer Cold Bore Collimator Cryostat 2
 DEFINE:		SaEUCrCoColl2 135             # Safety Margin of Cold Bore Collimator Cryostat 2 at Upstream End
 DEFINE:		SaEDCrCoColl2 50              # Safety Margin of Cold Bore Collimator Cryostat 2 at Downstream End
 #	Cryostat - Warm bore
 DEFINE:		thCrWaThin    10              # Thickness of Thin Warm Bore Cryostat
-DEFINE:		thCrWaThic    20              # Thickness of Thick Warm Bore Cryostat
-DEFINE:		ROICrWa1      140             # Outer Radius of Inner Warm Bore Cryostat 1
+DEFINE:		thCrWaThic    25              # Thickness of Thick Warm Bore Cryostat
+DEFINE:		ROICrWa1      130             # Outer Radius of Inner Warm Bore Cryostat 1
 DEFINE:		RIOCrWa       640             # Inner Radius of Outer Warm Bore Cryostat
 DEFINE:		SaEDCrWa1     210             # Safety Margin of Warm Bore Cryostat 1 at Downstream End
 DEFINE: 	LICrWa1       Ltot/2+(pZCC-LCC/2-GCC+SaEDCrWa1)
-DEFINE:		ROICrWa2      240             # Outer Radius of Inner Warm Bore Cryostat 2
+DEFINE:		ROICrWa2      180             # Outer Radius of Inner Warm Bore Cryostat 2
 DEFINE:		LICrWa2       600             # Length of Warm Bore Cryostat 2 Inner Wall
 DEFINE:		thCrWaED      50              # Thickness of Warm Bore Cryostat Endplate
 DEFINE:		ROICrWa3      920             # Outer Radius of Inner Warm Bore Cryostat 3
@@ -76,8 +78,8 @@ DEFINE:		dREnCoSupColl2 62             # delta Radius of Collimator Coil Support
 DEFINE:		dREnCoSupCDC  52              # delta Radius of CDC Coil Support System End Plate
 DEFINE:		dLCoSup       20              # delta Length of Coil Support System
 #	Collimator
-DEFINE:		thC			35       # thickness of Collimator
-DEFINE:		thBL		50        # thickness of Blocker
+DEFINE:		thC			33       # thickness of Collimator
+DEFINE:		RIC			ROICrWa1-thCrWaThin-thC # Inner radius of collimator
 DEFINE:		LColl		300       # Length of Collimator
 #	Blocker
 DEFINE:		thBlocker     100             # Thickness of Blocker
@@ -90,7 +92,7 @@ DEFINE:		RIw4S       451.2
 DEFINE:		ROw4S1      457.2
 DEFINE:		ROw4S2      1010
 DEFINE:		thw4S2 		25
-DEFINE:		thw4 		0.1      # thickness of window 4 (starts from the end of Detector Yoke)
+DEFINE:		thw4 		20       # thickness of window 4 (starts from the end of Detector Yoke)
 
 #*************************************************************************************************
 
@@ -127,7 +129,7 @@ DEFINE:		pZD			pZ+L/2+dLCoSup/2
 	T     RI     RO   dLCoSup    0        360     CoSupColl1ED    1     BLTCDC          Aluminium  none      0    0  pZD     0      0      0     
 DEFINE:		RItemp		RIColl+dRColl
 DEFINE:		ROtemp		ROColl+dRColl
-DEFINE:		pZCCx		pZCC+x*(LCC+GCC)           # Positions of collimator coils
+DEFINE:		pZCCx		pZCC+GCC2-GCC+x*(LCC+GCC3)           # Positions of collimator coils
 	T     RItemp ROtemp  LCC     0        360     CoilColl2       3     BLTCDC          Copper     none      0    0  pZCCx   0      0      0     
 DEFINE:		RI			RIColl+dRColl-dRInCoSup
 DEFINE:		RO			RIColl+dRColl
@@ -218,7 +220,7 @@ DEFINE: pZU	pZO-LO/2+thCrCoThin/2
 	T     RI    RO   thCrCoThin  0        360     CrCoColl2EU       1     BLTCDC       Aluminium  T2/MonitorSD  0    0  pZU     0      0      0     
 
 #	Cryostat - Warm Bore
-DEFINE: RI		ROICrWa1-thCrWaThic
+DEFINE: RI		ROICrWa1-thCrWaThin
 DEFINE: RO		ROICrWa1
 DEFINE: Lw1		LICrWa1
 DEFINE: pZw1	Lw1/2-Ltot/2
@@ -227,7 +229,7 @@ DEFINE: RI	ROICrWa1
 DEFINE: RO	ROICrWa2
 DEFINE: pZ	pZw1+Lw1/2-thCrWaThic/2
 	T     RI    RO   thCrWaThic  0        360     CrWa1ED           1     BLTCDC       Steel      T2/MonitorSD  0    0  pZ      0      0      0     
-DEFINE: RI	ROICrWa2-thCrWaThic
+DEFINE: RI	ROICrWa2-thCrWaThin
 DEFINE: RO	ROICrWa2
 DEFINE: pZ	pZw1+Lw1/2+LICrWa2/2
 	T     RI    RO    LICrWa2    0        360     CrWa2I            1     BLTCDC       Steel      T2/MonitorSD  0    0  pZ      0      0      0     
@@ -266,14 +268,14 @@ DEFINE: RO	RIOCrWa
 DEFINE: pZ	pZTS3+LTS3/2+SaBlocker+thBlocker
 	T     RI    RO   thBlocker   0        360     Blocker           1     BLTCDC       Steel      T2/MonitorSD  0    0  pZ      0      0      0     
 
-##	Collimator
-#DEFINE:		RIC			RICI-thC # Inner radius of collimator
-#DEFINE:		pZColl		-Ltot/2+SC+LColl/2  # Collimator starts from the beginning of MT1 cryostat downstream endplate
-#	T     RIC    RICI    LColl   0        360     Collimator      1     BLTCDC          Steel  T2/MonitorSD  0    0  pZColl  0      0      0     
+#	Collimator
+DEFINE:		RO			ROICrWa1-thCrWaThin
+DEFINE:		pZColl		-Ltot/2+LColl/2  # Collimator starts from the beginning of MT1 cryostat downstream endplate
+	T     RIC    RO      LColl   0        360     Collimator      1     BLTCDC          Steel  T2/MonitorSD  0    0  pZColl  0      0      0     
 
 #	Windows
 DEFINE:		pZ			pZw1-Lw1/2+thw3+10        # Window starts from the beginning of Warm Bore Cryostat 1
-	T     0 ROICrWa1-thCrWaThic   thw3    0        360     Window3        1     BLTCDC          Titanium  T2/MonitorSD 0  0  pZ      0      0      0     
+	T     0 ROICrWa1-thCrWaThin   thw3    0        360     Window3        1     BLTCDC          Titanium  T2/MonitorSD 0  0  pZ      0      0      0     
 DEFINE:		pZw4		pZCDCY+LCDCY/2+thCDCYED+thw4+Saw4  # Window starts from the end of Detector Yoke
 	T     0   RHoleD     thw4    0        360     Window4        1     BLTCDC          Steel     T2/MonitorSD 0  0  pZw4    0      0      0     
 DEFINE:		RI			RIw4S
@@ -294,7 +296,7 @@ DEFINE:		pZ			pZCrWa3ED+thCrWaED/2+thw4S2/2
 #DEFINE: pZ		pZC+LC/2+thCS+0.5
 #	T     0      400     1       0        360     EndCryo         1     BLTCDC          Helium   V/MonitorSD 0    0  pZ      0      0      0     
 DEFINE: pZ		pZw1+Lw1/2+0.5
-	T     0  ROICrWa2-thCrWaThic 1       0        360     EndCrWa1        1     BLTCDC          Helium   V/MonitorSD 0    0  pZ      0      0      0     
+	T     0  ROICrWa2-thCrWaThin 1       0        360     EndCrWa1        1     BLTCDC          Helium   V/MonitorSD 0    0  pZ      0      0      0     
 ##	T     0      ROCI    1       0        360     KillerCDC       1     BLTCDC          Helium     KillerSD  0    0 -1273.1  0      0      0     
 #DEFINE: pZ		pZCDCY-LCDCY/2+0.5
 #	T   ROColl  RICDC-1  1       0        360     KillerCDCEU     1     BLTCDC          Helium     KillerSD  0    0  pZ      0      0      0     
