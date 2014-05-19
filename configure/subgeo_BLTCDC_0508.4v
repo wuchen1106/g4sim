@@ -48,7 +48,7 @@ DEFINE:		thCrCoThic  10                # Thickness of Thick Cold Bore Cryostat
 DEFINE:		ROICrCoTS3  RITS3-25          # Outer Radius of Inner Cold Bore TS3 Cryostat
 DEFINE:		RIOCrCoTS3  ROTS3+80          # Inner Radius of Outer Cold Bore TS3 Cryostat
 DEFINE:		SaEDCrCoTS3 70                # Safety Margin of Cold Bore TS3 Cryostat at Downstream End
-DEFINE:		ROICrCoColl1 RIColl-40        # Outer Radius of Inner Cold Bore Collimator Cryostat 1
+DEFINE:		ROICrCoColl1 RIColl-45        # Outer Radius of Inner Cold Bore Collimator Cryostat 1
 DEFINE:		RIOCrCoColl1 ROColl+50        # Inner Radius of Outer Cold Bore Collimator Cryostat 1
 DEFINE:		SaEUCrCoColl1 90              # Safety Margin of Cold Bore Collimator Cryostat 1 at Upstream End
 DEFINE:		SaEDCrCoColl1 150             # Safety Margin of Cold Bore Collimator Cryostat 1 at Downstream End
@@ -207,7 +207,7 @@ DEFINE: RO	RIOCrCoTS3
 DEFINE: pZ	pZ+L/2-thCrCoThic/2
 	T     RI    RO   thCrCoThic  270        180     CrCoTS3ED       1     BLTCDC       Aluminium  T2/MonitorSD  0    0  pZ      0      0      0     
 	T     RI    RO   thCrCoThic  90        180     CrCoTS3EDiv       1     BLTCDC       Aluminium  T2/MonitorSD  0    0  pZ      0      0      0     
-DEFINE: RI	ROICrCoColl1-thCrCoThic
+DEFINE: RI	ROICrCoColl1-thCrCoThin
 DEFINE: RO	ROICrCoColl1
 DEFINE: LI	LCC*2+GCC+SaEDCrCoColl1+SaEUCrCoColl1
 DEFINE: LO	LCC*2+GCC*2-SaEUCrCoColl2+SaEUCrCoColl1
@@ -225,9 +225,9 @@ DEFINE: pZD	pZI+LI/2-thCrCoThin/2
 	T     RI    RO   thCrCoThin  270        180     CrCoColl1ED       1     BLTCDC       Aluminium  T2/MonitorSD  0    0  pZD     0      0      0     
 	T     RI    RO   thCrCoThin  90        180     CrCoColl1EDiv       1     BLTCDC       Aluminium  T2/MonitorSD  0    0  pZD     0      0      0     
 DEFINE: RO	RIOCrCoColl1
-DEFINE: pZU	pZI-LI/2+thCrCoThic/2
-	T     RI    RO   thCrCoThic  270        180     CrCoColl1EU       1     BLTCDC       Aluminium  T2/MonitorSD  0    0  pZU     0      0      0     
-	T     RI    RO   thCrCoThic  90        180     CrCoColl1EUiv       1     BLTCDC       Aluminium  T2/MonitorSD  0    0  pZU     0      0      0     
+DEFINE: pZU	pZI-LI/2+thCrCoThin/2
+	T     RI    RO   thCrCoThin  270        180     CrCoColl1EU       1     BLTCDC       Aluminium  T2/MonitorSD  0    0  pZU     0      0      0     
+	T     RI    RO   thCrCoThin  90        180     CrCoColl1EUiv       1     BLTCDC       Aluminium  T2/MonitorSD  0    0  pZU     0      0      0     
 DEFINE: RI	ROICrCoColl2-thCrCoThin
 DEFINE: RO	ROICrCoColl2
 DEFINE: LI	LCC*3+GCC*3+SaEDCrCoColl2-SaEDCrCoColl1

@@ -28,7 +28,7 @@
 # Modify:
 #
 #/g4sim/mag/ReadCard MagField_A9_130927_old
-#/g4sim/mag/ReadCard MagField_A9_130927
+/g4sim/mag/ReadCard MagField_A9_130927
 /g4sim/det/update
 
 # Output:
