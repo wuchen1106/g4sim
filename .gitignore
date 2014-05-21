@@ -25,11 +25,6 @@ currentRun.rndm
 g4sim
 
 # often modified files
-fieldMaps/
-data/
-output/
-data/
-fieldMaps/
 runlog/
 logfile
 log
