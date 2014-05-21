@@ -26,7 +26,9 @@ Prerequirements:
 
 3.	Your work directory has been created.
 Work direcotories should be put under "/path/to/g4sim/WorkDirectory".
-There is a default one and you can just create your own following it.
+There is a template. You can just create your own following it.
+Remember to change "MYG4SIMSUBROOT" in "setenv.sh" to the directory name you created.
+The simplest way is ``$ cp -r Template Default``. By default it can work.
 
 4.	g4sim basic environment is set already. If not, go to your work directory and
 `source env.sh`
