@@ -1,6 +1,6 @@
 /control/getEnv MYG4SIMROOT
 
-/control/execute {MYG4SIMROOT}/macros/cdchit.mac
+/control/execute {MYG4SIMROOT}/macros/cdchit.4v.mac
 
 # Generator:
 /g4sim/gun/ReadCard gen_rand

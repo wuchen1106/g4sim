@@ -1,5 +1,0 @@
-#Setup MagField
-
-	TYPE: fieldMap
-#			Name             Scale 
-	fMap:   Bmap130927_old.dat   1
