@@ -3,4 +3,4 @@
 
 #ServiceName        ServiceType         FileName
 	World           Simple              world_default
-#	CDC             Cdc                 subgeo_cdc   
+	Sub1            Simple              subgeo_default

@@ -1,6 +1,6 @@
 #General setting  
-	Type:      simple
-	Particle:  e-     #(e+/e-/chargedgeantino/gamma/...)
+	Type:      simple #(simple/stable/ion)
+	Particle:  e- #(e+/e-/deuteron/chargedgeantino/gamma/...)
 
 #Default Direction
 #	           Theta    Phi
@@ -25,7 +25,7 @@
 
 	RandMode:       none #(none/root)
 	EnergyMode:     none #(root/histo/none)
-	PositionMode:   none #(uniform/root/none)
+	PositionMode:   none #(uniform/root/none/gRand/uRand)
 	DirectionMode:  none #(none/uniform/histo)
 	ThetaMode:      none #(none/gRand/uRand)
 	PhiMode:        none #(none/gRand/uRand)
@@ -40,13 +40,13 @@
 #	UIV:            Simple World    Target
 
 #Histogram file name
-#	EMHFN:          RMC_Al.root
+#	EMHFN:          Dummy.root
 #	EMHHN:          hRMC
 
 #Histogram file name
-#	DMHFN:          ph2e.root
+#	DMHFN:          Dummy.root
 #	DMHHN:          theta
 
 #ROOT file name
-#	RFN:            MT1.EP.em.g40cm10mm.005T.g4s.QBH.root
+#	RFN:            Dummy.root
 #	RTN:            t
