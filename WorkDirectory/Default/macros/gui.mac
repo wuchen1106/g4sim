@@ -15,18 +15,6 @@
 /gui/addButton run setvis "/control/execute macros/setvis.mac"
 /gui/addButton run grid_ol "/control/execute macros/grid_ol.mac"
 /gui/addButton run line_ol "/control/execute macros/line_ol.mac"
-/gui/addButton run coll "/control/execute macros/coll.mac"
-/gui/addButton run coll.4v "/control/execute macros/coll.4v.mac"
-/gui/addButton run cdchit "/control/execute macros/cdchit.mac"
-/gui/addButton run cdchit.4v "/control/execute macros/cdchit.4v.mac"
-/gui/addButton run cdctrack.4v "/control/execute macros/cdctrack.4v.mac"
-/gui/addButton run TriCt.4v "/control/execute macros/TriCt.4v.mac"
-/gui/addButton run b9 "/control/execute macros/b9.mac"
-/gui/addButton run b9.4v "/control/execute macros/b9.4v.mac"
-/gui/addButton run reflect "/control/execute macros/reflect.mac"
-/gui/addButton run CP1 "/control/execute macros/COMETPhaseI.mac"
-/gui/addButton run alcap "/control/execute macros/alcap.mac"
-/gui/addButton run Check "/control/execute macros/Check.mac"
 #
 # Gun menu :
 /gui/addMenu gun Gun

@@ -1,11 +1,11 @@
-/control/getEnv MYG4SIMROOT
-#/control/execute {MYG4SIMROOT}/macros/reflect.mac
-#/control/execute {MYG4SIMROOT}/macros/b9.mac
-#/control/execute {MYG4SIMROOT}/macros/alcap.mac
-#/control/execute {MYG4SIMROOT}/macros/cdchit.mac
-#/control/execute {MYG4SIMROOT}/macros/COMETPhaseI.mac
-#/control/execute {MYG4SIMROOT}/macros/cdctrack.mac
-/control/execute {MYG4SIMROOT}/macros/coll.mac
+/control/getEnv MYG4SIMWORKROOT
+#/control/execute {MYG4SIMWORKROOT}/macros/reflect.mac
+#/control/execute {MYG4SIMWORKROOT}/macros/b9.mac
+#/control/execute {MYG4SIMWORKROOT}/macros/alcap.mac
+#/control/execute {MYG4SIMWORKROOT}/macros/cdchit.mac
+#/control/execute {MYG4SIMWORKROOT}/macros/COMETPhaseI.mac
+#/control/execute {MYG4SIMWORKROOT}/macros/cdctrack.mac
+/control/execute {MYG4SIMWORKROOT}/macros/coll.mac
 #
 #/tracking/verbose                   1
 #/g4sim/myAnalysisSvc/printModulo	1

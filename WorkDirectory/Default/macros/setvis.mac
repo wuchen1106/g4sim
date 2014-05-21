@@ -90,8 +90,8 @@
 #/stacking/add_white_list -211
 #/stacking/add_white_list 2212
 #/g4sim/myAnalysisSvc/set_maxT 170000 ns
-/control/getEnv MYG4SIMROOT
-#/control/execute {MYG4SIMROOT}/macros/verbose_default.mac
-#/control/execute {MYG4SIMROOT}/macros/setCut_default.mac
+/control/getEnv MYG4SIMWORKROOT
+#/control/execute {MYG4SIMWORKROOT}/macros/verbose_default.mac
+#/control/execute {MYG4SIMWORKROOT}/macros/setCut_default.mac
 #/run/setCut 0.001 mm
 #/vis/ogl/printEPS
