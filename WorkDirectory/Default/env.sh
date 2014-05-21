@@ -5,10 +5,10 @@ fi
 if [ -z $MYG4SIMSUBROOT ]; then
 	export MYG4SIMSUBROOT="Default"
 fi
-if [ -z $MYG4SIMDATAROOT]; then
+if [ -z $MYG4SIMDATAROOT ]; then
 	export MYG4SIMDATAROOT="$MYG4SIMROOT/WorkDirectory/$MYG4SIMSUBROOT/data/"
 fi
-if [ -z $MYG4SIMFIELDMAPSROOT]; then
+if [ -z $MYG4SIMFIELDMAPSROOT ]; then
 	export MYG4SIMFIELDMAPSROOT="$MYG4SIMROOT/WorkDirectory/$MYG4SIMSUBROOT/data/"
 fi
 source ../../env.sh
