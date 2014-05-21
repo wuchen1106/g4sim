@@ -23,9 +23,3 @@ G4History.macro
 currentEvent.rndm
 currentRun.rndm
 g4sim
-
-# often modified files
-runlog/
-logfile
-log
-err
