@@ -9,12 +9,19 @@
 /gui/addButton g4file Exit "exit"
 #
 # Run menu :
+/control/getEnv MYG4SIMWORKROOT
 /gui/addMenu run Run
 /gui/addButton run "beamOn 1" "/run/beamOn 1"
-/gui/addButton run run "/control/execute macros/run.mac"
-/gui/addButton run setvis "/control/execute macros/setvis.mac"
-/gui/addButton run grid_ol "/control/execute macros/grid_ol.mac"
-/gui/addButton run line_ol "/control/execute macros/line_ol.mac"
+/gui/addButton run run "/control/execute {MYG4SIMWORKROOT}/macros/run.mac"
+/gui/addButton run setvis "/control/execute {MYG4SIMWORKROOT}/macros/common/setvis.mac"
+/gui/addButton run reset "/control/execute {MYG4SIMWORKROOT}/macros/common/reset.mac"
+/gui/addButton run reloadGeometry "/control/execute {MYG4SIMWORKROOT}/macros/reloadGeometry.mac"
+/gui/addButton run resetCut "/control/execute {MYG4SIMWORKROOT}/macros/resetCut.mac"
+/gui/addButton run resetGun "/control/execute {MYG4SIMWORKROOT}/macros/resetGun.mac"
+/gui/addButton run resetVerbose "/control/execute {MYG4SIMWORKROOT}/macros/resetVerbose.mac"
+/gui/addButton run resetOutput "/control/execute {MYG4SIMWORKROOT}/macros/resetOutput.mac"
+/gui/addButton run grid_ol "/control/execute {MYG4SIMWORKROOT}/macros/common/grid_ol.mac"
+/gui/addButton run line_ol "/control/execute {MYG4SIMWORKROOT}/macros/common/line_ol.mac"
 #
 # Gun menu :
 /gui/addMenu gun Gun

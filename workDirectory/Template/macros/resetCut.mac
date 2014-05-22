@@ -4,4 +4,7 @@
 /stacking/clear_white_list
 /stacking/clear_black_list
 /g4sim/myAnalysisSvc/set_maxT 170000 ns
-/run/setCut 0.001 mm
+/run/setCut 0.01 mm
+#/stacking/set_no_sec 1
+#/stacking/set_no_MC 1
+#/stacking/set_no_PC 1

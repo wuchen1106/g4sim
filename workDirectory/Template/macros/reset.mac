@@ -1,0 +1,8 @@
+/control/getEnv MYG4SIMWORKROOT
+
+# Get default settings
+/control/execute {MYG4SIMWORKROOT}/macros/reloadGeometry.mac
+/control/execute {MYG4SIMWORKROOT}/macros/resetVerbose.mac
+/control/execute {MYG4SIMWORKROOT}/macros/resetCut.mac
+/control/execute {MYG4SIMWORKROOT}/macros/resetOutput.mac
+/control/execute {MYG4SIMWORKROOT}/macros/resetGun.mac

@@ -1,0 +1,7 @@
+#/control/getEnv MYG4SIMWORKROOT
+
+# Geometry:
+/g4sim/det/ClearGeo
+/g4sim/det/AddGeo World     world_default         Simple
+/g4sim/det/AddGeo default   subgeo_default        Simple
+/g4sim/det/update

@@ -1,0 +1,5 @@
+#/control/getEnv MYG4SIMWORKROOT
+
+# Generator:
+/g4sim/gun/ReadCard gen_default
+/g4sim/gun/initialize

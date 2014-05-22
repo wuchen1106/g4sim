@@ -187,11 +187,12 @@ int main(int argc,char** argv)
 	{  // interactive mode : define UI session
 #ifdef G4UI_USE
 		G4UIExecutive* ui = new G4UIExecutive(argc, argv);
+		G4String macros_dir = getenv("MACROSROOT");
 #ifdef G4VIS_USE
-		UImanager->ApplyCommand("/control/execute macros/vis.mac"); 
+		UImanager->ApplyCommand("/control/execute "+macros_dir+"/vis.mac"); 
 #endif
 		if (ui->IsGUI())
-			UImanager->ApplyCommand("/control/execute macros/gui.mac");
+			UImanager->ApplyCommand("/control/execute "+macros_dir+"/gui.mac");
 		ui->SessionStart();
 		delete ui;
 #endif
