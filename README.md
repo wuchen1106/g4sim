@@ -4,12 +4,59 @@ g4sim
 Simulation toolkit based on Geant4 and ROOT 
 
 ###1. Installation
-Prerequirements:  
-1.	CMake installed  
-2.	Geant4 installed  
-3.	ROOT installed  
+#####Prerequirements:  
+1.	CMake installed
 
-Install:
+	If CMake if not provided by your package manager, you can visit [CMake](http://www.cmake.org/) for source code then install CMake in this way:
+
+		cd CMake
+		./bootstrap
+		./configure --prefix=path/to/CMake
+		make
+		make install
+	
+2.	Geant4 installed  
+	[Geant4](http://geant4.cern.ch/)  
+	If you want a UI with QT & OpenGL, please configure while installation.
+	You can follow this way:
+
+		cmake -DCMAKE_INSTALL_PREFIX=path/to/Geant4\
+			  -DGEANT4_INSTALL_DATA=ON\
+			  -DGEANT4_USE_GDML=ON\
+			  -DGEANT4_USE_G3TOG4=ON\
+			  -DGEANT4_USE_QT=ON\
+			  -DGEANT4_USE_OPENGL_X11=ON\
+			  -DGEANT4_USE_RAYTRACER_X11=ON\
+			  -DGEANT4_INSTALL_EXAMPLES=ON\
+			  -DGEANT4_USE_SYSTEM_CLHEP=ON\
+	      		  path/to/Geant4-source
+		make
+		make install
+	      
+	CLHEP and XERCES are required by Geant4. If they are not installed in standard directories, please specify:
+
+			  -DCLHEP_ROOT_DIR=path/to/CLHEP -DXERCESC_ROOT_DIR=path/to/XERCES
+	      		  
+3.	ROOT installed  
+	[ROOT](http://root.cern.ch/drupal/)  
+	You can install ROOT in this way:
+
+		cd root
+		./configure --enable-opengl\
+		          --enable-soversion\
+		          --enable-mathcore\
+		          --enable-mathmore\
+		          --enable-gdml\
+		          --enable-python\
+		          --enable-roofit\
+		          --enable-minuit2
+		make
+		
+	If you met an error saying mathmore is not installed, a possible reason can be that GSL is not installed in a standard directory. You can configure with:
+
+		--with-gsl-incdir=path/to/GSL/include --with-gsl-libdir=path/to/GSL/lib
+
+#####Install:
 
 	$ cmake .
 	$ make
