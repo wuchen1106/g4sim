@@ -69,7 +69,7 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/../include/*.hh)
 # Generate dictionaries, add ROOT libraries properties
 #
 #REFLEX_GENERATE_DICTIONARY(ExP01Classes include/ExP01Classes.hh SELECTION xml/selection.xml)
-add_library(g4simlib SHARED ${sources} ../g4sim.cc)
+add_library(g4simlib SHARED ${sources})
 set(libsuffix .so)
 set(ROOT_LIBRARY_PROPERTIES ${ROOT_LIBRARY_PROPERTIES} SUFFIX ${libsuffix})
 set_target_properties(g4simlib PROPERTIES ${ROOT_LIBRARY_PROPERTIES})
@@ -78,7 +78,7 @@ target_link_libraries(g4simlib ${Geant4_LIBRARIES} ${ROOT_LIBRARIES} Cintex Refl
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #
-add_executable(g4sim ../g4sim.cc ${sources} ${headers})
+add_executable(g4sim ${sources} ${headers})
 target_link_libraries(g4sim g4simlib ${Geant4_LIBRARIES} ${ROOT_LIBRARIES})
 
 #----------------------------------------------------------------------------
