@@ -24,6 +24,8 @@ class LogSvc
 
     static LogSvc* GetLogSvc();
 
+    bool CreateFile();
+
     bool CheckFileExist();
 
     bool CheckFileAvailable();
