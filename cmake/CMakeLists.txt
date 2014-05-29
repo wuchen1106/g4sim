@@ -43,6 +43,12 @@ if(BUILD_STATIC_LIBS AND NOT BUILD_SHARED_LIBS )
 endif()
 
 #----------------------------------------------------------------------------
+# Set default directories
+#
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_LIST_DIR}/../bin)
+set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_LIST_DIR}/../lib)
+
+#----------------------------------------------------------------------------
 # Locate link files for this project
 #
 #set(LINK_DIRECTORIES
@@ -53,17 +59,17 @@ endif()
 #----------------------------------------------------------------------------
 # Locate sources and headers for this project
 #
-include_directories(${PROJECT_SOURCE_DIR}/include 
+include_directories(${PROJECT_SOURCE_DIR}/../include 
                     ${Geant4_INCLUDE_DIR}
                     ${ROOT_INCLUDE_DIR})
-file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
-file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
+file(GLOB sources ${PROJECT_SOURCE_DIR}/../src/*.cc)
+file(GLOB headers ${PROJECT_SOURCE_DIR}/../include/*.hh)
 
 #----------------------------------------------------------------------------
 # Generate dictionaries, add ROOT libraries properties
 #
 #REFLEX_GENERATE_DICTIONARY(ExP01Classes include/ExP01Classes.hh SELECTION xml/selection.xml)
-add_library(g4simlib SHARED ${sources} g4sim.cc)
+add_library(g4simlib SHARED ${sources} ../g4sim.cc)
 set(libsuffix .so)
 set(ROOT_LIBRARY_PROPERTIES ${ROOT_LIBRARY_PROPERTIES} SUFFIX ${libsuffix})
 set_target_properties(g4simlib PROPERTIES ${ROOT_LIBRARY_PROPERTIES})
@@ -72,7 +78,7 @@ target_link_libraries(g4simlib ${Geant4_LIBRARIES} ${ROOT_LIBRARIES} Cintex Refl
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #
-add_executable(g4sim g4sim.cc ${sources} ${headers})
+add_executable(g4sim ../g4sim.cc ${sources} ${headers})
 target_link_libraries(g4sim g4simlib ${Geant4_LIBRARIES} ${ROOT_LIBRARIES})
 
 #----------------------------------------------------------------------------
