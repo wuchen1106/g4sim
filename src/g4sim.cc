@@ -93,7 +93,7 @@ int main(int argc,char** argv)
 	G4String PhysicsListName = "QGSP_BERT";
 	G4String file_name = getenv("GENFILEROOT");
 	size_t sLast = file_name.last('/');
-	if(sLast==std::string::npos){ // file name only
+	if(file_name[0] != '/'){ // Relative Dir
 		G4String dir_name = getenv("CONFIGUREROOT");
 		if (dir_name[dir_name.size()-1] != '/') dir_name.append("/");
 		file_name = dir_name + file_name;
