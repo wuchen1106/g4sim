@@ -29,6 +29,10 @@ PrimaryGeneratorMessenger::PrimaryGeneratorMessenger(
   InitializeCmd->SetGuidance("if you changed geometrical value(s).");
   InitializeCmd->AvailableForStates(G4State_Idle);
        
+  ResetGenCmd = new G4UIcmdWithAString("/g4sim/gun/ResetGen",this);
+  ResetGenCmd->SetGuidance("Reset PrimaryGeneratorAction according to given file.");
+  ResetGenCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+       
   ReadCardCmd = new G4UIcmdWithAString("/g4sim/gun/ReadCard",this);
   ReadCardCmd->SetGuidance("Read PrimaryGeneratorAction file.");
   ReadCardCmd->SetGuidance("You have to call update before you start a new run.");
@@ -116,6 +120,7 @@ PrimaryGeneratorMessenger::PrimaryGeneratorMessenger(
 PrimaryGeneratorMessenger::~PrimaryGeneratorMessenger()
 {
   delete InitializeCmd;
+  delete ResetGenCmd;
   delete ReadCardCmd;
   delete EnergyMode_cmd;
   delete DirectionMode_cmd;
@@ -147,6 +152,7 @@ void PrimaryGeneratorMessenger::SetNewValue(
   if( command == DM_hist_histname_cmd )    { Action->set_DM_hist_histname(newValue);}
   if( command == histo_build_cmd)    { Action->BuildHistoFromFile();}
   if( command == root_build_cmd)    { Action->root_build();}
+  if( command == ResetGenCmd ) { Action->ResetGen(newValue); }
   if( command == ReadCardCmd ) { Action->ReadCard(newValue); }
   if( command == InitializeCmd ) { Action->Initialize(); }
 }

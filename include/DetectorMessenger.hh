@@ -14,6 +14,7 @@
 class DetectorConstruction;
 class G4UIdirectory;
 class G4UIcmdWithoutParameter;
+class G4UIcmdWithAString;
 
 class DetectorMessenger: public G4UImessenger
 {
@@ -28,6 +29,8 @@ class DetectorMessenger: public G4UImessenger
     
     G4UIdirectory*             g4simDir;
     G4UIdirectory*             detDir;
+    G4UIcmdWithAString*        ResetMagCmd;
+    G4UIcmdWithAString*        ReloadGeoCmd;
     G4UIcmdWithoutParameter*   UpdateCmd;
 };
 

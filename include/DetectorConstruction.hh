@@ -19,12 +19,16 @@ class MyFieldSvc;
 
 class DetectorConstruction : public G4VUserDetectorConstruction
 {
-  public:
+	public:
 
-    DetectorConstruction();
-    ~DetectorConstruction();
+		DetectorConstruction();
+		~DetectorConstruction();
 
-    G4VPhysicalVolume* Construct();     
+		G4VPhysicalVolume* Construct();     
+
+		void ResetMag(G4String);
+
+		void ReloadGeo(G4String);
 
 		void UpdateGeometry();
 
@@ -34,8 +38,9 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
 	private:
 
-    DetectorMessenger* detectorMessenger;  //pointer to the Messenger
+		DetectorMessenger* detectorMessenger;  //pointer to the Messenger
 
+		G4VPhysicalVolume* world_pvol;
 		MyFieldSvc* pMyFieldSvc;
 		MyDetectorManager* pMyDetectorManager;
 };

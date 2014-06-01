@@ -58,7 +58,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructDetector()
 	G4SolidStore::GetInstance()->Clean();
 
 	// Geometry
-	G4VPhysicalVolume* world_pvol = pMyDetectorManager->SetGeometry();
+	world_pvol = pMyDetectorManager->SetGeometry();
 
 	//MagField
 	G4LogicalVolume* world_lvol = world_pvol->GetLogicalVolume();
@@ -69,6 +69,17 @@ G4VPhysicalVolume* DetectorConstruction::ConstructDetector()
 }
 
 #include "G4RunManager.hh"
+
+void DetectorConstruction::ReloadGeo(G4String file_name){
+	pMyDetectorManager->ClearGeo();
+	pMyDetectorManager->ReadCard(file_name);
+	UpdateGeometry();
+}
+
+void DetectorConstruction::ResetMag(G4String file_name){
+	pMyFieldSvc->ReadCard(file_name);
+	pMyFieldSvc->SetField(world_pvol->GetLogicalVolume());
+}
 
 void DetectorConstruction::UpdateGeometry()
 {

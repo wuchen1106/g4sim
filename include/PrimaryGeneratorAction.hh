@@ -35,6 +35,8 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
 
 		void Initialize();
 
+		void ResetGen(G4String);
+
 		void ReadCard(G4String);
 
 		void* get_extra(G4String);

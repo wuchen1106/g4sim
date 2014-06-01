@@ -10,6 +10,7 @@
 #include "DetectorConstruction.hh"
 #include "G4UIdirectory.hh"
 #include "G4UIcmdWithoutParameter.hh"
+#include "G4UIcmdWithAString.hh"
 
 DetectorMessenger::DetectorMessenger(
                                            DetectorConstruction* Det)
@@ -20,6 +21,14 @@ DetectorMessenger::DetectorMessenger(
   
   detDir = new G4UIdirectory("/g4sim/det/");
   detDir->SetGuidance("detector control");
+
+  ResetMagCmd = new G4UIcmdWithAString("/g4sim/det/ResetMag",this);
+  ResetMagCmd->SetGuidance("Reset magnetic field according to given file.");
+  ResetMagCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+  ReloadGeoCmd = new G4UIcmdWithAString("/g4sim/det/ReloadGeo",this);
+  ReloadGeoCmd->SetGuidance("Reload geometry according to given file.");
+  ReloadGeoCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
        
   UpdateCmd = new G4UIcmdWithoutParameter("/g4sim/det/update",this);
   UpdateCmd->SetGuidance("Update calorimeter geometry.");
@@ -32,10 +41,14 @@ DetectorMessenger::~DetectorMessenger()
 {
   delete g4simDir;
   delete detDir;
+  delete ResetMagCmd;
+  delete ReloadGeoCmd;
   delete UpdateCmd;
 }
 
 void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
 { 
   if( command == UpdateCmd ) { Detector->UpdateGeometry(); }
+  if( command == ResetMagCmd ) { Detector->ResetMag(newValue); }
+  if( command == ReloadGeoCmd ) { Detector->ReloadGeo(newValue); }
 }

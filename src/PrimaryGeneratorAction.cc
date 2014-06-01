@@ -546,6 +546,11 @@ void PrimaryGeneratorAction::root_set_extra(){
 	flag_ptid=m_TChain->SetBranchAddress("ptid",&root_int[2]);
 }
 
+void PrimaryGeneratorAction::ResetGen(G4String file_name){
+	ReadCard(file_name);
+	Initialize();
+}
+
 void PrimaryGeneratorAction::ReadCard(G4String file_name){
 	std::cout<<" -- PrimaryGeneratorAction: Reading from \""<<file_name<<"\""<<std::endl;
 	Reset();
