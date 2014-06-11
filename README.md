@@ -78,15 +78,7 @@ Simulation toolkit based on Geant4 and ROOT
 
 3.	Your work directory has been created.
 
-	Work direcotory can be put any where but remember to set environment variable "MYG4SIMWORKROOT" to it.
-	You can call `g4sim` either in interactive mode or batch mode.  
-	A figure to show how it works:  
-	![Flow Diagram](docs/FlowDiagram.png "Flow Diagram")  
-		
-	Remember to change "Default" in "setenv.sh" to the directory name you created.
-	The simplest way is  
-`$ cp -r Template Default`  
-	By default it can work.
+	Now we have `alcap` and `Example` sitting there
 
 4.	g4sim basic environment is set already.
 
@@ -95,11 +87,12 @@ Simulation toolkit based on Geant4 and ROOT
 
 #####To start:  
 
+	$ cd alcap # or whatever working directory
+	$ source setenv.sh
 	$ g4sim [macros/run.mac]           # Choose any Geant4 macro file you want.
 	                                   # without macro file it would enter interactive mode.
 	                                   
 #####To explain:  
 
-1.	Interactive mode would apply **macros/vis.mac**, which would call `vis/open OGL`.
-		If you don't have `-DGEANT4_USE_RAYTRACER_X11=ON` when you configured Geant4
-		then you may want to change these command.
+	A figure to show how it works:  
+	![Flow Diagram](docs/FlowDiagram.png "Flow Diagram")  
