@@ -8,7 +8,7 @@
 #ifndef CdcLayerSD_h
 #define CdcLayerSD_h 1
 
-#include "globals.hh"
+#include "myglobals.hh"
 
 #include <iostream>
 #include <vector>

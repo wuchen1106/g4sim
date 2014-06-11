@@ -19,7 +19,7 @@ http://www.gnu.org/copyleft/gpl.html
 #ifndef MYBLFIELDMAP_HH
 #define MYBLFIELDMAP_HH
 
-#include "globals.hh"
+#include "myglobals.hh"
 
 /**	class MyBLFieldMap implements a general field map, both B and E.
  *

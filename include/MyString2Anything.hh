@@ -1,7 +1,7 @@
 #ifndef MyString2Anything_hh
 #define MyString2Anything_hh 1
 
-#include "globals.hh"
+#include "myglobals.hh"
 #include "G4UnitsTable.hh"
 
 #include <string>

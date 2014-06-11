@@ -12,7 +12,7 @@
 #ifndef MyVGeometryParameter_H
 #define MyVGeometryParameter_H 
 
-#include "globals.hh"
+#include "myglobals.hh"
 
 #include <string>
 #include <iostream>

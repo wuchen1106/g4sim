@@ -8,7 +8,7 @@
 #ifndef MySD_hh
 #define MySD_hh 1
 
-#include "globals.hh"
+#include "myglobals.hh"
 #include "G4VSensitiveDetector.hh"
 
 class MyVGeometryParameter;

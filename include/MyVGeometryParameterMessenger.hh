@@ -8,7 +8,7 @@
 #ifndef MyVGeometryParameterMessenger_h
 #define MyVGeometryParameterMessenger_h 1
 
-#include "globals.hh"
+#include "myglobals.hh"
 #include "G4UImessenger.hh"
 
 class MyVGeometryParameter;

@@ -12,7 +12,7 @@ static const char* MyStackingActionMessenger_cc =
 #include "G4UIcmdWithADoubleAndUnit.hh"
 #include "G4UIcmdWithAnInteger.hh"
 #include "G4UIcmdWithoutParameter.hh"
-#include "globals.hh"
+#include "myglobals.hh"
 
 MyStackingActionMessenger::MyStackingActionMessenger(MyStackingAction* aStack)
 : fStackingAction(aStack) {

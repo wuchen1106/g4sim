@@ -9,7 +9,7 @@
 
 #include "G4Material.hh"
 #include "G4UnitsTable.hh"
-#include "globals.hh"
+#include "myglobals.hh"
 
 #include <sstream>
 #include <fstream>

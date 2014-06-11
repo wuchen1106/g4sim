@@ -8,7 +8,7 @@
 #ifndef MyDetectorManagerMessenger_h
 #define MyDetectorManagerMessenger_h 1
 
-#include "globals.hh"
+#include "myglobals.hh"
 #include "G4UImessenger.hh"
 
 class MyDetectorManager;

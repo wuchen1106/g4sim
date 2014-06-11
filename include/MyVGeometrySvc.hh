@@ -15,7 +15,7 @@
 #ifndef MyVGeometrySvc_h
 #define MyVGeometrySvc_h 1
 
-#include "globals.hh"
+#include "myglobals.hh"
 
 #include "MyConfigure.hh"
 

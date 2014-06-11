@@ -9,7 +9,7 @@
 #define PrimaryGeneratorMessenger_h 1
 
 #include "G4UImessenger.hh"
-#include "globals.hh"
+#include "myglobals.hh"
 
 class PrimaryGeneratorAction;
 class G4UIdirectory;

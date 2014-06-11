@@ -17,7 +17,7 @@
 #ifndef SimpleGeometrySvc_h
 #define SimpleGeometrySvc_h 1
 
-#include "globals.hh"
+#include "myglobals.hh"
 
 #include "MyVGeometrySvc.hh"
 

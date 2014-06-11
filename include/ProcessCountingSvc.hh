@@ -8,7 +8,7 @@
 #ifndef ProcessCountingSvc_h
 #define ProcessCountingSvc_h 1
 
-#include "globals.hh"
+#include "myglobals.hh"
 
 #include <string>
 #include <vector>

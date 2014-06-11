@@ -51,9 +51,7 @@
 #include <string>
 #include <iomanip>
 
-#include "globals.hh"
-
-#include <CLHEP/Units/PhysicalConstants.h>
+#include "myglobals.hh"
 
 #include "SimpleGeometryParameter.hh"
 #include "CdcGeometryParameterMessenger.hh"

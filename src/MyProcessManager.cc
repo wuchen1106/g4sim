@@ -1,6 +1,6 @@
 #include "MyProcessManager.hh"
 
-#include "globals.hh"
+#include "myglobals.hh"
 
 #include <iostream>
 #include <sstream>

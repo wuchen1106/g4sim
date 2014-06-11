@@ -12,9 +12,7 @@
 #include <string>
 #include <iomanip>
 
-#include "globals.hh"
-
-#include <CLHEP/Units/PhysicalConstants.h>
+#include "myglobals.hh"
 
 #include "MyVGeometryParameterMessenger.hh"
 #include "MyString2Anything.hh"

@@ -13,7 +13,7 @@
 //---------------------------------------------------------------------------//
 #include "MyVGeometrySvc.hh"
 
-#include "globals.hh"
+#include "myglobals.hh"
 #include "G4LogicalVolume.hh"
 #include "G4LogicalVolumeStore.hh"
 

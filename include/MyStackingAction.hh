@@ -9,7 +9,7 @@ static const char* MyStackingAction_hh =
 
 #include <map>
 #include <vector>
-#include "globals.hh"
+#include "myglobals.hh"
 
 class MyStackingActionMessenger;
 

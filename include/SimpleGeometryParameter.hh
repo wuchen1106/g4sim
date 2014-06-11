@@ -13,7 +13,7 @@
 #ifndef SimpleGeometryParameter_H
 #define SimpleGeometryParameter_H 
 
-#include "globals.hh"
+#include "myglobals.hh"
 #include "G4ThreeVector.hh"
 
 #include "MyVGeometryParameter.hh"

@@ -5,7 +5,7 @@
 
 #include <vector>
 
-#include "globals.hh"
+#include "myglobals.hh"
 
 #include "TF1.h"
 

@@ -32,7 +32,7 @@
 
 #include "RunAction.hh"
 
-#include "globals.hh"
+#include "myglobals.hh"
 #include "G4Run.hh"
 #include "G4RunManager.hh"
 #include "G4UnitsTable.hh"

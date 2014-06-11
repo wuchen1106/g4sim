@@ -5,7 +5,7 @@
 //Comment:
 //---------------------------------------------------------------------------//
 
-#include "globals.hh"
+#include "myglobals.hh"
 #include "G4SDManager.hh"
 #include "G4DigiManager.hh"
 

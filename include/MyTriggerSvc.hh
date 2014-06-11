@@ -8,7 +8,7 @@
 #ifndef MyTriggerSvc_h
 #define MyTriggerSvc_h 1
 
-#include "globals.hh"
+#include "myglobals.hh"
 
 class G4Event;
 class MyDetectorManager;

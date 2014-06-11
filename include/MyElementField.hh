@@ -33,7 +33,7 @@
 #ifndef MyElementField_h
 #define MyElementField_h 1
 
-#include "globals.hh"
+#include "myglobals.hh"
 
 #include "G4Navigator.hh"
 #include "G4TransportationManager.hh"

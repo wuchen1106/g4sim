@@ -8,7 +8,7 @@
 #include "MyAnalysisSvc.hh"
 #include "MyAnalysisSvcMessenger.hh"
 
-#include "globals.hh"
+#include "myglobals.hh"
 #include "G4Step.hh"
 #include "G4Event.hh"
 #include "G4Run.hh"
