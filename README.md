@@ -58,6 +58,7 @@ Simulation toolkit based on Geant4 and ROOT
 
 #####Install:
 
+	$ cd cmake
 	$ cmake .
 	$ make
 	
@@ -77,8 +78,10 @@ Simulation toolkit based on Geant4 and ROOT
 
 3.	Your work directory has been created.
 
-	Work direcotories should be put under "/path/to/g4sim/WorkDirectory".
-	There is a template. You can just create your own following it.
+	Work direcotory can be put any where but remember to set environment variable "MYG4SIMWORKROOT" to it.
+	Necessary files:
+		
+		
 	Remember to change "Default" in "setenv.sh" to the directory name you created.
 	The simplest way is  
 `$ cp -r Template Default`  
