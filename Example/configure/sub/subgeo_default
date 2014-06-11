@@ -1,0 +1,58 @@
+#general info
+	checkoverlap
+
+DEFINE:		R0          100
+DEFINE:		dR          20
+DEFINE:		L0          10
+DEFINE:		dL          2
+DEFINE:		r0          10
+DEFINE:		dr          2
+DEFINE:		Rx			R0+x*dR
+DEFINE:		Lx			L0+x*dL
+DEFINE:		rx			r0+x*dr
+DEFINE:		lx			l0+x*dl
+#Tubs info
+#	Type RMin RMax  Length Start Span Name              RepNo MotVolume Material  SDName    posX posY  posZ   Ephi   Ethe   Epsi  
+#	     mm   mm    mm     deg   deg                                                        mm   mm    mm     deg    deg    deg   
+#	                                                                                P R    Phi   Z     
+#	                                                                                S R    Phi   Theta 
+	T    0    Rx    Lx     0     360  RoundDisk         2
+	T    0    rx    lx     0     360  RoundHole         2
+DEFINE:		X0          100
+DEFINE:		dX          20
+DEFINE:		Z0          10
+DEFINE:		dZ          2
+DEFINE:		x0          10
+DEFINE:		dx          2
+DEFINE:		Xx			X0+x*dX
+DEFINE:		Yx			X0+x*dX
+DEFINE:		Zx			Z0+x*dZ
+DEFINE:		xx			x0+x*dx
+DEFINE:		yx			x0+x*dx
+DEFINE:		zx			Z0+x*dZ
+#Box info
+#	Type x      y     z       Name        RepNo MotVolume   Material     SDName       posX  posY  posZ   Ephi Ethe Epsi
+#	     mm     mm    mm                                                              mm    mm    mm     deg  deg  deg
+#	                                                                                P R     Phi   Z
+#	                                                                                S R     Phi   Theta 
+	B    Xx     Yx    Zx      SquareDisk  2 
+	B    xx     yx    zx      SquareHole  2
+DEFINE:		dist1		100
+DEFINE:		z1x			x*dist1
+DEFINE:		z20			300
+DEFINE:		dist2		100
+DEFINE:		z2x			z20+x*dist2
+#BooleanSolid info
+#	Type type  vol1         vol2              Ephi Ethe Epsi PosX  PosY PosZ   name         RepNo MotVolume  Material SDName    posX posY posZ Ephi Ethe Epsi  
+#	                                          deg  deg  deg  mm    mm   mm                                                      mm   mm   mm   deg  deg  deg   
+#	                                                       P R     Phi  Z                                               P R    Phi  Z    
+#	                                                       S R     Phi  Theta                                           S R    Phi  Theta
+	BL   minus RoundDisk    SquareHole        0    0    0    0     0    0      Disk1        2     World      Steel    none      0    0    z1x  0    0    0 
+	BL   minus SquareDisk   RoundHole         0    0    0    0     0    0      Disk2        2     World      Steel    none      0    0    z2x  0    0    0 
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name                        red    green  blue  transparency
+	vis_Disk1                   0.1    0.75   1
+	vis_Disk2                   0.1    0.55   1
