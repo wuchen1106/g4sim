@@ -1,0 +1,33 @@
+	PhysicsList: QGSP_BERT
+
+#General setting  
+	Type:      simple
+	Particle:  e- #(e+/e-/chargedgeantino/gamma/...)
+
+#Default Direction
+#	           Theta    Phi
+#	           deg      deg
+	Direction: 0        0
+#Default Momentum Amplitude
+#	         MeV
+	MomAmp:  104.97
+#Default Position     x   y   z
+#	                  mm  mm  mm
+	Position:         0   0   0
+
+	RandMode:       none #(none/root)
+	EnergyMode:     none #(root/histo/none)
+	PositionMode:   none #(uniform/root/none)
+	DirectionMode:  uniform #(none/uniform/histo)
+	ThetaMode:      none #(none/gRand/uRand)
+	PhiMode:        none #(none/gRand/uRand)
+	TimeMode:       none #(none/root)
+	pidMode:        none #(none/root)
+#Default Time
+#	         ns
+	Time:    0
+
+#ROOT file name
+#	RFN:            mum.2p4.17.root
+#	RFN:            ST.mum.g60cm10mm.005T.BL.g4s.QBH.root
+#	RTN:            t

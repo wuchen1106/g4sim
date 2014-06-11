@@ -1,0 +1,57 @@
+#
+/geometry/test/position 0 0 0 mm
+/geometry/test/direction 1 0 0 mm
+/geometry/test/line_test true
+/geometry/test/direction 1 1 0 mm
+/geometry/test/line_test true
+/geometry/test/direction 0 1 0 mm
+/geometry/test/line_test true
+/geometry/test/direction -1 1 0 mm
+/geometry/test/line_test true
+/geometry/test/direction -1 0 0 mm
+/geometry/test/line_test true
+/geometry/test/direction -1 -1 0 mm
+/geometry/test/line_test true
+/geometry/test/direction 0 -1 0 mm
+/geometry/test/line_test true
+/geometry/test/direction 1 -1 0 mm
+/geometry/test/line_test true
+#
+/geometry/test/position 0 0 375 mm
+/geometry/test/direction 1 0 0 mm
+/geometry/test/line_test true
+/geometry/test/direction 1 1 0 mm
+/geometry/test/line_test true
+/geometry/test/direction 0 1 0 mm
+/geometry/test/line_test true
+/geometry/test/direction -1 1 0 mm
+/geometry/test/line_test true
+/geometry/test/direction -1 0 0 mm
+/geometry/test/line_test true
+/geometry/test/direction -1 -1 0 mm
+/geometry/test/line_test true
+/geometry/test/direction 0 -1 0 mm
+/geometry/test/line_test true
+/geometry/test/direction 1 -1 0 mm
+/geometry/test/line_test true
+#
+/geometry/test/position 0 0 750 mm
+/geometry/test/direction 1 0 0 mm
+/geometry/test/line_test true
+/geometry/test/direction 1 1 0 mm
+/geometry/test/line_test true
+/geometry/test/direction 0 1 0 mm
+/geometry/test/line_test true
+/geometry/test/direction -1 1 0 mm
+/geometry/test/line_test true
+/geometry/test/direction -1 0 0 mm
+/geometry/test/line_test true
+/geometry/test/direction -1 -1 0 mm
+/geometry/test/line_test true
+/geometry/test/direction 0 -1 0 mm
+/geometry/test/line_test true
+/geometry/test/direction 1 -1 0 mm
+/geometry/test/line_test true
+#/geometry/test/position 0 0 -300.438 mm
+#/geometry/test/direction 9.32841349366569705e-01 -3.60287408761335415e-01 0 mm
+#/geometry/test/line_test true
