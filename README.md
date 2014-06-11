@@ -79,8 +79,9 @@ Simulation toolkit based on Geant4 and ROOT
 3.	Your work directory has been created.
 
 	Work direcotory can be put any where but remember to set environment variable "MYG4SIMWORKROOT" to it.
-	Necessary files:
-		
+	You can call `g4sim` either in interactive mode or batch mode.  
+	A figure to show how it works:  
+	![Flow Diagram](http://githup.com/wuchen1106/g4sim/raw/master/.g4sim.png)
 		
 	Remember to change "Default" in "setenv.sh" to the directory name you created.
 	The simplest way is  
