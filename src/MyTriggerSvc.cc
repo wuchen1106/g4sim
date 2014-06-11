@@ -8,7 +8,7 @@
 #include "MyTriggerSvc.hh"
 
 #include "G4UnitsTable.hh"
-#include "globals.hh"
+#include "myglobals.hh"
 #include "G4Event.hh"
 
 #include "MyDetectorManager.hh"

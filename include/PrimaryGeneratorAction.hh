@@ -12,7 +12,7 @@
 #include <vector>
 
 #include "G4VUserPrimaryGeneratorAction.hh"
-#include "globals.hh"
+#include "myglobals.hh"
 
 #include "MyConfigure.hh"
 

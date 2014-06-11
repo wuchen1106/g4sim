@@ -15,7 +15,7 @@
 //---------------------------------------------------------------------------//
 #include "CdcGeometrySvc.hh"
 
-#include "globals.hh"
+#include "myglobals.hh"
 #include "G4UnitsTable.hh"
 #include "G4LogicalVolume.hh"
 #include "G4VSensitiveDetector.hh"

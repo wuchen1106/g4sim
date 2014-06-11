@@ -7,7 +7,7 @@
 
 #include "MyVGeometryParameterMessenger.hh"
 
-#include "globals.hh"
+#include "myglobals.hh"
 #include "G4UIdirectory.hh"
 #include "G4UIcmdWithAnInteger.hh"
 #include "G4UIcmdWithABool.hh"

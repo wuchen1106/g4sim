@@ -8,7 +8,7 @@
 #include <iostream>
 #include <fstream>
 
-#include "globals.hh"
+#include "myglobals.hh"
 #include "G4Types.hh"
 #include "G4RotationMatrix.hh"
 #include "G4VisAttributes.hh"

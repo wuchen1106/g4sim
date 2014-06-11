@@ -12,7 +12,7 @@
 #include <fstream>
 #include <sstream>
 
-#include "globals.hh"
+#include "myglobals.hh"
 #include "G4Event.hh"
 #include "Randomize.hh"
 

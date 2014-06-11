@@ -9,7 +9,7 @@ static const char* MyStackingActionMessenger_hh =
 
 class MyStackingAction;
 
-#include "globals.hh"
+#include "myglobals.hh"
 #include "G4UImessenger.hh"
 
 class G4UIdirectory;

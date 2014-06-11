@@ -8,7 +8,7 @@
 #ifndef McTruthSvc_h
 #define McTruthSvc_h 1
 
-#include "globals.hh"
+#include "myglobals.hh"
 
 #include <string>
 #include <vector>

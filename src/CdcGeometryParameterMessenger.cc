@@ -7,7 +7,7 @@
 
 #include "CdcGeometryParameterMessenger.hh"
 
-#include "globals.hh"
+#include "myglobals.hh"
 #include "G4UIdirectory.hh"
 #include "G4UIcmdWithAString.hh"
 #include "G4UIcmdWithAnInteger.hh"

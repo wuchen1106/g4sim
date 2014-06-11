@@ -8,7 +8,7 @@
 //Comment:
 //---------------------------------------------------------------------------//
 
-#include "globals.hh"
+#include "myglobals.hh"
 #include "G4DigiManager.hh"
 #include "G4HCofThisEvent.hh"
 #include "G4Step.hh"

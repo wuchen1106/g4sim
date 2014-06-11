@@ -8,7 +8,7 @@
 #ifndef MyFieldSvcMessenger_h
 #define MyFieldSvcMessenger_h 1
 
-#include "globals.hh"
+#include "myglobals.hh"
 #include "G4UImessenger.hh"
 
 class MyFieldSvc;

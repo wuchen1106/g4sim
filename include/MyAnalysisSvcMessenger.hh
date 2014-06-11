@@ -8,7 +8,7 @@
 #ifndef MyAnalysisSvcMessenger_h
 #define MyAnalysisSvcMessenger_h 1
 
-#include "globals.hh"
+#include "myglobals.hh"
 #include "G4UImessenger.hh"
 
 class MyAnalysisSvc;

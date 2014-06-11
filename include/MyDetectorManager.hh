@@ -8,7 +8,7 @@
 #ifndef MyDetectorManager_h
 #define MyDetectorManager_h 1
 
-#include "globals.hh"
+#include "myglobals.hh"
 
 #include <vector>
 

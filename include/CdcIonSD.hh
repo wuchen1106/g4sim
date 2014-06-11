@@ -9,7 +9,7 @@
 #ifndef CdcIonSD_h
 #define CdcIonSD_h 1
 
-#include "globals.hh"
+#include "myglobals.hh"
 
 #include <iostream>
 #include <vector>

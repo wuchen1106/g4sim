@@ -6,7 +6,7 @@
 //---------------------------------------------------------------------------//
 
 #include "LogSvc.hh"
-#include "globals.hh"
+#include "myglobals.hh"
 
 #include <stdlib.h>
 #include <time.h>

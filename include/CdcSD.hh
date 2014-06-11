@@ -9,7 +9,7 @@
 #ifndef CdcSD_h
 #define CdcSD_h 1
 
-#include "globals.hh"
+#include "myglobals.hh"
 
 #include <iostream>
 #include <vector>

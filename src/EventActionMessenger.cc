@@ -37,7 +37,7 @@
 #include "EventAction.hh"
 #include "G4UIdirectory.hh"
 #include "G4UIcmdWithAnInteger.hh"
-#include "globals.hh"
+#include "myglobals.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

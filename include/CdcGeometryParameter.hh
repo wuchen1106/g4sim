@@ -51,7 +51,7 @@
 #ifndef CdcGeometryParameter_H
 #define CdcGeometryParameter_H 
 
-#include "globals.hh"
+#include "myglobals.hh"
 
 #include "SimpleGeometryParameter.hh"
 

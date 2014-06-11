@@ -36,7 +36,7 @@
 #define EventAction_h 1
 
 #include "G4UserEventAction.hh"
-#include "globals.hh"
+#include "myglobals.hh"
 
 #include <vector>
 

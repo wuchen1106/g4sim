@@ -8,7 +8,7 @@
 #include "MyFieldSvc.hh"
 
 #include "G4UnitsTable.hh"
-#include "globals.hh"
+#include "myglobals.hh"
 
 #include "G4UniformElectricField.hh"
 #include "G4UniformMagField.hh"

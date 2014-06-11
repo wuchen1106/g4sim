@@ -17,7 +17,7 @@
 #ifndef CdcGeometrySvc_h
 #define CdcGeometrySvc_h 1
 
-#include "globals.hh"
+#include "myglobals.hh"
 
 #include "SimpleGeometrySvc.hh"
 

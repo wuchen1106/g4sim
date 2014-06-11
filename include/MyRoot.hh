@@ -11,7 +11,7 @@
 #include <string>
 
 #include "G4UnitsTable.hh"
-#include "globals.hh"
+#include "myglobals.hh"
 #include "TFile.h"
 #include "TTree.h"
 

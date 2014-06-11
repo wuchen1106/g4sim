@@ -8,7 +8,7 @@
 #ifndef MonitorSD_h
 #define MonitorSD_h 1
 
-#include "globals.hh"
+#include "myglobals.hh"
 
 #include <iostream>
 #include <vector>

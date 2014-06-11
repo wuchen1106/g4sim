@@ -36,7 +36,7 @@
 #define RunAction_h 1
 
 #include "G4UserRunAction.hh"
-#include "globals.hh"
+#include "myglobals.hh"
 
 #include <map>
 

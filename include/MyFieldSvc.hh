@@ -8,7 +8,7 @@
 #ifndef MyFieldSvc_h
 #define MyFieldSvc_h 1
 
-#include "globals.hh"
+#include "myglobals.hh"
 #include <vector>
 
 class MyFieldSvcMessenger;

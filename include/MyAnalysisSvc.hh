@@ -8,7 +8,7 @@
 #ifndef MyAnalysisSvc_h
 #define MyAnalysisSvc_h 1
 
-#include "globals.hh"
+#include "myglobals.hh"
 
 class G4Step;
 class G4Event;

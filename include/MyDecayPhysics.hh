@@ -42,7 +42,7 @@
 #ifndef MyDecayPhysics_h
 #define MyDecayPhysics_h 1
 
-#include "globals.hh"
+#include "myglobals.hh"
 #include "G4VPhysicsConstructor.hh"
 
 #include "G4Decay.hh"

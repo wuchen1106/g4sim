@@ -8,7 +8,7 @@
 #ifndef MaterialSvc_h
 #define MaterialSvc_h 1
 
-#include "globals.hh"
+#include "myglobals.hh"
 
 class MaterialSvc
 {

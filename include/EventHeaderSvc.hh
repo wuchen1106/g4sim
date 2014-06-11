@@ -8,7 +8,7 @@
 #ifndef EventHeaderSvc_h
 #define EventHeaderSvc_h 1
 
-#include "globals.hh"
+#include "myglobals.hh"
 
 class G4Event;
 class PrimaryGeneratorAction;

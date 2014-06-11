@@ -14,7 +14,7 @@
 //---------------------------------------------------------------------------//
 #include "SimpleGeometrySvc.hh"
 
-#include "globals.hh"
+#include "myglobals.hh"
 #include "G4LogicalVolume.hh"
 #include "G4VSensitiveDetector.hh"
 #include "G4Box.hh"

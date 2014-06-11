@@ -8,7 +8,7 @@
 #ifndef CdcGeometryParameterMessenger_h
 #define CdcGeometryParameterMessenger_h 1
 
-#include "globals.hh"
+#include "myglobals.hh"
 #include "G4UImessenger.hh"
 
 #include "SimpleGeometryParameterMessenger.hh"

@@ -42,7 +42,7 @@
 #ifndef MyPionPhysics_h
 #define MyPionPhysics_h 1
 
-#include "globals.hh"
+#include "myglobals.hh"
 #include "G4VPhysicsConstructor.hh"
 
 class G4PiMinusAbsorptionAtRest;
