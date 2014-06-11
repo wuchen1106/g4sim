@@ -1,0 +1,51 @@
+/vis/viewer/clearCutawayPlanes
+
+/vis/viewer/addCutawayPlane 0 6 0 cm 0 -1 0
+
+/vis/viewer/zoom 2.6
+
+/vis/viewer/set/viewpointThetaPhi 120 10  
+/vis/viewer/set/lightsThetaPhi 110 20
+
+#/vis/viewer/set/background 1 1 1
+#/vis/viewer/set/culling coveredDaughters
+/vis/viewer/set/edge 0
+/vis/viewer/set/lineSegmentsPerCircle 25
+/vis/viewer/set/projection o
+#/vis/viewer/set/projection p
+/vis/viewer/set/style s
+#/vis/viewer/set/style w
+
+#/vis/filtering/trajectories/create/chargeFilter
+#/vis/filtering/trajectories/chargeFilter-0/add 0
+#/vis/filtering/trajectories/chargeFilter-0/invert true
+
+/vis/filtering/trajectories/create/particleFilter
+/vis/filtering/trajectories/particleFilter-0/add neutron
+#/vis/filtering/trajectories/particleFilter-0/add gamma
+/vis/filtering/trajectories/particleFilter-0/add nu_e
+/vis/filtering/trajectories/particleFilter-0/add nu_mu
+/vis/filtering/trajectories/particleFilter-0/add nu_tau
+/vis/filtering/trajectories/particleFilter-0/add anti_nu_e
+/vis/filtering/trajectories/particleFilter-0/add anti_nu_mu
+/vis/filtering/trajectories/particleFilter-0/add anti_nu_tau
+/vis/filtering/trajectories/particleFilter-0/invert true
+
+#/vis/filtering/trajectories/create/attributeFilter
+#/vis/filtering/trajectories/attributeFilter-0/setAttribute fGlobalTime
+#/vis/filtering/trajectories/attributeFilter-0/addInterval 0~100
+
+/vis/modeling/trajectories/create/drawByParticleID
+/vis/modeling/trajectories/drawByParticleID-0/default/setAuxPtsSize 0.3
+/vis/modeling/trajectories/drawByParticleID-0/set e+            red
+/vis/modeling/trajectories/drawByParticleID-0/set e-            blue
+/vis/modeling/trajectories/drawByParticleID-0/set anti_proton   black
+/vis/modeling/trajectories/drawByParticleID-0/set proton        black
+/vis/modeling/trajectories/drawByParticleID-0/set pi-           cyan
+/vis/modeling/trajectories/drawByParticleID-0/set pi+           cyan
+/vis/modeling/trajectories/drawByParticleID-0/set mu-           magenta
+/vis/modeling/trajectories/drawByParticleID-0/set mu+           magenta
+/vis/modeling/trajectories/drawByParticleID-0/set neutron       green
+/vis/modeling/trajectories/drawByParticleID-0/set gamma         yellow
+/vis/scene/endOfEventAction accumulate -1
+/vis/ogl/set/displayListLimit 50000000

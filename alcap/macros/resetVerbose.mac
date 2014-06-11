@@ -1,0 +1,15 @@
+#/control/verbose                    0
+#/persistency/verbose                0
+#/geometry/navigator/verbose         0
+#/tracking/verbose                   0
+#/event/verbose                      0
+#/event/stack/verbose                0
+#/cuts/verbose                       0
+#/run/verbose                        0
+#/run/particle/verbose               0
+#/particle/verbose                   0
+#/particle/property/verbose          0
+#/particle/process/verbose           1   -1
+#/process/verbose                    0
+#/material/verbose                   0
+#/g4sim/myAnalysisSvc/printModulo    100

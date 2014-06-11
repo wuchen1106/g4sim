@@ -1,0 +1,29 @@
+/control/getEnv MYG4SIMWORKROOT
+/control/execute {MYG4SIMWORKROOT}/macros/1217.mac
+
+#	For verbose
+#/tracking/verbose                  1
+#/g4sim/myAnalysisSvc/printModulo	1
+
+#	For cutting
+#/run/setCut 0.7 mm
+#/stacking/setEleCut 1.5 keV
+#/stacking/setPosCut 1.5 keV
+#/stacking/setGamCut 1.5 keV
+#/stacking/clear_white_list
+#/stacking/clear_black_list
+#/stacking/set_no_MC 1
+#/stacking/set_no_PC 1
+#/stacking/set_no_sec 1
+
+#	For generator
+##/g4sim/gun/ReadCard gen_root
+#/g4sim/gun/ReadCard gen_rand
+#/g4sim/gun/root_filename .dummy
+#/g4sim/gun/initialize
+
+#	For this run
+#/random/setSeeds 1844211379 853976860
+#/g4sim/gun/root_index 2718575
+#/g4sim/myAnalysisSvc/set_ofile_name output/run001.root
+#/run/beamOn  10000
