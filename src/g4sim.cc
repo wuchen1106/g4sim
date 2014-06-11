@@ -166,16 +166,15 @@ int main(int argc,char** argv)
 
 	MyAnalysisSvc* myAnalysisSvc = new MyAnalysisSvc();
 
-#ifdef G4VIS_USE
-	// Initialize visualization
-	G4VisManager* visManager = new G4VisExecutive;
-	// G4VisExecutive can take a verbosity argument - see /vis/verbose guidance.
-	// G4VisManager* visManager = new G4VisExecutive("Quiet");
-	visManager->Initialize();
-#endif
-
 	// Get the pointer to the User Interface manager
 	G4UImanager* UImanager = G4UImanager::GetUIpointer();
+
+#ifdef G4VIS_USE
+		// Initialize visualization
+		// G4VisExecutive can take a verbosity argument - see /vis/verbose guidance.
+		// G4VisManager* visManager = new G4VisExecutive("Quiet");
+		G4VisManager* visManager = new G4VisExecutive;
+#endif
 
 	if (argc!=1)   // batch mode
 	{
@@ -189,6 +188,8 @@ int main(int argc,char** argv)
 		G4UIExecutive* ui = new G4UIExecutive(argc, argv);
 		G4String macros_dir = getenv("MACROSCOMMONROOT");
 #ifdef G4VIS_USE
+		// Initialize visualization
+		visManager->Initialize();
 		UImanager->ApplyCommand("/control/execute "+macros_dir+"/vis.mac"); 
 #endif
 		if (ui->IsGUI())
