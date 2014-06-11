@@ -81,11 +81,11 @@ Simulation toolkit based on Geant4 and ROOT
 	Work direcotory can be put any where but remember to set environment variable "MYG4SIMWORKROOT" to it.
 	You can call `g4sim` either in interactive mode or batch mode.  
 	A figure to show how it works:  
-	![Flow Diagram](https://github.com/wuchen1106/g4sim/blob/master/g4sim.jpg "Flow Diagram jpg")  
-	![Flow Diagram](https://github.com/wuchen1106/g4sim/blob/master/g4sim.gif "Flow Diagram gif")  
-	![Flow Diagram](https://github.com/wuchen1106/g4sim/blob/master/g4sim.png "Flow Diagram png")  
-	![An Octocat](https://octodex.github.com/original "An Octocat")  
-	![Another Octocat](http://en.wikipedia.org/wiki/GitHub#mediaviewer/File:Octocat,_a_Mascot_of_Github.jpg "Another Octocat")  
+	![FlowDiagram](https://github.com/wuchen1106/g4sim/blob/master/g4sim.jpg "FlowDiagramjpg")  
+	![FlowDiagram](https://github.com/wuchen1106/g4sim/blob/master/g4sim.gif "FlowDiagramgif")  
+	![FlowDiagram](https://github.com/wuchen1106/g4sim/blob/master/g4sim.png "FlowDiagrampng")  
+	![AnOctocat](https://octodex.github.com/original "AnOctocat")  
+	![AnotherOctocat](http://en.wikipedia.org/wiki/GitHub#mediaviewer/File:Octocat,_a_Mascot_of_Github.jpg "AnotherOctocat")  
 	![Google](https://www.google.co.jp/images/srpr/logo11w.png "Google")  
 		
 	Remember to change "Default" in "setenv.sh" to the directory name you created.
