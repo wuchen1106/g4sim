@@ -94,5 +94,5 @@ Simulation toolkit based on Geant4 and ROOT
 	                                   
 #####To explain:  
 
-	A figure to show how it works:  
-	![Flow Diagram](docs/FlowDiagram.png "Flow Diagram")  
+A figure to show how it works:  
+![Flow Diagram](docs/FlowDiagram.png "Flow Diagram")  
