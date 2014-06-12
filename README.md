@@ -58,9 +58,9 @@ Simulation toolkit based on Geant4 and ROOT
 
 #####Install:
 
-	$ cd cmake
-	$ cmake .
-	$ make
+	cd cmake
+	cmake .
+	make
 	
 ###2. How to use
 #####Prerequirements:  
@@ -68,31 +68,60 @@ Simulation toolkit based on Geant4 and ROOT
 1. 	Geant4 environment is set already.
 
 	If not, then  
-`source /path/to/geant4/bin/geant4.sh`  
-`source /path/to/geant4/share/Geant4-*/geant4make/geant4make.sh`
+
+		source /path/to/geant4/bin/geant4.sh
+		source /path/to/geant4/share/Geant4-*/geant4make/geant4make.sh
 	
 2.	ROOT environment is set already.
 
 	If not, then  
-`source /path/to/root/bin/thisroot.sh`
+
+		source /path/to/root/bin/thisroot.sh
 
 3.	Your work directory has been created.
 
-	Now we have `alcap` and `Example` sitting there
+	Now we have `alcap` and `Example` sitting there.  
+	`Example` is a simple simulation to show how `g4sim` works.
+	It also serves as a template for someone who want to build another simulation.
+	`alcap` is the default working directory for Alcap simulation.
 
 4.	g4sim basic environment is set already.
 
-	If not, go to your work directory and  
-`source env.sh`
+	If not, go to your work directory and set environment:  
 
-#####To start:  
+		cd alcap # or whatever working directory
+		source setenv.sh
 
-	$ cd alcap # or whatever working directory
-	$ source setenv.sh
-	$ g4sim [macros/run.mac]           # Choose any Geant4 macro file you want.
-	                                   # without macro file it would enter interactive mode.
-	                                   
-#####To explain:  
+#####To Start:  
 
+	g4sim [macros/run.mac]             # Choose any Geant4 macro file you want.
+	                                   # without macro file it would enter interactive mode.  
 A figure to show how it works:  
 ![Flow Diagram](docs/FlowDiagram.png "Flow Diagram")  
+	                                   
+#####To Configure alcap:  
+By default (set in `setenv.sh`):
+
+	GENFILEROOT=gen/gen_mum_up
+	GEOCARDROOT=geometry_1217
+	OUTCARDROOT=output/output_default
+	
+With this default environment set already you can start simulation with `/run/beamOn XXX` immediately.  
+######GENFILEROOT:  
+We provide couple ways to configure:  
+
+1.	Use another configure file  
+
+Currently we have these optional choices:  
+
+	gen_mum_up      # Generate muon from upstream before MuPC
+	gen_gam_tgt     # Generate gamma from target position
+
+You can either set the environment variable `$GENFILEROOT` or use macro command `/g4sim/gun/ResetGen gen/gen_mum_up` in Geant4 session to reset generator setting based on this given configure file.  
+
+2.	Modify some parameters using macro commands
+
+Here are a couple of macro commands we can use:
+
+	
+
