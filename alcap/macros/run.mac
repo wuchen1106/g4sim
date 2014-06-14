@@ -1,5 +1,5 @@
 /control/getEnv MYG4SIMWORKROOT
-/control/execute {MYG4SIMWORKROOT}/macros/1217.mac
+/control/execute {MYG4SIMWORKROOT}/macros/GeCalli.mac
 
 #	For verbose
 #/tracking/verbose                  1
@@ -26,4 +26,4 @@
 #/random/setSeeds 1844211379 853976860
 #/g4sim/gun/root_index 2718575
 #/g4sim/myAnalysisSvc/set_ofile_name output/run001.root
-#/run/beamOn  10000
+/run/beamOn  1000
