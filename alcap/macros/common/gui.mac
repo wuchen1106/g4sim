@@ -28,6 +28,7 @@
 # ResetMisc menu :
 /gui/addMenu reset ResetMisc
 /gui/addButton reset 1217                "/control/execute {MYG4SIMWORKROOT}/macros/1217.mac"
+/gui/addButton reset GeCallibration      "/control/execute {MYG4SIMWORKROOT}/macros/GeCalli.mac"
 /gui/addButton reset resetVerbose        "/control/execute {MYG4SIMWORKROOT}/macros/resetVerbose.mac"
 /gui/addButton reset resetCut            "/control/execute {MYG4SIMWORKROOT}/macros/resetCut.mac"
 #
