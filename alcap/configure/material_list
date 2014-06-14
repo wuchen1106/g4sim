@@ -56,6 +56,7 @@ TYPE Molecule_Materials
 	Borax          1.73           1        4           Sodium  2      Boron    4  Oxygen 17 Hydrogen 20
 	Mylar          1.382          1        3           Carbon  10     Hydrogen 8  Oxygen 4
 	NaI            3.667          1        2           Sodium  1      Iodine   1
+	Polyethylene   0.95           1        2           Carbon  2      Hydrogen 4
 
 TYPE MixEle_Materials
 # Mix elements with mass fraction
