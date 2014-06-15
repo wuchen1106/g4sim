@@ -230,7 +230,7 @@ DEFINE: thTBS	7 # Thickness of Target Border Shielding
 	B    XTBS   XTBS  thTBS   bTgtBdShWh
 	B    XT     XT    thTBS+1 bTgtBdShHl
 	B    XTBS   XTBS  thTBS   TargetMount 1     ChamberIn   Vacuum        none        0     0     Z0    -45   90   0 
-	B    XT     XT    thT     Target      1     TargetMount Aluminium     T/MonitorSD 0     0     0      0    0    0
+	B    XT     XT    thT     Target      1     TargetMount Aluminium     M/MonitorSD 0     0     0      0    0    0
 #BooleanSolid info
 #	Type type  vol1       vol2        Ephi Ethe Epsi PosX PosY PosZ   name                  MotVolume   Material SDName  posX posY posZ RepNo Ephi Ethe Epsi  
 #	                                  deg  deg  deg  mm   mm   mm                                                        mm   mm   mm         deg  deg  deg   

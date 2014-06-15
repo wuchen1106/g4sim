@@ -16,7 +16,7 @@ MCTRUTH_SECTION
 	pid
 	tid
 	ptid
-	ttid
+	ppid
 	time              ns
 	px                GeV
 	py                GeV
@@ -44,7 +44,7 @@ MCTRUTHFILTER_SECTION
 #	BL            2112
 MCTRUTHFILTER_SECTION
 
-T_SECTION
+M_SECTION
 	nHits
 	Ox             cm
 	Oy             cm
@@ -85,9 +85,9 @@ T_SECTION
 	stop_time      ns
 #	killed
 #	kill_time      ns
-T_SECTION
+M_SECTION
 
-T_FILTERSECTION
+M_FILTERSECTION
 	Switch                        //if commented, then program wil not generate any hit
 #	neutralCut                    //if not commented, then neutral tracks will not be recorded
 #	stopped                       //need to be stopped inside
@@ -100,9 +100,9 @@ T_FILTERSECTION
 	minedep       -1     GeV      //minimum energy deposition cut
 #	WL            13           // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
 #	WL            -211         // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
-T_FILTERSECTION
+M_FILTERSECTION
 
-M_SECTION
+V_SECTION
 	x              cm
 	y              cm
 	z              cm
@@ -119,18 +119,20 @@ M_SECTION
 	tid
 	pid
 	particleName
-M_SECTION
+V_SECTION
 
-M_FILTERSECTION
+V_FILTERSECTION
 	Switch                        //if commented, then program wil not generate any hit
 	tres           20    ns       //time resolution
 	minedep        500   eV       //minimum energy deposition cut
-M_FILTERSECTION
+V_FILTERSECTION
 
 TRIGGERSECTION
 	minCdcHits        -1           // minimum required CDCLayer nHits. Would be set invalid if minCdcHits = -1
 	minCdcCellHits    -1           // minimum required CDCCell nHits. Would be set invalid if minCdcCellHits = -1
 	minTriggerHits    -1           // minimum required Trigger nHits. Would be set invalid if minTriggerHits = -1
+	minV_Hits         -1           // minimum required V_nHits. Would be set invalid if = -1
+	minM_Hits         -1            // minimum required M_nHits. Would be set invalid if = -1
 	minEleMom         -1  MeV      // minimum required Electron momentum. Would be set invalid if minEleMom = -1 MeV
 	minAntipNum       -1           // minimum required Anti-Proton number. Would be set invalid if minAntipNum = -1
 TRIGGERSECTION

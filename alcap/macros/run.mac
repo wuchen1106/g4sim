@@ -1,5 +1,6 @@
 /control/getEnv MYG4SIMWORKROOT
-/control/execute {MYG4SIMWORKROOT}/macros/GeCalli.mac
+/control/execute {MYG4SIMWORKROOT}/macros/GeCallibration.mac
+#/control/execute {MYG4SIMWORKROOT}/macros/CheckEu152.mac
 
 #	For verbose
 #/tracking/verbose                  1
