@@ -4,7 +4,7 @@
 
 /vis/viewer/zoom 2.6
 
-/vis/viewer/set/viewpointThetaPhi 120 10  
+/vis/viewer/set/viewpointThetaPhi 95 45
 /vis/viewer/set/lightsThetaPhi 110 20
 
 #/vis/viewer/set/background 1 1 1

@@ -214,8 +214,8 @@ DEFINE: pZPS		pZESi+thESi/2+gPS+thPS/2 # Z position of Plastic Charged Veto Scin
 #	B    bXPack bXPack thPack DetBlock1   1     ChamberIn VacuumPSI    none        P pRPack  45     Z0    -45  -90   0 
 	B    bXPack bXPack thPack DetBlock1   1     ChamberIn VacuumPSI    none          0       0      Z0     -45  90   0 
 #	B    bXPack bXPack thPS   VetoPS1     1     DetBlock1 Scintillator M/MonitorSD   0       0      pZPS   0    0    0 
-	B    bXPack bXPack thESi  ESi1        1     DetBlock1 Silicon      T/MonitorSD   0       0      pZESi  0    0    0 
-	B    bXPack bXPack thdESi dESi1       1     DetBlock1 Silicon      T/MonitorSD   0       0      pZdES  0    0    0 
+	B    bXPack bXPack thESi  ESi1        1     DetBlock1 Silicon      M/MonitorSD   0       0      pZESi  0    0    0 
+	B    bXPack bXPack thdESi dESi1       1     DetBlock1 Silicon      M/MonitorSD   0       0      pZdES  0    0    0 
 	B    bXPack bXPack thPack DetBlock2   1     ChamberIn VacuumPSI    none        P pRPack -135    Z0    -45   90   0 
 	B    bXPack bXPack thPS   VetoPS2     1     DetBlock2 Scintillator X/MonitorSD   0       0      pZPS   0    0    0 
 	B    bXPack bXPack thESi  ESi2        1     DetBlock2 Silicon      X/MonitorSD   0       0      pZESi  0    0    0 
@@ -240,7 +240,7 @@ DEFINE: thTBS	7 # Thickness of Target Border Shielding
 #	B    XTBS   XTBS  thTBS   bTgtBdShWh        
 #	B    XT     XT    thTBS+1 bTgtBdShHl        
 #	B    XTBS   XTBS  thTBS   TargetMount 1     ChamberIn   VacuumPSI     none        0     0     Z0    -45   90   0 
-#	B    XT     XT    thT     Target      1     TargetMount Aluminium     T/MonitorSD 0     0     0      0    0    0
+#	B    XT     XT    thT     Target      1     TargetMount Aluminium     M/MonitorSD 0     0     0      0    0    0
 #BooleanSolid info
 #	Type type  vol1       vol2        Ephi Ethe Epsi PosX PosY PosZ   name                  RepNo MotVolume   Material SDName  posX posY posZ  Ephi Ethe Epsi  
 #	                                  deg  deg  deg  mm   mm   mm                                                              mm   mm   mm    deg  deg  deg   

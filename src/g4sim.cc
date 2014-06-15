@@ -43,6 +43,7 @@
 #include "EventAction.hh"
 #include "SteppingAction.hh"
 #include "SteppingVerbose.hh"
+#include "G4RadioactiveDecayPhysics.hh"
 #include "QGSP_BERT.hh"
 #include "QGSP_BERT_HP.hh"
 //#include "myQGSP_BERT_HP.hh"
@@ -134,7 +135,9 @@ int main(int argc,char** argv)
 	buf_card.clear();
 	std::cout<<"PhysicsList: \""<<PhysicsListName<<"\""<<std::endl;
 	if (PhysicsListName=="QGSP_BERT_HP"){
-		runManager->SetUserInitialization(new QGSP_BERT_HP);
+		QGSP_BERT_HP* qgsp = new QGSP_BERT_HP;
+		qgsp->RegisterPhysics(new G4RadioactiveDecayPhysics());
+		runManager->SetUserInitialization(qgsp);
 	}
 //	else if (PhysicsListName=="myQGSP_BERT_HP"){
 //		runManager->SetUserInitialization(new myQGSP_BERT_HP);
@@ -143,7 +146,9 @@ int main(int argc,char** argv)
 		runManager->SetUserInitialization(new PhysicsList);
 	}
 	else{
-		runManager->SetUserInitialization(new QGSP_BERT);
+		QGSP_BERT* qgsp = new QGSP_BERT;
+		qgsp->RegisterPhysics(new G4RadioactiveDecayPhysics());
+		runManager->SetUserInitialization(qgsp);
 	}
 
 	// Set user action classes

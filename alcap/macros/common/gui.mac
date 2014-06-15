@@ -13,10 +13,6 @@
 # Vis menu :
 /gui/addMenu vis Vis
 /gui/addButton vis setvis            "/control/execute {MYG4SIMWORKROOT}/macros/common/setvis.mac"
-/gui/addButton vis DAWNFILE          "/control/execute macros/visTutor/Vis0.mac"
-/gui/addButton vis OpenInventor      "/control/execute macros/visTutor/Vis5.mac"
-/gui/addButton vis TimeSlicing       "/control/execute macros/visTutor/Vis12.mac"
-/gui/addButton vis EmShower          "/control/execute macros/visTutor/Vis13.mac"
 #
 # Run menu :
 /gui/addMenu run Run
@@ -28,6 +24,7 @@
 # ResetMisc menu :
 /gui/addMenu reset ResetMisc
 /gui/addButton reset 1217                "/control/execute {MYG4SIMWORKROOT}/macros/1217.mac"
+/gui/addButton reset GeCallibration      "/control/execute {MYG4SIMWORKROOT}/macros/GeCallibration.mac"
 /gui/addButton reset resetVerbose        "/control/execute {MYG4SIMWORKROOT}/macros/resetVerbose.mac"
 /gui/addButton reset resetCut            "/control/execute {MYG4SIMWORKROOT}/macros/resetCut.mac"
 #
@@ -44,6 +41,7 @@
 /gui/addButton reGeo 1211                "/g4sim/det/ReloadGeo              geometry_1211"
 /gui/addButton reGeo 1215                "/g4sim/det/ReloadGeo              geometry_1215"
 /gui/addButton reGeo 1217                "/g4sim/det/ReloadGeo              geometry_1217"
+/gui/addButton reGeo GeCallibration      "/g4sim/det/ReloadGeo              geometry_GeCallibration"
 #
 # ResetGen menu :
 /gui/addMenu reGen ResetGen

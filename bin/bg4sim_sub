@@ -1,0 +1,717 @@
+#!/bin/bash
+#*******************************************user interface*******************************************************************
+#default setup here:
+source setenv.sh
+
+#about simulation
+Project="g4sim"                                         #specify which project, saying program, are you using
+EXEC=$G4SIMEXEC                                         #the executive file of this project(program)
+configure_path=$CONFIGUREROOT                           #path for configure files
+macros_path=$MACROSROOT                                 #path for macros files
+configure_data_path=$CONFIGUREDATAROOT                  #path for configure relating data
+log_name=$LOGFILEROOT                                   #the file where log information is stored in
+material_list=$MATERIALLISTROOT                         #the file where material list is stored in
+num_rund=2                                              #how many random numbers are needed for simulation
+
+# some commands
+cmd_output="/g4sim/myAnalysisSvc/"
+
+#general settings
+run_file="run.sh"                                  #the script to start the simulation
+ErrorFile="bosserr"                          #the suffix of files in which we record simulating error message
+LogFile="bosslog"                              #the suffix of files in which we record simulating information
+
+# else
+usebossq='No'
+pbsqueue='besq'
+bosscmd='boss'
+bossver="$BOSSVERSION"
+seedstart=2000
+trialID='test'
+jobtype='unknown'
+if [ -z $MYDATA ]; then
+	read -p 'Please type in the directory where you want your simulation datas be put in: (Y/n):'
+	export MYDATA=$REPLY
+	echo "\"$MYDATA\" will be stored in MYDATA. This will be default option under this shell."
+fi
+simparentdir="$MYDATA"
+
+nobegin=0
+noend=2
+eventnum=-1
+
+submitjob='Yes'
+checkresult='No'
+force_mode="No"
+
+RootFileList='NONE'
+
+THISCMD=$(basename $0)
+
+echo $THISCMD $@ >> cmdlog
+
+usages() {
+cat << EOF
+$THISCMD:  Generate simulation/reconstruction jobs and submit to pbs
+Syntax:
+  $THISCMD [-h] [-v bossVersion] [-t jobType] [-x simparentdir]
+          [-b beginNo] [-e endNo] [-w noWidth] [-n eventNum] [-s seedStart] [-c] [-q queueName] [-Y] [-r] trialID [-f] 
+
+  -h  display this help and exit
+  -v  set BOSS version (if not specified, use environment variable \$BOSSVERSION)
+  -t  specify job type, sim/rec, no other parameter accepted
+  -x  set directory of simulation data file (if not specified, use environment variable \$MYSIMDATAFILEDIR)
+  -y  set directory of reconstruction data file (if not specified, use environment variable \$MYRECDATAFILEDIR)
+  -b  set begin No of job
+  -e  set end No of job
+  -w  set width of No.
+  -n  set event number of each job
+  -s  set random seed start from
+  -c  do not submit jobs to pbs, only generate files
+  -f  force mode
+  -q  the pbs queue to be submitted
+  -Y  use bossq (nohup)
+  -r  only test the result
+
+Report bugs to <wuchen@ihep.ac.cn>.
+EOF
+}
+
+while getopts ':hv:t:x:y:b:e:w:n:s:cfq:rYa:' optname
+do
+  case "$optname" in
+    'h')
+      usages
+      exit 0
+      ;;
+    'v')
+      bossver="$OPTARG"
+      ;;
+    't')
+      jobtype="$OPTARG"
+      ;;
+    'x')
+      simparentdir="$OPTARG"
+      ;;
+    'y')
+      recparentdir="$OPTARG"
+      ;;
+    'b')
+      nobegin="$OPTARG"
+      ;;
+    'e')
+      noend="$OPTARG"
+      ;;
+    'w')
+      nowidth="$OPTARG"
+      ;;
+    'n')
+      eventnum="$OPTARG"
+      ;;
+    's')
+      seedstart="$OPTARG"
+      ;;
+    'c')
+      submitjob='No'
+      ;;
+    'f')
+      force_mode='Yes'
+      ;;
+    'q')
+      pbsqueue="$OPTARG"
+      ;;
+    'Y')
+      usebossq='Yes'
+      ;;
+    'r')
+      checkresult='Yes'
+      ;;
+    'a')
+      RootFileList="$OPTARG"
+      ;;
+    '?')
+      echo "Unknown option $OPTARG"
+      echo "Try \"$THISCMD -h\" for more infomation"
+      exit -1
+      ;;
+    ':')
+      echo "Need argument value for option $OPTARG"
+      echo "Try \"$THISCMD -h\" for more infomation"
+      exit -1
+      ;;
+    *)
+      # Should not occur
+      echo 'Unknown error while processing options'
+      exit -1
+      ;;
+  esac
+done
+
+# check if right jobtype specified
+case "$jobtype" in
+  sim)
+    ;;
+  rec)
+    ;;
+  unknown)
+    echo 'Please specify a job type'
+    echo "Try \"$THISCMD -h\" for more infomation"
+    exit -1
+    ;;
+  *)
+    echo 'Invalid job type'
+    echo "Try \"$THISCMD -h\" for more infomation"
+    exit -1
+    ;;
+esac
+
+# get trialID parameter
+case "$(($#+1-$OPTIND))" in
+  0)
+		echo You have to intput a template file name and a trialID!!!
+    exit -1
+    ;;
+  1)
+		echo You have to intput a template file name and a trialID!!!
+    exit -1
+    ;;
+  2)
+    template_file="${@:$OPTIND:1}"
+    trialID="${@:$OPTIND+1:1}"
+    ;;
+  *)
+    echo 'Too many jobs. Only 1 job permitted'
+    exit -1
+    ;;
+esac
+
+# convert queue name to boss command name
+case "$pbsqueue" in
+  'besq')
+    bosscmd='boss'
+    ;;
+  'midq')
+    bosscmd='bossmid'
+    ;;
+  'shortq')
+    bosscmd='bossshort'
+    ;;
+  'longq')
+    bosscmd='bosslong'
+    ;;
+  *)
+    bosscmd='boss'
+    ;;
+esac
+
+# set proper No. width
+if [ -z $nowidth ]; then
+  nowidth=${#noend}
+fi
+
+simdir=$simparentdir/$trialID
+recdir=$recparentdir/$trialID
+
+# Print parameters
+echo '=============================================================================================================================================================='
+printf ' %-12s | %-8s | %-16s | %-8s | %-8s | %-12s | %-12s | %-10s | %-6s | %-12s | %-12s | %-12s\n' 'BOSS Version' 'Job Type' 'Job Name' 'Begin No' 'End No' 'Event Number' 'Seed Start' 'PBS Queue' 'Submit' 'Check Result' 'force mode' 'template'
+echo '-----------------------------------------------------------------------------------------------------------------------------------------------------'
+printf ' %-12s | %-8s | %-16s | %-8d | %-8d | %-12d | %-12d | %-10s | %-6s | %-12s | %-12s | %-12s\n' "$bossver" "$jobtype" "$trialID" "$nobegin" "$noend" "$eventnum" "$seedstart" "$pbsqueue" "$submitjob" "$checkresult" "$force_mode" "$template_file"
+echo '=============================================================================================================================================================='
+echo "Simulation data directory: $simdir"
+#echo "Reconstruction data directory: $recdir"
+echo ''
+
+if [ $checkresult == 'No' ]; then
+  read -p 'You are going to do the job above, is that right? (Y/n):'
+  if [ ! "$REPLY" = 'Y' ] && [ ! "$REPLY" = 'y' ] && [ ! "$REPLY" = '' ]; then
+    exit 0
+  fi
+fi
+
+case "$jobtype" in
+  sim)
+    ;;
+  rec)
+    ;;
+  *)
+    echo 'Should not run here'
+    exit -1
+    ;;
+esac
+
+run_filelist=""
+if [ $checkresult == 'Yes' ]; then
+	cd $simdir
+# FIXME: should consider rec in the futrue
+	declare -a failedList
+	nFailed=0
+	nFiles=0
+	for filename in `find . -name '*.boss'`
+	do
+		if [ -e $filename"log" ]; then
+			filetail=`tail -n 100 $filename"log"`
+			if `echo $filetail | grep -q 'TOTAL TIME COST IS'` ; then
+				echo $filename " Successful!"
+			else
+				echo $filename " Not Successful!"
+				macrofile=`gawk 'END{print $3}' $filename|sed "s/)//g"`
+				gawk 'BEGIN{i=0;srand()}{if($1=="/random/setSeeds"){a=rand()*1e6; a-=a%1; print $1" "$2i++" "a}else{print $0}}' $macrofile > temp
+				cat temp > $macrofile
+				failedList[((nFailed++))]=$filename
+			fi
+		else
+			echo $filename " Not exists!"
+			failedList[((nFailed++))]=$filename
+		fi
+		((nFiles++))
+	done
+	if [ $nFailed -gt 0 ]; then
+		echo $nFailed' jobs did not terminate successfully!'
+		read -p 'Do you want to submit them again? (Y/n):'
+		if [ "$REPLY" = 'Y' ] || [ "$REPLY" = 'y' ] || [ "$REPLY" = '' ]; then
+			read -p 'to which queue? (besq/midq/shortq/longq):'
+			case "$REPLY" in
+				'besq')
+					;;
+				'midq')
+					;;
+				'shortq')
+					;;
+				'longq')
+					;;
+				'')
+				  echo "Will use besq as default!"
+				  REPLY="midq"
+					;;
+				*)
+				  echo "Not allowed queue!"
+				  exit -1
+					;;
+			esac
+			for (( i=0; i<nFailed; i++ ))
+			do
+				run_filelist="$run_filelist ${failedList[i]}"
+				if [ "$usebossq" == "No" ]; then
+					qsub -j oe -o /dev/null -q "$REPLY" "${failedList[i]}"
+				else
+					nohup ${failedList[i]} &
+				fi
+			done
+#			nohup SRA_check $run_filelist > $simdir"/SRA_checklog" 2>&1 &
+		fi
+	else
+		echo "All $nFiles jobs has been terminated successfully!"
+	fi
+  exit 1
+fi
+
+#something else to be added below:
+#set run: command name
+#construct magField: command name
+
+#****************************************in case it failed to update run file************************************************
+#***********************************************delete it in the first place*************************************************
+#rm -f $run_file
+
+#****************************************variables declaration****************************************************************
+num_detector_configure=0
+declare -a detector_configure_file
+declare -a detector_configure_name
+num_magField_configure=0
+declare -a magField_configure_file
+declare -a magField_configure_name
+num_gen_configure=0
+declare -a gen_configure_file
+declare -a gen_configure_name
+num_output_configure=0
+declare -a output_configure_file
+declare -a output_configure_name
+num_run_configure=0
+declare -a run_configure_name
+declare -a run_configure_num_evt
+declare -a run_configure_num_job
+num_macro_configure=0
+declare -a macro_configure_file
+declare -a macro_configure_name
+
+#******************************************set directories**************************************************
+script_dir=$simdir"/macros"
+configure_path_dest=$simdir"/configure"
+configure_data_path_dest=$CONFIGUREDATAROOT
+
+#******************************************seacrh cmd and template files**************************************************
+#template file
+if [ -f $template_file ]; then
+  echo "Will modify  $template_file as a script!"
+else
+  echo Can not find $template_file !!!
+  exit 1
+fi
+
+#******************************************search files**************************************************
+#detector
+for (( i_detector=0; i_detector<num_detector_configure; i_detector++ ))
+do
+  if [ ! -f $configure_path"/"${detector_configure_file[i_detector]} ]; then
+    echo Can not find ${detector_configure_file[i_detector]} !!!
+    exit 1
+  fi
+done
+#magField
+for (( i_magField=0; i_magField<num_magField_configure; i_magField++ ))
+do
+	if [ ! -f $configure_path"/"${magField_configure_file[i_magField]} ]; then
+		echo Can not find ${magField_configure_file[i_magField]} !!!
+		exit 1
+	fi
+done
+#verbose
+for (( i_verbose=0; i_verbose<num_macro_configure; i_verbose++ ))
+do
+  if [ ! -f $configure_path"/"${macro_configure_file[i_verbose]} ]; then
+    echo Can not find ${macro_configure_file[i_verbose]} !!!
+    exit 1
+  fi
+done
+#output
+for (( i_output=0; i_output<num_output_configure; i_output++ ))
+do
+  if [ ! -f $configure_path"/"${output_configure_file[i_output]} ]; then
+    echo Can not find ${output_configure_file[i_output]} !!!
+    exit 1
+  fi
+done
+#gen
+for (( i_gen=0; i_gen<num_gen_configure; i_gen++ ))
+do
+  if [ ! -f $configure_path"/"${gen_configure_file[i_gen]} ]; then
+    echo Can not find ${gen_configure_file[i_gen]} !!!
+    exit 1
+  fi
+done
+
+#******************************************confirm**************************************************
+if [ ! $force_mode = "Yes" ]; then
+  echo Please confirm the configure files above
+  read -n 1 -p "Do you want to continue? [Y/n]" YorN
+  echo ""
+  if [[ $YorN =~ [n/N]$ ]]; then
+    echo "exit!"
+    exit 1
+    echo Please wait...
+  fi
+fi
+
+#***************************Read RootFileList***************************
+if [ ! $RootFileList = 'NONE' ]; then
+	num_line_template=`gawk '{i++};END{print i}' $RootFileList`
+	nJobs=`echo "($noend-$nobegin+1)"|bc`
+	declare -a RootFileRunNums
+	declare -a RootFileNumbers
+	nJobsMODnRF=`echo "$nJobs%$num_line_template"|bc`
+	if [ ! $nJobsMODnRF = 0 ]; then
+		echo "Job numebr $nJobs can not be devided by numebr of root files $num_line_template in \"$RootFileList\"!"
+		exit -1
+	fi
+	numRootFileList=0
+	for (( iline=1; iline<=num_line_template; iline++ ))
+	do 
+	#delete commented lines
+	  sed -n "$iline s/\(.*\)/\1/p" $RootFileList > temp
+	  if grep -E -q '^ *$|^#|^ *//' temp ; then
+		continue
+	  fi
+	  RootFileRunNums[numRootFileList]=`gawk '{print $1}' temp`
+	  RootFileNumbers[numRootFileList]=`gawk '{print $2}' temp`
+	  ((numRootFileList++))
+	done
+fi
+
+#***************************creat script file and set useful aliases at the beginning***************************
+script_file=$template_file".txt"
+echo "" > $script_file
+
+#******************************************read template file**************************************************
+num_line_template=`gawk '{i++};END{print i}' $template_file`
+for (( iline=1; iline<=num_line_template; iline++ ))
+do 
+#delete commented lines
+  sed -n "$iline s/\(.*\)/\1/p" $template_file > temp
+  if grep -E -q '^ *$|^#|^ *//' temp ; then
+    continue
+  fi
+  if grep -q 'GEOCARDROOT' temp; then
+    GEOCARDROOT=`sed "s/.*[ \t]*= *\t*\([\w\.\/]*\)/\1/g" temp`
+    continue
+  elif grep -q 'MAGFIELDCARDROOT' temp; then
+    MAGFIELDCARDROOT=`sed "s/.*[ \t]*= *\t*\([\w\.\/]*\)/\1/g" temp`
+    continue
+  elif grep -q 'GENFILEROOT' temp; then
+    GENFILEROOT=`sed "s/.*[ \t]*= *\t*\([\w\.\/]*\)/\1/g" temp`
+    continue
+  elif grep -q 'OUTCARDROOT' temp; then
+    OUTCARDROOT=`sed "s/.*[ \t]*= *\t*\([\w\.\/]*\)/\1/g" temp`
+    continue
+  fi
+#simply push this line into script_file. Don't worry, useless lines will be skipped by rules below
+  cat temp >> $script_file
+  if grep -q '^detector_configure' temp; then
+    detector_configure_name[num_detector_configure]=`gawk 'BEGIN{FS="detector_configure"};{print $2}' temp`
+    ((iline++))
+    detector_configure_file[num_detector_configure]=`sed -n "$iline s/\(.*\)/\1/p" $template_file`
+    echo "detector_configure"${detector_configure_name[num_detector_configure]}" will use:"
+    echo "       "${detector_configure_file[num_detector_configure]}
+    ((num_detector_configure++))
+  elif grep -q '^magField_configure' temp; then
+    magField_configure_name[num_magField_configure]=`gawk 'BEGIN{FS="magField_configure"};{print $2}' temp`
+    ((iline++))
+		magField_configure_file[num_magField_configure]=`sed -n "$iline s/\(.*\)/\1/p" $template_file`
+    echo "magField_configure"${magField_configure_name[num_magField_configure]}" para:"
+    echo "       "${magField_configure_file[num_magField_configure]}
+    ((num_magField_configure++))
+  elif grep -q 'macro_configure' temp; then
+    macro_configure_name[num_macro_configure]=`gawk 'BEGIN{FS="macro_configure"};{print $2}' temp`
+    ((iline++))
+    macro_configure_file[num_macro_configure]=`sed -n "$iline s/\(.*\)/\1/p" $template_file`
+    echo "macro_configure"${macro_configure_name[num_macro_configure]}" will use:"
+    echo "       "${macro_configure_file[num_macro_configure]}
+    ((num_macro_configure++))
+  elif grep -q 'output_configure' temp; then
+    output_configure_name[num_output_configure]=`gawk 'BEGIN{FS="output_configure"};{print $2}' temp`
+    ((iline++))
+    output_configure_file[num_output_configure]=`sed -n "$iline s/\(.*\)/\1/p" $template_file`
+    echo "output_configure"${output_configure_name[num_output_configure]}" will use:"
+    echo "       "${output_configure_file[num_output_configure]}
+    ((num_output_configure++))
+  elif grep -q 'gen_configure' temp; then
+    gen_configure_name[num_gen_configure]=`gawk 'BEGIN{FS="gen_configure"};{print $2}' temp`
+    ((iline++))
+    gen_configure_file[num_gen_configure]=`sed -n "$iline s/\(.*\)/\1/p" $template_file`
+    echo "gen_configure"${gen_configure_name[num_gen_configure]}" will use:"
+    echo "       "${gen_configure_file[num_gen_configure]}
+    ((num_gen_configure++))
+  elif grep -q 'run_configure' temp; then
+    run_configure_name[num_run_configure]=`gawk 'BEGIN{FS="run_configure"};{print $2}' temp`
+    ((iline++))
+    run_configure_num_job[num_run_configure]=`sed -n "$iline s/\(.*\)/\1/p" $template_file`
+    ((iline++))
+    run_configure_num_evt[num_run_configure]=`sed -n "$iline s/\(.*\)/\1/p" $template_file`
+    echo "for run "${run_configure_name[num_run_configure]}" is"
+    echo "  will start "${run_configure_num_job[num_run_configure]}" jobs"
+    echo "  with "${run_configure_num_evt[num_run_configure]}" events in each job"
+    ((num_run_configure++))
+  fi
+done
+
+#*************************************creat output, and etc. directories********************************************
+if [ ! -d $simdir ]; then
+  mkdir $simdir
+  mkdir $script_dir
+	mkdir $configure_path_dest
+#	mkdir $configure_data_path_dest
+else
+  if [ ! $force_mode = "Yes" ]; then
+    echo "directory "$simdir" exist!!!"
+    echo "Do you want to remove it, merge, or quit to have a look? [r/m/Q]"
+    echo "WARNING: If you type r/R, then the directory and files inside will be deleted!!!"
+    read -n 1 Choice
+    echo ""
+    if [[ $Choice =~ [r/R]$ ]]; then
+      read -n 1 -p "Do you want to continue? [y/N]" YorN
+      echo ""
+      if [[ $YorN =~ [y/Y]$ ]]; then
+        echo "REMOVING "$simdir"!!!"
+        rm -rf $simdir
+        mkdir $simdir
+        mkdir $script_dir
+				mkdir $configure_path_dest
+#				mkdir $configure_data_path_dest
+      else
+        echo "exit!"
+        exit 1
+      fi
+    elif [[ ! $Choice =~ [m/M]$ ]]; then
+      echo "exit!"
+      exit 1
+    fi
+  elif [ $force_mode = "Yes" ]; then
+    echo "REMOVING "$simdir"!!!"
+    rm -rf $simdir
+    mkdir $simdir
+    mkdir $script_dir
+		mkdir $configure_path_dest
+#		mkdir $configure_data_path_dest
+  fi
+fi
+
+#*************************************creat run file********************************************
+OUTPUTDIRROOT=$simdir
+CONFIGUREROOT=$configure_path_dest
+CONFIGUREDATAROOT=$configure_data_path_dest
+LOGFILEROOT=$log_name
+MATERIALLISTROOT=$material_list
+GEOCARDROOT=$GEOCARDROOT
+MAGFIELDCARDROOT=$MAGFIELDCARDROOT
+GENFILEROOT=$GENFILEROOT
+OUTCARDROOT=$OUTCARDROOT
+for (( i_proc=$nobegin; i_proc<=$noend; i_proc++ ))
+do
+	run_file=$simdir"/sim_"$trialID"_"$i_proc".txt.boss"
+echo "#!/bin/bash" > $run_file
+	echo "source $MYHOME/.setg4sim.sh" >> $run_file
+	echo "export OUTPUTDIRROOT=$OUTPUTDIRROOT" >> $run_file
+	echo "export CONFIGUREROOT=$CONFIGUREROOT" >> $run_file
+	echo "export CONFIGUREDATAROOT=$CONFIGUREDATAROOT" >> $run_file
+	echo "export LOGFILEROOT=$LOGFILEROOT" >> $run_file
+	echo "export MATERIALLISTROOT=$MATERIALLISTROOT" >> $run_file
+	echo "export GEOCARDROOT=$GEOCARDROOT" >> $run_file
+	echo "export MAGFIELDCARDROOT=$MAGFIELDCARDROOT" >> $run_file
+	echo "export GENFILEROOT=$GENFILEROOT" >> $run_file
+	echo "export OUTCARDROOT=$OUTCARDROOT" >> $run_file
+#	echo "nohup $EXEC $script_dir""/""$i_proc""_""$script_file > $simdir/$i_proc""_""$LogFile 2> $simdir/$i_proc""_""$ErrorFile &" >> $run_file
+	echo "((time $EXEC $script_dir""/""$i_proc""_""$script_file) > $run_file""log"") 2> $run_file""err" >> $run_file
+	chmod +x $run_file
+done
+
+#******************************************copy configuration files*********************************************
+cp -r $configure_path/* $configure_path_dest
+cp -r $macros_path/* $script_dir
+#cp -r $configure_data_path/* $configure_data_path_dest
+
+#******************************************keep a copy of run_file*********************************************
+#cp $run_file $simdir
+
+#***************************************************
+#finish script files
+#***************************************************
+cposition=0
+run_filelist=""
+for (( i_proc=$nobegin; i_proc<=$noend; i_proc++ ))
+do
+	run_file_name=sim_$trialID"_"$i_proc
+	run_file=$simdir"/"$run_file_name".txt.boss"
+  cat $script_file > $script_dir"/"$i_proc"_"$script_file
+#******************************************construct detector**************************************************
+for (( i_detector=0; i_detector<num_detector_configure; i_detector++ ))
+do
+	echo "/control/execute "$script_dir"/"${detector_configure_file[i_detector]} > detector_temp
+  keyword="detector_configure"${detector_configure_name[i_detector]}
+  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $1}' $script_dir"/"$i_proc"_"$script_file > template.1
+  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $2}' $script_dir"/"$i_proc"_"$script_file > template.2
+  cat template.1 detector_temp template.2 > $script_dir"/"$i_proc"_"$script_file
+done
+
+#******************************************construct magField**************************************************
+for (( i_magField=0; i_magField<num_magField_configure; i_magField++ ))
+do
+	echo "/control/execute "$script_dir"/"${magField_configure_file[i_magField]} > magField_temp
+  keyword="magField_configure"${magField_configure_name[i_magField]}
+  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $1}' $script_dir"/"$i_proc"_"$script_file > template.1
+  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $2}' $script_dir"/"$i_proc"_"$script_file > template.2
+  cat template.1 magField_temp template.2 > $script_dir"/"$i_proc"_"$script_file
+done
+
+#******************************************set verbose**************************************************
+for (( i_verbose=0; i_verbose<num_macro_configure; i_verbose++ ))
+do
+	echo "/control/execute "$script_dir"/"${macro_configure_file[i_verbose]} > verbose_temp
+  keyword="macro_configure"${macro_configure_name[i_verbose]}
+  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $1}' $script_dir"/"$i_proc"_"$script_file > template.1
+  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $2}' $script_dir"/"$i_proc"_"$script_file > template.2
+  cat template.1 verbose_temp template.2 > $script_dir"/"$i_proc"_"$script_file
+done
+
+#******************************************set output**************************************************
+for (( i_output=0; i_output<num_output_configure; i_output++ ))
+do
+	echo "/control/execute "$script_dir"/"${output_configure_file[i_output]} > output_temp
+  keyword="output_configure"${output_configure_name[i_output]}
+  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $1}' $script_dir"/"$i_proc"_"$script_file > template.1
+  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $2}' $script_dir"/"$i_proc"_"$script_file > template.2
+  cat template.1 template.2 > $script_dir"/"$i_proc"_"$script_file
+done
+
+#******************************************set gen**************************************************
+for (( i_gen=0; i_gen<num_gen_configure; i_gen++ ))
+do
+	echo "/control/execute "$script_dir"/"${gen_configure_file[i_gen]} > gen_temp
+  keyword="gen_configure"${gen_configure_name[i_gen]}
+  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $1}' $script_dir"/"$i_proc"_"$script_file > template.1
+  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $2}' $script_dir"/"$i_proc"_"$script_file > template.2
+  cat template.1 gen_temp template.2 > $script_dir"/"$i_proc"_"$script_file
+done
+
+#******************************************set run**************************************************
+for (( i_run=0; i_run<num_run_configure; i_run++ ))
+do
+  echo "" > run_temp
+  for (( i_job=0; i_job<${run_configure_num_job[i_run]}; i_job++ ))
+  do
+    if [ ! $RootFileList = 'NONE' ]; then
+        iJobsMODnRF=`echo "($i_proc-$nobegin)%$numRootFileList"|bc`
+		nEvents=`echo "${RootFileNumbers[iJobsMODnRF]}*${run_configure_num_evt[i_run]}"|bc`
+#		echo "/g4sim/gun/root_filename "${RootFileRunNums[iJobsMODnRF]} >> run_temp
+#		echo "/g4sim/gun/root_build" >> run_temp
+#		echo "/run/beamOn "$nEvents >> run_temp
+#		echo "There are ${RootFileRunNums[iJobsMODnRF]} jobs in run $iJobsMODnRF !!!"
+        for (( j_job=0; j_job<${RootFileRunNums[iJobsMODnRF]}; j_job++ ))
+        do
+          echo $cmd_output"set_ofile_name $simdir/"$i_proc"_job"$j_job${run_configure_name[i_run]}".raw" >> run_temp #!!!
+          echo $cmd_output"set_run_name "$i_proc"_job"$j_job${run_configure_name[i_run]}"_"$trialID >> run_temp #!!!
+#        Ranecu
+          echo -n "/random/setSeeds $i_proc$j_job $RANDOM" >> run_temp
+		  echo "" >> run_temp
+		  echo "/g4sim/gun/root_index "$cposition >> run_temp
+		  echo "/run/beamOn "$nEvents >> run_temp
+		  cposition=`echo "$cposition+$nEvents"|bc`
+        done
+	else
+        echo $cmd_output"set_ofile_name $simdir/"$i_proc"_job"$i_job${run_configure_name[i_run]}".raw" >> run_temp #!!!
+        echo $cmd_output"set_run_name "$i_proc"_job"$i_job${run_configure_name[i_run]}"_"$trialID >> run_temp #!!!
+#      Ranecu
+        echo -n "/random/setSeeds $i_proc $RANDOM" >> run_temp
+#     Ranecu Old
+#        echo -n "/random/setSeeds" >> run_temp
+#        for (( i_rand=0; i_rand<num_rund; i_rand++ ))
+#        do
+#          echo -n " "$RANDOM >> run_temp
+#        done
+#     Hurd
+#        echo "/random/setSequence $i_proc" >> run_temp
+		echo "" >> run_temp
+		echo "/run/beamOn "${run_configure_num_evt[i_run]} >> run_temp
+    fi
+    echo "" >> run_temp
+  done
+  keyword="run_configure"${run_configure_name[i_run]}
+  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $1}' $script_dir"/"$i_proc"_"$script_file > template.1
+  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $2}' $script_dir"/"$i_proc"_"$script_file > template.2
+  cat template.1 run_temp template.2 > $script_dir"/"$i_proc"_"$script_file
+done
+#***************************************************
+# submit the job
+if [ "$submitjob" == 'Yes' ]; then
+	if [ "$usebossq" == "No" ]; then
+		echo qsub -j oe -o /dev/null -q "$pbsqueue" "$run_file"
+		qsub -j oe -o /dev/null -q "$pbsqueue" "$run_file"
+	else
+#		"$bosscmd" -q "$jobfile"
+		nohup $run_file &
+	fi
+	run_filelist="$run_filelist $run_file"
+fi
+done
+#nohup SRA_check $run_filelist > $simdir"/SRA_checklog" 2>&1 &
+
+#******************************************delete temp files**************************************************
+rm -f $script_file
+rm -f detector_temp
+rm -f magField_temp
+rm -f verbose_temp
+rm -f output_temp
+rm -f run_temp
+rm -f gen_temp
+rm -f template.1
+rm -f template.2
+rm -f temp

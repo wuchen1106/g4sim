@@ -97,7 +97,7 @@ M_FILTERSECTION
 #	mint          0      ns       //left end of time window, 0 means no lower limit
 #	maxt          0      ns       //right end of time window, 0 means no upper limit
 	tres          5000   ns       //time resolution
-	minedep       -1     GeV      //minimum energy deposition cut
+	minedep       1      keV      //minimum energy deposition cut
 #	WL            13           // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
 #	WL            -211         // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
 M_FILTERSECTION
@@ -132,7 +132,7 @@ TRIGGERSECTION
 	minCdcCellHits    -1           // minimum required CDCCell nHits. Would be set invalid if minCdcCellHits = -1
 	minTriggerHits    -1           // minimum required Trigger nHits. Would be set invalid if minTriggerHits = -1
 	minV_Hits         -1           // minimum required V_nHits. Would be set invalid if = -1
-	minM_Hits         -1            // minimum required M_nHits. Would be set invalid if = -1
+	minM_Hits         1            // minimum required M_nHits. Would be set invalid if = -1
 	minEleMom         -1  MeV      // minimum required Electron momentum. Would be set invalid if minEleMom = -1 MeV
 	minAntipNum       -1           // minimum required Anti-Proton number. Would be set invalid if minAntipNum = -1
 TRIGGERSECTION
