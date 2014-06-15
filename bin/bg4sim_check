@@ -1,0 +1,74 @@
+#!/usr/bin/env python2
+
+"""
+Script to manage submitted jobs
+"""
+import os
+import sys
+import signal
+import time
+
+from JobMaintainer import *
+
+#################################################################
+def signal_handler(signal,frame):
+	print '\nYou pressed Ctrl+C!\n'
+	sys.exit(0);
+signal.signal(signal.SIGINT, signal_handler)
+
+##################################################################
+def main(args=None):
+
+# default setting
+	emailaddress = "wuchen1106@gmail.com"
+	owner = "wuc"
+	verbose = 5
+	joblist = []
+
+# read options and arguments
+	from optparse import OptionParser
+	usageString="%prog [options] [joblist]"
+	descriptionString="""
+	Take care of jobs from the given joblist, or all the running jobs belonging to the given owner if the joblist is not provided.
+	"""
+	parser = OptionParser(usage=usageString, description=descriptionString)
+	parser.add_option('-E' ,'--email-address', dest='emailaddress',
+					  help= 'Specify the email address that should be informed.\n \
+					           Default Value: '+emailaddress+'\n'
+					  )
+	parser.add_option('-o' ,'--owner', dest='owner',
+					  help= 'Specify the owner of jobs.\n \
+					           Default Value: '+owner+'\n'
+					  )
+	parser.add_option('-v' ,'--verbose', dest='verbose', type="int",
+					  help= 'Specify a verbose level\n \
+							<=0:  nothing but error messages and basic prompt\n \
+							>=1:  + checking progress\n \
+							>=5:  + important warnings during checking	(default level)\n \
+							>=10: + everything else\n \
+							Default Value: %d\n' % (verbose)
+					  )
+
+	opts, args = parser.parse_args(args=args)
+
+# update
+	if opts.emailaddress:
+		emailaddress = opts.emailaddress
+	if opts.owner:
+		owner = opts.owner
+	if opts.verbose:
+		verbose = opts.verbose
+
+	if len(args) >= 1:
+		joblist = args[0:]
+
+# Now Start the checking loop:
+	finished = False
+	checker = JobMaintainer(owner,joblist,verbose,True,emailaddress)
+	while not checker.finished:
+		checker.do_check()
+		time.sleep(600)
+
+if __name__ == '__main__':
+	main()
+	sys.exit(0)
