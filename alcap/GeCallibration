@@ -10,4 +10,4 @@ GeCallibration.mac
 #run
 run_configure
 1
-10000
+1000000
