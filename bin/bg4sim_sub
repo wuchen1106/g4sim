@@ -706,7 +706,7 @@ if [ "$submitjob" == 'Yes' ]; then
 		qsub -j oe -o /dev/null -q "$pbsqueue" "$run_file"
 	else
 #		"$bosscmd" -q "$jobfile"
-		nohup $run_file &
+		nohup $run_file > /dev/null 2>&1 &
 	fi
 	run_filelist="$run_filelist $run_file"
 fi
