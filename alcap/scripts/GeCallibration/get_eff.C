@@ -7,29 +7,30 @@ void get_eff(){
 	std::vector<double> vSpread; // keV
 	std::vector<double> vRatio;
 	std::vector<double> vCount;
+
 	vEnergy.push_back(121.775);
-	vRatio.push_back(0.282);
+	vRatio.push_back(0.282415);
 
 	vEnergy.push_back(244.675);
-	vRatio.push_back(0.077);
+	vRatio.push_back(0.076972);
 
 	vEnergy.push_back(344.275);
-	vRatio.push_back(0.266);
+	vRatio.push_back(0.265659);
 
 	vEnergy.push_back(778.925);
-	vRatio.push_back(0.130);
+	vRatio.push_back(0.129626);
 
 	vEnergy.push_back(964.075);
-	vRatio.push_back(0.146);
+	vRatio.push_back(0.14587);
 
 	vEnergy.push_back(1085.875);
-	vRatio.push_back(0.102);
+	vRatio.push_back(0.101973);
 
 	vEnergy.push_back(1112.075);
-	vRatio.push_back(0.137);
+	vRatio.push_back(0.136631);
 
 	vEnergy.push_back(1407.975);
-	vRatio.push_back(0.211);
+	vRatio.push_back(0.210716);
 
 	for (int i = 0; i<vEnergy.size(); i++){
 		vCount.push_back(0);
@@ -44,6 +45,8 @@ void get_eff(){
 	std::vector<int> nRuns;
 	std::vector<TString> FileNames;
 	 // ########Should Modify#########
+//	TString runName = "GeCallibration001";
+//	TString runName = "GeCallibration_10mm";
 	TString runName = "GeCallibration_35cm";
 //	FileNames.push_back("../../output/"+runName+".root");
 	DirName.push_back(MyData+"/"+runName);

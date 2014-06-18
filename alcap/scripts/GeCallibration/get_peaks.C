@@ -86,8 +86,7 @@ void get_peaks(){
 	int iPeak = 0;
 	double delta = (h1->GetBinCenter(h1->GetNbinsX())-h1->GetBinCenter(0))/h1->GetNbinsX()/2;
 	double nFromPeaks = 0;
-	std::cout.setf(std::ios_base::fixed);
-	std::cout.precision(3);
+	std::cout.precision(7);
 	std::cout<<"Total events: "<<nTotal<<std::endl;
 	std::cout<<"Events with RadioactiveDecay Gamma Ray: "<<nFound<<std::endl;
 	std::cout<<"Peaks with ratio over 5%: (error +-"<<delta<<"keV)"<<std::endl;
