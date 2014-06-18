@@ -10,7 +10,6 @@ configure_path=$CONFIGUREROOT                           #path for configure file
 macros_path=$MACROSROOT                                 #path for macros files
 configure_data_path=$CONFIGUREDATAROOT                  #path for configure relating data
 log_name=$LOGFILEROOT                                   #the file where log information is stored in
-material_list=$MATERIALLISTROOT                         #the file where material list is stored in
 num_rund=2                                              #how many random numbers are needed for simulation
 
 # some commands
@@ -336,7 +335,7 @@ declare -a macro_configure_file
 declare -a macro_configure_name
 
 #******************************************set directories**************************************************
-script_dir=$simdir"/macros"
+macros_dir=$simdir"/macros"
 configure_path_dest=$simdir"/configure"
 configure_data_path_dest=$CONFIGUREDATAROOT
 
@@ -507,7 +506,7 @@ done
 #*************************************creat output, and etc. directories********************************************
 if [ ! -d $simdir ]; then
   mkdir $simdir
-  mkdir $script_dir
+  mkdir $macros_dir
 	mkdir $configure_path_dest
 #	mkdir $configure_data_path_dest
 else
@@ -524,7 +523,7 @@ else
         echo "REMOVING "$simdir"!!!"
         rm -rf $simdir
         mkdir $simdir
-        mkdir $script_dir
+        mkdir $macros_dir
 				mkdir $configure_path_dest
 #				mkdir $configure_data_path_dest
       else
@@ -539,22 +538,27 @@ else
     echo "REMOVING "$simdir"!!!"
     rm -rf $simdir
     mkdir $simdir
-    mkdir $script_dir
+    mkdir $macros_dir
 		mkdir $configure_path_dest
 #		mkdir $configure_data_path_dest
   fi
 fi
 
 #*************************************creat run file********************************************
-OUTPUTDIRROOT=$simdir
-CONFIGUREROOT=$configure_path_dest
-CONFIGUREDATAROOT=$configure_data_path_dest
-LOGFILEROOT=$log_name
-MATERIALLISTROOT=$material_list
+MATERIALLISTROOT=$MATERIALLISTROOT
 GEOCARDROOT=$GEOCARDROOT
 MAGFIELDCARDROOT=$MAGFIELDCARDROOT
 GENFILEROOT=$GENFILEROOT
 OUTCARDROOT=$OUTCARDROOT
+FIELDMAPSROOT=$FIELDMAPSROOT
+OFILENAMEROOT=$OFILENAMEROOT
+RUNNAMEROOT=$RUNNAMEROOT
+OUTPUTDIRROOT=$simdir
+CONFIGUREROOT=$configure_path_dest
+CONFIGUREDATAROOT=$configure_data_path_dest
+LOGFILEROOT=$log_name
+MACROSROOT=$macros_dir
+MACROSCOMMONROOT=$MACROSROOT/common
 for (( i_proc=$nobegin; i_proc<=$noend; i_proc++ ))
 do
 	run_file=$simdir"/sim_"$trialID"_"$i_proc".txt.boss"
@@ -569,14 +573,19 @@ echo "#!/bin/bash" > $run_file
 	echo "export MAGFIELDCARDROOT=$MAGFIELDCARDROOT" >> $run_file
 	echo "export GENFILEROOT=$GENFILEROOT" >> $run_file
 	echo "export OUTCARDROOT=$OUTCARDROOT" >> $run_file
-#	echo "nohup $EXEC $script_dir""/""$i_proc""_""$script_file > $simdir/$i_proc""_""$LogFile 2> $simdir/$i_proc""_""$ErrorFile &" >> $run_file
-	echo "((time $EXEC $script_dir""/""$i_proc""_""$script_file) > $run_file""log"") 2> $run_file""err" >> $run_file
+	echo "export MACROSROOT=$MACROSROOT" >> $run_file
+	echo "export MACROSCOMMONROOT=$MACROSCOMMONROOT" >> $run_file
+	echo "export FIELDMAPSROOT=$FIELDMAPSROOT" >> $run_file
+	echo "export OFILENAMEROOT=$OFILENAMEROOT" >> $run_file
+	echo "export RUNNAMEROOT=$RUNNAMEROOT" >> $run_file
+#	echo "nohup $EXEC $macros_dir""/""$i_proc""_""$script_file > $simdir/$i_proc""_""$LogFile 2> $simdir/$i_proc""_""$ErrorFile &" >> $run_file
+	echo "((time $EXEC $macros_dir""/""$i_proc""_""$script_file) > $run_file""log"") 2> $run_file""err" >> $run_file
 	chmod +x $run_file
 done
 
 #******************************************copy configuration files*********************************************
 cp -r $configure_path/* $configure_path_dest
-cp -r $macros_path/* $script_dir
+cp -r $macros_path/* $macros_dir
 #cp -r $configure_data_path/* $configure_data_path_dest
 
 #******************************************keep a copy of run_file*********************************************
@@ -591,55 +600,55 @@ for (( i_proc=$nobegin; i_proc<=$noend; i_proc++ ))
 do
 	run_file_name=sim_$trialID"_"$i_proc
 	run_file=$simdir"/"$run_file_name".txt.boss"
-  cat $script_file > $script_dir"/"$i_proc"_"$script_file
+  cat $script_file > $macros_dir"/"$i_proc"_"$script_file
 #******************************************construct detector**************************************************
 for (( i_detector=0; i_detector<num_detector_configure; i_detector++ ))
 do
-	echo "/control/execute "$script_dir"/"${detector_configure_file[i_detector]} > detector_temp
+	echo "/control/execute "$macros_dir"/"${detector_configure_file[i_detector]} > detector_temp
   keyword="detector_configure"${detector_configure_name[i_detector]}
-  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $1}' $script_dir"/"$i_proc"_"$script_file > template.1
-  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $2}' $script_dir"/"$i_proc"_"$script_file > template.2
-  cat template.1 detector_temp template.2 > $script_dir"/"$i_proc"_"$script_file
+  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $1}' $macros_dir"/"$i_proc"_"$script_file > template.1
+  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $2}' $macros_dir"/"$i_proc"_"$script_file > template.2
+  cat template.1 detector_temp template.2 > $macros_dir"/"$i_proc"_"$script_file
 done
 
 #******************************************construct magField**************************************************
 for (( i_magField=0; i_magField<num_magField_configure; i_magField++ ))
 do
-	echo "/control/execute "$script_dir"/"${magField_configure_file[i_magField]} > magField_temp
+	echo "/control/execute "$macros_dir"/"${magField_configure_file[i_magField]} > magField_temp
   keyword="magField_configure"${magField_configure_name[i_magField]}
-  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $1}' $script_dir"/"$i_proc"_"$script_file > template.1
-  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $2}' $script_dir"/"$i_proc"_"$script_file > template.2
-  cat template.1 magField_temp template.2 > $script_dir"/"$i_proc"_"$script_file
+  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $1}' $macros_dir"/"$i_proc"_"$script_file > template.1
+  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $2}' $macros_dir"/"$i_proc"_"$script_file > template.2
+  cat template.1 magField_temp template.2 > $macros_dir"/"$i_proc"_"$script_file
 done
 
 #******************************************set verbose**************************************************
 for (( i_verbose=0; i_verbose<num_macro_configure; i_verbose++ ))
 do
-	echo "/control/execute "$script_dir"/"${macro_configure_file[i_verbose]} > verbose_temp
+	echo "/control/execute "$macros_dir"/"${macro_configure_file[i_verbose]} > verbose_temp
   keyword="macro_configure"${macro_configure_name[i_verbose]}
-  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $1}' $script_dir"/"$i_proc"_"$script_file > template.1
-  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $2}' $script_dir"/"$i_proc"_"$script_file > template.2
-  cat template.1 verbose_temp template.2 > $script_dir"/"$i_proc"_"$script_file
+  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $1}' $macros_dir"/"$i_proc"_"$script_file > template.1
+  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $2}' $macros_dir"/"$i_proc"_"$script_file > template.2
+  cat template.1 verbose_temp template.2 > $macros_dir"/"$i_proc"_"$script_file
 done
 
 #******************************************set output**************************************************
 for (( i_output=0; i_output<num_output_configure; i_output++ ))
 do
-	echo "/control/execute "$script_dir"/"${output_configure_file[i_output]} > output_temp
+	echo "/control/execute "$macros_dir"/"${output_configure_file[i_output]} > output_temp
   keyword="output_configure"${output_configure_name[i_output]}
-  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $1}' $script_dir"/"$i_proc"_"$script_file > template.1
-  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $2}' $script_dir"/"$i_proc"_"$script_file > template.2
-  cat template.1 template.2 > $script_dir"/"$i_proc"_"$script_file
+  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $1}' $macros_dir"/"$i_proc"_"$script_file > template.1
+  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $2}' $macros_dir"/"$i_proc"_"$script_file > template.2
+  cat template.1 template.2 > $macros_dir"/"$i_proc"_"$script_file
 done
 
 #******************************************set gen**************************************************
 for (( i_gen=0; i_gen<num_gen_configure; i_gen++ ))
 do
-	echo "/control/execute "$script_dir"/"${gen_configure_file[i_gen]} > gen_temp
+	echo "/control/execute "$macros_dir"/"${gen_configure_file[i_gen]} > gen_temp
   keyword="gen_configure"${gen_configure_name[i_gen]}
-  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $1}' $script_dir"/"$i_proc"_"$script_file > template.1
-  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $2}' $script_dir"/"$i_proc"_"$script_file > template.2
-  cat template.1 gen_temp template.2 > $script_dir"/"$i_proc"_"$script_file
+  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $1}' $macros_dir"/"$i_proc"_"$script_file > template.1
+  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $2}' $macros_dir"/"$i_proc"_"$script_file > template.2
+  cat template.1 gen_temp template.2 > $macros_dir"/"$i_proc"_"$script_file
 done
 
 #******************************************set run**************************************************
@@ -685,9 +694,9 @@ do
     echo "" >> run_temp
   done
   keyword="run_configure"${run_configure_name[i_run]}
-  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $1}' $script_dir"/"$i_proc"_"$script_file > template.1
-  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $2}' $script_dir"/"$i_proc"_"$script_file > template.2
-  cat template.1 run_temp template.2 > $script_dir"/"$i_proc"_"$script_file
+  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $1}' $macros_dir"/"$i_proc"_"$script_file > template.1
+  gawk -v gawk_keyword=$keyword 'BEGIN{FS=gawk_keyword;RS="You will not find me, will you?";ORS=""};{print $2}' $macros_dir"/"$i_proc"_"$script_file > template.2
+  cat template.1 run_temp template.2 > $macros_dir"/"$i_proc"_"$script_file
 done
 #***************************************************
 # submit the job

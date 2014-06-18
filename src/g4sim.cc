@@ -115,7 +115,7 @@ int main(int argc,char** argv)
 		int length = strlen(c);
 		int offset = 0;
 		for ( ; offset < length; offset++ ){
-			if ( c[offset] != ' ' ) break;
+			if ( c[offset] != ' ' && c[offset] != '\t' ) break;
 		}
 		if ( c[offset] == '#' ) continue;
 		else if ( c[offset] == '/' && c[offset+1] == '/' ) continue;
