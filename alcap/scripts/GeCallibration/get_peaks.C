@@ -1,22 +1,8 @@
 TString MyData = getenv("MYDATA");
 
-void get_ratio(){
+void get_peaks(){
 
 	// About Peaks
-	std::vector<double> vEnergy; // keV
-	std::vector<double> vSpread; // keV
-	std::vector<double> vCount;
-	vEnergy.push_back(121.78);
-	vEnergy.push_back(244.7);
-	vEnergy.push_back(344.27);
-	vEnergy.push_back(778.9);
-	vEnergy.push_back(964.01);
-	vEnergy.push_back(1085.78);
-	vEnergy.push_back(1407.95);
-	for (int i = 0; i<vEnergy.size(); i++){
-		vCount.push_back(0);
-		vSpread.push_back(vEnergy[i]/1000.);
-	}
 	double nTotal = 0;
 	double nFound = 0;
 
@@ -69,6 +55,9 @@ void get_ratio(){
 //	f = new TFile(runName+".output.root","RECREATE");
 //	TTree *t  = new TTree("t","t");
 
+	// Prepare histogram
+	TH1D * h1 = new TH1D("h1","h1",30000,0,1500);
+
 	// Loop in events
 	int nEvents = c->GetEntries();
 	std::cout<<"nEvents = "<<nEvents<<std::endl;
@@ -83,29 +72,37 @@ void get_ratio(){
 			TString volume = (*McTruth_volume)[iMc];
 			TString process = (*McTruth_process)[iMc];
 			double e = (*McTruth_e)[iMc]*1e6; //keV
-//			if (pid==22&&volume=="Source"&&process=="RadioactiveDecay"&&ptid==1){
 			if (pid==22&&volume=="Source"&&process=="RadioactiveDecay"){
 				nGam++;
-				for (int iPeak = 0; iPeak<vEnergy.size(); iPeak++){
-					if (e>vEnergy[iPeak]-vSpread[iPeak]&&e<vEnergy[iPeak]+vSpread[iPeak]){
-						vCount[iPeak]+=weight;
-					}
-				}
+				h1->Fill(e,weight);
 			}
 		}
-//		if (nGam>1) std::cout<<"nGam = "<<nGam<<std::endl;
 		if (nGam)
 			nFound+=weight;
 		nTotal+=weight;
 	}
+
+	double TotalArea = h1->Integral();
+	int iPeak = 0;
+	double delta = (h1->GetBinCenter(h1->GetNbinsX())-h1->GetBinCenter(0))/h1->GetNbinsX()/2;
+	double nFromPeaks = 0;
+	std::cout.setf(std::ios_base::fixed);
+	std::cout.precision(3);
 	std::cout<<"Total events: "<<nTotal<<std::endl;
 	std::cout<<"Events with RadioactiveDecay Gamma Ray: "<<nFound<<std::endl;
-	double nFromPeaks = 0;
-	for(int iPeak = 0; iPeak < vEnergy.size(); iPeak++){
-		std::cout<<"Peak["<<iPeak<<"]: "<<vEnergy[iPeak]<<"+-"<<vSpread[iPeak]/vEnergy[iPeak]*100<<"% keV, "<<vCount[iPeak]/nTotal<<std::endl;
-		nFromPeaks+=vCount[iPeak];
+	std::cout<<"Peaks with ratio over 5%: (error +-"<<delta<<"keV)"<<std::endl;
+	std::cout<<"\tIndex\tEnergy\t\tRatio"<<std::endl;
+	std::cout<<"\t     \tkeV   \t\tNgam/Nevents"<<std::endl;
+	for (int i = 0; i<=h1->GetNbinsX(); i++){
+		double height = h1->GetBinContent(i);
+		double ratio = height/nTotal;
+		if (ratio>0.05){
+			std::cout<<"\t"<<iPeak++<<"\t"<<h1->GetBinCenter(i)<<"\t\t"<<ratio<<std::endl;
+			nFromPeaks+=height;
+		}
 	}
-	std::cout<<"Events with Gamma from Peaks: "<<nFromPeaks<<std::endl;
+	std::cout<<"Gammas from all peaks: "<<TotalArea<<std::endl;
+	std::cout<<"Gammas from highest "<<iPeak<<" peaks: "<<nFromPeaks<<std::endl;
 
 	// Write
 //	t->Write();

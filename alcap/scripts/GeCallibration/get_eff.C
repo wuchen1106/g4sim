@@ -7,30 +7,34 @@ void get_eff(){
 	std::vector<double> vSpread; // keV
 	std::vector<double> vRatio;
 	std::vector<double> vCount;
-	vEnergy.push_back(121.78);
-	vRatio.push_back(.282435);
+	vEnergy.push_back(121.775);
+	vRatio.push_back(0.282);
 
-	vEnergy.push_back(244.7);
-	vRatio.push_back(.076972);
+	vEnergy.push_back(244.675);
+	vRatio.push_back(0.077);
 
-	vEnergy.push_back(344.27);
-	vRatio.push_back(.266054);
+	vEnergy.push_back(344.275);
+	vRatio.push_back(0.266);
 
-	vEnergy.push_back(778.9);
-	vRatio.push_back(.129626);
+	vEnergy.push_back(778.925);
+	vRatio.push_back(0.130);
 
-	vEnergy.push_back(964.01);
-	vRatio.push_back(.147230);
+	vEnergy.push_back(964.075);
+	vRatio.push_back(0.146);
 
-	vEnergy.push_back(1085.78);
-	vRatio.push_back(.102016);
+	vEnergy.push_back(1085.875);
+	vRatio.push_back(0.102);
 
-	vEnergy.push_back(1407.95);
-	vRatio.push_back(.210716);
+	vEnergy.push_back(1112.075);
+	vRatio.push_back(0.137);
+
+	vEnergy.push_back(1407.975);
+	vRatio.push_back(0.211);
+
 	for (int i = 0; i<vEnergy.size(); i++){
 		vCount.push_back(0);
 //		vSpread.push_back(vEnergy[i]/1000.);
-		vSpread.push_back(2);
+		vSpread.push_back(0.025);
 	}
 	double nTotal = 0;
 	double nFound = 0;
@@ -40,7 +44,7 @@ void get_eff(){
 	std::vector<int> nRuns;
 	std::vector<TString> FileNames;
 	 // ########Should Modify#########
-	TString runName = "GeCallibration001";
+	TString runName = "GeCallibration_35cm";
 //	FileNames.push_back("../../output/"+runName+".root");
 	DirName.push_back(MyData+"/"+runName);
 	nRuns.push_back(7);
@@ -57,6 +61,7 @@ void get_eff(){
 	std::stringstream buff;
 	std::cout<<"nRuns = "<<nRuns.size()<<std::endl;
 	for (int iRun = 0; iRun < nRuns.size(); iRun++ ){
+		std::cout<<"DirName["<<i<<"] = \""<<DirName[i]<<"\""<<std::endl;
 		for (int i = 0; i<nRuns[iRun]; i++){
 			buff.str("");
 			buff.clear();
