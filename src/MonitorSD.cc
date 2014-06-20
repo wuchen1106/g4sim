@@ -561,17 +561,19 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	if (foundit) return false;
 
 	//minp
-	if ( minp && pointOut_pa < minp ) return false;
+	if ( minp && pointIn_pa < minp ) return false;
 	//energy
 	if (mine&&aTrack->GetTotalEnergy()<mine) return false;
 
 	//time_window
-	if(isnan(pointOut_time)){
-		G4cout<<"MonitorSD:error, pointOut_time is nan "<<G4endl;
+	std::cout<<"pointIn_time = "<<pointIn_time<<", mint = "<<mint<<std::endl;
+	if(isnan(pointIn_time)){
+		G4cout<<"MonitorSD:error, pointIn_time is nan "<<G4endl;
 		return false;
 	}
-	if ( pointOut_time < mint && mint ) return false;
-	if ( pointOut_time > maxt && maxt ) return false;
+	if ( pointIn_time < mint && mint ) return false;
+	if ( pointIn_time > maxt && maxt ) return false;
+	std::cout<<"Passed time cut!"<<std::endl;
 
 	//minedep
 	if( edepIoni <= minedep ) return false;
@@ -603,11 +605,11 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	double kill_time = 0;
 	if (fTrackStatus == fStopButAlive){
 		stopped = true;
-		stop_time = pointOut_time;
+		stop_time = pointIn_time;
 	}
 	else if (fTrackStatus == fStopAndKill || fTrackStatus == fKillTrackAndSecondaries){
 		killed = true;
-		kill_time = pointOut_time;
+		kill_time = pointIn_time;
 	}
 
 	if (needstopped&&(!killed&&!stopped)) return false;
@@ -651,8 +653,8 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		newHit->SetTrackID(trackID);
 		newHit->SetVolID(ReplicaNo);
 		newHit->SetEdep(edepIoni);
-		newHit->SetPos(pointOut_pos);
-		newHit->SetGlobalT(pointOut_time);
+		newHit->SetPos(pointIn_pos);
+		newHit->SetGlobalT(pointIn_time);
 		hitsCollection->insert(newHit);
 		//Set for root objects
 		if(flag_Ox) m_Ox.push_back(pointOut_pos.x()/unit_Ox);
