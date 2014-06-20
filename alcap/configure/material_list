@@ -34,7 +34,8 @@ TYPE Simple_Materials
 	Copper      29  63.546     8.960          1 
 	Germanium   32  72.630     5.323          1 
 	Strontium   38  87.62      2.64           1 
-	Molybdenum  2   95.96      10.28          1
+	Molybdenum  42  95.96      10.28          1
+	Europium    63  151.964    5.264          1
 	Tungsten    74  183.84     19.3           1
 	Lead        82  207.2      11.35          1
 

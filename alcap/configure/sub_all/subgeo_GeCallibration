@@ -244,27 +244,39 @@ DEFINE: thTBS	7 # Thickness of Target Border Shielding
 #	     mm     mm    mm                                                              mm    mm    mm     deg  deg  deg
 #	                                                                                P R     Phi   Z
 #	                                                                                S R     Phi   Theta 
-#	B    XTB    XTB   thTB    bTgtBdWh          
-#	B    XT     XT    thTB+1  bTgtBdHl          
-#	B    XTBS   XTBS  thTBS   bTgtBdShWh        
-#	B    XT     XT    thTBS+1 bTgtBdShHl        
-#	B    XTBS   XTBS  thTBS   TargetMount 1     ChamberIn   VacuumPSI     none        0     0     Z0     45   90   0 
-#	B    XT     XT    thT     Target      1     TargetMount Aluminium     M/MonitorSD 0     0     0      0    0    0
-##Tubs info
-##	Type RMin RMax   Length  Start Span Name             RepNo  MotVolume Material      SDName    posX posY  posZ  Ephi   Ethe   Epsi  
-##	     mm   mm     mm      deg   deg                                                            mm   mm    mm    deg    deg    deg   
-##	                                                                                            P R    Phi   Z     
-##	                                                                                            S R    Phi   Theta 
-	T    0    26     0.2     0     360  SourceHolder     1      ChamberIn Polyethylene  none      0    0     Z0    45     90     0 
-	T    0    2.5    0.01    0     360  Source           1   SourceHolder Polyethylene  none      0    0     0     0      0      0 
+	B    XTB    XTB   thTB    bTgtBdWh          
+	B    XT     XT    thTB+1  bTgtBdHl          
+	B    XTBS   XTBS  thTBS   bTgtBdShWh        
+	B    XT     XT    thTBS+1 bTgtBdShHl        
+	B    XTBS   XTBS  thTBS   TargetMount 1     ChamberIn   VacuumPSI     none        0     0     Z0     45   90   0 
+	B    XT     XT    thT     Target      1     TargetMount Aluminium     M/MonitorSD 0     0     0      0    0    0
 #BooleanSolid info
 #	Type type  vol1       vol2        Ephi Ethe Epsi PosX PosY PosZ   name                  RepNo MotVolume   Material SDName  posX posY posZ  Ephi Ethe Epsi  
 #	                                  deg  deg  deg  mm   mm   mm                                                              mm   mm   mm    deg  deg  deg   
 #	                                               P R    Phi  Z                                                             P R    Phi  Z    
 #	                                               S R    Phi  Theta                                                         S R    Phi  Theta
-#	BL   minus bTgtBdWh   bTgtBdHl    0    0    0    0    0    0      TargetBorder          1     TargetMount PCB      none    0    0    0     0    0    0  
-#	BL   minus bTgtBdShWh bTgtBdShHl  0    0    0    0    0    0      uTgtBd1                     
-#	BL   minus uTgtBd1    bTgtBdWh    0    0    0    0    0    0      TargetBorderShielding 1     TargetMount Lead     none    0    0    0     0    0    0  
+	BL   minus bTgtBdWh   bTgtBdHl    0    0    0    0    0    0      TargetBorder          1     TargetMount PCB      none    0    0    0     0    0    0  
+	BL   minus bTgtBdShWh bTgtBdShHl  0    0    0    0    0    0      uTgtBd1                     
+	BL   minus uTgtBd1    bTgtBdWh    0    0    0    0    0    0      TargetBorderShielding 1     TargetMount Lead     none    0    0    0     0    0    0  
+#==================================================================================================================
+#	Eu152 Source
+#==================================================================================================================
+DEFINE: REuSO	3    # Outer radius of Eu source area
+DEFINE: REuDO	10   # Outer radius of Polyethylene disk
+DEFINE: REuBO   15   # Outer radius of Aluminium boarder
+DEFINE: thEuS	0.01 # Thickness of Eu source area
+DEFINE: thEuD	0.2  # Thickness of Polyethylene disk
+DEFINE: thEuB   3    # Thickness of Aluminium boarder
+DEFINE: pZ      thT/2+thEuB/2  # position of source pack relative to target
+#Tubs info
+#	Type RMin RMax   Length  Start Span Name             RepNo  MotVolume Material      SDName    posX posY  posZ  Ephi   Ethe   Epsi  
+#	     mm   mm     mm      deg   deg                                                            mm   mm    mm    deg    deg    deg   
+#	                                                                                            P R    Phi   Z     
+#	                                                                                            S R    Phi   Theta 
+	T    0    REuBO  thEuB   0     360  SourceHolder     1    TargetMount VacuumPSI     none      0    0     pZ    0      0      0 
+	T    REuDO REuBO thEuB   0     360  SourceBoarder    1   SourceHolder Aluminium     none      0    0     0     0      0      0 
+	T    0    REuDO  thEuD   0     360  SourceDisk       1   SourceHolder Polyethylene  none      0    0     0     0      0      0 
+	T    0    REuSO  thEuS   0     360  Source           1   SourceHolder Europium      none      0    0     0     0      0      0 
 
 ##==================================================================================================================
 ##	Downstream Wall
@@ -318,6 +330,7 @@ DEFINE: thTBS	7 # Thickness of Target Border Shielding
 	vis_WireVer                 1      0      0
 	vis_WireHor                 1      0      0
 	vis_DSWall                  0.5    0.5    0.5
-	vis_SourceHolder            0      1      0     0.2
-	vis_Source                  1      0      0  
+	vis_SourceBoarder           0.6    0.6    0.6   1
+	vis_SourceDisk              1      1      1     0.5
+	vis_Source                  0.2    0.2    0.2
 	vis_GePS                    1      1      0  
