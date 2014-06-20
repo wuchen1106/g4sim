@@ -3,8 +3,8 @@ g4sim
 
 Simulation toolkit based on Geant4 and ROOT 
 
-###1. Installation
-#####Prerequirements:  
+#1. Installation
+##Prerequirements:  
 1.	CMake installed
 
 	If CMake if not provided by your package manager, you can visit [CMake](http://www.cmake.org/) for source code then install CMake in this way:
@@ -56,14 +56,14 @@ Simulation toolkit based on Geant4 and ROOT
 
 		--with-gsl-incdir=path/to/GSL/include --with-gsl-libdir=path/to/GSL/lib
 
-#####Install:
+##Install:
 
 	cd cmake
 	cmake .
 	make
 	
-###2. How to use
-#####Prerequirements:  
+#2. How to use
+##Prerequirements:  
 	
 1. 	Geant4 environment is set already.
 
@@ -78,28 +78,31 @@ Simulation toolkit based on Geant4 and ROOT
 
 		source /path/to/root/bin/thisroot.sh
 
-3.	Your work directory has been created.
+3.	Your working directory has been created.
 
-	Now we have `alcap` and `Example` sitting there.  
-	`Example` is a simple simulation to show how `g4sim` works.
+	`Example` is a working directory for a simple simulation to show how `g4sim` works.
 	It also serves as a template for someone who want to build another simulation.
-	`alcap` is the default working directory for Alcap simulation.
 
 4.	g4sim basic environment is set already.
 
-	If not, go to your work directory and set environment:  
+	If you have already set environment variable `$MYG4SIMROOT` to the directory of `g4sim`,
+	you can go to working directory,
+	otherwise you will need to  
 
-		cd alcap # or whatever working directory
-		source setenv.sh
+			source env.sh  
+	Then go to your working directory and set environment:  
 
-#####To Start:  
+			cd alcap # or whatever working directory
+			source setenv.sh
+
+##To Start:  
 
 	g4sim [macros/run.mac]             # Choose any Geant4 macro file you want.
 	                                   # without macro file it would enter interactive mode.  
 A figure to show how it works:  
 ![Flow Diagram](docs/FlowDiagram.png "Flow Diagram")  
 	                                   
-#####To Configure alcap:  
+##To Configure:  
 By default (set in `setenv.sh`):
 
 	GENFILEROOT=gen/gen_mum_up
@@ -107,7 +110,7 @@ By default (set in `setenv.sh`):
 	OUTCARDROOT=output/output_default
 	
 With this default environment set already you can start simulation with `/run/beamOn XXX` immediately.  
-######GENFILEROOT:  
+###GENFILEROOT:  
 We provide couple ways to configure:  
 
 1.	Use another configure file  
@@ -124,4 +127,3 @@ You can either set the environment variable `$GENFILEROOT` or use macro command 
 Here are a couple of macro commands we can use:
 
 	
-
