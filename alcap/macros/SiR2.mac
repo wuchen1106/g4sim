@@ -9,4 +9,4 @@
 /g4sim/gun/ResetGen               gen/gen_mum_up
 
 # Set Geo
-/g4sim/det/ReloadGeo              geometry_1217
+/g4sim/det/ReloadGeo              geometry_SiR2

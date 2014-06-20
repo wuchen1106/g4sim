@@ -23,7 +23,7 @@
 #
 # ResetMisc menu :
 /gui/addMenu reset ResetMisc
-/gui/addButton reset 1217                "/control/execute {MYG4SIMWORKROOT}/macros/1217.mac"
+/gui/addButton reset SiR2                "/control/execute {MYG4SIMWORKROOT}/macros/SiR2.mac"
 /gui/addButton reset GeCallibration      "/control/execute {MYG4SIMWORKROOT}/macros/GeCallibration.mac"
 /gui/addButton reset resetVerbose        "/control/execute {MYG4SIMWORKROOT}/macros/resetVerbose.mac"
 /gui/addButton reset resetCut            "/control/execute {MYG4SIMWORKROOT}/macros/resetCut.mac"
@@ -38,9 +38,9 @@
 /gui/addButton reGeo 1207                "/g4sim/det/ReloadGeo              geometry_1207"
 /gui/addButton reGeo 1210                "/g4sim/det/ReloadGeo              geometry_1210"
 /gui/addButton reGeo 1211                "/g4sim/det/ReloadGeo              geometry_1211"
-/gui/addButton reGeo 1211                "/g4sim/det/ReloadGeo              geometry_1211"
 /gui/addButton reGeo 1215                "/g4sim/det/ReloadGeo              geometry_1215"
 /gui/addButton reGeo 1217                "/g4sim/det/ReloadGeo              geometry_1217"
+/gui/addButton reGeo SiR2                "/g4sim/det/ReloadGeo              geometry_SiR2"
 /gui/addButton reGeo GeCallibration      "/g4sim/det/ReloadGeo              geometry_GeCallibration"
 #
 # ResetGen menu :

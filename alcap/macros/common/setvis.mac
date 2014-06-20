@@ -1,11 +1,12 @@
 /vis/viewer/clearCutawayPlanes
 
-/vis/viewer/addCutawayPlane 0 6 0 cm 0 -1 0
+/vis/viewer/addCutawayPlane 0 5.5 0 cm 0 -1 0
 
 /vis/viewer/zoom 2.6
 
-/vis/viewer/set/viewpointThetaPhi 95 45
+/vis/viewer/set/viewpointThetaPhi 80 60
 /vis/viewer/set/lightsThetaPhi 110 20
+/vis/viewer/pan 4 -4 cm
 
 #/vis/viewer/set/background 1 1 1
 #/vis/viewer/set/culling coveredDaughters

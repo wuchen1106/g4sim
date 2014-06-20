@@ -203,31 +203,31 @@ DEFINE: thCLi		1  # Thickness of Collimator Lining
 DEFINE: bXVeto		100 # x-y Dimension of Muon Veto Scintillator
 DEFINE: thVeto		0.5 # Thickness of Muon Veto Scintillator
 DEFINE: pRVeto		137 # R position of Muon Veto Scintillator
-DEFINE: thdESi		0.065 # Thickness of dEdx Scintillator 
-DEFINE: thESi		1.5 # Thickness of E Scintillator 
+DEFINE: thSi1		0.065 # Thickness of dEdx Scintillator 
+DEFINE: thSi2		1.5 # Thickness of E Scintillator 
 DEFINE: thPS		1 # Thickness of Plastic Charged Veto Scintillator 
-DEFINE: gESi		1 # Gap between dEdx and E Scintillator 
+DEFINE: gSi2		1 # Gap between dEdx and E Scintillator 
 DEFINE: gPS 		1 # Gap between Plastic Charged Veto and E Scintillator 
-DEFINE: thPack		thPS+thESi+thdESi+gPS+gESi # Thickness of Detector Packages
+DEFINE: thPack		thPS+thSi2+thSi1+gPS+gSi2 # Thickness of Detector Packages
 DEFINE: bXPack		50 # x-y Dimension of Detector Packages
 DEFINE: pRPack		120 # R position of Detector Packages
-DEFINE: pZdES		-thPack/2+thdESi/2 # Z position of E Scintillator (Relative to Detector Package)
-DEFINE: pZESi		pZdES+thdESi/2+gESi+thESi/2 # Z position of E Scintillator (Relative to Detector Package)
-DEFINE: pZPS		pZESi+thESi/2+gPS+thPS/2 # Z position of Plastic Charged Veto Scintillator (Relative to Detector Package)
+DEFINE: pZSi1		-thPack/2+thSi1/2 # Z position of E Scintillator (Relative to Detector Package)
+DEFINE: pZSi2		pZSi1+thSi1/2+gSi2+thSi2/2 # Z position of E Scintillator (Relative to Detector Package)
+DEFINE: pZPS		pZSi2+thSi2/2+gPS+thPS/2 # Z position of Plastic Charged Veto Scintillator (Relative to Detector Package)
 #Box info
 #	Type x      y      z      Name        RepNo MotVolume Material     SDName        posX    posY  posZ    Ephi Ethe Epsi
 #	     mm     mm     mm                                                            mm      mm    mm      deg  deg  deg
 #	                                                                               P R       Phi   Z
 #	                                                                               S R       Phi   Theta  
 	B    bXVeto bXVeto thVeto MuVetoPS    1     ChamberIn Scintillator M/MonitorSD P pRVeto  180    Z0     90   90   0
-	B    bXPack bXPack thPack DetBlock1   1     ChamberIn VacuumPSI    none        P pRPack  90     Z0     0   -90   0 
-	B    bXPack bXPack thPS   VetoPS1     1     DetBlock1 Scintillator M/MonitorSD   0       0      pZPS   0    0    0 
-	B    bXPack bXPack thESi  ESi1        1     DetBlock1 Silicon      M/MonitorSD   0       0      pZESi  0    0    0 
-	B    bXPack bXPack thdESi dESi1       1     DetBlock1 Silicon      M/MonitorSD   0       0      pZdES  0    0    0 
+	B    bXPack bXPack thPack DetBlock1   1     ChamberIn VacuumPSI    none          0       0      Z0     45  -90   0 
+#	B    bXPack bXPack thPS   VetoPS1     1     DetBlock1 Scintillator M/MonitorSD   0       0      pZPS   0    0    0 
+	B    bXPack bXPack thSi2  SiR2        1     DetBlock1 Silicon      M/MonitorSD   0       0      pZSi2  0    0    0 
+#	B    bXPack bXPack thSi1  SiR1        1     DetBlock1 Silicon      M/MonitorSD   0       0      pZSi1  0    0    0 
 	B    bXPack bXPack thPack DetBlock2   1     ChamberIn VacuumPSI    none        P pRPack -90     Z0     0    90   0 
 	B    bXPack bXPack thPS   VetoPS2     1     DetBlock2 Scintillator M/MonitorSD   0       0      pZPS   0    0    0 
-	B    bXPack bXPack thESi  ESi2        1     DetBlock2 Silicon      M/MonitorSD   0       0      pZESi  0    0    0 
-	B    bXPack bXPack thdESi dESi2       1     DetBlock2 Silicon      M/MonitorSD   0       0      pZdES  0    0    0 
+	B    bXPack bXPack thSi2  SiL2        1     DetBlock2 Silicon      M/MonitorSD   0       0      pZSi2  0    0    0 
+	B    bXPack bXPack thSi1  SiL1        1     DetBlock2 Silicon      M/MonitorSD   0       0      pZSi1  0    0    0 
 	B    bXVeto bXVeto thVeto GePS        1     World     Scintillator M/MonitorSD S pRGe-10-LGe/2 0    135   90   -45      0 
 
 #==================================================================================================================
@@ -236,7 +236,7 @@ DEFINE: pZPS		pZESi+thESi/2+gPS+thPS/2 # Z position of Plastic Charged Veto Scin
 DEFINE: XT 		100 # x Dimension of Target
 DEFINE: XTB		120 # x Dimension of Target Border
 DEFINE: XTBS	122 # x Dimension of Target Border Shielding
-DEFINE: thT 	0.1 # Thickness of Target
+DEFINE: thT 	0.05 # Thickness of Target
 DEFINE: thTB	5 # Thickness of Target Border
 DEFINE: thTBS	7 # Thickness of Target Border Shielding
 #Box info
@@ -248,15 +248,8 @@ DEFINE: thTBS	7 # Thickness of Target Border Shielding
 #	B    XT     XT    thTB+1  bTgtBdHl          
 #	B    XTBS   XTBS  thTBS   bTgtBdShWh        
 #	B    XT     XT    thTBS+1 bTgtBdShHl        
-#	B    XTBS   XTBS  thTBS   TargetMount 1     ChamberIn   VacuumPSI     none        0     0     Z0     45   90   0 
+#	B    XTBS   XTBS  thTBS   TargetMount 1     ChamberIn   VacuumPSI     none        0     0     Z0    -45   90   0 
 #	B    XT     XT    thT     Target      1     TargetMount Aluminium     M/MonitorSD 0     0     0      0    0    0
-##Tubs info
-##	Type RMin RMax   Length  Start Span Name             RepNo  MotVolume Material      SDName    posX posY  posZ  Ephi   Ethe   Epsi  
-##	     mm   mm     mm      deg   deg                                                            mm   mm    mm    deg    deg    deg   
-##	                                                                                            P R    Phi   Z     
-##	                                                                                            S R    Phi   Theta 
-	T    0    26     0.2     0     360  SourceHolder     1      ChamberIn Polyethylene  none      0    0     Z0    45     90     0 
-	T    0    2.5    0.01    0     360  Source           1   SourceHolder Polyethylene  none      0    0     0     0      0      0 
 #BooleanSolid info
 #	Type type  vol1       vol2        Ephi Ethe Epsi PosX PosY PosZ   name                  RepNo MotVolume   Material SDName  posX posY posZ  Ephi Ethe Epsi  
 #	                                  deg  deg  deg  mm   mm   mm                                                              mm   mm   mm    deg  deg  deg   
@@ -300,11 +293,11 @@ DEFINE: thTBS	7 # Thickness of Target Border Shielding
 	vis_TargetBorder            0      1      0 
 	vis_TargetBorderShielding   0.5    0.5    0.5
 	vis_VetoPS1                 0      1      1  
-	vis_ESi1                    0      1      1  
-	vis_dESi1                   1      0      0  
+	vis_SiR2                    0      1      1  
+	vis_SiR1                    1      0      0  
 	vis_VetoPS2                 0      1      1  
-	vis_ESi2                    0      1      1  
-	vis_dESi2                   1      0      0  
+	vis_SiL2                    0      1      1  
+	vis_SiL1                    1      0      0  
 	vis_Ge                      0.5    0      1  
 	vis_CollimatorLead          0.5    0.5    0.5
 	vis_CollimatorPlastic       0.8    0.8    0.8
@@ -318,6 +311,4 @@ DEFINE: thTBS	7 # Thickness of Target Border Shielding
 	vis_WireVer                 1      0      0
 	vis_WireHor                 1      0      0
 	vis_DSWall                  0.5    0.5    0.5
-	vis_SourceHolder            0      1      0     0.2
-	vis_Source                  1      0      0  
 	vis_GePS                    1      1      0  
