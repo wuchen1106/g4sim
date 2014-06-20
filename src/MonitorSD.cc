@@ -566,14 +566,12 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	if (mine&&aTrack->GetTotalEnergy()<mine) return false;
 
 	//time_window
-	std::cout<<"pointIn_time = "<<pointIn_time<<", mint = "<<mint<<std::endl;
 	if(isnan(pointIn_time)){
 		G4cout<<"MonitorSD:error, pointIn_time is nan "<<G4endl;
 		return false;
 	}
 	if ( pointIn_time < mint && mint ) return false;
 	if ( pointIn_time > maxt && maxt ) return false;
-	std::cout<<"Passed time cut!"<<std::endl;
 
 	//minedep
 	if( edepIoni <= minedep ) return false;
