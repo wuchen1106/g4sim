@@ -60,6 +60,7 @@ void McTruthSvc::Initialize(){
 	m_py.clear();
 	m_pz.clear();
 	m_e.clear();
+	m_ekin.clear();
 	m_x.clear();
 	m_y.clear();
 	m_z.clear();
@@ -82,6 +83,7 @@ void McTruthSvc::SetBranch(){
 	if( flag_py ) myRoot->SetBranch("McTruth_py", &m_py);
 	if( flag_pz ) myRoot->SetBranch("McTruth_pz", &m_pz);
 	if( flag_e ) myRoot->SetBranch("McTruth_e", &m_e);
+	if( flag_e ) myRoot->SetBranch("McTruth_ekin", &m_ekin);
 	if( flag_x ) myRoot->SetBranch("McTruth_x", &m_x);
 	if( flag_y ) myRoot->SetBranch("McTruth_y", &m_y);
 	if( flag_z ) myRoot->SetBranch("McTruth_z", &m_z);
@@ -360,6 +362,7 @@ void McTruthSvc::SetValuePre(const G4Track* aTrack){
 	std::string particleName = aTrack->GetParticleDefinition()->GetParticleName();
 	int charge = aTrack->GetParticleDefinition()->GetPDGCharge();
 	G4double energy = aTrack->GetTotalEnergy();
+	G4double kinenergy = aTrack->GetKineticEnergy();
 
 	m_nTracks++;
 	if(flag_pid) m_pid.push_back(pid);
@@ -376,6 +379,7 @@ void McTruthSvc::SetValuePre(const G4Track* aTrack){
 	if(flag_py) m_py.push_back(mom_3vec.y()/unit_py);
 	if(flag_pz) m_pz.push_back(mom_3vec.z()/unit_pz);
 	if(flag_e) m_e.push_back(energy/unit_e);
+	if(flag_e) m_ekin.push_back(kinenergy/unit_e);
 	if(flag_x) m_x.push_back(pos_3vec.x()/unit_x);
 	if(flag_y) m_y.push_back(pos_3vec.y()/unit_y);
 	if(flag_z) m_z.push_back(pos_3vec.z()/unit_z);

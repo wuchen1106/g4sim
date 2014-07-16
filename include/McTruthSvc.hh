@@ -107,6 +107,7 @@ class McTruthSvc
 		std::vector<double> m_py;
 		std::vector<double> m_pz;
 		std::vector<double> m_e;
+		std::vector<double> m_ekin;
 		std::vector<double> m_x;
 		std::vector<double> m_y;
 		std::vector<double> m_z;
