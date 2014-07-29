@@ -87,6 +87,7 @@ void MonitorSD::Initialize(G4HCofThisEvent* HCE)
 	m_opx.clear();
 	m_opy.clear();
 	m_opz.clear();
+	m_ekin.clear();
 	m_e.clear();
 	m_edep.clear();
 	m_edepAll.clear();
@@ -135,6 +136,7 @@ void MonitorSD::SetBranch(){
 	if( flag_opx ) myRoot->SetBranch(volName+"_opx", &m_opx);
 	if( flag_opy ) myRoot->SetBranch(volName+"_opy", &m_opy);
 	if( flag_opz ) myRoot->SetBranch(volName+"_opz", &m_opz);
+	if( flag_ekin ) myRoot->SetBranch(volName+"_ekin", &m_ekin);
 	if( flag_e ) myRoot->SetBranch(volName+"_e", &m_e);
 	if( flag_edep ) myRoot->SetBranch(volName+"_edep", &m_edep);
 	if( flag_edepAll ) myRoot->SetBranch(volName+"_edepAll", &m_edepAll);
@@ -222,6 +224,7 @@ void MonitorSD::ReadOutputCard(G4String filename){
 			else if( name == "opx" ) {{flag_opx = true; buf_card>>unitName_opx; unit_opx = MyString2Anything::get_U(unitName_opx);}}
 			else if( name == "opy" ) {{flag_opy = true; buf_card>>unitName_opy; unit_opy = MyString2Anything::get_U(unitName_opy);}}
 			else if( name == "opz" ) {{flag_opz = true; buf_card>>unitName_opz; unit_opz = MyString2Anything::get_U(unitName_opz);}}
+			else if( name == "ekin" ) {{flag_ekin = true; buf_card>>unitName_ekin; unit_ekin = MyString2Anything::get_U(unitName_ekin);}}
 			else if( name == "e" ) {{flag_e = true; buf_card>>unitName_e; unit_e = MyString2Anything::get_U(unitName_e);}}
 			else if( name == "edep" ) {{flag_edep = true; buf_card>>unitName_edep; unit_edep = MyString2Anything::get_U(unitName_edep);}}
 			else if( name == "edepAll" ) {{flag_edepAll = true; buf_card>>unitName_edepAll; unit_edepAll = MyString2Anything::get_U(unitName_edepAll);}}
@@ -335,6 +338,7 @@ void MonitorSD::ReSet(){
 	flag_opx = false;
 	flag_opy = false;
 	flag_opz = false;
+	flag_ekin = false;
 	flag_e = false;
 	flag_edep = false;
 	flag_edepAll = false;
@@ -388,6 +392,7 @@ void MonitorSD::ReSet(){
 	unitName_opx = "GeV";
 	unitName_opy = "GeV";
 	unitName_opz = "GeV";
+	unitName_ekin = "GeV";
 	unitName_e = "GeV";
 	unitName_edep = "GeV";
 	unitName_edepAll = "GeV";
@@ -415,6 +420,7 @@ void MonitorSD::ReSet(){
 	unit_opx = MyString2Anything::get_U(unitName_opx);
 	unit_opy = MyString2Anything::get_U(unitName_opy);
 	unit_opz = MyString2Anything::get_U(unitName_opz);
+	unit_ekin = MyString2Anything::get_U(unitName_ekin);
 	unit_e = MyString2Anything::get_U(unitName_e);
 	unit_edep = MyString2Anything::get_U(unitName_edep);
 	unit_edepAll = MyString2Anything::get_U(unitName_edepAll);
@@ -433,13 +439,13 @@ void MonitorSD::ShowOutCard(){
 	std::cout<<"output Oy?       "<<(flag_Oy?" yes":" no")<<", unit: "<<unitName_Oy<<std::endl;
 	std::cout<<"output Oz?       "<<(flag_Oz?" yes":" no")<<", unit: "<<unitName_Oz<<std::endl;
 	std::cout<<"output Ot?       "<<(flag_Ot?" yes":" no")<<", unit: "<<unitName_Ot<<std::endl;
+	std::cout<<"output Opx?      "<<(flag_Opx?" yes":" no")<<", unit: "<<unitName_Opx<<std::endl;
+	std::cout<<"output Opy?      "<<(flag_Opy?" yes":" no")<<", unit: "<<unitName_Opy<<std::endl;
+	std::cout<<"output Opz?      "<<(flag_Opz?" yes":" no")<<", unit: "<<unitName_Opz<<std::endl;
 	std::cout<<"output x?       "<<(flag_x?" yes":" no")<<", unit: "<<unitName_x<<std::endl;
 	std::cout<<"output y?       "<<(flag_y?" yes":" no")<<", unit: "<<unitName_y<<std::endl;
 	std::cout<<"output z?       "<<(flag_z?" yes":" no")<<", unit: "<<unitName_z<<std::endl;
 	std::cout<<"output t?       "<<(flag_t?" yes":" no")<<", unit: "<<unitName_t<<std::endl;
-	std::cout<<"output px?      "<<(flag_Opx?" yes":" no")<<", unit: "<<unitName_Opx<<std::endl;
-	std::cout<<"output py?      "<<(flag_Opy?" yes":" no")<<", unit: "<<unitName_Opy<<std::endl;
-	std::cout<<"output pz?      "<<(flag_Opz?" yes":" no")<<", unit: "<<unitName_Opz<<std::endl;
 	std::cout<<"output px?      "<<(flag_px?" yes":" no")<<", unit: "<<unitName_px<<std::endl;
 	std::cout<<"output py?      "<<(flag_py?" yes":" no")<<", unit: "<<unitName_py<<std::endl;
 	std::cout<<"output pz?      "<<(flag_pz?" yes":" no")<<", unit: "<<unitName_pz<<std::endl;
@@ -450,6 +456,7 @@ void MonitorSD::ShowOutCard(){
 	std::cout<<"output opx?     "<<(flag_opx?" yes":" no")<<", unit: "<<unitName_opx<<std::endl;
 	std::cout<<"output opy?     "<<(flag_opy?" yes":" no")<<", unit: "<<unitName_opy<<std::endl;
 	std::cout<<"output opz?     "<<(flag_opz?" yes":" no")<<", unit: "<<unitName_opz<<std::endl;
+	std::cout<<"output ekin?     "<<(flag_ekin?" yes":" no")<<", unit: "<<unitName_ekin<<std::endl;
 	std::cout<<"output e?       "<<(flag_e?" yes":" no")<<", unit: "<<unitName_e<<std::endl;
 	std::cout<<"output edep?    "<<(flag_edep?" yes":" no")<<", unit: "<<unitName_edep<<std::endl;
 	std::cout<<"output edepAll? "<<(flag_edepAll?" yes":" no")<<", unit: "<<unitName_edepAll<<std::endl;
@@ -512,6 +519,7 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	// get information at the beginning and at the end of step
 	G4StepPoint* prePoint  = aStep->GetPreStepPoint() ;
 	G4double total_e = prePoint->GetTotalEnergy();
+	G4double ekin = prePoint->GetKineticEnergy();
 	G4ThreeVector pointIn_mom = prePoint->GetMomentum();
 	G4double pointIn_pa = pointIn_mom.mag();
 	G4ThreeVector pointIn_pos = prePoint->GetPosition();
@@ -659,17 +667,18 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		if(flag_Oy) m_Oy.push_back(pointOut_pos.y()/unit_Oy);
 		if(flag_Oz) m_Oz.push_back(pointOut_pos.z()/unit_Oz);
 		if(flag_Ot) m_Ot.push_back(pointOut_time/unit_Ot);
+		if(flag_Opx) m_Opx.push_back(pointOut_mom.x()/unit_Opx);
+		if(flag_Opy) m_Opy.push_back(pointOut_mom.y()/unit_Opy);
+		if(flag_Opz) m_Opz.push_back(pointOut_mom.z()/unit_Opz);
 		if(flag_x) m_x.push_back(pointIn_pos.x()/unit_x);
 		if(flag_y) m_y.push_back(pointIn_pos.y()/unit_y);
 		if(flag_z) m_z.push_back(pointIn_pos.z()/unit_z);
 		m_t.push_back(pointIn_time/unit_t);
 		//std::cout<<"m_t = pointOut_time/"<<unitName_t<<" = pointOut_time/"<<unit_t/ns<<"ns = "<<pointOut_time/unit_t<<unitName_t<<std::endl;
-		if(flag_Opx) m_Opx.push_back(pointOut_mom.x()/unit_Opx);
-		if(flag_Opy) m_Opy.push_back(pointOut_mom.y()/unit_Opy);
-		if(flag_Opz) m_Opz.push_back(pointOut_mom.z()/unit_Opz);
 		if(flag_px) m_px.push_back(pointIn_mom.x()/unit_px);
 		if(flag_py) m_py.push_back(pointIn_mom.y()/unit_py);
 		if(flag_pz) m_pz.push_back(pointIn_mom.z()/unit_pz);
+		if(flag_ekin) m_ekin.push_back(ekin/unit_ekin);
 		if(flag_e) m_e.push_back(total_e/unit_e);
 		if(flag_edep) m_edep.push_back(edepIoni/unit_edep);
 		if(flag_edepAll) m_edepAll.push_back(edep/unit_edepAll);

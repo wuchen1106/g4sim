@@ -58,6 +58,7 @@ class MonitorSD : public MySD
 		double Get_m_opx( int i ) { return m_opx[i]; }
 		double Get_m_opy( int i ) { return m_opy[i]; }
 		double Get_m_opz( int i ) { return m_opz[i]; }
+		double Get_m_ekin( int i ) { return m_ekin[i]; }
 		double Get_m_e( int i ) { return m_e[i]; }
 		double Get_m_edep( int i ) { return m_edep[i]; }
 		double Get_m_edepAll( int i ) { return m_edepAll[i]; }
@@ -96,6 +97,7 @@ class MonitorSD : public MySD
 		std::string Get_unitName_opx() { return unitName_opx; }
 		std::string Get_unitName_opy() { return unitName_opy; }
 		std::string Get_unitName_opz() { return unitName_opz; }
+		std::string Get_unitName_ekin() { return unitName_ekin; }
 		std::string Get_unitName_e() { return unitName_e; }
 		std::string Get_unitName_edep() { return unitName_edep; }
 		std::string Get_unitName_edepAll() { return unitName_edepAll; }
@@ -123,6 +125,7 @@ class MonitorSD : public MySD
 		double Get_unit_opx() { return unit_opx; }
 		double Get_unit_opy() { return unit_opy; }
 		double Get_unit_opz() { return unit_opz; }
+		double Get_unit_ekin() { return unit_ekin; }
 		double Get_unit_e() { return unit_e; }
 		double Get_unit_edep() { return unit_edep; }
 		double Get_unit_edepAll() { return unit_edepAll; }
@@ -161,6 +164,7 @@ class MonitorSD : public MySD
 		std::vector<double> m_opx;
 		std::vector<double> m_opy;
 		std::vector<double> m_opz;
+		std::vector<double> m_ekin;
 		std::vector<double> m_e;
 		std::vector<double> m_edep;
 		std::vector<double> m_edepAll;
@@ -200,6 +204,7 @@ class MonitorSD : public MySD
 		std::string unitName_opx;
 		std::string unitName_opy;
 		std::string unitName_opz;
+		std::string unitName_ekin;
 		std::string unitName_e;
 		std::string unitName_edep;
 		std::string unitName_edepAll;
@@ -227,6 +232,7 @@ class MonitorSD : public MySD
 		double unit_opx;
 		double unit_opy;
 		double unit_opz;
+		double unit_ekin;
 		double unit_e;
 		double unit_edep;
 		double unit_edepAll;
@@ -258,6 +264,7 @@ class MonitorSD : public MySD
 		bool flag_opx;
 		bool flag_opy;
 		bool flag_opz;
+		bool flag_ekin;
 		bool flag_e;
 		bool flag_edep;
 		bool flag_edepAll;
