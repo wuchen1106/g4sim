@@ -358,7 +358,7 @@ void McTruthSvc::SetValuePre(const G4Track* aTrack){
 	G4int ptid = aTrack->GetParentID(); //parent G4 track ID of current track.
 	G4ThreeVector mom_3vec = aTrack->GetMomentum();
 	G4ThreeVector pos_3vec = aTrack->GetVertexPosition();
-	std::string volume = aTrack->GetLogicalVolumeAtVertex()->GetName();
+	std::string volume = aTrack->GetLogicalVolumeAtVertex()?aTrack->GetLogicalVolumeAtVertex()->GetName():"NULL";
 	std::string particleName = aTrack->GetParticleDefinition()->GetParticleName();
 	int charge = aTrack->GetParticleDefinition()->GetPDGCharge();
 	G4double energy = aTrack->GetTotalEnergy();

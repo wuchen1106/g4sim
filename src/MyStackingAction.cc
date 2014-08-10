@@ -6,6 +6,7 @@ static const char* MyStackingAction_cc =
 
 #include "MyStackingAction.hh"
 #include "MyStackingActionMessenger.hh"
+#include "McTruthSvc.hh"
 
 #include "G4UserStackingAction.hh"
 #include "G4ParticleDefinition.hh"
@@ -87,9 +88,18 @@ MyStackingAction::ClassifyNewTrack(const G4Track* aTrack) {
 		else{
 			processName = "NULL";
 		}
-		if (processName=="muMinusCaptureAtRest"&&m_no_MC) aClassification = fKill;
-		if (processName=="hBertiniCaptureAtRest"&&m_no_PC) aClassification = fKill;
-		if (processName!="NULL"&&m_no_sec) aClassification = fKill;
+		if (processName=="muMinusCaptureAtRest"&&m_no_MC){
+			aClassification = fKill;
+			McTruthSvc::GetMcTruthSvc()->SetValuePre(aTrack);
+		}
+		if (processName=="hBertiniCaptureAtRest"&&m_no_PC){
+			aClassification = fKill;
+			McTruthSvc::GetMcTruthSvc()->SetValuePre(aTrack);
+		}
+		if (processName!="NULL"&&m_no_sec){
+			aClassification = fKill;
+			McTruthSvc::GetMcTruthSvc()->SetValuePre(aTrack);
+		}
 	}
 
 	if (aTrackID!=1){

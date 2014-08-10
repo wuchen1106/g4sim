@@ -60,14 +60,14 @@ void SteppingVerbose::StepInfo()
 		if( verboseLevel >= 4 ) VerboseTrack();
 		if( verboseLevel >= 3 ){
 			std::cout << std::endl;    
-			std::cout << std::setw( 5) << "#Step#" << " "
-				<< std::setw( 6) << "X"         << " "
-				<< std::setw( 6) << "Y"         << " "  
-				<< std::setw( 6) << "Z"         << " "
-				<< std::setw( 6) << "t"         << " "
-				<< std::setw( 6) << "pX"        << " "
-				<< std::setw( 6) << "pY"        << " "  
-				<< std::setw( 6) << "pZ"        << " "
+			std::cout << std::setw( 6) << "#Step#" << " "
+				<< std::setw( 9) << "X"         << " "
+				<< std::setw( 9) << "Y"         << " "  
+				<< std::setw( 9) << "Z"         << " "
+				<< std::setw( 9) << "t"         << " "
+				<< std::setw( 9) << "pX"        << " "
+				<< std::setw( 9) << "pY"        << " "  
+				<< std::setw( 9) << "pZ"        << " "
 				<< std::setw( 9) << "KineE"     << " "
 				<< std::setw( 9) << "dEStep"    << " "
 				<< std::setw(10) << "StepLeng"  << " "
@@ -76,19 +76,19 @@ void SteppingVerbose::StepInfo()
 				<< std::setw(10) << "Process"   << std::endl;	          
 		}
 
-		std::cout << std::setw( 5) << fTrack->GetCurrentStepNumber() << " "
-			<< std::setw(6) << G4BestUnit(fTrack->GetPosition().x(),"Length")
-			<< std::setw(6) << G4BestUnit(fTrack->GetPosition().y(),"Length")
-			<< std::setw(6) << G4BestUnit(fTrack->GetPosition().z(),"Length")
-			<< std::setw(6) << G4BestUnit(fTrack->GetGlobalTime(),"Time")
-			<< std::setw(6) << G4BestUnit(fTrack->GetMomentum().x(),"Energy")
-			<< std::setw(6) << G4BestUnit(fTrack->GetMomentum().y(),"Energy")
-			<< std::setw(6) << G4BestUnit(fTrack->GetMomentum().z(),"Energy")
-			<< std::setw(6) << G4BestUnit(fTrack->GetKineticEnergy(),"Energy")
-			<< std::setw(6) << G4BestUnit(fStep->GetTotalEnergyDeposit(),"Energy")
-			<< std::setw(6) << G4BestUnit(fStep->GetStepLength(),"Length")
-			<< std::setw(6) << G4BestUnit(fTrack->GetTrackLength(),"Length")
-			<< std::setw(10) << fTrack->GetVolume()->GetName();
+		std::cout << std::setw( 6) << fTrack->GetCurrentStepNumber() << " "
+			<< std::setw( 9) << G4BestUnit(fTrack->GetPosition().x(),"Length")<< " "
+			<< std::setw( 9) << G4BestUnit(fTrack->GetPosition().y(),"Length")<< " "
+			<< std::setw( 9) << G4BestUnit(fTrack->GetPosition().z(),"Length")<< " "
+			<< std::setw( 9) << G4BestUnit(fTrack->GetGlobalTime(),"Time")<< " "
+			<< std::setw( 9) << G4BestUnit(fTrack->GetMomentum().x(),"Energy")<< " "
+			<< std::setw( 9) << G4BestUnit(fTrack->GetMomentum().y(),"Energy")<< " "
+			<< std::setw( 9) << G4BestUnit(fTrack->GetMomentum().z(),"Energy")<< " "
+			<< std::setw( 9) << G4BestUnit(fTrack->GetKineticEnergy(),"Energy")<< " "
+			<< std::setw( 9) << G4BestUnit(fStep->GetTotalEnergyDeposit(),"Energy")<< " "
+			<< std::setw(10) << G4BestUnit(fStep->GetStepLength(),"Length")<< " "
+			<< std::setw(10) << G4BestUnit(fTrack->GetTrackLength(),"Length")<< " "
+			<< std::setw(10) << fTrack->GetVolume()->GetName()<< " ";
 
 		const G4VProcess* process 
 			= fStep->GetPostStepPoint()->GetProcessDefinedStep();
@@ -138,14 +138,14 @@ void SteppingVerbose::TrackingStarted()
 	G4int prec = std::cout.precision(3);
 	if( verboseLevel > 0 ){
 
-		std::cout << std::setw( 5) << "#Step#" << " "
-			<< std::setw( 6) << "X"         << " "
-			<< std::setw( 6) << "Y"         << " "  
-			<< std::setw( 6) << "Z"         << " "
-			<< std::setw( 6) << "t"         << " "
-			<< std::setw( 6) << "pX"        << " "
-			<< std::setw( 6) << "pY"        << " "  
-			<< std::setw( 6) << "pZ"        << " "
+		std::cout << std::setw( 6) << "#Step#" << " "
+			<< std::setw( 9) << "X"         << " "
+			<< std::setw( 9) << "Y"         << " "  
+			<< std::setw( 9) << "Z"         << " "
+			<< std::setw( 9) << "t"         << " "
+			<< std::setw( 9) << "pX"        << " "
+			<< std::setw( 9) << "pY"        << " "  
+			<< std::setw( 9) << "pZ"        << " "
 			<< std::setw( 9) << "KineE"     << " "
 			<< std::setw( 9) << "dEStep"    << " "
 			<< std::setw(10) << "StepLeng"  << " "
@@ -153,19 +153,20 @@ void SteppingVerbose::TrackingStarted()
 			<< std::setw(10) << "Volume"    << " "
 			<< std::setw(10) << "Process"   << std::endl;	          
 
-		std::cout << std::setw(5) << fTrack->GetCurrentStepNumber() << " "
-			<< std::setw(6) << G4BestUnit(fTrack->GetPosition().x(),"Length")
-			<< std::setw(6) << G4BestUnit(fTrack->GetPosition().y(),"Length")
-			<< std::setw(6) << G4BestUnit(fTrack->GetPosition().z(),"Length")
-			<< std::setw(6) << G4BestUnit(fTrack->GetGlobalTime(),"Time")
-			<< std::setw(6) << G4BestUnit(fTrack->GetMomentum().x(),"Energy")
-			<< std::setw(6) << G4BestUnit(fTrack->GetMomentum().y(),"Energy")
-			<< std::setw(6) << G4BestUnit(fTrack->GetMomentum().z(),"Energy")
-			<< std::setw(6) << G4BestUnit(fStep->GetTotalEnergyDeposit(),"Energy")
-			<< std::setw(6) << G4BestUnit(fStep->GetStepLength(),"Length")
-			<< std::setw(6) << G4BestUnit(fTrack->GetTrackLength(),"Length")
-			<< std::setw(10) << fTrack->GetVolume()->GetName()
-			<< "   initStep" << std::endl;	
+		std::cout << std::setw(6) << fTrack->GetCurrentStepNumber() << " "
+			<< std::setw( 9) << G4BestUnit(fTrack->GetPosition().x(),"Length")<< " "
+			<< std::setw( 9) << G4BestUnit(fTrack->GetPosition().y(),"Length")<< " "
+			<< std::setw( 9) << G4BestUnit(fTrack->GetPosition().z(),"Length")<< " "
+			<< std::setw( 9) << G4BestUnit(fTrack->GetGlobalTime(),"Time")<< " "
+			<< std::setw( 9) << G4BestUnit(fTrack->GetMomentum().x(),"Energy")<< " "
+			<< std::setw( 9) << G4BestUnit(fTrack->GetMomentum().y(),"Energy")<< " "
+			<< std::setw( 9) << G4BestUnit(fTrack->GetMomentum().z(),"Energy")<< " "
+			<< std::setw( 9) << G4BestUnit(fTrack->GetKineticEnergy(),"Energy")<< " "
+			<< std::setw( 9) << G4BestUnit(fStep->GetTotalEnergyDeposit(),"Energy")<< " "
+			<< std::setw(10) << G4BestUnit(fStep->GetStepLength(),"Length")<< " "
+			<< std::setw(10) << G4BestUnit(fTrack->GetTrackLength(),"Length")<< " "
+			<< std::setw(10) << fTrack->GetVolume()->GetName()<< " "
+			<< std::setw(10) << "   initStep" << std::endl;	
 	}
 	std::cout.precision(prec);
 }

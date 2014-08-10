@@ -78,7 +78,9 @@ class CdcSD : public MySD
 		std::vector<double> m_py;
 		std::vector<double> m_pz;
 		std::vector<double> m_e;
+		std::vector<double> m_ekin;
 		std::vector<double> m_edep;
+		std::vector<double> m_stepL;
 		std::vector<int> m_nTry;
 		std::vector<int> m_status;
 		std::vector<double> m_error;
@@ -88,6 +90,11 @@ class CdcSD : public MySD
 		std::vector<int>    m_cellID;
 		std::vector<int>    m_tid;
 		std::vector<int>    m_pid;
+		std::vector<int>    m_ppid;
+		std::vector<int>    m_ptid;
+		std::vector<std::string>    m_oprocess;
+		std::vector<std::string>    m_ovolName;
+		std::vector<std::string>    m_particleName;
 		double unit_x;
 		double unit_y;
 		double unit_z;
@@ -102,7 +109,9 @@ class CdcSD : public MySD
 		double unit_py;
 		double unit_pz;
 		double unit_e;
+		double unit_ekin;
 		double unit_edep;
+		double unit_stepL;
 		double unit_driftD;
 		double unit_driftD_smeared;
 		std::string unitName_x;
@@ -119,7 +128,9 @@ class CdcSD : public MySD
 		std::string unitName_py;
 		std::string unitName_pz;
 		std::string unitName_e;
+		std::string unitName_ekin;
 		std::string unitName_edep;
+		std::string unitName_stepL;
 		std::string unitName_driftD;
 		std::string unitName_driftD_smeared;
 		//for output setting
@@ -139,7 +150,9 @@ class CdcSD : public MySD
 		bool flag_py;
 		bool flag_pz;
 		bool flag_e;
+		bool flag_ekin;
 		bool flag_edep;
+		bool flag_stepL;
 		bool flag_nTry;
 		bool flag_status;
 		bool flag_error;
@@ -149,6 +162,11 @@ class CdcSD : public MySD
 		bool flag_cellID;
 		bool flag_tid;
 		bool flag_pid;
+		bool flag_ppid;
+		bool flag_ptid;
+		bool flag_oprocess;
+		bool flag_ovolName;
+		bool flag_particleName;
 		//for filter
 		bool Switch;
 		G4double minp;
