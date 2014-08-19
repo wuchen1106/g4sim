@@ -1,0 +1,12 @@
+/control/getEnv MYG4SIMWORKROOT
+
+# Get default settings
+/control/execute {MYG4SIMWORKROOT}/macros/resetVerbose.mac
+/control/execute {MYG4SIMWORKROOT}/macros/resetCut.mac
+# Set Output
+/g4sim/myAnalysisSvc/set_out_card output/output_SiR2
+# Set Gen
+/g4sim/gun/ResetGen               gen/gen_mum_up
+
+# Set Geo
+/g4sim/det/ReloadGeo              geometry_SiR2

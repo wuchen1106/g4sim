@@ -112,7 +112,9 @@ void CdcSD::Initialize(G4HCofThisEvent* HCE)
 	m_py.clear();
 	m_pz.clear();
 	m_e.clear();
+	m_ekin.clear();
 	m_edep.clear();
+	m_stepL.clear();
 	m_nTry.clear();
 	m_status.clear();
 	m_error.clear();
@@ -122,6 +124,11 @@ void CdcSD::Initialize(G4HCofThisEvent* HCE)
 	m_cellID.clear();
 	m_tid.clear();
 	m_pid.clear();
+	m_particleName.clear();
+	m_ppid.clear();
+	m_ptid.clear();
+	m_oprocess.clear();
+	m_ovolName.clear();
 	//initialize for filter
 	nTracks = 0;
 	prevTrackID = -100;
@@ -147,7 +154,9 @@ void CdcSD::SetBranch(){
 	if( flag_py ) myRoot->SetBranch(volName+"_py", &m_py);
 	if( flag_pz ) myRoot->SetBranch(volName+"_pz", &m_pz);
 	if( flag_e ) myRoot->SetBranch(volName+"_e", &m_e);
+	if( flag_ekin ) myRoot->SetBranch(volName+"_ekin", &m_ekin);
 	if( flag_edep ) myRoot->SetBranch(volName+"_edep", &m_edep);
+	if( flag_stepL ) myRoot->SetBranch(volName+"_stepL", &m_stepL);
 	if( flag_nTry ) myRoot->SetBranch(volName+"_nTry", &m_nTry);
 	if( flag_status ) myRoot->SetBranch(volName+"_status", &m_status);
 	if( flag_error ) myRoot->SetBranch(volName+"_error", &m_error);
@@ -157,6 +166,11 @@ void CdcSD::SetBranch(){
 	if( flag_cellID ) myRoot->SetBranch(volName+"_cellID", &m_cellID);
 	if( flag_tid ) myRoot->SetBranch(volName+"_tid", &m_tid);
 	if( flag_pid ) myRoot->SetBranch(volName+"_pid", &m_pid);
+	if( flag_particleName ) myRoot->SetBranch(volName+"_particleName", &m_particleName);
+	if( flag_ppid) myRoot->SetBranch(volName+"_ppid", &m_ppid);
+	if( flag_ptid) myRoot->SetBranch(volName+"_ptid", &m_ptid);
+	if( flag_oprocess) myRoot->SetBranch(volName+"_oprocess", &m_oprocess);
+	if( flag_ovolName) myRoot->SetBranch(volName+"_ovolName", &m_ovolName);
 }
 
 //-----------------------------------ReadOutputCard----------------------------------------------
@@ -218,8 +232,10 @@ void CdcSD::ReadOutputCard(G4String filename){
 			else if( name == "px" ) {flag_px = true; buf_card>>unitName_px; unit_px = MyString2Anything::get_U(unitName_px);}
 			else if( name == "py" ) {flag_py = true; buf_card>>unitName_py; unit_py = MyString2Anything::get_U(unitName_py);}
 			else if( name == "pz" ) {flag_pz = true; buf_card>>unitName_pz; unit_pz = MyString2Anything::get_U(unitName_pz);}
+			else if( name == "ekin" ) {{flag_ekin = true; buf_card>>unitName_ekin; unit_ekin = MyString2Anything::get_U(unitName_ekin);}}
 			else if( name == "e" ) {flag_e = true; buf_card>>unitName_e; unit_e = MyString2Anything::get_U(unitName_e);}
 			else if( name == "edep" ) {flag_edep = true; buf_card>>unitName_edep; unit_edep = MyString2Anything::get_U(unitName_edep);}
+			else if( name == "stepL" ) {{flag_stepL = true; buf_card>>unitName_stepL; unit_stepL = MyString2Anything::get_U(unitName_stepL);}}
 			else if( name == "nTry" ) {flag_nTry = true;}
 			else if( name == "status" ) {flag_status = true;}
 			else if( name == "error" ) {flag_error = true;}
@@ -229,6 +245,11 @@ void CdcSD::ReadOutputCard(G4String filename){
 			else if( name == "layerID" ) flag_layerID = true;
 			else if( name == "tid" ) flag_tid = true;
 			else if( name == "pid" ) flag_pid = true;
+			else if( name == "ppid" ) {flag_ppid = true;}
+			else if( name == "ptid" ) {flag_ptid = true;}
+			else if( name == "oprocess" ) {flag_oprocess = true;}
+			else if( name == "ovolName" ) {flag_ovolName = true;}
+			else if( name == "particleName" ) flag_particleName = true;
 			else{
 				std::cout<<"In CdcSD::ReadOutputCard, unknown name: "<<name<<" in file "<<filename<<std::endl;
 				std::cout<<"Will ignore this line!"<<std::endl;
@@ -307,7 +328,9 @@ void CdcSD::ReSet(){
 	flag_py = false;
 	flag_pz = false;
 	flag_e = false;
+	flag_ekin = false;
 	flag_edep = false;
+	flag_stepL = false;
 	flag_nTry = false;
 	flag_status = false;
 	flag_error = false;
@@ -317,6 +340,11 @@ void CdcSD::ReSet(){
 	flag_layerID = false;
 	flag_tid = false;
 	flag_pid = false;
+	flag_particleName = false;
+	flag_ppid = false;
+	flag_ptid = false;
+	flag_oprocess = false;
+	flag_ovolName = false;
 	//for fileter
 	Switch = false;
 	neutralCut = false;
@@ -326,6 +354,41 @@ void CdcSD::ReSet(){
 	mint = 0;
 	maxt = 0;
 	minedep = 0;
+	//for units
+	unitName_pOx = "cm";
+	unitName_pOy = "cm";
+	unitName_pOz = "cm";
+	unitName_pIx = "cm";
+	unitName_pIy = "cm";
+	unitName_pIz = "cm";
+	unitName_x = "cm";
+	unitName_y = "cm";
+	unitName_z = "cm";
+	unitName_t = "ns";
+	unitName_px = "GeV";
+	unitName_py = "GeV";
+	unitName_pz = "GeV";
+	unitName_ekin = "GeV";
+	unitName_e = "GeV";
+	unitName_edep = "GeV";
+	unitName_stepL = "cm";
+	unit_pOx = MyString2Anything::get_U(unitName_pOx);
+	unit_pOy = MyString2Anything::get_U(unitName_pOy);
+	unit_pOz = MyString2Anything::get_U(unitName_pOz);
+	unit_pIx = MyString2Anything::get_U(unitName_pIx);
+	unit_pIy = MyString2Anything::get_U(unitName_pIy);
+	unit_pIz = MyString2Anything::get_U(unitName_pIz);
+	unit_x = MyString2Anything::get_U(unitName_x);
+	unit_y = MyString2Anything::get_U(unitName_y);
+	unit_z = MyString2Anything::get_U(unitName_z);
+	unit_t = MyString2Anything::get_U(unitName_t);
+	unit_px = MyString2Anything::get_U(unitName_px);
+	unit_py = MyString2Anything::get_U(unitName_py);
+	unit_pz = MyString2Anything::get_U(unitName_pz);
+	unit_ekin = MyString2Anything::get_U(unitName_ekin);
+	unit_e = MyString2Anything::get_U(unitName_e);
+	unit_edep = MyString2Anything::get_U(unitName_edep);
+	unit_stepL = MyString2Anything::get_U(unitName_stepL);
 }
 
 //-----------------------------------ShowOutCard----------------------------------------------
@@ -337,18 +400,20 @@ void CdcSD::ShowOutCard(){
 	std::cout<<"output x?      "<<(flag_x?" yes":" no")<<", unit: "<<unitName_x<<std::endl;
 	std::cout<<"output y?      "<<(flag_y?" yes":" no")<<", unit: "<<unitName_y<<std::endl;
 	std::cout<<"output z?      "<<(flag_z?" yes":" no")<<", unit: "<<unitName_z<<std::endl;
-	std::cout<<"output x?      "<<(flag_pIx?" yes":" no")<<", unit: "<<unitName_pIx<<std::endl;
-	std::cout<<"output y?      "<<(flag_pIy?" yes":" no")<<", unit: "<<unitName_pIy<<std::endl;
-	std::cout<<"output z?      "<<(flag_pIz?" yes":" no")<<", unit: "<<unitName_pIz<<std::endl;
-	std::cout<<"output x?      "<<(flag_pOx?" yes":" no")<<", unit: "<<unitName_pOx<<std::endl;
-	std::cout<<"output y?      "<<(flag_pOy?" yes":" no")<<", unit: "<<unitName_pOy<<std::endl;
-	std::cout<<"output z?      "<<(flag_pOz?" yes":" no")<<", unit: "<<unitName_pOz<<std::endl;
+	std::cout<<"output pIx?    "<<(flag_pIx?" yes":" no")<<", unit: "<<unitName_pIx<<std::endl;
+	std::cout<<"output pIy?    "<<(flag_pIy?" yes":" no")<<", unit: "<<unitName_pIy<<std::endl;
+	std::cout<<"output pIz?    "<<(flag_pIz?" yes":" no")<<", unit: "<<unitName_pIz<<std::endl;
+	std::cout<<"output pOx?    "<<(flag_pOx?" yes":" no")<<", unit: "<<unitName_pOx<<std::endl;
+	std::cout<<"output pOy?    "<<(flag_pOy?" yes":" no")<<", unit: "<<unitName_pOy<<std::endl;
+	std::cout<<"output pOz?    "<<(flag_pOz?" yes":" no")<<", unit: "<<unitName_pOz<<std::endl;
 	std::cout<<"output t?      "<<(flag_t?" yes":" no")<<", unit: "<<unitName_t<<std::endl;
 	std::cout<<"output px?     "<<(flag_px?" yes":" no")<<", unit: "<<unitName_px<<std::endl;
 	std::cout<<"output py?     "<<(flag_py?" yes":" no")<<", unit: "<<unitName_py<<std::endl;
 	std::cout<<"output pz?     "<<(flag_pz?" yes":" no")<<", unit: "<<unitName_pz<<std::endl;
+	std::cout<<"output ekin?     "<<(flag_ekin?" yes":" no")<<", unit: "<<unitName_ekin<<std::endl;
 	std::cout<<"output e?      "<<(flag_e?" yes":" no")<<", unit: "<<unitName_e<<std::endl;
 	std::cout<<"output edep?   "<<(flag_edep?" yes":" no")<<", unit: "<<unitName_edep<<std::endl;
+	std::cout<<"output stepL?   "<<(flag_stepL?" yes":" no")<<", unit: "<<unitName_stepL<<std::endl;
 	std::cout<<"output nTry?   "<<(flag_nTry?" yes":" no")<<std::endl;
 	std::cout<<"output status?   "<<(flag_status?" yes":" no")<<std::endl;
 	std::cout<<"output error?   "<<(flag_error?" yes":" no")<<std::endl;
@@ -392,6 +457,7 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	G4StepPoint* prePoint  = aStep->GetPreStepPoint() ;
 	G4StepPoint* postPoint = aStep->GetPostStepPoint() ;
 	G4double total_e = prePoint->GetTotalEnergy();
+	G4double ekin = prePoint->GetKineticEnergy();
 	G4ThreeVector pointIn_mom = prePoint->GetMomentum();
 	G4double pointIn_pa = pointIn_mom.mag();
 	G4ThreeVector pointIn_pos = prePoint->GetPosition();
@@ -400,6 +466,7 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 
 	// get step info
 	G4double edep = aStep->GetTotalEnergyDeposit();
+	G4double stepL = aStep->GetStepLength();
 
 	// get layerId and cellId
 	const G4VTouchable *touchable = prePoint->GetTouchable();
@@ -538,8 +605,10 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 		if(flag_px) m_px.push_back(pointIn_mom.x()/unit_px);
 		if(flag_py) m_py.push_back(pointIn_mom.y()/unit_py);
 		if(flag_pz) m_pz.push_back(pointIn_mom.z()/unit_pz);
+		if(flag_ekin) m_ekin.push_back(ekin/unit_ekin);
 		if(flag_e) m_e.push_back(total_e/unit_e);
 		if(flag_edep) m_edep.push_back(edep/unit_edep);
+		if(flag_stepL) m_stepL.push_back(stepL/unit_stepL);
 		if(flag_error) m_error.push_back(error);
 		if(flag_status) m_status.push_back(status);
 		if(flag_nTry) m_nTry.push_back(nTry);
@@ -595,6 +664,8 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 			if(flag_py) m_py[pointer] = pointIn_mom.y()/unit_py;
 			if(flag_pz) m_pz[pointer] = pointIn_mom.z()/unit_pz;
 			if(flag_e) m_e[pointer] = total_e/unit_e;
+			if(flag_e) m_ekin[pointer] = ekin/unit_ekin;
+			if(flag_stepL) m_stepL[pointer] += stepL/unit_stepL;
 			if(flag_nTry) m_nTry[pointer] = nTry;
 			if(flag_status) m_status[pointer] = status;
 			if(flag_error) m_error[pointer] = error;

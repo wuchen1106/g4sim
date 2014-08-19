@@ -3,8 +3,8 @@ g4sim
 
 Simulation toolkit based on Geant4 and ROOT 
 
-###1. Installation
-#####Prerequirements:  
+#1. Installation
+##Prerequirements:  
 1.	CMake installed
 
 	If CMake if not provided by your package manager, you can visit [CMake](http://www.cmake.org/) for source code then install CMake in this way:
@@ -56,50 +56,74 @@ Simulation toolkit based on Geant4 and ROOT
 
 		--with-gsl-incdir=path/to/GSL/include --with-gsl-libdir=path/to/GSL/lib
 
-#####Install:
+##Install:
 
-	$ cd cmake
-	$ cmake .
-	$ make
+	cd cmake
+	cmake .
+	make
 	
-###2. How to use
-#####Prerequirements:  
+#2. How to use
+##Prerequirements:  
 	
 1. 	Geant4 environment is set already.
 
 	If not, then  
-`source /path/to/geant4/bin/geant4.sh`  
-`source /path/to/geant4/share/Geant4-*/geant4make/geant4make.sh`
+
+		source /path/to/geant4/bin/geant4.sh
+		source /path/to/geant4/share/Geant4-*/geant4make/geant4make.sh
 	
 2.	ROOT environment is set already.
 
 	If not, then  
-`source /path/to/root/bin/thisroot.sh`
 
-3.	Your work directory has been created.
+		source /path/to/root/bin/thisroot.sh
 
-	Work direcotory can be put any where but remember to set environment variable "MYG4SIMWORKROOT" to it.
-	You can call `g4sim` either in interactive mode or batch mode.  
-	A figure to show how it works:  
-	![Flow Diagram](docs/FlowDiagram.png "Flow Diagram")  
-		
-	Remember to change "Default" in "setenv.sh" to the directory name you created.
-	The simplest way is  
-`$ cp -r Template Default`  
-	By default it can work.
+3.	Your working directory has been created.
+
+	`Example` is a working directory for a simple simulation to show how `g4sim` works.
+	It also serves as a template for someone who want to build another simulation.
 
 4.	g4sim basic environment is set already.
 
-	If not, go to your work directory and  
-`source env.sh`
+	If you have already set environment variable `$MYG4SIMROOT` to the directory of `g4sim`,
+	you can go to working directory,
+	otherwise you will need to  
 
-#####To start:  
+			source env.sh  
+	Then go to your working directory and set environment:  
 
-	$ g4sim [macros/run.mac]           # Choose any Geant4 macro file you want.
-	                                   # without macro file it would enter interactive mode.
+			cd alcap # or whatever working directory
+			source setenv.sh
+
+##To Start:  
+
+	g4sim [macros/run.mac]             # Choose any Geant4 macro file you want.
+	                                   # without macro file it would enter interactive mode.  
+A figure to show how it works:  
+![Flow Diagram](docs/FlowDiagram.png "Flow Diagram")  
 	                                   
-#####To explain:  
+##To Configure:  
+By default (set in `setenv.sh`):
 
-1.	Interactive mode would apply **macros/vis.mac**, which would call `vis/open OGL`.
-		If you don't have `-DGEANT4_USE_RAYTRACER_X11=ON` when you configured Geant4
-		then you may want to change these command.
+	GENFILEROOT=gen/gen_mum_up
+	GEOCARDROOT=geometry_1217
+	OUTCARDROOT=output/output_default
+	
+With this default environment set already you can start simulation with `/run/beamOn XXX` immediately.  
+###GENFILEROOT:  
+We provide couple ways to configure:  
+
+1.	Use another configure file  
+
+Currently we have these optional choices:  
+
+	gen_mum_up      # Generate muon from upstream before MuPC
+	gen_gam_tgt     # Generate gamma from target position
+
+You can either set the environment variable `$GENFILEROOT` or use macro command `/g4sim/gun/ResetGen gen/gen_mum_up` in Geant4 session to reset generator setting based on this given configure file.  
+
+2.	Modify some parameters using macro commands
+
+Here are a couple of macro commands we can use:
+
+	

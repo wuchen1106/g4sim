@@ -1,0 +1,8 @@
+/control/getEnv MYG4SIMWORKROOT
+
+/control/execute {MYG4SIMWORKROOT}/macros/reset.mac
+
+# Generator:
+/g4sim/gun/ReadCard gen_rand
+#/g4sim/gun/root_filename .dummy
+/g4sim/gun/initialize

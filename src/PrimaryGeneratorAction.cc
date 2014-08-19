@@ -17,6 +17,8 @@
 #include "G4RotationMatrix.hh"
 #include "Randomize.hh"
 
+#include "G4TransportationManager.hh"
+
 //supported geometry
 #include "MyDetectorManager.hh"
 #include "MyVGeometrySvc.hh"
@@ -219,6 +221,12 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	else if ( PositionMode == "gRand" || PositionMode == "sRand" || PositionMode == "bRand" ){
 		SetRandomPosition();
 	}
+	else if ( PositionMode == "target") {
+	  SetRandomPosition();  
+	}
+	else if ( PositionMode == "source") {
+	  SetRandomPosition();  
+	}
 	else if ( PositionMode != "none" ){
 		std::cout<<"ERROR: unknown PositionMode: "<<PositionMode<<"!!!"<<std::endl;
 		G4Exception("PrimaryGeneratorAction::GeneratePrimaries()",
@@ -337,6 +345,50 @@ void PrimaryGeneratorAction::SetRandomPosition(){
 		if (xSpread) dx=2.*(G4UniformRand()-0.5)*xSpread;
 		if (ySpread) dy=2.*(G4UniformRand()-0.5)*ySpread;
 		if (zSpread) dz=2.*(G4UniformRand()-0.5)*zSpread;
+	}
+	else if (PositionMode=="source"){
+	  // Make sure that the random position chosen is within the Target volume
+	  G4Navigator* theNavigator = G4TransportationManager::GetTransportationManager()->GetNavigatorForTracking();
+
+	  // Get a random position based on the spread (copied code from gRand)
+	  do {
+	    dx=G4RandGauss::shoot(0,xSpread);
+	    dy=G4RandGauss::shoot(0,ySpread);
+	    dz=G4RandGauss::shoot(0,zSpread);
+
+	    G4ThreeVector position(x+dx, y+dy, z+dz);
+	    G4VPhysicalVolume* phys_volume = theNavigator->LocateGlobalPointAndSetup(position);
+
+	    if (!phys_volume) {
+	      continue; // if theNavigator didn't return a physical volume
+	    }
+
+	    if (phys_volume->GetName() == "Source") {
+	      gotit = true;
+	    }
+	  } while (!gotit);
+	}
+	else if (PositionMode=="target"){
+	  // Make sure that the random position chosen is within the Target volume
+	  G4Navigator* theNavigator = G4TransportationManager::GetTransportationManager()->GetNavigatorForTracking();
+
+	  // Get a random position based on the spread (copied code from gRand)
+	  do {
+	    dx=G4RandGauss::shoot(0,xSpread);
+	    dy=G4RandGauss::shoot(0,ySpread);
+	    dz=G4RandGauss::shoot(0,zSpread);
+
+	    G4ThreeVector position(x+dx, y+dy, z+dz);
+	    G4VPhysicalVolume* phys_volume = theNavigator->LocateGlobalPointAndSetup(position);
+
+	    if (!phys_volume) {
+	      continue; // if theNavigator didn't return a physical volume
+	    }
+
+	    if (phys_volume->GetName() == "Target") {
+	      gotit = true;
+	    }
+	  } while (!gotit);
 	}
 	particleGun->SetParticlePosition(G4ThreeVector(x+dx,y+dy,z+dz));
 }
@@ -480,6 +532,8 @@ void PrimaryGeneratorAction::root_build(){
 	G4String dir_name = getenv("CONFIGUREDATAROOT");
 	if (dir_name[dir_name.size()-1] != '/') dir_name.append("/");
 	std::string m_TFile_name = dir_name + root_filename;
+	if (root_filename[0] == '/')
+		m_TFile_name = root_filename;
 	//if (m_TChain) delete m_TChain;
 	m_TChain = new TChain("t");
 	m_TChain->Add(m_TFile_name.c_str());

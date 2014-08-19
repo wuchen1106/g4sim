@@ -7,6 +7,7 @@
 
 #include "MaterialSvc.hh"
 
+#include "G4Isotope.hh"
 #include "G4Material.hh"
 #include "G4UnitsTable.hh"
 #include "myglobals.hh"
@@ -105,10 +106,12 @@ void MaterialSvc::SetMaterial( G4String file_name ){
 
 void MaterialSvc::AddMaterial( G4String content ){
 	G4Material *aMaterial = 0;
+	G4Element *aElement = 0;
 	G4String symbol;
 	G4String name;
 	G4String s_temp;
 	double z = 0;
+	double n = 0;
 	double a = 0;
 	double density = 0;
 	int ncomponents = 0;
@@ -122,13 +125,53 @@ void MaterialSvc::AddMaterial( G4String content ){
 	buf_card.clear();
 	buf_card<<content;
 	MAT_LINEVAR(fMode) // DEBUG.hh
-	if ( fMode == "Elements"){
+	if ( fMode == "Isotopes"){
+		buf_card>>symbol;
+		buf_card>>z;
+		buf_card>>n;
+		buf_card>>a;
+		//    std::cout<<"symbol = "<<symbol<<", a = "<<a<<", z = "<<z<<", n = "<<n<<std::endl;
+		new G4Isotope(symbol.c_str(), z, n, a*g/mole );
+	}
+	else if ( fMode == "Elements"){
 		buf_card>>symbol;
 		buf_card>>name;
 		buf_card>>z;
 		buf_card>>a;
 		//    std::cout<<"symbol = "<<symbol<<", name = "<<name<<", a = "<<a<<", z = "<<z<<std::endl;
 		new G4Element(name.c_str(), symbol.c_str(), z, a*g/mole );
+	}
+	else if ( fMode == "Comp_Elements"){
+		buf_card>>symbol;
+		buf_card>>name;
+		buf_card>>ncomponents;
+		double sum_frac = 0;
+		for ( int i = 0; i < ncomponents; i++ ){
+			buf_card>>element[i];
+			buf_card>>comFrac[i];
+			sum_frac = sum_frac + comFrac[i];
+		}
+		//    std::cout<<"symbol = "<<symbol<<", name= "<<name<<", ncomponents = "<<ncomponents<<std::endl;
+		//    for ( int i = 0; i < ncomponents; i++ ){
+		//      std::cout<<"  "<<i<<": "<<"isotope = "<<element[i]<<", comFrac = "<<comFrac[i]<<std::endl;
+		//    }
+		if ( sum_frac == 0 ){
+			std::cout<<"Please check mass fractions for "<<name<<std::endl;
+			G4Exception("MaterialSvc::AddMaterial()","Run0031",
+					FatalException, "total fraction is zero.");
+		}
+		if ( sum_frac != 1 ){
+			std::cout<<"the total fraction for "<<name<<" is not 1!!!"<<std::endl;
+			std::cout<<"MaterialSvc will normalize it to 1!"<<std::endl;
+			for ( int i = 0; i < ncomponents; i++ ){
+				comFrac[i] = comFrac[i]/sum_frac;
+			}
+		}
+		aElement = new G4Element(name.c_str(), symbol.c_str(), ncomponents);
+		for ( int i = 0; i < ncomponents; i++ ){
+			G4Isotope* new_iso = G4Isotope::GetIsotope(element[i]);
+			aElement->AddIsotope(new_iso, comFrac[i]);
+		}
 	}
 	else if ( fMode == "Simple_Materials" ){
 		buf_card>>name;

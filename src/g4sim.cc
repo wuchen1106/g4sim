@@ -43,6 +43,7 @@
 #include "EventAction.hh"
 #include "SteppingAction.hh"
 #include "SteppingVerbose.hh"
+#include "G4RadioactiveDecayPhysics.hh"
 #include "QGSP_BERT.hh"
 #include "QGSP_BERT_HP.hh"
 //#include "myQGSP_BERT_HP.hh"
@@ -90,60 +91,26 @@ int main(int argc,char** argv)
 	runManager->SetUserInitialization(new DetectorConstruction);
 	//
 
-	G4String PhysicsListName = "QGSP_BERT";
-	G4String file_name = getenv("GENFILEROOT");
-	size_t sLast = file_name.last('/');
-	if(file_name[0] != '/'){ // Relative Dir
-		G4String dir_name = getenv("CONFIGUREROOT");
-		if (dir_name[dir_name.size()-1] != '/') dir_name.append("/");
-		file_name = dir_name + file_name;
-	}
-	std::ifstream fin_card(file_name);
-	if ( !fin_card ){
-		std::cout<<"generator file \""<<file_name<<"\" is not available!!!"<<std::endl;
-		G4Exception("main","Run0031",
-				FatalException, "generator file is not available.");
-	}
-	std::stringstream buf_card;
-	std::string s_card;
-	while(getline(fin_card,s_card)){
-		buf_card.str("");
-		buf_card.clear();
-		buf_card<<s_card;
-		const char* c = s_card.c_str();
-		int length = strlen(c);
-		int offset = 0;
-		for ( ; offset < length; offset++ ){
-			if ( c[offset] != ' ' ) break;
-		}
-		if ( c[offset] == '#' ) continue;
-		else if ( c[offset] == '/' && c[offset+1] == '/' ) continue;
-		else if ( length - offset == 0 ) continue;
-		std::string keyword;
-		buf_card>>keyword;
-		if ( keyword == "PhysicsList:" ){
-			buf_card>>PhysicsListName;
-			break;
-		}
-		else{
-			continue;
-		}
-	}
-	fin_card.close();
-	buf_card.str("");
-	buf_card.clear();
+	G4String PhysicsListName = getenv("PHYSICSLIST");
 	std::cout<<"PhysicsList: \""<<PhysicsListName<<"\""<<std::endl;
 	if (PhysicsListName=="QGSP_BERT_HP"){
+		QGSP_BERT_HP* qgsp = new QGSP_BERT_HP;
+		qgsp->RegisterPhysics(new G4RadioactiveDecayPhysics());
+		runManager->SetUserInitialization(qgsp);
+	}
+	else if (PhysicsListName=="QGSP_BERT_HP_noRadi"){
 		runManager->SetUserInitialization(new QGSP_BERT_HP);
 	}
-//	else if (PhysicsListName=="myQGSP_BERT_HP"){
-//		runManager->SetUserInitialization(new myQGSP_BERT_HP);
-//	}
+	else if (PhysicsListName=="QGSP_BERT_noRadi"){
+		runManager->SetUserInitialization(new QGSP_BERT);
+	}
 	else if (PhysicsListName=="PhysicsList"){
 		runManager->SetUserInitialization(new PhysicsList);
 	}
 	else{
-		runManager->SetUserInitialization(new QGSP_BERT);
+		QGSP_BERT* qgsp = new QGSP_BERT;
+		qgsp->RegisterPhysics(new G4RadioactiveDecayPhysics());
+		runManager->SetUserInitialization(qgsp);
 	}
 
 	// Set user action classes
