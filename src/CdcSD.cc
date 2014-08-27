@@ -269,6 +269,7 @@ void CdcSD::ReadOutputCard(G4String filename){
 				else if ( name == "minedep" ) minedep = para;
 				else if( name == "mint" ) mint = para;
 				else if( name == "maxt" ) maxt = para;
+				else if( name == "tres" ) tres = para;
 				else{
 					std::cout<<"In CdcSD::ReadOutputCard, unknown name: "<<name<<" in file "<<filename<<std::endl;
 					std::cout<<"Will ignore this line!"<<std::endl;
@@ -311,9 +312,9 @@ void CdcSD::ReSet(){
 	flag_pOx = false;
 	flag_pOy = false;
 	flag_pOz = false;
-	flag_t = false;
-	flag_tstart = false;
-	flag_tstop = false;
+	flag_t = true;
+	flag_tstart = true;
+	flag_tstop = true;
 	flag_px = false;
 	flag_py = false;
 	flag_pz = false;
@@ -326,7 +327,7 @@ void CdcSD::ReSet(){
 	flag_driftD = false;
 	flag_cellID = false;
 	flag_layerID = false;
-	flag_tid = false;
+	flag_tid = true;
 	flag_pid = false;
 	flag_particleName = false;
 	flag_ppid = false;
@@ -341,6 +342,7 @@ void CdcSD::ReSet(){
 	ntracks = 1;
 	mint = 0;
 	maxt = 0;
+	tres = 0;
 	minedep = 0;
 	//for units
 	unitName_pOx = "cm";
@@ -418,6 +420,7 @@ void CdcSD::ShowOutCard(){
 	std::cout<<"ntracks =      "<<ntracks<<std::endl;
 	std::cout<<"mint =         "<<mint/ns<<"ns"<<std::endl;
 	std::cout<<"maxt =         "<<maxt/ns<<"ns"<<std::endl;
+	std::cout<<"tres =         "<<tres/ns<<"ns"<<std::endl;
 	std::cout<<"minedep =      "<<minedep/MeV<<"MeV"<<std::endl;
 	std::cout<<"VerboseLevel = "<<get_VerboseLevel()<<std::endl;
 	std::cout<<"******************************************************************************"<<std::endl;
@@ -580,57 +583,40 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	if (hitPointer[layerId][cellId] != -1){
 		CDCSD_LINEINFO();
 		G4int pointer=hitPointer[layerId][cellId];
-		G4double edepTemp = (*hitsCollection)[pointer]->GetEdep();
-		(*hitsCollection)[pointer]->SetEdep(edepTemp  + edepIoni);
-		if(flag_edep) m_edep[pointer] = (edepTemp + edepIoni)/unit_edep;
-		G4double preDriftT = (*hitsCollection)[pointer]->GetDriftT();
-		if ( get_VerboseLevel() >= 5 ){
-			std::cout<<"  preDriftT = "<<preDriftT/cm
-				     <<"cm, curDriftT = "<<preDriftT/ns
-				     <<"ns, curDriftD = "<<driftD/cm
-				     <<"cm, curDriftT = "<<driftT/ns
-				     <<"ns"
-				     <<std::endl;
-		}
-		if (fabs(signalT < preDriftT)>0) {
+		G4double pretstop = m_tstop[pointer]*unit_tstop;
+		G4double pretstart  = m_tstart[pointer]*unit_tstart;
+		if (trackID==m_tid[pointer]&&tres&&signalT-pretstop<tres&&pretstart-signalT<tres) {
 			if ( get_VerboseLevel() >= 5 ){
 				std::cout<<"    Update Hit!!!"<<std::endl;
 			}
-			(*hitsCollection)[pointer]->SetTrackID(trackID);
-			(*hitsCollection)[pointer]->SetDriftD(driftD);
-			(*hitsCollection)[pointer]->SetDriftT(driftT);
-			(*hitsCollection)[pointer]->SetPos(hitPosition);
-			(*hitsCollection)[pointer]->SetGlobalT(globalT);
-			(*hitsCollection)[pointer]->SetTheta(theta);
-			(*hitsCollection)[pointer]->SetPosFlag(0);
-			(*hitsCollection)[pointer]->SetEnterAngle(0);
+			if(flag_edep) m_edep[pointer] += (edepIoni)/unit_edep;
+			if(flag_edepAll) m_edepAll[pointer] += (edep)/unit_edepAll;
 			//Set for root objects
-			if(flag_x) m_x[pointer] = hitPosition.x()/unit_x;
-			if(flag_y) m_y[pointer] = hitPosition.y()/unit_y;
-			if(flag_z) m_z[pointer] = hitPosition.z()/unit_z;
-			if(flag_pOx) m_pOx[pointer] = pointOut_pos.x()/unit_pOx;
-			if(flag_pOy) m_pOy[pointer] = pointOut_pos.y()/unit_pOy;
-			if(flag_pOz) m_pOz[pointer] = pointOut_pos.z()/unit_pOz;
-			if(flag_t) m_t[pointer] = globalT/unit_t;
-			if(flag_tstart) m_tstart[pointer] = signalT/unit_t;
-			if(flag_tstop) m_tstop[pointer] = signalT/unit_t;
-			if(flag_px) m_px[pointer] = pointIn_mom.x()/unit_px;
-			if(flag_py) m_py[pointer] = pointIn_mom.y()/unit_py;
-			if(flag_pz) m_pz[pointer] = pointIn_mom.z()/unit_pz;
-			if(flag_e) m_e[pointer] = total_e/unit_e;
-			if(flag_ekin) m_ekin[pointer] = ekin/unit_ekin;
+			if(globalT<m_t[pointer]*unit_t){// is this possible?
+				if(flag_x) m_x[pointer] = hitPosition.x()/unit_x;
+				if(flag_y) m_y[pointer] = hitPosition.y()/unit_y;
+				if(flag_z) m_z[pointer] = hitPosition.z()/unit_z;
+				if(flag_t) m_t[pointer] = globalT/unit_t;
+				if(flag_e) m_e[pointer] = total_e/unit_e;
+				if(flag_ekin) m_ekin[pointer] = ekin/unit_ekin;
+				if(flag_px) m_px[pointer] = pointIn_mom.x()/unit_px;
+				if(flag_py) m_py[pointer] = pointIn_mom.y()/unit_py;
+				if(flag_pz) m_pz[pointer] = pointIn_mom.z()/unit_pz;
+			}
+			else{
+				if(flag_pOx) m_pOx[pointer] = pointOut_pos.x()/unit_pOx;
+				if(flag_pOy) m_pOy[pointer] = pointOut_pos.y()/unit_pOy;
+				if(flag_pOz) m_pOz[pointer] = pointOut_pos.z()/unit_pOz;
+			}
+			if (signalT<m_tstart[pointer]*unit_tstart) m_tstart[pointer] = signalT/unit_tstart;
+			else if (signalT>m_tstop[pointer]*unit_tstop) m_tstop[pointer] = signalT/unit_tstop;
 			if(flag_stepL) m_stepL[pointer] += stepL/unit_stepL;
-			if(flag_nPair) m_nPair[pointer] = 1;
-			if(flag_driftD) m_driftD[pointer] = driftD/unit_driftD;
-			if(flag_layerID) m_layerID[pointer] = layerId;
-			if(flag_cellID) m_cellID[pointer] = cellId;
-			if(flag_tid) m_tid[pointer] = trackID;
-			if(flag_pid) m_pid[pointer] = pid;
+			if(flag_nPair) m_nPair[pointer]++;
+			if(flag_driftD) if(driftD<m_driftD[pointer]*unit_driftD) m_driftD[pointer] = driftD/unit_driftD;
 		}
+		else needpush = true;
 	}
-	else{
-		needpush = true;
-	}
+	else needpush = true;
 	if (needpush){
 		CDCSD_LINEINFO();
 		CdcHit* newHit = new CdcHit();
@@ -653,8 +639,8 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 		if(flag_y) m_y.push_back(hitPosition.y()/unit_y);
 		if(flag_z) m_z.push_back(hitPosition.z()/unit_z);
 		if(flag_t) m_t.push_back(globalT/unit_t);
-		if(flag_t) m_tstart.push_back(signalT/unit_t);
-		if(flag_t) m_tstop.push_back(signalT/unit_t);
+		if(flag_t) m_tstart.push_back(signalT/unit_tstart);
+		if(flag_t) m_tstop.push_back(signalT/unit_tstop);
 		if(flag_px) m_px.push_back(pointIn_mom.x()/unit_px);
 		if(flag_py) m_py.push_back(pointIn_mom.y()/unit_py);
 		if(flag_pz) m_pz.push_back(pointIn_mom.z()/unit_pz);
