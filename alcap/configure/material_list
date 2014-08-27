@@ -1,20 +1,21 @@
 TYPE Elements
 #	symbol  name         z    a(g/mol)
 	H       Hydrogen     1.   1.00794 
-#	He      Helium       2    4.002602
+  He      Helium       2    4.002602
 	B       Boron        5    10.811
 	C       Carbon       6.   12.0107
 	N       Nitrogen     7    14.0067
 	O       Oxygen       8    15.9994
 	Na      Sodium       11   22.98976928
 	Mg      Magnesium    12   24.3050
+  Al      Aluminium    13   26.9815386
 	Si      Silicon      14   28.085
 	Ar      Argon        18   39.948
 	K       Potassium    19   39.0983
 	Ca      Calcium      20   40.078 
 	Cr      Chromium     24   51.9961
 	Mn      Manganese    25   54.938045
-#	Fe      Iron         26   55.845
+  Fe      Iron         26   55.845
 	Ni      Nickel       28   58.6934
 #	Mo      Molybdenum   42   95.96
 	I       Iodine       53   126.90447
