@@ -1,4 +1,5 @@
 export MYG4SIMWORKROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+export PHYSICSLIST=QGSP_BERT           # QGSP_BERT;QGSP_BERT_HP;QGSP_BERT_noRadi;QGSP_BERT_HP_noRadi
 
 #for configuration cards
 export MATERIALLISTROOT=material_list
