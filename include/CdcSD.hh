@@ -169,6 +169,7 @@ class CdcSD : public MySD
 		G4double mint;
 		G4double maxt;
 		G4double minedep;
+		G4double tres;
 		int nTracks;
 		int prevTrackID;
 		//fTolerance
