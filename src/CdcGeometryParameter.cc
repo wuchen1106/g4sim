@@ -1,49 +1,12 @@
 //Description: Handle database I/O and user interface 
 //             for CDC geometry parameters
 //Author: Wu Chen(wuchen@mail.ihep.ac.cn)
-//Created: 6 Oct, 2012
-//Modified:
+//Created: 26 Aug, 2014
 //Comment: The units are "mm"(default), "um"(for wire radius) and "rad". 
-//Comment: for SPhi, Datum plain is forward end plate of CDC
-//Comment: about layer_type:
-//         phi direction: 
-//                0_________2pi
-//
-//         r   direction:
-//                 ^  Cdc_RMax
-//                 |
-//                 |
-//                 |  0
-//
-//         TYPE 0: Ordinary layer
-//                 ________ each cell is a twisted(or not) tube with 
-//                 |      | 3 field wires and 1 signal wire inside
-//                 |o  x  |
-//                 |      |
-//                 |o  o  |
-//                 --------
-//
-//         TYPE 1: Out most layer
-//                 ________ each cell is a twisted(or not) tube with 
-//                 |o  o  | 5 field wires and 1 signal wire inside
-//                 |      |
-//                 |o  x  |
-//                 |      |
-//                 |o  o  |
-//                 --------
-//
-//         TYPE 2/3/4/5: Stereo layer upon an axial layer/
-//                       Axial layer beneath a stereo layer/
-//                       Axial layer upon a stereo layer/
-//                       Stereo layer beneath an axial layer/
-//                 __________ each cell is a G4TwistedTube subtracted by a G4Hype
-//                 |        | with 3 field wire and 1 signal wire inside
-//                 |o0  x   | for TYPE 2/4, the innerward two field wires
-//                 |        | have the rotate angle as half as the stereo layer
-//                 |o1  o2  | 
-//                 ---------- 
-//Comment: fVerboseLevel: 0:   Just Warning Messages and Error Messages
-//                        >=5: All informations
+//Comment: Datum plain is upstream end plate of CDC
+//Comment: fVerboseLevel: 0:    Just Warning Messages and Error Messages
+//                        1:    + Dump()
+//                        >= 5: All informations
 //---------------------------------------------------------------------------//
 
 #include <iostream>
@@ -113,7 +76,7 @@ bool CdcGeometryParameter::CheckInfo(){
 	if (flag) return flag;// if something is wrong with its Parent Class, then return the status.
 
 	//examine
-	if(	!check_LayerNo(layer_RMin.size()) ||
+	if(	!check_LayerNo(layer_Re.size()) ||
 			!check_LayerNo(layer_length.size()) ){
 		flag = true;
 	}
@@ -139,11 +102,15 @@ int CdcGeometryParameter::GetValue(G4String s_card){
 	buf_card<<s_card;
 	std::string name;
 	buf_card>>name;
-	std::string s_para;
+	G4int tlayer_type, tlayer_ID, tlayer_SkipHoles, tlayer_firstWire, tlayer_HoleNo;
+	G4double tlayer_Re, tlayer_length;
+	std::string dump;
+	LayerNo = 0;
 	if( name == "MotherLogicalVolume:" ) buf_card>>MotherLogicalVolume;
 	else if( name == "CellMaterial:" ) buf_card>>CellMaterial;
 	else if( name == "SensitiveDetector:" ) buf_card>>SensitiveDetector;
 	else if( name == "SDVolumeName:" ) buf_card>>SDVolumeName;
+	else if( name == "MinStepLength:" ) buf_card>>MinStepLength;
 	else if( name == "SignalWireMaterial:" ) buf_card>>SignalWireMaterial;
 	else if( name == "FieldWireMaterial:" ) buf_card>>FieldWireMaterial;
 	else if( name == "SignalWireRadius:" ) {
@@ -154,7 +121,6 @@ int CdcGeometryParameter::GetValue(G4String s_card){
 		buf_card>>FieldWireRadius;
 		FieldWireRadius *= um;
 	}
-	else if( name == "LayerNo:" ) buf_card>>LayerNo;
 	else if( name == "vis_layer" ){
 		vis_layer = true;
 		buf_card>>r_layer>>g_layer>>b_layer;
@@ -173,32 +139,23 @@ int CdcGeometryParameter::GetValue(G4String s_card){
 	}
 	else{
 		std::stringstream buf_temp;
-		if( name == "F" ){
-			std::string dump;
-			G4double tlayer_RMin;
-			buf_card>>tlayer_RMin;
-			tlayer_RMin *= mm;
-			layer_RMin.push_back(tlayer_RMin);
-		}
-		else if( name == "S" ){
-			std::string dump;
-			G4int twire_num, tlayer_firstWire;
-			G4double tlayer_ncells4rotate;
-			G4double tlayer_RMid, tlayer_length, tlayer_SPhi;
-			buf_card>>dump>>dump>>twire_num>>tlayer_length>>tlayer_RMid>>tlayer_SPhi>>tlayer_firstWire>>tlayer_ncells4rotate;
-			tlayer_length *= mm;
-			tlayer_RMid *= mm;
-			tlayer_SPhi *= rad;
-			layer_cell_num.push_back(twire_num);
+		if( name == "F" || name == "S" || name == "G" ){
+			buf_card>>dump>>tlayer_ID>>tlayer_Re>>tlayer_length>>tlayer_HoleNo>>tlayer_SkipHoles>>tlayer_firstWire;
+			tlayer_length *= cm;
+			tlayer_Re *= cm;
+			if (name=="F")
+				layer_type.push_back(0);
+			else if (name=="S")
+				layer_type.push_back(1);
+			else if (name=="G")
+				layer_type.push_back(2);
+			layer_ID.push_back(tlayer_ID);
+			layer_Re.push_back(tlayer_Re);
 			layer_length.push_back(tlayer_length);
-			layer_RMid.push_back(tlayer_RMid);
-			layer_SPhi.push_back(tlayer_SPhi);
+			layer_HoleNo.push_back(tlayer_HoleNo);
+			layer_SkipHoles.push_back(tlayer_SkipHoles);
 			layer_firstWire.push_back(tlayer_firstWire);
-			layer_ncells4rotate.push_back(tlayer_ncells4rotate);
-		}
-		else if( name == "LF" ){
-			std::string dump;
-			buf_card>>Cdc_RMax;
+			LayerNo++;
 		}
 		else{
 			status = 1;
@@ -215,51 +172,17 @@ int CdcGeometryParameter::GetValue(G4String s_card){
 //
 void CdcGeometryParameter::Calculate(){
 	SimpleGeometryParameter::Calculate();
+	layer_Rc.resize(LayerNo);
+	layer_SPhi.resize(LayerNo);
 	layer_angle4rotate.resize(LayerNo);
-	layer_type.resize(LayerNo);
-	layer_cell_startNo.resize(LayerNo+1);
-	layer_cell_dphi.resize(LayerNo);
+	layer_angle4stereo.resize(LayerNo);
+	layer_holeDphi.resize(LayerNo);
 	for ( G4int i = 0; i < LayerNo; i++ ){
-		//set layer_cell_startNo 
-		if ( i == 0 ){
-			layer_cell_startNo[i] = 0;
-		}
-		else{
-			layer_cell_startNo[i] = layer_cell_startNo[i-1] + layer_cell_num[i-1];
-		}
-		if ( i == LayerNo - 1 ){
-			layer_cell_startNo[i+1] = layer_cell_startNo[i] + layer_cell_num[i];
-		}
-		//set layer_angle4rotate
-		layer_angle4rotate[i] = 2*pi*layer_ncells4rotate[i]/layer_cell_num[i];
-		//set layer_cell_dphi
-		layer_cell_dphi[i] = 2*pi/layer_cell_num[i];
-		G4double R;
-		if (i == LayerNo - 1) R = Cdc_RMax;
-		else R = layer_RMin[i+1];
-		//set layer_type
-		if ( i == LayerNo -1 ){
-			layer_type[i] = 1;//TYPE 1: Out most layer
-		}
-		else if ( fabs(layer_ncells4rotate[i]) != fabs(layer_ncells4rotate[i+1]) ){
-			if ( layer_ncells4rotate[i] == 0 ){
-				layer_type[i] = 3;//TYPE 3: Axial layer beneath a stereo layer
-			}
-			else{
-				layer_type[i] = 5;//TYPE 5: Stereo layer beneath an axial layer
-			}
-		}
-		else if ( i != 0 ? fabs(layer_ncells4rotate[i]) != fabs(layer_ncells4rotate[i-1]) : 0 ){
-			if ( layer_ncells4rotate[i] == 0 ){
-				layer_type[i] = 4;//TYPE 4: Axial layer upon a stereo layer
-			}
-			else{
-				layer_type[i] = 2;//TYPE 2: Stereo layer upon an axial layer
-			}
-		}
-		else{
-			layer_type[i] = 0;//TYPE 0: Ordinary layer
-		}
+		layer_holeDphi[i]=2*pi/layer_HoleNo[i];
+		layer_angle4rotate[i]=layer_SkipHoles[i]*layer_holeDphi[i];
+		layer_angle4stereo[i]=atan(layer_Re[i]*sin(layer_angle4rotate[i]/2)*2/layer_length[i]);
+		layer_SPhi[i]=layer_holeDphi[i]*layer_firstWire[i];
+		layer_Rc[i]=layer_Re[i]*cos(layer_angle4rotate[i]/2);
 	}
 }
 
@@ -272,46 +195,52 @@ void CdcGeometryParameter::DumpInfo() {
 	std::cout<<" MotherLogicalVolume:  "<<MotherLogicalVolume<<std::endl;
 	std::cout<<" SensitiveDetector:    "<<SensitiveDetector<<std::endl;
 	std::cout<<" SDVolumeName:         "<<SDVolumeName<<std::endl;
+	std::cout<<" MinStepLength:        "<<MinStepLength/cm<<" cm"<<std::endl;
 
 	std::cout<<"=>Wires info:"<<std::endl;
-	std::cout<<" SignalWireRadius:     "<<SignalWireRadius/um<<"um"<<std::endl;
-	std::cout<<" FieldWireRadius:      "<<FieldWireRadius/um<<"um"<<std::endl;
+	std::cout<<" SignalWireRadius:     "<<SignalWireRadius/um<<" um"<<std::endl;
+	std::cout<<" FieldWireRadius:      "<<FieldWireRadius/um<<" um"<<std::endl;
 	std::cout<<" signalWire material:  "<<SignalWireMaterial<<std::endl;
 	std::cout<<" fieldWire material:   "<<FieldWireMaterial<<std::endl;
 
 	std::cout<<"=>Layers info:"<<std::endl;
 	std::cout<<" LayerNo: "<<LayerNo<<std::endl;
-	std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<"No."
-		<<std::setiosflags(std::ios::left)<<std::setw(7) <<"StartR"
-		<<std::setiosflags(std::ios::left)<<std::setw(8) <<"MiddleR"
-		<<std::setiosflags(std::ios::left)<<std::setw(7) <<"length"
-		<<std::setiosflags(std::ios::left)<<std::setw(9) <<"StartPhi"
-		<<std::setiosflags(std::ios::left)<<std::setw(11)<<"RotateCell"
-		<<std::setiosflags(std::ios::left)<<std::setw(17)<<"FirstWire"
-		<<std::setiosflags(std::ios::left)<<std::setw(7) <<"CellNo"
-		<<std::setiosflags(std::ios::left)<<std::setw(5) <<"type"
+	std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<"T"
+		<<std::setiosflags(std::ios::left)<<std::setw(5) <<"Iw"
+		<<std::setiosflags(std::ios::left)<<std::setw(5) <<"Ic"
+		<<std::setiosflags(std::ios::left)<<std::setw(5) <<"Re"
+		<<std::setiosflags(std::ios::left)<<std::setw(5) <<"Rc"
+		<<std::setiosflags(std::ios::left)<<std::setw(5) <<"L"
+		<<std::setiosflags(std::ios::left)<<std::setw(5) <<"Nh"
+		<<std::setiosflags(std::ios::left)<<std::setw(5) <<"skip"
+		<<std::setiosflags(std::ios::left)<<std::setw(6) <<"first"
+		<<std::setiosflags(std::ios::left)<<std::setw(6) <<"alpha"
+		<<std::setiosflags(std::ios::left)<<std::setw(6) <<"beta"
 		<<std::endl;
 	std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<""
-		<<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
-		<<std::setiosflags(std::ios::left)<<std::setw(8) <<"mm"
-		<<std::setiosflags(std::ios::left)<<std::setw(7) <<"mm"
-		<<std::setiosflags(std::ios::left)<<std::setw(9) <<"rad"
-		<<std::setiosflags(std::ios::left)<<std::setw(11)<<""
-		<<std::setiosflags(std::ios::left)<<std::setw(17)<<"1:signal/0:field"
-		<<std::setiosflags(std::ios::left)<<std::setw(7) <<""
 		<<std::setiosflags(std::ios::left)<<std::setw(5) <<""
+		<<std::setiosflags(std::ios::left)<<std::setw(5) <<""
+		<<std::setiosflags(std::ios::left)<<std::setw(5) <<"cm"
+		<<std::setiosflags(std::ios::left)<<std::setw(5) <<"cm"
+		<<std::setiosflags(std::ios::left)<<std::setw(5) <<"cm"
+		<<std::setiosflags(std::ios::left)<<std::setw(5) <<""
+		<<std::setiosflags(std::ios::left)<<std::setw(5) <<""
+		<<std::setiosflags(std::ios::left)<<std::setw(6) <<""
+		<<std::setiosflags(std::ios::left)<<std::setw(6) <<"rad"
+		<<std::setiosflags(std::ios::left)<<std::setw(6) <<"rad"
 		<<std::endl;
 	for ( G4int i = 0; i < LayerNo; i++ ){
-		std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<i
-			<<std::setiosflags(std::ios::left)<<std::setw(7) <<layer_RMin[i]/mm
-			<<std::setiosflags(std::ios::left)<<std::setw(8) <<layer_RMid[i]/mm
-			<<std::setiosflags(std::ios::left)<<std::setw(7) <<layer_length[i]/mm
-			<<std::setiosflags(std::ios::left)<<std::setw(9) <<layer_SPhi[i]/rad
-			<<std::setiosflags(std::ios::left)<<std::setw(11)<<layer_ncells4rotate[i]
-			<<std::setiosflags(std::ios::left)<<std::setw(17)<<layer_firstWire[i]
-			<<std::setiosflags(std::ios::left)<<std::setw(7) <<layer_cell_num[i]
-			<<std::setiosflags(std::ios::left)<<std::setw(5) <<layer_type[i]
+		std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<layer_type[i]
+			<<std::setiosflags(std::ios::left)<<std::setw(5) <<i
+			<<std::setiosflags(std::ios::left)<<std::setw(5) <<layer_ID[i]
+			<<std::setiosflags(std::ios::left)<<std::setw(5) <<layer_Re[i]/cm
+			<<std::setiosflags(std::ios::left)<<std::setw(5) <<layer_Rc[i]/cm
+			<<std::setiosflags(std::ios::left)<<std::setw(5) <<layer_length[i]/cm
+			<<std::setiosflags(std::ios::left)<<std::setw(5) <<layer_HoleNo[i]
+			<<std::setiosflags(std::ios::left)<<std::setw(5) <<layer_SkipHoles[i]
+			<<std::setiosflags(std::ios::left)<<std::setw(6) <<layer_firstWire[i]
+			<<std::setiosflags(std::ios::left)<<std::setw(6) <<layer_angle4rotate[i]/rad
+			<<std::setiosflags(std::ios::left)<<std::setw(6) <<layer_angle4stereo[i]/rad
 			<<std::endl;
 	}
-	std::cout<<"Out most radius: "<<Cdc_RMax<<"mm"<<std::endl;
 }

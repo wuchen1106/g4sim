@@ -29,7 +29,7 @@
 #include <iostream>
 #include <vector>
 
-#include "CdcGeometryParameter.hh"
+#include "CdcCellGeometryParameter.hh"
 //#include "CdcDigitizer.hh"
 #include "CdcIonHit.hh"
 #include "MyRoot.hh"
@@ -48,12 +48,12 @@ typedef HepGeom::Vector3D<double> HepVector3D;
 CdcIonSD::CdcIonSD(G4String name, MyVGeometryParameter* pointer)
 :MySD(name, pointer), hitsCollection(0)
 {
-  m_GeometryParameter= dynamic_cast<CdcGeometryParameter*> (pointer);
+  m_GeometryParameter= dynamic_cast<CdcCellGeometryParameter*> (pointer);
   if (!m_GeometryParameter){
-//		std::cout<<"In CdcIonSD::CdcIonSD, cannot get CdcGeometryParameter pointer!!!"<<std::endl;
+//		std::cout<<"In CdcIonSD::CdcIonSD, cannot get CdcCellGeometryParameter pointer!!!"<<std::endl;
     G4Exception("CdcIonSD::CdcIonSD()",
         "InvalidSetup", FatalException,
-        "cannot get CdcGeometryParameter pointer");
+        "cannot get CdcCellGeometryParameter pointer");
   }
 
 	//name of related Digiteizer module
