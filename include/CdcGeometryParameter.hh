@@ -148,7 +148,7 @@ class CdcGeometryParameter : public SimpleGeometryParameter
 		}
 		bool check_LayerNo( int No ){
 			if( No != LayerNo ){
-				std::cout<<"In CdcGeometryParameter::InitFromFile(), insufficient layer info! LayerNo = "<<LayerNo<<", whilie only "<<No<<" layers were found."<<std::endl;
+				std::cout<<"In CdcGeometryParameter::InitFromFile(), insufficient layer info! LayerNo = "<<LayerNo<<", while only "<<No<<" layers were found."<<std::endl;
 				return false;
 			}
 			else return true;

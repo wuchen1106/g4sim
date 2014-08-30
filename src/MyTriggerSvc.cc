@@ -163,6 +163,9 @@ void MyTriggerSvc::SetMyTrigger( G4String filename ){
 			std::cout<<"myVSD2 @ ["<<(void*) myVSD2<<"]"<<std::endl;
 			std::cout<<"myMonitorSD2 @ ["<<(void*) myMonitorSD2<<"]"<<std::endl;
 		}
+		else{
+			std::cout<<"Cannot find M sensitive detector!"<<std::endl;
+		}
 	}
 	if ( minCdcHits != -1 || minCorM_Hits != -1 ){ 
 		myVSD = pMyDetectorManager->GetSD("CdcCell","CdcSD");
@@ -172,17 +175,30 @@ void MyTriggerSvc::SetMyTrigger( G4String filename ){
 			std::cout<<"myCdcSD @ ["<<(void*) myCdcSD<<"]"<<std::endl;
 		}
 		else{
-			myVSD = pMyDetectorManager->GetSD("CDCLayer","CdcLayerSD");
+			myVSD = pMyDetectorManager->GetSD("CDCContainer","CdcSD");
 			if (myVSD){
-				myCdcLayerSD = dynamic_cast<CdcLayerSD*> (myVSD);
+				myCdcSD = dynamic_cast<CdcSD*> (myVSD);
 				std::cout<<"myVSD @ ["<<(void*) myVSD<<"]"<<std::endl;
-				std::cout<<"myCdcLayerSD @ ["<<(void*) myCdcLayerSD<<"]"<<std::endl;
+				std::cout<<"myCdcSD @ ["<<(void*) myCdcSD<<"]"<<std::endl;
 			}
 			else{
-				myVSD = pMyDetectorManager->GetSD("","C/MonitorSD");
-				myMonitorSD = dynamic_cast<MonitorSD*> (myVSD);
-				std::cout<<"myVSD @ ["<<(void*) myVSD<<"]"<<std::endl;
-				std::cout<<"myMonitorSD @ ["<<(void*) myMonitorSD<<"]"<<std::endl;
+				myVSD = pMyDetectorManager->GetSD("CDCLayer","CdcLayerSD");
+				if (myVSD){
+					myCdcLayerSD = dynamic_cast<CdcLayerSD*> (myVSD);
+					std::cout<<"myVSD @ ["<<(void*) myVSD<<"]"<<std::endl;
+					std::cout<<"myCdcLayerSD @ ["<<(void*) myCdcLayerSD<<"]"<<std::endl;
+				}
+				else{
+					myVSD = pMyDetectorManager->GetSD("","C/MonitorSD");
+					if (myVSD){
+						myMonitorSD = dynamic_cast<MonitorSD*> (myVSD);
+						std::cout<<"myVSD @ ["<<(void*) myVSD<<"]"<<std::endl;
+						std::cout<<"myMonitorSD @ ["<<(void*) myMonitorSD<<"]"<<std::endl;
+					}
+					else{
+						std::cout<<"Cannot find cdc sensitive detector!"<<std::endl;
+					}
+				}
 			}
 		}
 	}
@@ -228,6 +244,12 @@ bool MyTriggerSvc::TriggerIt( const G4Event* evt ){
 		int nHits_CDC = 0;
 		if (myCdcLayerSD){
 			nHits_CDC = myCdcLayerSD->Get_nHits();
+		}
+		else if (myCdcSD){
+			nHits_CDC = myCdcSD->Get_nHits();
+		}
+		else if (myCdcSimpleSD){
+			nHits_CDC = myCdcSimpleSD->Get_nHits();
 		}
 		else{
 			nHits_CDC = myMonitorSD->Get_nHits();

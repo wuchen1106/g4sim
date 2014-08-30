@@ -92,6 +92,7 @@ void CdcSD::Initialize(G4HCofThisEvent* HCE)
 	for( int  i = 0; i < LayerNo; i++ ){
 		int CellNo = m_GeometryParameter->get_layer_HoleNo(i)/2;
 		hitPointer[i].resize(CellNo);
+		std::cout<<"hitPointer["<<i<<"].resize("<<CellNo<<")"<<std::endl;
 		for( int j = 0; j < CellNo; j++ ){
 			hitPointer[i][j] = -1;
 		}
@@ -431,6 +432,7 @@ void CdcSD::ShowOutCard(){
 G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 {
 
+	std::cout<<__LINE__<<std::endl;
 	std::cout<<"In CdcSD::ProcessHits()"<<std::endl;
 	//*************************get useful variables***********************
 
@@ -504,6 +506,7 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	CDCSD_LINEINFO();
 
 	//*************************calculate hitPosition****************************
+	std::cout<<__LINE__<<std::endl;
 	G4ThreeVector hitPosition = pointIn_pos;
 	G4ThreeVector localHitPosition = prePoint->GetTouchableHandle()->GetHistory()->GetTopTransform().TransformPoint(hitPosition);
 	G4double deltaZ = localHitPosition.z();
@@ -515,59 +518,27 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	G4int layerId, cellId;
 	G4int holeLayerId, holeId;
 	// which layer?
-	double Rhit =hitPosition.perp();
-	int LayerNo = m_GeometryParameter->get_LayerNo();
-	int ilayere = 0;
-	int ilayerc = 0;
-	for (int ilayer = 0; ilayer<LayerNo; ilayer++){
-		if (!ilayere)
-			if (m_GeometryParameter->get_layer_Re(ilayer) > Rhit){
-				ilayere = ilayer;
-			}
-		if (!ilayerc)
-			if (m_GeometryParameter->get_layer_Rc(ilayer) > Rhit){
-				ilayerc = ilayer;
-			}
-		if (ilayere&&ilayerc) break;
-	}
-	if (ilayerc==0&&ilayere==0) return false; // not sensitive region
-	else if (ilayerc==LayerNo&&ilayere==LayerNo) return false; // not sensitive region
-	else if (ilayere==ilayerc+1){ // on the boundary
-		double Rc = m_GeometryParameter->get_layer_Rc(ilayerc-1);
-		double tanalpha = tan(m_GeometryParameter->get_layer_angle4rotate(ilayerc-1)/2);
-		double l = m_GeometryParameter->get_layer_length(ilayerc-1);
-		if (Rhit<sqrt(Rc*Rc+deltaZ*deltaZ*Rc*Rc*tanalpha*tanalpha/l/l)){
-			holeLayerId = ilayere-1;
-		}
-		else{
-			holeLayerId = ilayerc-1;
-		}
-	}
-	else if (ilayere!=ilayerc){ // what??
-		std::cout<<"!!! ilayerc = "<<ilayerc<<", ilayere = "<<ilayere<<std::endl;
-		return false;
-	}
-	else holeLayerId = ilayere-1;
+	const G4VTouchable *touchable = prePoint->GetTouchable();
+	holeLayerId= touchable->GetReplicaNumber(0);
 	layerId=m_GeometryParameter->get_layer_ID(holeLayerId);
-	G4double phi = localHitPosition.phi();
+	// get layer info
+	G4double phi = localHitPosition.phi()+pi; // (-pi,pi) => (0,2*pi)
 	G4double Length = m_GeometryParameter->get_layer_length(holeLayerId);
-	G4double deltaphi = m_GeometryParameter->get_layer_angle4rotate(holeLayerId)/2*(0.5+deltaZ*2/Length)+m_GeometryParameter->get_layer_SPhi(holeLayerId);
+	G4double deltaphi = m_GeometryParameter->get_layer_angle4rotate(holeLayerId)*(0.5+deltaZ/Length)+m_GeometryParameter->get_layer_SPhi(holeLayerId);
 	phi -= deltaphi;
 	// which cell?
 	int HoleNo = m_GeometryParameter->get_layer_HoleNo(holeLayerId);
 	double holeDphi = m_GeometryParameter->get_layer_holeDphi(holeLayerId);
-	int ihole = 0;
-	for ( ; ihole<HoleNo; ihole++){
-		if (ihole*holeDphi>phi) break;
-	}
-	holeId = ihole - 1;
+	holeId = phi/holeDphi;
+	std::cout<<"holeId = "<<phi/pi<<"/"<<holeDphi/pi<<" = "<<holeId<<std::endl;
 	if (holeId<0) holeId+=HoleNo;
+	else if (holeId>=HoleNo) holeId-=HoleNo;
 	// how about corner effect?
 	if (m_GeometryParameter->get_layer_type(holeLayerId)==1){ // outer part of a cell
 	}
 	cellId = holeId/2;
 	// position of sense wire at that z plane
-	G4ThreeVector localWirePositionAtHitPlane = G4ThreeVector(0,0,0);
+	G4ThreeVector localWirePositionAtHitPlane = G4ThreeVector(1,1,1);
 	localWirePositionAtHitPlane.setMag(m_GeometryParameter->get_layer_Rc(holeLayerId));
 	localWirePositionAtHitPlane.setZ(deltaZ);
 	localWirePositionAtHitPlane.setPhi((holeId/2*2+1)*holeDphi+deltaphi);
@@ -579,13 +550,19 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	signalT = driftT+pointIn_time+wiredelay;
 
 	//*******************generate or modify hit************************
+	std::cout<<__LINE__<<std::endl;
 	bool needpush = false;
 	if (hitPointer[layerId][cellId] != -1){
+		std::cout<<__LINE__<<std::endl;
 		CDCSD_LINEINFO();
 		G4int pointer=hitPointer[layerId][cellId];
+		std::cout<<"hitPointer["<<layerId<<"]["<<cellId<<"] = "<<pointer<<std::endl;
 		G4double pretstop = m_tstop[pointer]*unit_tstop;
+		std::cout<<__LINE__<<std::endl;
 		G4double pretstart  = m_tstart[pointer]*unit_tstart;
+		std::cout<<__LINE__<<std::endl;
 		if (trackID==m_tid[pointer]&&tres&&signalT-pretstop<tres&&pretstart-signalT<tres) {
+			std::cout<<__LINE__<<std::endl;
 			if ( get_VerboseLevel() >= 5 ){
 				std::cout<<"    Update Hit!!!"<<std::endl;
 			}
@@ -593,6 +570,7 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 			if(flag_edepAll) m_edepAll[pointer] += (edep)/unit_edepAll;
 			//Set for root objects
 			if(globalT<m_t[pointer]*unit_t){// is this possible?
+				std::cout<<__LINE__<<std::endl;
 				if(flag_x) m_x[pointer] = hitPosition.x()/unit_x;
 				if(flag_y) m_y[pointer] = hitPosition.y()/unit_y;
 				if(flag_z) m_z[pointer] = hitPosition.z()/unit_z;
@@ -604,20 +582,24 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 				if(flag_pz) m_pz[pointer] = pointIn_mom.z()/unit_pz;
 			}
 			else{
+				std::cout<<__LINE__<<std::endl;
 				if(flag_pOx) m_pOx[pointer] = pointOut_pos.x()/unit_pOx;
 				if(flag_pOy) m_pOy[pointer] = pointOut_pos.y()/unit_pOy;
 				if(flag_pOz) m_pOz[pointer] = pointOut_pos.z()/unit_pOz;
 			}
+			std::cout<<__LINE__<<std::endl;
 			if (signalT<m_tstart[pointer]*unit_tstart) m_tstart[pointer] = signalT/unit_tstart;
 			else if (signalT>m_tstop[pointer]*unit_tstop) m_tstop[pointer] = signalT/unit_tstop;
 			if(flag_stepL) m_stepL[pointer] += stepL/unit_stepL;
 			if(flag_nPair) m_nPair[pointer]++;
 			if(flag_driftD) if(driftD<m_driftD[pointer]*unit_driftD) m_driftD[pointer] = driftD/unit_driftD;
+			std::cout<<__LINE__<<std::endl;
 		}
 		else needpush = true;
 	}
 	else needpush = true;
 	if (needpush){
+		std::cout<<__LINE__<<std::endl;
 		CDCSD_LINEINFO();
 		CdcHit* newHit = new CdcHit();
 		newHit->SetTrackID(trackID);
@@ -656,7 +638,9 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 		if(flag_tid) m_tid.push_back(trackID);
 		if(flag_pid) m_pid.push_back(pid);
 		cdc_nHits++;
+		std::cout<<__LINE__<<std::endl;
 	}
+	std::cout<<__LINE__<<std::endl;
 	return true;
 }
 

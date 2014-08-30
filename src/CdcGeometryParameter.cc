@@ -105,12 +105,11 @@ int CdcGeometryParameter::GetValue(G4String s_card){
 	G4int tlayer_type, tlayer_ID, tlayer_SkipHoles, tlayer_firstWire, tlayer_HoleNo;
 	G4double tlayer_Re, tlayer_length;
 	std::string dump;
-	LayerNo = 0;
 	if( name == "MotherLogicalVolume:" ) buf_card>>MotherLogicalVolume;
 	else if( name == "CellMaterial:" ) buf_card>>CellMaterial;
 	else if( name == "SensitiveDetector:" ) buf_card>>SensitiveDetector;
 	else if( name == "SDVolumeName:" ) buf_card>>SDVolumeName;
-	else if( name == "MinStepLength:" ) buf_card>>MinStepLength;
+	else if( name == "MinStepLength:" ) {buf_card>>MinStepLength;MinStepLength*=1e-3*mm;}
 	else if( name == "SignalWireMaterial:" ) buf_card>>SignalWireMaterial;
 	else if( name == "FieldWireMaterial:" ) buf_card>>FieldWireMaterial;
 	else if( name == "SignalWireRadius:" ) {
@@ -230,17 +229,17 @@ void CdcGeometryParameter::DumpInfo() {
 		<<std::setiosflags(std::ios::left)<<std::setw(6) <<"rad"
 		<<std::endl;
 	for ( G4int i = 0; i < LayerNo; i++ ){
-		std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<layer_type[i]
-			<<std::setiosflags(std::ios::left)<<std::setw(5) <<i
-			<<std::setiosflags(std::ios::left)<<std::setw(5) <<layer_ID[i]
-			<<std::setiosflags(std::ios::left)<<std::setw(5) <<layer_Re[i]/cm
-			<<std::setiosflags(std::ios::left)<<std::setw(5) <<layer_Rc[i]/cm
-			<<std::setiosflags(std::ios::left)<<std::setw(5) <<layer_length[i]/cm
-			<<std::setiosflags(std::ios::left)<<std::setw(5) <<layer_HoleNo[i]
-			<<std::setiosflags(std::ios::left)<<std::setw(5) <<layer_SkipHoles[i]
-			<<std::setiosflags(std::ios::left)<<std::setw(6) <<layer_firstWire[i]
-			<<std::setiosflags(std::ios::left)<<std::setw(6) <<layer_angle4rotate[i]/rad
-			<<std::setiosflags(std::ios::left)<<std::setw(6) <<layer_angle4stereo[i]/rad
+		std::cout<<std::setiosflags(std::ios::left)<<std::setw(5) <<layer_type[i]<<" "
+			<<std::setiosflags(std::ios::left)<<std::setw(5) <<i<<" "
+			<<std::setiosflags(std::ios::left)<<std::setw(5) <<layer_ID[i]<<" "
+			<<std::setiosflags(std::ios::left)<<std::setw(5) <<layer_Re[i]/cm<<" "
+			<<std::setiosflags(std::ios::left)<<std::setw(5) <<layer_Rc[i]/cm<<" "
+			<<std::setiosflags(std::ios::left)<<std::setw(5) <<layer_length[i]/cm<<" "
+			<<std::setiosflags(std::ios::left)<<std::setw(5) <<layer_HoleNo[i]<<" "
+			<<std::setiosflags(std::ios::left)<<std::setw(5) <<layer_SkipHoles[i]<<" "
+			<<std::setiosflags(std::ios::left)<<std::setw(6) <<layer_firstWire[i]<<" "
+			<<std::setiosflags(std::ios::left)<<std::setw(6) <<layer_angle4rotate[i]/rad<<" "
+			<<std::setiosflags(std::ios::left)<<std::setw(6) <<layer_angle4stereo[i]/rad<<" "
 			<<std::endl;
 	}
 }
