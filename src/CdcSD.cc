@@ -59,14 +59,6 @@ typedef HepGeom::Vector3D<double> HepVector3D;
 				"InvalidSetup", FatalException,
 				"cannot get CdcGeometryParameter pointer");
 	}
-
-	//name of related Digiteizer module
-	//  CdcDigitizer* cdcDM = new CdcDigitizer("CdcDigitizer");
-	//	MyDetectorManager::GetMyDetectorManager()->RegistorDM("CdcDigitizer");
-	//  G4DigiManager::GetDMpointer()->AddNewModule(cdcDM);
-
-	//define fTolerance
-	fTolerance = 2.2E-6;
 }
 
 CdcSD::~CdcSD(){
@@ -88,13 +80,15 @@ void CdcSD::Initialize(G4HCofThisEvent* HCE)
 	}
 	HCE->AddHitsCollection( HCID, hitsCollection );
 	int LayerNo = m_GeometryParameter->get_LayerNo();
-	hitPointer.resize(LayerNo);
+	hitPointer.resize(m_GeometryParameter->get_layer_ID(LayerNo-3)+1);
+	int icelllayer = 0;
 	for( int  i = 0; i < LayerNo; i++ ){
+		if (m_GeometryParameter->get_layer_type(i)!=1) continue;
 		int CellNo = m_GeometryParameter->get_layer_HoleNo(i)/2;
-		hitPointer[i].resize(CellNo);
-		std::cout<<"hitPointer["<<i<<"].resize("<<CellNo<<")"<<std::endl;
+		hitPointer[icelllayer].resize(CellNo);
+		std::cout<<"hitPointer["<<icelllayer<<"].resize("<<CellNo<<")"<<std::endl;
 		for( int j = 0; j < CellNo; j++ ){
-			hitPointer[i][j] = -1;
+			hitPointer[icelllayer][j] = -1;
 		}
 	}
 	//initialize for root objects
@@ -531,6 +525,7 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	double holeDphi = m_GeometryParameter->get_layer_holeDphi(holeLayerId);
 	holeId = phi/holeDphi;
 	std::cout<<"holeId = "<<phi/pi<<"/"<<holeDphi/pi<<" = "<<holeId<<std::endl;
+	std::cout<<"HoleNo = "<<HoleNo<<std::endl;
 	if (holeId<0) holeId+=HoleNo;
 	else if (holeId>=HoleNo) holeId-=HoleNo;
 	// how about corner effect?

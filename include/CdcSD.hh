@@ -172,8 +172,6 @@ class CdcSD : public MySD
 		G4double tres;
 		int nTracks;
 		int prevTrackID;
-		//fTolerance
-		G4double fTolerance;
 };
 
 #endif
