@@ -112,7 +112,7 @@ void MyDetectorManager::ReadCard(G4String file_name){
 		MyVGeometrySvc* aGSvc = 0;
 		buf_card>>name;
 		//std::cout<<"MyDetectorManager: "<<buf_card.str()<<std::endl;
-		if ( name == "VerboseLevel" ){
+		if ( name == "VerboseLevel:" ){
 			buf_card>>fVerboseLevel;
 		}
 		else{

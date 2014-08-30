@@ -7,6 +7,7 @@
 //Modified: 7 Jan, 2013 by Wu Chen(wuchen@mail.ihep.ac.cn)
 //          Added Boolean Volumes
 //Comment: about fVerboseLevel:
+//         You can change it by calling SetVerbose(int) somewhere
 //         or modifying input card before starting a run.
 //         Either way would set verbose of selected sensitive detectors to the same level
 //         0:    Only Warnings and Errors
