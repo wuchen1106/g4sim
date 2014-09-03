@@ -14,6 +14,7 @@
 
 //supported SD
 #include "CdcSD.hh"
+#include "CdcCellSD.hh"
 #include "CdcSimpleSD.hh"
 #include "CdcIonSD.hh"
 #include "MonitorSD.hh"
@@ -23,6 +24,7 @@
 //supported Svc
 #include "SimpleGeometrySvc.hh"
 #include "CdcGeometrySvc.hh"
+#include "CdcCellGeometrySvc.hh"
 
 #include "SimpleGeometryParameter.hh"
 

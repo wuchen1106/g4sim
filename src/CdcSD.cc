@@ -36,9 +36,11 @@
 #include "CdcHit.hh"
 #include "MyRoot.hh"
 #include "MySD.hh"
+#include "McTruthSvc.hh"
 #include "MyDetectorManager.hh"
 #include "MyVGeometrySvc.hh"
 #include "MyString2Anything.hh"
+#include "PrimaryGeneratorAction.hh"
 
 #include "CdcSD.hh"
 
@@ -68,9 +70,10 @@ CdcSD::~CdcSD(){
 //Will be called by geant4 automatically at the beginning of each event
 void CdcSD::Initialize(G4HCofThisEvent* HCE)
 {
+	pPrimaryGeneratorAction = PrimaryGeneratorAction::GetPrimaryGeneratorAction();
 	hitsCollection = new CdcHitsCollection
 		(SensitiveDetectorName,collectionName[0]);
-	std::cout<<"====>In CdcSD::Initialize(), created hitsCollection at ("<<(void*)hitsCollection<<std::endl;
+//	std::cout<<"====>In CdcSD::Initialize(), created hitsCollection at ("<<(void*)hitsCollection<<std::endl;
 	G4int HCID = -1;
 	HCID = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
 	if ( HCID < 0 ){
@@ -86,19 +89,20 @@ void CdcSD::Initialize(G4HCofThisEvent* HCE)
 		if (m_GeometryParameter->get_layer_type(i)!=1) continue;
 		int CellNo = m_GeometryParameter->get_layer_HoleNo(i)/2;
 		hitPointer[icelllayer].resize(CellNo);
-		std::cout<<"hitPointer["<<icelllayer<<"].resize("<<CellNo<<")"<<std::endl;
+//		std::cout<<"hitPointer["<<icelllayer<<"].resize("<<CellNo<<")"<<std::endl;
 		for( int j = 0; j < CellNo; j++ ){
 			hitPointer[icelllayer][j] = -1;
 		}
+		icelllayer++;
 	}
 	//initialize for root objects
 	cdc_nHits = 0;
 	m_x.clear();
 	m_y.clear();
 	m_z.clear();
-	m_pOx.clear();
-	m_pOy.clear();
-	m_pOz.clear();
+	m_wx.clear();
+	m_wy.clear();
+	m_wz.clear();
 	m_t.clear();
 	m_tstart.clear();
 	m_tstop.clear();
@@ -109,6 +113,7 @@ void CdcSD::Initialize(G4HCofThisEvent* HCE)
 	m_ekin.clear();
 	m_edep.clear();
 	m_edepAll.clear();
+	m_edepDelta.clear();
 	m_stepL.clear();
 	m_nPair.clear();
 	m_driftD.clear();
@@ -135,9 +140,9 @@ void CdcSD::SetBranch(){
 	if( flag_x ) myRoot->SetBranch(volName+"_x", &m_x);
 	if( flag_y ) myRoot->SetBranch(volName+"_y", &m_y);
 	if( flag_z ) myRoot->SetBranch(volName+"_z", &m_z);
-	if( flag_pOx ) myRoot->SetBranch(volName+"_pOx", &m_pOx);
-	if( flag_pOy ) myRoot->SetBranch(volName+"_pOy", &m_pOy);
-	if( flag_pOz ) myRoot->SetBranch(volName+"_pOz", &m_pOz);
+	if( flag_wx ) myRoot->SetBranch(volName+"_wx", &m_wx);
+	if( flag_wy ) myRoot->SetBranch(volName+"_wy", &m_wy);
+	if( flag_wz ) myRoot->SetBranch(volName+"_wz", &m_wz);
 	if( flag_t ) myRoot->SetBranch(volName+"_t", &m_t);
 	if( flag_tstart ) myRoot->SetBranch(volName+"_tstart", &m_tstart);
 	if( flag_tstop ) myRoot->SetBranch(volName+"_tstop", &m_tstop);
@@ -148,6 +153,7 @@ void CdcSD::SetBranch(){
 	if( flag_ekin ) myRoot->SetBranch(volName+"_ekin", &m_ekin);
 	if( flag_edep ) myRoot->SetBranch(volName+"_edep", &m_edep);
 	if( flag_edepAll ) myRoot->SetBranch(volName+"_edepAll", &m_edepAll);
+	if( flag_edepDelta ) myRoot->SetBranch(volName+"_edepDelta", &m_edepDelta);
 	if( flag_stepL ) myRoot->SetBranch(volName+"_stepL", &m_stepL);
 	if( flag_nPair ) myRoot->SetBranch(volName+"_nPair", &m_nPair);
 	if( flag_driftD ) myRoot->SetBranch(volName+"_driftD", &m_driftD);
@@ -211,9 +217,9 @@ void CdcSD::ReadOutputCard(G4String filename){
 			else if( name == "x" ) {flag_x = true; buf_card>>unitName_x; unit_x = MyString2Anything::get_U(unitName_x);}
 			else if( name == "y" ) {flag_y = true; buf_card>>unitName_y; unit_y = MyString2Anything::get_U(unitName_y);}
 			else if( name == "z" ) {flag_z = true; buf_card>>unitName_z; unit_z = MyString2Anything::get_U(unitName_z);}
-			else if( name == "pOx" ) {flag_pOx = true; buf_card>>unitName_pOx; unit_pOx = MyString2Anything::get_U(unitName_pOx);}
-			else if( name == "pOy" ) {flag_pOy = true; buf_card>>unitName_pOy; unit_pOy = MyString2Anything::get_U(unitName_pOy);}
-			else if( name == "pOz" ) {flag_pOz = true; buf_card>>unitName_pOz; unit_pOz = MyString2Anything::get_U(unitName_pOz);}
+			else if( name == "wx" ) {flag_wx = true; buf_card>>unitName_wx; unit_wx = MyString2Anything::get_U(unitName_wx);}
+			else if( name == "wy" ) {flag_wy = true; buf_card>>unitName_wy; unit_wy = MyString2Anything::get_U(unitName_wy);}
+			else if( name == "wz" ) {flag_wz = true; buf_card>>unitName_wz; unit_wz = MyString2Anything::get_U(unitName_wz);}
 			else if( name == "t" ) {flag_t = true; buf_card>>unitName_t; unit_t = MyString2Anything::get_U(unitName_t);}
 			else if( name == "tstart" ) {flag_tstart = true; buf_card>>unitName_tstart; unit_tstart = MyString2Anything::get_U(unitName_tstart);}
 			else if( name == "tstop" ) {flag_tstop = true; buf_card>>unitName_tstop; unit_tstop = MyString2Anything::get_U(unitName_tstop);}
@@ -224,6 +230,7 @@ void CdcSD::ReadOutputCard(G4String filename){
 			else if( name == "e" ) {flag_e = true; buf_card>>unitName_e; unit_e = MyString2Anything::get_U(unitName_e);}
 			else if( name == "edep" ) {flag_edep = true; buf_card>>unitName_edep; unit_edep = MyString2Anything::get_U(unitName_edep);}
 			else if( name == "edepAll" ) {flag_edepAll = true; buf_card>>unitName_edepAll; unit_edepAll = MyString2Anything::get_U(unitName_edepAll);}
+			else if( name == "edepDelta" ) {flag_edepDelta = true; buf_card>>unitName_edepDelta; unit_edepDelta = MyString2Anything::get_U(unitName_edepDelta);}
 			else if( name == "stepL" ) {{flag_stepL = true; buf_card>>unitName_stepL; unit_stepL = MyString2Anything::get_U(unitName_stepL);}}
 			else if( name == "nPair" ) {flag_nPair = true;}
 			else if( name == "driftD" ) {flag_driftD = true; buf_card>>unitName_driftD; unit_driftD = MyString2Anything::get_U(unitName_driftD);}
@@ -304,19 +311,27 @@ void CdcSD::ReSet(){
 	flag_x = false;
 	flag_y = false;
 	flag_z = false;
-	flag_pOx = false;
-	flag_pOy = false;
-	flag_pOz = false;
+	flag_wx = false;
+	flag_wy = false;
+	flag_wz = false;
 	flag_t = true;
 	flag_tstart = true;
 	flag_tstop = true;
 	flag_px = false;
 	flag_py = false;
 	flag_pz = false;
+	flag_ox = false;
+	flag_oy = false;
+	flag_oz = false;
+	flag_ot = false;
+	flag_opx = false;
+	flag_opy = false;
+	flag_opz = false;
 	flag_e = false;
 	flag_ekin = false;
 	flag_edep = false;
 	flag_edepAll = false;
+	flag_edepDelta = false;
 	flag_stepL = false;
 	flag_nPair = false;
 	flag_driftD = false;
@@ -332,17 +347,17 @@ void CdcSD::ReSet(){
 	//for fileter
 	Switch = false;
 	neutralCut = false;
-	minp = 1.5*MeV;
-	maxn = 1000;
-	ntracks = 1;
+	minp = 0;
+	maxn = 0;
+	ntracks = 0;
 	mint = 0;
 	maxt = 0;
 	tres = 0;
 	minedep = 0;
 	//for units
-	unitName_pOx = "cm";
-	unitName_pOy = "cm";
-	unitName_pOz = "cm";
+	unitName_wx = "cm";
+	unitName_wy = "cm";
+	unitName_wz = "cm";
 	unitName_x = "cm";
 	unitName_y = "cm";
 	unitName_z = "cm";
@@ -352,15 +367,23 @@ void CdcSD::ReSet(){
 	unitName_px = "GeV";
 	unitName_py = "GeV";
 	unitName_pz = "GeV";
+	unitName_ox = "cm";
+	unitName_oy = "cm";
+	unitName_oz = "cm";
+	unitName_ot = "ns";
+	unitName_opx = "GeV";
+	unitName_opy = "GeV";
+	unitName_opz = "GeV";
 	unitName_ekin = "GeV";
 	unitName_e = "GeV";
 	unitName_edep = "GeV";
 	unitName_edepAll = "GeV";
+	unitName_edepDelta = "GeV";
 	unitName_stepL = "cm";
 	unitName_driftD = "cm";
-	unit_pOx = MyString2Anything::get_U(unitName_pOx);
-	unit_pOy = MyString2Anything::get_U(unitName_pOy);
-	unit_pOz = MyString2Anything::get_U(unitName_pOz);
+	unit_wx = MyString2Anything::get_U(unitName_wx);
+	unit_wy = MyString2Anything::get_U(unitName_wy);
+	unit_wz = MyString2Anything::get_U(unitName_wz);
 	unit_x = MyString2Anything::get_U(unitName_x);
 	unit_y = MyString2Anything::get_U(unitName_y);
 	unit_z = MyString2Anything::get_U(unitName_z);
@@ -370,10 +393,18 @@ void CdcSD::ReSet(){
 	unit_px = MyString2Anything::get_U(unitName_px);
 	unit_py = MyString2Anything::get_U(unitName_py);
 	unit_pz = MyString2Anything::get_U(unitName_pz);
+	unit_ox = MyString2Anything::get_U(unitName_ox);
+	unit_oy = MyString2Anything::get_U(unitName_oy);
+	unit_oz = MyString2Anything::get_U(unitName_oz);
+	unit_ot = MyString2Anything::get_U(unitName_ot);
+	unit_opx = MyString2Anything::get_U(unitName_opx);
+	unit_opy = MyString2Anything::get_U(unitName_opy);
+	unit_opz = MyString2Anything::get_U(unitName_opz);
 	unit_ekin = MyString2Anything::get_U(unitName_ekin);
 	unit_e = MyString2Anything::get_U(unitName_e);
 	unit_edep = MyString2Anything::get_U(unitName_edep);
 	unit_edepAll = MyString2Anything::get_U(unitName_edepAll);
+	unit_edepDelta = MyString2Anything::get_U(unitName_edepDelta);
 	unit_stepL = MyString2Anything::get_U(unitName_stepL);
 	unit_driftD = MyString2Anything::get_U(unitName_driftD);
 }
@@ -387,19 +418,27 @@ void CdcSD::ShowOutCard(){
 	std::cout<<"output x?      "<<(flag_x?" yes":" no")<<", unit: "<<unitName_x<<std::endl;
 	std::cout<<"output y?      "<<(flag_y?" yes":" no")<<", unit: "<<unitName_y<<std::endl;
 	std::cout<<"output z?      "<<(flag_z?" yes":" no")<<", unit: "<<unitName_z<<std::endl;
-	std::cout<<"output pOx?    "<<(flag_pOx?" yes":" no")<<", unit: "<<unitName_pOx<<std::endl;
-	std::cout<<"output pOy?    "<<(flag_pOy?" yes":" no")<<", unit: "<<unitName_pOy<<std::endl;
-	std::cout<<"output pOz?    "<<(flag_pOz?" yes":" no")<<", unit: "<<unitName_pOz<<std::endl;
+	std::cout<<"output wx?     "<<(flag_wx?" yes":" no")<<", unit: "<<unitName_wx<<std::endl;
+	std::cout<<"output wy?     "<<(flag_wy?" yes":" no")<<", unit: "<<unitName_wy<<std::endl;
+	std::cout<<"output wz?     "<<(flag_wz?" yes":" no")<<", unit: "<<unitName_wz<<std::endl;
 	std::cout<<"output t?      "<<(flag_t?" yes":" no")<<", unit: "<<unitName_t<<std::endl;
 	std::cout<<"output tstart? "<<(flag_tstart?" yes":" no")<<", unit: "<<unitName_tstart<<std::endl;
 	std::cout<<"output tstop?  "<<(flag_tstop?" yes":" no")<<", unit: "<<unitName_tstop<<std::endl;
 	std::cout<<"output px?     "<<(flag_px?" yes":" no")<<", unit: "<<unitName_px<<std::endl;
 	std::cout<<"output py?     "<<(flag_py?" yes":" no")<<", unit: "<<unitName_py<<std::endl;
 	std::cout<<"output pz?     "<<(flag_pz?" yes":" no")<<", unit: "<<unitName_pz<<std::endl;
+	std::cout<<"output ox?      "<<(flag_ox?" yes":" no")<<", unit: "<<unitName_ox<<std::endl;
+	std::cout<<"output oy?      "<<(flag_oy?" yes":" no")<<", unit: "<<unitName_oy<<std::endl;
+	std::cout<<"output oz?      "<<(flag_oz?" yes":" no")<<", unit: "<<unitName_oz<<std::endl;
+	std::cout<<"output ot?      "<<(flag_ot?" yes":" no")<<", unit: "<<unitName_ot<<std::endl;
+	std::cout<<"output opx?     "<<(flag_opx?" yes":" no")<<", unit: "<<unitName_opx<<std::endl;
+	std::cout<<"output opy?     "<<(flag_opy?" yes":" no")<<", unit: "<<unitName_opy<<std::endl;
+	std::cout<<"output opz?     "<<(flag_opz?" yes":" no")<<", unit: "<<unitName_opz<<std::endl;
 	std::cout<<"output ekin?   "<<(flag_ekin?" yes":" no")<<", unit: "<<unitName_ekin<<std::endl;
 	std::cout<<"output e?      "<<(flag_e?" yes":" no")<<", unit: "<<unitName_e<<std::endl;
 	std::cout<<"output edep?   "<<(flag_edep?" yes":" no")<<", unit: "<<unitName_edep<<std::endl;
 	std::cout<<"output edepAll?"<<(flag_edepAll?" yes":" no")<<", unit: "<<unitName_edepAll<<std::endl;
+	std::cout<<"output edepDelta?"<<(flag_edepDelta?" yes":" no")<<", unit: "<<unitName_edepDelta<<std::endl;
 	std::cout<<"output stepL?  "<<(flag_stepL?" yes":" no")<<", unit: "<<unitName_stepL<<std::endl;
 	std::cout<<"output nPair?  "<<(flag_nPair?" yes":" no")<<std::endl;
 	std::cout<<"output driftD? "<<(flag_driftD?" yes":" no")<<", unit: "<<unitName_driftD<<std::endl;
@@ -426,18 +465,16 @@ void CdcSD::ShowOutCard(){
 G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 {
 
-	std::cout<<__LINE__<<std::endl;
-	std::cout<<"In CdcSD::ProcessHits()"<<std::endl;
 	//*************************get useful variables***********************
 
 	int status;
 	// get track info
-	G4Track* gTrack = aStep->GetTrack() ;
-	G4int trackID= gTrack->GetTrackID(); //G4 track ID of current track.
-	G4double globalT=gTrack->GetGlobalTime();//Time since the event in which the track belongs is created
-	G4int charge = gTrack->GetDefinition()->GetPDGCharge();
-	G4int pid = gTrack->GetDefinition()->GetPDGEncoding();
-	G4double theta = gTrack->GetMomentumDirection().theta();
+	G4Track* aTrack = aStep->GetTrack() ;
+	G4int trackID= aTrack->GetTrackID(); //G4 track ID of current track.
+	G4double globalT=aTrack->GetGlobalTime();//Time since the event in which the track belongs is created
+	G4int charge = aTrack->GetDefinition()->GetPDGCharge();
+	G4int pid = aTrack->GetDefinition()->GetPDGEncoding();
+	G4double theta = aTrack->GetMomentumDirection().theta();
 
 	// get information at the beginning and at the end of step
 	G4StepPoint* prePoint  = aStep->GetPreStepPoint() ;
@@ -454,6 +491,7 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	G4double edep = aStep->GetTotalEnergyDeposit();
 	G4double edepNonIoni = aStep->GetNonIonizingEnergyDeposit();
 	G4double edepIoni = edep - edepNonIoni;
+	G4double edepDelta = aStep->GetDeltaEnergy();
 	G4double stepL = aStep->GetStepLength();
 
 	CDCSD_LINEVAR(pointIn_pos.x());
@@ -464,43 +502,12 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	if (!Switch) return false;
 	CDCSD_LINEINFO();
 
-	//ntracks
-	if ( trackID != prevTrackID ){
-		prevTrackID = trackID;
-		nTracks++;
-	}
-	if ( nTracks > ntracks && ntracks) return false;
-	CDCSD_LINEINFO();
-
-	//maxn
-	if ( maxn && cdc_nHits >= maxn ) return false;
-	CDCSD_LINEINFO();
-
-	//minp
-	if ( minp && pointIn_pa < minp ) return false;
-	CDCSD_LINEINFO();
-
-	//time_window
-	if(isnan(globalT)){
-		G4cout<<"CdcSD:error, globalT is nan "<<G4endl;
-		return false;
-	}
-	CDCSD_LINEINFO();
-	if ( globalT < mint && mint ) return false;
-	CDCSD_LINEINFO();
-	if ( globalT > maxt && maxt ) return false;
-	CDCSD_LINEINFO();
-
 	//neutralCut
 	if ( charge == 0 && neutralCut ) return false;
 	CDCSD_LINEINFO();
 
-	//edep
-	if( edepIoni <= minedep ) return false;
-	CDCSD_LINEINFO();
-
+	// Is this cell triggered already?
 	//*************************calculate hitPosition****************************
-	std::cout<<__LINE__<<std::endl;
 	G4ThreeVector hitPosition = pointIn_pos;
 	G4ThreeVector localHitPosition = prePoint->GetTouchableHandle()->GetHistory()->GetTopTransform().TransformPoint(hitPosition);
 	G4double deltaZ = localHitPosition.z();
@@ -510,91 +517,158 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	G4double signalT;
 	// to get layerId and cellId
 	G4int layerId, cellId;
-	G4int holeLayerId, holeId;
+	G4int holeLayerId, holeId, senseLayerId;
 	// which layer?
 	const G4VTouchable *touchable = prePoint->GetTouchable();
 	holeLayerId= touchable->GetReplicaNumber(0);
 	layerId=m_GeometryParameter->get_layer_ID(holeLayerId);
+	if (m_GeometryParameter->get_layer_type(holeLayerId)==1){ // outer part of a cell
+		senseLayerId = holeLayerId;
+	}
+	else{
+		senseLayerId = holeLayerId+1;
+	}
 	// get layer info
-	G4double phi = localHitPosition.phi()+pi; // (-pi,pi) => (0,2*pi)
-	G4double Length = m_GeometryParameter->get_layer_length(holeLayerId);
-	G4double deltaphi = m_GeometryParameter->get_layer_angle4rotate(holeLayerId)*(0.5+deltaZ/Length)+m_GeometryParameter->get_layer_SPhi(holeLayerId);
-	phi -= deltaphi;
+	G4double phi = localHitPosition.phi();
+	if(phi<0) phi = 2*pi+phi; // (-pi,pi) => (0,2*pi)
+	G4double Length = m_GeometryParameter->get_layer_length(senseLayerId);
+	G4double LengthU = m_GeometryParameter->get_layer_length(senseLayerId+1);
+	G4double deltaphi = m_GeometryParameter->get_layer_angle4rotate(senseLayerId)*(0.5+deltaZ/Length)+m_GeometryParameter->get_layer_SPhi(senseLayerId);
+	G4double deltaphiU = m_GeometryParameter->get_layer_angle4rotate(senseLayerId+1)*(0.5+deltaZ/LengthU)+m_GeometryParameter->get_layer_SPhi(senseLayerId+1);
 	// which cell?
-	int HoleNo = m_GeometryParameter->get_layer_HoleNo(holeLayerId);
-	double holeDphi = m_GeometryParameter->get_layer_holeDphi(holeLayerId);
-	holeId = phi/holeDphi;
-	std::cout<<"holeId = "<<phi/pi<<"/"<<holeDphi/pi<<" = "<<holeId<<std::endl;
-	std::cout<<"HoleNo = "<<HoleNo<<std::endl;
+	int HoleNo = m_GeometryParameter->get_layer_HoleNo(senseLayerId);
+	double holeDphi = m_GeometryParameter->get_layer_holeDphi(senseLayerId);
+	double holeDphiU = m_GeometryParameter->get_layer_holeDphi(senseLayerId+1);
+	holeId = (phi-deltaphi)/holeDphi;
+//	std::cout<<"holeId = "<<(phi-deltaphi)/pi<<"/"<<holeDphi/pi<<" = "<<holeId<<std::endl;
+//	std::cout<<"HoleNo = "<<HoleNo<<std::endl;
 	if (holeId<0) holeId+=HoleNo;
 	else if (holeId>=HoleNo) holeId-=HoleNo;
 	// how about corner effect?
+	double Rc = m_GeometryParameter->get_layer_Rc(senseLayerId);
+	double RcU = m_GeometryParameter->get_layer_Rc(senseLayerId+1);
+	double tanalpha = tan(m_GeometryParameter->get_layer_angle4rotate(senseLayerId)/2);
+	double tanalphaU = tan(m_GeometryParameter->get_layer_angle4rotate(senseLayerId+1)/2);
+	Rc = sqrt(Rc*Rc+deltaZ*deltaZ*Rc*Rc*tanalpha*tanalpha/Length/Length); // r at hit
+	RcU = sqrt(RcU*RcU+deltaZ*deltaZ*RcU*RcU*tanalphaU*tanalphaU/LengthU/LengthU); // r at hit
 	if (m_GeometryParameter->get_layer_type(holeLayerId)==1){ // outer part of a cell
+		int holeIdU = (phi - deltaphiU)/holeDphiU;
+		if (holeId%2==0){ // right part
+			//   o u1 o u0
+			//         .
+			//     x m1 o m0
+			//
+			//     o    o
+			holeIdU++;
+			double phi_u0 = holeIdU*holeDphiU+deltaphiU;
+			double phi_m0 = holeId*holeDphi+deltaphi;
+			if (phi_u0<0.5*holeDphi+phi_m0){
+				double delta_r = localHitPosition.perp() - Rc;
+				double delta_r2 = RcU - Rc;
+				double delta_phi = phi - phi_m0;
+				double delta_phi2 = phi_u0 - phi_m0;
+				if (delta_r*delta_phi2>delta_r2*delta_phi){
+					holeId--;
+				}
+			}
+		}
+		else{ // left part
+			//       o u0 o u1
+			//      .
+			//     o m0 x m1
+			//
+			//     o    o
+			double phi_u0 = holeIdU*m_GeometryParameter->get_layer_holeDphi(senseLayerId+1)+deltaphiU;
+			double phi_m0 = (holeId+1)*holeDphi+deltaphi;
+			if (phi_u0>-0.5*holeDphi+phi_m0){
+				double delta_r = localHitPosition.perp() - Rc;
+				double delta_r2 = RcU - Rc;
+				double delta_phi =  - phi + phi_m0;
+				double delta_phi2 =  - phi_u0 + phi_m0;
+				if (delta_r*delta_phi2>delta_r2*delta_phi){
+					holeId++;
+				}
+			}
+		}
 	}
+	if (holeId<0) holeId+=HoleNo;
+	else if (holeId>=HoleNo) holeId-=HoleNo;
 	cellId = holeId/2;
+	//*************************calculate driftD, driftT****************************
 	// position of sense wire at that z plane
 	G4ThreeVector localWirePositionAtHitPlane = G4ThreeVector(1,1,1);
-	localWirePositionAtHitPlane.setMag(m_GeometryParameter->get_layer_Rc(holeLayerId));
 	localWirePositionAtHitPlane.setZ(deltaZ);
+	localWirePositionAtHitPlane.setPerp(Rc);
 	localWirePositionAtHitPlane.setPhi((holeId/2*2+1)*holeDphi+deltaphi);
 	driftD = (localHitPosition-localWirePositionAtHitPlane).perp();
+//	std::cout<<"driftD = "<<localHitPosition/cm<<"-"<<localWirePositionAtHitPlane/cm<<"="<<driftD/cm<<std::endl;
 
 	G4double vc = 299792458*m/s; // m/s
 	G4double wiredelay = (Length/2-deltaZ)/vc;
 	driftT = driftD/driftV;
 	signalT = driftT+pointIn_time+wiredelay;
+	//*************************determine the action****************************
+	int action = 0; // 0: pass; 1: new hit; 2: update hit;
+	bool isPrimaryIon =  false;
+	bool isPrimaryTrack = false;
+	G4int pointer=-1;
+	G4double pretstop = -1;
+	G4double pretstart  = -1;
+	double minedeptemp = G4UniformRand()*minedep;
+//	std::cout<<"minedeptemp = "<<minedeptemp/keV<<std::endl;
+//	std::cout<<"@ ["<<layerId<<"]["<<cellId<<"]"<<std::endl;
+	if (hitPointer[layerId][cellId] != -1){ // There is a pulse in this same cell
+		pointer=hitPointer[layerId][cellId];
+//		std::cout<<"hitPointer["<<layerId<<"]["<<cellId<<"] = "<<pointer<<std::endl;
+		pretstop = m_tstop[pointer]*unit_tstop;
+		pretstart  = m_tstart[pointer]*unit_tstart;
+//		if (trackID==m_tid[pointer]&&tres&&signalT-pretstop<tres&&pretstart-signalT<tres) {
+		if (tres>=0&&(signalT<pretstart-tres||signalT>pretstop+tres)){ // this can be a new hit
+			action = 1;
+		}
+		else{
+			action = 2;
+		}
+	}
+	else{
+		action = 1;
+	}
+	// further cut
+	if (action == 0) return false; // pass
+	else if (action == 1){
+		//maxn
+		if ( maxn && cdc_nHits >= maxn ) return false;
+		//ntracks
+		if ( trackID != prevTrackID ){
+			prevTrackID = trackID;
+			nTracks++;
+		}
+		if ( nTracks > ntracks && ntracks) return false;
+		//minp
+		if ( minp && pointIn_pa < minp ) return false;
+		//time_window
+		if(isnan(globalT)){
+			G4cout<<"CdcSD:error, globalT is nan "<<G4endl;
+			return false;
+		}
+		if ( globalT < mint && mint ) return false;
+		if ( globalT > maxt && maxt ) return false;
+		//edep
+//		std::cout<<"edepIoni = "<<edepIoni<<std::endl;
+		if (edepIoni<=minedeptemp) return false;
+//		std::cout<<"Passed!"<<std::endl;
+	}
+	else if (action == 2){
+		if (edepIoni>minedeptemp){isPrimaryIon=true;}
+		if (ekin>m_ekin[pointer]*unit_ekin){
+			isPrimaryTrack=true;
+			prevTrackID = trackID;
+		}
+	}
 
 	//*******************generate or modify hit************************
-	std::cout<<__LINE__<<std::endl;
-	bool needpush = false;
-	if (hitPointer[layerId][cellId] != -1){
-		std::cout<<__LINE__<<std::endl;
-		CDCSD_LINEINFO();
-		G4int pointer=hitPointer[layerId][cellId];
-		std::cout<<"hitPointer["<<layerId<<"]["<<cellId<<"] = "<<pointer<<std::endl;
-		G4double pretstop = m_tstop[pointer]*unit_tstop;
-		std::cout<<__LINE__<<std::endl;
-		G4double pretstart  = m_tstart[pointer]*unit_tstart;
-		std::cout<<__LINE__<<std::endl;
-		if (trackID==m_tid[pointer]&&tres&&signalT-pretstop<tres&&pretstart-signalT<tres) {
-			std::cout<<__LINE__<<std::endl;
-			if ( get_VerboseLevel() >= 5 ){
-				std::cout<<"    Update Hit!!!"<<std::endl;
-			}
-			if(flag_edep) m_edep[pointer] += (edepIoni)/unit_edep;
-			if(flag_edepAll) m_edepAll[pointer] += (edep)/unit_edepAll;
-			//Set for root objects
-			if(globalT<m_t[pointer]*unit_t){// is this possible?
-				std::cout<<__LINE__<<std::endl;
-				if(flag_x) m_x[pointer] = hitPosition.x()/unit_x;
-				if(flag_y) m_y[pointer] = hitPosition.y()/unit_y;
-				if(flag_z) m_z[pointer] = hitPosition.z()/unit_z;
-				if(flag_t) m_t[pointer] = globalT/unit_t;
-				if(flag_e) m_e[pointer] = total_e/unit_e;
-				if(flag_ekin) m_ekin[pointer] = ekin/unit_ekin;
-				if(flag_px) m_px[pointer] = pointIn_mom.x()/unit_px;
-				if(flag_py) m_py[pointer] = pointIn_mom.y()/unit_py;
-				if(flag_pz) m_pz[pointer] = pointIn_mom.z()/unit_pz;
-			}
-			else{
-				std::cout<<__LINE__<<std::endl;
-				if(flag_pOx) m_pOx[pointer] = pointOut_pos.x()/unit_pOx;
-				if(flag_pOy) m_pOy[pointer] = pointOut_pos.y()/unit_pOy;
-				if(flag_pOz) m_pOz[pointer] = pointOut_pos.z()/unit_pOz;
-			}
-			std::cout<<__LINE__<<std::endl;
-			if (signalT<m_tstart[pointer]*unit_tstart) m_tstart[pointer] = signalT/unit_tstart;
-			else if (signalT>m_tstop[pointer]*unit_tstop) m_tstop[pointer] = signalT/unit_tstop;
-			if(flag_stepL) m_stepL[pointer] += stepL/unit_stepL;
-			if(flag_nPair) m_nPair[pointer]++;
-			if(flag_driftD) if(driftD<m_driftD[pointer]*unit_driftD) m_driftD[pointer] = driftD/unit_driftD;
-			std::cout<<__LINE__<<std::endl;
-		}
-		else needpush = true;
-	}
-	else needpush = true;
-	if (needpush){
-		std::cout<<__LINE__<<std::endl;
+	if (action==1){ // this is a new hit
+//		std::cout<<"=>New Hit!"<<std::endl;
 		CDCSD_LINEINFO();
 		CdcHit* newHit = new CdcHit();
 		newHit->SetTrackID(trackID);
@@ -612,9 +686,12 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 		G4int NbHits = hitsCollection->entries();
 		hitPointer[layerId][cellId]=NbHits-1;
 		//Set for root objects
-		if(flag_x) m_x.push_back(hitPosition.x()/unit_x);
-		if(flag_y) m_y.push_back(hitPosition.y()/unit_y);
-		if(flag_z) m_z.push_back(hitPosition.z()/unit_z);
+		if(flag_x) m_x.push_back(localHitPosition.x()/unit_x);
+		if(flag_y) m_y.push_back(localHitPosition.y()/unit_y);
+		if(flag_z) m_z.push_back(localHitPosition.z()/unit_z);
+		if(flag_wx) m_wx.push_back(localWirePositionAtHitPlane.x()/unit_wx);
+		if(flag_wy) m_wy.push_back(localWirePositionAtHitPlane.y()/unit_wy);
+		if(flag_wz) m_wz.push_back(localWirePositionAtHitPlane.z()/unit_wz);
 		if(flag_t) m_t.push_back(globalT/unit_t);
 		if(flag_t) m_tstart.push_back(signalT/unit_tstart);
 		if(flag_t) m_tstop.push_back(signalT/unit_tstop);
@@ -625,6 +702,7 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 		if(flag_e) m_e.push_back(total_e/unit_e);
 		if(flag_edep) m_edep.push_back(edepIoni/unit_edep);
 		if(flag_edepAll) m_edepAll.push_back(edep/unit_edepAll);
+		if(flag_edepDelta) m_edepDelta.push_back(edepDelta/unit_edepDelta);
 		if(flag_stepL) m_stepL.push_back(stepL/unit_stepL);
 		if(flag_nPair) m_nPair.push_back(1);
 		if(flag_driftD) m_driftD.push_back(driftD/unit_driftD);
@@ -632,10 +710,205 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 		if(flag_cellID) m_cellID.push_back(cellId);
 		if(flag_tid) m_tid.push_back(trackID);
 		if(flag_pid) m_pid.push_back(pid);
+		if(flag_ptid){
+			int ptid = aTrack->GetParentID();
+			if (trackID==1){
+				void *result = pPrimaryGeneratorAction->get_extra("ptid");
+				if (result) ptid = *((int*)result);
+			}
+			m_ptid.push_back(ptid);
+		}
+		if(flag_ppid){
+			int ptid = aTrack->GetParentID();
+			int ppid = McTruthSvc::GetMcTruthSvc()->tid2pid(ptid);
+			if (trackID==1){
+				void *result = pPrimaryGeneratorAction->get_extra("ppid");
+				if (result) ppid = *((int*)result);
+			}
+			m_ppid.push_back(ppid);
+		}
+		if(flag_oprocess){
+			G4String processName;
+			const G4VProcess* process = aTrack->GetCreatorProcess();
+			if (process) {
+				processName = process->GetProcessName();
+			}
+			else{
+				processName = "NULL";
+			}
+			if (trackID==1){
+				void *result = pPrimaryGeneratorAction->get_extra("process");
+				if (result) processName = *((std::string*)result);
+			}
+			m_oprocess.push_back(processName);
+		}
+		if(flag_ovolName){
+			G4String volume = aTrack->GetLogicalVolumeAtVertex()->GetName();
+			if (trackID==1){
+				void *result = pPrimaryGeneratorAction->get_extra("volume");
+				if (result) volume = *((std::string*)result);
+			}
+			m_ovolName.push_back(volume);
+		}
+		if (flag_ox||flag_oy||flag_oz){
+			G4ThreeVector pos_3vec = aTrack->GetVertexPosition();
+			double ox = pos_3vec.x()/unit_ox;
+			double oy = pos_3vec.y()/unit_oy;
+			double oz = pos_3vec.z()/unit_oz;
+			if (trackID==1){
+				void *result = pPrimaryGeneratorAction->get_extra("ox");
+				if (result) ox = *((double*)result)*mm/unit_ox;
+				result = pPrimaryGeneratorAction->get_extra("oy");
+				if (result) oy = *((double*)result)*mm/unit_oy;
+				result = pPrimaryGeneratorAction->get_extra("oz");
+				if (result) oz = *((double*)result)*mm/unit_oz;
+			}
+			if(flag_ox) m_ox.push_back(ox);
+			if(flag_oy) m_oy.push_back(oy);
+			if(flag_oz) m_oz.push_back(oz);
+		}
+		if(flag_ot){
+			double ot;
+			ot = McTruthSvc::GetMcTruthSvc()->tid2time(trackID)/unit_ot;
+			if (trackID==1){
+				void *result = pPrimaryGeneratorAction->get_extra("ox");
+				if (result) ot = *((double*)result)*ns/unit_ot;
+			}
+			m_ot.push_back(ot);
+		}
+		if (flag_opx||flag_opy||flag_opz){
+			G4ThreeVector mom_dir = aTrack->GetVertexMomentumDirection();
+			G4double Ekin = aTrack->GetVertexKineticEnergy();
+			G4double mass = aTrack->GetDynamicParticle()->GetMass();
+			G4double mom = sqrt((mass+Ekin)*(mass+Ekin)-mass*mass);
+			double opx = mom*mom_dir.x()/unit_opx;
+			double opy = mom*mom_dir.y()/unit_opy;
+			double opz = mom*mom_dir.z()/unit_opz;
+			if (trackID==1){
+				void *result = pPrimaryGeneratorAction->get_extra("opx");
+				if (result) opx = *((double*)result)*mm/unit_opx;
+				result = pPrimaryGeneratorAction->get_extra("opy");
+				if (result) opy = *((double*)result)*mm/unit_opy;
+				result = pPrimaryGeneratorAction->get_extra("opz");
+				if (result) opz = *((double*)result)*mm/unit_opz;
+			}
+			if(flag_opx) m_opx.push_back(opx);
+			if(flag_opy) m_opy.push_back(opy);
+			if(flag_opz) m_opz.push_back(opz);
+		}
 		cdc_nHits++;
-		std::cout<<__LINE__<<std::endl;
 	}
-	std::cout<<__LINE__<<std::endl;
+	else { // update the track
+//		std::cout<<"hitPointer["<<layerId<<"]["<<cellId<<"] = "<<pointer<<std::endl;
+//		std::cout<<"=>Update Hit!"<<std::endl;
+		if(flag_edep) m_edep[pointer] += (edepIoni)/unit_edep;
+		if(flag_edepAll) m_edepAll[pointer] += (edep)/unit_edepAll;
+		if(flag_stepL) m_stepL[pointer] += stepL/unit_stepL;
+		if (isPrimaryIon){
+			if (signalT<m_tstart[pointer]*unit_tstart) m_tstart[pointer] = signalT/unit_tstart;
+			else if (signalT>m_tstop[pointer]*unit_tstop) m_tstop[pointer] = signalT/unit_tstop;
+			if(flag_nPair) m_nPair[pointer]++;
+			if(flag_driftD) if(driftD<m_driftD[pointer]*unit_driftD) m_driftD[pointer] = driftD/unit_driftD;
+		}
+		if (isPrimaryTrack){
+			if(flag_x) m_x[pointer] = hitPosition.x()/unit_x;
+			if(flag_y) m_y[pointer] = hitPosition.y()/unit_y;
+			if(flag_z) m_z[pointer] = hitPosition.z()/unit_z;
+			if(flag_t) m_t[pointer] = globalT/unit_t;
+			if(flag_e) m_e[pointer] = total_e/unit_e;
+			if(flag_ekin) m_ekin[pointer] = ekin/unit_ekin;
+			if(flag_px) m_px[pointer] = pointIn_mom.x()/unit_px;
+			if(flag_py) m_py[pointer] = pointIn_mom.y()/unit_py;
+			if(flag_pz) m_pz[pointer] = pointIn_mom.z()/unit_pz;
+			if(flag_ptid){
+				int ptid = aTrack->GetParentID();
+				if (trackID==1){
+					void *result = pPrimaryGeneratorAction->get_extra("ptid");
+					if (result) ptid = *((int*)result);
+				}
+				m_ptid[pointer] = ptid;
+			}
+			if(flag_ppid){
+				int ptid = aTrack->GetParentID();
+				int ppid = McTruthSvc::GetMcTruthSvc()->tid2pid(ptid);
+				if (trackID==1){
+					void *result = pPrimaryGeneratorAction->get_extra("ppid");
+					if (result) ppid = *((int*)result);
+				}
+				m_ppid[pointer] = ppid;
+			}
+			if(flag_oprocess){
+				G4String processName;
+				const G4VProcess* process = aTrack->GetCreatorProcess();
+				if (process) {
+					processName = process->GetProcessName();
+				}
+				else{
+					processName = "NULL";
+				}
+				if (trackID==1){
+					void *result = pPrimaryGeneratorAction->get_extra("process");
+					if (result) processName = *((std::string*)result);
+				}
+				m_oprocess[pointer] = processName;
+			}
+			if(flag_ovolName){
+				G4String volume = aTrack->GetLogicalVolumeAtVertex()->GetName();
+				if (trackID==1){
+					void *result = pPrimaryGeneratorAction->get_extra("volume");
+					if (result) volume = *((std::string*)result);
+				}
+				m_ovolName[pointer] = volume;
+			}
+			if (flag_ox||flag_oy||flag_oz){
+				G4ThreeVector pos_3vec = aTrack->GetVertexPosition();
+				double ox = pos_3vec.x()/unit_ox;
+				double oy = pos_3vec.y()/unit_oy;
+				double oz = pos_3vec.z()/unit_oz;
+				if (trackID==1){
+					void *result = pPrimaryGeneratorAction->get_extra("ox");
+					if (result) ox = *((double*)result)*mm/unit_ox;
+					result = pPrimaryGeneratorAction->get_extra("oy");
+					if (result) oy = *((double*)result)*mm/unit_oy;
+					result = pPrimaryGeneratorAction->get_extra("oz");
+					if (result) oz = *((double*)result)*mm/unit_oz;
+				}
+				if(flag_ox) m_ox[pointer] = ox;
+				if(flag_oy) m_oy[pointer] = oy;
+				if(flag_oz) m_oz[pointer] = oz;
+			}
+			if(flag_ot){
+				double ot;
+				ot = McTruthSvc::GetMcTruthSvc()->tid2time(trackID)/unit_ot;
+				if (trackID==1){
+					void *result = pPrimaryGeneratorAction->get_extra("ox");
+					if (result) ot = *((double*)result)*ns/unit_ot;
+				}
+				m_ot[pointer] = ot;
+			}
+			if (flag_opx||flag_opy||flag_opz){
+				G4ThreeVector mom_dir = aTrack->GetVertexMomentumDirection();
+				G4double Ekin = aTrack->GetVertexKineticEnergy();
+				G4double mass = aTrack->GetDynamicParticle()->GetMass();
+				G4double mom = sqrt((mass+Ekin)*(mass+Ekin)-mass*mass);
+				double opx = mom*mom_dir.x()/unit_opx;
+				double opy = mom*mom_dir.y()/unit_opy;
+				double opz = mom*mom_dir.z()/unit_opz;
+				if (trackID==1){
+					void *result = pPrimaryGeneratorAction->get_extra("opx");
+					if (result) opx = *((double*)result)*mm/unit_opx;
+					result = pPrimaryGeneratorAction->get_extra("opy");
+					if (result) opy = *((double*)result)*mm/unit_opy;
+					result = pPrimaryGeneratorAction->get_extra("opz");
+					if (result) opz = *((double*)result)*mm/unit_opz;
+				}
+				if(flag_opx) m_opx[pointer] = opx;
+				if(flag_opy) m_opy[pointer] = opy;
+				if(flag_opz) m_opz[pointer] = opz;
+			}
+		}
+	}
+	//	std::cout<<"  "<<hitPosition.x()<<", "<<globalT<<", ("<<layerId<<","<<cellId<<"), "<<edepIoni/eV<<", "<<stepL<<std::endl;
 	return true;
 }
 
