@@ -20,4 +20,4 @@ export OFILENAMEROOT=$MYG4SIMWORKROOT/output/raw_g4sim.root
 export RUNNAMEROOT=TEST
 export LOGFILEROOT=$MYG4SIMWORKROOT/runlog/logfile
 
-source $MYG4SIMROOT/env.sh
+source ../env.sh
