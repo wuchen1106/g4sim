@@ -15,6 +15,7 @@
 #include "CdcLayerSD.hh"
 #include "CdcSD.hh"
 #include "CdcSimpleSD.hh"
+#include "CdcCellSD.hh"
 #include "MonitorSD.hh"
 #include "KillerSD.hh"
 #include "MyString2Anything.hh"
@@ -30,7 +31,7 @@
 MyTriggerSvc* MyTriggerSvc::fMyTriggerSvc = 0;
 
 	MyTriggerSvc::MyTriggerSvc()
-:pMyDetectorManager(0),myCdcLayerSD(0),myCdcSD(0),myCdcSimpleSD(0),myMonitorSD(0),myMonitorSD2(0),myMcTruthSvc(0),myKillerSD(0)
+:pMyDetectorManager(0),myCdcLayerSD(0),myCdcSD(0),myCdcSimpleSD(0),myCdcCellSD(0),myMonitorSD(0),myMonitorSD2(0),myMcTruthSvc(0),myKillerSD(0)
 {
 	if (fMyTriggerSvc){
 		G4Exception("MyTriggerSvc::MyTriggerSvc()","Run0031",
@@ -250,6 +251,9 @@ bool MyTriggerSvc::TriggerIt( const G4Event* evt ){
 		}
 		else if (myCdcSimpleSD){
 			nHits_CDC = myCdcSimpleSD->Get_nHits();
+		}
+		else if (myCdcCellSD){
+			nHits_CDC = myCdcCellSD->Get_nHits();
 		}
 		else{
 			nHits_CDC = myMonitorSD->Get_nHits();

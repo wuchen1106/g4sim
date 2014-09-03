@@ -85,11 +85,11 @@ bool CdcGeometryParameter::CheckInfo(){
 
 void CdcGeometryParameter::Preset(){
 	SimpleGeometryParameter::Preset();// Call its Parent class to preset
-	vis_cell = false;
 	vis_layer = false;
 	vis_SignalWire = false;
 	vis_FieldWire = false;
 	LayerNo = 0;
+	MaxStepLength = 0.1*mm;
 }
 
 
@@ -106,10 +106,10 @@ int CdcGeometryParameter::GetValue(G4String s_card){
 	G4double tlayer_Re, tlayer_length;
 	std::string dump;
 	if( name == "MotherLogicalVolume:" ) buf_card>>MotherLogicalVolume;
-	else if( name == "CellMaterial:" ) buf_card>>CellMaterial;
+	else if( name == "LayerMaterial:" ) buf_card>>LayerMaterial;
 	else if( name == "SensitiveDetector:" ) buf_card>>SensitiveDetector;
 	else if( name == "SDVolumeName:" ) buf_card>>SDVolumeName;
-	else if( name == "MinStepLength:" ) {buf_card>>MinStepLength;MinStepLength*=1e-3*mm;}
+	else if( name == "MaxStepLength:" ) {buf_card>>MaxStepLength;MaxStepLength*=1e-3*mm;}
 	else if( name == "SignalWireMaterial:" ) buf_card>>SignalWireMaterial;
 	else if( name == "FieldWireMaterial:" ) buf_card>>FieldWireMaterial;
 	else if( name == "SignalWireRadius:" ) {
@@ -122,19 +122,18 @@ int CdcGeometryParameter::GetValue(G4String s_card){
 	}
 	else if( name == "vis_layer" ){
 		vis_layer = true;
-		buf_card>>r_layer>>g_layer>>b_layer;
-	}
-	else if( name == "vis_cell" ){
-		vis_cell = true;
-		buf_card>>r_cell>>g_cell>>b_cell;
+		t_layer = 1;
+		buf_card>>r_layer>>g_layer>>b_layer>>t_layer;
 	}
 	else if( name == "vis_FieldWire" ){
 		vis_FieldWire = true;
-		buf_card>>r_FieldWire>>g_FieldWire>>b_FieldWire;
+		t_FieldWire = 1;
+		buf_card>>r_FieldWire>>g_FieldWire>>b_FieldWire>>t_FieldWire;
 	}
 	else if( name == "vis_SignalWire" ){
 		vis_SignalWire = true;
-		buf_card>>r_SignalWire>>g_SignalWire>>b_SignalWire;
+		t_SignalWire = 1;
+		buf_card>>r_SignalWire>>g_SignalWire>>b_SignalWire>>t_SignalWire;
 	}
 	else{
 		std::stringstream buf_temp;
@@ -148,7 +147,7 @@ int CdcGeometryParameter::GetValue(G4String s_card){
 				layer_type.push_back(1);
 			else if (name=="G")
 				layer_type.push_back(2);
-			layer_ID.push_back(tlayer_ID);
+			layer_ID.push_back(tlayer_ID-1);
 			layer_Re.push_back(tlayer_Re);
 			layer_length.push_back(tlayer_length);
 			layer_HoleNo.push_back(tlayer_HoleNo);
@@ -194,7 +193,7 @@ void CdcGeometryParameter::DumpInfo() {
 	std::cout<<" MotherLogicalVolume:  "<<MotherLogicalVolume<<std::endl;
 	std::cout<<" SensitiveDetector:    "<<SensitiveDetector<<std::endl;
 	std::cout<<" SDVolumeName:         "<<SDVolumeName<<std::endl;
-	std::cout<<" MinStepLength:        "<<MinStepLength/cm<<" cm"<<std::endl;
+	std::cout<<" MaxStepLength:        "<<MaxStepLength/cm<<" cm"<<std::endl;
 
 	std::cout<<"=>Wires info:"<<std::endl;
 	std::cout<<" SignalWireRadius:     "<<SignalWireRadius/um<<" um"<<std::endl;

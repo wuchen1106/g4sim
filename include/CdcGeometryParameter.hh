@@ -51,12 +51,12 @@ class CdcGeometryParameter : public SimpleGeometryParameter
 		G4String get_MotherLogicalVolume() {return MotherLogicalVolume;}
 		G4String get_SensitiveDetector() {return SensitiveDetector;}
 		G4String get_SDVolumeName() {return SDVolumeName;}
-		G4double get_MinStepLength() {return MinStepLength;}
+		G4double get_MaxStepLength() {return MaxStepLength;}
 
 		//wire info
 		G4String get_SignalWireMaterial() {return SignalWireMaterial;}
 		G4String get_FieldWireMaterial() {return FieldWireMaterial;}
-		G4String get_CellMaterial() {return CellMaterial;}
+		G4String get_LayerMaterial() {return LayerMaterial;}
 		G4double get_SignalWireRadius() {return SignalWireRadius;}
 		G4double get_FieldWireRadius() {return FieldWireRadius;}
 
@@ -116,18 +116,17 @@ class CdcGeometryParameter : public SimpleGeometryParameter
 		G4double get_r_layer(){return r_layer;}
 		G4double get_g_layer(){return g_layer;}
 		G4double get_b_layer(){return b_layer;}
-		bool get_vis_cell(){return vis_cell;}
-		G4double get_r_cell(){return r_cell;}
-		G4double get_g_cell(){return g_cell;}
-		G4double get_b_cell(){return b_cell;}
+		G4double get_t_layer(){return t_layer;}
 		bool get_vis_FieldWire(){return vis_FieldWire;}
 		bool get_vis_SignalWire(){return vis_SignalWire;}
 		G4double get_r_FieldWire(){return r_FieldWire;}
 		G4double get_g_FieldWire(){return g_FieldWire;}
 		G4double get_b_FieldWire(){return b_FieldWire;}
+		G4double get_t_FieldWire(){return t_FieldWire;}
 		G4double get_r_SignalWire(){return r_SignalWire;}
 		G4double get_g_SignalWire(){return g_SignalWire;}
 		G4double get_b_SignalWire(){return b_SignalWire;}
+		G4double get_t_SignalWire(){return t_SignalWire;}
 
 	private:
 
@@ -159,12 +158,12 @@ class CdcGeometryParameter : public SimpleGeometryParameter
 		G4String MotherLogicalVolume;
 		G4String SensitiveDetector;
 		G4String SDVolumeName;
-		G4double MinStepLength;
+		G4double MaxStepLength;
 
 		//wire info
 		G4String SignalWireMaterial;
 		G4String FieldWireMaterial;
-		G4String CellMaterial;
+		G4String LayerMaterial;
 		G4double SignalWireRadius; //in um
 		G4double FieldWireRadius; //in um
 
@@ -185,13 +184,11 @@ class CdcGeometryParameter : public SimpleGeometryParameter
 
 		//other settings
 		bool vis_layer;
-		G4double r_layer, g_layer, b_layer;
-		bool vis_cell;
-		G4double r_cell, g_cell, b_cell;
+		G4double r_layer, g_layer, b_layer, t_layer;
 		bool vis_FieldWire;
 		bool vis_SignalWire;
-		G4double r_SignalWire, g_SignalWire, b_SignalWire;
-		G4double r_FieldWire, g_FieldWire, b_FieldWire;
+		G4double r_SignalWire, g_SignalWire, b_SignalWire, t_SignalWire;
+		G4double r_FieldWire, g_FieldWire, b_FieldWire, t_FieldWire;
 
 };
 

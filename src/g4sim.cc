@@ -36,6 +36,7 @@
 
 #include "Randomize.hh"
 
+#include "G4VModularPhysicsList.hh"
 #include "DetectorConstruction.hh"
 #include "PhysicsList.hh"
 #include "PrimaryGeneratorAction.hh"
@@ -44,6 +45,7 @@
 #include "SteppingAction.hh"
 #include "SteppingVerbose.hh"
 #include "G4RadioactiveDecayPhysics.hh"
+#include "MyStepLimiter.hh"
 #include "QGSP_BERT.hh"
 #include "QGSP_BERT_HP.hh"
 //#include "myQGSP_BERT_HP.hh"
@@ -91,27 +93,29 @@ int main(int argc,char** argv)
 	runManager->SetUserInitialization(new DetectorConstruction);
 	//
 
+	// get physicslist
+	G4VModularPhysicsList* physics;
 	G4String PhysicsListName = getenv("PHYSICSLIST");
 	std::cout<<"PhysicsList: \""<<PhysicsListName<<"\""<<std::endl;
 	if (PhysicsListName=="QGSP_BERT_HP"){
-		QGSP_BERT_HP* qgsp = new QGSP_BERT_HP;
-		qgsp->RegisterPhysics(new G4RadioactiveDecayPhysics());
-		runManager->SetUserInitialization(qgsp);
+		physics= new QGSP_BERT_HP;
+		physics->RegisterPhysics(new G4RadioactiveDecayPhysics());
 	}
 	else if (PhysicsListName=="QGSP_BERT_HP_noRadi"){
-		runManager->SetUserInitialization(new QGSP_BERT_HP);
+		physics = new QGSP_BERT_HP;
 	}
 	else if (PhysicsListName=="QGSP_BERT_noRadi"){
-		runManager->SetUserInitialization(new QGSP_BERT);
+		physics = new QGSP_BERT;
 	}
 	else if (PhysicsListName=="PhysicsList"){
-		runManager->SetUserInitialization(new PhysicsList);
+		physics = new PhysicsList;
 	}
 	else{
-		QGSP_BERT* qgsp = new QGSP_BERT;
-		qgsp->RegisterPhysics(new G4RadioactiveDecayPhysics());
-		runManager->SetUserInitialization(qgsp);
+		physics = new QGSP_BERT;
+		physics ->RegisterPhysics(new G4RadioactiveDecayPhysics());
 	}
+	physics->RegisterPhysics(new MyStepLimiter());
+	runManager->SetUserInitialization(physics);
 
 	// Set user action classes
 	//
