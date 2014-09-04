@@ -7,7 +7,6 @@
 //Modified: 7 Jan, 2013 by Wu Chen(wuchen@mail.ihep.ac.cn)
 //          Added Boolean Volumes
 //Comment: about fVerboseLevel:
-//         You can change it by calling SetVerbose(int) somewhere
 //         or modifying input card before starting a run.
 //         Either way would set verbose of selected sensitive detectors to the same level
 //         0:    Only Warnings and Errors
@@ -15,20 +14,20 @@
 //         >= 5: All information
 //---------------------------------------------------------------------------//
 
-#ifndef CdcGeometrySvc_h
-#define CdcGeometrySvc_h 1
+#ifndef CdcCellGeometrySvc_h
+#define CdcCellGeometrySvc_h 1
 
 #include "myglobals.hh"
 
 #include "SimpleGeometrySvc.hh"
 
-class CdcGeometryParameter;
+class CdcCellGeometryParameter;
 
-class CdcGeometrySvc : public SimpleGeometrySvc
+class CdcCellGeometrySvc : public SimpleGeometrySvc
 {
   public:
-    CdcGeometrySvc(G4String name, G4String opt = "");
-    virtual ~CdcGeometrySvc();
+    CdcCellGeometrySvc(G4String name, G4String opt = "");
+    virtual ~CdcCellGeometrySvc();
 
     virtual G4VPhysicalVolume* SetGeometry();//Setup geometry. Should be called before the begin of a run
 
@@ -38,14 +37,14 @@ class CdcGeometrySvc : public SimpleGeometrySvc
 		G4VPhysicalVolume* PlaceVolumes();
 
 		//=>Access
-		CdcGeometryParameter* get_GeometryParameter(){ return m_GeometryParameter; }
+		CdcCellGeometryParameter* get_GeometryParameter(){ return m_GeometryParameter; }
 
 		//=>Modify
-		void set_GeometryParameter( CdcGeometryParameter* val );
+		void set_GeometryParameter( CdcCellGeometryParameter* val );
 
 	private:
 
-		CdcGeometryParameter* m_GeometryParameter;
+		CdcCellGeometryParameter* m_GeometryParameter;
 
 };
 

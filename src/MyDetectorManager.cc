@@ -16,6 +16,7 @@
 
 //supported SD
 #include "CdcSD.hh"
+#include "CdcCellSD.hh"
 #include "CdcSimpleSD.hh"
 #include "CdcIonSD.hh"
 #include "MonitorSD.hh"
@@ -25,6 +26,7 @@
 //supported Svc
 #include "SimpleGeometrySvc.hh"
 #include "CdcGeometrySvc.hh"
+#include "CdcCellGeometrySvc.hh"
 
 #include "MyVGeometrySvc.hh"
 #include "MyVGeometryParameter.hh"
@@ -112,7 +114,7 @@ void MyDetectorManager::ReadCard(G4String file_name){
 		MyVGeometrySvc* aGSvc = 0;
 		buf_card>>name;
 		//std::cout<<"MyDetectorManager: "<<buf_card.str()<<std::endl;
-		if ( name == "VerboseLevel" ){
+		if ( name == "VerboseLevel:" ){
 			buf_card>>fVerboseLevel;
 		}
 		else{
@@ -122,6 +124,9 @@ void MyDetectorManager::ReadCard(G4String file_name){
 			}
 			else if( type == "Cdc" ){
 				aGSvc = new CdcGeometrySvc( name );
+			}
+			else if( type == "CdcCell" ){
+				aGSvc = new CdcCellGeometrySvc( name );
 			}
 			else{
 				std::cout<<"In MyDetectorManager::ReadCard, unsupported GeometrySvc type: "<<type<<"! Will ignore this line!"<<std::endl;
@@ -147,6 +152,9 @@ void MyDetectorManager::AddGeo(G4String name, G4String file, G4String type){
 	}
 	else if( type == "Cdc" ){
 		aGSvc = new CdcGeometrySvc( name );
+	}
+	else if( type == "CdcCell" ){
+		aGSvc = new CdcCellGeometrySvc( name );
 	}
 	else{
 		std::cout<<"In MyDetectorManager::ReadCard, unsupported GeometrySvc type: "<<type<<"! Will ignore this line!"<<std::endl;
@@ -264,6 +272,10 @@ G4VSensitiveDetector* MyDetectorManager::GetSD(G4String VolName, G4String SDName
 		G4String FullSDName = newVolName + "/" + newSDName;
 		if ( newSDName == "CdcSD" ){
 			aG4SD = new CdcSD( FullSDName, pPara );
+			fSDman->AddNewDetector( aG4SD );
+		}
+		else if ( newSDName == "CdcCellSD" ){
+			aG4SD = new CdcCellSD( FullSDName, pPara );
 			fSDman->AddNewDetector( aG4SD );
 		}
 		else if ( newSDName == "CdcSimpleSD" ){

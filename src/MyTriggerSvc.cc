@@ -15,6 +15,7 @@
 #include "CdcLayerSD.hh"
 #include "CdcSD.hh"
 #include "CdcSimpleSD.hh"
+#include "CdcCellSD.hh"
 #include "MonitorSD.hh"
 #include "KillerSD.hh"
 #include "MyString2Anything.hh"
@@ -30,7 +31,7 @@
 MyTriggerSvc* MyTriggerSvc::fMyTriggerSvc = 0;
 
 	MyTriggerSvc::MyTriggerSvc()
-:pMyDetectorManager(0),myCdcLayerSD(0),myCdcSD(0),myCdcSimpleSD(0),myMonitorSD(0),myMonitorSD2(0),myMcTruthSvc(0),myKillerSD(0)
+:pMyDetectorManager(0),myCdcLayerSD(0),myCdcSD(0),myCdcSimpleSD(0),myCdcCellSD(0),myMonitorSD(0),myMonitorSD2(0),myMcTruthSvc(0),myKillerSD(0)
 {
 	if (fMyTriggerSvc){
 		G4Exception("MyTriggerSvc::MyTriggerSvc()","Run0031",
@@ -163,6 +164,9 @@ void MyTriggerSvc::SetMyTrigger( G4String filename ){
 			std::cout<<"myVSD2 @ ["<<(void*) myVSD2<<"]"<<std::endl;
 			std::cout<<"myMonitorSD2 @ ["<<(void*) myMonitorSD2<<"]"<<std::endl;
 		}
+		else{
+			std::cout<<"Cannot find M sensitive detector!"<<std::endl;
+		}
 	}
 	if ( minCdcHits != -1 || minCorM_Hits != -1 ){ 
 		myVSD = pMyDetectorManager->GetSD("CdcCell","CdcSD");
@@ -172,17 +176,30 @@ void MyTriggerSvc::SetMyTrigger( G4String filename ){
 			std::cout<<"myCdcSD @ ["<<(void*) myCdcSD<<"]"<<std::endl;
 		}
 		else{
-			myVSD = pMyDetectorManager->GetSD("CDCLayer","CdcLayerSD");
+			myVSD = pMyDetectorManager->GetSD("CDCContainer","CdcSD");
 			if (myVSD){
-				myCdcLayerSD = dynamic_cast<CdcLayerSD*> (myVSD);
+				myCdcSD = dynamic_cast<CdcSD*> (myVSD);
 				std::cout<<"myVSD @ ["<<(void*) myVSD<<"]"<<std::endl;
-				std::cout<<"myCdcLayerSD @ ["<<(void*) myCdcLayerSD<<"]"<<std::endl;
+				std::cout<<"myCdcSD @ ["<<(void*) myCdcSD<<"]"<<std::endl;
 			}
 			else{
-				myVSD = pMyDetectorManager->GetSD("","C/MonitorSD");
-				myMonitorSD = dynamic_cast<MonitorSD*> (myVSD);
-				std::cout<<"myVSD @ ["<<(void*) myVSD<<"]"<<std::endl;
-				std::cout<<"myMonitorSD @ ["<<(void*) myMonitorSD<<"]"<<std::endl;
+				myVSD = pMyDetectorManager->GetSD("CDCLayer","CdcLayerSD");
+				if (myVSD){
+					myCdcLayerSD = dynamic_cast<CdcLayerSD*> (myVSD);
+					std::cout<<"myVSD @ ["<<(void*) myVSD<<"]"<<std::endl;
+					std::cout<<"myCdcLayerSD @ ["<<(void*) myCdcLayerSD<<"]"<<std::endl;
+				}
+				else{
+					myVSD = pMyDetectorManager->GetSD("","C/MonitorSD");
+					if (myVSD){
+						myMonitorSD = dynamic_cast<MonitorSD*> (myVSD);
+						std::cout<<"myVSD @ ["<<(void*) myVSD<<"]"<<std::endl;
+						std::cout<<"myMonitorSD @ ["<<(void*) myMonitorSD<<"]"<<std::endl;
+					}
+					else{
+						std::cout<<"Cannot find cdc sensitive detector!"<<std::endl;
+					}
+				}
 			}
 		}
 	}
@@ -228,6 +245,15 @@ bool MyTriggerSvc::TriggerIt( const G4Event* evt ){
 		int nHits_CDC = 0;
 		if (myCdcLayerSD){
 			nHits_CDC = myCdcLayerSD->Get_nHits();
+		}
+		else if (myCdcSD){
+			nHits_CDC = myCdcSD->Get_nHits();
+		}
+		else if (myCdcSimpleSD){
+			nHits_CDC = myCdcSimpleSD->Get_nHits();
+		}
+		else if (myCdcCellSD){
+			nHits_CDC = myCdcCellSD->Get_nHits();
 		}
 		else{
 			nHits_CDC = myMonitorSD->Get_nHits();

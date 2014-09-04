@@ -19,7 +19,7 @@
 
 class G4Step;
 class G4HCofThisEvent;
-class CdcGeometryParameter;
+class CdcCellGeometryParameter;
 class MyVGeometryParameter;
 
 class CdcIonSD : public MySD
@@ -38,10 +38,10 @@ class CdcIonSD : public MySD
     void ReadOutputCard(G4String filename);
 
 		//=> Access
-		CdcGeometryParameter* get_GeometryParameter(){ return m_GeometryParameter; }
+		CdcCellGeometryParameter* get_GeometryParameter(){ return m_GeometryParameter; }
 
 		//=> Modify
-		void set_GeometryParameter( CdcGeometryParameter* val ){ m_GeometryParameter = val; }
+		void set_GeometryParameter( CdcCellGeometryParameter* val ){ m_GeometryParameter = val; }
 
   private:
 
@@ -52,7 +52,7 @@ class CdcIonSD : public MySD
 
 	private:
 
-    CdcGeometryParameter* m_GeometryParameter;
+    CdcCellGeometryParameter* m_GeometryParameter;
 
     CdcIonHitsCollection* hitsCollection;
 		std::vector<G4ThreeVector>* collection;

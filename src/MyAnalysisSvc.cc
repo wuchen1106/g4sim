@@ -185,18 +185,23 @@ void MyAnalysisSvc::SteppingAction(const G4Step* aStep){
 	pProcessCountingSvc->SetValue(aStep);
 	G4Track* aTrack = aStep->GetTrack() ;
 	G4int nSteps = aTrack->GetCurrentStepNumber();
-	if (nSteps>2e4){
-		aTrack->SetTrackStatus(fStopAndKill);
-		std::cout<<"### This track is killed for that nSteps>2e4 ###"<<std::endl;
+	bool needStopAndKill = false;
+	if (nSteps>2e5){
+		std::cout<<"### This track is killed for that nSteps>2e5 ###"<<std::endl;
+		needStopAndKill = true;
 	}
 	G4double globalT=aTrack->GetGlobalTime();//Time since the event in which the track belongs is created
 	if ((m_minT>=0&&m_minT>globalT)&&(m_maxT>=0&&m_maxT<globalT)){
-		aTrack->SetTrackStatus(fStopAndKill);
 		std::cout<<"### This track is killed for that globalT < "<<m_minT<<" || globalT > "<<m_maxT<<" ###"<<std::endl;
+		needStopAndKill = true;
 	}
 	if (( current_time - event_start_time > 5*CLOCKS_PER_SEC)){
-		aTrack->SetTrackStatus(fStopAndKill);
 		std::cout<<"### This track is killed for that elapsed time in this event is larger than 5 sec ###"<<std::endl;
+		needStopAndKill = true;
+	}
+	if (needStopAndKill){
+		aTrack->SetTrackStatus(fStopAndKill);
+		std::cout<<" => ["<<aTrack->GetTrackID()<<"]: "<<aTrack->GetParticleDefinition()->GetParticleName()<<", "<<G4BestUnit(aStep->GetPreStepPoint()->GetKineticEnergy(),"Energy")<<", @ \""<<aStep->GetPreStepPoint()->GetTouchable()->GetVolume(0)->GetName()<<"\""<<std::endl;
 	}
 }
 
