@@ -3,10 +3,21 @@
 # Get default settings
 /control/execute {ALCAPWORKROOT}/macros/resetVerbose.mac
 /control/execute {ALCAPWORKROOT}/macros/resetCut.mac
+
+# Get visualisation
+/control/execute {ALCAPWORKROOT}/macros/test_vis.mac
+
 # Set Output
 /g4sim/myAnalysisSvc/set_out_card output/output_default
+
 # Set Gen
-/g4sim/gun/ResetGen               gen/gen_Eu_source
+/g4sim/gun/ResetGen               gen/gen_gam_tgt
 
 # Set Geo
-/g4sim/det/ReloadGeo              geometry_GeCallibration
+/g4sim/det/ReloadGeo              geometry_1217
+
+
+#	For this run
+/run/beamOn  1
+
+/vis/ogl/printEPS

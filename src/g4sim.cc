@@ -149,6 +149,9 @@ int main(int argc,char** argv)
 
 	if (argc!=1)   // batch mode
 	{
+#ifdef G4VIS_USE
+	  visManager->Initialize();
+#endif
 		G4String command = "/control/execute ";
 		G4String fileName = argv[1];
 		UImanager->ApplyCommand(command+fileName);

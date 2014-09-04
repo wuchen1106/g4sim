@@ -23,3 +23,9 @@ G4History.macro
 currentEvent.rndm
 currentRun.rndm
 g4sim
+
+# Backups
+*~
+
+# Geant4 install
+geant4*
