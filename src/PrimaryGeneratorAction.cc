@@ -353,11 +353,15 @@ void PrimaryGeneratorAction::SetRandomPosition(){
 
 	  // Get a random position based on the spread (copied code from gRand)
 	  do {
-	    dx=G4RandGauss::shoot(0,xSpread);
-	    dy=G4RandGauss::shoot(0,ySpread);
-	    dz=G4RandGauss::shoot(0,zSpread);
+			//dx=G4RandGauss::shoot(0,xSpread);
+			//dy=G4RandGauss::shoot(0,ySpread);
+			//dz=G4RandGauss::shoot(0,zSpread);
+	    dx=G4RandFlat::shoot(-xSpread,xSpread);
+	    dy=G4RandFlat::shoot(-ySpread,ySpread);
+	    dz=G4RandFlat::shoot(-xSpread,zSpread);
 
 	    G4ThreeVector position(x+dx, y+dy, z+dz);
+      position.rotate(G4ThreeVector(0,1,0), -45*deg);
 	    G4VPhysicalVolume* phys_volume = theNavigator->LocateGlobalPointAndSetup(position);
 
 	    if (!phys_volume) {
@@ -391,7 +395,12 @@ void PrimaryGeneratorAction::SetRandomPosition(){
 	    }
 	  } while (!gotit);
 	}
-	particleGun->SetParticlePosition(G4ThreeVector(x+dx,y+dy,z+dz));
+
+  G4ThreeVector position(x+dx, y+dy, z+dz);
+  if (PositionMode == "source" || PositionMode == "target")
+    position.rotate(G4ThreeVector(0,1,0), -45*deg);
+
+	particleGun->SetParticlePosition(position);
 }
 
 void PrimaryGeneratorAction::SetUniformPosition(){
