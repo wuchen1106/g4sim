@@ -1,7 +1,7 @@
-/control/getEnv MYG4SIMWORKROOT
-/control/execute {MYG4SIMWORKROOT}/macros/SiR2.mac
-#/control/execute {MYG4SIMWORKROOT}/macros/GeCallibration.mac
-#/control/execute {MYG4SIMWORKROOT}/macros/CheckEu152.mac
+/control/getEnv ALCAPWORKROOT
+/control/execute {ALCAPWORKROOT}/macros/SiR2.mac
+#/control/execute {ALCAPWORKROOT}/macros/GeCallibration.mac
+#/control/execute {ALCAPWORKROOT}/macros/CheckEu152.mac
 
 #	For verbose
 #/tracking/verbose                  1
