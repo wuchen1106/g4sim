@@ -41,7 +41,7 @@
 /gui/addButton reGeo 1215                "/g4sim/det/ReloadGeo              geometry_1215"
 /gui/addButton reGeo 1217                "/g4sim/det/ReloadGeo              geometry_1217"
 /gui/addButton reGeo SiR2                "/g4sim/det/ReloadGeo              geometry_SiR2"
-/gui/addButton reGeo GeCallibration      "/g4sim/det/ReloadGeo              geometry_GeCallibration"
+/gui/addButton reGeo GeCallibration      "/g4sim/det/ReloadGeo              geometry_GeCalibration_Si16p_target"
 #
 # ResetGen menu :
 /gui/addMenu reGen ResetGen
