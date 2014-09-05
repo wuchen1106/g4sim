@@ -9,7 +9,6 @@
 //#define DEBUG_MYDETM //MyDetectorManager
 #define DEBUG_EM //G4EventManager
 //#define DEBUG_MAT // MaterialSvc
-//#define DEBUG_CDCSD //CdcSD
 //#define DEBUG_MTA //MyTrackingAction
 //#define DEBUG_SA //SteppingAction
 //#define DEBUG_EA //EventAction
@@ -41,16 +40,6 @@
 	#define MYDETM_LINEINFO()
 	#define MYDETM_LINEVAR( var )
 	#define MYDETM_LINECONT( var )
-#endif
-
-#ifdef DEBUG_CDCSD
-	#define CDCSD_LINEINFO() if (1) {std::cout << __FILE__ << ":" << __FUNCTION__ << "[" << __LINE__ << "] @"; SHOWTIME(); std::cout<<": " << std::endl;}
-	#define CDCSD_LINEVAR( var ) if (1) {std::cout << __FILE__ << ":" << __FUNCTION__ << "[" << __LINE__ << "] @"; SHOWTIME(); std::cout<<": "<< #var << " = " << var << std::endl;}
-	#define CDCSD_LINECONT( var ) if (1) {std::cout << __FILE__ << ":" << __FUNCTION__ << "[" << __LINE__ << "] @"; SHOWTIME(); std::cout<<": "<< var << std::endl;}
-#else
-	#define CDCSD_LINEINFO()
-	#define CDCSD_LINEVAR( var )
-	#define CDCSD_LINECONT( var )
 #endif
 
 #ifdef DEBUG_EM

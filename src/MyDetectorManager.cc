@@ -15,16 +15,11 @@
 #include <iostream>
 
 //supported SD
-#include "CdcSD.hh"
-#include "CdcSimpleSD.hh"
-#include "CdcIonSD.hh"
 #include "MonitorSD.hh"
-#include "CdcLayerSD.hh"
 #include "KillerSD.hh"
 
 //supported Svc
 #include "SimpleGeometrySvc.hh"
-#include "CdcGeometrySvc.hh"
 
 #include "MyVGeometrySvc.hh"
 #include "MyVGeometryParameter.hh"
@@ -112,16 +107,13 @@ void MyDetectorManager::ReadCard(G4String file_name){
 		MyVGeometrySvc* aGSvc = 0;
 		buf_card>>name;
 		//std::cout<<"MyDetectorManager: "<<buf_card.str()<<std::endl;
-		if ( name == "VerboseLevel" ){
+		if ( name == "VerboseLevel:" ){
 			buf_card>>fVerboseLevel;
 		}
 		else{
 			buf_card>>type>>file;
 			if( type == "Simple" ){
 				aGSvc = new SimpleGeometrySvc( name );
-			}
-			else if( type == "Cdc" ){
-				aGSvc = new CdcGeometrySvc( name );
 			}
 			else{
 				std::cout<<"In MyDetectorManager::ReadCard, unsupported GeometrySvc type: "<<type<<"! Will ignore this line!"<<std::endl;
@@ -144,9 +136,6 @@ void MyDetectorManager::AddGeo(G4String name, G4String file, G4String type){
 	MyVGeometrySvc* aGSvc = 0;
 	if( type == "Simple" ){
 		aGSvc = new SimpleGeometrySvc( name );
-	}
-	else if( type == "Cdc" ){
-		aGSvc = new CdcGeometrySvc( name );
 	}
 	else{
 		std::cout<<"In MyDetectorManager::ReadCard, unsupported GeometrySvc type: "<<type<<"! Will ignore this line!"<<std::endl;
@@ -262,28 +251,12 @@ G4VSensitiveDetector* MyDetectorManager::GetSD(G4String VolName, G4String SDName
 	G4VSensitiveDetector* aG4SD = 0;
 	if ( !aMySD ){
 		G4String FullSDName = newVolName + "/" + newSDName;
-		if ( newSDName == "CdcSD" ){
-			aG4SD = new CdcSD( FullSDName, pPara );
-			fSDman->AddNewDetector( aG4SD );
-		}
-		else if ( newSDName == "CdcSimpleSD" ){
-			aG4SD = new CdcSimpleSD( FullSDName, pPara );
-			fSDman->AddNewDetector( aG4SD );
-		}
-		else if ( newSDName == "KillerSD" ){
+		if ( newSDName == "KillerSD" ){
 			aG4SD = new KillerSD( FullSDName, pPara );
-			fSDman->AddNewDetector( aG4SD );
-		}
-		else if ( newSDName == "CdcIonSD" ){
-			aG4SD = new CdcIonSD( FullSDName, pPara );
 			fSDman->AddNewDetector( aG4SD );
 		}
 		else if ( newSDName == "MonitorSD" ){
 			aG4SD = new MonitorSD( FullSDName, pPara );
-			fSDman->AddNewDetector( aG4SD );
-		}
-		else if ( newSDName == "CdcLayerSD" ){
-			aG4SD = new CdcLayerSD( FullSDName, pPara );
 			fSDman->AddNewDetector( aG4SD );
 		}
 		else if ( newSDName != "none" ) {//"none" means the user does not want to use a SD. aSD set to 0 and will not be pushed to vecto

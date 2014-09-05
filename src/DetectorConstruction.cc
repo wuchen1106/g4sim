@@ -11,6 +11,7 @@
 #include "G4PhysicalVolumeStore.hh"
 #include "G4LogicalVolumeStore.hh"
 #include "G4SolidStore.hh"
+#include "G4UserLimits.hh"
 
 #include "DetectorMessenger.hh"
 #include "MaterialSvc.hh"
@@ -63,6 +64,9 @@ G4VPhysicalVolume* DetectorConstruction::ConstructDetector()
 	//MagField
 	G4LogicalVolume* world_lvol = world_pvol->GetLogicalVolume();
 	pMyFieldSvc->SetField(world_lvol);
+
+	// reset userlimit
+	world_pvol->GetLogicalVolume()->SetUserLimits(new G4UserLimits());
 
 	//always return the physical world
 	return world_pvol;

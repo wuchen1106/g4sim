@@ -148,9 +148,10 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 		G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
 		G4ParticleDefinition* particle = particleTable->FindParticle(root_int[0]);
 		if (!particle){
-			std::cout<<"ERROR: In PrimaryGeneratorAction::PrimaryGeneratorAction() Cannot find particle "<<root_int[0]<<"!!!"<<std::endl;
-			G4Exception("PrimaryGeneratorAction::PrimaryGeneratorAction()","Run0031",
-					FatalException, "Cannot find particle.");
+			std::cout<<"ERROR: In PrimaryGeneratorAction::PrimaryGeneratorAction() Cannot find particle "<<root_int[0]<<"!!! Will use geantino"<<std::endl;
+//			G4Exception("PrimaryGeneratorAction::PrimaryGeneratorAction()","Run0031",
+//					FatalException, "Cannot find particle.");
+			particle = particleTable->FindParticle("geantino");
 		}
 		if (fType == "stable"){
 			particle->SetPDGStable(true);
@@ -449,7 +450,6 @@ void PrimaryGeneratorAction::SetUniformPosition(){
 		yp = pSimpleGeometryParameter->get_PosY(index,ivol);
 		zp = pSimpleGeometryParameter->get_PosZ(index,ivol);
 		pos += G4ThreeVector(xp,yp,zp);
-		//>>>>
 		G4String mot_volume = pSimpleGeometryParameter->get_MotherName(index);
 		SimpleGeometryParameter * pmotSimpleGeometryParameter = 0;
 		int temp_index = index;
@@ -464,7 +464,6 @@ void PrimaryGeneratorAction::SetUniformPosition(){
 			temp_index = mot_index;
 			mot_volume = pmotSimpleGeometryParameter->get_MotherName(temp_index);
 		}
-		//<<<<
 		particleGun->SetParticlePosition(pos);
 	}
 	else{

@@ -12,9 +12,6 @@
 #include "G4Event.hh"
 
 #include "MyDetectorManager.hh"
-#include "CdcLayerSD.hh"
-#include "CdcSD.hh"
-#include "CdcSimpleSD.hh"
 #include "MonitorSD.hh"
 #include "KillerSD.hh"
 #include "MyString2Anything.hh"
@@ -30,7 +27,7 @@
 MyTriggerSvc* MyTriggerSvc::fMyTriggerSvc = 0;
 
 	MyTriggerSvc::MyTriggerSvc()
-:pMyDetectorManager(0),myCdcLayerSD(0),myCdcSD(0),myCdcSimpleSD(0),myMonitorSD(0),myMonitorSD2(0),myMcTruthSvc(0),myKillerSD(0)
+:pMyDetectorManager(0),myMonitorSD(0),myMonitorSD2(0),myMcTruthSvc(0),myKillerSD(0)
 {
 	if (fMyTriggerSvc){
 		G4Exception("MyTriggerSvc::MyTriggerSvc()","Run0031",
@@ -94,17 +91,11 @@ void MyTriggerSvc::SetMyTrigger( G4String filename ){
 			if ( name == TRIGGERSECTIONNAME ){
 				n_TRIGGER_section_symbol++;
 			}
-			else if ( name == "minCdcHits" ){
-				minCdcHits = para;
-			}
 			else if ( name == "minM_Hits" ){
 				minM_Hits = para;
 			}
 			else if ( name == "minV_Hits" ){
 				minV_Hits = para;
-			}
-			else if ( name == "minCorM_Hits" ){
-				minCorM_Hits = para;
 			}
 			else if ( name == "minEleMom" ){
 				std::string unit;
@@ -156,36 +147,6 @@ void MyTriggerSvc::SetMyTrigger( G4String filename ){
 			std::cout<<"myMonitorSD @ ["<<(void*) myMonitorSD<<"]"<<std::endl;
 		}
 	}
-	if ( minCorM_Hits != -1 ){ 
-		myVSD2 = pMyDetectorManager->GetSD("","M/MonitorSD");
-		if (myVSD2){
-			myMonitorSD2 = dynamic_cast<MonitorSD*> (myVSD2);
-			std::cout<<"myVSD2 @ ["<<(void*) myVSD2<<"]"<<std::endl;
-			std::cout<<"myMonitorSD2 @ ["<<(void*) myMonitorSD2<<"]"<<std::endl;
-		}
-	}
-	if ( minCdcHits != -1 || minCorM_Hits != -1 ){ 
-		myVSD = pMyDetectorManager->GetSD("CdcCell","CdcSD");
-		if (myVSD){
-			myCdcSD = dynamic_cast<CdcSD*> (myVSD);
-			std::cout<<"myVSD @ ["<<(void*) myVSD<<"]"<<std::endl;
-			std::cout<<"myCdcSD @ ["<<(void*) myCdcSD<<"]"<<std::endl;
-		}
-		else{
-			myVSD = pMyDetectorManager->GetSD("CDCLayer","CdcLayerSD");
-			if (myVSD){
-				myCdcLayerSD = dynamic_cast<CdcLayerSD*> (myVSD);
-				std::cout<<"myVSD @ ["<<(void*) myVSD<<"]"<<std::endl;
-				std::cout<<"myCdcLayerSD @ ["<<(void*) myCdcLayerSD<<"]"<<std::endl;
-			}
-			else{
-				myVSD = pMyDetectorManager->GetSD("","C/MonitorSD");
-				myMonitorSD = dynamic_cast<MonitorSD*> (myVSD);
-				std::cout<<"myVSD @ ["<<(void*) myVSD<<"]"<<std::endl;
-				std::cout<<"myMonitorSD @ ["<<(void*) myMonitorSD<<"]"<<std::endl;
-			}
-		}
-	}
 	if ( minEleMom != -1*MeV ){
 		myMcTruthSvc = McTruthSvc::GetMcTruthSvc();
 	}
@@ -196,16 +157,6 @@ void MyTriggerSvc::SetMyTrigger( G4String filename ){
 
 bool MyTriggerSvc::TriggerIt( const G4Event* evt ){
 
-	if ( minCdcHits != -1 ){
-		int nHits_CDC = 0;
-		if (myCdcLayerSD){
-			nHits_CDC = myCdcLayerSD->Get_nHits();
-		}
-		else{
-			nHits_CDC = myMonitorSD->Get_nHits();
-		}
-		if ( nHits_CDC < minCdcHits ) return false;
-	}
 	if ( minM_Hits != -1 ){
 		int nHits = 0;
 		if (myMonitorSD){
@@ -219,20 +170,6 @@ bool MyTriggerSvc::TriggerIt( const G4Event* evt ){
 			nHits = myMonitorSD->Get_nHits();
 		}
 		if ( nHits < minV_Hits ) return false;
-	}
-	if ( minCorM_Hits != -1 ){
-		int nHits = 0;
-		if (myMonitorSD2){
-			nHits = myMonitorSD2->Get_nHits();
-		}
-		int nHits_CDC = 0;
-		if (myCdcLayerSD){
-			nHits_CDC = myCdcLayerSD->Get_nHits();
-		}
-		else{
-			nHits_CDC = myMonitorSD->Get_nHits();
-		}
-		if ( nHits+nHits_CDC < minCorM_Hits ) return false;
 	}
 	if ( minEleMom != -1*MeV ){
 		bool foundit = false;
@@ -266,10 +203,8 @@ bool MyTriggerSvc::TriggerIt( const G4Event* evt ){
 }
 
 void MyTriggerSvc::ReSet(){
-	minCdcHits = -1;
 	minM_Hits = -1;
 	minV_Hits = -1;
-	minCorM_Hits = -1;
 	minEleMom = -1*MeV;
 	minAntipNum = -1;
 	minTracks = -1;
@@ -277,10 +212,8 @@ void MyTriggerSvc::ReSet(){
 
 void MyTriggerSvc::ShowOutCard(){
 	std::cout<<"*************************Trigger settings"<<"***************************"<<std::endl;
-	std::cout<<"minCdcHits =     "<<minCdcHits<<std::endl;
 	std::cout<<"minM_Hits = "<<minM_Hits<<std::endl;
 	std::cout<<"minV_Hits = "<<minV_Hits<<std::endl;
-	std::cout<<"minCorM_Hits = "<<minCorM_Hits<<std::endl;
 	std::cout<<"minEleMom=       "<<minEleMom/MeV<<", MeV"<<std::endl;
 	std::cout<<"minAntipNum=     "<<minAntipNum<<std::endl;
 	std::cout<<"minTracks =      "<<minTracks<<std::endl;

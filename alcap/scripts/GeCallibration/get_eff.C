@@ -74,10 +74,12 @@ void get_eff(){
 	}
 
 	// Set Branches
-	std::vector<double> *M_edep;
+	std::vector<double> *M_edep = 0;
+	std::vector<std::string> *M_volName = 0;
 	double weight;
 
 	c->SetBranchAddress("M_edep",&M_edep);
+	c->SetBranchAddress("M_volName",&M_volName);
 	c->SetBranchAddress("weight",&weight);
 
 	// Set Output File
@@ -92,6 +94,7 @@ void get_eff(){
 		if (iEvent%1000==0) std::cout<<(double)iEvent/nEvents*100<<" % ..."<<std::endl;
 		c->GetEntry(iEvent);
 		for(int iHit = 0; iHit<M_edep->size(); iHit++){
+			if ((*M_volName)[iHit]!= "GeBody") continue;
 			double edep = (*M_edep)[iHit]*1e6; // keV
 			for (int iPeak = 0; iPeak<vEnergy.size(); iPeak++){
 				if (edep>vEnergy[iPeak]-vSpread[iPeak]&&edep<vEnergy[iPeak]+vSpread[iPeak]){

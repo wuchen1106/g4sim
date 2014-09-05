@@ -22,13 +22,13 @@
 #Default Position     x    y   z
 #	                  mm   mm  mm
 	Position:         0    0   0
-#	PosSpread:        30  30 30 
+	PosSpread:        100  100 100 
 #	PosLimit:         17.5
 
 	RandMode:       none #(none/root)
 	EnergyMode:     none #(root/histo/none)
 #	PositionMode:   bRand #(uniform/root/none/gRand/uRand)
-	PositionMode:   none #(uniform/root/none/gRand/uRand)
+	PositionMode:   target #(uniform/root/none/gRand/uRand/target)
 	DirectionMode:  uniform #(none/uniform/histo)
 	ThetaMode:      none #(none/gRand/uRand)
 	PhiMode:        none #(none/gRand/uRand)
