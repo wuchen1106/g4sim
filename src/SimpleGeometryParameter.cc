@@ -74,7 +74,7 @@ void SimpleGeometryParameter::Calculate(){
 		std::vector<G4double> tEtheta; tEtheta.clear();
 		std::vector<G4double> tEpsi; tEpsi.clear();
 		if (!SolidBoolean[VolId]){
-			for ( int RepId = 0; RepId < RepNo[VolId]; RepId++ ){
+			for ( int RepId = SRepNo[VolId]; RepId < SRepNo[VolId]+RepNo[VolId]; RepId++ ){
 				tEphi.push_back(CalFormula(fEphi[VolId],RepId)*deg);
 				tEtheta.push_back(CalFormula(fEtheta[VolId],RepId)*deg);
 				tEpsi.push_back(CalFormula(fEpsi[VolId],RepId)*deg);
@@ -107,7 +107,7 @@ void SimpleGeometryParameter::Calculate(){
 			std::vector<G4double> tBooleanSolid_Etheta;
 			std::vector<G4double> tBooleanSolid_Epsi;
 			std::vector<G4ThreeVector> tBooleanSolid_Pos;
-			for ( int RepId = 0; RepId < RepNo[VolId]; RepId++ ){
+			for ( int RepId = SRepNo[VolId]; RepId < SRepNo[VolId]+RepNo[VolId]; RepId++ ){
 				tBooleanSolid_Ephi.push_back(CalFormula(fBooleanSolid_Ephi[SolId],RepId)*deg);
 				tBooleanSolid_Etheta.push_back(CalFormula(fBooleanSolid_Etheta[SolId],RepId)*deg);
 				tBooleanSolid_Epsi.push_back(CalFormula(fBooleanSolid_Epsi[SolId],RepId)*deg);
@@ -138,7 +138,7 @@ void SimpleGeometryParameter::Calculate(){
 			std::vector<G4double> tBox_X; tBox_X.clear();
 			std::vector<G4double> tBox_Y; tBox_Y.clear();
 			std::vector<G4double> tBox_Z; tBox_Z.clear();
-			for ( int RepId = 0; RepId < RepNo[VolId]; RepId++ ){
+			for ( int RepId = SRepNo[VolId]; RepId < SRepNo[VolId]+RepNo[VolId]; RepId++ ){
 				tBox_X.push_back(CalFormula(fBox_X[SolId],RepId)*mm);
 				tBox_Y.push_back(CalFormula(fBox_Y[SolId],RepId)*mm);
 				tBox_Z.push_back(CalFormula(fBox_Z[SolId],RepId)*mm);
@@ -151,7 +151,7 @@ void SimpleGeometryParameter::Calculate(){
 			std::vector<G4double> tEllipticalTube_X; tEllipticalTube_X.clear();
 			std::vector<G4double> tEllipticalTube_Y; tEllipticalTube_Y.clear();
 			std::vector<G4double> tEllipticalTube_Z; tEllipticalTube_Z.clear();
-			for ( int RepId = 0; RepId < RepNo[VolId]; RepId++ ){
+			for ( int RepId = SRepNo[VolId]; RepId < SRepNo[VolId]+RepNo[VolId]; RepId++ ){
 				tEllipticalTube_X.push_back(CalFormula(fEllipticalTube_X[SolId],RepId)*mm);
 				tEllipticalTube_Y.push_back(CalFormula(fEllipticalTube_Y[SolId],RepId)*mm);
 				tEllipticalTube_Z.push_back(CalFormula(fEllipticalTube_Z[SolId],RepId)*mm);
@@ -166,7 +166,7 @@ void SimpleGeometryParameter::Calculate(){
 			std::vector<G4double> tTubs_Length;
 			std::vector<G4double> tTubs_StartAng;
 			std::vector<G4double> tTubs_SpanAng;
-			for ( int RepId = 0; RepId < RepNo[VolId]; RepId++ ){
+			for ( int RepId = SRepNo[VolId]; RepId < SRepNo[VolId]+RepNo[VolId]; RepId++ ){
 				tTubs_RMax.push_back(CalFormula(fTubs_RMax[SolId],RepId)*mm);
 				tTubs_RMin.push_back(CalFormula(fTubs_RMin[SolId],RepId)*mm);
 				tTubs_Length.push_back(CalFormula(fTubs_Length[SolId],RepId)*mm);
@@ -185,7 +185,7 @@ void SimpleGeometryParameter::Calculate(){
 			std::vector<G4double> tTorus_Rtor;
 			std::vector<G4double> tTorus_StartAng;
 			std::vector<G4double> tTorus_SpanAng;
-			for ( int RepId = 0; RepId < RepNo[VolId]; RepId++ ){
+			for ( int RepId = SRepNo[VolId]; RepId < SRepNo[VolId]+RepNo[VolId]; RepId++ ){
 				tTorus_RMax.push_back(CalFormula(fTorus_RMax[SolId],RepId)*mm);
 				tTorus_RMin.push_back(CalFormula(fTorus_RMin[SolId],RepId)*mm);
 				tTorus_Rtor.push_back(CalFormula(fTorus_Rtor[SolId],RepId)*mm);
@@ -205,7 +205,7 @@ void SimpleGeometryParameter::Calculate(){
 			std::vector<G4double> tSphere_SpanPhi;
 			std::vector<G4double> tSphere_StartTheta;
 			std::vector<G4double> tSphere_SpanTheta;
-			for ( int RepId = 0; RepId < RepNo[VolId]; RepId++ ){
+			for ( int RepId = SRepNo[VolId]; RepId < SRepNo[VolId]+RepNo[VolId]; RepId++ ){
 				tSphere_RMax.push_back(CalFormula(fSphere_RMax[SolId],RepId)*mm);
 				tSphere_RMin.push_back(CalFormula(fSphere_RMin[SolId],RepId)*mm);
 				tSphere_StartPhi.push_back(CalFormula(fSphere_StartPhi[SolId],RepId)*deg);
@@ -226,7 +226,7 @@ void SimpleGeometryParameter::Calculate(){
 			std::vector<G4double> tHype_innerStereo;
 			std::vector<G4double> tHype_outerStereo;
 			std::vector<G4double> tHype_Length;
-			for ( int RepId = 0; RepId < RepNo[VolId]; RepId++ ){
+			for ( int RepId = SRepNo[VolId]; RepId < SRepNo[VolId]+RepNo[VolId]; RepId++ ){
 				tHype_innerRadius.push_back(CalFormula(fHype_innerRadius[SolId],RepId)*mm);
 				tHype_outerRadius.push_back(CalFormula(fHype_outerRadius[SolId],RepId)*mm);
 				tHype_innerStereo.push_back(CalFormula(fHype_innerStereo[SolId],RepId)*deg);
@@ -245,7 +245,7 @@ void SimpleGeometryParameter::Calculate(){
 			std::vector<G4double> tTwistedTubs_endouterrad;
 			std::vector<G4double> tTwistedTubs_Length;
 			std::vector<G4double> tTwistedTubs_dphi;
-			for ( int RepId = 0; RepId < RepNo[VolId]; RepId++ ){
+			for ( int RepId = SRepNo[VolId]; RepId < SRepNo[VolId]+RepNo[VolId]; RepId++ ){
 				tTwistedTubs_twistedangle.push_back(CalFormula(fTwistedTubs_twistedangle[SolId],RepId)*deg);
 				tTwistedTubs_endinnerrad.push_back(CalFormula(fTwistedTubs_endinnerrad[SolId],RepId)*mm);
 				tTwistedTubs_endouterrad.push_back(CalFormula(fTwistedTubs_endouterrad[SolId],RepId)*mm);
@@ -266,7 +266,7 @@ void SimpleGeometryParameter::Calculate(){
 			std::vector<G4double> tCons_Length;
 			std::vector<G4double> tCons_StartAng;
 			std::vector<G4double> tCons_SpanAng;
-			for ( int RepId = 0; RepId < RepNo[VolId]; RepId++ ){
+			for ( int RepId = SRepNo[VolId]; RepId < SRepNo[VolId]+RepNo[VolId]; RepId++ ){
 				tCons_RMax1.push_back(CalFormula(fCons_RMax1[SolId],RepId)*mm);
 				tCons_RMin1.push_back(CalFormula(fCons_RMin1[SolId],RepId)*mm);
 				tCons_RMax2.push_back(CalFormula(fCons_RMax2[SolId],RepId)*mm);
@@ -286,7 +286,7 @@ void SimpleGeometryParameter::Calculate(){
 		else if( SolidType[VolId] == "Polycone" ){
 			std::vector<G4double> tPolycone_StartAng;
 			std::vector<G4double> tPolycone_SpanAng;
-			for ( int RepId = 0; RepId < RepNo[VolId]; RepId++ ){
+			for ( int RepId = SRepNo[VolId]; RepId < SRepNo[VolId]+RepNo[VolId]; RepId++ ){
 				tPolycone_StartAng.push_back(CalFormula(fPolycone_StartAng[SolId],RepId)*deg);
 				tPolycone_SpanAng.push_back(CalFormula(fPolycone_SpanAng[SolId],RepId)*deg);
 			}
@@ -299,7 +299,7 @@ void SimpleGeometryParameter::Calculate(){
 				std::vector<G4double> tPolycone_RMax;
 				std::vector<G4double> tPolycone_RMin;
 				std::vector<G4double> tPolycone_Z;
-				for ( int RepId = 0; RepId < RepNo[VolId]; RepId++ ){
+				for ( int RepId = SRepNo[VolId]; RepId < SRepNo[VolId]+RepNo[VolId]; RepId++ ){
 					tPolycone_RMax.push_back(CalFormula(fPolycone_RMax[SolId][ConeId],RepId)*mm);
 					tPolycone_RMin.push_back(CalFormula(fPolycone_RMin[SolId][ConeId],RepId)*mm);
 					tPolycone_Z.push_back(CalFormula(fPolycone_Z[SolId][ConeId],RepId)*mm);
@@ -324,7 +324,7 @@ void SimpleGeometryParameter::Calculate(){
 				std::vector<G4double> tExtrudedSolid_X0;
 				std::vector<G4double> tExtrudedSolid_Y0;
 				std::vector<G4double> tExtrudedSolid_Scale;
-				for ( int RepId = 0; RepId < RepNo[VolId]; RepId++ ){
+				for ( int RepId = SRepNo[VolId]; RepId < SRepNo[VolId]+RepNo[VolId]; RepId++ ){
 					tExtrudedSolid_Z.push_back(CalFormula(fExtrudedSolid_Z[SolId][ConeId],RepId)*mm);
 					tExtrudedSolid_X0.push_back(CalFormula(fExtrudedSolid_X0[SolId][ConeId],RepId)*mm);
 					tExtrudedSolid_Y0.push_back(CalFormula(fExtrudedSolid_Y0[SolId][ConeId],RepId)*mm);
@@ -338,7 +338,7 @@ void SimpleGeometryParameter::Calculate(){
 			for ( int ConeId = 0; ConeId < ExtrudedSolid_numP[SolId]; ConeId++ ){
 				std::vector<G4double> tExtrudedSolid_X;
 				std::vector<G4double> tExtrudedSolid_Y;
-				for ( int RepId = 0; RepId < RepNo[VolId]; RepId++ ){
+				for ( int RepId = SRepNo[VolId]; RepId < SRepNo[VolId]+RepNo[VolId]; RepId++ ){
 					tExtrudedSolid_X.push_back(CalFormula(fExtrudedSolid_X[SolId][ConeId],RepId)*mm);
 					tExtrudedSolid_Y.push_back(CalFormula(fExtrudedSolid_Y[SolId][ConeId],RepId)*mm);
 				}
