@@ -37,7 +37,8 @@ void MyStepLimiter::ConstructProcess()
 	wasActivated = true;
 
 	G4PhysicsListHelper* ph = G4PhysicsListHelper::GetPhysicsListHelper();
-
+	G4ParticleTable::G4PTblDicIterator* theParticleIterator
+	  = G4ParticleTable::GetParticleTable()->GetIterator();
 	// add limit process
 	theParticleIterator->reset();
 
