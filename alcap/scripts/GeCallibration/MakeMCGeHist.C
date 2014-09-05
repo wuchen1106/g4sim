@@ -2,11 +2,10 @@ void getMCGeHistAndSave(std::vector<std::string> runNames,
     std::string outputname = "",
     std::string datapath = "../../output/" )
 {
-  TString fout_name; 
   if (outputname == "")
-    fout_name = datapath + "hist" + runNames.at(0) + ".root";
-  else
-    fout_name = datapath + "hist" + outputname + ".root";
+    outputname = runNames.at(0);
+
+  TString fout_name = datapath + "hist" + outputname + ".root";
 
   if (!gSystem->AccessPathName(fout_name))
   {
@@ -55,8 +54,8 @@ void getMCGeHistAndSave(std::vector<std::string> runNames,
   double Ehi = 1500.;
   int Nbins = (int)((Ehi - Elo)/res);
 
-  TString histname = "hMC" + runName;
-  TString histtitle = "Ge energy spectrum run " + runName;
+  TString histname = "hMC" + outputname;
+  TString histtitle = "Ge energy spectrum run " + outputname;
   TH1D *hEdepGe = new TH1D(histname, histtitle, Nbins, Elo, Ehi);
 
   TRandom3 *r = new TRandom3();
