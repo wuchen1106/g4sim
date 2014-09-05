@@ -1,6 +1,6 @@
-/control/getEnv MYG4SIMWORKROOT
+/control/getEnv ALCAPWORKROOT
 
-/control/execute {MYG4SIMWORKROOT}/macros/reset.mac
+/control/execute {ALCAPWORKROOT}/macros/reset.mac
 
 # Generator:
 /g4sim/gun/ReadCard gen_rand
