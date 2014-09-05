@@ -8,25 +8,26 @@
 /gui/addButton g4file Continue continue
 /gui/addButton g4file Exit "exit"
 #
-/control/getEnv ALCAPWORKROOT
+/control/getEnv MYG4SIMWORKROOT
 #
 # Vis menu :
 /gui/addMenu vis Vis
-/gui/addButton vis setvis            "/control/execute {ALCAPWORKROOT}/macros/common/setvis.mac"
+/gui/addButton vis setvis            "/control/execute {MYG4SIMWORKROOT}/macros/common/setvis.mac"
 #
 # Run menu :
 /gui/addMenu run Run
 /gui/addButton run "beamOn 1" "/run/beamOn 1"
-/gui/addButton run run                   "/control/execute {ALCAPWORKROOT}/macros/run.mac"
-/gui/addButton run grid_ol               "/control/execute {ALCAPWORKROOT}/macros/common/grid_ol.mac"
-/gui/addButton run line_ol               "/control/execute {ALCAPWORKROOT}/macros/common/line_ol.mac"
+/gui/addButton run run                   "/control/execute {MYG4SIMWORKROOT}/macros/run.mac"
+/gui/addButton run grid_ol               "/control/execute {MYG4SIMWORKROOT}/macros/common/grid_ol.mac"
+/gui/addButton run line_ol               "/control/execute {MYG4SIMWORKROOT}/macros/common/line_ol.mac"
 #
 # ResetMisc menu :
 /gui/addMenu reset ResetMisc
-/gui/addButton reset SiR2                "/control/execute {ALCAPWORKROOT}/macros/SiR2.mac"
-/gui/addButton reset GeCallibration      "/control/execute {ALCAPWORKROOT}/macros/GeCallibration.mac"
-/gui/addButton reset resetVerbose        "/control/execute {ALCAPWORKROOT}/macros/resetVerbose.mac"
-/gui/addButton reset resetCut            "/control/execute {ALCAPWORKROOT}/macros/resetCut.mac"
+/gui/addButton reset SiR2                "/control/execute {MYG4SIMWORKROOT}/macros/SiR2.mac"
+/gui/addButton reset GeCallibration      "/control/execute {MYG4SIMWORKROOT}/macros/GeCallibration.mac"
+/gui/addButton reset GeCalibration_Si16p_target      "/control/execute {MYG4SIMWORKROOT}/macros/GeCalibration_Si16p_target.mac"
+/gui/addButton reset resetVerbose        "/control/execute {MYG4SIMWORKROOT}/macros/resetVerbose.mac"
+/gui/addButton reset resetCut            "/control/execute {MYG4SIMWORKROOT}/macros/resetCut.mac"
 #
 # ResetOut menu :
 /gui/addMenu reOut ResetOutput
