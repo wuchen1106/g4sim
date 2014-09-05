@@ -1,5 +1,5 @@
-TH1 * getMCGeHist (std::string datapath = "./../../", 
-    std::string runName = "GeCallibration_32cm_Al10mm")
+TH1 * getMCGeHist ( std::string runName = "GeCallibration_32cm_Al10mm",
+    std::string datapath = "./../../" )
 {
 	// Read Input Files
 	TChain *c = new TChain("tree");
@@ -54,8 +54,35 @@ TH1 * getMCGeHist (std::string datapath = "./../../",
   }
 
   return hEdepGe;
-
 }
+
+void getMCGeHistAndSave(std::string runName = "GeCalibration_34cm_10mmAl_point",
+    std::string datapath = "../../output/", 
+    std::string outputpath = "")
+{
+  TString fout_name; 
+  if (outputpath == "")
+    fout_name = datapath + "hist" + runName + ".root";
+  else
+    fout_name = outputpath + "hist" + runName + ".root";
+
+  if (!gSystem->AccessPathName(fout_name))
+  {
+    cout<<fout_name<<" exists!"<<endl;
+    return;
+  }
+
+  TH1D *hEdepGe = getMCGeHist(runName, datapath);
+  TString histname = "hMC" + runName;
+  TString histtitle = "Ge energy spectrum run " + runName;
+  hEdepGe->SetName(histname);
+  hEdepGe->SetTitle(histtitle);
+  
+  TFile *fout = new TFile(fout_name, "recreate");
+  hEdepGe->Write();
+  fout->Close();
+}
+
 void list_files(const char *dirname=".", const char *ext=".root")
 {
   TSystemDirectory dir(dirname, dirname);
