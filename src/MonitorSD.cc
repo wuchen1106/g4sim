@@ -609,11 +609,11 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	double stop_time = 0;
 	bool killed = false;
 	double kill_time = 0;
-	if (fTrackStatus == fStopButAlive){
+	if (fTrackStatus == fStopButAlive || fTrackStatus == fStopAndKill){
 		stopped = true;
 		stop_time = pointIn_time;
 	}
-	else if (fTrackStatus == fStopAndKill || fTrackStatus == fKillTrackAndSecondaries){
+	if (fTrackStatus == fStopAndKill || fTrackStatus == fKillTrackAndSecondaries){
 		killed = true;
 		kill_time = pointIn_time;
 	}
