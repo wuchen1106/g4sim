@@ -32,7 +32,8 @@ void getMCGeHistAndSave(std::vector<std::string> runNames,
       while ((file=(TSystemFile*)next())) 
       {
         fname = file->GetName();
-        if (!file->IsDirectory() && fname.EndsWith(".raw")) 
+        if (!file->IsDirectory() && fname.EndsWith(".raw") && 
+            fname.BeginsWith("0_")) 
         {
           c->Add(dirname + "/" + fname);
           /*cout << fname.Data() << endl;*/
