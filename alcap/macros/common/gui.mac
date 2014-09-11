@@ -28,6 +28,7 @@
 /gui/addButton reset GeCalibration_Si16p_target      "/control/execute {ALCAPWORKROOT}/macros/GeCalibration_Si16p_target.mac"
 /gui/addButton reset resetVerbose        "/control/execute {ALCAPWORKROOT}/macros/resetVerbose.mac"
 /gui/addButton reset resetCut            "/control/execute {ALCAPWORKROOT}/macros/resetCut.mac"
+/gui/addButton reset Si16p      "/control/execute {ALCAPWORKROOT}/macros/Si16p.mac"
 #
 # ResetOut menu :
 /gui/addMenu reOut ResetOutput
