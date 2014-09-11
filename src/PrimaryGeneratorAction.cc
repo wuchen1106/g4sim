@@ -361,7 +361,8 @@ void PrimaryGeneratorAction::SetRandomPosition(){
 	    dz=G4RandFlat::shoot(-xSpread,zSpread);
 
 	    G4ThreeVector position(x+dx, y+dy, z+dz);
-      position.rotate(G4ThreeVector(0,1,0), -45*deg);
+	    G4RotationMatrix* rotation = new G4RotationMatrix(45*deg, 90*deg, 0*deg);
+	    position.rotate(45*deg, 90*deg, 0*deg);
 	    G4VPhysicalVolume* phys_volume = theNavigator->LocateGlobalPointAndSetup(position);
 
 	    if (!phys_volume) {
@@ -377,7 +378,7 @@ void PrimaryGeneratorAction::SetRandomPosition(){
 
   G4ThreeVector position(x+dx, y+dy, z+dz);
   if (PositionMode == "source" || PositionMode == "target")
-    position.rotate(G4ThreeVector(0,1,0), -45*deg);
+    position.rotate(45*deg, 90*deg, 0*deg);
 
 	particleGun->SetParticlePosition(position);
 }
