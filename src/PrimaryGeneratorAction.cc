@@ -361,7 +361,7 @@ void PrimaryGeneratorAction::SetRandomPosition(){
 	    dz=G4RandFlat::shoot(-xSpread,zSpread);
 
 	    G4ThreeVector position(x+dx, y+dy, z+dz);
-	    G4RotationMatrix* rotation = new G4RotationMatrix(45*deg, 90*deg, 0*deg);
+	    //	    G4RotationMatrix* rotation = new G4RotationMatrix(45*deg, 90*deg, 0*deg);
 	    position.rotate(45*deg, 90*deg, 0*deg);
 	    G4VPhysicalVolume* phys_volume = theNavigator->LocateGlobalPointAndSetup(position);
 
