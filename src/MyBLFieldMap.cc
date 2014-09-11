@@ -149,6 +149,7 @@ class CylinderImpl : public FieldMapImpl {
     G4int nZ;
     G4double dR;
     G4double dZ;
+    G4double R0;
     G4double Z0;
     G4double tolerance;
     float *mapBr;
@@ -478,7 +479,7 @@ G4ElectroMagneticField *emField) {
 }
 
 
-bool MyBLFieldMap::createCylinderMap(G4double Z0, G4double dR,  G4double dZ,
+bool MyBLFieldMap::createCylinderMap(G4double R0, G4double Z0, G4double dR,  G4double dZ,
 int nR, int nZ, G4ElectroMagneticField *emField) {
     if(impl) {
         delete impl;
@@ -492,6 +493,7 @@ int nR, int nZ, G4ElectroMagneticField *emField) {
 
     MyBLArgumentVector argv;
     MyBLArgumentMap args;
+    args["R0"] = d2string(R0);
     args["Z0"] = d2string(Z0);
     args["dR"] = d2string(dR);
     args["dZ"] = d2string(dZ);
@@ -506,7 +508,7 @@ int nR, int nZ, G4ElectroMagneticField *emField) {
     G4double pos[4], field[6];
     pos[3] = 0.0;
     for(int i=0; i<nR; ++i) {
-        pos[0] = 0.0 + i*dR;
+        pos[0] = R0 + i*dR;
         pos[1] = 0.0;
         for(int k=0; k<nZ; ++k) {
             pos[2] = Z0 + k*dZ;
@@ -919,7 +921,9 @@ int linenumber) {
     int i = (int)floor((X/dX) + 0.5);
     if(i<0 || fabs(i*dX-X)>tolerance || i >= nX) {
         G4cerr << "MyBLFieldMap: ERROR point off grid X="
-            << X << " line=" << linenumber << G4endl;
+            << X << " line=" << linenumber 
+            <<", i = "<<i<<", dX = "<<dX
+            << G4endl;
         return false;
     }
     int j = (int)floor((Y/dY) + 0.5);
@@ -992,6 +996,7 @@ CylinderImpl::CylinderImpl(MyBLArgumentVector &argv, MyBLArgumentMap &namedArgs)
     dR = 10.0*mm;
     dZ = 10.0*mm;
     Z0 = 0.0;
+    R0 = 0.0;
     tolerance = 0.01*mm;
     mapBr = 0;
     mapBz = 0;
@@ -1004,6 +1009,7 @@ CylinderImpl::CylinderImpl(MyBLArgumentVector &argv, MyBLArgumentMap &namedArgs)
     argInt(nZ,"nZ",namedArgs);
     argDouble(dR,"dR",namedArgs);
     argDouble(dZ,"dZ",namedArgs);
+    argDouble(R0,"R0",namedArgs);
     argDouble(Z0,"Z0",namedArgs);
     argDouble(tolerance,"tolerance",namedArgs);
 }
@@ -1028,12 +1034,13 @@ const {
         extending = true;
     }
 
+    r -= R0;
     z -= Z0;
 
     // 2D linear average of the 4 surrounding points in the map
     int i = (int)floor(r/dR);
     int j = (int)floor(z/dZ);
-    if(z < Z0 || i >= nR-1 || j < 0 || j >= nZ-1) {
+    if(z < 0 || i >= nR-1 || j < 0 || j >= nZ-1) {
         field[0] = field[1] = field[2] = field[3] = field[4] =
             field[5] = 0.0;
         return;
@@ -1168,10 +1175,12 @@ G4double Bz, G4double Er, G4double Ez, int linenumber) {
         for(int i=0; i<nR*nZ; ++i)
             mapEr[i] = mapEz[i] = 0.0;
     }
-    int i = (int)floor((R/dR) + 0.5);
-    if(i<0 || fabs(i*dR-R)>tolerance || i >= nR) {
+    int i = (int)floor(((R-R0)/dR) + 0.5);
+    if(i<0 || fabs(i*dR+R0-R)>tolerance || i >= nR) {
         G4cerr << "MyBLFieldMap: ERROR point off grid R="
-            << R << " line=" << linenumber << G4endl;
+            << R << " line=" << linenumber
+            <<", i = "<<i<<", dR = "<<dR
+            << G4endl;
         return false;
     }
     int j = (int)floor(((Z-Z0)/dZ) + 0.5);
@@ -1194,7 +1203,7 @@ G4double Bz, G4double Er, G4double Ez, int linenumber) {
 
 
 bool CylinderImpl::writeFile(FILE *f) {
-    fprintf(f,"cylinder Z0=%g nR=%d nZ=%d dR=%g dZ=%g\n",Z0,nR,nZ,dR,dZ);
+    fprintf(f,"cylinder R0=%g Z0=%g nR=%d nZ=%d dR=%g dZ=%g\n",R0,Z0,nR,nZ,dR,dZ);
     if(extendZ) {
         fprintf(f,"extendZ flip=");
         if(extendBrFactor < 0.0) fprintf(f,"Br,");
@@ -1206,7 +1215,7 @@ bool CylinderImpl::writeFile(FILE *f) {
     fprintf(f,"data\n");
 
     for(int i=0; i<nR; ++i) {
-        G4double R = i*dR;
+        G4double R = R0+ i*dR;
         for(int j=0; j<nZ; ++j) {
             G4double Z = Z0 + j*dZ;
             int m = j*nR + i;

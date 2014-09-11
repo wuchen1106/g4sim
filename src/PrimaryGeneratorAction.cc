@@ -217,7 +217,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 		//	     <<","<<root_double[2]
 		//	     <<") mm"
 		//	     <<std::endl;
-		particleGun->SetParticlePosition(G4ThreeVector(root_double[0] * mm, root_double[1] * mm, (root_double[2])*mm));
+		particleGun->SetParticlePosition(G4ThreeVector(root_double[0] * mm+x, root_double[1] * mm+y, (root_double[2])*mm+z));
 	}
 	else if ( PositionMode == "gRand" || PositionMode == "sRand" || PositionMode == "bRand" ){
 		SetRandomPosition();

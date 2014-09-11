@@ -108,6 +108,7 @@ http://www.gnu.org/copyleft/gpl.html
  *	Each field component has a single block with lines being Z and the
  *	columns being R.
  *	The cylinder command has the following arguments:
+ *		R0	The R value for the first line in each block
  *		Z0	The Z value for the first line in each block
  *		nR	The number of columns per line
  *		nZ	The number of lines per block
@@ -173,7 +174,7 @@ http://www.gnu.org/copyleft/gpl.html
  *	# grid interval is 1 cm.
  *	# The region of validity is -390<=Z<=390 and 0<=R<=90
  *	param normB=1.0 current=1.0
- *	cylinder Z0=0.0 nR=10 nZ=40 dR=10.0 dZ=10.0
+ *	cylinder R0=0.0 Z0=0.0 nR=10 nZ=40 dR=10.0 dZ=10.0
  *	extendZ flip=Br
  *	Bz
  *	... 40 lines of 10 values, Z=0 thru Z=390
@@ -186,7 +187,7 @@ http://www.gnu.org/copyleft/gpl.html
  *	# grid interval is 1 cm.
  *	# The region of validity is -390<=Z<=390 and 0<=R<=90
  *	param normB=1.0 current=1.0
- *	cylinder Z0=0.0 nR=10 nZ=40 dR=10.0 dZ=10.0
+ *	cylinder R0=0.0 Z0=0.0 nR=10 nZ=40 dR=10.0 dZ=10.0
  *	extendZ flip=Br
  *	data
  *	... 400 lines of 4 values, giving R,Z,Br,Bz
@@ -235,7 +236,7 @@ class MyBLFieldMap {
         /// cylindrically-symmetric field. NOTE: cylindrical symmetry is
         /// ASSUMED; the field in the Y=0,X>=0 half-plane is used (Bx->Br...).
         /// returns false if error.
-        bool createCylinderMap(G4double Z0, G4double dR,  G4double dZ, int nR,
+        bool createCylinderMap(G4double R0, G4double Z0, G4double dR,  G4double dZ, int nR,
             int nZ, class G4ElectroMagneticField *field);
 
         /// createTimeDependence() will apply the time dependence given.
