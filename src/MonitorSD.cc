@@ -67,11 +67,17 @@ void MonitorSD::Initialize(G4HCofThisEvent* HCE)
 	//initialize for root objects
 	nHits = 0;
 	m_Ox.clear();
+	m_local_Ox.clear();
 	m_Oy.clear();
+	m_local_Oy.clear();
 	m_Oz.clear();
+	m_local_Oz.clear();
 	m_x.clear();
+	m_local_x.clear();
 	m_y.clear();
+	m_local_y.clear();
 	m_z.clear();
+	m_local_z.clear();
 	m_t.clear();
 	m_Ot.clear();
 	m_Opx.clear();
@@ -81,8 +87,11 @@ void MonitorSD::Initialize(G4HCofThisEvent* HCE)
 	m_py.clear();
 	m_pz.clear();
 	m_ox.clear();
+	m_local_ox.clear();
 	m_oy.clear();
+	m_local_oy.clear();
 	m_oz.clear();
+	m_local_oz.clear();
 	m_ot.clear();
 	m_opx.clear();
 	m_opy.clear();
@@ -116,12 +125,18 @@ void MonitorSD::SetBranch(){
 	G4String volName = get_VolName();
 	if( flag_nHits ) myRoot->SetBranch(volName+"_nHits", &nHits);
 	if( flag_Ox ) myRoot->SetBranch(volName+"_Ox", &m_Ox);
+	if( flag_local_Ox ) myRoot->SetBranch(volName+"_local_Ox", &m_local_Ox);
 	if( flag_Oy ) myRoot->SetBranch(volName+"_Oy", &m_Oy);
+	if( flag_local_Oy ) myRoot->SetBranch(volName+"_local_Oy", &m_local_Oy);
 	if( flag_Oz ) myRoot->SetBranch(volName+"_Oz", &m_Oz);
+	if( flag_local_Oz ) myRoot->SetBranch(volName+"_local_Oz", &m_local_Oz);
 	if( flag_Ot ) myRoot->SetBranch(volName+"_Ot", &m_Ot);
 	if( flag_x ) myRoot->SetBranch(volName+"_x", &m_x);
+	if( flag_local_x ) myRoot->SetBranch(volName+"_local_x", &m_local_x);
 	if( flag_y ) myRoot->SetBranch(volName+"_y", &m_y);
+	if( flag_local_y ) myRoot->SetBranch(volName+"_local_y", &m_local_y);
 	if( flag_z ) myRoot->SetBranch(volName+"_z", &m_z);
+	if( flag_local_z ) myRoot->SetBranch(volName+"_local_z", &m_local_z);
 	if( flag_t ) myRoot->SetBranch(volName+"_t", &m_t);
 	if( flag_Opx ) myRoot->SetBranch(volName+"_Opx", &m_Opx);
 	if( flag_Opy ) myRoot->SetBranch(volName+"_Opy", &m_Opy);
@@ -130,8 +145,11 @@ void MonitorSD::SetBranch(){
 	if( flag_py ) myRoot->SetBranch(volName+"_py", &m_py);
 	if( flag_pz ) myRoot->SetBranch(volName+"_pz", &m_pz);
 	if( flag_ox ) myRoot->SetBranch(volName+"_ox", &m_ox);
+	if( flag_local_ox ) myRoot->SetBranch(volName+"_local_ox", &m_local_ox);
 	if( flag_oy ) myRoot->SetBranch(volName+"_oy", &m_oy);
+	if( flag_local_oy ) myRoot->SetBranch(volName+"_local_oy", &m_local_oy);
 	if( flag_oz ) myRoot->SetBranch(volName+"_oz", &m_oz);
+	if( flag_local_oz ) myRoot->SetBranch(volName+"_local_oz", &m_local_oz);
 	if( flag_ot ) myRoot->SetBranch(volName+"_ot", &m_ot);
 	if( flag_opx ) myRoot->SetBranch(volName+"_opx", &m_opx);
 	if( flag_opy ) myRoot->SetBranch(volName+"_opy", &m_opy);
@@ -204,12 +222,18 @@ void MonitorSD::ReadOutputCard(G4String filename){
 			}
 			else if( name == "nHits" ) {flag_nHits = true;}
 			else if( name == "Ox" ) {{flag_Ox = true; buf_card>>unitName_Ox; unit_Ox = MyString2Anything::get_U(unitName_Ox);}}
+			else if( name == "local_Ox" ) {{flag_local_Ox = true; buf_card>>unitName_local_Ox; unit_local_Ox = MyString2Anything::get_U(unitName_local_Ox);}}
 			else if( name == "Oy" ) {{flag_Oy = true; buf_card>>unitName_Oy; unit_Oy = MyString2Anything::get_U(unitName_Oy);}}
+			else if( name == "local_Oy" ) {{flag_local_Oy = true; buf_card>>unitName_local_Oy; unit_local_Oy = MyString2Anything::get_U(unitName_local_Oy);}}
 			else if( name == "Oz" ) {{flag_Oz = true; buf_card>>unitName_Oz; unit_Oz = MyString2Anything::get_U(unitName_Oz);}}
+			else if( name == "local_Oz" ) {{flag_local_Oz = true; buf_card>>unitName_local_Oz; unit_local_Oz = MyString2Anything::get_U(unitName_local_Oz);}}
 			else if( name == "Ot" ) {{flag_Ot = true; buf_card>>unitName_Ot; unit_Ot = MyString2Anything::get_U(unitName_Ot);}}
 			else if( name == "x" ) {{flag_x = true; buf_card>>unitName_x; unit_x = MyString2Anything::get_U(unitName_x);}}
+			else if( name == "local_x" ) {{flag_local_x = true; buf_card>>unitName_local_x; unit_local_x = MyString2Anything::get_U(unitName_local_x);}}
 			else if( name == "y" ) {{flag_y = true; buf_card>>unitName_y; unit_y = MyString2Anything::get_U(unitName_y);}}
+			else if( name == "local_y" ) {{flag_local_y = true; buf_card>>unitName_local_y; unit_local_y = MyString2Anything::get_U(unitName_local_y);}}
 			else if( name == "z" ) {{flag_z = true; buf_card>>unitName_z; unit_z = MyString2Anything::get_U(unitName_z);}}
+			else if( name == "local_z" ) {{flag_local_z = true; buf_card>>unitName_local_z; unit_local_z = MyString2Anything::get_U(unitName_local_z);}}
 			else if( name == "t" ) {{flag_t = true; buf_card>>unitName_t; unit_t = MyString2Anything::get_U(unitName_t);}}
 			else if( name == "Opx" ) {{flag_Opx = true; buf_card>>unitName_Opx; unit_Opx = MyString2Anything::get_U(unitName_Opx);}}
 			else if( name == "Opy" ) {{flag_Opy = true; buf_card>>unitName_Opy; unit_Opy = MyString2Anything::get_U(unitName_Opy);}}
@@ -218,8 +242,11 @@ void MonitorSD::ReadOutputCard(G4String filename){
 			else if( name == "py" ) {{flag_py = true; buf_card>>unitName_py; unit_py = MyString2Anything::get_U(unitName_py);}}
 			else if( name == "pz" ) {{flag_pz = true; buf_card>>unitName_pz; unit_pz = MyString2Anything::get_U(unitName_pz);}}
 			else if( name == "ox" ) {{flag_ox = true; buf_card>>unitName_ox; unit_ox = MyString2Anything::get_U(unitName_ox);}}
+			else if( name == "local_ox" ) {{flag_local_ox = true; buf_card>>unitName_local_ox; unit_local_ox = MyString2Anything::get_U(unitName_local_ox);}}
 			else if( name == "oy" ) {{flag_oy = true; buf_card>>unitName_oy; unit_oy = MyString2Anything::get_U(unitName_oy);}}
+			else if( name == "local_oy" ) {{flag_local_oy = true; buf_card>>unitName_local_oy; unit_local_oy = MyString2Anything::get_U(unitName_local_oy);}}
 			else if( name == "oz" ) {{flag_oz = true; buf_card>>unitName_oz; unit_oz = MyString2Anything::get_U(unitName_oz);}}
+			else if( name == "local_oz" ) {{flag_local_oz = true; buf_card>>unitName_local_oz; unit_local_oz = MyString2Anything::get_U(unitName_local_oz);}}
 			else if( name == "ot" ) {{flag_ot = true; buf_card>>unitName_ot; unit_ot = MyString2Anything::get_U(unitName_ot);}}
 			else if( name == "opx" ) {{flag_opx = true; buf_card>>unitName_opx; unit_opx = MyString2Anything::get_U(unitName_opx);}}
 			else if( name == "opy" ) {{flag_opy = true; buf_card>>unitName_opy; unit_opy = MyString2Anything::get_U(unitName_opy);}}
@@ -318,12 +345,18 @@ void MonitorSD::ReSet(){
 	//default output set
 	flag_nHits = false;
 	flag_Ox = false;
+	flag_local_Ox = false;
 	flag_Oy = false;
+	flag_local_Oy = false;
 	flag_Oz = false;
+	flag_local_Oz = false;
 	flag_Ot = false;
 	flag_x = false;
+	flag_local_x = false;
 	flag_y = false;
+	flag_local_y = false;
 	flag_z = false;
+	flag_local_z = false;
 	flag_t = false;
 	flag_Opx = false;
 	flag_Opy = false;
@@ -332,8 +365,11 @@ void MonitorSD::ReSet(){
 	flag_py = false;
 	flag_pz = false;
 	flag_ox = false;
+	flag_local_ox = false;
 	flag_oy = false;
+	flag_local_oy = false;
 	flag_oz = false;
+	flag_local_oz = false;
 	flag_ot = false;
 	flag_opx = false;
 	flag_opy = false;
@@ -372,12 +408,18 @@ void MonitorSD::ReSet(){
 	black_list.clear();
 	//for units
 	unitName_Ox = "cm";
+	unitName_local_Ox = "cm";
 	unitName_Oy = "cm";
+	unitName_local_Oy = "cm";
 	unitName_Oz = "cm";
+	unitName_local_Oz = "cm";
 	unitName_Ot = "ns";
 	unitName_x = "cm";
+	unitName_local_x = "cm";
 	unitName_y = "cm";
+	unitName_local_y = "cm";
 	unitName_z = "cm";
+	unitName_local_z = "cm";
 	unitName_t = "ns";
 	unitName_Opx = "GeV";
 	unitName_Opy = "GeV";
@@ -386,8 +428,11 @@ void MonitorSD::ReSet(){
 	unitName_py = "GeV";
 	unitName_pz = "GeV";
 	unitName_ox = "cm";
+	unitName_local_ox = "cm";
 	unitName_oy = "cm";
+	unitName_local_oy = "cm";
 	unitName_oz = "cm";
+	unitName_local_oz = "cm";
 	unitName_ot = "ns";
 	unitName_opx = "GeV";
 	unitName_opy = "GeV";
@@ -400,12 +445,18 @@ void MonitorSD::ReSet(){
 	unitName_stop_time = "ns";
 	unitName_kill_time = "ns";
 	unit_Ox = MyString2Anything::get_U(unitName_Ox);
+	unit_local_Ox = MyString2Anything::get_U(unitName_local_Ox);
 	unit_Oy = MyString2Anything::get_U(unitName_Oy);
+	unit_local_Oy = MyString2Anything::get_U(unitName_local_Oy);
 	unit_Oz = MyString2Anything::get_U(unitName_Oz);
+	unit_local_Oz = MyString2Anything::get_U(unitName_local_Oz);
 	unit_Ot = MyString2Anything::get_U(unitName_Ot);
 	unit_x = MyString2Anything::get_U(unitName_x);
+	unit_local_x = MyString2Anything::get_U(unitName_local_x);
 	unit_y = MyString2Anything::get_U(unitName_y);
+	unit_local_y = MyString2Anything::get_U(unitName_local_y);
 	unit_z = MyString2Anything::get_U(unitName_z);
+	unit_local_z = MyString2Anything::get_U(unitName_local_z);
 	unit_t = MyString2Anything::get_U(unitName_t);
 	unit_Opx = MyString2Anything::get_U(unitName_Opx);
 	unit_Opy = MyString2Anything::get_U(unitName_Opy);
@@ -414,8 +465,11 @@ void MonitorSD::ReSet(){
 	unit_py = MyString2Anything::get_U(unitName_py);
 	unit_pz = MyString2Anything::get_U(unitName_pz);
 	unit_ox = MyString2Anything::get_U(unitName_ox);
+	unit_local_ox = MyString2Anything::get_U(unitName_local_ox);
 	unit_oy = MyString2Anything::get_U(unitName_oy);
+	unit_local_oy = MyString2Anything::get_U(unitName_local_oy);
 	unit_oz = MyString2Anything::get_U(unitName_oz);
+	unit_local_oz = MyString2Anything::get_U(unitName_local_oz);
 	unit_ot = MyString2Anything::get_U(unitName_ot);
 	unit_opx = MyString2Anything::get_U(unitName_opx);
 	unit_opy = MyString2Anything::get_U(unitName_opy);
@@ -436,22 +490,31 @@ void MonitorSD::ShowOutCard(){
 	//default output set
 	std::cout<<"output nHits?   "<<(flag_nHits?" yes":" no")<<std::endl;
 	std::cout<<"output Ox?       "<<(flag_Ox?" yes":" no")<<", unit: "<<unitName_Ox<<std::endl;
+	std::cout<<"output Ox?       "<<(flag_local_Ox?" yes":" no")<<", unit: "<<unitName_local_Ox<<std::endl;
 	std::cout<<"output Oy?       "<<(flag_Oy?" yes":" no")<<", unit: "<<unitName_Oy<<std::endl;
+	std::cout<<"output Oy?       "<<(flag_local_Oy?" yes":" no")<<", unit: "<<unitName_local_Oy<<std::endl;
 	std::cout<<"output Oz?       "<<(flag_Oz?" yes":" no")<<", unit: "<<unitName_Oz<<std::endl;
+	std::cout<<"output Oz?       "<<(flag_local_Oz?" yes":" no")<<", unit: "<<unitName_local_Oz<<std::endl;
 	std::cout<<"output Ot?       "<<(flag_Ot?" yes":" no")<<", unit: "<<unitName_Ot<<std::endl;
 	std::cout<<"output Opx?      "<<(flag_Opx?" yes":" no")<<", unit: "<<unitName_Opx<<std::endl;
 	std::cout<<"output Opy?      "<<(flag_Opy?" yes":" no")<<", unit: "<<unitName_Opy<<std::endl;
 	std::cout<<"output Opz?      "<<(flag_Opz?" yes":" no")<<", unit: "<<unitName_Opz<<std::endl;
 	std::cout<<"output x?       "<<(flag_x?" yes":" no")<<", unit: "<<unitName_x<<std::endl;
+	std::cout<<"output x?       "<<(flag_local_x?" yes":" no")<<", unit: "<<unitName_local_x<<std::endl;
 	std::cout<<"output y?       "<<(flag_y?" yes":" no")<<", unit: "<<unitName_y<<std::endl;
+	std::cout<<"output y?       "<<(flag_local_y?" yes":" no")<<", unit: "<<unitName_local_y<<std::endl;
 	std::cout<<"output z?       "<<(flag_z?" yes":" no")<<", unit: "<<unitName_z<<std::endl;
+	std::cout<<"output z?       "<<(flag_local_z?" yes":" no")<<", unit: "<<unitName_local_z<<std::endl;
 	std::cout<<"output t?       "<<(flag_t?" yes":" no")<<", unit: "<<unitName_t<<std::endl;
 	std::cout<<"output px?      "<<(flag_px?" yes":" no")<<", unit: "<<unitName_px<<std::endl;
 	std::cout<<"output py?      "<<(flag_py?" yes":" no")<<", unit: "<<unitName_py<<std::endl;
 	std::cout<<"output pz?      "<<(flag_pz?" yes":" no")<<", unit: "<<unitName_pz<<std::endl;
 	std::cout<<"output ox?      "<<(flag_ox?" yes":" no")<<", unit: "<<unitName_ox<<std::endl;
+	std::cout<<"output ox?      "<<(flag_local_ox?" yes":" no")<<", unit: "<<unitName_local_ox<<std::endl;
 	std::cout<<"output oy?      "<<(flag_oy?" yes":" no")<<", unit: "<<unitName_oy<<std::endl;
+	std::cout<<"output oy?      "<<(flag_local_oy?" yes":" no")<<", unit: "<<unitName_local_oy<<std::endl;
 	std::cout<<"output oz?      "<<(flag_oz?" yes":" no")<<", unit: "<<unitName_oz<<std::endl;
+	std::cout<<"output oz?      "<<(flag_local_oz?" yes":" no")<<", unit: "<<unitName_local_oz<<std::endl;
 	std::cout<<"output ot?      "<<(flag_ot?" yes":" no")<<", unit: "<<unitName_ot<<std::endl;
 	std::cout<<"output opx?     "<<(flag_opx?" yes":" no")<<", unit: "<<unitName_opx<<std::endl;
 	std::cout<<"output opy?     "<<(flag_opy?" yes":" no")<<", unit: "<<unitName_opy<<std::endl;
@@ -534,6 +597,10 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	const G4VTouchable *touchable = prePoint->GetTouchable();
 	G4int ReplicaNo = touchable->GetVolume(0)->GetCopyNo();
 	G4String VolName = touchable->GetVolume(0)->GetName();
+
+	// get the local positions
+	G4ThreeVector pointIn_local_pos = touchable->GetHistory()->GetTopTransform().TransformPoint(pointIn_pos);
+	G4ThreeVector pointOut_local_pos = touchable->GetHistory()->GetTopTransform().TransformPoint(pointOut_pos);
 
 	// get step info
 	G4double edep = aStep->GetTotalEnergyDeposit();
@@ -664,15 +731,21 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		hitsCollection->insert(newHit);
 		//Set for root objects
 		if(flag_Ox) m_Ox.push_back(pointOut_pos.x()/unit_Ox);
+		if(flag_local_Ox) m_local_Ox.push_back(pointOut_local_pos.x()/unit_local_Ox);
 		if(flag_Oy) m_Oy.push_back(pointOut_pos.y()/unit_Oy);
+		if(flag_local_Oy) m_local_Oy.push_back(pointOut_local_pos.y()/unit_local_Oy);
 		if(flag_Oz) m_Oz.push_back(pointOut_pos.z()/unit_Oz);
+		if(flag_local_Oz) m_local_Oz.push_back(pointOut_local_pos.z()/unit_local_Oz);
 		if(flag_Ot) m_Ot.push_back(pointOut_time/unit_Ot);
 		if(flag_Opx) m_Opx.push_back(pointOut_mom.x()/unit_Opx);
 		if(flag_Opy) m_Opy.push_back(pointOut_mom.y()/unit_Opy);
 		if(flag_Opz) m_Opz.push_back(pointOut_mom.z()/unit_Opz);
 		if(flag_x) m_x.push_back(pointIn_pos.x()/unit_x);
+		if(flag_local_x) m_local_x.push_back(pointIn_local_pos.x()/unit_local_x);
 		if(flag_y) m_y.push_back(pointIn_pos.y()/unit_y);
+		if(flag_local_y) m_local_y.push_back(pointIn_local_pos.y()/unit_local_y);
 		if(flag_z) m_z.push_back(pointIn_pos.z()/unit_z);
+		if(flag_local_z) m_local_z.push_back(pointIn_local_pos.z()/unit_local_z);
 		m_t.push_back(pointIn_time/unit_t);
 		//std::cout<<"m_t = pointOut_time/"<<unitName_t<<" = pointOut_time/"<<unit_t/ns<<"ns = "<<pointOut_time/unit_t<<unitName_t<<std::endl;
 		if(flag_px) m_px.push_back(pointIn_mom.x()/unit_px);
@@ -733,22 +806,35 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 			}
 			m_ovolName.push_back(volume);
 		}
-		if (flag_ox||flag_oy||flag_oz){
+		if (flag_ox||flag_oy||flag_oz||
+		    flag_local_ox||flag_local_oy||flag_local_oz){
 			G4ThreeVector pos_3vec = aTrack->GetVertexPosition();
 			double ox = pos_3vec.x()/unit_ox;
 			double oy = pos_3vec.y()/unit_oy;
 			double oz = pos_3vec.z()/unit_oz;
+
+			G4ThreeVector local_pos_3vec = touchable->GetHistory()->GetTopTransform().TransformPoint(pos_3vec);
+			double local_ox = local_pos_3vec.x()/unit_local_ox;
+			double local_oy = local_pos_3vec.y()/unit_local_oy;
+			double local_oz = local_pos_3vec.z()/unit_local_oz;
+
 			if (trackID==1){
 				void *result = pPrimaryGeneratorAction->get_extra("ox");
 				if (result) ox = *((double*)result)*mm/unit_ox;
+				if (result) local_ox = *((double*)result)*mm/unit_local_ox;
 				result = pPrimaryGeneratorAction->get_extra("oy");
 				if (result) oy = *((double*)result)*mm/unit_oy;
+				if (result) local_oy = *((double*)result)*mm/unit_local_oy;
 				result = pPrimaryGeneratorAction->get_extra("oz");
 				if (result) oz = *((double*)result)*mm/unit_oz;
+				if (result) local_oz = *((double*)result)*mm/unit_local_oz;
 			}
 			if(flag_ox) m_ox.push_back(ox);
+			if(flag_local_ox) m_local_ox.push_back(local_ox);
 			if(flag_oy) m_oy.push_back(oy);
+			if(flag_local_oy) m_local_oy.push_back(local_oy);
 			if(flag_oz) m_oz.push_back(oz);
+			if(flag_local_oz) m_local_oz.push_back(local_oz);
 		}
 		if(flag_ot){
 			double ot;
@@ -788,8 +874,11 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		(*hitsCollection)[index]->SetGlobalT(pointOut_time);
 		if (m_tid[index] == trackID){
 			if(flag_Ox) m_Ox[index] = pointOut_pos.x()/unit_Ox;
+			if(flag_local_Ox) m_local_Ox[index] = pointOut_local_pos.x()/unit_local_Ox;
 			if(flag_Oy) m_Oy[index] = pointOut_pos.y()/unit_Oy;
+			if(flag_local_Oy) m_local_Oy[index] = pointOut_local_pos.y()/unit_local_Oy;
 			if(flag_Oz) m_Oz[index] = pointOut_pos.z()/unit_Oz;
+			if(flag_local_Oz) m_local_Oz[index] = pointOut_local_pos.z()/unit_local_Oz;
 			if(flag_Ot) m_Ot[index] = pointOut_time/unit_Ot;
 			if(flag_Opx) m_Opx[index] = pointOut_mom.x()/unit_Opx;
 			if(flag_Opy) m_Opy[index] = pointOut_mom.y()/unit_Opy;

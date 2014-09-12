@@ -50,6 +50,9 @@ M_SECTION
 	Oy             cm
 	Oz             cm
 	Ot             ns
+	local_Ox       cm
+	local_Oy       cm
+	local_Oz       cm
 	Opx            GeV
 	Opy            GeV
 	Opz            GeV
@@ -57,6 +60,9 @@ M_SECTION
 	y              cm
 	z              cm
 	t              ns
+	local_x	       cm
+	local_y	       cm
+	local_z	       cm
 	px             GeV
 	py             GeV
 	pz             GeV
@@ -70,6 +76,9 @@ M_SECTION
 	oy             cm
 	oz             cm
 	ot             ns
+	local_ox       cm
+	local_oy       cm
+	local_oz       cm
 	opx            GeV
 	opy            GeV
 	opz            GeV

@@ -38,12 +38,18 @@ class MonitorSD : public MySD
 
 		//=> Access
 		double Get_m_Ox( int i ) { return m_Ox[i]; }
+		double Get_m_local_Ox( int i ) { return m_local_Ox[i]; }
 		double Get_m_Oy( int i ) { return m_Oy[i]; }
+		double Get_m_local_Oy( int i ) { return m_local_Oy[i]; }
 		double Get_m_Oz( int i ) { return m_Oz[i]; }
+		double Get_m_local_Oz( int i ) { return m_local_Oz[i]; }
 		double Get_m_Ot( int i ) { return m_Ot[i]; }
 		double Get_m_x( int i ) { return m_x[i]; }
+		double Get_m_local_x( int i ) { return m_local_x[i]; }
 		double Get_m_y( int i ) { return m_y[i]; }
+		double Get_m_local_y( int i ) { return m_local_y[i]; }
 		double Get_m_z( int i ) { return m_z[i]; }
+		double Get_m_local_z( int i ) { return m_local_z[i]; }
 		double Get_m_t( int i ) { return m_t[i]; }
 		double Get_m_Opx( int i ) { return m_Opx[i]; }
 		double Get_m_Opy( int i ) { return m_Opy[i]; }
@@ -52,8 +58,11 @@ class MonitorSD : public MySD
 		double Get_m_py( int i ) { return m_py[i]; }
 		double Get_m_pz( int i ) { return m_pz[i]; }
 		double Get_m_ox( int i ) { return m_ox[i]; }
+		double Get_m_local_ox( int i ) { return m_local_ox[i]; }
 		double Get_m_oy( int i ) { return m_oy[i]; }
+		double Get_m_local_oy( int i ) { return m_local_oy[i]; }
 		double Get_m_oz( int i ) { return m_oz[i]; }
+		double Get_m_local_oz( int i ) { return m_local_oz[i]; }
 		double Get_m_ot( int i ) { return m_ot[i]; }
 		double Get_m_opx( int i ) { return m_opx[i]; }
 		double Get_m_opy( int i ) { return m_opy[i]; }
@@ -77,12 +86,18 @@ class MonitorSD : public MySD
 		int Get_m_killed( int i ) { return m_killed[i]; }
 		double Get_m_kill_time( int i ) { return m_kill_time[i]; }
 		std::string Get_unitName_Ox() { return unitName_Ox; }
+		std::string Get_unitName_local_Ox() { return unitName_local_Ox; }
 		std::string Get_unitName_Oy() { return unitName_Oy; }
+		std::string Get_unitName_local_Oy() { return unitName_local_Oy; }
 		std::string Get_unitName_Oz() { return unitName_Oz; }
+		std::string Get_unitName_local_Oz() { return unitName_local_Oz; }
 		std::string Get_unitName_Ot() { return unitName_Ot; }
 		std::string Get_unitName_x() { return unitName_x; }
+		std::string Get_unitName_local_x() { return unitName_local_x; }
 		std::string Get_unitName_y() { return unitName_y; }
+		std::string Get_unitName_local_y() { return unitName_local_y; }
 		std::string Get_unitName_z() { return unitName_z; }
+		std::string Get_unitName_local_z() { return unitName_local_z; }
 		std::string Get_unitName_t() { return unitName_t; }
 		std::string Get_unitName_Opx() { return unitName_Opx; }
 		std::string Get_unitName_Opy() { return unitName_Opy; }
@@ -91,8 +106,11 @@ class MonitorSD : public MySD
 		std::string Get_unitName_py() { return unitName_py; }
 		std::string Get_unitName_pz() { return unitName_pz; }
 		std::string Get_unitName_ox() { return unitName_ox; }
+		std::string Get_unitName_local_ox() { return unitName_local_ox; }
 		std::string Get_unitName_oy() { return unitName_oy; }
+		std::string Get_unitName_local_oy() { return unitName_local_oy; }
 		std::string Get_unitName_oz() { return unitName_oz; }
+		std::string Get_unitName_local_oz() { return unitName_local_oz; }
 		std::string Get_unitName_ot() { return unitName_ot; }
 		std::string Get_unitName_opx() { return unitName_opx; }
 		std::string Get_unitName_opy() { return unitName_opy; }
@@ -105,12 +123,18 @@ class MonitorSD : public MySD
 		std::string Get_unitName_stop_time() { return unitName_stop_time; }
 		std::string Get_unitName_kill_time() { return unitName_kill_time; }
 		double Get_unit_Ox() { return unit_Ox; }
+		double Get_unit_local_Ox() { return unit_local_Ox; }
 		double Get_unit_Oy() { return unit_Oy; }
+		double Get_unit_local_Oy() { return unit_local_Oy; }
 		double Get_unit_Oz() { return unit_Oz; }
+		double Get_unit_local_Oz() { return unit_local_Oz; }
 		double Get_unit_Ot() { return unit_Ot; }
 		double Get_unit_x() { return unit_x; }
+		double Get_unit_local_x() { return unit_local_x; }
 		double Get_unit_y() { return unit_y; }
+		double Get_unit_local_y() { return unit_local_y; }
 		double Get_unit_z() { return unit_z; }
+		double Get_unit_local_z() { return unit_local_z; }
 		double Get_unit_t() { return unit_t; }
 		double Get_unit_Opx() { return unit_Opx; }
 		double Get_unit_Opy() { return unit_Opy; }
@@ -119,8 +143,11 @@ class MonitorSD : public MySD
 		double Get_unit_py() { return unit_py; }
 		double Get_unit_pz() { return unit_pz; }
 		double Get_unit_ox() { return unit_ox; }
+		double Get_unit_local_ox() { return unit_local_ox; }
 		double Get_unit_oy() { return unit_oy; }
+		double Get_unit_local_oy() { return unit_local_oy; }
 		double Get_unit_oz() { return unit_oz; }
+		double Get_unit_local_oz() { return unit_local_oz; }
 		double Get_unit_ot() { return unit_ot; }
 		double Get_unit_opx() { return unit_opx; }
 		double Get_unit_opy() { return unit_opy; }
@@ -144,12 +171,18 @@ class MonitorSD : public MySD
 
 		//For root objects
 		std::vector<double> m_Ox;
+		std::vector<double> m_local_Ox;
 		std::vector<double> m_Oy;
+		std::vector<double> m_local_Oy;
 		std::vector<double> m_Oz;
+		std::vector<double> m_local_Oz;
 		std::vector<double> m_Ot;
 		std::vector<double> m_x;
+		std::vector<double> m_local_x;
 		std::vector<double> m_y;
+		std::vector<double> m_local_y;
 		std::vector<double> m_z;
+		std::vector<double> m_local_z;
 		std::vector<double> m_t;
 		std::vector<double> m_Opx;
 		std::vector<double> m_Opy;
@@ -158,8 +191,11 @@ class MonitorSD : public MySD
 		std::vector<double> m_py;
 		std::vector<double> m_pz;
 		std::vector<double> m_ox;
+		std::vector<double> m_local_ox;
 		std::vector<double> m_oy;
+		std::vector<double> m_local_oy;
 		std::vector<double> m_oz;
+		std::vector<double> m_local_oz;
 		std::vector<double> m_ot;
 		std::vector<double> m_opx;
 		std::vector<double> m_opy;
@@ -184,12 +220,18 @@ class MonitorSD : public MySD
 		std::vector<int>    m_killed;
 		std::vector<double> m_kill_time;
 		std::string unitName_Ox;
+		std::string unitName_local_Ox;
 		std::string unitName_Oy;
+		std::string unitName_local_Oy;
 		std::string unitName_Oz;
+		std::string unitName_local_Oz;
 		std::string unitName_Ot;
 		std::string unitName_x;
+		std::string unitName_local_x;
 		std::string unitName_y;
+		std::string unitName_local_y;
 		std::string unitName_z;
+		std::string unitName_local_z;
 		std::string unitName_t;
 		std::string unitName_Opx;
 		std::string unitName_Opy;
@@ -198,8 +240,11 @@ class MonitorSD : public MySD
 		std::string unitName_py;
 		std::string unitName_pz;
 		std::string unitName_ox;
+		std::string unitName_local_ox;
 		std::string unitName_oy;
+		std::string unitName_local_oy;
 		std::string unitName_oz;
+		std::string unitName_local_oz;
 		std::string unitName_ot;
 		std::string unitName_opx;
 		std::string unitName_opy;
@@ -212,12 +257,18 @@ class MonitorSD : public MySD
 		std::string unitName_stop_time;
 		std::string unitName_kill_time;
 		double unit_Ox;
+		double unit_local_Ox;
 		double unit_Oy;
+		double unit_local_Oy;
 		double unit_Oz;
+		double unit_local_Oz;
 		double unit_Ot;
 		double unit_x;
+		double unit_local_x;
 		double unit_y;
+		double unit_local_y;
 		double unit_z;
+		double unit_local_z;
 		double unit_t;
 		double unit_Opx;
 		double unit_Opy;
@@ -226,8 +277,11 @@ class MonitorSD : public MySD
 		double unit_py;
 		double unit_pz;
 		double unit_ox;
+		double unit_local_ox;
 		double unit_oy;
+		double unit_local_oy;
 		double unit_oz;
+		double unit_local_oz;
 		double unit_ot;
 		double unit_opx;
 		double unit_opy;
@@ -244,12 +298,18 @@ class MonitorSD : public MySD
 		int nHits;
 		bool flag_nHits;
 		bool flag_Ox;
+		bool flag_local_Ox;
 		bool flag_Oy;
+		bool flag_local_Oy;
 		bool flag_Oz;
+		bool flag_local_Oz;
 		bool flag_Ot;
 		bool flag_x;
+		bool flag_local_x;
 		bool flag_y;
+		bool flag_local_y;
 		bool flag_z;
+		bool flag_local_z;
 		bool flag_t;
 		bool flag_Opx;
 		bool flag_Opy;
@@ -258,8 +318,11 @@ class MonitorSD : public MySD
 		bool flag_py;
 		bool flag_pz;
 		bool flag_ox;
+		bool flag_local_ox;
 		bool flag_oy;
+		bool flag_local_oy;
 		bool flag_oz;
+		bool flag_local_oz;
 		bool flag_ot;
 		bool flag_opx;
 		bool flag_opy;
