@@ -32,6 +32,8 @@
 #include "TCanvas.h"
 #include "TChain.h"
 
+#include "CLHEP/Vector/EulerAngles.h"
+
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
@@ -361,9 +363,9 @@ void PrimaryGeneratorAction::SetRandomPosition(){
 	    dz=G4RandFlat::shoot(-xSpread,zSpread);
 
 	    G4ThreeVector position(x+dx, y+dy, z+dz);
-	    //	    G4RotationMatrix* rotation = new G4RotationMatrix(45*deg, 90*deg, 0*deg);
-	    position.rotate(45*deg, 90*deg, 0*deg);
-	    G4VPhysicalVolume* phys_volume = theNavigator->LocateGlobalPointAndSetup(position);
+	    CLHEP::HepEulerAngles rotation(45*deg, 90*deg, 0*deg);
+	    G4ThreeVector new_position = position.rotate(rotation);
+	    G4VPhysicalVolume* phys_volume = theNavigator->LocateGlobalPointAndSetup(new_position);
 
 	    if (!phys_volume) {
 	      continue; // if theNavigator didn't return a physical volume
@@ -377,10 +379,11 @@ void PrimaryGeneratorAction::SetRandomPosition(){
 	}
 
   G4ThreeVector position(x+dx, y+dy, z+dz);
-  if (PositionMode == "source" || PositionMode == "target")
-    position.rotate(45*deg, 90*deg, 0*deg);
-
-	particleGun->SetParticlePosition(position);
+  if (PositionMode == "source" || PositionMode == "target") {
+    CLHEP::HepEulerAngles rotation(45*deg, 90*deg, 0*deg);
+    position = position.rotate(rotation);
+  }
+  particleGun->SetParticlePosition(position);
 }
 
 void PrimaryGeneratorAction::SetUniformPosition(){
