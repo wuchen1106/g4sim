@@ -22,7 +22,10 @@ G4double gradient, G4double timeOffset, G4LogicalVolume* fieldVolume)
     // volume.
 
     fMap = new MyBLFieldMap();
-    fMap->readFile(mapFileName);
+    if (mapFileName.substr(mapFileName.size()-5,5)==".root")
+		fMap->readFileROOT(mapFileName);
+    else
+		fMap->readFile(mapFileName);
     fCurrent = current;
     fGradient = gradient;
     fRotation = NULL;

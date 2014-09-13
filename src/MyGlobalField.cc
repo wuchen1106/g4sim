@@ -222,12 +222,12 @@ void MyGlobalField::GetFieldValue(const G4double* point, G4double* field) const 
     }
 
     if(0) {
-        G4cout << "Point = [" << point[0]/cm << ", "
-            << point[1]/cm << ", " << point[2]/cm << "] cm" << G4endl;
-        G4cout << " Field = [" << field[0]/tesla << ", " << field[1]/tesla << ", "
-            << field[2]/tesla << "]" << G4endl
+        std::cout << "Point = [" << point[0]/cm << ", "
+            << point[1]/cm << ", " << point[2]/cm << "] cm" << std::endl;
+        std::cout << " Field = [" << field[0]/tesla << ", " << field[1]/tesla << ", "
+            << field[2]/tesla << "]" << std::endl
             << "         [" << field[3] << ", " << field[4]
-            << ", " << field[5]<< "] " << G4endl;
+            << ", " << field[5]<< "] " << std::endl;
     }
 }
 

@@ -22,6 +22,9 @@ http://www.gnu.org/copyleft/gpl.html
 #include <ctype.h>
 #include <assert.h>
 
+#include "TTree.h"
+#include "TFile.h"
+
 #include "G4ElectroMagneticField.hh"
 #include "MyBLFieldMap.hh"
 #include "MyBLFuncs.hh"
@@ -90,6 +93,7 @@ class FieldMapImpl {
         virtual ~FieldMapImpl() { }
         virtual void getFieldValue(const G4double local[4], G4double field[6])
             const = 0;
+        virtual bool readData(TTree * data) = 0;
         virtual bool handleCommand(InputFile &in, MyBLArgumentVector &argv,
             MyBLArgumentMap &namedArgs) = 0;
         virtual void getBoundingPoint(int i, G4double point[4]) = 0;
@@ -126,9 +130,11 @@ class GridImpl : public FieldMapImpl {
     int extendYbits;
     int extendZbits;
     public:
+        GridImpl(TTree* param);
         GridImpl(MyBLArgumentVector &argv, MyBLArgumentMap &namedArgs);
         ~GridImpl();
         void getFieldValue(const G4double local[4], G4double field[6]) const;
+        bool readData(TTree * data);
         bool handleCommand(InputFile &in, MyBLArgumentVector &argv,
             MyBLArgumentMap &namedArgs);
         virtual void getBoundingPoint(int i, G4double point[4]);
@@ -160,9 +166,11 @@ class CylinderImpl : public FieldMapImpl {
     float extendBrFactor, extendBzFactor;
     float extendErFactor, extendEzFactor;
     public:
+        CylinderImpl(TTree* param);
         CylinderImpl(MyBLArgumentVector &argv, MyBLArgumentMap &namedArgs);
         ~CylinderImpl();
         void getFieldValue(const G4double local[4], G4double field[6]) const;
+        bool readData(TTree * data);
         bool handleCommand(InputFile &in, MyBLArgumentVector &argv,
             MyBLArgumentMap &namedArgs);
         virtual void getBoundingPoint(int i, G4double point[4]);
@@ -304,6 +312,46 @@ G4double _current, G4double _gradient) {
     field[5] = thisField[5] * normE * timeE * _gradient/gradient;
 }
 
+bool MyBLFieldMap::readFileROOT(G4String filename) {
+    printf("MyBLFieldMap: reading ROOT file '%s'\n",filename.c_str());
+    TFile * inputfile = new TFile(filename.c_str());
+    TTree * param = (TTree*) inputfile->Get("param");
+    if (!param) {
+		std::cout<<"Cannot find param tree in \""<<filename<<"\" !!!"<<std::endl;
+		return false;
+    }
+    char type[256];
+    param->SetBranchAddress("type",type);
+    param->SetBranchAddress("maxline",&maxline);
+    param->SetBranchAddress("current",&current);
+    param->SetBranchAddress("gradient",&gradient);
+    param->SetBranchAddress("normE",&normE);
+    param->SetBranchAddress("normB",&normB);
+    param->GetEntry(0);
+    if ((std::string)type=="grid"){
+		impl = new GridImpl(param);
+    }
+	else if ((std::string)type=="cylinder"){
+		impl = new CylinderImpl(param);
+    }
+	else if ((std::string)type=="time"){
+		G4cerr<<"time mode for readFileROOT not supported yet!"<<G4endl;
+		return false;
+	}
+	delete param;
+	param = 0;
+
+    TTree * data = (TTree*) inputfile->Get("data");
+    if (!data) {
+		std::cout<<"Cannot find data tree in \""<<filename<<"\" !!!"<<std::endl;
+		return false;
+    }
+	impl->readData(data);
+	delete data;
+	data = 0;
+
+    return true;
+}
 
 bool MyBLFieldMap::readFile(G4String filename) {
     InputFile in(filename,maxline);
@@ -568,6 +616,49 @@ bool MyBLFieldMap::getTimeFactor(G4double t, G4double *b, G4double *e) {
 }
 
 
+GridImpl::GridImpl(TTree* param)
+: FieldMapImpl() {
+    nX = 2;
+    nY = 2;
+    nZ = 2;
+    dX = 10.0*mm;
+    dY = 10.0*mm;
+    dZ = 10.0*mm;
+    X0 = 0.0;
+    Y0 = 0.0;
+    Z0 = 0.0;
+    tolerance = 0.01*mm;
+    mapBx = 0;
+    mapBy = 0;
+    mapBz = 0;
+    mapEx = 0;
+    mapEy = 0;
+    mapEz = 0;
+    extendX = false;
+    extendY = false;
+    extendZ = false;
+    extendXbits = 0;
+    extendYbits = 0;
+    extendZbits = 0;
+    param->SetBranchAddress("nX",&nX);
+    param->SetBranchAddress("nY",&nY);
+    param->SetBranchAddress("nZ",&nZ);
+    param->SetBranchAddress("dX",&dX);
+    param->SetBranchAddress("dY",&dY);
+    param->SetBranchAddress("dZ",&dZ);
+    param->SetBranchAddress("X0",&X0);
+    param->SetBranchAddress("Y0",&Y0);
+    param->SetBranchAddress("Z0",&Z0);
+    param->SetBranchAddress("tolerance",&tolerance);
+    param->SetBranchAddress("extendX",&extendX);
+    param->SetBranchAddress("extendY",&extendY);
+    param->SetBranchAddress("extendZ",&extendZ);
+    param->SetBranchAddress("extendXbits",&extendXbits);
+    param->SetBranchAddress("extendYbits",&extendYbits);
+    param->SetBranchAddress("extendZbits",&extendZbits);
+    param->GetEntry(0);
+}
+
 GridImpl::GridImpl(MyBLArgumentVector &argv, MyBLArgumentMap &namedArgs)
 : FieldMapImpl() {
     nX = 2;
@@ -624,6 +715,7 @@ const {
     x -= X0;
     y -= Y0;
     z -= Z0;
+//    printf("%lf-%lf=%lf,%lf-%lf=%lf,%lf-%lf=%lf\n",x,X0,x-X0,y,Y0,y-Y0,z,Z0,z-Z0);
 
     G4double factor[6];
     factor[0]=factor[1]=factor[2]=factor[3]=factor[4]=factor[5]=1.0;
@@ -651,11 +743,13 @@ const {
     int i = (int)floor(x/dX);
     int j = (int)floor(y/dY);
     int k = (int)floor(z/dZ);
+//    printf("%d<0||%d>=%d||%d<0||%d>=%d||%d<0||%d>=%d\n",i,i,nX-1,j,j,nY-1,k,k,nZ-1);
     if(i < 0 || i >= nX-1 || j < 0 || j >= nY-1 || k < 0 || k >= nZ-1) {
         field[0] = field[1] = field[2] = field[3] = field[4] =
             field[5] = 0.0;
         return;
     }
+//    printf("passed1\n");
     // m is the initial index (corner of the cube with minimum X, Y, and Z)
     int m = k*nY*nX + j*nX + i;
     assert(m+nY*nX+nX+1 < nX*nY*nZ);
@@ -667,6 +761,7 @@ const {
     assert(fy >= 0.0 && fy <= 1.0);
     float fz = 1.0 - (z - k*dZ) / dZ;
     assert(fz >= 0.0 && fz <= 1.0);
+//    printf("passed2\n");
 
     // now compute the fractional weighting factors for the 8 corners
     float f0 = fx*fy*fz;
@@ -764,6 +859,27 @@ const {
     field[5] = Ez * factor[5];
 }
 
+
+bool GridImpl::readData(TTree* data) {
+	float X=0.0,Y=0.0,Z=0.0,Bx=0.0,By=0.0,Bz=0.0,
+		  Ex=0.0,Ey=0.0,Ez=0.0;
+	data->SetBranchAddress("X",&X);
+	data->SetBranchAddress("Y",&Y);
+	data->SetBranchAddress("Z",&Z);
+	data->SetBranchAddress("Bx",&Bx);
+	data->SetBranchAddress("By",&By);
+	data->SetBranchAddress("Bz",&Bz);
+	data->SetBranchAddress("Ex",&Ex);
+	data->SetBranchAddress("Ey",&Ey);
+	data->SetBranchAddress("Ez",&Ez);
+	for(long int iEt = 0; iEt<data->GetEntries(); iEt++) {
+		data->GetEntry(iEt);
+		setField(X,Y,Z,Bx*tesla,By*tesla,Bz*tesla,
+				Ex*megavolt/meter,Ey*megavolt/meter,
+				Ez*megavolt/meter,iEt);
+	}
+	return true;
+}
 
 bool GridImpl::handleCommand(InputFile &in, MyBLArgumentVector &argv,
 MyBLArgumentMap &namedArgs) {
@@ -988,6 +1104,41 @@ bool GridImpl::writeFile(FILE *f) {
     return true;
 }
 
+CylinderImpl::CylinderImpl(TTree* param)
+: FieldMapImpl() {
+    nR = 2;
+    nZ = 2;
+    dR = 10.0*mm;
+    dZ = 10.0*mm;
+    Z0 = 0.0;
+    R0 = 0.0;
+    tolerance = 0.01*mm;
+    mapBr = 0;
+    mapBz = 0;
+    mapEr = 0;
+    mapEz = 0;
+    extendZ = false;
+    extendBrFactor = extendBzFactor = 1.0;
+    extendErFactor = extendEzFactor = 1.0;
+    char flipName[128];
+    param->SetBranchAddress("extendZ",&extendZ);
+    param->SetBranchAddress("flip",flipName);
+    param->SetBranchAddress("nR",&nR);
+    param->SetBranchAddress("nZ",&nZ);
+    param->SetBranchAddress("dR",&dR);
+    param->SetBranchAddress("dZ",&dZ);
+    param->SetBranchAddress("R0",&R0);
+    param->SetBranchAddress("Z0",&Z0);
+    param->SetBranchAddress("tolerance",&tolerance);
+    param->GetEntry(0);
+    if(extendZ) {
+        if(strstr(flipName,"Br")) extendBrFactor = -1.0;
+        if(strstr(flipName,"Bz")) extendBzFactor = -1.0;
+        if(strstr(flipName,"Er")) extendErFactor = -1.0;
+        if(strstr(flipName,"Ez")) extendEzFactor = -1.0;
+	}
+}
+
 
 CylinderImpl::CylinderImpl(MyBLArgumentVector &argv, MyBLArgumentMap &namedArgs)
 : FieldMapImpl() {
@@ -1089,6 +1240,22 @@ const {
     field[3] = Er * cos(phi);
     field[4] = Er * sin(phi);
     field[5] = Ez;
+}
+
+bool CylinderImpl::readData(TTree* data) {
+	float R=0.0,Z=0.0,Br=0.0,Bz=0.0,Er=0.0,Ez=0.0;
+	data->SetBranchAddress("R",&R);
+	data->SetBranchAddress("Z",&Z);
+	data->SetBranchAddress("Br",&Br);
+	data->SetBranchAddress("Bz",&Bz);
+	data->SetBranchAddress("Er",&Er);
+	data->SetBranchAddress("Ez",&Ez);
+	for(long int iEt = 0; iEt<data->GetEntries(); iEt++) {
+		data->GetEntry(iEt);
+		setField(R,Z,Br*tesla,Bz*tesla,Er*megavolt/meter,
+				Ez*megavolt/meter,iEt);
+	}
+	return true;
 }
 
 

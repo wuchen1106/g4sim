@@ -205,6 +205,7 @@ class MyBLFieldMap {
         /// readFile() reads a file to initialize the map.
         /// Returns true if OK, false on error.
         bool readFile(G4String filename);
+        bool readFileROOT(G4String filename);
 
         /// writeFile() writes the map to a file.
         /// Returns true if OK, false on error.
