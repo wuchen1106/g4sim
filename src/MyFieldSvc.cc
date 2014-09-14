@@ -146,6 +146,21 @@ void MyFieldSvc::SetField(G4LogicalVolume* fLogicWorld){
 	UpdateField(opt);
 }
 
+void MyFieldSvc::AddMap(G4String name, double scale){
+	fType = "fieldMap";
+	G4String dir_name = getenv("FIELDMAPSROOT");
+	if (dir_name[dir_name.size()-1] != '/') dir_name.append("/");
+	name = dir_name + name;
+	fFieldMapFilenames.push_back(name);
+	fFieldMapScalings.push_back(scale);
+}
+
+void MyFieldSvc::Reset(){
+	fType = "none";
+	fFieldMapFilenames.clear();
+	fFieldMapScalings.clear();
+}
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Register this field to 'global' Field Manager and 
@@ -257,7 +272,7 @@ void MyFieldSvc::ReadCard( G4String file_name ){
 	std::ifstream fin_card(file_name);
 	if ( !fin_card ){
 		std::cout<<"MagField card"<<file_name<<" is not available!!!"<<std::endl;
-		G4Exception("MyFieldSvc::SetField()","Run0031",
+		G4Exception("MyFieldSvc::ReadCard()","Run0031",
 				FatalException, "MagField card is not available.");
 	}
 	std::stringstream buf_card;

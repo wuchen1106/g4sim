@@ -32,6 +32,10 @@ class MyFieldSvc
 
 		void ReadCard(G4String);
 
+		void AddMap(G4String,double);
+
+		void Reset();
+
 		void SetField(G4LogicalVolume* fLogicWorld  = 0);
 
 		void SetFieldType( G4String val ){ fType = val; }

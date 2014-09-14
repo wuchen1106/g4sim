@@ -8,6 +8,7 @@
 #include "MyFieldSvcMessenger.hh"
 
 #include "MyFieldSvc.hh"
+#include "MyString2Anything.hh"
 #include "G4UIdirectory.hh"
 #include "G4UIcmdWithAString.hh"
 #include "G4UIcmdWithADoubleAndUnit.hh"
@@ -23,10 +24,19 @@ MyFieldSvcMessenger::MyFieldSvcMessenger(MyFieldSvc* magFieldSvc)
   magDir = new G4UIdirectory("/g4sim/mag/");
   magDir->SetGuidance("magnet field control");
 
+  ResetCmd = new G4UIcmdWithoutParameter("/g4sim/mag/Reset",this);
+  ResetCmd->SetGuidance("Reset field to none.");
+  ResetCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
   ReadCardCmd = new G4UIcmdWithAString("/g4sim/mag/ReadCard",this);
   ReadCardCmd->SetGuidance("Read MagField settings from assigned file.");
   ReadCardCmd->SetParameterName("filename",false);
   ReadCardCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+  AddMapCmd = new G4UIcmdWithAString("/g4sim/mag/AddMap",this);
+  AddMapCmd->SetGuidance("Add a map with scale factor.");
+  AddMapCmd->SetParameterName("filename",false);
+  AddMapCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
   SetFieldCmd = new G4UIcmdWithoutParameter("/g4sim/mag/update",this);
   SetFieldCmd->SetGuidance("SetField.");
@@ -60,6 +70,8 @@ MyFieldSvcMessenger::~MyFieldSvcMessenger()
 	delete magDir;
   delete SetFieldCmd;
   delete ReadCardCmd;
+  delete ResetCmd;
+  delete AddMapCmd;
   delete SetMagIntensityCmd;
   delete SetMagThetaCmd;
   delete SetMagPhiCmd;
@@ -69,6 +81,12 @@ void MyFieldSvcMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
 {
   if( command == SetFieldCmd ) { fMyFieldSvc->SetField(); }
   if( command == ReadCardCmd ) { fMyFieldSvc->ReadCard(newValue); }
+  if( command == ResetCmd ) { fMyFieldSvc->Reset(); }
+  if( command == AddMapCmd ) {
+	  G4String name; G4double val;
+	  MyString2Anything::get_SD(newValue,name,val);
+	  fMyFieldSvc->AddMap(name,val);
+  }
   if( command == SetMagIntensityCmd ) { fMyFieldSvc->SetMagIntensity(SetMagIntensityCmd->GetNewDoubleValue(newValue)); }
   if( command == SetMagThetaCmd ) { fMyFieldSvc->SetMagTheta(SetMagThetaCmd->GetNewDoubleValue(newValue)); }
   if( command == SetMagPhiCmd ) { fMyFieldSvc->SetMagPhi(SetMagPhiCmd->GetNewDoubleValue(newValue)); }
