@@ -17,6 +17,8 @@
 #include "CdcHit.hh"
 #include "MySD.hh"
 
+class TH1D;
+class TFile;
 class G4Step;
 class G4HCofThisEvent;
 class CdcGeometryParameter;
@@ -94,6 +96,8 @@ class CdcSD : public MySD
 		std::vector<double> m_stepL;
 		std::vector<int> m_nPair;
 		std::vector<double> m_driftD;
+		std::vector<double> m_driftDtrue;
+		std::vector<int> m_posflag;
 		std::vector<int>    m_layerID;
 		std::vector<int>    m_cellID;
 		std::vector<int>    m_tid;
@@ -129,6 +133,7 @@ class CdcSD : public MySD
 		double unit_edepDelta;
 		double unit_stepL;
 		double unit_driftD;
+		double unit_driftDtrue;
 		std::string unitName_x;
 		std::string unitName_y;
 		std::string unitName_z;
@@ -155,6 +160,7 @@ class CdcSD : public MySD
 		std::string unitName_edepDelta;
 		std::string unitName_stepL;
 		std::string unitName_driftD;
+		std::string unitName_driftDtrue;
 		//for output setting
 		int cdc_nHits;
 		bool flag_nHits;
@@ -186,6 +192,8 @@ class CdcSD : public MySD
 		bool flag_nPair;
 		bool flag_error;
 		bool flag_driftD;
+		bool flag_driftDtrue;
+		bool flag_posflag;
 		bool flag_layerID;
 		bool flag_cellID;
 		bool flag_tid;
@@ -207,6 +215,9 @@ class CdcSD : public MySD
 		G4double tres;
 		int nTracks;
 		int prevTrackID;
+		// xt
+		TFile * m_xt_file;
+		TH1D* m_xt_hist;
 };
 
 #endif

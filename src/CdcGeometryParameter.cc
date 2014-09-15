@@ -179,7 +179,7 @@ void CdcGeometryParameter::Calculate(){
 		layer_holeDphi[i]=2*pi/layer_HoleNo[i];
 		layer_angle4rotate[i]=layer_SkipHoles[i]*layer_holeDphi[i];
 		layer_angle4stereo[i]=atan(layer_Re[i]*sin(layer_angle4rotate[i]/2)*2/layer_length[i]);
-		layer_SPhi[i]=layer_holeDphi[i]*layer_firstWire[i];
+		layer_SPhi[i]=layer_holeDphi[i]*(layer_firstWire[i]-1);
 		layer_Rc[i]=layer_Re[i]*cos(layer_angle4rotate[i]/2);
 	}
 }

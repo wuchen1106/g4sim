@@ -224,7 +224,7 @@ void CdcGeometrySvc::ConstructVolumes(){
 			centerVec.setPerp(layer_Rc);
 			G4RotationMatrix* rotMatrix=new G4RotationMatrix();
 			rotMatrix->rotateZ(-phi);
-			rotMatrix->rotateX(angle4stereo);
+			rotMatrix->rotateX(-angle4stereo);
 //			if (holeId==0)
 //				std::cout<<ilayer<<": G4PVPlacement("<<(*rotMatrix)<<","<<centerVec/cm<<")"<<std::endl;
 			new G4PVPlacement(rotMatrix,centerVec,log_wire,Name,log_layer,false,0,checkOverlap);

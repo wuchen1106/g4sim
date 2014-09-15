@@ -28,6 +28,8 @@
 
 #include "TVector3.h"
 #include "TRandom.h"
+#include "TH1D.h"
+#include "TFile.h"
 
 #include <iostream>
 
@@ -117,6 +119,8 @@ void CdcSD::Initialize(G4HCofThisEvent* HCE)
 	m_stepL.clear();
 	m_nPair.clear();
 	m_driftD.clear();
+	m_driftDtrue.clear();
+	m_posflag.clear();
 	m_layerID.clear();
 	m_cellID.clear();
 	m_tid.clear();
@@ -157,6 +161,8 @@ void CdcSD::SetBranch(){
 	if( flag_stepL ) myRoot->SetBranch(volName+"_stepL", &m_stepL);
 	if( flag_nPair ) myRoot->SetBranch(volName+"_nPair", &m_nPair);
 	if( flag_driftD ) myRoot->SetBranch(volName+"_driftD", &m_driftD);
+	if( flag_driftDtrue ) myRoot->SetBranch(volName+"_driftDtrue", &m_driftDtrue);
+	if( flag_posflag ) myRoot->SetBranch(volName+"_posflag", &m_posflag);
 	if( flag_layerID ) myRoot->SetBranch(volName+"_layerID", &m_layerID);
 	if( flag_cellID ) myRoot->SetBranch(volName+"_cellID", &m_cellID);
 	if( flag_tid ) myRoot->SetBranch(volName+"_tid", &m_tid);
@@ -234,6 +240,8 @@ void CdcSD::ReadOutputCard(G4String filename){
 			else if( name == "stepL" ) {{flag_stepL = true; buf_card>>unitName_stepL; unit_stepL = MyString2Anything::get_U(unitName_stepL);}}
 			else if( name == "nPair" ) {flag_nPair = true;}
 			else if( name == "driftD" ) {flag_driftD = true; buf_card>>unitName_driftD; unit_driftD = MyString2Anything::get_U(unitName_driftD);}
+			else if( name == "driftDtrue" ) {flag_driftDtrue = true; buf_card>>unitName_driftDtrue; unit_driftDtrue = MyString2Anything::get_U(unitName_driftDtrue);}
+			else if( name == "posflag" ) {flag_posflag = true;}
 			else if( name == "cellID" ) flag_cellID = true;
 			else if( name == "layerID" ) flag_layerID = true;
 			else if( name == "tid" ) flag_tid = true;
@@ -262,6 +270,17 @@ void CdcSD::ReadOutputCard(G4String filename){
 			else if( name == "neutralCut" ) neutralCut = true;
 			else if( name == "maxn" ) buf_card>>maxn;
 			else if( name == "ntracks" ) buf_card>>ntracks;
+			else if( name == "xt" ){
+				G4String filename, histname;
+				buf_card>>filename>>histname;
+				G4String dir_name = getenv("CONFIGUREDATAROOT");
+				if (dir_name[dir_name.size()-1] != '/') dir_name.append("/");
+				std::string TFile_name = dir_name + filename;
+				if (filename[0] == '/')
+					TFile_name = filename;
+				m_xt_file = new TFile(TFile_name.c_str());
+				if (m_xt_file) m_xt_hist = (TH1D*) m_xt_file->Get(histname.c_str());
+			}
 			else{
 				G4double para;
 				std::string unit;
@@ -335,6 +354,8 @@ void CdcSD::ReSet(){
 	flag_stepL = false;
 	flag_nPair = false;
 	flag_driftD = false;
+	flag_driftDtrue = false;
+	flag_posflag = false;
 	flag_cellID = false;
 	flag_layerID = false;
 	flag_tid = true;
@@ -381,6 +402,7 @@ void CdcSD::ReSet(){
 	unitName_edepDelta = "GeV";
 	unitName_stepL = "cm";
 	unitName_driftD = "cm";
+	unitName_driftDtrue = "cm";
 	unit_wx = MyString2Anything::get_U(unitName_wx);
 	unit_wy = MyString2Anything::get_U(unitName_wy);
 	unit_wz = MyString2Anything::get_U(unitName_wz);
@@ -407,6 +429,10 @@ void CdcSD::ReSet(){
 	unit_edepDelta = MyString2Anything::get_U(unitName_edepDelta);
 	unit_stepL = MyString2Anything::get_U(unitName_stepL);
 	unit_driftD = MyString2Anything::get_U(unitName_driftD);
+	unit_driftDtrue = MyString2Anything::get_U(unitName_driftDtrue);
+	// xt
+	if (m_xt_file) m_xt_file->Close(); m_xt_file = 0;
+	if (m_xt_hist) delete m_xt_hist; m_xt_hist = 0;
 }
 
 //-----------------------------------ShowOutCard----------------------------------------------
@@ -442,6 +468,8 @@ void CdcSD::ShowOutCard(){
 	std::cout<<"output stepL?  "<<(flag_stepL?" yes":" no")<<", unit: "<<unitName_stepL<<std::endl;
 	std::cout<<"output nPair?  "<<(flag_nPair?" yes":" no")<<std::endl;
 	std::cout<<"output driftD? "<<(flag_driftD?" yes":" no")<<", unit: "<<unitName_driftD<<std::endl;
+	std::cout<<"output driftDtrue? "<<(flag_driftDtrue?" yes":" no")<<", unit: "<<unitName_driftDtrue<<std::endl;
+	std::cout<<"output posflag? "<<(flag_posflag?" yes":" no")<<std::endl;
 	std::cout<<"output layerID?"<<(flag_layerID?" yes":" no")<<std::endl;
 	std::cout<<"output cellID? "<<(flag_cellID?" yes":" no")<<std::endl;
 	std::cout<<"output tid?    "<<(flag_tid?" yes":" no")<<std::endl;
@@ -511,7 +539,9 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	G4ThreeVector hitPosition = pointIn_pos;
 	G4ThreeVector localHitPosition = prePoint->GetTouchableHandle()->GetHistory()->GetTopTransform().TransformPoint(hitPosition);
 	G4double deltaZ = localHitPosition.z();
+	int posflag = 0;
 	G4double driftD = 0;
+	G4double driftDtrue = 0;
 	G4double driftV = 0.025*mm/ns;
 	G4double driftT;
 	G4double signalT;
@@ -533,8 +563,8 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	if(phi<0) phi = 2*pi+phi; // (-pi,pi) => (0,2*pi)
 	G4double Length = m_GeometryParameter->get_layer_length(senseLayerId);
 	G4double LengthU = m_GeometryParameter->get_layer_length(senseLayerId+1);
-	G4double deltaphi = m_GeometryParameter->get_layer_angle4rotate(senseLayerId)*(0.5+deltaZ/Length)+m_GeometryParameter->get_layer_SPhi(senseLayerId);
-	G4double deltaphiU = m_GeometryParameter->get_layer_angle4rotate(senseLayerId+1)*(0.5+deltaZ/LengthU)+m_GeometryParameter->get_layer_SPhi(senseLayerId+1);
+	G4double deltaphi = m_GeometryParameter->get_layer_angle4rotate(senseLayerId)*(0.5-deltaZ/Length)+m_GeometryParameter->get_layer_SPhi(senseLayerId);
+	G4double deltaphiU = m_GeometryParameter->get_layer_angle4rotate(senseLayerId+1)*(0.5-deltaZ/LengthU)+m_GeometryParameter->get_layer_SPhi(senseLayerId+1);
 	// which cell?
 	int HoleNo = m_GeometryParameter->get_layer_HoleNo(senseLayerId);
 	double holeDphi = m_GeometryParameter->get_layer_holeDphi(senseLayerId);
@@ -551,6 +581,10 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	double tanalphaU = tan(m_GeometryParameter->get_layer_angle4rotate(senseLayerId+1)/2);
 	Rc = sqrt(Rc*Rc+deltaZ*deltaZ*Rc*Rc*tanalpha*tanalpha/Length/Length); // r at hit
 	RcU = sqrt(RcU*RcU+deltaZ*deltaZ*RcU*RcU*tanalphaU*tanalphaU/LengthU/LengthU); // r at hit
+	if (holeId%2==0) // right part
+		posflag = 1;
+	else
+		posflag = -1;
 	if (m_GeometryParameter->get_layer_type(holeLayerId)==1){ // outer part of a cell
 		int holeIdU = (phi - deltaphiU)/holeDphiU;
 		if (holeId%2==0){ // right part
@@ -605,7 +639,10 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 
 	G4double vc = 299792458*m/s; // m/s
 	G4double wiredelay = (Length/2-deltaZ)/vc;
-	driftT = driftD/driftV;
+	if (m_xt_hist)
+		driftT = m_xt_hist->GetBinContent(m_xt_hist->FindBin(driftD/cm));
+	else
+		driftT = driftD/driftV;
 	signalT = driftT+pointIn_time+wiredelay;
 	//*************************determine the action****************************
 	int action = 0; // 0: pass; 1: new hit; 2: update hit;
@@ -706,6 +743,8 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 		if(flag_stepL) m_stepL.push_back(stepL/unit_stepL);
 		if(flag_nPair) m_nPair.push_back(1);
 		if(flag_driftD) m_driftD.push_back(driftD/unit_driftD);
+		if(flag_driftDtrue) m_driftDtrue.push_back(driftD/unit_driftDtrue);
+		if(flag_posflag) m_posflag.push_back(posflag);
 		if(flag_layerID) m_layerID.push_back(layerId);
 		if(flag_cellID) m_cellID.push_back(cellId);
 		if(flag_tid) m_tid.push_back(trackID);
@@ -804,6 +843,7 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 		if(flag_edep) m_edep[pointer] += (edepIoni)/unit_edep;
 		if(flag_edepAll) m_edepAll[pointer] += (edep)/unit_edepAll;
 		if(flag_stepL) m_stepL[pointer] += stepL/unit_stepL;
+		if(flag_driftDtrue) if(driftD<m_driftDtrue[pointer]*unit_driftDtrue) m_driftDtrue[pointer] = driftD/unit_driftDtrue;
 		if (isPrimaryIon){
 			if (signalT<m_tstart[pointer]*unit_tstart) m_tstart[pointer] = signalT/unit_tstart;
 			else if (signalT>m_tstop[pointer]*unit_tstop) m_tstop[pointer] = signalT/unit_tstop;
