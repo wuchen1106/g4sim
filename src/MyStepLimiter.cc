@@ -56,6 +56,7 @@ void MyStepLimiter::ConstructProcess()
 //				particleName == "proton"
 //		   ) {
 		if (particleName != "gamma"
+			&& particleName != "neutron"
 			&& particleName != "geantino"
 			&& particleName != "chargedgeantino"
 			&& particleName != "nu_e"
