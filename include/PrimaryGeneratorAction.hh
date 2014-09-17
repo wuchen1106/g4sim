@@ -60,6 +60,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
 		void set_root_treename(G4String val) { root_treename= val; }
 		void set_root_index(int val){root_index=val;}
 
+		void set_defaultPosition(double ix, double iy, double iz){x=ix;y=iy;z=iz;}
 
 		void SetUniformDirection();
 		void SetRandomDirection();

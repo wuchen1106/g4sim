@@ -112,6 +112,15 @@ class MyString2Anything
 			m_dou *= G4UnitDefinition::GetValueOf(m_unit);
 		}
 
+		static void get_DDDU( G4String cont, G4double& m_dou1, G4double& m_dou2, G4double& m_dou3 ){
+			G4String m_unit;
+			std::stringstream buf(cont);
+			buf>>m_dou1>>m_dou2>>m_dou3>>m_unit;
+			m_dou1 *= G4UnitDefinition::GetValueOf(m_unit);
+			m_dou2 *= G4UnitDefinition::GetValueOf(m_unit);
+			m_dou3 *= G4UnitDefinition::GetValueOf(m_unit);
+		}
+
 		static double get_U( G4String cont ){
 			double val = G4UnitDefinition::GetValueOf(cont);
 			if (!val){

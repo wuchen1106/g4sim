@@ -563,8 +563,8 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	if(phi<0) phi = 2*pi+phi; // (-pi,pi) => (0,2*pi)
 	G4double Length = m_GeometryParameter->get_layer_length(senseLayerId);
 	G4double LengthU = m_GeometryParameter->get_layer_length(senseLayerId+1);
-	G4double deltaphi = m_GeometryParameter->get_layer_angle4rotate(senseLayerId)*(0.5-deltaZ/Length)+m_GeometryParameter->get_layer_SPhi(senseLayerId);
-	G4double deltaphiU = m_GeometryParameter->get_layer_angle4rotate(senseLayerId+1)*(0.5-deltaZ/LengthU)+m_GeometryParameter->get_layer_SPhi(senseLayerId+1);
+	G4double deltaphi = m_GeometryParameter->get_layer_angle4rotate(senseLayerId)*(0.5+deltaZ/Length)+m_GeometryParameter->get_layer_SPhi(senseLayerId);
+	G4double deltaphiU = m_GeometryParameter->get_layer_angle4rotate(senseLayerId+1)*(0.5+deltaZ/LengthU)+m_GeometryParameter->get_layer_SPhi(senseLayerId+1);
 	// which cell?
 	int HoleNo = m_GeometryParameter->get_layer_HoleNo(senseLayerId);
 	double holeDphi = m_GeometryParameter->get_layer_holeDphi(senseLayerId);

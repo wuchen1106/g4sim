@@ -128,7 +128,8 @@ void CdcGeometrySvc::ConstructVolumes(){
 		startAngle=0.*deg;
 		spanAngle=360.*deg;
 		innerR = 0.;
-		halfzlen = m_GeometryParameter->get_layer_length(ilayer)/2/cos(angle4stereo) - FieldWireR;
+		double layer_length = m_GeometryParameter->get_layer_length(ilayer);
+		halfzlen = layer_length/2/cos(angle4stereo) - FieldWireR;
 		if ( get_VerboseLevel() >=10 ){
 			std::cout<<"sol_Wire: innerR = "<<innerR/mm
 				<<"mm, halfzlen = "<<halfzlen/mm
@@ -183,7 +184,7 @@ void CdcGeometrySvc::ConstructVolumes(){
 		else{
 			outerStereo = fabs(m_GeometryParameter->get_layer_angle4stereo(ilayer+1));
 		}
-		halfzlen = m_GeometryParameter->get_layer_length(ilayer)/2;
+		halfzlen = layer_length/2;
 //		std::cout<<ilayer<<": G4Hype("<<innerR/cm<<","<<outR/cm<<","<<innerStereo<<","<<outerStereo<<","<<halfzlen/cm<<")"<<std::endl;
 		G4Hype * sol_layer = new G4Hype("CdcLayer",innerR,outR,innerStereo,outerStereo,halfzlen);
 		G4LogicalVolume * log_layer = new G4LogicalVolume(sol_layer,LayerMat,"CdcLayer",0,0,0);
@@ -206,6 +207,7 @@ void CdcGeometrySvc::ConstructVolumes(){
 		int HoleNo = m_GeometryParameter->get_layer_HoleNo(ilayer);
 		G4ThreeVector centerVec(1.,1.,1.);
 		double layer_Rc = m_GeometryParameter->get_layer_Rc(ilayer);
+		double layer_Re = m_GeometryParameter->get_layer_Re(ilayer);
 		for ( int holeId = 0; holeId < HoleNo; holeId++ ){
 			//place wire
 			G4double SPhi = m_GeometryParameter->get_layer_SPhi(ilayer);
@@ -225,6 +227,15 @@ void CdcGeometrySvc::ConstructVolumes(){
 			G4RotationMatrix* rotMatrix=new G4RotationMatrix();
 			rotMatrix->rotateZ(-phi);
 			rotMatrix->rotateX(-angle4stereo);
+			G4ThreeVector up(1.,1.,1.);
+			up.setZ(-layer_length/2);
+			up.setPhi(SPhi+holeId*holeDphi);
+			up.setPerp(layer_Re);
+			G4ThreeVector down(1.,1.,1.);
+			down.setZ(layer_length/2);
+			down.setPhi(SPhi+holeId*holeDphi + angle4rotate);
+			down.setPerp(layer_Re);
+			if (layer_type==1) std::cout<<"wire["<<m_GeometryParameter->get_layer_ID(ilayer)<<","<<holeId/2<<"] @ up:"<<up/cm<<", down:"<<down/cm<<std::endl;
 //			if (holeId==0)
 //				std::cout<<ilayer<<": G4PVPlacement("<<(*rotMatrix)<<","<<centerVec/cm<<")"<<std::endl;
 			new G4PVPlacement(rotMatrix,centerVec,log_wire,Name,log_layer,false,0,checkOverlap);

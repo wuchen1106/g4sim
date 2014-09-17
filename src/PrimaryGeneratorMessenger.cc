@@ -95,6 +95,11 @@ PrimaryGeneratorMessenger::PrimaryGeneratorMessenger(
   root_filename_cmd->SetParameterName("root_filename",false);
   root_filename_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
+  root_filename_cmd = new G4UIcmdWithAString("/g4sim/gun/root_filename",this);
+  root_filename_cmd->SetGuidance("root_filename");
+  root_filename_cmd->SetParameterName("root_filename",false);
+  root_filename_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
   root_index_cmd = new G4UIcmdWithAnInteger("/g4sim/gun/root_index",this);
   root_index_cmd->SetGuidance("root_index");
   root_index_cmd->SetParameterName("root_index",false);
