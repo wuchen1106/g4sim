@@ -8,6 +8,8 @@
 #include "PrimaryGeneratorMessenger.hh"
 
 #include "PrimaryGeneratorAction.hh"
+#include "MyString2Anything.hh"
+
 #include "G4UIdirectory.hh"
 #include "G4UIcmdWithAString.hh"
 #include "G4UIcmdWithADouble.hh"
@@ -95,10 +97,10 @@ PrimaryGeneratorMessenger::PrimaryGeneratorMessenger(
   root_filename_cmd->SetParameterName("root_filename",false);
   root_filename_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-  root_filename_cmd = new G4UIcmdWithAString("/g4sim/gun/root_filename",this);
-  root_filename_cmd->SetGuidance("root_filename");
-  root_filename_cmd->SetParameterName("root_filename",false);
-  root_filename_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+  defaultPosition_cmd = new G4UIcmdWithAString("/g4sim/gun/defaultPosition",this);
+  defaultPosition_cmd->SetGuidance("set default position: double double double string(unit)");
+  defaultPosition_cmd->SetParameterName("defaultPosition",false);
+  defaultPosition_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
   root_index_cmd = new G4UIcmdWithAnInteger("/g4sim/gun/root_index",this);
   root_index_cmd->SetGuidance("root_index");
@@ -135,6 +137,7 @@ PrimaryGeneratorMessenger::~PrimaryGeneratorMessenger()
   delete DM_hist_filename_cmd;
   delete DM_hist_histname_cmd;
   delete root_filename_cmd;
+  delete defaultPosition_cmd;
   delete root_index_cmd;
   delete histo_build_cmd;
   delete root_build_cmd;
@@ -150,6 +153,11 @@ void PrimaryGeneratorMessenger::SetNewValue(
   if( command == DirectionMode_cmd )    { Action->set_DirectionMode(newValue);}
   if( command == PositionMode_cmd )    { Action->set_PositionMode(newValue);}
   if( command == root_filename_cmd )    { Action->set_root_filename(newValue);}
+  if( command == defaultPosition_cmd )    {
+  	  double x,y,z;
+	  MyString2Anything::get_DDDU(newValue,x,y,z);
+  	  Action->set_defaultPosition(x,y,z);
+  }
   if( command == root_index_cmd )    { Action->set_root_index(root_index_cmd->GetNewIntValue(newValue));}
   if( command == EM_hist_filename_cmd )    { Action->set_EM_hist_filename(newValue);}
   if( command == EM_hist_histname_cmd )    { Action->set_EM_hist_histname(newValue);}
