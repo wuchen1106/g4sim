@@ -42,27 +42,39 @@ PrimaryGeneratorMessenger::PrimaryGeneratorMessenger(
    
   EnergyMode_cmd = new G4UIcmdWithAString("/g4sim/gun/EnergyMode",this);
   EnergyMode_cmd->SetGuidance("Choose energy model:");
-  EnergyMode_cmd->SetGuidance("  Choice : none(default), histo");
+  EnergyMode_cmd->SetGuidance("  Choice : none(default), histo, root, gRand, uRand");
   EnergyMode_cmd->SetParameterName("choice",true);
   EnergyMode_cmd->SetDefaultValue("none");
-  EnergyMode_cmd->SetCandidates("none histo txt root");
+  EnergyMode_cmd->SetCandidates("none histo root gRand uRand");
   EnergyMode_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
    
   DirectionMode_cmd = new G4UIcmdWithAString("/g4sim/gun/DirectionMode",this);
   DirectionMode_cmd->SetGuidance("Choose direction model:");
-  DirectionMode_cmd->SetGuidance("  Choice : none(default), uniform");
+  DirectionMode_cmd->SetGuidance("  Choice : none(default), uniform, histo");
   DirectionMode_cmd->SetParameterName("choice",true);
   DirectionMode_cmd->SetDefaultValue("none");
-  DirectionMode_cmd->SetCandidates("none uniform");
+  DirectionMode_cmd->SetCandidates("none uniform histo");
   DirectionMode_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
    
   PositionMode_cmd = new G4UIcmdWithAString("/g4sim/gun/PositionMode",this);
   PositionMode_cmd->SetGuidance("Choose position model:");
-  PositionMode_cmd->SetGuidance("  Choice : none(default), uniform");
+  PositionMode_cmd->SetGuidance("  Choice : none(default), uniform root gRand sRand bRand target source");
   PositionMode_cmd->SetParameterName("choice",true);
   PositionMode_cmd->SetDefaultValue("none");
-  PositionMode_cmd->SetCandidates("none uniform");
+  PositionMode_cmd->SetCandidates("none uniform root gRand sRand bRand target source");
   PositionMode_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+   
+  ParticleName_cmd = new G4UIcmdWithAString("/g4sim/gun/ParticleName",this);
+  ParticleName_cmd->SetGuidance("Choose Particle Name:");
+  ParticleName_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+   
+  pidMode_cmd = new G4UIcmdWithAString("/g4sim/gun/pidMode",this);
+  pidMode_cmd->SetGuidance("Choose pid model:");
+  pidMode_cmd->SetGuidance("  Choice : none(default), root");
+  pidMode_cmd->SetParameterName("choice",true);
+  pidMode_cmd->SetDefaultValue("none");
+  pidMode_cmd->SetCandidates("none root");
+  pidMode_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
   EM_hist_filename_cmd = new G4UIcmdWithAString("/g4sim/gun/EM_hist_filename",this);
   EM_hist_filename_cmd->SetGuidance("Choose name of input file for histogram to generate momentum amplitude:");
@@ -132,6 +144,8 @@ PrimaryGeneratorMessenger::~PrimaryGeneratorMessenger()
   delete EnergyMode_cmd;
   delete DirectionMode_cmd;
   delete PositionMode_cmd;
+  delete ParticleName_cmd;
+  delete pidMode_cmd;
   delete EM_hist_filename_cmd;
   delete EM_hist_histname_cmd;
   delete DM_hist_filename_cmd;
@@ -152,6 +166,8 @@ void PrimaryGeneratorMessenger::SetNewValue(
   if( command == EnergyMode_cmd )    { Action->set_EnergyMode(newValue);}
   if( command == DirectionMode_cmd )    { Action->set_DirectionMode(newValue);}
   if( command == PositionMode_cmd )    { Action->set_PositionMode(newValue);}
+  if( command == ParticleName_cmd )    { Action->set_ParticleName(newValue);}
+  if( command == pidMode_cmd )    { Action->set_pidMode(newValue);}
   if( command == root_filename_cmd )    { Action->set_root_filename(newValue);}
   if( command == defaultPosition_cmd )    {
   	  double x,y,z;
