@@ -161,7 +161,7 @@ void MaterialSvc::AddMaterial( G4String content ){
 					FatalException, "total fraction is zero.");
 		}
 		if ( sum_frac != 1 ){
-			std::cout<<"the total fraction for "<<name<<" is not 1!!!"<<std::endl;
+			std::cout<<"the total fraction for "<<name<<" is "<<sum_frac<<"!!!"<<std::endl;
 			std::cout<<"MaterialSvc will normalize it to 1!"<<std::endl;
 			for ( int i = 0; i < ncomponents; i++ ){
 				comFrac[i] = comFrac[i]/sum_frac;
@@ -225,7 +225,7 @@ void MaterialSvc::AddMaterial( G4String content ){
 					FatalException, "total fraction is zero.");
 		}
 		if ( sum_frac != 1 ){
-			std::cout<<"the total fraction for "<<name<<" is not 1!!!"<<std::endl;
+			std::cout<<"the total fraction for "<<name<<" is "<<sum_frac<<"!!!"<<std::endl;
 			std::cout<<"MaterialSvc will normalize it to 1!"<<std::endl;
 			for ( int i = 0; i < ncomponents; i++ ){
 				comFrac[i] = comFrac[i]/sum_frac;
@@ -254,7 +254,7 @@ void MaterialSvc::AddMaterial( G4String content ){
 					FatalException, "total fraction is zero.");
 		}
 		if ( sum_frac != 1 ){
-			std::cout<<"the total fraction for "<<name<<" is not 1!!!"<<std::endl;
+			std::cout<<"the total fraction for "<<name<<" is "<<sum_frac<<"!!!"<<std::endl;
 			std::cout<<"MaterialSvc will normalize it to 1!"<<std::endl;
 			for ( int i = 0; i < ncomponents; i++ ){
 				comFrac[i] = comFrac[i]/sum_frac;
@@ -292,7 +292,7 @@ void MaterialSvc::AddMaterial( G4String content ){
 					FatalException, "total fraction is zero.");
 		}
 		if ( sum_frac != 1 ){
-			std::cout<<"the total fraction for "<<name<<" is not 1!!!"<<std::endl;
+			std::cout<<"the total fraction for "<<name<<" is "<<sum_frac<<"!!!"<<std::endl;
 			std::cout<<"MaterialSvc will normalize it to 1!"<<std::endl;
 			for ( int i = 0; i < ncomponents; i++ ){
 				comFrac[i] = comFrac[i]/sum_frac;
