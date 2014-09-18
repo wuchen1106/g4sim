@@ -74,6 +74,16 @@ class CdcGeometryParameter : public SimpleGeometryParameter
 			if( check_layerId(layerId) ) return layer_Rc[layerId];
 			else return 0;
 		}
+		G4double get_layer_Rz(G4int layerId, G4double deltaZ) { // radius on z plane
+			double Rc = layer_Rc[layerId];
+			double Rc2 = Rc*Rc;
+			double Length = layer_length[layerId];
+			double tanalpha = tan(layer_angle4rotate[layerId]/2);
+			if( check_layerId(layerId) ){
+				return sqrt(Rc2+deltaZ*deltaZ*Rc2*tanalpha*tanalpha/Length/Length);
+			}
+			else return 0;
+		}
 		G4int get_layer_firstWire(G4int layerId) { // in which hole to place the first field wire
 			if( check_layerId(layerId) ) return layer_firstWire[layerId];
 			else return 0;
@@ -86,11 +96,17 @@ class CdcGeometryParameter : public SimpleGeometryParameter
 			if( check_layerId(layerId) ) return layer_SPhi[layerId];
 			else return 0;
 		}
+		G4double get_layer_phi0z(G4int layerId, G4double deltaZ) { // phi position of the first field wire at z plane
+			if( check_layerId(layerId) ){
+				return layer_angle4rotate[layerId]*(0.5-deltaZ/layer_length[layerId])+layer_SPhi[layerId];
+			}
+			else return 0;
+		}
 		G4int get_layer_type(G4int layerId) {
 			if( check_layerId(layerId) ) return layer_type[layerId];
 			else return 0;
 		}
-		G4int get_layer_SkipHoles(G4int layerId) {
+		G4double get_layer_SkipHoles(G4int layerId) {
 			if( check_layerId(layerId) ) return layer_SkipHoles[layerId];
 			else return 0;
 		}
@@ -175,7 +191,7 @@ class CdcGeometryParameter : public SimpleGeometryParameter
 		std::vector<G4int> layer_firstWire;
 		std::vector<G4int> layer_ID;
 		std::vector<G4double> layer_SPhi;
-		std::vector<G4int> layer_SkipHoles;
+		std::vector<G4double> layer_SkipHoles;
 		std::vector<G4double> layer_angle4rotate;
 		std::vector<G4double> layer_angle4stereo;
 		std::vector<G4int> layer_HoleNo;

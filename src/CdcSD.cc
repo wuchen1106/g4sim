@@ -562,31 +562,26 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	G4double phi = localHitPosition.phi();
 	if(phi<0) phi = 2*pi+phi; // (-pi,pi) => (0,2*pi)
 	G4double Length = m_GeometryParameter->get_layer_length(senseLayerId);
-	G4double LengthU = m_GeometryParameter->get_layer_length(senseLayerId+1);
-	G4double deltaphi = m_GeometryParameter->get_layer_angle4rotate(senseLayerId)*(0.5+deltaZ/Length)+m_GeometryParameter->get_layer_SPhi(senseLayerId);
-	G4double deltaphiU = m_GeometryParameter->get_layer_angle4rotate(senseLayerId+1)*(0.5+deltaZ/LengthU)+m_GeometryParameter->get_layer_SPhi(senseLayerId+1);
+	G4double phi0z = m_GeometryParameter->get_layer_phi0z(senseLayerId,deltaZ);
+	G4double phi0zU = m_GeometryParameter->get_layer_phi0z(senseLayerId+1,deltaZ);
 	// which cell?
 	int HoleNo = m_GeometryParameter->get_layer_HoleNo(senseLayerId);
 	double holeDphi = m_GeometryParameter->get_layer_holeDphi(senseLayerId);
 	double holeDphiU = m_GeometryParameter->get_layer_holeDphi(senseLayerId+1);
-	holeId = (phi-deltaphi)/holeDphi;
-//	std::cout<<"holeId = "<<(phi-deltaphi)/pi<<"/"<<holeDphi/pi<<" = "<<holeId<<std::endl;
+	holeId = (phi-phi0z)/holeDphi;
+//	std::cout<<"holeId = "<<(phi-phi0z)/pi<<"/"<<holeDphi/pi<<" = "<<holeId<<std::endl;
 //	std::cout<<"HoleNo = "<<HoleNo<<std::endl;
 	if (holeId<0) holeId+=HoleNo;
 	else if (holeId>=HoleNo) holeId-=HoleNo;
 	// how about corner effect?
-	double Rc = m_GeometryParameter->get_layer_Rc(senseLayerId);
-	double RcU = m_GeometryParameter->get_layer_Rc(senseLayerId+1);
-	double tanalpha = tan(m_GeometryParameter->get_layer_angle4rotate(senseLayerId)/2);
-	double tanalphaU = tan(m_GeometryParameter->get_layer_angle4rotate(senseLayerId+1)/2);
-	Rc = sqrt(Rc*Rc+deltaZ*deltaZ*Rc*Rc*tanalpha*tanalpha/Length/Length); // r at hit
-	RcU = sqrt(RcU*RcU+deltaZ*deltaZ*RcU*RcU*tanalphaU*tanalphaU/LengthU/LengthU); // r at hit
+	double Rz = m_GeometryParameter->get_layer_Rz(senseLayerId,deltaZ);
+	double RzU = m_GeometryParameter->get_layer_Rz(senseLayerId+1,deltaZ);
 	if (holeId%2==0) // right part
 		posflag = 1;
 	else
 		posflag = -1;
 	if (m_GeometryParameter->get_layer_type(holeLayerId)==1){ // outer part of a cell
-		int holeIdU = (phi - deltaphiU)/holeDphiU;
+		int holeIdU = (phi - phi0zU)/holeDphiU;
 		if (holeId%2==0){ // right part
 			//   o u1 o u0
 			//         .
@@ -594,11 +589,11 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 			//
 			//     o    o
 			holeIdU++;
-			double phi_u0 = holeIdU*holeDphiU+deltaphiU;
-			double phi_m0 = holeId*holeDphi+deltaphi;
+			double phi_u0 = holeIdU*holeDphiU+phi0zU;
+			double phi_m0 = holeId*holeDphi+phi0z;
 			if (phi_u0<0.5*holeDphi+phi_m0){
-				double delta_r = localHitPosition.perp() - Rc;
-				double delta_r2 = RcU - Rc;
+				double delta_r = localHitPosition.perp() - Rz;
+				double delta_r2 = RzU - Rz;
 				double delta_phi = phi - phi_m0;
 				double delta_phi2 = phi_u0 - phi_m0;
 				if (delta_r*delta_phi2>delta_r2*delta_phi){
@@ -612,11 +607,11 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 			//     o m0 x m1
 			//
 			//     o    o
-			double phi_u0 = holeIdU*m_GeometryParameter->get_layer_holeDphi(senseLayerId+1)+deltaphiU;
-			double phi_m0 = (holeId+1)*holeDphi+deltaphi;
+			double phi_u0 = holeIdU*m_GeometryParameter->get_layer_holeDphi(senseLayerId+1)+phi0zU;
+			double phi_m0 = (holeId+1)*holeDphi+phi0z;
 			if (phi_u0>-0.5*holeDphi+phi_m0){
-				double delta_r = localHitPosition.perp() - Rc;
-				double delta_r2 = RcU - Rc;
+				double delta_r = localHitPosition.perp() - Rz;
+				double delta_r2 = RzU - Rz;
 				double delta_phi =  - phi + phi_m0;
 				double delta_phi2 =  - phi_u0 + phi_m0;
 				if (delta_r*delta_phi2>delta_r2*delta_phi){
@@ -632,8 +627,8 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	// position of sense wire at that z plane
 	G4ThreeVector localWirePositionAtHitPlane = G4ThreeVector(1,1,1);
 	localWirePositionAtHitPlane.setZ(deltaZ);
-	localWirePositionAtHitPlane.setPerp(Rc);
-	localWirePositionAtHitPlane.setPhi((holeId/2*2+1)*holeDphi+deltaphi);
+	localWirePositionAtHitPlane.setPerp(Rz);
+	localWirePositionAtHitPlane.setPhi((holeId/2*2+1)*holeDphi+phi0z);
 	driftD = (localHitPosition-localWirePositionAtHitPlane).perp();
 //	std::cout<<"driftD = "<<localHitPosition/cm<<"-"<<localWirePositionAtHitPlane/cm<<"="<<driftD/cm<<std::endl;
 

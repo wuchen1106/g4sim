@@ -102,8 +102,8 @@ int CdcGeometryParameter::GetValue(G4String s_card){
 	buf_card<<s_card;
 	std::string name;
 	buf_card>>name;
-	G4int tlayer_type, tlayer_ID, tlayer_SkipHoles, tlayer_firstWire, tlayer_HoleNo;
-	G4double tlayer_Re, tlayer_length;
+	G4int tlayer_type, tlayer_ID, tlayer_firstWire, tlayer_HoleNo;
+	G4double tlayer_Re, tlayer_SkipHoles, tlayer_length;
 	std::string dump;
 	if( name == "MotherLogicalVolume:" ) buf_card>>MotherLogicalVolume;
 	else if( name == "LayerMaterial:" ) buf_card>>LayerMaterial;
@@ -179,7 +179,7 @@ void CdcGeometryParameter::Calculate(){
 		layer_holeDphi[i]=2*pi/layer_HoleNo[i];
 		layer_angle4rotate[i]=layer_SkipHoles[i]*layer_holeDphi[i];
 		layer_angle4stereo[i]=atan(layer_Re[i]*sin(layer_angle4rotate[i]/2)*2/layer_length[i]);
-		layer_SPhi[i]=layer_holeDphi[i]*layer_firstWire[i];
+		layer_SPhi[i]=-layer_holeDphi[i]*layer_firstWire[i];
 		layer_Rc[i]=layer_Re[i]*cos(layer_angle4rotate[i]/2);
 	}
 }

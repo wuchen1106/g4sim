@@ -208,10 +208,11 @@ void CdcGeometrySvc::ConstructVolumes(){
 		G4ThreeVector centerVec(1.,1.,1.);
 		double layer_Rc = m_GeometryParameter->get_layer_Rc(ilayer);
 		double layer_Re = m_GeometryParameter->get_layer_Re(ilayer);
+//		printf("%d: %lf, %lf, %lf; %lf\n",ilayer,m_GeometryParameter->get_layer_phi0z(ilayer,-layer_length/2),m_GeometryParameter->get_layer_phi0z(ilayer,0),m_GeometryParameter->get_layer_phi0z(ilayer,layer_length/2),m_GeometryParameter->get_layer_SPhi(ilayer));
 		for ( int holeId = 0; holeId < HoleNo; holeId++ ){
 			//place wire
-			G4double SPhi = m_GeometryParameter->get_layer_SPhi(ilayer);
-			G4double phi = SPhi + holeId*holeDphi + angle4rotate/2;
+			G4double phi0m = m_GeometryParameter->get_layer_phi0z(ilayer,0);
+			G4double phiim = phi0m + holeId*holeDphi;
 			G4LogicalVolume* log_wire;
 			if ( (layer_type == 1 || layer_type == 2) && holeId%2 == 1 ){
 				log_wire = log_SignalWire;
@@ -221,25 +222,22 @@ void CdcGeometrySvc::ConstructVolumes(){
 				log_wire = log_FieldWire;
 				Name = "CdcFieldWire";
 			}
-			centerVec.setTheta(pi/2);
-			centerVec.setPhi(phi);
+			centerVec.setZ(0);
+			centerVec.setPhi(phiim);
 			centerVec.setPerp(layer_Rc);
 			G4RotationMatrix* rotMatrix=new G4RotationMatrix();
-			rotMatrix->rotateZ(-phi);
+			rotMatrix->rotateZ(-phiim);
 			rotMatrix->rotateX(-angle4stereo);
 			G4ThreeVector up(1.,1.,1.);
-			up.setZ(-layer_length/2);
-			up.setPhi(SPhi+holeId*holeDphi);
-			up.setPerp(layer_Re);
-			G4ThreeVector down(1.,1.,1.);
-			down.setZ(layer_length/2);
-			down.setPhi(SPhi+holeId*holeDphi + angle4rotate);
-			down.setPerp(layer_Re);
-			if (layer_type==1) std::cout<<"wire["<<m_GeometryParameter->get_layer_ID(ilayer)<<","<<holeId/2<<"] @ up:"<<up/cm<<", down:"<<down/cm<<std::endl;
-//			if (holeId==0)
-//				std::cout<<ilayer<<": G4PVPlacement("<<(*rotMatrix)<<","<<centerVec/cm<<")"<<std::endl;
+//			up.setZ(-layer_length/2);
+//			up.setPhi(m_GeometryParameter->get_layer_phi0z(ilayer,up.z())+holeId*holeDphi);
+//			up.setPerp(layer_Re);
+//			G4ThreeVector down(1.,1.,1.);
+//			down.setZ(layer_length/2);
+//			down.setPhi(m_GeometryParameter->get_layer_phi0z(ilayer,down.z())+holeId*holeDphi);
+//			down.setPerp(layer_Re);
+//			if (layer_type==1&&holeId%2==1) std::cout<<"wire["<<m_GeometryParameter->get_layer_ID(ilayer)<<","<<holeId/2<<"] @ up:"<<up/cm<<", down:"<<down/cm<<std::endl;
 			new G4PVPlacement(rotMatrix,centerVec,log_wire,Name,log_layer,false,0,checkOverlap);
-//			new G4PVPlacement(0,centerVec,log_wire,Name,log_layer,false,0,checkOverlap);
 		}
 
 		//====>Place layer
