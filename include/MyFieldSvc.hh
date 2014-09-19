@@ -32,7 +32,7 @@ class MyFieldSvc
 
 		void ReadCard(G4String);
 
-		void AddMap(G4String,double);
+		void AddMap(G4String,double,double=0,double=0,double=0);
 
 		void Reset();
 
@@ -84,6 +84,9 @@ class MyFieldSvc
 
 		std::vector<G4String>          fFieldMapFilenames;        // input filenames for fieldmaps
 		std::vector<G4double>          fFieldMapScalings;   // multiples the fields in each file by this factor
+		std::vector<G4double>          fFieldMapX0;   // 
+		std::vector<G4double>          fFieldMapY0;   // 
+		std::vector<G4double>          fFieldMapZ0;   // 
 		std::vector<MyFieldMap*>       fFieldMaps;                // field map objects. Pointer is barely used as fieldmaps are defined
 };
 

@@ -14,7 +14,7 @@ class MyFieldMap : public MyElementField {
     public:
         //Constructor
         MyFieldMap(G4String fieldMapFile, G4double current, G4double gradient,
-            G4double timeOffset, G4LogicalVolume* fieldVolume);
+            G4double timeOffset, G4LogicalVolume* fieldVolume, G4double=0,G4double=0,G4double=0);
 
         //Destructor
         ~MyFieldMap();

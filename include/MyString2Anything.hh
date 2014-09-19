@@ -18,6 +18,11 @@ class MyString2Anything
 			buf>>m_str>>m_dou;
 		}
 
+		static void get_SDDDD( G4String cont, G4String& m_str, G4double& m_dou1, G4double& m_dou2, G4double& m_dou3, G4double& m_dou4){
+			std::stringstream buf(cont);
+			buf>>m_str>>m_dou1>>m_dou2>>m_dou3>>m_dou4;
+		}
+
 		static void get_SDUI( G4String cont, G4String& m_str, G4double& m_dou, G4int& m_int){
 			G4String m_unit;
 			std::stringstream buf(cont);

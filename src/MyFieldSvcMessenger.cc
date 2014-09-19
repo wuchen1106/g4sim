@@ -83,9 +83,9 @@ void MyFieldSvcMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
   if( command == ReadCardCmd ) { fMyFieldSvc->ReadCard(newValue); }
   if( command == ResetCmd ) { fMyFieldSvc->Reset(); }
   if( command == AddMapCmd ) {
-	  G4String name; G4double val;
-	  MyString2Anything::get_SD(newValue,name,val);
-	  fMyFieldSvc->AddMap(name,val);
+	  G4String name; G4double val, x, y, z;
+	  MyString2Anything::get_SDDDD(newValue,name,val,x,y,z);
+	  fMyFieldSvc->AddMap(name,val,x,y,z);
   }
   if( command == SetMagIntensityCmd ) { fMyFieldSvc->SetMagIntensity(SetMagIntensityCmd->GetNewDoubleValue(newValue)); }
   if( command == SetMagThetaCmd ) { fMyFieldSvc->SetMagTheta(SetMagThetaCmd->GetNewDoubleValue(newValue)); }

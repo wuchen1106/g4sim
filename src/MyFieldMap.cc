@@ -15,13 +15,14 @@
 #include "MyFieldMap.hh"
 
 MyFieldMap::MyFieldMap(G4String mapFileName, G4double current,
-G4double gradient, G4double timeOffset, G4LogicalVolume* fieldVolume)
+G4double gradient, G4double timeOffset, G4LogicalVolume* fieldVolume, G4double x, G4double y, G4double z)
 : MyElementField(G4ThreeVector(0,0,0),fieldVolume) {
     // This constructor must be called after creating the logical
     // field volume and before defining any detectors in the field
     // volume.
 
     fMap = new MyBLFieldMap();
+    fMap->SetOrigin(x,y,z);
     if (mapFileName.substr(mapFileName.size()-5,5)==".root")
 		fMap->readFileROOT(mapFileName);
     else

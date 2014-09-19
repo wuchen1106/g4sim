@@ -102,6 +102,10 @@ class FieldMapImpl {
         bool readBlock(InputFile &in, float *values, int nRows, int nCols,
             G4double units);
         virtual bool writeFile(FILE *f) = 0;
+        virtual void SetOrigin(G4double x, G4double y, G4double z)=0;
+    	G4double Xorigin;
+    	G4double Yorigin;
+    	G4double Zorigin;
 };
 
 /**	class GridImpl -- class for a Grid FieldMap implementation
@@ -129,6 +133,16 @@ class GridImpl : public FieldMapImpl {
     int extendXbits;
     int extendYbits;
     int extendZbits;
+	void SetOrigin(G4double x, G4double y, G4double z){
+		Xorigin = x;
+		Yorigin = y;
+		Zorigin = z;
+		X0-=Xorigin;
+		Y0-=Yorigin;
+		//FIXME
+//		printf("Z0 = %lf - %lf = %lf\n",Z0,Zorigin,Z0-Zorigin);
+		Z0-=Zorigin;
+    }
     public:
         GridImpl(TTree* param);
         GridImpl(MyBLArgumentVector &argv, MyBLArgumentMap &namedArgs);
@@ -165,6 +179,14 @@ class CylinderImpl : public FieldMapImpl {
     bool extendZ;
     float extendBrFactor, extendBzFactor;
     float extendErFactor, extendEzFactor;
+	void SetOrigin(G4double x, G4double y, G4double z){
+		Xorigin = x;
+		Yorigin = y;
+		Zorigin = z;
+		Z0-=Zorigin;
+		//FIXME
+//		printf("Z0 = %lf - %lf = %lf\n",Z0,Zorigin,Z0-Zorigin);
+    }
     public:
         CylinderImpl(TTree* param);
         CylinderImpl(MyBLArgumentVector &argv, MyBLArgumentMap &namedArgs);
@@ -338,6 +360,7 @@ bool MyBLFieldMap::readFileROOT(G4String filename) {
 		G4cerr<<"time mode for readFileROOT not supported yet!"<<G4endl;
 		return false;
 	}
+	impl->SetOrigin(Xorigin,Yorigin,Zorigin);
 	delete param;
 	param = 0;
 
@@ -381,10 +404,12 @@ bool MyBLFieldMap::readFile(G4String filename) {
         else if(argv[0] == "grid") {
             if(impl) goto invalid;
             impl = new GridImpl(argv,namedArgs);
+            impl->SetOrigin(Xorigin,Yorigin,Zorigin);
         }
         else if(argv[0] == "cylinder") {
             if(impl) goto invalid;
             impl = new CylinderImpl(argv,namedArgs);
+            impl->SetOrigin(Xorigin,Yorigin,Zorigin);
         }
         else if(argv[0] == "time") {
             if(time) goto invalid;
@@ -874,7 +899,7 @@ bool GridImpl::readData(TTree* data) {
 	data->SetBranchAddress("Ez",&Ez);
 	for(long int iEt = 0; iEt<data->GetEntries(); iEt++) {
 		data->GetEntry(iEt);
-		setField(X,Y,Z,Bx*tesla,By*tesla,Bz*tesla,
+		setField(X-Xorigin,Y-Yorigin,Z-Zorigin,Bx*tesla,By*tesla,Bz*tesla,
 				Ex*megavolt/meter,Ey*megavolt/meter,
 				Ez*megavolt/meter,iEt);
 	}
@@ -939,7 +964,7 @@ MyBLArgumentMap &namedArgs) {
                     << in.linenumber() << G4endl;
                 continue;
             }
-            setField(X,Y,Z,Bx*tesla,By*tesla,Bz*tesla,
+            setField(X-Xorigin,Y-Yorigin,Z-Zorigin,Bx*tesla,By*tesla,Bz*tesla,
                 Ex*megavolt/meter,Ey*megavolt/meter,
                 Ez*megavolt/meter,in.linenumber());
         }
@@ -1062,6 +1087,8 @@ int linenumber) {
     if(mapEx) mapEx[m] = Ex;
     if(mapEy) mapEy[m] = Ey;
     if(mapEz) mapEz[m] = Ez;
+    // FIXME
+//    printf("@(%lf,%lf,%lf):(%lf,%lf,%lf)\n",X+X0,Y+Y0,Z+Z0,Bx,By,Bz);
 
     return true;
 }
@@ -1252,7 +1279,9 @@ bool CylinderImpl::readData(TTree* data) {
 	data->SetBranchAddress("Ez",&Ez);
 	for(long int iEt = 0; iEt<data->GetEntries(); iEt++) {
 		data->GetEntry(iEt);
-		setField(R,Z,Br*tesla,Bz*tesla,Er*megavolt/meter,
+		//FIXME
+//		printf("setField: %lf - %lf = %lf\n",Z,Zorigin,Z-Zorigin);
+		setField(R,Z-Zorigin,Br*tesla,Bz*tesla,Er*megavolt/meter,
 				Ez*megavolt/meter,iEt);
 	}
 	return true;
@@ -1305,7 +1334,9 @@ MyBLArgumentMap &namedArgs) {
             for(char *p=line; (p=strchr(p,','))!=0;) *p = ' ';
             n = sscanf(line,"%f%f%f%f%f%f",&R,&Z,&Br,&Bz,&Er,&Ez);
             if(n <= 2) continue;
-            setField(R,Z,Br*tesla,Bz*tesla,Er*megavolt/meter,
+            //FIXME
+//            printf("setField: %lf - %lf = %lf\n",Z,Zorigin,Z-Zorigin);
+            setField(R,Z-Zorigin,Br*tesla,Bz*tesla,Er*megavolt/meter,
                 Ez*megavolt/meter,in.linenumber());
         }
         return true;
@@ -1364,6 +1395,8 @@ G4double Bz, G4double Er, G4double Ez, int linenumber) {
         mapEr[j*nR+i] = Er;
         mapEz[j*nR+i] = Ez;
     }
+    // FIXME
+//    printf("@(%lf,%lf):(%lf,%lf)\n",R,Z,Br,Bz);
 
     return true;
 }

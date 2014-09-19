@@ -132,9 +132,17 @@ void MyFieldSvc::SetField(G4LogicalVolume* fLogicWorld){
 				  fFieldMapScalings[ifieldmap], // "current" in G4Beamline field parlance
 				  1.0, // gradient
 				  0.0, // time offset
-				  fLogicWorld));
-				G4cout << "Adding MyFieldMap: "<< fFieldMapFilenames[ifieldmap]<<", "<<
-				fFieldMapScalings[ifieldmap]<<G4endl;
+				  fLogicWorld,
+				  fFieldMapX0[ifieldmap],
+				  fFieldMapY0[ifieldmap],
+				  fFieldMapZ0[ifieldmap]
+				  ));
+				G4cout << "Adding MyFieldMap: "<< fFieldMapFilenames[ifieldmap]
+					<<", "<<fFieldMapScalings[ifieldmap]
+					<<", "<<fFieldMapX0[ifieldmap]
+					<<", "<<fFieldMapY0[ifieldmap]
+					<<", "<<fFieldMapZ0[ifieldmap]
+					<<G4endl;
 		}
 		opt = "fieldMap";
 	}
@@ -146,13 +154,17 @@ void MyFieldSvc::SetField(G4LogicalVolume* fLogicWorld){
 	UpdateField(opt);
 }
 
-void MyFieldSvc::AddMap(G4String name, double scale){
+void MyFieldSvc::AddMap(G4String name, double scale, double x, double y, double z){
+	//FIXME
 	fType = "fieldMap";
 	G4String dir_name = getenv("FIELDMAPSROOT");
 	if (dir_name[dir_name.size()-1] != '/') dir_name.append("/");
 	name = dir_name + name;
 	fFieldMapFilenames.push_back(name);
 	fFieldMapScalings.push_back(scale);
+	fFieldMapX0.push_back(x);
+	fFieldMapY0.push_back(y);
+	fFieldMapZ0.push_back(z);
 }
 
 void MyFieldSvc::Reset(){

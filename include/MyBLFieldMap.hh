@@ -202,6 +202,13 @@ class MyBLFieldMap {
         /// destructor.
         virtual ~MyBLFieldMap();
 
+		// set origin
+		void SetOrigin(G4double x,G4double y,G4double z){
+			Xorigin = x;
+			Yorigin = y;
+			Zorigin = z;
+		};
+
         /// readFile() reads a file to initialize the map.
         /// Returns true if OK, false on error.
         bool readFile(G4String filename);
@@ -250,6 +257,10 @@ class MyBLFieldMap {
         /// getTimeFactor() returns the time factors for B and E at time t.
         /// returns false if error.
         bool getTimeFactor(G4double t, G4double *b, G4double *e);
+
+        G4double Xorigin;
+        G4double Yorigin;
+        G4double Zorigin;
     private:
         G4int maxline;
         G4double current;
