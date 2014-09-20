@@ -707,7 +707,7 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 		newHit->SetLayerNo(layerId);
 		newHit->SetCellNo(cellId);
 		newHit->SetEdep(edepIoni);
-		newHit->SetPos(hitPosition);
+		newHit->SetPos(localHitPosition);
 		newHit->SetDriftD(driftD);
 		newHit->SetTheta(theta);
 		newHit->SetPosFlag(0);
@@ -846,9 +846,9 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 			if(flag_driftD) if(driftD<m_driftD[pointer]*unit_driftD) m_driftD[pointer] = driftD/unit_driftD;
 		}
 		if (isPrimaryTrack){
-			if(flag_x) m_x[pointer] = hitPosition.x()/unit_x;
-			if(flag_y) m_y[pointer] = hitPosition.y()/unit_y;
-			if(flag_z) m_z[pointer] = hitPosition.z()/unit_z;
+			if(flag_x) m_x[pointer] = localHitPosition.x()/unit_x;
+			if(flag_y) m_y[pointer] = localHitPosition.y()/unit_y;
+			if(flag_z) m_z[pointer] = localHitPosition.z()/unit_z;
 			if(flag_t) m_t[pointer] = globalT/unit_t;
 			if(flag_e) m_e[pointer] = total_e/unit_e;
 			if(flag_ekin) m_ekin[pointer] = ekin/unit_ekin;
