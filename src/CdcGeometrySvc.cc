@@ -241,7 +241,8 @@ void CdcGeometrySvc::ConstructVolumes(){
 		}
 
 		//====>Place layer
-		new G4PVPlacement(0,G4ThreeVector(0,0,0),log_layer,"CdcLayer",log_CdcContainer,false,ilayer,checkOverlap);
+		// FIXME should read this position parameter later
+		new G4PVPlacement(0,G4ThreeVector(0,0,-125*mm),log_layer,"CdcLayer",log_CdcContainer,false,ilayer,checkOverlap);
 	}//end loop in layers
 }
 

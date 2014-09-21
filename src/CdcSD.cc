@@ -537,7 +537,10 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	// Is this cell triggered already?
 	//*************************calculate hitPosition****************************
 	G4ThreeVector hitPosition = pointIn_pos;
+//	std::cout<<"==> hit @ "<<hitPosition<<std::endl;
 	G4ThreeVector localHitPosition = prePoint->GetTouchableHandle()->GetHistory()->GetTopTransform().TransformPoint(hitPosition);
+//	std::cout<<"    vol\""<<prePoint->GetTouchableHandle()->GetHistory()->GetTopVolume()->GetName()<<"\", trans:"<<hitPosition-localHitPosition<<std::endl;
+//	std::cout<<"    loc @ "<<localHitPosition<<std::endl;
 	G4double deltaZ = localHitPosition.z();
 	int posflag = 0;
 	G4double driftD = 0;
@@ -630,7 +633,7 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	localWirePositionAtHitPlane.setPerp(Rz);
 	localWirePositionAtHitPlane.setPhi((holeId/2*2+1)*holeDphi+phi0z);
 	driftD = (localHitPosition-localWirePositionAtHitPlane).perp();
-//	std::cout<<"driftD = "<<localHitPosition/cm<<"-"<<localWirePositionAtHitPlane/cm<<"="<<driftD/cm<<std::endl;
+//	std::cout<<"["<<layerId<<","<<cellId<<"]: driftD = "<<localHitPosition/cm<<"-"<<localWirePositionAtHitPlane/cm<<"="<<driftD/cm<<std::endl;
 
 	G4double vc = 299792458*m/s; // m/s
 	G4double wiredelay = (Length/2-deltaZ)/vc;
@@ -707,7 +710,7 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 		newHit->SetLayerNo(layerId);
 		newHit->SetCellNo(cellId);
 		newHit->SetEdep(edepIoni);
-		newHit->SetPos(localHitPosition);
+		newHit->SetPos(hitPosition);
 		newHit->SetDriftD(driftD);
 		newHit->SetTheta(theta);
 		newHit->SetPosFlag(0);
@@ -843,18 +846,27 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 			if (signalT<m_tstart[pointer]*unit_tstart) m_tstart[pointer] = signalT/unit_tstart;
 			else if (signalT>m_tstop[pointer]*unit_tstop) m_tstop[pointer] = signalT/unit_tstop;
 			if(flag_nPair) m_nPair[pointer]++;
-			if(flag_driftD) if(driftD<m_driftD[pointer]*unit_driftD) m_driftD[pointer] = driftD/unit_driftD;
-			if(flag_x) m_x[pointer] = localHitPosition.x()/unit_x;
-			if(flag_y) m_y[pointer] = localHitPosition.y()/unit_y;
-			if(flag_z) m_z[pointer] = localHitPosition.z()/unit_z;
-			if(flag_t) m_t[pointer] = globalT/unit_t;
-			if(flag_e) m_e[pointer] = total_e/unit_e;
-			if(flag_ekin) m_ekin[pointer] = ekin/unit_ekin;
-			if(flag_px) m_px[pointer] = pointIn_mom.x()/unit_px;
-			if(flag_py) m_py[pointer] = pointIn_mom.y()/unit_py;
-			if(flag_pz) m_pz[pointer] = pointIn_mom.z()/unit_pz;
+			if(flag_driftD) if(driftD<m_driftD[pointer]*unit_driftD){
+				m_driftD[pointer] = driftD/unit_driftD;
+				if(flag_x) m_wx[pointer] = localWirePositionAtHitPlane.x()/unit_x;
+				if(flag_y) m_wy[pointer] = localWirePositionAtHitPlane.y()/unit_y;
+				if(flag_z) m_wz[pointer] = localWirePositionAtHitPlane.z()/unit_z;
+				if(flag_x) m_x[pointer] = localHitPosition.x()/unit_x;
+				if(flag_y) m_y[pointer] = localHitPosition.y()/unit_y;
+				if(flag_z) m_z[pointer] = localHitPosition.z()/unit_z;
+				if(flag_t) m_t[pointer] = globalT/unit_t;
+				if(flag_e) m_e[pointer] = total_e/unit_e;
+				if(flag_ekin) m_ekin[pointer] = ekin/unit_ekin;
+				if(flag_px) m_px[pointer] = pointIn_mom.x()/unit_px;
+				if(flag_py) m_py[pointer] = pointIn_mom.y()/unit_py;
+				if(flag_pz) m_pz[pointer] = pointIn_mom.z()/unit_pz;
+				(*hitsCollection)[pointer]->SetPos(hitPosition);
+			}
 		}
 		if (isPrimaryTrack){
+			if(flag_x) m_wx[pointer] = localWirePositionAtHitPlane.x()/unit_x;
+			if(flag_y) m_wy[pointer] = localWirePositionAtHitPlane.y()/unit_y;
+			if(flag_z) m_wz[pointer] = localWirePositionAtHitPlane.z()/unit_z;
 			if(flag_x) m_x[pointer] = localHitPosition.x()/unit_x;
 			if(flag_y) m_y[pointer] = localHitPosition.y()/unit_y;
 			if(flag_z) m_z[pointer] = localHitPosition.z()/unit_z;

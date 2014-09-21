@@ -77,10 +77,10 @@ class CdcGeometryParameter : public SimpleGeometryParameter
 		G4double get_layer_Rz(G4int layerId, G4double deltaZ) { // radius on z plane
 			double Rc = layer_Rc[layerId];
 			double Rc2 = Rc*Rc;
-			double Length = layer_length[layerId];
+			double hLength = layer_length[layerId]/2;
 			double tanalpha = tan(layer_angle4rotate[layerId]/2);
 			if( check_layerId(layerId) ){
-				return sqrt(Rc2+deltaZ*deltaZ*Rc2*tanalpha*tanalpha/Length/Length);
+				return sqrt(Rc2+deltaZ*deltaZ*Rc2*tanalpha*tanalpha/hLength/hLength);
 			}
 			else return 0;
 		}
@@ -98,7 +98,7 @@ class CdcGeometryParameter : public SimpleGeometryParameter
 		}
 		G4double get_layer_phi0z(G4int layerId, G4double deltaZ) { // phi position of the first field wire at z plane
 			if( check_layerId(layerId) ){
-				return layer_angle4rotate[layerId]*(0.5-deltaZ/layer_length[layerId])+layer_SPhi[layerId];
+				return layer_SPhi[layerId]+layer_angle4stereo[layerId]/2-asin(sin(layer_angle4rotate[layerId])*(deltaZ/layer_length[layerId]));
 			}
 			else return 0;
 		}
