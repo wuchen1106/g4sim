@@ -98,7 +98,7 @@ class CdcGeometryParameter : public SimpleGeometryParameter
 		}
 		G4double get_layer_phi0z(G4int layerId, G4double deltaZ) { // phi position of the first field wire at z plane
 			if( check_layerId(layerId) ){
-				return layer_SPhi[layerId]+layer_angle4stereo[layerId]/2-asin(sin(layer_angle4rotate[layerId])*(deltaZ/layer_length[layerId]));
+				return layer_SPhi[layerId]+layer_angle4rotate[layerId]/2-atan(tan(layer_angle4rotate[layerId]/2)*deltaZ*2/layer_length[layerId]);
 			}
 			else return 0;
 		}
