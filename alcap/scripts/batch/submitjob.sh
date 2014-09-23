@@ -53,7 +53,7 @@ for I_RUN in `seq 1 $N_RUNS`; do
 
 # Set Output
 /g4sim/myAnalysisSvc/set_out_card "$CONFIGUREDIR/$OUT_CONFIG_FILE"
-/g4sim/myAnalysisSvc/set_ofile_name /unix/muons/alcap/data/g4sim/"$NAME"/run_"$I_RUN"/g4sim_"$I_RUN".root
+/g4sim/myAnalysisSvc/set_ofile_name "$ALCAPWORKROOT/output/$NAME"/run_"$I_RUN"/g4sim_"$I_RUN".root
 
 # Set Gen
 /g4sim/gun/ResetGen               "$CONFIGUREDIR/$GENFILE"
