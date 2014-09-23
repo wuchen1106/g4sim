@@ -1,0 +1,21 @@
+#!/bin/bash
+# batch_rootana.sge
+# Define run time.
+#$ -l s_rt=01:00:00,h_rt=01:04:00
+# Change to the directory the script was submitted from
+#$ -cwd 
+# Export the current environment variables to the script
+#$ -V
+# Assign the queue
+#$ -q all.q
+# Define job name
+#$ -N g4sim
+# Define the output files
+#$ -e g4sim.err
+#$ -o g4sim.out
+###################################################
+# Fix the SGE environment-handling bug (bash):
+source /usr/share/Modules/init/sh
+export -n -f module
+
+g4sim g4sim.mac
