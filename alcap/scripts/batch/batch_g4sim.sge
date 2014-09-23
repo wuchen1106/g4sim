@@ -18,4 +18,4 @@
 source /usr/share/Modules/init/sh
 export -n -f module
 
-g4sim macros/tolerances.mac
+g4sim g4sim.mac
