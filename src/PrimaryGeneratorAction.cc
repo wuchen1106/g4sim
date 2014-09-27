@@ -32,6 +32,8 @@
 #include "TCanvas.h"
 #include "TChain.h"
 
+#include "CLHEP/Vector/EulerAngles.h"
+
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
@@ -347,7 +349,7 @@ void PrimaryGeneratorAction::SetRandomPosition(){
 		if (ySpread) dy=2.*(G4UniformRand()-0.5)*ySpread;
 		if (zSpread) dz=2.*(G4UniformRand()-0.5)*zSpread;
 	}
-	else if (PositionMode=="source"){
+	else if (PositionMode=="source" || PositionMode=="target"){
 	  // Make sure that the random position chosen is within the Target volume
 	  G4Navigator* theNavigator = G4TransportationManager::GetTransportationManager()->GetNavigatorForTracking();
 
@@ -361,50 +363,27 @@ void PrimaryGeneratorAction::SetRandomPosition(){
 	    dz=G4RandFlat::shoot(-xSpread,zSpread);
 
 	    G4ThreeVector position(x+dx, y+dy, z+dz);
-      position.rotate(G4ThreeVector(0,1,0), -45*deg);
-	    G4VPhysicalVolume* phys_volume = theNavigator->LocateGlobalPointAndSetup(position);
+	    CLHEP::HepEulerAngles rotation(45*deg, 90*deg, 0*deg);
+	    G4ThreeVector new_position = position.rotate(rotation);
+	    G4VPhysicalVolume* phys_volume = theNavigator->LocateGlobalPointAndSetup(new_position);
 
 	    if (!phys_volume) {
 	      continue; // if theNavigator didn't return a physical volume
 	    }
 
-	    if (phys_volume->GetName() == "Source") {
-	      gotit = true;
-	    }
-	  } while (!gotit);
-	}
-	else if (PositionMode=="target"){
-	  // Make sure that the random position chosen is within the Target volume
-	  G4Navigator* theNavigator = G4TransportationManager::GetTransportationManager()->GetNavigatorForTracking();
-
-	  // Get a random position based on the spread (copied code from gRand)
-	  do {
-			//dx=G4RandGauss::shoot(0,xSpread);
-			//dy=G4RandGauss::shoot(0,ySpread);
-			//dz=G4RandGauss::shoot(0,zSpread);
-	    dx=G4RandFlat::shoot(-xSpread,xSpread);
-	    dy=G4RandFlat::shoot(-ySpread,ySpread);
-	    dz=G4RandFlat::shoot(-xSpread,zSpread);
-
-	    G4ThreeVector position(x+dx, y+dy, z+dz);
-      position.rotate(G4ThreeVector(0,1,0), -45*deg);
-	    G4VPhysicalVolume* phys_volume = theNavigator->LocateGlobalPointAndSetup(position);
-
-	    if (!phys_volume) {
-	      continue; // if theNavigator didn't return a physical volume
-	    }
-
-	    if (phys_volume->GetName() == "Target") {
+	    if ( (PositionMode=="source" && phys_volume->GetName() == "Source") ||
+		 (PositionMode=="target" && phys_volume->GetName() == "Target") ) {
 	      gotit = true;
 	    }
 	  } while (!gotit);
 	}
 
   G4ThreeVector position(x+dx, y+dy, z+dz);
-  if (PositionMode == "source" || PositionMode == "target")
-    position.rotate(G4ThreeVector(0,1,0), -45*deg);
-
-	particleGun->SetParticlePosition(position);
+  if (PositionMode == "source" || PositionMode == "target") {
+    CLHEP::HepEulerAngles rotation(45*deg, 90*deg, 0*deg);
+    position = position.rotate(rotation);
+  }
+  particleGun->SetParticlePosition(position);
 }
 
 void PrimaryGeneratorAction::SetUniformPosition(){
