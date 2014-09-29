@@ -32,6 +32,11 @@
 	AddGeoCmd->SetGuidance("You have to call update before you start a new run.");
 	AddGeoCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
+	SetSDCmd = new G4UIcmdWithAString("/g4sim/det/SetSD",this);
+	SetSDCmd->SetGuidance("Assign a SD to a volume.");
+	SetSDCmd->SetGuidance("Svc Volume SD.");
+	SetSDCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
 	ClearGeoCmd = new G4UIcmdWithoutParameter("/g4sim/det/ClearGeo",this);
 	ClearGeoCmd->SetGuidance("Clear geometry.");
 	ClearGeoCmd->AvailableForStates(G4State_Idle);
@@ -43,6 +48,7 @@ MyDetectorManagerMessenger::~MyDetectorManagerMessenger()
 	delete detDir;
 	delete ReadCardCmd;
 	delete AddGeoCmd;
+	delete SetSDCmd;
 	delete ClearGeoCmd;
 }
 
@@ -53,6 +59,11 @@ void MyDetectorManagerMessenger::SetNewValue(G4UIcommand* command,G4String newVa
 		G4String file, type, name;
 		MyString2Anything::get_SSS(newValue, name, file, type);
 		m_MyDetectorManager->AddGeo(name, file, type);
+	}
+	if( command == SetSDCmd ) {
+		G4String Svc, volume, SD;
+		MyString2Anything::get_SSS(newValue, Svc, volume, SD);
+		m_MyDetectorManager->SetSD(volume, SD, Svc);
 	}
 	if (command == ClearGeoCmd){ m_MyDetectorManager->ClearGeo(); }
 }

@@ -31,6 +31,7 @@ class MyDetectorManagerMessenger: public G4UImessenger
     G4UIdirectory*             detDir;
     G4UIcmdWithAString*        ReadCardCmd;
     G4UIcmdWithAString*        AddGeoCmd;
+    G4UIcmdWithAString*        SetSDCmd;
     G4UIcmdWithoutParameter*   ClearGeoCmd;
 };
 
