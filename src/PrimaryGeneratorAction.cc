@@ -590,7 +590,6 @@ void PrimaryGeneratorAction::root_set_extra(){
 	flag_opy=m_TChain->SetBranchAddress("opy", &root_double[14]);
 	flag_opz=m_TChain->SetBranchAddress("opz", &root_double[15]);
 	flag_ot=m_TChain->SetBranchAddress("ot", &root_double[16]);
-	flag_it=m_TChain->SetBranchAddress("it", &root_double[17]);
 	flag_ipx=m_TChain->SetBranchAddress("ipx", &root_double[17]);
 	flag_ipy=m_TChain->SetBranchAddress("ipy", &root_double[18]);
 	flag_ipz=m_TChain->SetBranchAddress("ipz", &root_double[19]);
@@ -859,7 +858,6 @@ void PrimaryGeneratorAction::Reset(){
 	flag_opx = false;
 	flag_opy = false;
 	flag_opz = false;
-	flag_it = false;
 	flag_ipx = false;
 	flag_ipy = false;
 	flag_ipz = false;
