@@ -8,6 +8,7 @@
 #include "myglobals.hh"
 #include "G4SDManager.hh"
 #include "G4DigiManager.hh"
+#include "G4LogicalVolumeStore.hh"
 
 #include <sstream>
 #include <fstream>
@@ -38,17 +39,17 @@
 
 MyDetectorManager* MyDetectorManager::fMyDetectorManager = 0;
 
-MyDetectorManager::MyDetectorManager()
-	:fVerboseLevel(0)
+	MyDetectorManager::MyDetectorManager()
+:fVerboseLevel(0)
 {
-  if (fMyDetectorManager){
-    G4Exception("MyDetectorManager::MyDetectorManager()","Run0031",
-        FatalException, "MyDetectorManager constructed twice.");
-  }
-  fMyDetectorManager = this;
+	if (fMyDetectorManager){
+		G4Exception("MyDetectorManager::MyDetectorManager()","Run0031",
+				FatalException, "MyDetectorManager constructed twice.");
+	}
+	fMyDetectorManager = this;
 	fSDman = G4SDManager::GetSDMpointer();
 	if (!fSDman) DEBUG("Can not find G4SDManager.");
-  m_MyDetectorManagerMessenger = new MyDetectorManagerMessenger(this);
+	m_MyDetectorManagerMessenger = new MyDetectorManagerMessenger(this);
 }
 
 MyDetectorManager::~MyDetectorManager()
@@ -57,10 +58,10 @@ MyDetectorManager::~MyDetectorManager()
 }
 
 MyDetectorManager* MyDetectorManager::GetMyDetectorManager(){
-  if ( !fMyDetectorManager ){
-    fMyDetectorManager = new MyDetectorManager;
-  }
-  return fMyDetectorManager;
+	if ( !fMyDetectorManager ){
+		fMyDetectorManager = new MyDetectorManager;
+	}
+	return fMyDetectorManager;
 }
 
 //***************************************ReadCard********************************************
@@ -86,29 +87,29 @@ void MyDetectorManager::ReadCard(G4String file_name){
 		file_name = dir_name + file_name;
 	}
 	//std::cout<<"MyDetectorManager: Reading \""<<file_name<<"\""<<std::endl;
-  std::ifstream fin_card(file_name);
-  if ( !fin_card ){
-    std::cout<<"Geometry file: "<<file_name<<" is not available!!!"<<std::endl;
-    G4Exception("MyDetectorManager::ReadCard()","Run0031",
-        FatalException, "Geometry file is not available.");
-  }
+	std::ifstream fin_card(file_name);
+	if ( !fin_card ){
+		std::cout<<"Geometry file: "<<file_name<<" is not available!!!"<<std::endl;
+		G4Exception("MyDetectorManager::ReadCard()","Run0031",
+				FatalException, "Geometry file is not available.");
+	}
 
 	//read line by line
-  std::stringstream buf_card;
-  std::string s_card;
-  while(getline(fin_card,s_card)){
-    buf_card.str("");
-    buf_card.clear();
-    buf_card<<s_card;
-    const char* c = s_card.c_str();
-    int length = strlen(c);
-    int offset = 0;
-    for ( ; offset < length; offset++ ){
-      if ( c[offset] != ' ' ) break;
-    }
-    if ( c[offset] == '#' ) continue;
-    else if ( c[offset] == '/' && c[offset+1] == '/' ) continue;
-    else if ( length - offset == 0 ) continue;
+	std::stringstream buf_card;
+	std::string s_card;
+	while(getline(fin_card,s_card)){
+		buf_card.str("");
+		buf_card.clear();
+		buf_card<<s_card;
+		const char* c = s_card.c_str();
+		int length = strlen(c);
+		int offset = 0;
+		for ( ; offset < length; offset++ ){
+			if ( c[offset] != ' ' ) break;
+		}
+		if ( c[offset] == '#' ) continue;
+		else if ( c[offset] == '/' && c[offset+1] == '/' ) continue;
+		else if ( length - offset == 0 ) continue;
 
 		G4String name, type, file;
 		MyVGeometrySvc* aGSvc = 0;
@@ -218,6 +219,7 @@ void MyDetectorManager::SetBranch(){
 //2. If this pair exists, then return the corresponding G4VSensitiveDetector*
 //   If not, then record this pair, new a G4VSensitiveDetector according to the type(SDName),
 //     push the pointer to a vector, and return the pointer.
+//   If the volume exists but does not match the type, output a warning and reset according to new pair
 //NOTICE.1: All sensitive detector classes used here are assumed to inherit from both 
 //  G4VSensitiveDetector and MySD, so mind the constructor and set_GeometryParameter
 //NOTICE.2: Here I use VolName + SDName as the name of SD object to allow different volumes to use
@@ -233,8 +235,8 @@ G4VSensitiveDetector* MyDetectorManager::GetSD(G4String VolName, G4String SDName
 	}
 	if (index == -1){
 		std::cout<<"WRONG!!! unrecorded MyVGeometrySvc pointer!!!"<<std::endl;
-    G4Exception("MyDetectorManager::GetSD()","Run0031",
-        FatalException, "unrecorded MyVGeometrySvc pointer.");
+		G4Exception("MyDetectorManager::GetSD()","Run0031",
+				FatalException, "unrecorded MyVGeometrySvc pointer.");
 	}
 
 	//check SDName
@@ -253,13 +255,21 @@ G4VSensitiveDetector* MyDetectorManager::GetSD(G4String VolName, G4String SDName
 	//Search for (VolName, SDName).
 	MYDETM_LINEINFO()
 	MySD* aMySD = 0;
+	bool needPush = true;
+	index = -1;
 	for ( int i = 0; i < fSDList.size(); i++ ){
-		if ( fSDName[i] == newSDName ){
-			if ( fVolName[i] == newVolName ){
+		if ( fVolName[i] == newVolName ){
+			if ( fSDName[i] == newSDName ){
 				aMySD = fSDList[i];
 				if ( !aMySD ) DEBUG("An element of fSDList is zero!"); //G4Exception would be called
 				//Found it. Modify
 				aMySD->set_GeometryParameter(pPara);
+				break;
+			}
+			else{ // found this volume but related with by another SD
+				aMySD = 0;
+				index = i;
+				needPush = false;
 				break;
 			}
 		}
@@ -309,9 +319,15 @@ G4VSensitiveDetector* MyDetectorManager::GetSD(G4String VolName, G4String SDName
 				G4String content = "Cannot convert "+newSDName+" from G4VSensitiveDetector* to MySD* at construction";
 				DEBUG(content);
 			}
-			fSDList.push_back(aSD);
-			fVolName.push_back(newVolName);
-			fSDName.push_back(newSDName);
+			if (needPush){
+				fSDList.push_back(aSD);
+				fVolName.push_back(newVolName);
+				fSDName.push_back(newSDName);
+			}
+			else{
+				fSDName[index] = newSDName;
+				fSDList[index] = aSD;
+			}
 		}
 	}
 	MYDETM_LINEINFO()
@@ -326,6 +342,21 @@ G4VSensitiveDetector* MyDetectorManager::GetSD(G4String VolName, G4String SDName
 	MYDETM_LINEINFO()
 
 	return aG4SD;
+}
+
+void MyDetectorManager::SetSD(G4String VolName, G4String SDName, G4String SvcName){
+	int i = 0;
+	G4VSensitiveDetector* aSD;
+	for(i = 0; i<fSvcName.size(); i++){
+		if (fSvcName[i]==SvcName){
+			aSD = GetSD(VolName,SDName,fMyVGeometrySvc[i]);
+			G4LogicalVolumeStore::GetInstance()->GetVolume(VolName)->SetSensitiveDetector(aSD);
+			break;
+		}
+	}
+	if (i==fSvcName.size()){
+		DEBUG("Could not find "+SvcName+"!!!");
+	}
 }
 
 G4VSensitiveDetector* MyDetectorManager::GetSD(G4String VolName, G4String SDName){

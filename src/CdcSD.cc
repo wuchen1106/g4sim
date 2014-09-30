@@ -645,7 +645,6 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	//*************************determine the action****************************
 	int action = 0; // 0: pass; 1: new hit; 2: update hit;
 	bool isPrimaryIon =  false;
-	bool isPrimaryTrack = false;
 	G4int pointer=-1;
 	G4double pretstop = -1;
 	G4double pretstart  = -1;
@@ -695,10 +694,6 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	}
 	else if (action == 2){
 		if (edepIoni>minedeptemp){isPrimaryIon=true;}
-		if (ekin>m_ekin[pointer]*unit_ekin){
-			isPrimaryTrack=true;
-			prevTrackID = trackID;
-		}
 	}
 
 	//*******************generate or modify hit************************
@@ -847,10 +842,14 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 			else if (signalT>m_tstop[pointer]*unit_tstop) m_tstop[pointer] = signalT/unit_tstop;
 			if(flag_nPair) m_nPair[pointer]++;
 			if(flag_driftD) if(driftD<m_driftD[pointer]*unit_driftD){
+				if ( trackID != prevTrackID ){
+					prevTrackID = trackID;
+					nTracks++;
+				}
 				m_driftD[pointer] = driftD/unit_driftD;
-				if(flag_x) m_wx[pointer] = localWirePositionAtHitPlane.x()/unit_x;
-				if(flag_y) m_wy[pointer] = localWirePositionAtHitPlane.y()/unit_y;
-				if(flag_z) m_wz[pointer] = localWirePositionAtHitPlane.z()/unit_z;
+				if(flag_wx) m_wx[pointer] = localWirePositionAtHitPlane.x()/unit_x;
+				if(flag_wy) m_wy[pointer] = localWirePositionAtHitPlane.y()/unit_y;
+				if(flag_wz) m_wz[pointer] = localWirePositionAtHitPlane.z()/unit_z;
 				if(flag_x) m_x[pointer] = localHitPosition.x()/unit_x;
 				if(flag_y) m_y[pointer] = localHitPosition.y()/unit_y;
 				if(flag_z) m_z[pointer] = localHitPosition.z()/unit_z;
@@ -861,106 +860,92 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 				if(flag_py) m_py[pointer] = pointIn_mom.y()/unit_py;
 				if(flag_pz) m_pz[pointer] = pointIn_mom.z()/unit_pz;
 				(*hitsCollection)[pointer]->SetPos(hitPosition);
-			}
-		}
-		if (isPrimaryTrack){
-			if(flag_x) m_wx[pointer] = localWirePositionAtHitPlane.x()/unit_x;
-			if(flag_y) m_wy[pointer] = localWirePositionAtHitPlane.y()/unit_y;
-			if(flag_z) m_wz[pointer] = localWirePositionAtHitPlane.z()/unit_z;
-			if(flag_x) m_x[pointer] = localHitPosition.x()/unit_x;
-			if(flag_y) m_y[pointer] = localHitPosition.y()/unit_y;
-			if(flag_z) m_z[pointer] = localHitPosition.z()/unit_z;
-			if(flag_t) m_t[pointer] = globalT/unit_t;
-			if(flag_e) m_e[pointer] = total_e/unit_e;
-			if(flag_ekin) m_ekin[pointer] = ekin/unit_ekin;
-			if(flag_px) m_px[pointer] = pointIn_mom.x()/unit_px;
-			if(flag_py) m_py[pointer] = pointIn_mom.y()/unit_py;
-			if(flag_pz) m_pz[pointer] = pointIn_mom.z()/unit_pz;
-			if(flag_ptid){
-				int ptid = aTrack->GetParentID();
-				if (trackID==1){
-					void *result = pPrimaryGeneratorAction->get_extra("ptid");
-					if (result) ptid = *((int*)result);
+				if(flag_ptid){
+					int ptid = aTrack->GetParentID();
+					if (trackID==1){
+						void *result = pPrimaryGeneratorAction->get_extra("ptid");
+						if (result) ptid = *((int*)result);
+					}
+					m_ptid[pointer] = ptid;
 				}
-				m_ptid[pointer] = ptid;
-			}
-			if(flag_ppid){
-				int ptid = aTrack->GetParentID();
-				int ppid = McTruthSvc::GetMcTruthSvc()->tid2pid(ptid);
-				if (trackID==1){
-					void *result = pPrimaryGeneratorAction->get_extra("ppid");
-					if (result) ppid = *((int*)result);
+				if(flag_ppid){
+					int ptid = aTrack->GetParentID();
+					int ppid = McTruthSvc::GetMcTruthSvc()->tid2pid(ptid);
+					if (trackID==1){
+						void *result = pPrimaryGeneratorAction->get_extra("ppid");
+						if (result) ppid = *((int*)result);
+					}
+					m_ppid[pointer] = ppid;
 				}
-				m_ppid[pointer] = ppid;
-			}
-			if(flag_oprocess){
-				G4String processName;
-				const G4VProcess* process = aTrack->GetCreatorProcess();
-				if (process) {
-					processName = process->GetProcessName();
+				if(flag_oprocess){
+					G4String processName;
+					const G4VProcess* process = aTrack->GetCreatorProcess();
+					if (process) {
+						processName = process->GetProcessName();
+					}
+					else{
+						processName = "NULL";
+					}
+					if (trackID==1){
+						void *result = pPrimaryGeneratorAction->get_extra("process");
+						if (result) processName = *((std::string*)result);
+					}
+					m_oprocess[pointer] = processName;
 				}
-				else{
-					processName = "NULL";
+				if(flag_ovolName){
+					G4String volume = aTrack->GetLogicalVolumeAtVertex()->GetName();
+					if (trackID==1){
+						void *result = pPrimaryGeneratorAction->get_extra("volume");
+						if (result) volume = *((std::string*)result);
+					}
+					m_ovolName[pointer] = volume;
 				}
-				if (trackID==1){
-					void *result = pPrimaryGeneratorAction->get_extra("process");
-					if (result) processName = *((std::string*)result);
+				if (flag_ox||flag_oy||flag_oz){
+					G4ThreeVector pos_3vec = aTrack->GetVertexPosition();
+					double ox = pos_3vec.x()/unit_ox;
+					double oy = pos_3vec.y()/unit_oy;
+					double oz = pos_3vec.z()/unit_oz;
+					if (trackID==1){
+						void *result = pPrimaryGeneratorAction->get_extra("ox");
+						if (result) ox = *((double*)result)*mm/unit_ox;
+						result = pPrimaryGeneratorAction->get_extra("oy");
+						if (result) oy = *((double*)result)*mm/unit_oy;
+						result = pPrimaryGeneratorAction->get_extra("oz");
+						if (result) oz = *((double*)result)*mm/unit_oz;
+					}
+					if(flag_ox) m_ox[pointer] = ox;
+					if(flag_oy) m_oy[pointer] = oy;
+					if(flag_oz) m_oz[pointer] = oz;
 				}
-				m_oprocess[pointer] = processName;
-			}
-			if(flag_ovolName){
-				G4String volume = aTrack->GetLogicalVolumeAtVertex()->GetName();
-				if (trackID==1){
-					void *result = pPrimaryGeneratorAction->get_extra("volume");
-					if (result) volume = *((std::string*)result);
+				if(flag_ot){
+					double ot;
+					ot = McTruthSvc::GetMcTruthSvc()->tid2time(trackID)/unit_ot;
+					if (trackID==1){
+						void *result = pPrimaryGeneratorAction->get_extra("ox");
+						if (result) ot = *((double*)result)*ns/unit_ot;
+					}
+					m_ot[pointer] = ot;
 				}
-				m_ovolName[pointer] = volume;
-			}
-			if (flag_ox||flag_oy||flag_oz){
-				G4ThreeVector pos_3vec = aTrack->GetVertexPosition();
-				double ox = pos_3vec.x()/unit_ox;
-				double oy = pos_3vec.y()/unit_oy;
-				double oz = pos_3vec.z()/unit_oz;
-				if (trackID==1){
-					void *result = pPrimaryGeneratorAction->get_extra("ox");
-					if (result) ox = *((double*)result)*mm/unit_ox;
-					result = pPrimaryGeneratorAction->get_extra("oy");
-					if (result) oy = *((double*)result)*mm/unit_oy;
-					result = pPrimaryGeneratorAction->get_extra("oz");
-					if (result) oz = *((double*)result)*mm/unit_oz;
+				if (flag_opx||flag_opy||flag_opz){
+					G4ThreeVector mom_dir = aTrack->GetVertexMomentumDirection();
+					G4double Ekin = aTrack->GetVertexKineticEnergy();
+					G4double mass = aTrack->GetDynamicParticle()->GetMass();
+					G4double mom = sqrt((mass+Ekin)*(mass+Ekin)-mass*mass);
+					double opx = mom*mom_dir.x()/unit_opx;
+					double opy = mom*mom_dir.y()/unit_opy;
+					double opz = mom*mom_dir.z()/unit_opz;
+					if (trackID==1){
+						void *result = pPrimaryGeneratorAction->get_extra("opx");
+						if (result) opx = *((double*)result)*mm/unit_opx;
+						result = pPrimaryGeneratorAction->get_extra("opy");
+						if (result) opy = *((double*)result)*mm/unit_opy;
+						result = pPrimaryGeneratorAction->get_extra("opz");
+						if (result) opz = *((double*)result)*mm/unit_opz;
+					}
+					if(flag_opx) m_opx[pointer] = opx;
+					if(flag_opy) m_opy[pointer] = opy;
+					if(flag_opz) m_opz[pointer] = opz;
 				}
-				if(flag_ox) m_ox[pointer] = ox;
-				if(flag_oy) m_oy[pointer] = oy;
-				if(flag_oz) m_oz[pointer] = oz;
-			}
-			if(flag_ot){
-				double ot;
-				ot = McTruthSvc::GetMcTruthSvc()->tid2time(trackID)/unit_ot;
-				if (trackID==1){
-					void *result = pPrimaryGeneratorAction->get_extra("ox");
-					if (result) ot = *((double*)result)*ns/unit_ot;
-				}
-				m_ot[pointer] = ot;
-			}
-			if (flag_opx||flag_opy||flag_opz){
-				G4ThreeVector mom_dir = aTrack->GetVertexMomentumDirection();
-				G4double Ekin = aTrack->GetVertexKineticEnergy();
-				G4double mass = aTrack->GetDynamicParticle()->GetMass();
-				G4double mom = sqrt((mass+Ekin)*(mass+Ekin)-mass*mass);
-				double opx = mom*mom_dir.x()/unit_opx;
-				double opy = mom*mom_dir.y()/unit_opy;
-				double opz = mom*mom_dir.z()/unit_opz;
-				if (trackID==1){
-					void *result = pPrimaryGeneratorAction->get_extra("opx");
-					if (result) opx = *((double*)result)*mm/unit_opx;
-					result = pPrimaryGeneratorAction->get_extra("opy");
-					if (result) opy = *((double*)result)*mm/unit_opy;
-					result = pPrimaryGeneratorAction->get_extra("opz");
-					if (result) opz = *((double*)result)*mm/unit_opz;
-				}
-				if(flag_opx) m_opx[pointer] = opx;
-				if(flag_opy) m_opy[pointer] = opy;
-				if(flag_opz) m_opz[pointer] = opz;
 			}
 		}
 	}

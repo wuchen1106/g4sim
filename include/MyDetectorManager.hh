@@ -89,6 +89,7 @@ class MyDetectorManager
 		//  the same type of SD while keeping different copies( In my case, they would create different branches in output file).
 		G4VSensitiveDetector* GetSD(G4String, G4String, MyVGeometrySvc* );
 		G4VSensitiveDetector* GetSD(G4String, G4String);
+		void SetSD(G4String, G4String, G4String);
 
 		//*************************GetSvc********************************
 		MyVGeometrySvc* GetSvc( G4String name ){
