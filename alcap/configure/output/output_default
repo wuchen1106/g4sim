@@ -34,7 +34,7 @@ MCTRUTH_SECTION
 MCTRUTH_SECTION
 
 MCTRUTHFILTER_SECTION
-	Switch                     //if commented, then program wil not generate any hit
+#	Switch                     //if commented, then program wil not generate any hit
 #	nTracks       1            //maximum tracks cut
 #	minp          0      GeV   //minimum momentum cut
 #	mine          0      MeV   //minimum momentum cut
