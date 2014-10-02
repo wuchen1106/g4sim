@@ -230,7 +230,7 @@ bool MyTriggerSvc::TriggerIt( const G4Event* evt ){
 		else{
 			nHits_CDC = myMonitorSD->Get_nHits();
 		}
-		if ( nHits_CDC < minCorM_Hits ) return false;
+		if ( nHits_CDC < minCdcHits) return false;
 	}
 	if ( minM_Hits != -1 ){
 		int nHits = 0;
