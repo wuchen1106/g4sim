@@ -34,7 +34,7 @@ MCTRUTH_SECTION
 MCTRUTH_SECTION
 
 MCTRUTHFILTER_SECTION
-#	Switch                     //if commented, then program wil not generate any hit
+	Switch                     //if commented, then program wil not generate any hit
 #	nTracks       1            //maximum tracks cut
 #	minp          0      GeV   //minimum momentum cut
 #	mine          0      MeV   //minimum momentum cut
@@ -97,7 +97,7 @@ M_SECTION
 M_SECTION
 
 M_FILTERSECTION
-	Switch                        //if commented, then program wil not generate any hit
+#	Switch                        //if commented, then program wil not generate any hit
 #	neutralCut                    //if not commented, then neutral tracks will not be recorded
 #	stopped                       //need to be stopped inside
 #	maxn          0               //maximum hits cut, 0 means no limit
@@ -105,7 +105,7 @@ M_FILTERSECTION
 #	mine          0      GeV      //minimum energy cut
 #	mint          0      ns       //left end of time window, 0 means no lower limit
 #	maxt          0      ns       //right end of time window, 0 means no upper limit
-	tres          5000   ns       //time resolution
+	tres          100   ns       //time resolution
 	minedep       -1     GeV      //minimum energy deposition cut
 #	WL            13           // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
 #	WL            -211         // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7

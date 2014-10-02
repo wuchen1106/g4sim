@@ -1,7 +1,7 @@
 // This ROOT macro counts the number of protons that stop in the thick silicon detectors
-void ProtonCounting() {
+void ProtonCounting(std::string filename) {
 
-  TFile* file = new TFile("../output/raw_g4sim_1M_target-10deg-anticlockwise.root", "READ");
+  TFile* file = new TFile(filename.c_str(), "READ");
 
   TTree* tree = (TTree*) file->Get("tree");
 
@@ -18,19 +18,26 @@ void ProtonCounting() {
   br_stopped->SetAddress(&stopped);
 
   int n_protons = 0;
+  int n_protons_right = 0;
+  int n_protons_left = 0;
   for (int iEntry = 0; iEntry < tree->GetEntries(); ++iEntry) {
 
     tree->GetEvent(iEntry);
 
     for (int iElement = 0; iElement < particleName->size();  ++iElement) {
 
-      if (particleName->at(iElement) == "proton" && (volName->at(iElement) == "ESi1" || volName->at(iElement) == "ESi2") && stopped->at(iElement) == 1) {
-	//std::cout << "A photon reached the Germanium!" << std::endl;
+      if (particleName->at(iElement) == "proton" && volName->at(iElement) == "ESi1" && stopped->at(iElement) == 1) {
+	++n_protons_right;
+	++n_protons;
+      }
+      else if (particleName->at(iElement) == "proton" && volName->at(iElement) == "ESi2" && stopped->at(iElement) == 1) {
+	++n_protons_left;
 	++n_protons;
       }
     }
   }
 
   std::cout << "There were " << n_protons << " protons that reached the thick silicon detectors out of " << tree->GetEntries() << " muons." << std::endl;
+  std::cout << "N_right = " << n_protons_right << ", N_left = " << n_protons_left << std::endl;
   std::cout << "Acceptance = " << (double) n_protons / tree->GetEntries() << std::endl;
 }
