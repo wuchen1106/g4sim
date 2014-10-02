@@ -1,0 +1,49 @@
+	PhysicsList: QGSP_BERT
+
+#General setting  
+	Type:      simple #(simple/stable/ion)
+	Particle:  mu- #(e+/e-/deuteron/chargedgeantino/gamma/...)
+
+#Default Direction
+#	           Theta    Phi
+#	           deg      deg
+	Direction: 0        180
+  ThetaSpread:        1.71887
+#	PhiSpread:          180
+#Default Momentum Amplitude
+#	             MeV
+	MomAmp:      29.96
+	MomSpread:   0.8988
+#Default Position     x    y   z
+#	                  mm   mm  mm
+	Position:         0    0  -355         
+	PosSpread:        8.33 5   0
+	PosLimit:         17.5
+
+	RandMode:       none #(none/root)
+	EnergyMode:     gRand #(root/histo/none)
+	PositionMode:   gRand  #(uniform/root/none/gRand/uRand)
+	DirectionMode:  none #(none/uniform/histo)
+	ThetaMode:      gRand #(none/gRand/uRand)
+	PhiMode:        uRand #(none/gRand/uRand)
+	TimeMode:       none #(none/root)
+	pidMode:        none #(none/root)
+#Default Time
+#	         ns
+	Time:    0
+#Muon kinetic energy - momentum conversion
+##Scale Momentum (MeV/c) Kinetic energy (MeV) Mom spread (MeV/c)
+##1.03 28.84 3.86531 0.8652
+##1.05 29.4 4.0141 0.882
+##1.06 29.68 4.08949			0.8904
+##1.07 29.96 4.16555 0.8988
+##1.09 30.52 4.31963 0.9156
+##1.1 30.8 4.39767 0.924
+##1.15 32.2 4.79764 0.966
+##1.2 33.6 5.21386 1.008
+##1.3 36.4 6.09426 1.092
+##1.4 39.2 7.03738 1.176
+##1.43 40.04 7.33231 1.2012
+##1.45 40.6 7.53196 1.218
+##1.47 41.16 7.73403 1.2348
+##1.5 42 8.04164 1.26
