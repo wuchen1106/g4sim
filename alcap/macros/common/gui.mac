@@ -24,6 +24,7 @@
 # ResetMisc menu :
 /gui/addMenu reset ResetMisc
 /gui/addButton reset SiR2                "/control/execute {ALCAPWORKROOT}/macros/SiR2.mac"
+/gui/addButton reset Al100                "/control/execute {ALCAPWORKROOT}/macros/Al100.mac"
 /gui/addButton reset GeCallibration      "/control/execute {ALCAPWORKROOT}/macros/GeCallibration.mac"
 /gui/addButton reset GeCalibration_Si16p_target      "/control/execute {ALCAPWORKROOT}/macros/GeCalibration_Si16p_target.mac"
 /gui/addButton reset resetVerbose        "/control/execute {ALCAPWORKROOT}/macros/resetVerbose.mac"
