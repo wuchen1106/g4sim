@@ -18,13 +18,13 @@ MCTRUTH_SECTION
 	ptid
 	ppid
 	time              ns
-	px                GeV
-	py                GeV
-	pz                GeV
-	e                 GeV
-	x                 cm
-	y                 cm
-	z                 cm
+	px                keV
+	py                keV
+	pz                keV
+	e                 keV
+	x                 mm
+	y                 mm
+	z                 mm
 	charge
 	particleName
 	process
@@ -36,7 +36,7 @@ MCTRUTH_SECTION
 MCTRUTHFILTER_SECTION
 	Switch                     //if commented, then program wil not generate any hit
 #	nTracks       1            //maximum tracks cut
-#	minp          0      GeV   //minimum momentum cut
+#	minp          0      keV   //minimum momentum cut
 #	mine          0      MeV   //minimum momentum cut
 #	mint          0      ns    //left end of time window, 0 means no lower limit
 #	maxt          0      ns    //right end of time window, 0 means no upper limit
@@ -46,33 +46,42 @@ MCTRUTHFILTER_SECTION
 
 M_SECTION
 	nHits
-	Ox             cm
-	Oy             cm
-	Oz             cm
+	Ox             mm
+	Oy             mm
+	Oz             mm
 	Ot             ns
-	Opx            GeV
-	Opy            GeV
-	Opz            GeV
-	x              cm
-	y              cm
-	z              cm
+	local_Ox       mm
+	local_Oy       mm
+	local_Oz       mm
+	Opx            keV
+	Opy            keV
+	Opz            keV
+	x              mm
+	y              mm
+	z              mm
 	t              ns
-	px             GeV
-	py             GeV
-	pz             GeV
-	e              GeV
-	edep           GeV
-	edepAll        GeV
-	stepL          cm
+	local_x	       mm
+	local_y	       mm
+	local_z	       mm
+	px             keV
+	py             keV
+	pz             keV
+	e              keV
+	edep           keV
+	edepAll        keV
+	stepL          mm
 	volID
 	volName
-	ox             cm
-	oy             cm
-	oz             cm
+	ox             mm
+	oy             mm
+	oz             mm
 	ot             ns
-	opx            GeV
-	opy            GeV
-	opz            GeV
+	local_ox       mm
+	local_oy       mm
+	local_oz       mm
+	opx            keV
+	opy            keV
+	opz            keV
 	ovolName
 	oprocess
 	ppid
@@ -92,25 +101,25 @@ M_FILTERSECTION
 #	neutralCut                    //if not commented, then neutral tracks will not be recorded
 #	stopped                       //need to be stopped inside
 #	maxn          0               //maximum hits cut, 0 means no limit
-#	minp          0      GeV      //minimum momentum cut
-#	mine          0      GeV      //minimum energy cut
+#	minp          0      keV      //minimum momentum cut
+#	mine          0      keV      //minimum energy cut
 #	mint          0      ns       //left end of time window, 0 means no lower limit
 #	maxt          0      ns       //right end of time window, 0 means no upper limit
 	tres          1000   ns       //time resolution
-	minedep       -1     GeV      //minimum energy deposition cut
+	minedep       -1     keV      //minimum energy deposition cut
 #	WL            13           // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
 #	WL            -211         // Add a PDGEncode to white list. if white list is not empty then only particle on white list will be recorded. 0 means pid<1e7
 M_FILTERSECTION
 
 V_SECTION
-	x              cm
-	y              cm
-	z              cm
+	x              mm
+	y              mm
+	z              mm
 	t              ns
-	px             GeV
-	py             GeV
-	pz             GeV
-	edep           GeV
+	px             keV
+	py             keV
+	pz             keV
+	edep           keV
 	volName
 	ovolName
 	oprocess
