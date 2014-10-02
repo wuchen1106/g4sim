@@ -13,6 +13,8 @@
 # Vis menu :
 /gui/addMenu vis Vis
 /gui/addButton vis setvis            "/control/execute {ALCAPWORKROOT}/macros/common/setvis.mac"
+/control/execute {ALCAPWORKROOT}/macros/Al100.mac
+
 #
 # Run menu :
 /gui/addMenu run Run
