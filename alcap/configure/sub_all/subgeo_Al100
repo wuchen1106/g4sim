@@ -22,7 +22,7 @@ DEFINE: Lp2			330.2 # (double) Length of Detector Port
 DEFINE: Rp2O		86 # R of Detector Port (Outside)
 DEFINE: Rp2I		76 # R of Detector Port (Inside)
 
-DEFINE: thw0		0.075 # Thickness of Beam Window
+DEFINE: thw0		0.100 # Thickness of Beam Window
 #DEFINE: thw0		0.1 # Thickness of Beam Window ( with black paper )
 DEFINE: pRw0		RO+Lp1/2-thw0/2 # R position of Beam Window
 DEFINE: pBlackTape pRw0+thw0/2+thTp/2 
@@ -68,7 +68,7 @@ DEFINE: pRGe		320+LGe/2 # R position of Germanium Detector
 	T    0    Rp0I  LpLo   0     360  cutLowerPort
 	T    0    RI    HI     0     360  ChamberIn         1     World     VacuumPSI none         0  -Z0   0      0    -90     90
 	T    0    Rp1I  thw0   0     360  BeamWindow        1     World     Mylar     none    S pRw0   0    180    0      0      0
-  T    0    Rp1I  thTp   0     360  BeamWindowT       1     World     PVC       none    S pBlackTape   0    180    0      0      0
+  T    0    Rp1I  thTp   0     360  BeamWindowT       1     World     PVF       none    S pBlackTape   0    180    0      0      0
 	T    0    Rp2I  thw1   0     360  DetectorWindow    1     World     Mylar     none    S pRw1   0    45    90   -135      0 
 	T    0    RGe   LGe    0     360  GeBody
 	T    0    RiGe  LGe    0     360  GeHole
