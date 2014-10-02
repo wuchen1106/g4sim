@@ -218,10 +218,19 @@ bool MyTriggerSvc::TriggerIt( const G4Event* evt ){
 		if (myCdcLayerSD){
 			nHits_CDC = myCdcLayerSD->Get_nHits();
 		}
+		else if (myCdcSD){
+			nHits_CDC = myCdcSD->Get_nHits();
+		}
+		else if (myCdcSimpleSD){
+			nHits_CDC = myCdcSimpleSD->Get_nHits();
+		}
+		else if (myCdcCellSD){
+			nHits_CDC = myCdcCellSD->Get_nHits();
+		}
 		else{
 			nHits_CDC = myMonitorSD->Get_nHits();
 		}
-		if ( nHits_CDC < minCdcHits ) return false;
+		if ( nHits_CDC < minCorM_Hits ) return false;
 	}
 	if ( minM_Hits != -1 ){
 		int nHits = 0;
