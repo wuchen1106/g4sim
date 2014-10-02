@@ -123,7 +123,7 @@ DEFINE: pw  		-XGas/2.+Rwire+(x+1)*gwire # X/Y position of Verticle/Horizental W
 #	     mm    mm    mm                                                              mm    mm   mm      deg  deg  deg
 #	                                                                               P R     Phi  Z
 #	                                                                               S R     Phi  Theta  
-	B    XTr   XTr   LTr    MuTrigger    1     World     Air          none         S pRTr  0    180     0    0    0 
+	B    XTr   XTr   LTr    MuTrigger    1     World     Air          none         S pRTr+thTp  0    180     0    0    0 
 	B    XFoil XFoil thFoil MuFoil       1     MuTrigger Mylar        none           0     0    pZFoil  0    0    0 
 	B    XGas  XGas  LGas   MuPC         1     MuTrigger GasArgEthane none           0     0    pZGas   0    0    0 
 	B    XGas  XGas  thwg   MuPCDSWindow 1     MuPC      Mylar        none           0     0    pZwg    0    0    0 
