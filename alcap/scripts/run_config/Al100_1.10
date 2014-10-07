@@ -1,0 +1,13 @@
+MAGFIELDCARDROOT  = mag/MagField_none
+GENFILEROOT       = gen/gen_mu_1.10
+OUTCARDROOT       = output/output_Al100
+GEOCARDROOT	      = geometry_Al100
+
+#macro
+#macro_configure_PreSet
+#Al100.mac
+
+#run
+run_configure
+1
+50000

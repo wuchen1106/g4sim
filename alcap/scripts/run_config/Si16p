@@ -1,0 +1,13 @@
+MAGFIELDCARDROOT  = mag/MagField_none
+GENFILEROOT       = gen/gen_mu_1.06
+OUTCARDROOT       = output/output_default
+GEOCARDROOT	      = geometry_Si16p
+
+#macro
+macro_configure_PreSet
+Si16p.mac
+
+#run
+run_configure
+1
+10000
