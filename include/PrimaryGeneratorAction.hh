@@ -15,6 +15,7 @@
 #include "myglobals.hh"
 
 #include "MyConfigure.hh"
+#include "TF1.h"
 
 class G4ParticleGun;
 class G4Event;
@@ -163,6 +164,14 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
 		bool flag_R1;
 		bool flag_ppid;
 		bool flag_ptid;
+
+  // For TURTLE data
+  // No Fit result for Y-angle because it was uniform between -150 and 150 mrad
+  TF1* fXPositionTurtleFit;
+  TF1* fXAngleTurtleFit;
+  TF1* fYPositionTurtleFit;
+  static const double fYAngleTurtle_Lower = -150;
+  static const double fYAngleTurtle_Upper = 150;
 };
 
 #endif

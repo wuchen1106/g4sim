@@ -31,6 +31,7 @@
 #include "TH1D.h"
 #include "TCanvas.h"
 #include "TChain.h"
+#include "TFitResult.h"
 
 #include "CLHEP/Vector/EulerAngles.h"
 
@@ -61,6 +62,10 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 	G4String file_name = getenv("GENFILEROOT");
 	ReadCard(file_name);
 	Initialize();
+
+	fXPositionTurtleFit = NULL;
+	fXAngleTurtleFit = NULL;
+	fYPositionTurtleFit = NULL;
 }
 
 PrimaryGeneratorAction::~PrimaryGeneratorAction()
@@ -234,7 +239,36 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	  SetRandomPosition();  
 	}
 	else if ( PositionMode == "turtle") {
-	  std::cout << "Turtle Position Mode" << std::endl;
+	  if (!fXPositionTurtleFit && !fYPositionTurtleFit) {
+	    // Create the fitting functions for the x and y positions
+	    TFile* turtle_file = new TFile("TURTLE_fits.root", "READ");
+	    std::cout << "AE: " << turtle_file << std::endl;
+	    TFitResultPtr x_position_turtle_fit_result = (TFitResult*) turtle_file->Get("TFitResult-hXPositions-gaus");
+	    TFitResultPtr y_position_turtle_fit_result = (TFitResult*) turtle_file->Get("TFitResult-hYPositions-gaus");
+
+	    fXPositionTurtleFit = new TF1("fXPositionTurtleFit", "[0]*TMath::Gaus(x, [1], [2])");
+	    double x_constant = *(x_position_turtle_fit_result->GetParams() + 0);
+	    double x_mean = *(x_position_turtle_fit_result->GetParams() + 1);
+	    double x_sigma = *(x_position_turtle_fit_result->GetParams() + 2);
+	    fXPositionTurtleFit->SetParameter(0, x_constant);
+	    fXPositionTurtleFit->SetParameter(1, x_mean);
+	    fXPositionTurtleFit->SetParameter(2, x_sigma);
+
+	    fYPositionTurtleFit = new TF1("fYPositionTurtleFit", "TMath::Gaus(x, [0], [1])");
+	    double y_constant = *(x_position_turtle_fit_result->GetParams() + 0);
+	    double y_mean = *(y_position_turtle_fit_result->GetParams() + 1);
+	    double y_sigma = *(y_position_turtle_fit_result->GetParams() + 2);
+	    std::cout << "AE: " << y_mean << ", " << y_sigma << std::endl;
+	    fYPositionTurtleFit->SetParameter(1, y_constant);
+	    fYPositionTurtleFit->SetParameter(1, y_mean);
+	    fYPositionTurtleFit->SetParameter(2, y_sigma);
+	  }
+	  double x = fXPositionTurtleFit->GetRandom();
+	  double y = fYPositionTurtleFit->GetRandom();
+	  double z = -355;
+	  std::cout << "(" << x << ", " << y << ", " << z << ")" << std::endl;
+	  G4ThreeVector position(x, y, z);
+	  particleGun->SetParticlePosition(position);
 	}
 	else if ( PositionMode != "none" ){
 		std::cout<<"ERROR: unknown PositionMode: "<<PositionMode<<"!!!"<<std::endl;
