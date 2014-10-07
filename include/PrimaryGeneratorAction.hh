@@ -168,10 +168,19 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
   // For TURTLE data
   // No Fit result for Y-angle because it was uniform between -150 and 150 mrad
   TF1* fXPositionTurtleFit;
+  double fXPositionTurtle_Lower;
+  double fXPositionTurtle_Upper;
+
   TF1* fXAngleTurtleFit;
+  double fXAngleTurtle_Lower;
+  double fXAngleTurtle_Upper;
+
   TF1* fYPositionTurtleFit;
-  static const double fYAngleTurtle_Lower = -150;
-  static const double fYAngleTurtle_Upper = 150;
+  double fYPositionTurtle_Lower;
+  double fYPositionTurtle_Upper;
+
+  double fYAngleTurtle_Lower;
+  double fYAngleTurtle_Upper;
 };
 
 #endif

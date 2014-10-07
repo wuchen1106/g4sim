@@ -63,9 +63,23 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 	ReadCard(file_name);
 	Initialize();
 
+	// Set all the TURTLE stuff
 	fXPositionTurtleFit = NULL;
 	fXAngleTurtleFit = NULL;
 	fYPositionTurtleFit = NULL;
+
+	fXPositionTurtle_Lower = -0.5;
+	fXPositionTurtle_Upper = 0.5;
+
+	fXAngleTurtle_Lower = -200;
+	fXAngleTurtle_Upper = 100;  
+
+	fYPositionTurtle_Lower = -0.5;
+	fYPositionTurtle_Upper = 0.5;
+
+	fYAngleTurtle_Lower = -150;
+	fYAngleTurtle_Upper = 150;
+
 }
 
 PrimaryGeneratorAction::~PrimaryGeneratorAction()
@@ -248,7 +262,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	    turtle_file->Close();
 	    gDirectory = prev_dir; // need to go back to where we were so that we can get the tree written to the output file
 
-	    fXPositionTurtleFit = new TF1("fXPositionTurtleFit", "[0]*TMath::Gaus(x, [1], [2])", -0.5, 0.5);
+	    fXPositionTurtleFit = new TF1("fXPositionTurtleFit", "[0]*TMath::Gaus(x, [1], [2])", fXPositionTurtle_Lower, fXPositionTurtle_Upper);
 	    double x_constant = *(x_position_turtle_fit_result->GetParams() + 0);
 	    double x_mean = *(x_position_turtle_fit_result->GetParams() + 1);
 	    double x_sigma = *(x_position_turtle_fit_result->GetParams() + 2);
@@ -257,7 +271,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	    fXPositionTurtleFit->SetParameter(2, x_sigma);
 	    fXPositionTurtleFit->Write();
 
-	    fYPositionTurtleFit = new TF1("fYPositionTurtleFit", "[0]*TMath::Gaus(x, [1], [2])", -0.5, 0.5);
+	    fYPositionTurtleFit = new TF1("fYPositionTurtleFit", "[0]*TMath::Gaus(x, [1], [2])", fYPositionTurtle_Lower, fYPositionTurtle_Upper);
 	    double y_constant = *(x_position_turtle_fit_result->GetParams() + 0);
 	    double y_mean = *(y_position_turtle_fit_result->GetParams() + 1);
 	    double y_sigma = *(y_position_turtle_fit_result->GetParams() + 2);
