@@ -240,11 +240,13 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	}
 	else if ( PositionMode == "turtle") {
 	  if (!fXPositionTurtleFit && !fYPositionTurtleFit) {
+	    TDirectory* prev_dir = gDirectory;
 	    // Create the fitting functions for the x and y positions
 	    TFile* turtle_file = new TFile("TURTLE_fits.root", "READ");
-	    std::cout << "AE: " << turtle_file << std::endl;
 	    TFitResultPtr x_position_turtle_fit_result = (TFitResult*) turtle_file->Get("TFitResult-hXPositions-gaus");
 	    TFitResultPtr y_position_turtle_fit_result = (TFitResult*) turtle_file->Get("TFitResult-hYPositions-gaus");
+	    turtle_file->Close();
+	    gDirectory = prev_dir; // need to go back to where we were so that we can get the tree written to the output file
 
 	    fXPositionTurtleFit = new TF1("fXPositionTurtleFit", "[0]*TMath::Gaus(x, [1], [2])");
 	    double x_constant = *(x_position_turtle_fit_result->GetParams() + 0);
@@ -258,15 +260,14 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	    double y_constant = *(x_position_turtle_fit_result->GetParams() + 0);
 	    double y_mean = *(y_position_turtle_fit_result->GetParams() + 1);
 	    double y_sigma = *(y_position_turtle_fit_result->GetParams() + 2);
-	    std::cout << "AE: " << y_mean << ", " << y_sigma << std::endl;
 	    fYPositionTurtleFit->SetParameter(1, y_constant);
 	    fYPositionTurtleFit->SetParameter(1, y_mean);
 	    fYPositionTurtleFit->SetParameter(2, y_sigma);
 	  }
-	  double x = fXPositionTurtleFit->GetRandom();
-	  double y = fYPositionTurtleFit->GetRandom();
+	  double x = fXPositionTurtleFit->GetRandom()*10; // convert from cm to mm
+	  double y = fYPositionTurtleFit->GetRandom()*10; // convert from cm to mm
 	  double z = -355;
-	  std::cout << "(" << x << ", " << y << ", " << z << ")" << std::endl;
+	  //	  std::cout << "(" << x << ", " << y << ", " << z << ")" << std::endl;
 	  G4ThreeVector position(x, y, z);
 	  particleGun->SetParticlePosition(position);
 	}
