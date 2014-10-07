@@ -9,5 +9,5 @@ GEOCARDROOT	      = geometry_Al100
 
 #run
 run_configure
-1
-50000
+5
+500000
