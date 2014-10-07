@@ -199,6 +199,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 		dir_3Vec.setPhi(phi);
 		particleGun->SetParticleMomentumDirection(dir_3Vec);
 	}
+	else if ( DirectionMode == "turtle") {
+	  std::cout << "Turtle Direction Mode" << std::endl;
+	}
 	else if ( DirectionMode != "none" ){
 		std::cout<<"ERROR: unknown DirectionMode: "<<DirectionMode<<"!!!"<<std::endl;
 		G4Exception("PrimaryGeneratorAction::GeneratePrimaries()",
@@ -229,6 +232,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	}
 	else if ( PositionMode == "source") {
 	  SetRandomPosition();  
+	}
+	else if ( PositionMode == "turtle") {
+	  std::cout << "Turtle Position Mode" << std::endl;
 	}
 	else if ( PositionMode != "none" ){
 		std::cout<<"ERROR: unknown PositionMode: "<<PositionMode<<"!!!"<<std::endl;
@@ -511,6 +517,7 @@ void PrimaryGeneratorAction::BuildHistoFromFile(){
 		}
 		DM_hist = h;
 	}
+	
 }
 
 void PrimaryGeneratorAction::root_get_para(){
