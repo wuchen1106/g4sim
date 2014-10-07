@@ -67,6 +67,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 	fXPositionTurtleFit = NULL;
 	fXAngleTurtleFit = NULL;
 	fYPositionTurtleFit = NULL;
+	fYAngleTurtleFit = NULL;
 
 	fXPositionTurtle_Lower = -0.5;
 	fXPositionTurtle_Upper = 0.5;
@@ -219,7 +220,39 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 		particleGun->SetParticleMomentumDirection(dir_3Vec);
 	}
 	else if ( DirectionMode == "turtle") {
-	  std::cout << "Turtle Direction Mode" << std::endl;
+
+	  if (!fXAngleTurtleFit && !fYAngleTurtleFit) {
+	    TDirectory* prev_dir = gDirectory;
+	    // Create the fitting functions for the x and y positions
+	    TFile* turtle_file = new TFile("TURTLE_fits.root", "READ");
+	    TFitResultPtr x_position_turtle_fit_result = (TFitResult*) turtle_file->Get("TFitResult-hXAngles-gaus");
+	    turtle_file->Close();
+	    gDirectory = prev_dir; // need to go back to where we were so that we can get the tree written to the output file
+
+	    fXAngleTurtleFit = new TF1("fXAngleTurtleFit", "[0]*TMath::Gaus(x, [1], [2])", fXAngleTurtle_Lower, fXAngleTurtle_Upper);
+	    double x_constant = *(x_position_turtle_fit_result->GetParams() + 0);
+	    double x_mean = *(x_position_turtle_fit_result->GetParams() + 1);
+	    double x_sigma = *(x_position_turtle_fit_result->GetParams() + 2);
+	    fXAngleTurtleFit->SetParameter(0, x_constant);
+	    fXAngleTurtleFit->SetParameter(1, x_mean);
+	    fXAngleTurtleFit->SetParameter(2, x_sigma);
+	    fXAngleTurtleFit->Write();
+
+	    fYAngleTurtleFit = new TF1("fYAngleTurtleFit", "1", fYAngleTurtle_Lower, fYAngleTurtle_Upper);
+	    fYAngleTurtleFit->Write();
+	  }
+	  double x_prime = fXAngleTurtleFit->GetRandom() / 1000; // convert from mrad to rad
+	  double y_prime = fYAngleTurtleFit->GetRandom() / 1000; // convert from mrad to rad
+	  G4double theta = x_prime*(180/pi);
+	  G4double phi = ((pi/2) - y_prime)*(180/pi);
+	  //	  std::cout << "(" << x_prime*1000 << ", " << y_prime*1000 << ")" << std::endl;
+	  //std::cout << "(" << theta << ", " << phi << ")" << std::endl;
+	  //	  std::cout << "(" << theta << ", " << phi << ")" << std::endl << std::endl;
+	  G4ThreeVector dir_3Vec(1, 1, 1);
+	  dir_3Vec.setTheta(theta);
+	  dir_3Vec.setPhi(phi);
+	  particleGun->SetParticleMomentumDirection(dir_3Vec);
+
 	}
 	else if ( DirectionMode != "none" ){
 		std::cout<<"ERROR: unknown DirectionMode: "<<DirectionMode<<"!!!"<<std::endl;
@@ -269,7 +302,6 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	    fXPositionTurtleFit->SetParameter(0, x_constant);
 	    fXPositionTurtleFit->SetParameter(1, x_mean);
 	    fXPositionTurtleFit->SetParameter(2, x_sigma);
-	    fXPositionTurtleFit->Write();
 
 	    fYPositionTurtleFit = new TF1("fYPositionTurtleFit", "[0]*TMath::Gaus(x, [1], [2])", fYPositionTurtle_Lower, fYPositionTurtle_Upper);
 	    double y_constant = *(x_position_turtle_fit_result->GetParams() + 0);

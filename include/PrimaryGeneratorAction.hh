@@ -179,6 +179,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
   double fYPositionTurtle_Lower;
   double fYPositionTurtle_Upper;
 
+  TF1* fYAngleTurtleFit;
   double fYAngleTurtle_Lower;
   double fYAngleTurtle_Upper;
 };
