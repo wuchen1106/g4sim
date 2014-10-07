@@ -1,0 +1,12 @@
+/control/getEnv ALCAPWORKROOT
+
+# Get default settings
+/control/execute {ALCAPWORKROOT}/macros/resetVerbose.mac
+/control/execute {ALCAPWORKROOT}/macros/resetCut.mac
+# Set Output
+/g4sim/myAnalysisSvc/set_out_card output/output_Al100
+# Set Gen
+/g4sim/gun/ResetGen               gen/gen_mu_1.09
+
+# Set Geo
+/g4sim/det/ReloadGeo              geometry_Al100

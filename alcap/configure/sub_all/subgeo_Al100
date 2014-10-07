@@ -1,7 +1,7 @@
 #general info
 #	checkoverlap
 
-DEFINE: thTp		0.2 # Thickness of black tape
+DEFINE: thTp		0.080 # Thickness of black tape
 #==================================================================================================================
 #	Chamber Body and Germanium Detector
 #==================================================================================================================
@@ -92,7 +92,8 @@ DEFINE: pRGe		320+LGe/2 # R position of Germanium Detector
 	BL   minus blChamber11  cutDRPort         45   90   0  P R0    135  Z0     blChamber12
 	BL   minus blChamber12  cutLowerPort      45   90   0  P R0    135  ZLo    blChamber13
 	BL   minus blChamber13  ChamberIn         0    0    0  P 0     0    0      Chamber      1     World      Steel    none      0   -Z0   0    0   -90   90
-	BL   minus GeBody       GeHole            0    0    0    0     0   -dGe    Ge           1     World Germanium M/MonitorSD S pRGe  0  135  90   -45    0 
+	#BL   minus GeBody       GeHole            0    0    0    0     0   -dGe    Ge           1     World Germanium M/MonitorSD S pRGe  0  135  90   -45    0 
+	BL   minus GeBody       GeHole            0    0    0    0     0   -dGe    Ge           1     World Germanium none S pRGe  0  135  90   -45    0 
 
 #==================================================================================================================
 #	Muon Trigger
@@ -248,7 +249,7 @@ DEFINE: pZPS		pZESi+thESi/2+gPS+thPS/2 # Z position of Plastic Charged Veto Scin
 DEFINE: XT 		100 # x Dimension of Target
 DEFINE: XTB		120 # x Dimension of Target Border
 DEFINE: XTBS	122 # x Dimension of Target Border Shielding
-DEFINE: thT 	0.100 # Thickness of Target
+DEFINE: thT 	0.900 # Thickness of Target
 DEFINE: thTB	5 # Thickness of Target Border
 DEFINE: thTBS	7 # Thickness of Target Border Shielding
 #Box info
