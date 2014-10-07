@@ -428,7 +428,8 @@ if [ ! $RootFileList = 'NONE' ]; then
 fi
 
 #***************************creat script file and set useful aliases at the beginning***************************
-script_file=$template_file".txt"
+#script_file=$template_file".txt"
+script_file="$(basename $template_file)"".txt"
 echo "" > $script_file
 
 #******************************************read template file**************************************************
