@@ -49,14 +49,7 @@ void MakeTURTLEInput() {
   x_angle_result->Write();
   y_position_result->Write();
 
-  /*  std::cout << y_angle_result->NPar() << std::endl;
-  std::cout << y_angle_result->Index("p0") << std::endl;
-  std::cout << *(y_angle_result->GetParams()) << std::endl;
-  std::cout << y_angle_result->IsParameterBound(0) << std::endl;
-  double lower, upper;
-  y_angle_result->ParameterBounds(0,lower,upper);
-  std::cout << lower << ", " << upper << std:::endl;
-  */
+
   /*
   TH1F* hRandom = new TH1F("hRandom", "hRandom", n_xpos_bins*10, -0.5,0.5);
 
