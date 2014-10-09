@@ -248,7 +248,7 @@ DEFINE: pZPS		pZESi+thESi/2+gPS+thPS/2 # Z position of Plastic Charged Veto Scin
 DEFINE: XT 		100 # x Dimension of Target
 DEFINE: XTB		120 # x Dimension of Target Border
 DEFINE: XTBS	122 # x Dimension of Target Border Shielding
-DEFINE: thT 	0.080 # Thickness of Target
+DEFINE: thT 	0.050 # Thickness of Target
 DEFINE: thTB	5 # Thickness of Target Border
 DEFINE: thTBS	7 # Thickness of Target Border Shielding
 #Box info
