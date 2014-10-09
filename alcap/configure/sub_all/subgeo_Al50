@@ -66,13 +66,13 @@ DEFINE: pRGe		320+LGe/2 # R position of Germanium Detector
 	T    0    Rp0I  LpDR   0     360  cutDRPort   
 	T    0    Rp0O  LpLo   0     360  tubLowerPort
 	T    0    Rp0I  LpLo   0     360  cutLowerPort
-	T    0    RI    HI     0     360  ChamberIn         1     World     VacuumPSI none         0  -Z0   0      0    -90     90
-	T    0    Rp1I  thw0   0     360  BeamWindow        1     World     Mylar     none    S pRw0   0    180    0      0      0
-  T    0    Rp1I  thTp   0     360  BeamWindowT       1     World     PVF       none    S pBlackTape   0    180    0      0      0
-	T    0    Rp2I  thw1   0     360  DetectorWindow    1     World     Mylar     none    S pRw1   0    45    90   -135      0 
+	T    0    RI    HI     0     360  ChamberIn         1     World     VacuumPSI M/MonitorSD         0  -Z0   0      0    -90     90
+	T    0    Rp1I  thw0   0     360  BeamWindow        1     World     Mylar     M/MonitorSD    S pRw0   0    180    0      0      0
+  T    0    Rp1I  thTp   0     360  BeamWindowT       1     World     PVF       M/MonitorSD    S pBlackTape   0    180    0      0      0
+	T    0    Rp2I  thw1   0     360  DetectorWindow    1     World     Mylar     M/MonitorSD    S pRw1   0    45    90   -135      0 
 	T    0    RGe   LGe    0     360  GeBody
 	T    0    RiGe  LGe    0     360  GeHole
-	T    0    Rp0I  thUL   0     360  flUL              1     World     Aluminium none        S pRUL   0    135   90   -45      0 
+	T    0    Rp0I  thUL   0     360  flUL              1     World     Aluminium M/MonitorSD        S pRUL   0    135   90   -45      0 
 #BooleanSolid info
 #	Type type  vol1         vol2              Ephi Ethe Epsi PosX  PosY PosZ   name         RepNo MotVolume  Material SDName    posX posY posZ Ephi Ethe Epsi  
 #	                                          deg  deg  deg  mm    mm   mm                                                      mm   mm   mm   deg  deg  deg   
@@ -91,7 +91,7 @@ DEFINE: pRGe		320+LGe/2 # R position of Germanium Detector
 	BL   minus blChamber10  cutULPort         45   90   0  P RO   -45   Z0     blChamber11
 	BL   minus blChamber11  cutDRPort         45   90   0  P R0    135  Z0     blChamber12
 	BL   minus blChamber12  cutLowerPort      45   90   0  P R0    135  ZLo    blChamber13
-	BL   minus blChamber13  ChamberIn         0    0    0  P 0     0    0      Chamber      1     World      Steel    none      0   -Z0   0    0   -90   90
+	BL   minus blChamber13  ChamberIn         0    0    0  P 0     0    0      Chamber      1     World      Steel    M/MonitorSD      0   -Z0   0    0   -90   90
 	BL   minus GeBody       GeHole            0    0    0    0     0   -dGe    Ge           1     World Germanium M/MonitorSD S pRGe  0  135  90   -45    0 
 
 #==================================================================================================================
@@ -127,17 +127,17 @@ DEFINE: pw  		-XGas/2.+Rwire+(x+1)*gwire # X/Y position of Verticle/Horizental W
 #	     mm    mm    mm                                                              mm    mm   mm      deg  deg  deg
 #	                                                                               P R     Phi  Z
 #	                                                                               S R     Phi  Theta  
-	B    XTr   XTr   LTr    MuTrigger    1     World     Air          none         S pRTr+thTp  0    180     0    0    0 
-	B    XFoil XFoil thFoil MuFoil       1     MuTrigger Mylar        none           0     0    pZFoil  0    0    0 
-	B    XGas  XGas  LGas   MuPC         1     MuTrigger GasArgEthane none           0     0    pZGas   0    0    0 
-	B    XGas  XGas  thwg   MuPCDSWindow 1     MuPC      Mylar        none           0     0    pZwg    0    0    0 
-	B    XGas  XGas  thwg   MuPCUSWindow 1     MuPC      Mylar        none           0     0   -pZwg    0    0    0 
-	B    XFoil XFoil thSCT  MuSC_T       1     MuTrigger Air          none           0     0    pZSC    0    0    0 
-  B    XFoil XFoil thSC   MuSC         1     MuSC_T    Scintillator none    0     0    0       0    0    0 
+	B    XTr   XTr   LTr    MuTrigger    1     World     Air          M/MonitorSD         S pRTr+thTp  0    180     0    0    0 
+	B    XFoil XFoil thFoil MuFoil       1     MuTrigger Mylar        M/MonitorSD           0     0    pZFoil  0    0    0 
+	B    XGas  XGas  LGas   MuPC         1     MuTrigger GasArgEthane M/MonitorSD           0     0    pZGas   0    0    0 
+	B    XGas  XGas  thwg   MuPCDSWindow 1     MuPC      Mylar        M/MonitorSD           0     0    pZwg    0    0    0 
+	B    XGas  XGas  thwg   MuPCUSWindow 1     MuPC      Mylar        M/MonitorSD           0     0   -pZwg    0    0    0 
+	B    XFoil XFoil thSCT  MuSC_T       1     MuTrigger Air          M/MonitorSD           0     0    pZSC    0    0    0 
+  B    XFoil XFoil thSC   MuSC         1     MuSC_T    Scintillator M/MonitorSD    0     0    0       0    0    0 
 	#B    XFoil XFoil thSC   MuSC         1     MuSC_T    Scintillator M/MonitorSD    0     0    0       0    0    0 
 DEFINE:	pZSCF		thSC/2+thTp/2
-	B    XFoil XFoil thTp   MuSC_FU      1     MuSC_T    Plastic      none           0     0    pZSCF   0    0    0 
-	B    XFoil XFoil thTp   MuSC_FD      1     MuSC_T    Plastic      none           0     0   -pZSCF   0    0    0 
+	B    XFoil XFoil thTp   MuSC_FU      1     MuSC_T    Plastic      M/MonitorSD           0     0    pZSCF   0    0    0 
+	B    XFoil XFoil thTp   MuSC_FD      1     MuSC_T    Plastic      M/MonitorSD           0     0   -pZSCF   0    0    0 
 #	B    XFoil XFoil thSC   MuSC         1     ChamberIn Scintillator M/MonitorSD  P pRSC  0    Z0     90   90    0 
 	B    XFoil XFoil thSCA  bMuSCA_Whole          
 #Tubs info
@@ -146,14 +146,14 @@ DEFINE:	pZSCF		thSC/2+thTp/2
 #	                                                                                       P R    Phi   Z     
 #	                                                                                       S R    Phi   Theta 
 	T    0    RSCA  thSCA+1 0     360  tMuSCA_Hole             
-	T    0    Rwire XGas    0     360  WireVer           24    MuPC      Aluminium none      pw   0    -1      0     90     0
-	T    0    Rwire XGas    0     360  WireHor           24    MuPC      Aluminium none      0    pw    1     90     90     0
+	T    0    Rwire XGas    0     360  WireVer           24    MuPC      Aluminium M/MonitorSD      pw   0    -1      0     90     0
+	T    0    Rwire XGas    0     360  WireHor           24    MuPC      Aluminium M/MonitorSD      0    pw    1     90     90     0
 #BooleanSolid info
 #	Type type  vol1         vol2              Ephi Ethe Epsi PosX  PosY PosZ   name RepNo MotVolume  Material     SDName            posX posY posZ  Ephi Ethe Epsi  
 #	                                          deg  deg  deg  mm    mm   mm                                                          mm   mm   mm    deg  deg  deg   
 #	                                                       P R     Phi  Z                                                         P R    Phi  Z    
 #	                                                       S R     Phi  Theta                                                     S R    Phi  Theta
-	BL   minus bMuSCA_Whole tMuSCA_Hole       0    0    0    0     0    0      MuSCA 1    MuTrigger  Scintillator none       0    0    pZSCA 0    0    0  
+	BL   minus bMuSCA_Whole tMuSCA_Hole       0    0    0    0     0    0      MuSCA 1    MuTrigger  Scintillator M/MonitorSD       0    0    pZSCA 0    0    0  
 	#BL   minus bMuSCA_Whole tMuSCA_Hole       0    0    0    0     0    0      MuSCA 1    MuTrigger  Scintillator M/MonitorSD       0    0    pZSCA 0    0    0  
 
 #==================================================================================================================
@@ -197,8 +197,8 @@ DEFINE: thCLi		1  # Thickness of Collimator Lining
 	BL   plus  bColL  bColSide   -90   45   90   pXColS 0   pZColS uColL1                  
 	BL   plus  uColL1 bColSide   -90  -45   90  -pXColS 0   pZColS uColL2                  
 	BL   plus  uColL2 tColLining  0    0    0    0      Z0  3.5    uColL3                  
-	BL   minus uColL3 tColLHole   0    0    0    0      Z0  0      CollimatorLead    1     ChamberIn  Lead         none   P pRColL 0    0    -90   90   0  
-	BL   minus bColP  tColPHole   0    0    0    0      0   0      CollimatorPlastic 1     ChamberIn  Scintillator none   P pRColP 0    Z0   -90   90   0  
+	BL   minus uColL3 tColLHole   0    0    0    0      Z0  0      CollimatorLead    1     ChamberIn  Lead         M/MonitorSD   P pRColL 0    0    -90   90   0  
+	BL   minus bColP  tColPHole   0    0    0    0      0   0      CollimatorPlastic 1     ChamberIn  Scintillator M/MonitorSD   P pRColP 0    Z0   -90   90   0  
 
 #==================================================================================================================
 #	Other Detectors
@@ -222,22 +222,22 @@ DEFINE: pZPS		pZESi+thESi/2+gPS+thPS/2 # Z position of Plastic Charged Veto Scin
 #	     mm     mm     mm                                                            mm      mm    mm      deg  deg  deg
 #	                                                                               P R       Phi   Z
 #	                                                                               S R       Phi   Theta  
-	B    bXVeto bXVeto thVeto MuVetoPS    1     ChamberIn Scintillator none P pRVeto  180    Z0     90   90   0
-	B    bXPack bXPack thPack DetBlock1   1     ChamberIn VacuumPSI    none        P pRPack  90     Z0     0   -90   0 
-	B    bXPack bXPack thPS   VetoPS1     1     DetBlock1 Scintillator none   0       0      pZPS   0    0    0 
-	B    bXPack bXPack thESi  ESi1        1     DetBlock1 Silicon      none   0       0      pZESi  0    0    0 
-	B    bXPack bXPack thdESi dESi1       1     DetBlock1 Silicon      none   0       0      pZdES  0    0    0 
-	B    bXPack bXPack thPack DetBlock2   1     ChamberIn VacuumPSI    none        P pRPack -90     Z0     0    90   0 
-	B    bXPack bXPack thPS   VetoPS2     1     DetBlock2 Scintillator none   0       0      pZPS   0    0    0 
-	B    bXPack bXPack thESi  ESi2        1     DetBlock2 Silicon      none   0       0      pZESi  0    0    0 
-	B    bXPack bXPack thdESi dESi2       1     DetBlock2 Silicon      none   0       0      pZdES  0    0    0 
-	B    bXVeto bXVeto thVeto GePS        1     World     Scintillator none S pRGe-10-LGe/2 0    135   90   -45      0 
+	B    bXVeto bXVeto thVeto MuVetoPS    1     ChamberIn Scintillator M/MonitorSD P pRVeto  180    Z0     90   90   0
+	B    bXPack bXPack thPack DetBlock1   1     ChamberIn VacuumPSI    M/MonitorSD        P pRPack  90     Z0     0   -90   0 
+	B    bXPack bXPack thPS   VetoPS1     1     DetBlock1 Scintillator M/MonitorSD   0       0      pZPS   0    0    0 
+	B    bXPack bXPack thESi  ESi1        1     DetBlock1 Silicon      M/MonitorSD   0       0      pZESi  0    0    0 
+	B    bXPack bXPack thdESi dESi1       1     DetBlock1 Silicon      M/MonitorSD   0       0      pZdES  0    0    0 
+	B    bXPack bXPack thPack DetBlock2   1     ChamberIn VacuumPSI    M/MonitorSD        P pRPack -90     Z0     0    90   0 
+	B    bXPack bXPack thPS   VetoPS2     1     DetBlock2 Scintillator M/MonitorSD   0       0      pZPS   0    0    0 
+	B    bXPack bXPack thESi  ESi2        1     DetBlock2 Silicon      M/MonitorSD   0       0      pZESi  0    0    0 
+	B    bXPack bXPack thdESi dESi2       1     DetBlock2 Silicon      M/MonitorSD   0       0      pZdES  0    0    0 
+	B    bXVeto bXVeto thVeto GePS        1     World     Scintillator M/MonitorSD S pRGe-10-LGe/2 0    135   90   -45      0 
 	#B    bXVeto bXVeto thVeto MuVetoPS    1     ChamberIn Scintillator M/MonitorSD P pRVeto  180    Z0     90   90   0
-	#B    bXPack bXPack thPack DetBlock1   1     ChamberIn VacuumPSI    none        P pRPack  90     Z0     0   -90   0 
+	#B    bXPack bXPack thPack DetBlock1   1     ChamberIn VacuumPSI    M/MonitorSD        P pRPack  90     Z0     0   -90   0 
 	#B    bXPack bXPack thPS   VetoPS1     1     DetBlock1 Scintillator M/MonitorSD   0       0      pZPS   0    0    0 
 	#B    bXPack bXPack thESi  ESi1        1     DetBlock1 Silicon      M/MonitorSD   0       0      pZESi  0    0    0 
 	#B    bXPack bXPack thdESi dESi1       1     DetBlock1 Silicon      M/MonitorSD   0       0      pZdES  0    0    0 
-	#B    bXPack bXPack thPack DetBlock2   1     ChamberIn VacuumPSI    none        P pRPack -90     Z0     0    90   0 
+	#B    bXPack bXPack thPack DetBlock2   1     ChamberIn VacuumPSI    M/MonitorSD        P pRPack -90     Z0     0    90   0 
 	#B    bXPack bXPack thPS   VetoPS2     1     DetBlock2 Scintillator M/MonitorSD   0       0      pZPS   0    0    0 
 	#B    bXPack bXPack thESi  ESi2        1     DetBlock2 Silicon      M/MonitorSD   0       0      pZESi  0    0    0 
 	#B    bXPack bXPack thdESi dESi2       1     DetBlock2 Silicon      M/MonitorSD   0       0      pZdES  0    0    0 
@@ -260,17 +260,17 @@ DEFINE: thTBS	7 # Thickness of Target Border Shielding
 	B    XT     XT    thTB+1  bTgtBdHl          
 	B    XTBS   XTBS  thTBS   bTgtBdShWh        
 	B    XT     XT    thTBS+1 bTgtBdShHl        
-	B    XTBS   XTBS  thTBS   TargetMount 1     ChamberIn   VacuumPSI     none        0     0     Z0     45   90   0 
-	#B    XT     XT    thT     Target      1     TargetMount Silicon     none 0     0     0      0    0    0
+	B    XTBS   XTBS  thTBS   TargetMount 1     ChamberIn   VacuumPSI     M/MonitorSD        0     0     Z0     45   90   0 
+	#B    XT     XT    thT     Target      1     TargetMount Silicon     M/MonitorSD 0     0     0      0    0    0
   B    XT     XT    thT     Target      1     TargetMount Aluminium     M/MonitorSD 0     0     0      0    0    0
 #BooleanSolid info
 #	Type type  vol1       vol2        Ephi Ethe Epsi PosX PosY PosZ   name                  RepNo MotVolume   Material SDName  posX posY posZ  Ephi Ethe Epsi  
 #	                                  deg  deg  deg  mm   mm   mm                                                              mm   mm   mm    deg  deg  deg   
 #	                                               P R    Phi  Z                                                             P R    Phi  Z    
 #	                                               S R    Phi  Theta                                                         S R    Phi  Theta
-	BL   minus bTgtBdWh   bTgtBdHl    0    0    0    0    0    0      TargetBorder          1     TargetMount PCB      none    0    0    0     0    0    0  
+	BL   minus bTgtBdWh   bTgtBdHl    0    0    0    0    0    0      TargetBorder          1     TargetMount PCB      M/MonitorSD    0    0    0     0    0    0  
 	BL   minus bTgtBdShWh bTgtBdShHl  0    0    0    0    0    0      uTgtBd1                     
-	BL   minus uTgtBd1    bTgtBdWh    0    0    0    0    0    0      TargetBorderShielding 1     TargetMount Lead     none    0    0    0     0    0    0
+	BL   minus uTgtBd1    bTgtBdWh    0    0    0    0    0    0      TargetBorderShielding 1     TargetMount Lead     M/MonitorSD    0    0    0     0    0    0
 
 #==================================================================================================================
 #       Back Shield (NB no legs in this geometry)
@@ -313,7 +313,7 @@ DEFINE: thBW            1 # Thickness of Back Wall
 #	BL   minus tDWall cDWall           0    0    0    0     0    0      bDW1                    
 #	BL   minus bDW1   cutDRPort        45   90   0  P R0    135  Z0     bDW2                    
 #	BL   minus bDW2   cutDetectorPort -45   90   0  P RO   -135  Z0	    bDW3                    
-#	BL   minus bDW3   cutLowerPort     45   90   0  P R0    135  ZLo    DSWall            1     ChamberIn  Lead        none      0    0    0    0    0    0
+#	BL   minus bDW3   cutLowerPort     45   90   0  P R0    135  ZLo    DSWall            1     ChamberIn  Lead        M/MonitorSD      0    0    0    0    0    0
 
 #visual settings
 	VerboseLevel:    5
