@@ -24,8 +24,8 @@
 	EnergyMode:     gRand #(root/histo/none)
 	PositionMode:   turtle  #(uniform/root/none/gRand/uRand/turtle)
 	DirectionMode:  turtle #(none/uniform/histo/turtle)
-	ThetaMode:      gRand #(none/gRand/uRand)
-	PhiMode:        uRand #(none/gRand/uRand)
+	ThetaMode:      none #(none/gRand/uRand)
+	PhiMode:        none #(none/gRand/uRand)
 	TimeMode:       none #(none/root)
 	pidMode:        none #(none/root)
 #Default Time
