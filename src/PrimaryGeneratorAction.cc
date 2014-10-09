@@ -224,7 +224,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	  if (!fXAngleTurtleFit && !fYAngleTurtleFit) {
 	    TDirectory* prev_dir = gDirectory;
 	    // Create the fitting functions for the x and y positions
-	    TFile* turtle_file = new TFile("TURTLE_fits.root", "READ");
+	    std::string dir_name = getenv("CONFIGUREDATAROOT");
+	    dir_name += "TURTLE_fits.root";
+	    TFile* turtle_file = new TFile(dir_name.c_str(), "READ");
 	    TFitResultPtr x_position_turtle_fit_result = (TFitResult*) turtle_file->Get("TFitResult-hXAngles-gaus");
 	    turtle_file->Close();
 	    gDirectory = prev_dir; // need to go back to where we were so that we can get the tree written to the output file
@@ -317,7 +319,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	  if (!fXPositionTurtleFit && !fYPositionTurtleFit) {
 	    TDirectory* prev_dir = gDirectory;
 	    // Create the fitting functions for the x and y positions
-	    TFile* turtle_file = new TFile("TURTLE_fits.root", "READ");
+	    std::string dir_name = getenv("CONFIGUREDATAROOT");
+	    dir_name += "TURTLE_fits.root";
+	    TFile* turtle_file = new TFile(dir_name.c_str(), "READ");
 	    TFitResultPtr x_position_turtle_fit_result = (TFitResult*) turtle_file->Get("TFitResult-hXPositions-gaus");
 	    TFitResultPtr y_position_turtle_fit_result = (TFitResult*) turtle_file->Get("TFitResult-hYPositions-gaus");
 	    turtle_file->Close();
