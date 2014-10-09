@@ -1,7 +1,7 @@
 #general info
 #	checkoverlap
 
-DEFINE: thTp		0.2 # Thickness of black tape
+DEFINE: thTp		0.080 # Thickness of black tape
 #==================================================================================================================
 #	Chamber Body and Germanium Detector
 #==================================================================================================================
@@ -22,7 +22,7 @@ DEFINE: Lp2			330.2 # (double) Length of Detector Port
 DEFINE: Rp2O		86 # R of Detector Port (Outside)
 DEFINE: Rp2I		76 # R of Detector Port (Inside)
 
-DEFINE: thw0		0.075 # Thickness of Beam Window
+DEFINE: thw0		0.100 # Thickness of Beam Window
 #DEFINE: thw0		0.1 # Thickness of Beam Window ( with black paper )
 DEFINE: pRw0		RO+Lp1/2-thw0/2 # R position of Beam Window
 DEFINE: pBlackTape pRw0+thw0/2+thTp/2 
