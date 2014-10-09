@@ -249,18 +249,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	  double tan_x_prime = std::tan(x_prime);
 	  double tan_y_prime = std::tan(y_prime);
 
-	  // Make sure tan has the correct sign
-	  if (x_prime < 0) { tan_x_prime *= -1; }
-	  if (y_prime < 0) { tan_y_prime *= -1; }
 	  //	  std::cout << "tan(x') = " << tan_x_prime << ", tan(y') = " << tan_y_prime << std::endl;
 	  double tan_phi = tan_y_prime / tan_x_prime;
 
-	  if (x_prime < 0 && y_prime > 0) {
-	    tan_phi *= -1;
-	  }
-	  else if (x_prime > 0 && y_prime < 0) {
-	    tan_phi *= -1;
-	  }
 	  //	  std::cout << "tan(phi) = tan(y') / tan(x') = " << tan_phi << std::endl;
 	  G4double phi = std::atan(tan_phi);
 	  // Get the correct quadrant
@@ -281,6 +272,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	  double dir_x = std::sin(theta)*std::cos(phi);
 	  double dir_y = std::sin(theta)*std::sin(phi);
 	  double dir_z = std::cos(theta);
+	  //	  std::cout << "dir_x/dir_z = " << (dir_x / dir_z)*1000 << std::endl;
+	  //	  std::cout << "dir_y/dir_z = " << (dir_y / dir_z)*1000 << std::endl;
 	  //	  std::cout << "dir = (" << dir_x << ", " << dir_y << ", " << dir_z << ") " << std::endl;
 	  //	  std::cout << "x*X + y*y + z*z = " << dir_x*dir_x + dir_y*dir_y + dir_z*dir_z << std::endl;
 
