@@ -241,18 +241,51 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	    fYAngleTurtleFit = new TF1("fYAngleTurtleFit", "1", fYAngleTurtle_Lower, fYAngleTurtle_Upper);
 	    fYAngleTurtleFit->Write();
 	  }
-	  double x_prime = fXAngleTurtleFit->GetRandom() / 1000; // convert from mrad to rad
-	  double y_prime = fYAngleTurtleFit->GetRandom() / 1000; // convert from mrad to rad
-	  G4double theta = x_prime*(180/pi);
-	  G4double phi = ((pi/2) - y_prime)*(180/pi);
-	  //	  std::cout << "(" << x_prime*1000 << ", " << y_prime*1000 << ")" << std::endl;
-	  //std::cout << "(" << theta << ", " << phi << ")" << std::endl;
-	  //	  std::cout << "(" << theta << ", " << phi << ")" << std::endl << std::endl;
-	  G4ThreeVector dir_3Vec(1, 1, 1);
-	  dir_3Vec.setTheta(theta);
-	  dir_3Vec.setPhi(phi);
-	  particleGun->SetParticleMomentumDirection(dir_3Vec);
+	  double x_prime = fXAngleTurtleFit->GetRandom() * mrad; // these are in mrad
+	  double y_prime = fYAngleTurtleFit->GetRandom() * mrad; // these are in mrad
 
+	  //	  std::cout << "(x', y') = (" << x_prime/mrad << ", " << y_prime/mrad << ")" << std::endl;
+	  //	  std::cout << "(x', y') = (" << x_prime/deg << ", " << y_prime/deg << ")" << std::endl;
+	  double tan_x_prime = std::tan(x_prime);
+	  double tan_y_prime = std::tan(y_prime);
+
+	  // Make sure tan has the correct sign
+	  if (x_prime < 0) { tan_x_prime *= -1; }
+	  if (y_prime < 0) { tan_y_prime *= -1; }
+	  //	  std::cout << "tan(x') = " << tan_x_prime << ", tan(y') = " << tan_y_prime << std::endl;
+	  double tan_phi = tan_y_prime / tan_x_prime;
+
+	  if (x_prime < 0 && y_prime > 0) {
+	    tan_phi *= -1;
+	  }
+	  else if (x_prime > 0 && y_prime < 0) {
+	    tan_phi *= -1;
+	  }
+	  //	  std::cout << "tan(phi) = tan(y') / tan(x') = " << tan_phi << std::endl;
+	  G4double phi = std::atan(tan_phi);
+	  // Get the correct quadrant
+	  if (x_prime < 0 || y_prime < 0) {
+	    phi += pi;
+	  }
+	  //	  std::cout << "phi = " << phi/deg << std::endl;
+	  //	  std::cout << "cos(phi) = " << std::cos(phi) << ", sin(phi) = " << std::sin(phi) << std::endl;
+
+	  // There are two ways we can get tan(theta)
+	  double tan_theta_1 = tan_x_prime / std::cos(phi);
+	  double tan_theta_2 = tan_y_prime / std::sin(phi);
+	  //	  std::cout << "tan(theta) = " << tan_theta_1 << " or " << tan_theta_2 << std::endl;
+
+	  G4double theta = std::atan(tan_theta_1);
+	  //	  std::cout << "theta = " << theta/deg << std::endl;
+
+	  double dir_x = std::sin(theta)*std::cos(phi);
+	  double dir_y = std::sin(theta)*std::sin(phi);
+	  double dir_z = std::cos(theta);
+	  //	  std::cout << "dir = (" << dir_x << ", " << dir_y << ", " << dir_z << ") " << std::endl;
+	  //	  std::cout << "x*X + y*y + z*z = " << dir_x*dir_x + dir_y*dir_y + dir_z*dir_z << std::endl;
+
+	  G4ThreeVector dir_3Vec(dir_x, dir_y, dir_z);
+	  particleGun->SetParticleMomentumDirection(dir_3Vec);
 	}
 	else if ( DirectionMode != "none" ){
 		std::cout<<"ERROR: unknown DirectionMode: "<<DirectionMode<<"!!!"<<std::endl;
@@ -260,6 +293,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 				"InvalidSetup", FatalException,
 				"unknown DirectionMode");
 	}
+
+
 	if ( PhiMode== "gRand" || PhiMode=="uRand" || ThetaMode== "gRand" || ThetaMode=="uRand" ){
 		SetRandomDirection();
 	}
@@ -338,6 +373,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 				"InvalidSetup", FatalException,
 				"unknown TimeMode");
 	}
+
 	particleGun->GeneratePrimaryVertex(anEvent);
 
 //	std::cout.precision(17);
