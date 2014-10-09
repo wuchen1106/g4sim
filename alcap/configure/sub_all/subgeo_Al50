@@ -206,7 +206,7 @@ DEFINE: thCLi		1  # Thickness of Collimator Lining
 DEFINE: bXVeto		100 # x-y Dimension of Muon Veto Scintillator
 DEFINE: thVeto		0.5 # Thickness of Muon Veto Scintillator
 DEFINE: pRVeto		137 # R position of Muon Veto Scintillator
-DEFINE: thdESi		0.065 # Thickness of dEdx Scintillator 
+DEFINE: thdESi		0.058 # Thickness of dEdx Scintillator 
 DEFINE: thESi		1.5 # Thickness of E Scintillator 
 DEFINE: thPS		1 # Thickness of Plastic Charged Veto Scintillator 
 DEFINE: gESi		1 # Gap between dEdx and E Scintillator 
