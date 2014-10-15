@@ -362,7 +362,7 @@ G4VPhysicalVolume* SimpleGeometrySvc::PlaceVolumes(){
 							name,                             //its name
 							log_container,                    //its mother volume
 							false,                            //no boolean operation
-							i+SRepNo,                                //copy number
+							im*RepNo+i+SRepNo,                                //copy number
 							checkOverlap);                    //overlaps checking
 				if ( name == "World" ) world_pvol = phy_Vol;
 			}
