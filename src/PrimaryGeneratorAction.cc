@@ -243,38 +243,33 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	    fMuPCBeamDistHist->SetDirectory(0); // need to set directory to 0 so that we can use this histogram after the file is closed
 	    turtle_file->Close();
 	    gDirectory = prev_dir; // need to go back to where we were so that we can get the tree written to the output file
-	}
+	  }
 
-	double x_muPC = 0;
-	double y_muPC = 0;
-	fMuPCBeamDistHist->GetRandom2(x_muPC, y_muPC);
-	fMuPCBeamDistRandom->Fill(x_muPC, y_muPC);
-	double z_muPC = 10; // approx 1cm downstream of the end of the beampipe
-
-	double x_ff = fXPositionFinalFocusFit->GetRandom()*10; // convert from cm to mm
-	double y_ff = fYPositionFinalFocusFit->GetRandom()*10; // convert from cm to mm
-	fFFBeamDistRandom->Fill(x_ff, y_ff);
-	double z_ff = 120; // 12cm downstream of the beam pipe (according to MuSun report)
-
-	// Translate to having the target at the origin
-	z_muPC = -294; // from the g4sim geometry
-	z_ff -= 304; // 
-
-	G4ThreeVector muPCPos(x_muPC, y_muPC, z_muPC);
-	G4ThreeVector ffPos(x_ff, y_ff, z_ff);
-	std::cout << "muPC: (" << muPCPos.x() << ", " << muPCPos.y() << ", " << muPCPos.z() << ")" << std::endl;	
-	std::cout << "FF: (" << ffPos.x() << ", " << ffPos.y() << ", " << ffPos.z() << ")" << std::endl;
-
-	//	  double z = -355;
-	  //	  std::cout << "(" << x << ", " << y << ", " << z << ")" << std::endl;
-	  //	  G4ThreeVector position(x, y, z);
-	  //	  particleGun->SetParticlePosition(position);
-/*	  double dir_x = std::sin(theta)*std::cos(phi);
-	  double dir_y = std::sin(theta)*std::sin(phi);
-	  double dir_z = std::cos(theta);
-	  G4ThreeVector dir_3Vec(dir_x, dir_y, dir_z);
-	  particleGun->SetParticleMomentumDirection(dir_3Vec);
-	*/
+	  double x_muPC = 0;
+	  double y_muPC = 0;
+	  fMuPCBeamDistHist->GetRandom2(x_muPC, y_muPC);
+	  fMuPCBeamDistRandom->Fill(x_muPC, y_muPC);
+	  double z_muPC = 10; // approx 1cm downstream of the end of the beampipe
+	  
+	  double x_ff = fXPositionFinalFocusFit->GetRandom()*10; // convert from cm to mm
+	  double y_ff = fYPositionFinalFocusFit->GetRandom()*10; // convert from cm to mm
+	  fFFBeamDistRandom->Fill(x_ff, y_ff);
+	  double z_ff = 120; // 12cm downstream of the beam pipe (according to MuSun report)
+	  
+	  // Translate to having the target at the origin
+	  z_muPC = -294; // from the g4sim geometry
+	  z_ff -= 304; // 
+	  
+	  G4ThreeVector muPCPos(x_muPC, y_muPC, z_muPC);
+	  G4ThreeVector ffPos(x_ff, y_ff, z_ff);
+	  //	std::cout << "muPC: (" << muPCPos.x() << ", " << muPCPos.y() << ", " << muPCPos.z() << ")" << std::endl;	
+	  //	std::cout << "FF: (" << ffPos.x() << ", " << ffPos.y() << ", " << ffPos.z() << ")" << std::endl;
+	  
+	  G4ThreeVector direction = (ffPos - muPCPos).unit();
+	  //	std::cout << "dir: (" << direction.x() << ", " << direction.y() << ", " << direction.z() << ")" << std::endl;	
+	  
+	  particleGun->SetParticlePosition(ffPos);
+	  particleGun->SetParticleMomentumDirection(direction);
 	}
 
 	else if ( DirectionMode != "none" ){
