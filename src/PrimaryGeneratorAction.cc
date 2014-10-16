@@ -69,14 +69,14 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 	fYPositionTurtleFit = NULL;
 	fYAngleTurtleFit = NULL;
 
-	fXPositionTurtle_Lower = -0.5;
-	fXPositionTurtle_Upper = 0.5;
+	fXPositionTurtle_Lower = -1.5;
+	fXPositionTurtle_Upper = 1.5;
 
 	fXAngleTurtle_Lower = -200;
 	fXAngleTurtle_Upper = 100;  
 
-	fYPositionTurtle_Lower = -0.5;
-	fYPositionTurtle_Upper = 0.5;
+	fYPositionTurtle_Lower = -1.5;
+	fYPositionTurtle_Upper = 1.5;
 
 	fYAngleTurtle_Lower = -150;
 	fYAngleTurtle_Upper = 150;
@@ -219,7 +219,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 		dir_3Vec.setPhi(phi);
 		particleGun->SetParticleMomentumDirection(dir_3Vec);
 	}
-	else if ( DirectionMode == "turtle") {
+	else if ( DirectionMode == "turtle" || PositionMode == "turtle") {
 
 	  if (!fXAngleTurtleFit && !fYAngleTurtleFit) {
 	    TDirectory* prev_dir = gDirectory;
@@ -281,41 +281,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
 	  G4ThreeVector dir_3Vec(dir_x, dir_y, dir_z);
 	  particleGun->SetParticleMomentumDirection(dir_3Vec);
-	}
-	else if ( DirectionMode != "none" ){
-		std::cout<<"ERROR: unknown DirectionMode: "<<DirectionMode<<"!!!"<<std::endl;
-		G4Exception("PrimaryGeneratorAction::GeneratePrimaries()",
-				"InvalidSetup", FatalException,
-				"unknown DirectionMode");
-	}
 
-
-	if ( PhiMode== "gRand" || PhiMode=="uRand" || ThetaMode== "gRand" || ThetaMode=="uRand" ){
-		SetRandomDirection();
-	}
-
-	if ( PositionMode == "uniform" ){
-		SetUniformPosition();
-	}
-	else if ( PositionMode == "root" ){
-		//std::cout<<"PGA PM = root!"
-		//	     <<", ("<<root_double[0]
-		//	     <<","<<root_double[1]
-		//	     <<","<<root_double[2]
-		//	     <<") mm"
-		//	     <<std::endl;
-		particleGun->SetParticlePosition(G4ThreeVector(root_double[0] * mm, root_double[1] * mm, (root_double[2])*mm));
-	}
-	else if ( PositionMode == "gRand" || PositionMode == "sRand" || PositionMode == "bRand" ){
-		SetRandomPosition();
-	}
-	else if ( PositionMode == "target") {
-	  SetRandomPosition();  
-	}
-	else if ( PositionMode == "source") {
-	  SetRandomPosition();  
-	}
-	else if ( PositionMode == "turtle") {
 	  if (!fXPositionTurtleFit && !fYPositionTurtleFit) {
 	    TDirectory* prev_dir = gDirectory;
 	    // Create the fitting functions for the x and y positions
@@ -349,6 +315,40 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	  //	  std::cout << "(" << x << ", " << y << ", " << z << ")" << std::endl;
 	  G4ThreeVector position(x, y, z);
 	  particleGun->SetParticlePosition(position);
+
+	}
+	else if ( DirectionMode != "none" ){
+		std::cout<<"ERROR: unknown DirectionMode: "<<DirectionMode<<"!!!"<<std::endl;
+		G4Exception("PrimaryGeneratorAction::GeneratePrimaries()",
+				"InvalidSetup", FatalException,
+				"unknown DirectionMode");
+	}
+
+
+	if ( PhiMode== "gRand" || PhiMode=="uRand" || ThetaMode== "gRand" || ThetaMode=="uRand" ){
+		SetRandomDirection();
+	}
+
+	if ( PositionMode == "uniform" ){
+		SetUniformPosition();
+	}
+	else if ( PositionMode == "root" ){
+		//std::cout<<"PGA PM = root!"
+		//	     <<", ("<<root_double[0]
+		//	     <<","<<root_double[1]
+		//	     <<","<<root_double[2]
+		//	     <<") mm"
+		//	     <<std::endl;
+		particleGun->SetParticlePosition(G4ThreeVector(root_double[0] * mm, root_double[1] * mm, (root_double[2])*mm));
+	}
+	else if ( PositionMode == "gRand" || PositionMode == "sRand" || PositionMode == "bRand" ){
+		SetRandomPosition();
+	}
+	else if ( PositionMode == "target") {
+	  SetRandomPosition();  
+	}
+	else if ( PositionMode == "source") {
+	  SetRandomPosition();  
 	}
 	else if ( PositionMode != "none" ){
 		std::cout<<"ERROR: unknown PositionMode: "<<PositionMode<<"!!!"<<std::endl;
