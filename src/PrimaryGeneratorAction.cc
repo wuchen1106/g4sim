@@ -249,12 +249,22 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	double y_muPC = 0;
 	fMuPCBeamDistHist->GetRandom2(x_muPC, y_muPC);
 	fMuPCBeamDistRandom->Fill(x_muPC, y_muPC);
-	//	std::cout << "muPC: (" << x_muPC << ", " << y_muPC << ")" << std::endl;
+	double z_muPC = 10; // approx 1cm downstream of the end of the beampipe
 
 	double x_ff = fXPositionFinalFocusFit->GetRandom()*10; // convert from cm to mm
 	double y_ff = fYPositionFinalFocusFit->GetRandom()*10; // convert from cm to mm
 	fFFBeamDistRandom->Fill(x_ff, y_ff);
-	//	std::cout << "FF: (" << x_ff << ", " << y_ff << ")" << std::endl;
+	double z_ff = 120; // 12cm downstream of the beam pipe (according to MuSun report)
+
+	// Translate to having the target at the origin
+	z_muPC = -294; // from the g4sim geometry
+	z_ff -= 304; // 
+
+	G4ThreeVector muPCPos(x_muPC, y_muPC, z_muPC);
+	G4ThreeVector ffPos(x_ff, y_ff, z_ff);
+	std::cout << "muPC: (" << muPCPos.x() << ", " << muPCPos.y() << ", " << muPCPos.z() << ")" << std::endl;	
+	std::cout << "FF: (" << ffPos.x() << ", " << ffPos.y() << ", " << ffPos.z() << ")" << std::endl;
+
 	//	  double z = -355;
 	  //	  std::cout << "(" << x << ", " << y << ", " << z << ")" << std::endl;
 	  //	  G4ThreeVector position(x, y, z);
