@@ -1,6 +1,6 @@
 void MakeTURTLEInput() {
 
-  TFile* out_file = new TFile("TURTLE_fits.root", "RECREATE");
+  TFile* out_file = new TFile("data/TURTLE_fits.root", "RECREATE");
 
   double horizontal_center = -0.321;
   double horizontal_fwhm = 0.799;
@@ -20,4 +20,12 @@ void MakeTURTLEInput() {
 
   final_focus_horizontal->Write();
   final_focus_vertical->Write();
+
+  TDirectory* prev_dir = gDirectory;
+  TFile* muPC_beam_dist_file = new TFile("data/hist.root");
+  TH2F* hMuPCBeamDist = (TH2F*) muPC_beam_dist_file->Get("muPC/hmuPC_XYWires");
+  //  muPC_beam_dist_file->Close();
+
+  gDirectory = prev_dir;
+  hMuPCBeamDist->Write();
 }
