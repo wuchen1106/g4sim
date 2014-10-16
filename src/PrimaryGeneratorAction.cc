@@ -221,6 +221,12 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	}
 	else if ( DirectionMode == "turtle" || PositionMode == "turtle") {
 
+	  // Plan
+	  // -- Get an X-Y position at muPC
+	  // -- Get an X-Y position at final focus 
+	  // -- Get the direction vector between the two
+	  // -- Track the direction forward to a start point
+
 	  if (!fXAngleTurtleFit && !fYAngleTurtleFit) {
 	    TDirectory* prev_dir = gDirectory;
 	    // Create the fitting functions for the x and y positions
