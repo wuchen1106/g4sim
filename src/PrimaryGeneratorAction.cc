@@ -74,10 +74,17 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 	fYPositionFinalFocus_Upper = 1.5;
 
 	fMuPCBeamDistHist = NULL;
+
+	fMuPCBeamDistRandom = new TH2F("muPC_random", "muPC_random", 100,-24,24, 100,-24,24);
+	fFFBeamDistRandom = new TH2F("FF_random", "FF_random", 100,-24,24, 100,-24,24);;
 }
 
 PrimaryGeneratorAction::~PrimaryGeneratorAction()
 {
+  TFile* output = new TFile("test.root", "RECREATE");
+  fMuPCBeamDistRandom->Write();
+  fFFBeamDistRandom->Write();
+  output->Close();
 	delete particleGun;
 	delete gunMessenger;
 	delete EM_hist;
@@ -241,11 +248,13 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	double x_muPC = 0;
 	double y_muPC = 0;
 	fMuPCBeamDistHist->GetRandom2(x_muPC, y_muPC);
-	std::cout << "muPC: (" << x_muPC << ", " << y_muPC << ")" << std::endl;
+	fMuPCBeamDistRandom->Fill(x_muPC, y_muPC);
+	//	std::cout << "muPC: (" << x_muPC << ", " << y_muPC << ")" << std::endl;
 
 	double x_ff = fXPositionFinalFocusFit->GetRandom()*10; // convert from cm to mm
 	double y_ff = fYPositionFinalFocusFit->GetRandom()*10; // convert from cm to mm
-	std::cout << "FF: (" << x_ff << ", " << y_ff << ")" << std::endl;
+	fFFBeamDistRandom->Fill(x_ff, y_ff);
+	//	std::cout << "FF: (" << x_ff << ", " << y_ff << ")" << std::endl;
 	//	  double z = -355;
 	  //	  std::cout << "(" << x << ", " << y << ", " << z << ")" << std::endl;
 	  //	  G4ThreeVector position(x, y, z);

@@ -177,6 +177,9 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
   double fYPositionFinalFocus_Upper;
 
   TH2F* fMuPCBeamDistHist;
+
+  TH2F* fMuPCBeamDistRandom;
+  TH2F* fFFBeamDistRandom;
 };
 
 #endif
