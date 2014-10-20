@@ -249,7 +249,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	  double y_muPC = 0;
 	  fMuPCBeamDistHist->GetRandom2(x_muPC, y_muPC);
 	  fMuPCBeamDistRandom->Fill(x_muPC, y_muPC);
-	  double z_muPC = 10; // approx 1cm downstream of the end of the beampipe
+	  double z_muPC = 52.5; // approx 10cm downstream of the end of the beampipe (from previous g4sim geometry)
 	  
 	  double x_ff = fXPositionFinalFocusFit->GetRandom()*10; // convert from cm to mm
 	  double y_ff = fYPositionFinalFocusFit->GetRandom()*10; // convert from cm to mm
@@ -257,18 +257,27 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	  double z_ff = 120; // 12cm downstream of the beam pipe (according to MuSun report)
 	  
 	  // Translate to having the target at the origin
-	  z_muPC = -294; // from the g4sim geometry
-	  z_ff -= 304; // 
+	  double z_pos_beam_pipe = -285.58 - 60; // relative to target
+	  double translation = z_pos_beam_pipe; // from g4sim geometry
+	  //	  std::cout << "translation = " << translation << std::endl;
+	  z_muPC += translation; // from the g4sim geometry
+	  z_ff += translation; 
 	  
-	  G4ThreeVector muPCPos(x_muPC, y_muPC, z_muPC);
-	  G4ThreeVector ffPos(x_ff, y_ff, z_ff);
-	  //	std::cout << "muPC: (" << muPCPos.x() << ", " << muPCPos.y() << ", " << muPCPos.z() << ")" << std::endl;	
-	  //	std::cout << "FF: (" << ffPos.x() << ", " << ffPos.y() << ", " << ffPos.z() << ")" << std::endl;
+	  G4ThreeVector muPCPos(x_muPC*mm, y_muPC*mm, z_muPC*mm);
+	  G4ThreeVector ffPos(x_ff*mm, y_ff*mm, z_ff*mm);
+	  //	  std::cout << "muPC: (" << muPCPos.x()/mm << ", " << muPCPos.y()/mm << ", " << muPCPos.z()/mm << ") mm" << std::endl;	
+	  //	  std::cout << "FF: (" << ffPos.x()/mm << ", " << ffPos.y()/mm << ", " << ffPos.z()/mm << ") mm" << std::endl;
 	  
 	  G4ThreeVector direction = (ffPos - muPCPos).unit();
-	  //	std::cout << "dir: (" << direction.x() << ", " << direction.y() << ", " << direction.z() << ")" << std::endl;	
+	  //	  std::cout << "dir: (" << direction.x()/mm << ", " << direction.y()/mm << ", " << direction.z()/mm << ") mm" << std::endl;	
 	  
-	  particleGun->SetParticlePosition(ffPos);
+	  // Track back to exit of beam pipe (z = -304*mm)
+	  double n_steps = (z_pos_beam_pipe - muPCPos.z()/mm) / (direction.z()/mm);
+	  //	  std::cout << "n_steps to start of beam pipe: " << n_steps << std::endl;
+	  G4ThreeVector start_pos = muPCPos + n_steps*direction;
+	  //	  std::cout << "start: (" << start_pos.x()/mm << ", " << start_pos.y()/mm << ", " << start_pos.z()/mm << ") mm" << std::endl;
+
+	  particleGun->SetParticlePosition(start_pos);
 	  particleGun->SetParticleMomentumDirection(direction);
 	}
 
