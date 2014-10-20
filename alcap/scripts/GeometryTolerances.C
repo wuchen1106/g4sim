@@ -9,7 +9,7 @@ void GeometryTolerances(std::string filename) {
 
   // Prepare to read the results in from a text file
   TTree* tree = new TTree();
-  tree->ReadFile(filename.c_str());
+  tree->ReadFile(filename.c_str(), "setting/C:n_muons/I:n_protons_right/I:n_protons_left/I");
   //  tree->Print();
 
   char* setting_name = new char[256];
