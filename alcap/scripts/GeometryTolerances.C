@@ -10,7 +10,7 @@ void GeometryTolerances(std::string filename) {
   // Prepare to read the results in from a text file
   TTree* tree = new TTree();
   tree->ReadFile(filename.c_str());
-  tree->Print();
+  //  tree->Print();
 
   char* setting_name = new char[256];
   int n_muons, n_protons_right, n_protons_left;
@@ -34,13 +34,13 @@ void GeometryTolerances(std::string filename) {
   double error_left_protons;
   double asymmetry;
 
-  TBranch* br_ratio_all_protons = tree->Branch("ratio_all_protons", &ratio_all_protons, "D");
-  TBranch* br_error_all_protons = tree->Branch("error_all_protons", &error_all_protons, "D");
-  TBranch* br_ratio_right_protons = tree->Branch("ratio_right_protons", &ratio_right_protons, "D");
-  TBranch* br_error_right_protons = tree->Branch("error_right_protons", &error_right_protons, "D");
-  TBranch* br_ratio_left_protons = tree->Branch("ratio_left_protons", &ratio_left_protons, "D");
-  TBranch* br_error_left_protons = tree->Branch("error_left_protons", &error_left_protons, "D");
-  TBranch* br_asymmetry = tree->Branch("asymmetry", &asymmetry, "D");
+  TBranch* br_ratio_all_protons = tree->Branch("ratio_all_protons", &ratio_all_protons, "ratio_all_protons/D");
+  TBranch* br_error_all_protons = tree->Branch("error_all_protons", &error_all_protons, "error_all_protons/D");
+  TBranch* br_ratio_right_protons = tree->Branch("ratio_right_protons", &ratio_right_protons, "ratio_right_protons/D");
+  TBranch* br_error_right_protons = tree->Branch("error_right_protons", &error_right_protons, "error_right_protons/D");
+  TBranch* br_ratio_left_protons = tree->Branch("ratio_left_protons", &ratio_left_protons, "ratio_left_protons/D");
+  TBranch* br_error_left_protons = tree->Branch("error_left_protons", &error_left_protons, "error_left_protons/D");
+  TBranch* br_asymmetry = tree->Branch("asymmetry", &asymmetry, "asymmetry/D");
 
 
   // Create the histograms
@@ -52,7 +52,6 @@ void GeometryTolerances(std::string filename) {
   // Read the results from a text file
   for (int i_entry = 0; i_entry < n_settings; ++i_entry) {
     tree->GetEntry(i_entry);
-    std::cout << setting_name << " " << n_muons << " " << n_protons_left << " " << n_protons_right << std::endl;
 
     int n_all_protons = n_protons_left + n_protons_right;
     ratio_all_protons = (double)n_all_protons / (double)n_muons;
@@ -71,7 +70,9 @@ void GeometryTolerances(std::string filename) {
     left_protons->SetBinError(i_entry+1, error_left_protons); // bins are numbered 1 to n 
 
     asymmetry = ((double)n_protons_left - (double)n_protons_right) / (double)n_all_protons;
+    tree->Fill();
   }
+  //  tree->Print();
 
 
   all_protons->SetStats(false);
@@ -102,11 +103,6 @@ void GeometryTolerances(std::string filename) {
   legend->AddEntry(left_protons, "Protons in SiL2", "l");
   legend->Draw();
 
-  std::cout << std::endl << "Change from base:" << std::endl;
-  double squared_total = 0;
-  std::cout << "Setting\tN_muons  N_left  N_right  N_protons\/N_muon  Fractional Difference from base  Asymmetry  Fractional Difference from base\n";
-  std::cout << "#######\t#######  ######  #######  ################  ###############################  #########  ###############################  \n";
-
   double base_ratio = 0;
   double base_asymmetry = 0;
   for (int i_entry = 0; i_entry < n_settings; ++i_entry) {
@@ -116,21 +112,22 @@ void GeometryTolerances(std::string filename) {
       base_ratio = ratio_all_protons;
       base_asymmetry = asymmetry;
     }
-    std::cout << setting_name << "\t" 
-	      << n_muons << "  "
-	      << n_protons_left << "  "
-	      << n_protons_right << "  "
-	      << ratio_all_protons << "  ";
+    std::cout << "**Setting: " << setting_name << " ** " << std::endl;
+    std::cout << "N_mu = " << n_muons << std::endl;
+    std::cout << "N_protons_left = " << n_protons_left << std::endl;
+    std::cout << "N_protons_right = " << n_protons_right << std::endl << std::endl;
+
+    std::cout << "N_protons / N_mu = " << ratio_all_protons << std::endl;
 
 
     double difference = ratio_all_protons - base_ratio;
     double diff_over_base = difference / base_ratio;
-    squared_total += (diff_over_base*diff_over_base);
-
+    double squared_total = (diff_over_base*diff_over_base);
+    std::cout << "Fractional Difference from \"base\" = " << diff_over_base << std::endl << std::endl;
 
     double fractional_asymmetry_change = (asymmetry - base_asymmetry)/base_asymmetry;
-
-    std::cout << diff_over_base << "  " << asymmetry << "  " << fractional_asymmetry_change << std::endl;
+    std::cout << "Asymmetry = " << asymmetry << std::endl;
+    std::cout << "Fractional Difference from \"base\" = " << fractional_asymmetry_change << std::endl << std::endl;
   }
   //  std::cout << "Total in quadrature = " << sqrt(squared_total) << std::endl;
 }
