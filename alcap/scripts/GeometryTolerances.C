@@ -1,45 +1,78 @@
 #include "TH1F.h"
+#include "TTree.h"
+#include "TBranch.h"
+#include "TLegend.h"
 
-void GeometryTolerances() {
+#include <iostream>
 
-  const int elements = 7;
-  int n_muons[elements] =         {28846358, 34419499, 29815362, 33605572, 29682266, 29761365, 29118220};
-  int n_right_protons[elements] = {23603,    24485,    28111,    27108,    24107,    24188,    23378};
-  int n_left_protons[elements] =  {23583,    32304,    21226,    27214,    24045,    24003,    23091};
-  double ratio_all_protons[elements];
-  double error_all_protons[elements];
-  double ratio_right_protons[elements];
-  double error_right_protons[elements];
-  double ratio_left_protons[elements];
-  double error_left_protons[elements];
-  double asymmetry[elements];
-  std::string run_names[elements] = {"base", "target-1cm-left", "target-1cm-right", "target-1cm-forward", "target-1cm-backward", "target-10deg-clockwise", "target-10deg-anticlockwise"};
+void GeometryTolerances(std::string filename) {
 
-  TH1F* all_protons  = new TH1F("Histogram_all", "Plot of the number of stopped protons per muon in both SiR2 and SiL2 for different positions of target", elements,0,elements);
-  TH1F* right_protons  = new TH1F("Histogram_right", "Plot of the number of stopped protons per muon in SiR2 (ESi1) for different positions of target", elements,0,elements);
-  TH1F* left_protons  = new TH1F("Histogram_left", "Plot of the number of stopped protons per muon in SiL2 (ESi2) for different positions of target", elements,0,elements);
+  // Prepare to read the results in from a text file
+  TTree* tree = new TTree();
+  tree->ReadFile(filename.c_str());
+  tree->Print();
 
-  for (int i_element = 0; i_element < elements; ++i_element) {
-    
-    int n_all_protons = n_left_protons[i_element] + n_right_protons[i_element];
-    ratio_all_protons[i_element] = (double)n_all_protons / (double)n_muons[i_element];
-    error_all_protons[i_element] = sqrt(n_all_protons) / (double)n_muons[i_element];
-    all_protons->Fill(run_names[i_element].c_str(), ratio_all_protons[i_element]);
-    all_protons->SetBinError(i_element+1, error_all_protons[i_element]); // bins are numbered 1 to n
+  char* setting_name = new char[256];
+  int n_muons, n_protons_right, n_protons_left;
 
-    ratio_right_protons[i_element] = (double)n_right_protons[i_element] / (double)n_muons[i_element];
-    error_right_protons[i_element] = sqrt(n_right_protons[i_element]) / (double)n_muons[i_element];
-    right_protons->Fill(run_names[i_element].c_str(), ratio_right_protons[i_element]);
-    right_protons->SetBinError(i_element+1, error_right_protons[i_element]); // bins are numbered 1 to n
+  TBranch* br_setting_name = tree->GetBranch("setting");
+  TBranch* br_n_muons = tree->GetBranch("n_muons");
+  TBranch* br_n_protons_right = tree->GetBranch("n_protons_right");
+  TBranch* br_n_protons_left = tree->GetBranch("n_protons_left");
+
+  br_setting_name->SetAddress(setting_name);
+  br_n_muons->SetAddress(&n_muons);
+  br_n_protons_right->SetAddress(&n_protons_right);
+  br_n_protons_left->SetAddress(&n_protons_left);
+
+  // Add branches for storing intermediate calculations
+  double ratio_all_protons;
+  double error_all_protons;
+  double ratio_right_protons;
+  double error_right_protons;
+  double ratio_left_protons;
+  double error_left_protons;
+  double asymmetry;
+
+  TBranch* br_ratio_all_protons = tree->Branch("ratio_all_protons", &ratio_all_protons, "D");
+  TBranch* br_error_all_protons = tree->Branch("error_all_protons", &error_all_protons, "D");
+  TBranch* br_ratio_right_protons = tree->Branch("ratio_right_protons", &ratio_right_protons, "D");
+  TBranch* br_error_right_protons = tree->Branch("error_right_protons", &error_right_protons, "D");
+  TBranch* br_ratio_left_protons = tree->Branch("ratio_left_protons", &ratio_left_protons, "D");
+  TBranch* br_error_left_protons = tree->Branch("error_left_protons", &error_left_protons, "D");
+  TBranch* br_asymmetry = tree->Branch("asymmetry", &asymmetry, "D");
 
 
-    ratio_left_protons[i_element] = (double)n_left_protons[i_element] / (double)n_muons[i_element];
-    error_left_protons[i_element] = sqrt(n_left_protons[i_element]) / (double)n_muons[i_element];
-    left_protons->Fill(run_names[i_element].c_str(), ratio_left_protons[i_element]);
-    left_protons->SetBinError(i_element+1, error_left_protons[i_element]); // bins are numbered 1 to n 
+  // Create the histograms
+  int n_settings = tree->GetEntries();
+  TH1F* all_protons  = new TH1F("Histogram_all", "Plot of the number of stopped protons per muon in both SiR2 and SiL2 for different positions of target", n_settings,0,n_settings);
+  TH1F* right_protons  = new TH1F("Histogram_right", "Plot of the number of stopped protons per muon in SiR2 (ESi1) for different positions of target", n_settings,0,n_settings);
+  TH1F* left_protons  = new TH1F("Histogram_left", "Plot of the number of stopped protons per muon in SiL2 (ESi2) for different positions of target", n_settings,0,n_settings);
 
-    asymmetry[i_element] = ((double)n_left_protons[i_element] - (double)n_right_protons[i_element]) / (double)n_all_protons[i_element];
+  // Read the results from a text file
+  for (int i_entry = 0; i_entry < n_settings; ++i_entry) {
+    tree->GetEntry(i_entry);
+    std::cout << setting_name << " " << n_muons << " " << n_protons_left << " " << n_protons_right << std::endl;
+
+    int n_all_protons = n_protons_left + n_protons_right;
+    ratio_all_protons = (double)n_all_protons / (double)n_muons;
+    error_all_protons = sqrt(n_all_protons) / (double)n_muons;
+    all_protons->Fill(setting_name, ratio_all_protons);
+    all_protons->SetBinError(i_entry+1, error_all_protons); // bins are numbered 1 to n
+
+    ratio_right_protons = (double)n_protons_right / (double)n_muons;
+    error_right_protons = sqrt(n_protons_right) / (double)n_muons;
+    right_protons->Fill(setting_name, ratio_right_protons);
+    right_protons->SetBinError(i_entry+1, error_right_protons); // bins are numbered 1 to n
+
+    ratio_left_protons = (double)n_protons_left / (double)n_muons;
+    error_left_protons = sqrt(n_protons_left) / (double)n_muons;
+    left_protons->Fill(setting_name, ratio_left_protons);
+    left_protons->SetBinError(i_entry+1, error_left_protons); // bins are numbered 1 to n 
+
+    asymmetry = ((double)n_protons_left - (double)n_protons_right) / (double)n_all_protons;
   }
+
 
   all_protons->SetStats(false);
   right_protons->SetStats(false);
@@ -73,22 +106,31 @@ void GeometryTolerances() {
   double squared_total = 0;
   std::cout << "Setting\tN_muons  N_left  N_right  N_protons\/N_muon  Fractional Difference from base  Asymmetry  Fractional Difference from base\n";
   std::cout << "#######\t#######  ######  #######  ################  ###############################  #########  ###############################  \n";
-  for (int i_element = 0; i_element < elements; ++i_element) {
-    std::cout << run_names[i_element] << "\t" 
-	      << n_muons[i_element] << "  "
-	      << n_left_protons[i_element] << "  "
-	      << n_right_protons[i_element] << "  "
-	      << ratio_all_protons[i_element] << "  ";
+
+  double base_ratio = 0;
+  double base_asymmetry = 0;
+  for (int i_entry = 0; i_entry < n_settings; ++i_entry) {
+    tree->GetEntry(i_entry);
+
+    if (strcmp(setting_name, "base") == 0) {
+      base_ratio = ratio_all_protons;
+      base_asymmetry = asymmetry;
+    }
+    std::cout << setting_name << "\t" 
+	      << n_muons << "  "
+	      << n_protons_left << "  "
+	      << n_protons_right << "  "
+	      << ratio_all_protons << "  ";
 
 
-    double difference = ratio_all_protons[i_element] - ratio_all_protons[0];
-    double diff_over_base = difference / ratio_all_protons[0];
+    double difference = ratio_all_protons - base_ratio;
+    double diff_over_base = difference / base_ratio;
     squared_total += (diff_over_base*diff_over_base);
 
 
-    double fractional_asymmetry_change = (asymmetry[i_element] - asymmetry[0])/asymmetry[0];
+    double fractional_asymmetry_change = (asymmetry - base_asymmetry)/base_asymmetry;
 
-    std::cout << diff_over_base << "  " << asymmetry[i_element] << "  " << fractional_asymmetry_change << std::endl;
+    std::cout << diff_over_base << "  " << asymmetry << "  " << fractional_asymmetry_change << std::endl;
   }
   //  std::cout << "Total in quadrature = " << sqrt(squared_total) << std::endl;
 }
