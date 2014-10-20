@@ -97,7 +97,7 @@ DEFINE: pRGe		320+LGe/2 # R position of Germanium Detector
 #==================================================================================================================
 #	Muon Trigger
 #==================================================================================================================
-DEFINE: LTr			170 # Length of Trigger Box (Adjacent to Beam Window)
+DEFINE: LTr			120 # Length of Trigger Box (Adjacent to Beam Window)
 DEFINE: XTr			200 # x-y Dimension of Trigger Box
 DEFINE: pRTr		RO+Lp1/2+LTr/2 # R position of Trigger box
 DEFINE: LGas		35 # Length of Gas Chamber
