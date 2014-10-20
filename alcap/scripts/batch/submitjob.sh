@@ -36,11 +36,13 @@ for I_RUN in `seq 1 $N_RUNS`; do
     CONFIGUREDIR=$PWD/configure
     mkdir -p $CONFIGUREDIR
 
-    GEOMFILE="geometry_tolerances"
-    GENFILE="gen_mum_tgt"
+    GEOMFILE="geometry_Al50"
+    SUBGEOMFILE=`cat $ALCAPWORKROOT/configure/$GEOMFILE | grep sub | tr -s ' ' | cut -d ' ' -f 3`
+    GENFILE="gen_mu_1.07_turtle"
     OUT_CONFIG_FILE="output_default"
 
     cp $ALCAPWORKROOT/configure/$GEOMFILE $CONFIGUREDIR
+    cp $ALCAPWORKROOT/configure/$SUBGEOMFILE $CONFIGUREDIR
     cp $ALCAPWORKROOT/configure/gen/$GENFILE $CONFIGUREDIR
     cp $ALCAPWORKROOT/configure/output/$OUT_CONFIG_FILE $CONFIGUREDIR
 

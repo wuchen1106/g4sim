@@ -75,16 +75,17 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 
 	fMuPCBeamDistHist = NULL;
 
-	fMuPCBeamDistRandom = new TH2F("muPC_random", "muPC_random", 100,-24,24, 100,-24,24);
-	fFFBeamDistRandom = new TH2F("FF_random", "FF_random", 100,-24,24, 100,-24,24);;
+	//	fMuPCBeamDistRandom = new TH2F("muPC_random", "muPC_random", 100,-24,24, 100,-24,24);
+	//	fFFBeamDistRandom = new TH2F("FF_random", "FF_random", 100,-24,24, 100,-24,24);;
 }
 
 PrimaryGeneratorAction::~PrimaryGeneratorAction()
 {
-  TFile* output = new TFile("test.root", "RECREATE");
+  /*  TFile* output = new TFile("test.root", "RECREATE");
   fMuPCBeamDistRandom->Write();
   fFFBeamDistRandom->Write();
   output->Close();
+  */
 	delete particleGun;
 	delete gunMessenger;
 	delete EM_hist;
@@ -248,12 +249,12 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	  double x_muPC = 0;
 	  double y_muPC = 0;
 	  fMuPCBeamDistHist->GetRandom2(x_muPC, y_muPC);
-	  fMuPCBeamDistRandom->Fill(x_muPC, y_muPC);
+	  //	  fMuPCBeamDistRandom->Fill(x_muPC, y_muPC);
 	  double z_muPC = 52.5; // approx 10cm downstream of the end of the beampipe (from previous g4sim geometry)
 	  
 	  double x_ff = fXPositionFinalFocusFit->GetRandom()*10; // convert from cm to mm
 	  double y_ff = fYPositionFinalFocusFit->GetRandom()*10; // convert from cm to mm
-	  fFFBeamDistRandom->Fill(x_ff, y_ff);
+	  //	  fFFBeamDistRandom->Fill(x_ff, y_ff);
 	  double z_ff = 120; // 12cm downstream of the beam pipe (according to MuSun report)
 	  
 	  // Translate to having the target at the origin
