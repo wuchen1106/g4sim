@@ -79,7 +79,7 @@ void GeometryTolerances(std::string filename) {
   right_protons->SetStats(false);
   left_protons->SetStats(false);
 
-  all_protons->GetYaxis()->SetTitle("N_{p} / N_{#mu}");
+  all_protons->GetYaxis()->SetTitle("N_{p} / N_{#mu-stop}");
   all_protons->GetYaxis()->SetLabelSize(0.025);
   all_protons->GetYaxis()->SetRangeUser(0,0.004);
 
