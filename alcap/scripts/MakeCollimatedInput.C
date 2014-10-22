@@ -1,6 +1,6 @@
 void MakeCollimatedInput() {
 
-  TFile* input = new TFile("output/raw_g4sim.root", "READ");
+  TFile* input = new TFile("collimator-monitor.root", "READ");
   TTree* tree = (TTree*) input->Get("tree");
   int n_entries = =tree->GetEntries();
 
@@ -89,4 +89,8 @@ void MakeCollimatedInput() {
   hRandomZ->Draw("SAMES");
   c_z->Update();
 
+  TFile* output = new TFile("CollimatedInput.root", "CREATE");
+  hMomentum->Write();
+  hPosition->Write();
+  output->Close();
 }
