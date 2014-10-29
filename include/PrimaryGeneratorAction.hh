@@ -17,6 +17,7 @@
 #include "MyConfigure.hh"
 #include "TF1.h"
 #include "TH2F.h"
+#include "TH3F.h"
 
 class G4ParticleGun;
 class G4Event;
@@ -166,8 +167,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
 		bool flag_ppid;
 		bool flag_ptid;
 
-  // For TURTLE data
-  // No Fit result for Y-angle because it was uniform between -150 and 150 mrad
+  // For "turtle" position and direction mode
   TF1* fXPositionFinalFocusFit;
   double fXPositionFinalFocus_Lower;
   double fXPositionFinalFocus_Upper;
@@ -180,6 +180,11 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
 
   TH2F* fMuPCBeamDistRandom;
   TH2F* fFFBeamDistRandom;
+
+  // For "collimated" position and energy modes
+  TH3F* fCollimatedInputHist_PxPyPz;
+  TH3F* fCollimatedInputHist_XPxPz;
+  TH3F* fCollimatedInputHist_YPyPz;
 };
 
 #endif
