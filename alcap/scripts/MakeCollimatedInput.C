@@ -4,26 +4,43 @@ void MakeCollimatedInput() {
   TTree* tree = (TTree*) input->Get("tree");
   int n_entries = =tree->GetEntries();
 
-  TH3F* hPxPyPz = new TH3F("hPxPyPz", "hPxPyPz", 100,-5,5, 100,-5,5, 350,0,35);
-  TH3F* hXPxPz = new TH3F("hXPxPz", "hXPxPz", 80,-4,4, 100,-5,5, 350,0,35);
-  TH3F* hYPyPz = new TH3F("hYPyPz", "hYPyPz", 80,-4,4, 100,-5,5, 350,0,35);
+  double mom_bins = 100;
+  double mom_min = -5;
+  double mom_max = 5;
+
+  double pz_bins = 350;
+  double pz_min = 0;
+  double pz_max = 35;
+
+  double pos_bins = 80;
+  double pos_min = -4;
+  double pos_max = 4;
+
+  TH3F* hPxPyPz = new TH3F("hPxPyPz", "hPxPyPz", mom_bins,mom_min,mom_max, mom_bins,mom_min,mom_max, pz_bins,pz_min,pz_max);
+  TH3F* hXPxPz = new TH3F("hXPxPz", "hXPxPz", pos_bins,pos_min,pos_max, mom_bins,mom_min,mom_max, pz_bins,pz_min,pz_max);
+  TH3F* hYPyPz = new TH3F("hYPyPz", "hYPyPz", pos_bins,pos_min,pos_max, mom_bins,mom_min,mom_max, pz_bins,pz_min,pz_max);
   tree->Draw("M_pz*1000:M_py*1000:M_px*1000>>hPxPyPz", "M_particleName == \"mu-\" && M_volName == \"ColMon\"");
   tree->Draw("M_pz*1000:M_px*1000:M_x>>hXPxPz", "M_particleName == \"mu-\" && M_volName == \"ColMon\"");
   tree->Draw("M_pz*1000:M_py*1000:M_y>>hYPyPz", "M_particleName == \"mu-\" && M_volName == \"ColMon\"");
 
-  TH3F* hPosition = new TH3F("hPosition", "hPosition", 80,-4,4, 80,-4,4, 10,-8,-7);
+  TH3F* hXYPz = new TH3F("hXYPz", "hXYPz", pos_bins,pos_min,pos_max, pos_bins,pos_min,pos_max, pz_bins,pz_min,pz_max);
+  tree->Draw("M_pz*1000:M_y:M_x>>hXYPz", "M_particleName == \"mu-\" && M_volName == \"ColMon\"");
+  TH2F* hPxPyTree = new TH2F("hPxPyTree", "hPxPyTree", pos_bins,pos_min,pos_max, pos_bins,pos_min,pos_max);
+  tree->Draw("M_py*1000:M_px*1000>>hPxPyTree", "M_particleName == \"mu-\" && M_volName == \"ColMon\"");
+
+  TH3F* hPosition = new TH3F("hPosition", "hPosition", pos_bins,pos_min,pos_max, pos_bins,pos_min,pos_max, 10,-8,-7);
   tree->Draw("M_z:M_y:M_x>>hPosition", "M_particleName == \"mu-\" && M_volName == \"ColMon\"");
 
-  TH2F* hXYTree = new TH2F("hXYTree", "hXYTree", 80,-4,4, 80,-4,4);
-  TH2F* hXYRandom = new TH2F("hXYRandom", "hXYRandom", 80,-4,4, 80,-4,4);
+  TH2F* hXYTree = new TH2F("hXYTree", "hXYTree", pos_bins,pos_min,pos_max, pos_bins,pos_min,pos_max);
+  TH2F* hXYRandom = new TH2F("hXYRandom", "hXYRandom", pos_bins,pos_min,pos_max, pos_bins,pos_min,pos_max);
   tree->Draw("M_y:M_x>>hXYTree", "M_particleName == \"mu-\" && M_volName == \"ColMon\"");
 
-  TH2F* hPxYTree = new TH2F("hPxYTree", "hPxYTree", 100,-5,5, 80,-4,4);
-  TH2F* hPxYRandom = new TH2F("hPxYRandom", "hPxYRandom", 100,-5,5, 80,-4,4);
+  TH2F* hPxYTree = new TH2F("hPxYTree", "hPxYTree", mom_bins,mom_min,mom_max, pos_bins,pos_min,pos_max);
+  TH2F* hPxYRandom = new TH2F("hPxYRandom", "hPxYRandom", mom_bins,mom_min,mom_max, pos_bins,pos_min,pos_max);
   tree->Draw("M_y:M_px*1000>>hPxYTree", "M_particleName == \"mu-\" && M_volName == \"ColMon\"");
 
-  TH2F* hPyXTree = new TH2F("hPyXTree", "hPyXTree", 100,-5,5, 80,-4,4);
-  TH2F* hPyXRandom = new TH2F("hPyXRandom", "hPyXRandom", 100,-5,5, 80,-4,4);
+  TH2F* hPyXTree = new TH2F("hPyXTree", "hPyXTree", mom_bins,mom_min,mom_max, pos_bins,pos_min,pos_max);
+  TH2F* hPyXRandom = new TH2F("hPyXRandom", "hPyXRandom", mom_bins,mom_min,mom_max, pos_bins,pos_min,pos_max);
   tree->Draw("M_x:M_py*1000>>hPyXTree", "M_particleName == \"mu-\" && M_volName == \"ColMon\"");
 
   /*  double px, py, pz;
@@ -101,7 +118,9 @@ void MakeCollimatedInput() {
   hXPxPz->Write();
   hYPyPz->Write();
   hPosition->Write();
+  hXYPz->Write();
 
+  hPxPyTree->Write();
   hXYTree->Write();
   hXYRandom->Write();
   hPxYTree->Write();

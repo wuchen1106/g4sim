@@ -182,7 +182,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
   TH2F* fFFBeamDistRandom;
 
   // For "collimated" position and energy modes
-  TH3F* fCollimatedInputHist_PxPyPz;
+  TH3F* fCollimatedInputHist_XYPz;
   TH3F* fCollimatedInputHist_XPxPz;
   TH3F* fCollimatedInputHist_YPyPz;
 };

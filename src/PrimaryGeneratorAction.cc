@@ -76,7 +76,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 	fMuPCBeamDistHist = NULL;
 	
 	// Set the "collimated" input hists to NULL
-	fCollimatedInputHist_PxPyPz = NULL;
+	fCollimatedInputHist_XYPz = NULL;
 	fCollimatedInputHist_XPxPz = NULL;
 	fCollimatedInputHist_YPyPz = NULL;
 
@@ -208,15 +208,15 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 		SetRandomEnergy();
 	}
 	else if ( EnergyMode == "collimated") {
-	  if (!fCollimatedInputHist_PxPyPz && !fCollimatedInputHist_XPxPz && !fCollimatedInputHist_YPyPz) {
+	  if (!fCollimatedInputHist_XYPz && !fCollimatedInputHist_XPxPz && !fCollimatedInputHist_YPyPz) {
 	    TDirectory* prev_dir = gDirectory;
 	    // Get the relevant functions/histograms
 	    std::string dir_name = getenv("CONFIGUREDATAROOT");
 	    dir_name += "CollimatedInput.root";
 	    TFile* collimated_file = new TFile(dir_name.c_str(), "READ");
 	    
-	    fCollimatedInputHist_PxPyPz = (TH3F*) (collimated_file->Get("hPxPyPz"))->Clone();
-	    fCollimatedInputHist_PxPyPz->SetDirectory(0);
+	    fCollimatedInputHist_XYPz = (TH3F*) (collimated_file->Get("hXYPz"))->Clone();
+	    fCollimatedInputHist_XYPz->SetDirectory(0);
 
 	    fCollimatedInputHist_XPxPz = (TH3F*) (collimated_file->Get("hXPxPz"))->Clone();
 	    fCollimatedInputHist_XPxPz->SetDirectory(0);
@@ -230,7 +230,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
 	  // The idea here is to make sure the correlations are maintained
 	  // The plan is:
-	  //  1. Generate a random set of PxPyPz
+	  //  1. Generate a random set of XYPz
 	  //  2. Select a random x position based on the values of Px and Pz
 	  //  3. Select a random y position based on the values of Py and Pz
 	  //  4. Track this (x, y) pair back to make sure that it passed the ellipse
@@ -239,9 +239,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	  z = -7.06*cm; // already set by location of ColMon
 
 	  TH2F* hXPx = NULL; // we will use these to store the projections of the various plots
-	  TH1D* hX = NULL;
+	  TH1D* hPx = NULL;
 	  TH2F* hYPy = NULL;
-	  TH1D* hY = NULL;
+	  TH1D* hPy = NULL;
 
 	  double monitor_location = 2*cm; // the monitor we read out from to get collimated information was 20mm in front of the collimator
 	  double hole_ellipse_half_x = 1.6*cm; // the two radii of the hole in the collimator
@@ -249,54 +249,58 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
 	  bool found = false;
 	  while (!found) {
-	    fCollimatedInputHist_PxPyPz->GetRandom3(px, py, pz);
-	    //	    std::cout << "Drawn (px, py, pz): (" << px << ", " << py << ", " << pz << ") MeV" << std::endl;
+	    fCollimatedInputHist_XYPz->GetRandom3(x, y, pz);
+	    x *= cm; y *= cm; pz *= MeV;
+	    //	    std::cout << "Drawn (x, y, pz): (" << x/cm << " cm, " << y/cm << " cm, " << pz/MeV << " MeV)" << std::endl;
 
 	    // First get the slice in the X-Z plane
-	    int bin = fCollimatedInputHist_PxPyPz->GetZaxis()->FindBin(pz);
-	    fCollimatedInputHist_PxPyPz->GetZaxis()->SetRange(bin, bin);
-	    hXPx = (TH2F*) fCollimatedInputHist_PxPyPz->Project3D("xy");
+	    int bin = fCollimatedInputHist_XPxPz->GetZaxis()->FindBin(pz);
+	    fCollimatedInputHist_XPxPz->GetZaxis()->SetRange(bin, bin);
+	    hXPx = (TH2F*) fCollimatedInputHist_XPxPz->Project3D("xy");
 
-	    if (hXPx->GetEntries() == 0) {
+	    /*	    if (hXPx->GetEntries() == 0) {
 	      continue;
 	    }
-
+	    */
 	    // Now get the slice in the y plane so that we can randomly select a value for x
-	    bin = hXPx->GetXaxis()->FindBin(px);
-	    hXPx->GetXaxis()->SetRange(bin, bin);
-	    hX = hXPx->ProjectionY();
+	    bin = hXPx->GetYaxis()->FindBin(x);
+	    hXPx->GetYaxis()->SetRange(bin, bin);
+	    hPx = hXPx->ProjectionX();
 
-	    if (hX->GetEntries() == 0) {
+	    /*	    if (hPx->GetEntries() == 0) {
 	      continue;
 	    }
+	    */
 
 	    // Randomly select a value for x
-	    x = hX->GetRandom()*cm;
+	    px = hPx->GetRandom()*MeV;
 
 	    // First get the slice in the Y-Z plane
-	    bin = fCollimatedInputHist_PxPyPz->GetZaxis()->FindBin(pz);
-	    fCollimatedInputHist_PxPyPz->GetZaxis()->SetRange(bin, bin);
-	    hYPy = (TH2F*) fCollimatedInputHist_PxPyPz->Project3D("xy");
+	    bin = fCollimatedInputHist_YPyPz->GetZaxis()->FindBin(pz);
+	    fCollimatedInputHist_YPyPz->GetZaxis()->SetRange(bin, bin);
+	    hYPy = (TH2F*) fCollimatedInputHist_YPyPz->Project3D("xy");
 
-	    if (hYPy->GetEntries() == 0) {
+	    /*	    if (hYPy->GetEntries() == 0) {
 	      continue;
 	    }
+	    */
 
 	    // Now get the slice in the y plane so that we can randomly select a value for y
-	    bin = hYPy->GetXaxis()->FindBin(py);
-	    hYPy->GetXaxis()->SetRange(bin, bin);
-	    hY = hYPy->ProjectionY();
+	    bin = hYPy->GetYaxis()->FindBin(y);
+	    hYPy->GetYaxis()->SetRange(bin, bin);
+	    hPy = hYPy->ProjectionX();
 
-	    if (hY->GetEntries() == 0) {
+	    /*	    if (hPy->GetEntries() == 0) {
 	      continue;
 	    }
+	    */
 
 	    // Randomly select a value for y
-	    y = hY->GetRandom()*cm;
-	    //	    std::cout << "Drawn (x, y) = (" << x/cm << ", " << y/cm << ") cm" << std::endl;
+	    py = hPy->GetRandom()*MeV;
+	    //	    std::cout << "Drawn (px, py) = (" << px/MeV << " MeV, " << py/MeV << " MeV)" << std::endl;
 
 	    // Track back to make sure we did pass ellipse
-	    double p_total = std::sqrt(px*px + py*py + pz*pz);
+	    /*	    double p_total = std::sqrt(px*px + py*py + pz*pz);
 
 	    double unit_px = px / p_total;
 	    double trackback_x = x - unit_px*monitor_location;
@@ -308,11 +312,12 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	      //	      std::cout << ellipse << " OK" << std::endl;
 	      found = true;
 	    }
-
+	    */
+	      found = true;
 	  }
 	  G4ParticleMomentum particleMomentum(px, py, pz);
 
-	  G4double mom = particleMomentum.mag() * MeV;
+	  G4double mom = particleMomentum.mag();
 	  G4double mass = particleGun->GetParticleDefinition()->GetPDGMass();
 	  G4double ekin = sqrt(mom*mom+mass*mass)-mass;
 	  particleGun->SetParticleEnergy(ekin);
