@@ -253,9 +253,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	    //	    std::cout << "Drawn (px, py, pz): (" << px << ", " << py << ", " << pz << ") MeV" << std::endl;
 
 	    // First get the slice in the X-Z plane
-	    int bin = fCollimatedInputHist_PxPyPz->GetZaxis()->FindBin(pz);
-	    fCollimatedInputHist_PxPyPz->GetZaxis()->SetRange(bin, bin);
-	    hXPx = (TH2F*) fCollimatedInputHist_PxPyPz->Project3D("xy");
+	    int bin = fCollimatedInputHist_XPxPz->GetZaxis()->FindBin(pz);
+	    fCollimatedInputHist_XPxPz->GetZaxis()->SetRange(bin, bin);
+	    hXPx = (TH2F*) fCollimatedInputHist_XPxPz->Project3D("xy");
 
 	    if (hXPx->GetEntries() == 0) {
 	      continue;
@@ -274,9 +274,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	    x = hX->GetRandom()*cm;
 
 	    // First get the slice in the Y-Z plane
-	    bin = fCollimatedInputHist_PxPyPz->GetZaxis()->FindBin(pz);
-	    fCollimatedInputHist_PxPyPz->GetZaxis()->SetRange(bin, bin);
-	    hYPy = (TH2F*) fCollimatedInputHist_PxPyPz->Project3D("xy");
+	    bin = fCollimatedInputHist_YPyPz->GetZaxis()->FindBin(pz);
+	    fCollimatedInputHist_YPyPz->GetZaxis()->SetRange(bin, bin);
+	    hYPy = (TH2F*) fCollimatedInputHist_YPyPz->Project3D("xy");
 
 	    if (hYPy->GetEntries() == 0) {
 	      continue;
