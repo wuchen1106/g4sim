@@ -258,19 +258,18 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	    fCollimatedInputHist_XPxPz->GetZaxis()->SetRange(bin, bin);
 	    hXPx = (TH2F*) fCollimatedInputHist_XPxPz->Project3D("xy");
 
-	    /*	    if (hXPx->GetEntries() == 0) {
+	    if (hXPx->GetEntries() == 0) {
 	      continue;
 	    }
-	    */
+
 	    // Now get the slice in the y plane so that we can randomly select a value for x
 	    bin = hXPx->GetYaxis()->FindBin(x);
 	    hXPx->GetYaxis()->SetRange(bin, bin);
 	    hPx = hXPx->ProjectionX();
 
-	    /*	    if (hPx->GetEntries() == 0) {
+	    if (hPx->GetEntries() == 0) {
 	      continue;
 	    }
-	    */
 
 	    // Randomly select a value for x
 	    px = hPx->GetRandom()*MeV;
@@ -280,27 +279,26 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	    fCollimatedInputHist_YPyPz->GetZaxis()->SetRange(bin, bin);
 	    hYPy = (TH2F*) fCollimatedInputHist_YPyPz->Project3D("xy");
 
-	    /*	    if (hYPy->GetEntries() == 0) {
+	    if (hYPy->GetEntries() == 0) {
 	      continue;
 	    }
-	    */
+
 
 	    // Now get the slice in the y plane so that we can randomly select a value for y
 	    bin = hYPy->GetYaxis()->FindBin(y);
 	    hYPy->GetYaxis()->SetRange(bin, bin);
 	    hPy = hYPy->ProjectionX();
-
-	    /*	    if (hPy->GetEntries() == 0) {
+	    
+	    if (hPy->GetEntries() == 0) {
 	      continue;
 	    }
-	    */
 
 	    // Randomly select a value for y
 	    py = hPy->GetRandom()*MeV;
 	    //	    std::cout << "Drawn (px, py) = (" << px/MeV << " MeV, " << py/MeV << " MeV)" << std::endl;
 
 	    // Track back to make sure we did pass ellipse
-	    /*	    double p_total = std::sqrt(px*px + py*py + pz*pz);
+	    double p_total = std::sqrt(px*px + py*py + pz*pz);
 
 	    double unit_px = px / p_total;
 	    double trackback_x = x - unit_px*monitor_location;
@@ -312,8 +310,6 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	      //	      std::cout << ellipse << " OK" << std::endl;
 	      found = true;
 	    }
-	    */
-	      found = true;
 	  }
 	  G4ParticleMomentum particleMomentum(px, py, pz);
 
