@@ -4,7 +4,7 @@
 //Author: Wu Chen(wuchen@mail.ihep.ac.cn)
 //Created: 26 Aug, 2014
 //Comment: The units are "mm"(default), "um"(for wire radius) and "rad". 
-//Comment: Datum plain is upstream end plate of CDC
+//Comment: Datum plain is downstream end plate of CDC
 //Comment: fVerboseLevel: 0:    Just Warning Messages and Error Messages
 //                        1:    + Dump()
 //                        >= 5: All informations
@@ -237,7 +237,8 @@ void CdcGeometrySvc::ConstructVolumes(){
 //			down.setPhi(m_GeometryParameter->get_layer_phi0z(ilayer,down.z())+holeId*holeDphi);
 //			down.setPerp(layer_Re);
 //			if (layer_type==1&&holeId%2==1) std::cout<<"wire["<<m_GeometryParameter->get_layer_ID(ilayer)<<","<<holeId/2<<"] @ up:"<<up/cm<<", down:"<<down/cm<<std::endl;
-			new G4PVPlacement(rotMatrix,centerVec,log_wire,Name,log_layer,false,0,checkOverlap);
+		//FIXME
+//			new G4PVPlacement(rotMatrix,centerVec,log_wire,Name,log_layer,false,0,checkOverlap);
 		}
 
 		//====>Place layer

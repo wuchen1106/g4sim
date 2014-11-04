@@ -469,7 +469,8 @@ void CdcCellGeometrySvc::ConstructVolumes(){
 			if ( get_VerboseLevel() >=10 ){
 				std::cout<<"Placing cell: phi = "<<phi/deg<<"deg"<<std::endl;
 			}
-			new G4PVPlacement(rotateMatrix,G4ThreeVector(0.,0.,0.),log_cell,CellName,log_CdcContainer,false,ReplicaNo,checkOverlap);
+			// FIXME should read this position parameter later
+			new G4PVPlacement(rotateMatrix,G4ThreeVector(0.,0.,-125.*mm),log_cell,CellName,log_CdcContainer,false,ReplicaNo,checkOverlap);
 			if ( layer_type == 2 || layer_type == 4 ){
 				for ( int i_line = 0; i_line < 2; i_line++ ){//0, left; 1, right
 					G4LogicalVolume* log_wire;

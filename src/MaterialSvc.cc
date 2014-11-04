@@ -304,8 +304,7 @@ void MaterialSvc::AddMaterial( G4String content ){
 			//      std::cout<<"  "<<i<<": "<<"material = "<<material[i]<<", comFrac = "<<comFrac[i]<<", density = "<<(i_density/(g/cm3))<<std::endl;
 			density += comFrac[i]*(i_density);
 		}
-		density = rel_dens*density;
-		aMaterial = new G4Material(name.c_str(), density, ncomponents);
+		aMaterial = new G4Material(name.c_str(), rel_dens*density, ncomponents);
 		for ( int i = 0; i < ncomponents; i++ ){
 			G4Material* new_mat_com = G4Material::GetMaterial(material[i]);
 			G4double i_density = new_mat_com->GetDensity();

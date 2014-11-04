@@ -4,7 +4,7 @@
 //Author: Wu Chen(wuchen@mail.ihep.ac.cn)
 //Created: 26 Aug, 2014
 //Comment: The units are "mm"(default), "um"(for wire radius) and "rad". 
-//Comment: Datum plain is upstream end plate of CDC
+//Comment: Datum plain is downstream end plate of CDC
 //Comment: fVerboseLevel: 0:    Just Warning Messages and Error Messages
 //                        1:    + Dump()
 //                        >= 5: All informations

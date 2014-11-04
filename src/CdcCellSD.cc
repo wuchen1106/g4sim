@@ -5,6 +5,7 @@
 //Modified: 29 Sep, 2012 by Wu Chen(wuchen@mail.ihep.ac.cn)
 //Modified: 8 Oct, 2012 by Wu Chen(wuchen@mail.ihep.ac.cn)
 //Modified: 21 Oct, 2012 by Wu Chen(wuchen@mail.ihep.ac.cn)
+//Modified: 04 Nov, 2014 by Wu Chen(wuchen@mail.ihep.ac.cn)
 //Comment:
 //---------------------------------------------------------------------------//
 
@@ -705,19 +706,23 @@ int CdcCellSD::FindClosestPoint(G4ThreeVector &closestPoint_pos, double &driftD,
 	//Get position of signal wire
 	G4double wire_pos_R, wire_pos_phi;
 	G4double alpha = m_GeometryParameter->get_layer_angle4rotate(layerId)/2;
-	wire_pos_R = m_GeometryParameter->get_layer_RMid(layerId)*cos(alpha/2);
+	wire_pos_R = m_GeometryParameter->get_layer_RMid(layerId)*cos(alpha);
 	wire_pos_phi = m_GeometryParameter->get_layer_cell_phi(layerId, cellId);
 	G4ThreeVector wire_pos(1.,1.,1.);
 	wire_pos.setMag(wire_pos_R);
 	wire_pos.setTheta(pi/2);
 	wire_pos.setPhi(wire_pos_phi);//careful with the sign
 	G4double layer_halfzlen = m_GeometryParameter->get_layer_length(layerId)/2.; //In Geant4, soild has central-symmetry 
-	G4double alpha_RMid = alpha/2;
-	G4double wire_theta = atan(wire_pos_R*sin(alpha_RMid)/layer_halfzlen);
-	G4ThreeVector wire_direction(1.,1.,1.);
-	wire_direction.setMag(1.);
-	wire_direction.setPhi(wire_pos_phi+ (alpha>0?pi/2:-pi/2));
-	wire_direction.setTheta(wire_theta);
+	G4ThreeVector wire_down_pos(1.,1.,1.);
+	wire_down_pos.setZ(layer_halfzlen);
+	wire_down_pos.setPhi(wire_pos_phi-alpha);//careful with the sign
+	wire_down_pos.setPerp(m_GeometryParameter->get_layer_RMid(layerId));
+	G4ThreeVector wire_up_pos(1.,1.,1.);
+	wire_up_pos.setZ(-layer_halfzlen);
+	wire_up_pos.setPhi(wire_pos_phi+alpha);//careful with the sign
+	wire_up_pos.setPerp(m_GeometryParameter->get_layer_RMid(layerId));
+
+	G4ThreeVector wire_direction = wire_down_pos-wire_up_pos; // pointing from upstream to downstream 
 	wire_direction = wire_direction.unit();//r=0? self : unit 
 
 	G4ThreeVector B_direction = Bfield.unit();

@@ -4,7 +4,7 @@
 //Created: 6 Oct, 2012
 //Modified:
 //Comment: The units are "mm"(default), "um"(for wire radius) and "rad". 
-//Comment: for SPhi, Datum plain is forward end plate of CDC
+//Comment: for SPhi, Datum plain is downstream end plate of CDC
 //Comment: about layer_type:
 //         phi direction: 
 //                0_________2pi
