@@ -403,7 +403,98 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	  particleGun->SetParticlePosition(start_pos);
 	  particleGun->SetParticleMomentumDirection(direction);
 	}
+	else if ( DirectionMode == "muPC" || PositionMode == "muPC" || PositionMode == "collimator" || DirectionMode == "collimator") {
+	  if (!fMuPCBeamDistHist) {
+	    TDirectory* prev_dir = gDirectory;
+	    // Get the relevant functions/histograms
+	    std::string dir_name = getenv("CONFIGUREDATAROOT");
+	    dir_name += "TURTLE_fits.root";
+	    TFile* turtle_file = new TFile(dir_name.c_str(), "READ");
+	    
+	    // Get the histogram of the beam distribution at the muPC
+	    fMuPCBeamDistHist = (TH2F*) turtle_file->Get("hmuPC_XYWires")->Clone(); // need to clone because the file will be closing soon
+	    fMuPCBeamDistHist->SetDirectory(0); // need to set directory to 0 so that we can use this histogram after the file is closed
+	    turtle_file->Close();
+	    gDirectory = prev_dir; // need to go back to where we were so that we can get the tree written to the output file
+	  }
 
+	  bool found = false;
+	  
+	  while (!found) {
+
+	    if (DirectionMode == "muPC" || PositionMode == "muPC") {
+	      found = true; // we take anything if we want to start from the beginning
+	    }
+
+	    double x, y, z;
+	    z = -(285.58+7.5)*mm;
+	    fMuPCBeamDistHist->GetRandom2(x, y);
+	    x *= mm; y *= mm;
+	    G4ThreeVector muPCPos(x, y, z);
+	    //	  std::cout << "(x, y, z) = (" << x << ", " << y << ", " << z << ")" << std::endl;
+
+
+	    double dMom=G4RandGauss::shoot(0,MomSpread);
+	    double pz = Pa + dMom;
+	    //	  std::cout << "Pa = " << Pa << ", dMom = " << dMom << std::endl;
+	    double px = G4RandGauss::shoot(0, 0.033*pz);
+	    double py = G4RandGauss::shoot(0, 0.11*pz);
+	    //	  std::cout << "(px, py, pz) = (" << px << ", " << py << ", " << pz << ")" << std::endl;
+	    //	  std::cout << "p_tot = " << std::sqrt(px*px + py*py + pz*pz) << std::endl;
+	    G4ThreeVector particleMomentum(px, py, pz);
+	    G4ThreeVector direction = particleMomentum.unit();
+
+	    G4double mom = particleMomentum.mag();
+	    G4double mass = particleGun->GetParticleDefinition()->GetPDGMass();
+	    G4double ekin = sqrt(mom*mom+mass*mass)-mass;
+	    particleGun->SetParticleEnergy(ekin);
+	    particleGun->SetParticleMomentumDirection(direction);
+
+	    if (DirectionMode == "collimator" || PositionMode == "collimator") {
+	      double z_pos_collimator = -90.5;
+	      double n_steps = (z_pos_collimator - muPCPos.z()/mm) / (direction.z()/mm);
+	      G4ThreeVector start_pos = muPCPos + n_steps*direction;
+
+	      double hole_ellipse_half_x = 16*mm; // the two radii of the hole in the collimator
+	      double hole_ellipse_half_y = 25*mm;
+	      double ellipse = (start_pos.x()*start_pos.x())/(hole_ellipse_half_x*hole_ellipse_half_x) + (start_pos.y()*start_pos.y())/(hole_ellipse_half_y*hole_ellipse_half_y);
+	      if ( ellipse < 1) {
+		particleGun->SetParticlePosition(start_pos);
+
+		if (!fEnergyLoss) {
+		  fEnergyLoss = new TF1("energy_loss", "[0]*TMath::Landau(x, [1], [2]) + [3]*TMath::Exp([4]*x^[5] + [6]) + [7]*TMath::Gaus(x, [8], [9])", 0, 0.03);
+		  // Set the parameters (hard-coded from the fit I did separately (2014-11-04)
+		  fEnergyLoss->SetParameter(0, 14051.2);
+		  fEnergyLoss->SetParameter(1, 0.0141187);
+		  fEnergyLoss->SetParameter(2, 0.000738656);
+		  fEnergyLoss->SetParameter(3, -0.0127883);
+		  fEnergyLoss->SetParameter(4, 0.0599257);
+		  fEnergyLoss->SetParameter(5, 11.5222);
+		  fEnergyLoss->SetParameter(6, -1.30946);
+		  fEnergyLoss->SetParameter(7, 2510.06);
+		  fEnergyLoss->SetParameter(8, 0.0155356);
+		  fEnergyLoss->SetParameter(9, 0.00170543);
+		}
+		// Add some energy loss
+		double e_loss = fEnergyLoss->GetRandom()*GeV;
+		G4double new_mom = mom - e_loss;
+		mass = particleGun->GetParticleDefinition()->GetPDGMass();
+		ekin = sqrt(new_mom*new_mom+mass*mass)-mass;
+		particleGun->SetParticleEnergy(ekin);
+		//		std::cout << "Old Mom: " << mom << ", e_loss: " << e_loss << ", new_mom: " << new_mom << std::endl;
+		found = true;
+	      }
+	    }
+	    if (DirectionMode == "muPC" || PositionMode == "muPC") {
+	      // Track back to exit of beam pipe (z = -304*mm)
+	      double z_pos_beam_pipe = -285.58 - 60;
+	      double n_steps = (z_pos_beam_pipe - muPCPos.z()/mm) / (direction.z()/mm);
+	      //	  std::cout << "n_steps to start of beam pipe: " << n_steps << std::endl;
+	      G4ThreeVector start_pos = muPCPos + n_steps*direction;
+	      particleGun->SetParticlePosition(start_pos);
+	    }
+	  }
+	}
 	else if ( DirectionMode != "none" ){
 		std::cout<<"ERROR: unknown DirectionMode: "<<DirectionMode<<"!!!"<<std::endl;
 		G4Exception("PrimaryGeneratorAction::GeneratePrimaries()",
@@ -437,7 +528,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	else if ( PositionMode == "source") {
 	  SetRandomPosition();  
 	}
-	else if ( PositionMode == "turtle") {
+	else if ( PositionMode == "turtle" || PositionMode == "muPC" || PositionMode == "collimator") {
 	  // Already handled in the DirectionMode if block
 	}
 	else if ( PositionMode != "none" ){

@@ -185,6 +185,9 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
   TH3F* fCollimatedInputHist_XYPz;
   TH3F* fCollimatedInputHist_XPxPz;
   TH3F* fCollimatedInputHist_YPyPz;
+
+  // For "collimator" position and direction mode
+  TF1* fEnergyLoss;
 };
 
 #endif
