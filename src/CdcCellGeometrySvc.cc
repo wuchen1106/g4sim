@@ -96,8 +96,9 @@ void CdcCellGeometrySvc::ConstructVolumes(){
 
 	//loop in layers
 	G4int    layerNo = m_GeometryParameter->get_LayerNo();      
-	//	for( int layerId = 0; layerId < 1; layerId++ ){
-	for( int layerId = 0; layerId < layerNo; layerId++ ){
+	//FIXME
+	for( int layerId = 0; layerId < 1; layerId++ ){
+	//for( int layerId = 0; layerId < layerNo; layerId++ ){
 		//set useful variables
 		G4LogicalVolume* log_cell;// would be used as the mother volume of wires
 		G4LogicalVolume* log_FieldWire_in;
@@ -418,7 +419,7 @@ void CdcCellGeometrySvc::ConstructVolumes(){
 				if ( i_line == 0 ) RelPhi = wireR2Phi - cell_dphi/2;
 				else RelPhi = wireR2Phi;
 				G4RotationMatrix* rotateMatrix=new G4RotationMatrix();
-				rotateMatrix->rotateZ(-RelPhi);
+				rotateMatrix->rotateZ(RelPhi);
 				rotateMatrix->rotateX(theta);	
 				centerVec.setMag(wire_pos_R);
 				centerVec.setTheta(pi/2);
@@ -442,7 +443,7 @@ void CdcCellGeometrySvc::ConstructVolumes(){
 				if ( i_line == 0 ) RelPhi = wireR2Phi - cell_dphi/2;
 				else RelPhi = wireR2Phi;
 				G4RotationMatrix* rotateMatrix=new G4RotationMatrix();
-				rotateMatrix->rotateZ(-RelPhi);	
+				rotateMatrix->rotateZ(RelPhi);	
 				rotateMatrix->rotateX(theta);
 				centerVec.setMag(wire_pos_R);
 				centerVec.setTheta(pi/2);
@@ -458,7 +459,8 @@ void CdcCellGeometrySvc::ConstructVolumes(){
 		//  together with wires that belong to Cdc container
 		G4LogicalVolume* log_CdcContainer = get_logicalVolume(MVol_name);
 		int cellNo = m_GeometryParameter->get_layer_cell_num(layerId);
-		//		for ( int cellId = 0; cellId < 1; cellId++ ){
+		// FIXME
+		//for ( int cellId = 0; cellId < 1; cellId++ ){
 		for ( int cellId = 0; cellId < cellNo; cellId++ ){
 			//place cell
 			G4double SPhi = m_GeometryParameter->get_layer_cell_phi(layerId,cellId);
