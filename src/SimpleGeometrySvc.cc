@@ -235,7 +235,12 @@ void SimpleGeometrySvc::ConstructVolumes(){
 				G4VSolid *sol1 = pSolidStore->GetSolid(isol_name1);
 				G4VSolid *sol2 = pSolidStore->GetSolid(isol_name2);
 				if (!sol1||!sol2){
-					std::cout<<"ERROR: in SimpleGeometrySvc::ConstructVolumes(), cannot find solids for BooleanSolid \""<<iname<<"\" !!!"<<std::endl;
+					std::cout<<"WARNING: in SimpleGeometrySvc::ConstructVolumes(), cannot find solids for BooleanSolid \""<<iname<<"\" !!!"<<std::endl;
+					sol1 = pSolidStore->GetSolid(sol_name1);
+					sol2 = pSolidStore->GetSolid(sol_name2);
+				}
+				if (!sol1||!sol2){
+					std::cout<<"ERROR: in SimpleGeometrySvc::ConstructVolumes(), cannot find solids \""<<sol_name1<<"\" and \""<<sol_name2<<"\" for BooleanSolid \""<<iname<<"\" !!!"<<std::endl;
 					continue;
 				}
 				if ( type == "plus" ){
