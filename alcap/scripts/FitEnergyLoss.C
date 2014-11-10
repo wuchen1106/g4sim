@@ -1,10 +1,14 @@
 void FitEnergyLoss() {
 
-  TFile* file = new TFile("output/raw_g4sim_energy-loss.root", "READ");
+  TFile* file = new TFile("../output/raw_g4sim_energy-loss.root", "READ");
   TTree* tree = (TTree*) file->Get("tree");
 
-  TH1F* hist = new TH1F("hist", "hist", 150,0,0.03);
-  tree->Draw("0.02996 - sqrt(M_px*M_px + M_py*M_py + M_pz*M_pz)>>hist", "M_particleName==\"mu-\" && M_volName==\"ColMon\"");
+  TH1F* hist = new TH1F("ELoss", "ELoss", 150,0,0.03);
+  hist->SetTitle("Energy loss of muons between the end of the beam pipe and the collimator");
+  hist->GetXaxis()->SetTitle("Energy Loss [GeV]");
+  hist->GetYaxis()->SetTitle("Number of Particles");
+  hist->SetStats(false);
+  tree->Draw("0.02996 - sqrt(M_px*M_px + M_py*M_py + M_pz*M_pz)>>ELoss", "M_particleName==\"mu-\" && M_volName==\"ColMon\"");
 
   TF1* fn = new TF1("fn", "[0]*TMath::Landau(x, [1], [2]) + [3]*TMath::Exp([4]*x^[5] + [6]) + [7]*TMath::Gaus(x, [8], [9])", 0, 0.03);
   
