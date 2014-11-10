@@ -1,7 +1,7 @@
 #!/bin/bash
 # batch_rootana.sge
 # Define run time.
-#$ -l s_rt=01:00:00,h_rt=01:04:00
+#$ -l s_rt=02:00:00,h_rt=02:04:00
 # Change to the directory the script was submitted from
 #$ -cwd 
 # Export the current environment variables to the script
@@ -21,3 +21,4 @@ export -n -f module
 hostname > limit.out
 ulimit -a >> limit.out
 g4sim g4sim.mac
+rm core.* # g4sim always crashes so remove the core dump
