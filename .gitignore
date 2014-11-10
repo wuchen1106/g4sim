@@ -29,3 +29,11 @@ g4sim
 
 # Geant4 install
 geant4*
+
+# Pictures
+*.eps
+*.png
+
+# ROOT stuff
+*.root
+*_C.d
