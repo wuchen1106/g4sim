@@ -20,6 +20,7 @@ void ProtonCounting(std::string filename) {
   int n_protons = 0;
   int n_protons_right = 0;
   int n_protons_left = 0;
+  int n_stopped_muons = 0;
   for (int iEntry = 0; iEntry < tree->GetEntries(); ++iEntry) {
 
     tree->GetEvent(iEntry);
@@ -34,10 +35,13 @@ void ProtonCounting(std::string filename) {
 	++n_protons_left;
 	++n_protons;
       }
+      else if (particleName->at(iElement) == "mu-" && volName->at(iElement) == "Target" && stopped->at(iElement) == 1) {
+	++n_stopped_muons;
+      }
     }
   }
 
-  std::cout << "There were " << n_protons << " protons that reached the thick silicon detectors out of " << tree->GetEntries() << " muons." << std::endl;
+  std::cout << "There were " << n_protons << " protons that reached the thick silicon detectors out of " << n_stopped_muons << " stopped muons (" << tree->GetEntries() << " input muons." << std::endl;
   std::cout << "N_right = " << n_protons_right << ", N_left = " << n_protons_left << std::endl;
-  std::cout << "Acceptance = " << (double) n_protons / tree->GetEntries() << std::endl;
+  std::cout << "Acceptance = " << (double) n_protons / n_stopped_muons << std::endl;
 }
