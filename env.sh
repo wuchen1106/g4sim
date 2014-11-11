@@ -20,7 +20,7 @@ export PHYSICSLIST=QGSP_BERT           # QGSP_BERT;QGSP_BERT_HP;QGSP_BERT_noRadi
 export MATERIALLISTROOT=material_list
 export MAGFIELDCARDROOT=mag/MagField_none
 export OUTCARDROOT=output/output_default
-export GEOCARDROOT=geometry_default
+export GEOCARDROOT=geometry_1217
 export GENFILEROOT=gen/gen_default
 
 #for directories
