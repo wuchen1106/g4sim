@@ -34,6 +34,7 @@
 #include "G4PVPlacement.hh"
 #include "G4RotationMatrix.hh"
 #include "G4VisAttributes.hh"
+#include "G4UserLimits.hh"
 
 #include <iostream>
 #include <vector>
@@ -87,6 +88,7 @@ void SimpleGeometrySvc::ConstructVolumes(){
 		G4int SolidIndex;
 		G4int SRepNo;
 		G4int RepNo;
+		G4double max_step_length = 0;
 		SolidIndex = m_GeometryParameter->get_SolidIndex(i_Vol);
 		SolidType = m_GeometryParameter->get_SolidType(i_Vol);
 		name = m_GeometryParameter->get_name(i_Vol);
@@ -107,6 +109,7 @@ void SimpleGeometrySvc::ConstructVolumes(){
 				halfY = m_GeometryParameter->get_Box_Y(SolidIndex,i)/2;
 				halfZ = m_GeometryParameter->get_Box_Z(SolidIndex,i)/2;
 				sol_Vol=new G4Box(iname,halfX,halfY,halfZ);
+				max_step_length = 0.5*std::min(halfX, std::min(halfY, halfZ));
 			}
 			else if ( SolidType == "EllipticalTube" ){
 				G4double halfX, halfY, halfZ;
@@ -114,6 +117,7 @@ void SimpleGeometrySvc::ConstructVolumes(){
 				halfY = m_GeometryParameter->get_EllipticalTube_Y(SolidIndex,i)/2;
 				halfZ = m_GeometryParameter->get_EllipticalTube_Z(SolidIndex,i)/2;
 				sol_Vol=new G4EllipticalTube(iname,halfX,halfY,halfZ);
+				max_step_length = 0.5*std::min(halfX, std::min(halfY, halfZ));
 			}
 			else if ( SolidType == "Tubs" ){
 				G4double RMax, RMin, halfLength, StartAng, SpanAng;
@@ -123,6 +127,7 @@ void SimpleGeometrySvc::ConstructVolumes(){
 				StartAng = m_GeometryParameter->get_Tubs_StartAng(SolidIndex,i);
 				SpanAng = m_GeometryParameter->get_Tubs_SpanAng(SolidIndex,i);
 				sol_Vol=new G4Tubs(iname,RMin,RMax,halfLength,StartAng,SpanAng);
+				max_step_length = 0.5*RMin;
 			}
 			else if ( SolidType == "Torus" ){
 				G4double RMax, RMin, Rtor, StartAng, SpanAng;
@@ -132,6 +137,7 @@ void SimpleGeometrySvc::ConstructVolumes(){
 				StartAng = m_GeometryParameter->get_Torus_StartAng(SolidIndex,i);
 				SpanAng = m_GeometryParameter->get_Torus_SpanAng(SolidIndex,i);
 				sol_Vol=new G4Torus(iname,RMin,RMax,Rtor,StartAng,SpanAng);
+				max_step_length = 0.5*RMin;
 			}
 			else if ( SolidType == "Sphere" ){
 				G4double RMax, RMin, StartPhi, SpanPhi, StartTheta, SpanTheta;
@@ -142,6 +148,7 @@ void SimpleGeometrySvc::ConstructVolumes(){
 				StartTheta = m_GeometryParameter->get_Sphere_StartTheta(SolidIndex,i);
 				SpanTheta = m_GeometryParameter->get_Sphere_SpanTheta(SolidIndex,i);
 				sol_Vol=new G4Sphere(iname,RMin,RMax,StartPhi,SpanPhi,StartTheta,SpanTheta);
+				max_step_length = 0.5*RMin;
 			}
 			else if ( SolidType == "Hype" ){
 				G4double innerRadius, outerRadius, halfLength, innerStereo, outerStereo;
@@ -171,6 +178,8 @@ void SimpleGeometrySvc::ConstructVolumes(){
 				StartAng = m_GeometryParameter->get_Cons_StartAng(SolidIndex,i);
 				SpanAng = m_GeometryParameter->get_Cons_SpanAng(SolidIndex,i);
 				sol_Vol=new G4Cons(iname,RMin1,RMax1,RMin2,RMax2,halfLength,StartAng,SpanAng);
+				max_step_length = 0.5*std::min(RMin2, RMin2);
+
 			}
 			else if ( SolidType == "Polycone" ){
 				G4double StartAng, SpanAng;
@@ -274,7 +283,14 @@ void SimpleGeometrySvc::ConstructVolumes(){
 						"unknown material name");
 			}
 			G4LogicalVolume* log_Vol;
-			log_Vol = new G4LogicalVolume(sol_Vol, pttoMaterial, iname,0,0,0);
+			G4UserLimits* user_limit;
+			if (max_step_length != 0) { // AE: probably shouldn't be hard-coded
+			  user_limit = new G4UserLimits(max_step_length); // set max step length to 25 micron
+			}
+			else {
+			  user_limit = new G4UserLimits();
+			}
+			log_Vol = new G4LogicalVolume(sol_Vol, pttoMaterial, iname,0,0,user_limit);
 			G4VSensitiveDetector* aSD;
 			aSD = MyDetectorManager::GetMyDetectorManager()->GetSD(iname, SDName, const_cast<SimpleGeometrySvc*>(this) );
 			log_Vol->SetSensitiveDetector(aSD);
