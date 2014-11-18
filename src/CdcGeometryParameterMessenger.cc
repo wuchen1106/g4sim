@@ -15,7 +15,7 @@
 
 #include "MyString2Anything.hh"
 #include "CdcGeometryParameter.hh"
-#include "MyVGeometryParameter.hh"
+#include "SimpleGeometryParameterMessenger.hh"
 
 CdcGeometryParameterMessenger::CdcGeometryParameterMessenger(MyVGeometryParameter* pGeometryParameter, G4String dirName)
 :SimpleGeometryParameterMessenger(pGeometryParameter, dirName)
@@ -51,7 +51,7 @@ void CdcGeometryParameterMessenger::SetNewValue(G4UIcommand* command,G4String ne
 int CdcGeometryParameterMessenger::MySetNewValue(G4UIcommand* command,G4String newValue)
 {
 	int status = 0; //0 means found the value
-	status = MyVGeometryParameterMessenger::MySetNewValue(command, newValue); //check Parent Class first
+	status = SimpleGeometryParameterMessenger::MySetNewValue(command, newValue); //check Parent Class first
 	if ( !status ) return status;
 
 	return status;
