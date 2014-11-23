@@ -1,5 +1,6 @@
 #!/bin/bash
 # submitjob.sh -- submits one job to the Merlin cluster
+# Usage: ./submitjob.sh N_RUNS NAME N_PARTICLES"
 
 if [ -z $ALCAPWORKROOT ] ; then
     echo "ALCAPWORKROOT not set. You must run env.sh first!"
@@ -9,6 +10,7 @@ fi
 if [ $# -ne 3 ] ; then
     echo "Incorrect Usage! You have not passed the correct number of arguments"
     echo "Correct Usage: ./submitjob.sh N_RUNS NAME N_PARTICLES"
+    return
 fi
 
 N_RUNS=$1
@@ -28,21 +30,29 @@ cd $OUTPUTDIR
 
 # Now create the individual run folders
 for I_RUN in `seq 1 $N_RUNS`; do
-
+    
+    let I_RUN=$I_RUN
     mkdir -p run_$I_RUN
     cd run_$I_RUN
 
     # Create a configure directory to store the configure files that were used
     CONFIGUREDIR=$PWD/configure
     mkdir -p $CONFIGUREDIR
+    mkdir -p $CONFIGUREDIR/sub_all
 
-    GEOMFILE="geometry_tolerances"
-    GENFILE="gen_mum_tgt"
+    ## You may want to change these
+    GEOMFILE="geometry_Al50"
+    SUBGEOMFILE=`cat $ALCAPWORKROOT/configure/$GEOMFILE | grep sub | tr -s ' ' | cut -d ' ' -f 3`
+    GENFILE="gen_mu_1.05_collimated"
     OUT_CONFIG_FILE="output_default"
 
     cp $ALCAPWORKROOT/configure/$GEOMFILE $CONFIGUREDIR
+    cp $ALCAPWORKROOT/configure/$SUBGEOMFILE $CONFIGUREDIR/sub_all
     cp $ALCAPWORKROOT/configure/gen/$GENFILE $CONFIGUREDIR
     cp $ALCAPWORKROOT/configure/output/$OUT_CONFIG_FILE $CONFIGUREDIR
+
+    # Change the GEOMFILE so that it looks for the SUBGEOFILE in the CONFIGUREDIR
+    sed -i 's#'$SUBGEOMFILE'#'$CONFIGUREDIR'/'$SUBGEOMFILE'#' $CONFIGUREDIR/$GEOMFILE
 
     # Now write the g4sim input macro
     echo "/control/getEnv ALCAPWORKROOT
