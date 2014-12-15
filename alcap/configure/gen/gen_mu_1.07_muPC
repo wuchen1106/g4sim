@@ -17,7 +17,7 @@
 #Default Position     x    y   z
 #	                  mm   mm  mm
 #	Position:         -0.06    0  -355         
-	PosSpread:        100 0 0 # in muPC mode used to add an offset
+	PosSpread:        0 0 0 # in muPC mode used to add an offset
 #	PosLimit:         17.5
 
 	RandMode:       none #(none/root)
