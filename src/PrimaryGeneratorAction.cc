@@ -444,7 +444,12 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	    G4ThreeVector particleMomentum(px, py, pz);
 	    G4ThreeVector direction = particleMomentum.unit();
 
+	    // want to scale back so that total magnitude is the same as the pz we got earlier
 	    G4double mom = particleMomentum.mag();
+	    G4double scale = pz / particleMomentum.mag();
+	    //	    std::cout << "AE: scale = " << pz << " / " << particleMomentum.mag() << " = " << scale << std::endl;
+	    particleMomentum *= scale;
+	    //	    std::cout << "AE: Now " << particleMomentum.mag() << std::endl;
 	    G4double mass = particleGun->GetParticleDefinition()->GetPDGMass();
 	    G4double ekin = sqrt(mom*mom+mass*mass)-mass;
 	    particleGun->SetParticleEnergy(ekin);
