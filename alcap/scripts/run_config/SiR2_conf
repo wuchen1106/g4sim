@@ -1,13 +1,9 @@
 MAGFIELDCARDROOT  = mag/MagField_none
-GENFILEROOT       = gen/gen_mu_1.30
+GENFILEROOT       = gen/gen_mu_1.40
 OUTCARDROOT       = output/output_SiR2
 GEOCARDROOT	      = geometry_SiR2
-
-#macro
-macro_configure_PreSet
-SiR2.mac
 
 #run
 run_configure
 1
-20000
+50000
