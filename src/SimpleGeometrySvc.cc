@@ -286,6 +286,7 @@ void SimpleGeometrySvc::ConstructVolumes(){
 			G4UserLimits* user_limit;
 			if (max_step_length != 0) { // AE: probably shouldn't be hard-coded
 			  user_limit = new G4UserLimits(max_step_length); // set max step length to 25 micron
+			  //			  std::cout << "AE: " << iname << " User Limit = " << max_step_length/mm << " mm" << std::endl;
 			}
 			else {
 			  user_limit = new G4UserLimits();
