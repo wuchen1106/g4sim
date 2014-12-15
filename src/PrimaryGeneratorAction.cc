@@ -449,7 +449,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	    G4double ekin = sqrt(mom*mom+mass*mass)-mass;
 	    particleGun->SetParticleEnergy(ekin);
 	    particleGun->SetParticleMomentumDirection(direction);
-
+	    	    
 	    if (DirectionMode == "collimator" || PositionMode == "collimator") {
 	      double z_pos_collimator = -90.5;
 	      double n_steps = (z_pos_collimator - muPCPos.z()/mm) / (direction.z()/mm);
@@ -491,6 +491,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	      double n_steps = (z_pos_beam_pipe - muPCPos.z()/mm) / (direction.z()/mm);
 	      //	  std::cout << "n_steps to start of beam pipe: " << n_steps << std::endl;
 	      G4ThreeVector start_pos = muPCPos + n_steps*direction;
+	      //	      std::cout << "AE: PosSpread: " << xSpread << ", " << ySpread << ", " << zSpread << std::endl;
+	      G4ThreeVector move(xSpread, ySpread, zSpread);
+	      start_pos += move;
 	      particleGun->SetParticlePosition(start_pos);
 	    }
 	  }
