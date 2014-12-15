@@ -4,13 +4,13 @@
 
 if [ -z $ALCAPWORKROOT ] ; then
     echo "ALCAPWORKROOT not set. You must run env.sh first!"
-    return
+    exit
 fi
 
 if [ $# -ne 3 ] ; then
     echo "Incorrect Usage! You have not passed the correct number of arguments"
     echo "Correct Usage: ./submitjob.sh N_RUNS NAME N_PARTICLES"
-    return
+    exit
 fi
 
 N_RUNS=$1
@@ -43,7 +43,7 @@ for I_RUN in `seq 1 $N_RUNS`; do
     ## You may want to change these
     GEOMFILE="geometry_Al50"
     SUBGEOMFILE=`cat $ALCAPWORKROOT/configure/$GEOMFILE | grep sub | tr -s ' ' | cut -d ' ' -f 3`
-    GENFILE="gen_mu_1.05_collimated"
+    GENFILE="gen_mu_1.07_collimated"
     OUT_CONFIG_FILE="output_default"
 
     cp $ALCAPWORKROOT/configure/$GEOMFILE $CONFIGUREDIR
