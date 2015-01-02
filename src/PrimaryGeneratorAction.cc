@@ -93,9 +93,10 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
   */
 	delete particleGun;
 	delete gunMessenger;
-	delete EM_hist;
-	delete DM_hist;
-	delete m_TChain;
+	if(EM_hist) delete EM_hist;
+	if(DM_hist) delete DM_hist;
+	if(PM_hist) delete PM_hist;
+	if(m_TChain) delete m_TChain;
 }
 
 PrimaryGeneratorAction* PrimaryGeneratorAction::GetPrimaryGeneratorAction(){
@@ -531,6 +532,12 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	else if ( PositionMode == "source") {
 	  SetRandomPosition();  
 	}
+	else if ( PositionMode == "histo") {
+		double x=0,y=0,z=0;
+		PM_hist->GetRandom3(x,y,z);
+		G4ThreeVector pos_3Vec(x, y, z);
+		particleGun->SetParticlePosition(pos_3Vec);
+	}
 	else if ( PositionMode == "turtle" || PositionMode == "muPC" || PositionMode == "collimator") {
 	  // Already handled in the DirectionMode if block
 	}
@@ -818,6 +825,32 @@ void PrimaryGeneratorAction::BuildHistoFromFile(){
 		DM_hist = h;
 	}
 	
+	if (PositionMode =="histo"){
+		G4String full_infile_name = dir_name +  PM_hist_filename;
+//		if (fp) delete fp;
+		fp = new TFile(full_infile_name.c_str());
+		if (fp==NULL) {
+			std::cout<<"ERROR: Can not find file: "<<full_infile_name<<"!!!"<<std::endl;
+			G4Exception("PrimaryGeneratorAction::BuildHistoFromFile()",
+					"InvalidInput", FatalException,
+					"Can not find file");
+		}
+		TObject* obj=fp->Get(PM_hist_histname.c_str());
+		if(obj==NULL){
+			std::cout<<"ERROR: Can not find file: "<<full_infile_name<<"!!!"<<std::endl;
+			G4Exception("PrimaryGeneratorAction::BuildHistoFromFile()",
+					"InvalidInput", FatalException,
+					"Can not find file");
+		}
+		if(!obj->InheritsFrom("TH3")){
+			std::cout<<"ERROR: Cannot generate positions from non-3D histogram: "<<PM_hist_histname<<"!!!"<<std::endl;
+			G4Exception("PrimaryGeneratorAction::BuildHistoFromFile()",
+					"InvalidInput", FatalException,
+					"Wrong hist type");
+		}
+		PM_hist = (TH3*) obj;
+	}
+
 }
 
 void PrimaryGeneratorAction::root_get_para(){
@@ -1058,6 +1091,12 @@ void PrimaryGeneratorAction::ReadCard(G4String file_name){
 		else if ( keyword == "DMHHN:" ){
 			buf_card>>DM_hist_histname;
 		}
+		else if ( keyword == "PMHFN:" ){
+			buf_card>>PM_hist_filename;
+		}
+		else if ( keyword == "PMHHN:" ){
+			buf_card>>PM_hist_histname;
+		}
 		else if ( keyword == "RFN:" ){
 			buf_card>>root_filename;
 		}
@@ -1087,7 +1126,7 @@ void PrimaryGeneratorAction::ReadCard(G4String file_name){
 			}
 		}
 		else{
-			std::cout<<"In PrimaryGeneratorAction::ReadCard, unknown name: "<<keyword<<" in file "<<file_name<<std::endl;
+			std::cout<<"In PrimaryGeneratorAction::ReadCard, unknown name: '"<<keyword<<"' in file "<<file_name<<std::endl;
 			std::cout<<"Will ignore this line!"<<std::endl;
 		}
 	}
@@ -1112,6 +1151,8 @@ void PrimaryGeneratorAction::Reset(){
 	EM_hist_histname = "";
 	DM_hist_filename = "";
 	DM_hist_histname = "";
+	PM_hist_filename = "";
+	PM_hist_histname = "";
 	root_filename = "";
 	root_treename = "";
 	UP_SubDet = "";
@@ -1147,6 +1188,7 @@ void PrimaryGeneratorAction::Reset(){
 	Epsi = 0;
 	EM_hist = 0;
 	DM_hist = 0;
+	PM_hist = 0;
 	root_num = 0;
 	root_index = 0;
 	UseRoot = false;
@@ -1203,7 +1245,7 @@ void PrimaryGeneratorAction::Initialize(){
 	particleGun->SetParticlePosition(G4ThreeVector(x,y,z));
 	particleGun->SetParticleTime(t);
 
-	if (EnergyMode == "histo" || DirectionMode == "histo" ){
+	if (EnergyMode == "histo" || DirectionMode == "histo" || PositionMode == "histo" ){
 		BuildHistoFromFile();
 	}
 	UseRoot = false;
@@ -1269,6 +1311,8 @@ void PrimaryGeneratorAction::Dump(){
 	std::cout<<"Histogram Name for EnergyMode = histo:        "<<EM_hist_histname<<std::endl;
 	std::cout<<"File Name for DirectionMode = histo:          "<<DM_hist_filename<<std::endl;
 	std::cout<<"Histogram Name for DirectionMode = histo:     "<<DM_hist_histname<<std::endl;
+	std::cout<<"File Name for PositionMode = histo:          "<<PM_hist_filename<<std::endl;
+	std::cout<<"Histogram Name for PositionMode = histo:     "<<PM_hist_histname<<std::endl;
 	std::cout<<"File Name for Energy/Position/TimeMode = root: "<<root_filename<<std::endl;
 	std::cout<<"Tree Name for Energy/Position/TimeMode = root: "<<root_treename<<std::endl;
 	std::cout<<"---------------------------------------------------------"<<std::endl;
