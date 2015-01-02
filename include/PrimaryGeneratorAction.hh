@@ -59,6 +59,8 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
 		void set_EM_hist_histname(G4String val) { EM_hist_histname= val; }
 		void set_DM_hist_filename(G4String val) { DM_hist_filename= val; }
 		void set_DM_hist_histname(G4String val) { DM_hist_histname= val; }
+		void set_PM_hist_filename(G4String val) { PM_hist_filename= val; }
+		void set_PM_hist_histname(G4String val) { PM_hist_histname= val; }
 		void set_root_filename(G4String val) { root_filename= val; }
 		void set_root_treename(G4String val) { root_treename= val; }
 		void set_root_index(int val){root_index=val;}
@@ -129,6 +131,9 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
 		TH1F*                      DM_hist;
 		G4String                   DM_hist_filename;
 		G4String                   DM_hist_histname;
+		TH3*                       PM_hist;
+		G4String                   PM_hist_filename;
+		G4String                   PM_hist_histname;
 
 		//For PositionMode
 		G4String                   UP_SubDet;
