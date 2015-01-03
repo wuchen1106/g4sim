@@ -85,6 +85,8 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
 
 		//protected:
 		//  ParticleCache targetMap;
+        private:
+		void InformEventHeaderHeader();
 
 	private:
 		//	G4double get_mom_from_histo();
