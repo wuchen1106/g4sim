@@ -9,6 +9,12 @@ EVENTHEADER_SECTION
 	run_num
 	R0
 	R1
+	ipx
+	ipy
+	ipz
+	weight
+	position
+	pid
 EVENTHEADER_SECTION
 
 MCTRUTH_SECTION
@@ -89,7 +95,7 @@ M_SECTION
 	tid
 	pid
 	particleName
-#	charge
+	charge
 	stopped
 	stop_time      ns
 #	killed
