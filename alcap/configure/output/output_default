@@ -9,6 +9,12 @@ EVENTHEADER_SECTION
 	run_num
 	R0
 	R1
+	ipx
+	ipy
+	ipz
+	weight
+	position
+	pid
 EVENTHEADER_SECTION
 
 MCTRUTH_SECTION

@@ -9,6 +9,7 @@
 #define EventHeaderSvc_h 1
 
 #include "myglobals.hh"
+#include <string>
 
 class G4Event;
 class PrimaryGeneratorAction;
@@ -30,6 +31,8 @@ class EventHeaderSvc
 		void SetSeedsValue();
 
 		void SetInitialMomentum(double, double, double);
+		void SetInitialPosition(double x, double y, double z){ix=x;iy=y;iz=z;}
+		void SetInitialParticle(const std::string& name){i_particleName=name;}
 
 		//=> Modify
 		void set_run_num(int val){run_num = val;};
@@ -53,10 +56,10 @@ class EventHeaderSvc
 		int evt_num;
 		int R0;
 		int R1;
-		double ipx;
-		double ipy;
-		double ipz;
+		double ipx, ipy, ipz;
+		double ix, iy, iz;
 		double weight;
+		std::string i_particleName;
 
 		bool flag_run_num;
 		bool flag_evt_num;
@@ -65,6 +68,8 @@ class EventHeaderSvc
 		bool flag_ipx;
 		bool flag_ipy;
 		bool flag_ipz;
+		bool flag_position;
+		bool flag_pid;
 		bool flag_weight;
 
 		PrimaryGeneratorAction* pPrimaryGeneratorAction;

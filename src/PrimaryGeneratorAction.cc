@@ -15,9 +15,10 @@
 #include "G4ParticleTable.hh"
 #include "G4ParticleDefinition.hh"
 #include "G4RotationMatrix.hh"
-#include "Randomize.hh"
-
+#include "G4ThreeVector.hh"
+#include "G4ParticleMomentum.hh"
 #include "G4TransportationManager.hh"
+#include "Randomize.hh"
 
 //supported geometry
 #include "MyDetectorManager.hh"
@@ -147,9 +148,6 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	// Show Status:
 //	std::cout<<"==>Event "<<root_index<<std::endl;
 //    CLHEP::HepRandom::showEngineStatus();
-
-	EventHeaderSvc::GetEventHeaderSvc()->SetSeedsValue();
-	EventHeaderSvc::GetEventHeaderSvc()->SetInitialMomentum(root_double[17],root_double[18],root_double[19]);
 
 	if (fType=="ion"){
 		if (!fParticle){
@@ -570,7 +568,30 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 //	std::cout<<"\tEnergy: "<<particleGun->GetParticleEnergy()/MeV<<" MeV"<<std::endl;
 //	std::cout.precision(3);
 //    CLHEP::HepRandom::showEngineStatus();
+
+        /// Inform the event header of the primary particle so we store info in the output root tree
+        InformEventHeaderHeader();
 	if (!UseRoot) root_index++;
+}
+
+void PrimaryGeneratorAction::InformEventHeaderHeader(){
+        // Set Random number seeds in the event header (R0 and R1) taken from elsewhere
+	EventHeaderSvc::GetEventHeaderSvc()->SetSeedsValue();
+
+        // Set the primary particle's momentum in the event header 
+	G4ParticleMomentum mom=particleGun->GetParticleMomentumDirection();
+        double E_kinetic=particleGun->GetParticleEnergy();
+        double M=particleGun->GetParticleDefinition()->GetPDGMass();
+        double P=sqrt(E_kinetic*E_kinetic + 2*M*E_kinetic);
+        mom=P*mom;
+	EventHeaderSvc::GetEventHeaderSvc()->SetInitialMomentum(mom.x(),mom.y(),mom.z());
+
+        // Set the primary particle's position in the event header 
+	G4ThreeVector pos=particleGun->GetParticlePosition();
+	EventHeaderSvc::GetEventHeaderSvc()->SetInitialPosition(pos.x(),pos.y(),pos.z());
+
+        // Set the primary particle's position in the event header 
+	EventHeaderSvc::GetEventHeaderSvc()->SetInitialParticle(particleGun->GetParticleDefinition()->GetParticleName());
 }
 
 void PrimaryGeneratorAction::SetUniformDirection(){
