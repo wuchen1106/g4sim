@@ -42,9 +42,9 @@ void TransferMatrix(std::string filename) {
   std::vector<std::string>* ovolName = 0;
   std::vector<double>* edep = 0;
   std::vector<int>* stopped = 0;
-  std::vector<double>* opx = 0;
-  std::vector<double>* opy = 0;
-  std::vector<double>* opz = 0;
+  double i_px = 0;
+  double i_py = 0;
+  double i_pz = 0;
   std::vector<int>* tid = 0;
   std::vector<double>* t = 0;
   std::vector<double>* px = 0;
@@ -56,9 +56,9 @@ void TransferMatrix(std::string filename) {
   TBranch* br_ovolName = tree->GetBranch("M_ovolName");
   TBranch* br_edep = tree->GetBranch("M_edep");
   TBranch* br_stopped = tree->GetBranch("M_stopped");
-  TBranch* br_opx = tree->GetBranch("M_opx");
-  TBranch* br_opy = tree->GetBranch("M_opy");
-  TBranch* br_opz = tree->GetBranch("M_opz");
+  TBranch* br_i_px = tree->GetBranch("i_px");
+  TBranch* br_i_py = tree->GetBranch("i_py");
+  TBranch* br_i_pz = tree->GetBranch("i_pz");
   TBranch* br_tid = tree->GetBranch("M_tid");
   TBranch* br_t = tree->GetBranch("M_t");
   TBranch* br_px = tree->GetBranch("M_px");
@@ -71,9 +71,9 @@ void TransferMatrix(std::string filename) {
   br_ovolName->SetAddress(&ovolName);
   br_edep->SetAddress(&edep);
   br_stopped->SetAddress(&stopped);
-  br_opx->SetAddress(&opx);
-  br_opy->SetAddress(&opy);
-  br_opz->SetAddress(&opz);
+  br_i_px->SetAddress(&i_px);
+  br_i_py->SetAddress(&i_py);
+  br_i_pz->SetAddress(&i_pz);
   br_tid->SetAddress(&tid);
   br_t->SetAddress(&t);
   br_px->SetAddress(&px);
@@ -82,7 +82,7 @@ void TransferMatrix(std::string filename) {
 
   double proton_mass = 938.272*1000; // convert to keV
   
-  TH2F* hTransfer_SiR = new TH2F("hTransfer_SiR", "hTransfer_SiR", 25,0,10000, 25,0,10000);
+  TH2F* hTransfer_SiR = new TH2F("hTransfer_SiR", "hTransfer_SiR", 50,0,10000, 50,0,10000);
   hTransfer_SiR->SetXTitle("Observed Energy [keV]");
   hTransfer_SiR->SetYTitle("True Energy [keV]");
   
@@ -110,6 +110,16 @@ void TransferMatrix(std::string filename) {
       double thin_py = 0;
       double thin_pz = 0;
 
+      // Calculate true energy here
+      double true_px = i_px*1e3;
+      double true_py = i_py*1e3;
+      double true_pz = i_pz*1e3;
+      double squared_mom = true_px*true_px + true_py*true_py + true_pz*true_pz;
+      double total_energy = std::sqrt(squared_mom + proton_mass*proton_mass);
+      true_kinetic_energy = total_energy - proton_mass;
+
+      //      std::cout << "Entry #" << iEntry << ": true kinetic energy = " << true_kinetic_energy << std::endl;
+
       for (int iElement = 0; iElement < particleName->size();  ++iElement) {
 	
 	// Loop through the arms
@@ -117,7 +127,7 @@ void TransferMatrix(std::string filename) {
 	  std::string thick_monname = i_arm->monname;
 	  std::string thin_monname = "d"+i_arm->monname;
 
-	  if (particleName->at(iElement) == "proton" && volName->at(iElement) == thick_monname && ovolName->at(iElement) == "Target") {
+	  if (particleName->at(iElement) == "proton" && volName->at(iElement) == thick_monname) {
 	    thick_hit = true;
 	    E = edep->at(iElement)*1e6; // convert to keV
 	    thick_trackID = tid->at(iElement);
@@ -126,13 +136,6 @@ void TransferMatrix(std::string filename) {
 	    thick_py = py->at(iElement)*1e6;
 	    thick_pz = pz->at(iElement)*1e6;
 	    
-	    // Calculate true energy here
-	    double true_px = opx->at(iElement)*1e6;
-	    double true_py = opy->at(iElement)*1e6;
-	    double true_pz = opz->at(iElement)*1e6;
-	    double squared_mom = true_px*true_px + true_py*true_py + true_pz*true_pz;
-	    double total_energy = std::sqrt(squared_mom + proton_mass*proton_mass);
-	    true_kinetic_energy = total_energy - proton_mass;
 	    if (iEntry == 279485) {
 	      std::cout << "Truth (px, py, pz) = (" << true_px << ", " << true_py << ", " << true_pz << ") keV" << std::endl;
 	      std::cout << "p^2 = " << squared_mom << ", m = " << proton_mass << ", E_t = " << total_energy << std::endl;
@@ -141,7 +144,7 @@ void TransferMatrix(std::string filename) {
 	    }
 	  
 	  }
-	  else if (particleName->at(iElement) == "proton" && volName->at(iElement) == thin_monname && ovolName->at(iElement) == "Target") {
+	  else if (particleName->at(iElement) == "proton" && volName->at(iElement) == thin_monname) {
 	    thin_hit = true;
 	    dE = edep->at(iElement)*1e6;
 	    thin_trackID = tid->at(iElement);
@@ -149,13 +152,6 @@ void TransferMatrix(std::string filename) {
 	    thin_px = px->at(iElement)*1e6;
 	    thin_py = py->at(iElement)*1e6;
 	    thin_pz = pz->at(iElement)*1e6;
-
-	    double true_px = opx->at(iElement)*1e6;
-	    double true_py = opy->at(iElement)*1e6;
-	    double true_pz = opz->at(iElement)*1e6;
-	    double squared_mom = true_px*true_px + true_py*true_py + true_pz*true_pz;
-	    double total_energy = std::sqrt(squared_mom + proton_mass*proton_mass);
-	    true_kinetic_energy = total_energy - proton_mass;
 
 	    if (iEntry == 279485) {
 	      std::cout << "Truth (px, py, pz) = (" << true_px << ", " << true_py << ", " << true_pz << ") keV" << std::endl;
@@ -174,6 +170,7 @@ void TransferMatrix(std::string filename) {
 	      std::cout << "Thick t = " << thick_time << ", thin t = " << thin_time << std::endl;
 	      std::cout << "Thick p = (" << thick_px << ", " << thick_py << ", " << thick_pz << "), thin p = ("
 			<< thin_px << ", " << thin_py << ", " << thin_pz << ")" << std::endl;
+	      std::cout << "True p = ("<< true_px << ", " << true_py << ", " << true_pz << ")" << std::endl;
 	      std::cout << "That's weird... " << true_kinetic_energy << " < " << observed_E << std::endl;
 	    }
 	    //	  else {
@@ -182,7 +179,7 @@ void TransferMatrix(std::string filename) {
 	    //	  }
 	    thick_hit = false;
 	    thin_hit = false; // reset to false in case there is another proton in this event
-	    E = dE = true_kinetic_energy = thick_trackID = thin_trackID = 0;
+	    E = dE = thick_trackID = thin_trackID = 0;
 	  }
 	}
       }
