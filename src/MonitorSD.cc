@@ -309,7 +309,10 @@ void MonitorSD::ReadOutputCard(G4String filename){
 				else if ( name == "minedep" ) minedep = para;
 				else if( name == "mint" ) mint = para;
 				else if( name == "maxt" ) maxt = para;
-				else if( name == "tres" ) tres = para;
+				// tres controls the maximum time between hits where we still add them together
+				// If it is less than 0 we interpret that to mean "sum all hits" so set it to a massive number here
+				// If it's equal to 0, we disable all adding completely
+				else if( name == "tres" ) tres = para<0? 1e10*s : para ; 
 				else{
 					std::cout<<"In MonitorSD::ReadOutputCard, unknown name: "<<name<<" in file "<<filename<<std::endl;
 					std::cout<<"Will ignore this line!"<<std::endl;
@@ -687,39 +690,28 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 
 	if (needstopped&&(!killed&&!stopped)) return false;
 
-	//****************************generate new hit or modify old one********************************
-	bool willPush = true;
-	//look for last hit in the same volume.
-	G4int index = -1;
-	G4double dt = 1e10*s;
-	//std::cout<<"At first, dt = "<<dt/ns<<"ns"<<std::endl;
-	//std::cout<<"pointOut_time = "<<pointOut_time/ns<<"ns"<<std::endl;
-	for ( int i = 0; i < nHits; i++ ){
-		if ( m_volName[i] == VolName && m_volID[i] == ReplicaNo ){
-			//std::cout<<"m_t["<<i<<"] = "<<m_t[i]*unit_t/ns<<"ns"<<std::endl;
-			G4double dtime = pointOut_time - m_t[i]*unit_t;
-			if ( fabs(dtime) < fabs(dt) ){
-				index = i;
-				dt = dtime;
-				//std::cout<<"dtime = "<<dtime/ns<<"ns < dt = "<<dt/ns<<"ns"<<std::endl;
-			}
-		}
-	}
-//	std::cout<<"At last, dt = "<<dt/ns<<"ns"<<std::endl;
-	if ( index != -1 ){// found a previous hit in the same volume
-//		std::cout<<"found a previous hit in the same volume!"<<std::endl;
-		if ( fabs(dt) < tres ){// dt too small, will not push
-//			std::cout<<"dt too small, will not push"<<std::endl;
-			willPush = false;
-		}
-		if ( m_tid[index] == trackID && (prePoint->GetStepStatus() != fGeomBoundary || killed || stopped)){ // If this particle was in this volume in last step, don't generate a new hit
-//			std::cout<<"Was here last step"<<std::endl;
-			willPush = false;
-		}
-		//if ( m_tid[index] == trackID ){
-		//	willPush = false;
-		//}
-	}
+        //****************************generate new hit or modify old one********************************
+        bool willPush = true;
+        // Check if there was a previous hit that we should be merging this one against
+        G4int index = -1;
+        G4double dt = 1e10*s; 
+        for ( int i = 0; i < nHits; i++ ){
+           if (   m_tid[i] == trackID     // Must have the same track ID
+               && m_volName[i] == VolName // Must be in the same logical volume
+               && m_volID[i] == ReplicaNo // If we have repeated physical volumes, must have same replica number
+             ){
+               // Take the absolute difference between the times of the new hit and the current one we're considering
+               G4double dtime = fabs(pointOut_time - m_t[i]*unit_t);  
+
+               // If this is less than the current closest candidate hit, then make this one the new candidate
+               if ( dtime < dt ){
+                  index = i;
+                  dt = dtime;
+                  // Set the flag to make a new hit to false if `dt` is less than `tres`
+                  if( willPush && dt < tres) willPush=false;
+               }
+            }
+        }
 
 	if (willPush){
 		MonitorHit* newHit = new MonitorHit();
