@@ -1,0 +1,61 @@
+	PhysicsList: QGSP_BERT
+
+#General setting  
+	Type:      simple #(simple/stable/ion)
+	Particle:  proton #(e+/e-/deuteron/chargedgeantino/gamma/...)
+
+#Default Direction
+#	           Theta    Phi
+#	           deg      deg
+#	Direction: 0        180
+#  ThetaSpread:        1.71887
+##	PhiSpread:          180
+#Default Momentum Amplitude
+#	             MeV
+#	MomAmp:      10
+#	MomSpread:   10
+	Ekin:      10
+	EkinSpread:   20
+#Default Position     x    y   z
+#	                  mm   mm  mm
+#	Position:         0    0  -355         
+#	PosSpread:        8.33 5   0
+#	PosLimit:         17.5
+
+	RandMode:       none #(none/root)
+	EnergyMode:     uRand #(root/histo/none)
+	PositionMode:   histo  #(uniform/root/none/gRand/uRand/turtle/muPC)
+	DirectionMode:  uniform #(none/uniform/histo/turtle/muPC)
+	ThetaMode:      none #(none/gRand/uRand)
+	PhiMode:        none #(none/gRand/uRand)
+	TimeMode:       none #(none/root)
+	pidMode:        none #(none/root)
+#Default Time
+#	         ns
+	Time:    0
+#
+# Position histogram and file
+#
+        PMHFN:       input_gen_hists_Al50.root
+        PMHHN:       hGlobalStoppingPositions
+
+#Scale Momentum  Spread
+#1.03  28.84     0.368
+#1.04  29.12     0.372
+#1.05  29.40     0.375
+#1.06  29.68     0.379
+#1.07  29.96     0.382
+#1.08  30.24     0.386
+#1.09  30.52     0.390
+#1.10  30.80     0.393
+#1.15  32.20     0.411
+#1.20  33.60     0.429
+#1.25  35.00     0.447
+#1.30  36.40     0.465
+#1.35  37.80     0.483
+#1.40  39.20     0.500
+#1.43  40.04     0.511
+#1.45  40.60     0.518
+#1.47  41.16     0.525
+#1.50  42.00     0.536
+#1.60  44.80     0.572
