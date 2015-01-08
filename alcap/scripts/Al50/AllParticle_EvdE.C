@@ -65,10 +65,10 @@ void AllParticle_EvdE(std::string filename) {
   br_Ot->SetAddress(&Ot);
   br_charge->SetAddress(&charge);
 
-  const int n_bins = 100;
+  const double bin_width = 250;
   const double lower_limit = 0;
-  const double upper_limit = 10000;
-  double bin_width = (upper_limit - lower_limit) / n_bins;
+  const double upper_limit = 25000;
+  int n_bins = (upper_limit - lower_limit) / bin_width;
 
   const int n_arms = 2;
   LeftArm.outfilename = "pid-cuts-left.txt";
@@ -96,7 +96,11 @@ void AllParticle_EvdE(std::string filename) {
     arms[i_arm].hists.push_back(tritons);
     arms[i_arm].hists.push_back(alphas);
 
-    arms[i_arm].hAllEvdE = new TH2F("All", "All", n_bins,lower_limit,upper_limit, n_bins,lower_limit,upper_limit);
+    std::string histtitle = "EvdE plot for the " + arms[i_arm].detname + " detector";
+    arms[i_arm].hAllEvdE = new TH2F("All", histtitle.c_str(), n_bins,lower_limit,upper_limit, n_bins,lower_limit,upper_limit);
+    arms[i_arm].hAllEvdE->SetXTitle("E+dE [keV]");
+    arms[i_arm].hAllEvdE->SetYTitle("dE [keV]");
+
     for (std::vector<ParticleType>::iterator i_type = arms[i_arm].hists.begin(); i_type != arms[i_arm].hists.end(); ++i_type) {
       std::string histname = "hEvdE_"+ arms[i_arm].detname +"_" + i_type->type;
       TH2F* temp = new TH2F(histname.c_str(), histname.c_str(), n_bins,lower_limit,upper_limit, n_bins,lower_limit,upper_limit);
@@ -173,7 +177,7 @@ void AllParticle_EvdE(std::string filename) {
   legend->SetTextSize(0.04);
   legend->SetFillColor(kWhite);
   for (std::vector<ParticleType>::iterator i_type = arms[0].hists.begin(); i_type != arms[0].hists.end(); ++i_type) {
-    legend->AddEntry(i_type->hEvdE, (i_type->type).c_str(), "l");
+    legend->AddEntry(i_type->hEvdE, (i_type->type).c_str(), "p");
   }
 
 
@@ -286,6 +290,7 @@ void AllParticle_EvdE(std::string filename) {
   for (int i_arm = 0; i_arm < n_arms; ++i_arm) {
     TCanvas* c1 = new TCanvas("c1", "c1");
     for (std::vector<ParticleType>::iterator i_type = arms[i_arm].hists.begin(); i_type != arms[i_arm].hists.end(); ++i_type) {
+      i_type->hEvdE->SetStats(false);
       i_type->hEvdE->Draw("SAME");
     }
     legend->Draw();
@@ -305,6 +310,16 @@ void AllParticle_EvdE(std::string filename) {
       c1->SaveAs(pngname.c_str());
       c1->SaveAs(pdfname.c_str());      
     }
+
+    arms[i_arm].hAllEvdE->SetStats(false);
+    arms[i_arm].hAllEvdE->Draw("COLZ");
+    plotname = "EvdE_All_" + arms[i_arm].detname;
+    pngname = plotname + ".png";
+    pdfname = plotname + ".pdf";
+    c1->SetLogz(1);
+    c1->SaveAs(pngname.c_str());
+    c1->SaveAs(pdfname.c_str());
+    c1->SetLogz(0);
 
     delete c1;
   }
