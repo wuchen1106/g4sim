@@ -9,7 +9,12 @@ void StoppingPositionDistribution(std::string filename) {
   hLocalStoppingPositions->SetZTitle("Local Z [#mum]");
   tree->Draw("M_local_Oz*10000:M_local_Oy:M_local_Ox>>hLocalStoppingPositions", "M_particleName==\"mu-\" && M_volName==\"Target\" && M_stopped==1", "");
 
-  TH3F* hGlobalStoppingPositions = new TH3F("hGlobalStoppingPositions", "Positions of Stopped Muons in Target (global coords)", 10,-5,5, 10,-5,5, 60,-30,30);
+  double bin_width = 0.1; // cm
+  double x_low = -5;
+  double x_high = 5;
+  int n_bins_x = (x_high - x_low) / bin_width;
+
+  TH3F* hGlobalStoppingPositions = new TH3F("hGlobalStoppingPositions", "Positions of Stopped Muons in Target (global coords)", n_bins_x,x_low,x_high, n_bins_x,x_low,x_high, n_bins_x,x_low,x_high);
   hGlobalStoppingPositions->SetXTitle("Global X [cm]");
   hGlobalStoppingPositions->SetYTitle("Global Y [cm]");
   hGlobalStoppingPositions->SetZTitle("Global Z [cm]");
