@@ -28,11 +28,21 @@ public:
 
   void Fill();
 
-  void SetBranch(std::string name, std::vector<double>* pVecD);
-  void SetBranch(std::string name, std::vector<int>* pVecI);
-  void SetBranch(std::string name, int* pI);
-  void SetBranch(std::string name, double* pD);
-  void SetBranch(std::string name, std::vector<std::string>* pVecCa);
+  template <typename Type>
+  void SetBranch(const std::string& name, Type* var){
+  m_tree->Branch(name.c_str(), var);
+	if ( fVerbose >= 5 ){
+		std::cout<<"In MyRoot::SetBranch"<<std::endl;
+		std::cout<<"  New branch created!!"<<std::endl;
+		std::cout<<"  Name: "<<name<<std::endl;
+}
+}
+
+  void SetBranch(const std::string& name, std::vector<double>* pVecD);
+  void SetBranch(const std::string& name, std::vector<int>* pVecI);
+  void SetBranch(const std::string& name, int* pI);
+  void SetBranch(const std::string& name, double* pD);
+  void SetBranch(const std::string& name, std::vector<std::string>* pVecCa);
 
 	void Save();
 

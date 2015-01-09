@@ -115,7 +115,7 @@ void MyRoot::Close(){
 	}
 }
 
-void MyRoot::SetBranch(std::string name, std::vector<double>* pVecD){
+void MyRoot::SetBranch(const std::string& name, std::vector<double>* pVecD){
   m_tree->Branch(name.c_str(), pVecD);
 	if ( fVerbose >= 5 ){
 		std::cout<<"In MyRoot::SetBranch"<<std::endl;
@@ -125,7 +125,7 @@ void MyRoot::SetBranch(std::string name, std::vector<double>* pVecD){
 	}
 }
 
-void MyRoot::SetBranch(std::string name, std::vector<int>* pVecI){
+void MyRoot::SetBranch(const std::string& name, std::vector<int>* pVecI){
   m_tree->Branch(name.c_str(), pVecI);
 	if ( fVerbose >= 5 ){
 		std::cout<<"In MyRoot::SetBranch"<<std::endl;
@@ -135,7 +135,7 @@ void MyRoot::SetBranch(std::string name, std::vector<int>* pVecI){
 	}
 }
 
-void MyRoot::SetBranch(std::string name, int* pI ){
+void MyRoot::SetBranch(const std::string& name, int* pI ){
   m_tree->Branch(name.c_str(), pI);
 	if ( fVerbose >= 5 ){
 		std::cout<<"In MyRoot::SetBranch"<<std::endl;
@@ -145,7 +145,7 @@ void MyRoot::SetBranch(std::string name, int* pI ){
 	}
 }
 
-void MyRoot::SetBranch(std::string name, double* pD ){
+void MyRoot::SetBranch(const std::string& name, double* pD ){
   m_tree->Branch(name.c_str(), pD);
 	if ( fVerbose >= 5 ){
 		std::cout<<"In MyRoot::SetBranch"<<std::endl;
@@ -155,7 +155,7 @@ void MyRoot::SetBranch(std::string name, double* pD ){
 	}
 }
 
-void MyRoot::SetBranch(std::string name, std::vector<std::string>* pVecCa){
+void MyRoot::SetBranch(const std::string& name, std::vector<std::string>* pVecCa){
   m_tree->Branch(name.c_str(), pVecCa);
 	if ( fVerbose >= 5 ){
 		std::cout<<"In MyRoot::SetBranch"<<std::endl;

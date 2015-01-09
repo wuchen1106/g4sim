@@ -2,28 +2,30 @@
 
 #General setting  
 	Type:      simple #(simple/stable/ion)
-	Particle:  mu- #(e+/e-/deuteron/chargedgeantino/gamma/...)
+	Particle:  proton #(e+/e-/deuteron/chargedgeantino/gamma/...)
 
 #Default Direction
 #	           Theta    Phi
 #	           deg      deg
 #	Direction: 0        180
 #  ThetaSpread:        1.71887
-#	PhiSpread:          180
+##	PhiSpread:          180
 #Default Momentum Amplitude
 #	             MeV
-	MomAmp:      29.96
-	MomSpread:   0.382
+#	MomAmp:      10
+#	MomSpread:   10
+	Ekin:      10
+	EkinSpread:   20
 #Default Position     x    y   z
 #	                  mm   mm  mm
-#	Position:         -0.06    0  -355         
-	PosSpread:        0 0 0 # in muPC mode used to add an offset
+#	Position:         0    0  -355         
+#	PosSpread:        8.33 5   0
 #	PosLimit:         17.5
 
 	RandMode:       none #(none/root)
-	EnergyMode:     none #(root/histo/none/collimated)
-	PositionMode:   muPC  #(uniform/root/none/gRand/uRand/turtle/muPC)
-	DirectionMode:  muPC #(none/uniform/histo/turtle/muPC)
+	EnergyMode:     uRand #(root/histo/none)
+	PositionMode:   histo  #(uniform/root/none/gRand/uRand/turtle/muPC)
+	DirectionMode:  uniform #(none/uniform/histo/turtle/muPC)
 	ThetaMode:      none #(none/gRand/uRand)
 	PhiMode:        none #(none/gRand/uRand)
 	TimeMode:       none #(none/root)
@@ -32,6 +34,11 @@
 #	         ns
 	Time:    0
 #
+# Position histogram and file
+#
+        PMHFN:       input_gen_hists.root
+        PMHHN:       muons_post_pos_3D
+
 #Scale Momentum  Spread
 #1.03  28.84     0.368
 #1.04  29.12     0.372

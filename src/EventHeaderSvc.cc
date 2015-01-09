@@ -32,6 +32,7 @@ EventHeaderSvc::EventHeaderSvc()
 	ipx = 0;
 	ipy = 0;
 	ipz = 0;
+        ix=iy=iz=0;
 }
 
 EventHeaderSvc::~EventHeaderSvc()
@@ -47,14 +48,18 @@ EventHeaderSvc* EventHeaderSvc::GetEventHeaderSvc(){
 }
 
 void EventHeaderSvc::SetBranch(){
-	MyRoot::GetMyRoot()->SetBranch("run_num", &run_num);
-	MyRoot::GetMyRoot()->SetBranch("evt_num", &evt_num);
-	MyRoot::GetMyRoot()->SetBranch("R0", &R0);
-	MyRoot::GetMyRoot()->SetBranch("R1", &R1);
-	MyRoot::GetMyRoot()->SetBranch("ipx", &ipx);
-	MyRoot::GetMyRoot()->SetBranch("ipy", &ipy);
-	MyRoot::GetMyRoot()->SetBranch("ipz", &ipz);
-	MyRoot::GetMyRoot()->SetBranch("weight", &weight);
+	if(flag_run_num)  MyRoot::GetMyRoot()->SetBranch("run_num"       , &run_num);
+	if(flag_evt_num)  MyRoot::GetMyRoot()->SetBranch("evt_num"       , &evt_num);
+	if(flag_R0)       MyRoot::GetMyRoot()->SetBranch("R0"            , &R0);
+	if(flag_R1)       MyRoot::GetMyRoot()->SetBranch("R1"            , &R1);
+	if(flag_ipx)      MyRoot::GetMyRoot()->SetBranch("i_px"          , &ipx);
+	if(flag_ipy)      MyRoot::GetMyRoot()->SetBranch("i_py"          , &ipy);
+	if(flag_ipz)      MyRoot::GetMyRoot()->SetBranch("i_pz"          , &ipz);
+	if(flag_position) MyRoot::GetMyRoot()->SetBranch("i_x"           , &ix);
+	if(flag_position) MyRoot::GetMyRoot()->SetBranch("i_y"           , &iy);
+	if(flag_position) MyRoot::GetMyRoot()->SetBranch("i_z"           , &iz);
+	if(flag_weight)   MyRoot::GetMyRoot()->SetBranch("weight"        , &weight);
+	if(flag_pid)      MyRoot::GetMyRoot()->SetBranch("i_particleName", &i_particleName);
 }
 
 void EventHeaderSvc::ReadOutputCard(G4String filename){
@@ -104,6 +109,8 @@ void EventHeaderSvc::ReadOutputCard(G4String filename){
 			else if( name == "ipy" ) flag_ipy = true;
 			else if( name == "ipz" ) flag_ipz = true;
 			else if( name == "weight" ) flag_weight = true;
+			else if( name == "position" ) flag_position = true;
+			else if( name == "pid" ) flag_pid = true;
 			else{
 				std::cout<<"In EventHeaderSvc::ReadOutputCard, unknown name: "<<name<<" in file "<<filename<<std::endl;
 				std::cout<<"Will ignore this line!"<<std::endl;
@@ -132,6 +139,11 @@ void EventHeaderSvc::ReSet(){
 	flag_R0 = false;
 	flag_R1 = false;
 	flag_R1 = false;
+	flag_ipx = false;
+	flag_ipy = false;
+	flag_ipz = false;
+	flag_position = false;
+	flag_pid = false;
 }
 
 void EventHeaderSvc::ShowOutCard(){
@@ -143,7 +155,9 @@ void EventHeaderSvc::ShowOutCard(){
 	std::cout<<"output ipx?"<<(flag_ipx?" yes":" no")<<std::endl;
 	std::cout<<"output ipy?"<<(flag_ipy?" yes":" no")<<std::endl;
 	std::cout<<"output ipz?"<<(flag_ipz?" yes":" no")<<std::endl;
+	std::cout<<"output initial position?"<<(flag_position?" yes":" no")<<std::endl;
 	std::cout<<"output weight?"<<(flag_weight?" yes":" no")<<std::endl;
+	std::cout<<"output particle type?"<<(flag_pid?" yes":" no")<<std::endl;
 }
 
 void EventHeaderSvc::SetValue(const G4Event* evt, int runNb, double w){

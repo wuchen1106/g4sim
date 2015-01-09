@@ -712,7 +712,7 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 //			std::cout<<"dt too small, will not push"<<std::endl;
 			willPush = false;
 		}
-		if ( m_tid[index] == trackID&& prePoint->GetStepStatus() != fGeomBoundary || killed){ // If this particle was in this volume in last step, don't generate a new hit
+		if ( m_tid[index] == trackID && (prePoint->GetStepStatus() != fGeomBoundary || killed || stopped)){ // If this particle was in this volume in last step, don't generate a new hit
 //			std::cout<<"Was here last step"<<std::endl;
 			willPush = false;
 		}
