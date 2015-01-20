@@ -200,6 +200,14 @@ DEFINE: thCLi		1  # Thickness of Collimator Lining
 	BL   minus uColL3 tColLHole   0    0    0    0      Z0  0      CollimatorLead    1     ChamberIn  Lead         M/MonitorSD   P pRColL 0    0    -90   90   0  
 	BL   minus bColP  tColPHole   0    0    0    0      0   0      CollimatorPlastic 1     ChamberIn  Scintillator M/MonitorSD   P pRColP 0    Z0   -90   90   0  
 
+#Tubs info
+#	Type RMin RMax   Length  Start Span Name             RepNo  MotVolume Material  SDName    posX posY  posZ  Ephi   Ethe   Epsi  
+#	     mm   mm     mm      deg   deg                                                        mm   mm    mm    deg    deg    deg   
+#	                                                                                  P R    Phi   Z     
+#	                                                                                  S R    Phi   Theta 
+	T    0    40     0.1     0    360   ColMon           1    ChamberIn  VacuumPSI M/MonitorSD P pRColL-20  0 Z0    90     90     0   
+	T    0    90     0.1     0    360   ColKill           1    ChamberIn  VacuumPSI M/KillerSD P pRColL-22  0 Z0    90     90     0   
+
 #==================================================================================================================
 #	Other Detectors
 #==================================================================================================================
@@ -254,6 +262,13 @@ DEFINE: pZPS		pZESi+thESi/2+gPS+thPS/2 # Z position of Plastic Charged Veto Scin
 	#B    bXPack bXPack thPS   VetoPS1     1     DetBlock1 Scintillator M/MonitorSD    0       0     pZPS   0    0    0 
 	B    bXPack bXPack thESi  ESi1        1     DetBlock1 Silicon      M/MonitorSD    0       0     pZESi  0    0    0 
 	B    bXPack bXPack thdESi dESi1       1     DetBlock1 Silicon      M/MonitorSD    0       0     pZdES  0    0    0 
+
+#G4Cons info
+#	Type inR1   outR1 inR2 outR2 length phiStart phiSpan  Name    RepNo MotVolume Material     SDName         posX    posY  posZ    Ephi Ethe Epsi
+#	     mm     mm     mm  mm     mm    deg       deg                                                         mm      mm    mm      deg  deg  deg
+#	                                                                                                        P R       Phi   Z
+#	                                                                                                        S R       Phi   Theta  
+#	C    1      10     0    0      5      0       360     ESi1     1     DetBlock1 Silicon      M/MonitorSD    0       0     pZESi  0    0    0 
 
 ##==================================================================================================================
 ##	Target
