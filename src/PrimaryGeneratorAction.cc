@@ -16,6 +16,7 @@
 #include "G4ParticleDefinition.hh"
 #include "G4RotationMatrix.hh"
 #include "Randomize.hh"
+#include "G4IonTable.hh"
 
 #include "G4TransportationManager.hh"
 
@@ -125,7 +126,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	if (fType=="ion"){
 		if (!fParticle){
 			G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
-			fParticle = particleTable->GetIon(Z,A,E*keV);
+			fParticle = particleTable->GetIonTable()->GetIon(Z,A,E*keV);
 			if (!fParticle){
 				std::cout<<"ERROR: In PrimaryGeneratorAction::PrimaryGeneratorAction() Cannot find particle "
 						 <<"Z = "<<Z

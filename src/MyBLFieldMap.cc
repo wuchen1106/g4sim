@@ -740,6 +740,7 @@ const {
     x -= X0;
     y -= Y0;
     z -= Z0;
+    // FIXME:
 //    printf("%lf-%lf=%lf,%lf-%lf=%lf,%lf-%lf=%lf\n",x,X0,x-X0,y,Y0,y-Y0,z,Z0,z-Z0);
 
     G4double factor[6];
@@ -768,12 +769,14 @@ const {
     int i = (int)floor(x/dX);
     int j = (int)floor(y/dY);
     int k = (int)floor(z/dZ);
+    // FIXME:
 //    printf("%d<0||%d>=%d||%d<0||%d>=%d||%d<0||%d>=%d\n",i,i,nX-1,j,j,nY-1,k,k,nZ-1);
     if(i < 0 || i >= nX-1 || j < 0 || j >= nY-1 || k < 0 || k >= nZ-1) {
         field[0] = field[1] = field[2] = field[3] = field[4] =
             field[5] = 0.0;
         return;
     }
+    // FIXME:
 //    printf("passed1\n");
     // m is the initial index (corner of the cube with minimum X, Y, and Z)
     int m = k*nY*nX + j*nX + i;
@@ -786,6 +789,7 @@ const {
     assert(fy >= 0.0 && fy <= 1.0);
     float fz = 1.0 - (z - k*dZ) / dZ;
     assert(fz >= 0.0 && fz <= 1.0);
+    // FIXME:
 //    printf("passed2\n");
 
     // now compute the fractional weighting factors for the 8 corners

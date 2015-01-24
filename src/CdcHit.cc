@@ -74,9 +74,9 @@ void CdcHit::Draw()
   if(pVVisManager)
   {
     G4Circle circle(pos);
-    circle.SetScreenSize(10.);
+    circle.SetScreenSize(2.);
     circle.SetFillStyle(G4Circle::filled);
-    G4Colour colour(1.,1.,0.);
+    G4Colour colour(1.,0.,0.);
     G4VisAttributes attribs(colour);
     circle.SetVisAttributes(attribs);
     pVVisManager->Draw(circle);

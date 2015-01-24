@@ -133,7 +133,7 @@ void MyFieldSvc::SetField(G4LogicalVolume* fLogicWorld){
 				  1.0, // gradient
 				  0.0, // time offset
 				  fLogicWorld,
-				  fFieldMapX0[ifieldmap],
+				  fFieldMapX0[ifieldmap], // So called origin. It's actually the coordiantes of the simulation origin point in the frame of magnetic field coordiantes.
 				  fFieldMapY0[ifieldmap],
 				  fFieldMapZ0[ifieldmap]
 				  ));
