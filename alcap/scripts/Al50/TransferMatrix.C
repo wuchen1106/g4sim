@@ -19,6 +19,8 @@ struct Arm {
   std::string detname;
   std::string monname;
   RooUnfoldResponse response;
+  int n_hits;
+  int n_misses;
 };
 
 void TransferMatrix(std::string filename) {
@@ -26,8 +28,8 @@ void TransferMatrix(std::string filename) {
   TFile* file = new TFile(filename.c_str(), "READ");
   TTree* tree = (TTree*) file->Get("tree");
   
-  double bin_width = 250;
-  double energy_high = 15000;
+  double bin_width = 200;
+  double energy_high = 25000;
   double energy_low = 0;
   int n_bins = (energy_high - energy_low) / bin_width;
 
@@ -38,10 +40,14 @@ void TransferMatrix(std::string filename) {
   right_arm.monname = "ESi1";
   std::string responsename = right_arm.detname + "_response";
   right_arm.response = RooUnfoldResponse(n_bins,energy_low,energy_high, responsename.c_str());
+  right_arm.n_hits = 0;
+  right_arm.n_misses = 0;
   left_arm.detname = "SiL";
   left_arm.monname = "ESi2";
   responsename = left_arm.detname + "_response";
   left_arm.response = RooUnfoldResponse(n_bins,energy_low,energy_high, responsename.c_str());
+  left_arm.n_hits = 0;
+  left_arm.n_misses = 0;
   arms.push_back(right_arm);
   arms.push_back(left_arm);
 
@@ -132,7 +138,7 @@ void TransferMatrix(std::string filename) {
 	  std::string thick_monname = i_arm->monname;
 	  std::string thin_monname = "d"+i_arm->monname;
 
-	  if (i_particleName == "proton" && i_volName == thick_monname) {
+	  if (i_particleName == "proton" && i_volName == thick_monname && stopped->at(iElement) == 1) {
 	    thick_hit = true;
 	    E = edep->at(iElement)*1e6; // convert to keV
 	    thick_trackID = tid->at(iElement);
@@ -176,9 +182,11 @@ void TransferMatrix(std::string filename) {
 	for (std::vector<Arm>::iterator i_arm = arms.begin(); i_arm != arms.end(); ++i_arm) {	
 	  if (i_arm == thick_arm) {
 	    i_arm->response.Fill(observed_E, true_kinetic_energy); // this arm saw the proton
+	    i_arm->n_hits++;
 	  }
 	  else {
 	    i_arm->response.Miss(true_kinetic_energy); // the other one didn't
+	    i_arm->n_misses++;
 	  }
 	}
       }
@@ -186,6 +194,7 @@ void TransferMatrix(std::string filename) {
 	//	std::cout << true_kinetic_energy << " keV missed" << std::endl;
 	for (std::vector<Arm>::iterator i_arm = arms.begin(); i_arm != arms.end(); ++i_arm) {
 	  i_arm->response.Miss(true_kinetic_energy); // both arms missed the proton
+	  i_arm->n_misses++;
 	}
       }
   }
@@ -195,6 +204,7 @@ void TransferMatrix(std::string filename) {
     i_arm->response.Hresponse()->SetXTitle("Observed E [keV]");
     i_arm->response.Hresponse()->SetYTitle("True E [keV]");
     i_arm->response.Write();
+    std::cout << i_arm->detname << ": " << i_arm->n_hits << " hits and " << i_arm->n_misses << " misses" << std::endl;
   }
   out_file->Close();
 }

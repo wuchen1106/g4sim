@@ -188,8 +188,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	}
 
 	if ( EnergyMode == "histo"){
-		G4double mom = EM_hist->GetRandom() * MeV;
-		G4double ekin = sqrt(mom*mom+mass*mass)-mass;
+		G4double ekin = EM_hist->GetRandom() / 1e3 * MeV;
+		//		G4double mom = sqrt(ekin*ekin + 2*ekin*mass);
 		particleGun->SetParticleEnergy(ekin);
 	}
 	else if ( EnergyMode == "root" ){
@@ -536,10 +536,18 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	  SetRandomPosition();  
 	}
 	else if ( PositionMode == "histo") {
+	  if (PM_hist) { // if we have a TH3F
 		double x=0,y=0,z=0;
 		PM_hist->GetRandom3(x,y,z);
 		G4ThreeVector pos_3Vec(x, y, z);
 		particleGun->SetParticlePosition(pos_3Vec);
+	  }
+	  else if (PM_hist_sparse) {
+	    double random_pos[3];
+	    PM_hist_sparse->GetRandom(random_pos);
+	    G4ThreeVector pos_3Vec(random_pos[0], random_pos[1], random_pos[2]);
+	    particleGun->SetParticlePosition(pos_3Vec); // should probably try and avoid having same line twice
+	  }
 	}
 	else if ( PositionMode == "turtle" || PositionMode == "muPC" || PositionMode == "collimator") {
 	  // Already handled in the DirectionMode if block
@@ -868,13 +876,20 @@ void PrimaryGeneratorAction::BuildHistoFromFile(){
 					"InvalidInput", FatalException,
 					"Can not find file");
 		}
-		if(!obj->InheritsFrom("TH3")){
+		if(obj->InheritsFrom("TH3")){
+		  PM_hist = (TH3*) obj;
+		
+		}
+		else if (obj->InheritsFrom("THnSparse")) {
+		  PM_hist_sparse = (THnSparseF*) obj;
+		  // should also check that it's 3dimenstional here
+		}
+		else {
 			std::cout<<"ERROR: Cannot generate positions from non-3D histogram: "<<PM_hist_histname<<"!!!"<<std::endl;
 			G4Exception("PrimaryGeneratorAction::BuildHistoFromFile()",
 					"InvalidInput", FatalException,
 					"Wrong hist type");
 		}
-		PM_hist = (TH3*) obj;
 	}
 
 }

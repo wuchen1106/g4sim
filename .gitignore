@@ -33,6 +33,7 @@ geant4*
 # Pictures
 *.eps
 *.png
+*.pdf
 
 # ROOT stuff
 *.root

@@ -18,6 +18,7 @@
 #include "TF1.h"
 #include "TH2F.h"
 #include "TH3F.h"
+#include "THnSparse.h"
 
 class G4ParticleGun;
 class G4Event;
@@ -134,6 +135,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
 		G4String                   DM_hist_filename;
 		G4String                   DM_hist_histname;
 		TH3*                       PM_hist;
+                THnSparseF*                PM_hist_sparse;
 		G4String                   PM_hist_filename;
 		G4String                   PM_hist_histname;
 
