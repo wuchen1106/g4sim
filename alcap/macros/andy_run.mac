@@ -18,6 +18,6 @@
 
 #	For this run
 /g4sim/myAnalysisSvc/printModulo    10000
-/run/beamOn  1000
+/run/beamOn  500000
 
 #/vis/ogl/printEPS
