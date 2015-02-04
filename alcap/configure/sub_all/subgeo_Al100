@@ -92,7 +92,7 @@ DEFINE: pRGe		320+LGe/2 # R position of Germanium Detector
 	BL   minus blChamber11  cutDRPort         45   90   0  P R0    135  Z0     blChamber12
 	BL   minus blChamber12  cutLowerPort      45   90   0  P R0    135  ZLo    blChamber13
 	BL   minus blChamber13  ChamberIn         0    0    0  P 0     0    0      Chamber      1     World      Steel    none      0   -Z0   0    0   -90   90
-	BL   minus GeBody       GeHole            0    0    0    0     0   -dGe    Ge           1     World Germanium none S pRGe  0  135  90   -45    0 
+	BL   minus GeBody       GeHole            0    0    0    0     0   -dGe    Ge           1     World Germanium M/MonitorSD S pRGe  0  135  90   -45    0 
 
 #==================================================================================================================
 #	Muon Trigger
@@ -133,8 +133,8 @@ DEFINE: pw  		-XGas/2.+Rwire+(x+1)*gwire # X/Y position of Verticle/Horizental W
 	B    XGas  XGas  thwg   MuPCDSWindow 1     MuPC      Mylar        none           0     0    pZwg    0    0    0 
 	B    XGas  XGas  thwg   MuPCUSWindow 1     MuPC      Mylar        none           0     0   -pZwg    0    0    0 
 	B    XFoil XFoil thSCT  MuSC_T       1     MuTrigger Air          none           0     0    pZSC    0    0    0 
-  B    XFoil XFoil thSC   MuSC         1     MuSC_T    Scintillator none    0     0    0       0    0    0 
-	#B    XFoil XFoil thSC   MuSC         1     MuSC_T    Scintillator none    0     0    0       0    0    0 
+	B    XFoil XFoil thSC   MuSC         1     MuSC_T    Scintillator M/MonitorSD    0     0    0       0    0    0 
+#	B    XFoil XFoil thSC   MuSC         1     MuSC_T    Scintillator none    0     0    0       0    0    0 
 DEFINE:	pZSCF		thSC/2+thTp/2
 	B    XFoil XFoil thTp   MuSC_FU      1     MuSC_T    Plastic      none           0     0    pZSCF   0    0    0 
 	B    XFoil XFoil thTp   MuSC_FD      1     MuSC_T    Plastic      none           0     0   -pZSCF   0    0    0 
