@@ -36,7 +36,7 @@
 #
 # Position histogram and file
 #
-        PMHFN:       input_gen_hists_Al50.root
+        PMHFN:       input_gen_hists_Al50_THnSparse.root
         PMHHN:       hGlobalStoppingPositions
 
 #Scale Momentum  Spread
