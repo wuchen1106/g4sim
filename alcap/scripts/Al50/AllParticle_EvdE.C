@@ -6,6 +6,7 @@
 #include "TCanvas.h"
 #include "TF1.h"
 #include "TFitResult.h"
+#include "TLatex.h"
 
 #include <iostream>
 #include <fstream>
@@ -40,7 +41,8 @@ void AllParticle_EvdE(std::string filename) {
 
   TFile* file = new TFile(filename.c_str(), "READ");
   TTree* tree = (TTree*) file->Get("tree");
-  
+  TFile* out_file = new TFile("plots.root", "RECREATE");
+
   std::vector<std::string>* particleName = 0;
   std::vector<std::string>* volName = 0;
   std::vector<std::string>* ovolName = 0;
@@ -237,6 +239,7 @@ void AllParticle_EvdE(std::string filename) {
 	if (i_type->fit) {
 	  i_type->fit->Draw("SAME");
 	}
+	i_type->hProjection->Write();
       }
       
       // Now save all the plots
@@ -245,8 +248,8 @@ void AllParticle_EvdE(std::string filename) {
       plotname << "plot_" << arms[i_arm].detname << "_" << i_energy << "keV";
       std::string pdfname = plotname.str() + ".pdf";
       std::string pngname = plotname.str() + ".png";
-      c1->SaveAs(pdfname.c_str());
-      c1->SaveAs(pngname.c_str());
+      //      c1->SaveAs(pdfname.c_str());
+      //      c1->SaveAs(pngname.c_str());
 
       delete c1;
 
@@ -292,35 +295,46 @@ void AllParticle_EvdE(std::string filename) {
     for (std::vector<ParticleType>::iterator i_type = arms[i_arm].hists.begin(); i_type != arms[i_arm].hists.end(); ++i_type) {
       i_type->hEvdE->SetStats(false);
       i_type->hEvdE->Draw("SAME");
+      i_type->hEvdE->Write();
+      std::string histtitle = "dE/dx Plot for the "+ arms[i_arm].detname+ " Detector";
+      i_type->hEvdE->SetTitle(histtitle.c_str());
     }
     legend->Draw();
+
+    TLatex text;
+    text.SetTextAlign(12);
+    text.DrawLatex(3000, 18000, "#bf{#it{Monte Carlo}}");
+
     std::string plotname = "EvdE_PID_" + arms[i_arm].detname;
     std::string pngname = plotname + ".png";
     std::string pdfname = plotname + ".pdf";
-    c1->SaveAs(pngname.c_str());
+    //c1->SaveAs(pngname.c_str());
     c1->SaveAs(pdfname.c_str());
 
     for (std::vector<ParticleType>::iterator i_type = arms[i_arm].hists.begin(); i_type != arms[i_arm].hists.end(); ++i_type) {
       i_type->hEvdE->ProjectionX()->Draw();
+      i_type->hEvdE->ProjectionX()->Write();
 
       // Save the full spectrum
       std::string plotname = "ESpectrum_" + i_type->type + "_"+ arms[i_arm].detname;
       std::string pngname = plotname + ".png";
       std::string pdfname = plotname + ".pdf";
-      c1->SaveAs(pngname.c_str());
-      c1->SaveAs(pdfname.c_str());      
+      //      c1->SaveAs(pngname.c_str());
+      //      c1->SaveAs(pdfname.c_str());      
     }
 
     arms[i_arm].hAllEvdE->SetStats(false);
     arms[i_arm].hAllEvdE->Draw("COLZ");
+    arms[i_arm].hAllEvdE->Write();
     plotname = "EvdE_All_" + arms[i_arm].detname;
     pngname = plotname + ".png";
     pdfname = plotname + ".pdf";
     c1->SetLogz(1);
-    c1->SaveAs(pngname.c_str());
-    c1->SaveAs(pdfname.c_str());
+    //    c1->SaveAs(pngname.c_str());
+    //    c1->SaveAs(pdfname.c_str());
     c1->SetLogz(0);
 
     delete c1;
   }
+  out_file->Close();
 }

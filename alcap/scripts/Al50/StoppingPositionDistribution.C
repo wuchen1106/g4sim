@@ -1,3 +1,11 @@
+#include "TFile.h"
+#include "TTree.h"
+#include "TH3F.h"
+#include "THnSparse.h"
+#include "TBranch.h"
+
+#include <iostream>
+
 void StoppingPositionDistribution(std::string filename) {
 
   TFile* file = new TFile(filename.c_str(), "READ");
@@ -7,14 +15,14 @@ void StoppingPositionDistribution(std::string filename) {
   hLocalStoppingPositions->SetXTitle("Local X [cm]");
   hLocalStoppingPositions->SetYTitle("Local Y [cm]");
   hLocalStoppingPositions->SetZTitle("Local Z [#mum]");
-  tree->Draw("M_local_Oz*10000:M_local_Oy:M_local_Ox>>hLocalStoppingPositions", "M_particleName==\"mu-\" && M_volName==\"Target\" && M_stopped==1", "", 10000);
+  tree->Draw("M_local_Oz*10000:M_local_Oy:M_local_Ox>>hLocalStoppingPositions", "M_particleName==\"mu-\" && M_volName==\"Target\" && M_stopped==1", "");
 
 
-  double bin_width = 0.1; // cm
+  double bin_width = 0.0001; // cm
   const int n_dimensions = 3;
   double x_low[n_dimensions] = {-5, -5, -5};
   double x_high[n_dimensions] = {5, 5, 5};
-  int n_bins_one_axis = (x_high - x_low) / bin_width;
+  int n_bins_one_axis = (x_high[0] - x_low[0]) / bin_width;
   int n_bins[n_dimensions] = {n_bins_one_axis, n_bins_one_axis, n_bins_one_axis};
   std::cout << "AE: n_bins_one_axis = " << n_bins_one_axis << std::endl;
 
@@ -44,7 +52,7 @@ void StoppingPositionDistribution(std::string filename) {
   br_Oy->SetAddress(&Oy);
   br_Oz->SetAddress(&Oz);
 
-  int n_entries = 10;
+  int n_entries = tree->GetEntries();
   for (int iEntry = 0; iEntry < n_entries; ++iEntry) {
       tree->GetEvent(iEntry);
       
