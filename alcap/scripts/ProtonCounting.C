@@ -7,14 +7,17 @@ void ProtonCounting(std::string filename) {
 
   std::vector<std::string>* particleName = 0;
   std::vector<std::string>* volName = 0;
+  std::vector<std::string>* ovolName = 0;
   std::vector<int>* stopped = 0;
   
   TBranch* br_particleName = tree->GetBranch("M_particleName");
   TBranch* br_volName = tree->GetBranch("M_volName");
+  TBranch* br_ovolName = tree->GetBranch("M_ovolName");
   TBranch* br_stopped = tree->GetBranch("M_stopped");
 
   br_particleName->SetAddress(&particleName);
   br_volName->SetAddress(&volName);
+  br_ovolName->SetAddress(&ovolName);
   br_stopped->SetAddress(&stopped);
 
   int n_protons = 0;
@@ -27,11 +30,11 @@ void ProtonCounting(std::string filename) {
 
     for (int iElement = 0; iElement < particleName->size();  ++iElement) {
 
-      if (particleName->at(iElement) == "proton" && volName->at(iElement) == "ESi1" && stopped->at(iElement) == 1) {
+      if (particleName->at(iElement) == "proton" && volName->at(iElement) == "ESi1" && stopped->at(iElement) == 1 && ovolName->at(iElement) == "Target") {
 	++n_protons_right;
 	++n_protons;
       }
-      else if (particleName->at(iElement) == "proton" && volName->at(iElement) == "ESi2" && stopped->at(iElement) == 1) {
+      else if (particleName->at(iElement) == "proton" && volName->at(iElement) == "ESi2" && stopped->at(iElement) == 1 && ovolName->at(iElement) == "Target") {
 	++n_protons_left;
 	++n_protons;
       }
