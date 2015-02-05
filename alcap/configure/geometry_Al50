@@ -3,4 +3,4 @@
 
 #ServiceName        ServiceType         FileName
 	World           Simple              world_AlCap
-	PSI             Simple              sub_all/subgeo_Al50
+	PSI             Simple              sub_all/subgeo_Al50_collimator-monitor
