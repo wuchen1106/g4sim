@@ -438,8 +438,18 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	    //	  std::cout << "Pa = " << Pa << ", dMom = " << dMom << std::endl;
 	    double px = G4RandGauss::shoot(0, 0.033*pz);
 	    double py = G4RandGauss::shoot(0, 0.11*pz);
-	    //	  std::cout << "(px, py, pz) = (" << px << ", " << py << ", " << pz << ")" << std::endl;
-	    //	  std::cout << "p_tot = " << std::sqrt(px*px + py*py + pz*pz) << std::endl;
+	    double p_tot = std::sqrt(px*px + py*py + pz*pz);
+	    //	    std::cout << "Before: (px, py, pz) = (" << px << ", " << py << ", " << pz << ")" << std::endl;
+	    //	    std::cout << "p_tot = " << p_tot << std::endl;
+	    
+	    // Rescale so components so that we get the value we initially had
+	    double scale_factor = pz / p_tot;
+	    px *= scale_factor;
+	    py *= scale_factor;
+	    pz *= scale_factor;
+	    p_tot = std::sqrt(px*px + py*py + pz*pz);
+	    //	    std::cout << "After: (px, py, pz) = (" << px << ", " << py << ", " << pz << ")" << std::endl;
+	    //	    std::cout << "p_tot = " << p_tot << std::endl;
 	    G4ThreeVector particleMomentum(px, py, pz);
 	    G4ThreeVector direction = particleMomentum.unit();
 
