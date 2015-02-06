@@ -436,8 +436,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	    double dMom=G4RandGauss::shoot(0,MomSpread);
 	    double pz = Pa + dMom;
 	    //	  std::cout << "Pa = " << Pa << ", dMom = " << dMom << std::endl;
-	    double px = G4RandGauss::shoot(0, 0.11*pz);
-	    double py = G4RandGauss::shoot(0, 0.11*pz);
+	    double px = G4RandGauss::shoot(0, 0.031*pz);
+	    double py = G4RandGauss::shoot(0, 0.013*pz);
 	    double p_tot = std::sqrt(px*px + py*py + pz*pz);
 	    //	    std::cout << "Before: (px, py, pz) = (" << px << ", " << py << ", " << pz << ")" << std::endl;
 	    //	    std::cout << "p_tot = " << p_tot << std::endl;
@@ -502,7 +502,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	      G4ThreeVector start_pos = muPCPos + n_steps*direction;
 	      //	      std::cout << "AE: PosSpread: " << xSpread << ", " << ySpread << ", " << zSpread << std::endl;
 	      G4ThreeVector move(xSpread, ySpread, zSpread);
-	      start_pos += move;
+	      //	      start_pos += move;
+	      // Don't move from the muPC position
 	      particleGun->SetParticlePosition(start_pos);
 	    }
 	  }
