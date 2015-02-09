@@ -436,8 +436,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	    double dMom=G4RandGauss::shoot(0,MomSpread);
 	    double pz = Pa + dMom;
 	    //	  std::cout << "Pa = " << Pa << ", dMom = " << dMom << std::endl;
-	    double px = G4RandGauss::shoot(0, 0.2*pz);
-	    double py = G4RandGauss::shoot(0, 0.2*pz);
+	    double px = G4RandGauss::shoot(0, 0.031*pz);
+	    double py = G4RandGauss::shoot(0, 0.013*pz);
 	    double p_tot = std::sqrt(px*px + py*py + pz*pz);
 	    //	    std::cout << "Before: (px, py, pz) = (" << px << ", " << py << ", " << pz << ")" << std::endl;
 	    //	    std::cout << "p_tot = " << p_tot << std::endl;
@@ -497,11 +497,13 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	    if (DirectionMode == "muPC" || PositionMode == "muPC") {
 	      // Track back to exit of beam pipe (z = -304*mm)
 	      double z_pos_beam_pipe = -285.58 - 60;
-	      double n_steps = (z_pos_beam_pipe - muPCPos.z()/mm) / (direction.z()/mm);
+	      // Track forward to FF since this might be where the 28MeV/c was tuned to
+	      double z_ff = z_pos_beam_pipe + 120;
+	      double n_steps = (muPCPos.z()/mm - z_ff) / (direction.z()/mm);
 	      //	  std::cout << "n_steps to start of beam pipe: " << n_steps << std::endl;
 	      G4ThreeVector start_pos = muPCPos + n_steps*direction;
 	      //	      std::cout << "AE: PosSpread: " << xSpread << ", " << ySpread << ", " << zSpread << std::endl;
-	      G4ThreeVector move(xSpread, ySpread, zSpread);
+	      G4ThreeVector move(xSpread, ySpread, zSpread); // to translate the whole beam
 	      start_pos += move;
 	      particleGun->SetParticlePosition(start_pos);
 	    }
