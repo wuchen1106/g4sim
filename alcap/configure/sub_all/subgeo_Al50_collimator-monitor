@@ -117,7 +117,7 @@ DEFINE: gSCA		5 # Gap between MuSCA and MuSC
 DEFINE: pZSCA		pZSC-thSC/2-gSCA-thSCA/2 # z position of MuSCA (Relative to Trigger Box)
 DEFINE: gFoil		5 # Gap between Foil and MuSCA
 DEFINE: XFoil		100 # x-y Distance of Foil
-DEFINE: thFoil		0.01 # Thickness of Foil
+DEFINE: thFoil		0.02 # Thickness of Foil
 DEFINE: pZFoil		pZSCA-thSCA/2-gFoil-thFoil/2 # z position of Foil (Relative to Trigger Box)
 DEFINE: Rwire		0.01 # Radius of wires
 DEFINE: gwire		2 # Gap between wires
