@@ -13,8 +13,8 @@
 #Default Momentum Amplitude
 #	             MeV
 	MomAmp:      30.52
-	MomSpread:   0
-#	MomSpread:   0.390
+#	MomSpread:   0
+	MomSpread:   0.390
 #Default Position     x    y   z
 #	                  mm   mm  mm
 #	Position:         -0.06    0  -355         
