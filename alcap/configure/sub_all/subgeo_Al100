@@ -117,7 +117,7 @@ DEFINE: gSCA		5 # Gap between MuSCA and MuSC
 DEFINE: pZSCA		pZSC-thSC/2-gSCA-thSCA/2 # z position of MuSCA (Relative to Trigger Box)
 DEFINE: gFoil		5 # Gap between Foil and MuSCA
 DEFINE: XFoil		100 # x-y Distance of Foil
-DEFINE: thFoil		0.075 # Thickness of Foil
+DEFINE: thFoil		0.02 # Thickness of Foil
 DEFINE: pZFoil		pZSCA-thSCA/2-gFoil-thFoil/2 # z position of Foil (Relative to Trigger Box)
 DEFINE: Rwire		0.01 # Radius of wires
 DEFINE: gwire		2 # Gap between wires
@@ -129,7 +129,7 @@ DEFINE: pw  		-XGas/2.+Rwire+(x+1)*gwire # X/Y position of Verticle/Horizental W
 #	                                                                               S R     Phi  Theta  
 	B    XTr   XTr   LTr    MuTrigger    1     World     Air          none         S pRTr+thTp  0    180     0    0    0 
 	B    XFoil XFoil thFoil MuFoil       1     MuTrigger Mylar        none           0     0    pZFoil  0    0    0 
-	B    XGas  XGas  LGas   MuPC         1     MuTrigger GasArgEthane none           0     0    pZGas   0    0    0 
+	B    XGas  XGas  LGas   MuPC         1     MuTrigger GasArgEthane M/MonitorSD    0     0    pZGas   0    0    0 
 	B    XGas  XGas  thwg   MuPCDSWindow 1     MuPC      Mylar        none           0     0    pZwg    0    0    0 
 	B    XGas  XGas  thwg   MuPCUSWindow 1     MuPC      Mylar        none           0     0   -pZwg    0    0    0 
 	B    XFoil XFoil thSCT  MuSC_T       1     MuTrigger Air          none           0     0    pZSC    0    0    0 
