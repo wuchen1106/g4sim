@@ -407,13 +407,13 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	    TDirectory* prev_dir = gDirectory;
 	    // Get the relevant functions/histograms
 	    std::string dir_name = getenv("CONFIGUREDATAROOT");
-	    dir_name += "TURTLE_fits.root";
-	    TFile* turtle_file = new TFile(dir_name.c_str(), "READ");
+	    dir_name += "mupc_profile_run2808_Al100.root";
+	    TFile* mupc_profile_file = new TFile(dir_name.c_str(), "READ");
 	    
 	    // Get the histogram of the beam distribution at the muPC
-	    fMuPCBeamDistHist = (TH2F*) turtle_file->Get("hmuPC_XYWires")->Clone(); // need to clone because the file will be closing soon
+	    fMuPCBeamDistHist = (TH2F*) mupc_profile_file->Get("muPC/hmuPC_XYWires")->Clone(); // need to clone because the file will be closing soon
 	    fMuPCBeamDistHist->SetDirectory(0); // need to set directory to 0 so that we can use this histogram after the file is closed
-	    turtle_file->Close();
+	    mupc_profile_file->Close();
 	    gDirectory = prev_dir; // need to go back to where we were so that we can get the tree written to the output file
 	  }
 
