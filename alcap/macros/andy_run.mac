@@ -17,7 +17,7 @@
 /g4sim/det/ReloadGeo              geometry_Al100
 
 #	For this run
-/random/setSeeds 3 4
+/random/setSeeds 4 5
 /g4sim/myAnalysisSvc/printModulo    10000
 /run/beamOn  500000
 
