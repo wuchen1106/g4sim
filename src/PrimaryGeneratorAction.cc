@@ -499,7 +499,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	      double z_pos_beam_pipe = -285.58 - 44;
 	      double n_steps = (z_pos_beam_pipe - muPCPos.z()/mm) / (direction.z()/mm);
 	      //	  std::cout << "n_steps to start of beam pipe: " << n_steps << std::endl;
-	      G4ThreeVector start_pos = muPCPos + n_steps*direction;
+	      G4ThreeVector start_pos = muPCPos;// + n_steps*direction;
 	      //	      std::cout << "AE: PosSpread: " << xSpread << ", " << ySpread << ", " << zSpread << std::endl;
 	      G4ThreeVector move(xSpread, ySpread, zSpread); // to translate the whole beam
 	      start_pos += move;
