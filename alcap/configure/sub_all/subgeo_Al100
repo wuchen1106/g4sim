@@ -102,7 +102,7 @@ DEFINE: XTr			200 # x-y Dimension of Trigger Box
 DEFINE: pRTr		RO+Lp1/2+LTr/2 # R position of Trigger box
 DEFINE: LGas		35 # Length of Gas Chamber
 DEFINE: XGas		50 # x-y Dimension of Gas Chamber
-DEFINE: thwg		0.1  # Thickness of Windows
+DEFINE: thwg		0.025 # Thickness of Windows
 DEFINE: pZwg		LGas/2-thwg/2 # z position of Windows (Relative to Gas Chamber)
 DEFINE: gGas		50 # Gap between Gas Chamber and Beam Window
 DEFINE: pZGas		LTr/2-LGas/2-gGas # z position of Gas Chamber (Relative to Trigger Box)
