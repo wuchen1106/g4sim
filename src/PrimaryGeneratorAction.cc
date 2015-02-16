@@ -407,7 +407,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	    TDirectory* prev_dir = gDirectory;
 	    // Get the relevant functions/histograms
 	    std::string dir_name = getenv("CONFIGUREDATAROOT");
-	    dir_name += "mupc_profile_run2808_Al100.root";
+	    dir_name += "mupc_profile_Al50.root";
 	    TFile* mupc_profile_file = new TFile(dir_name.c_str(), "READ");
 	    
 	    // Get the histogram of the beam distribution at the muPC
