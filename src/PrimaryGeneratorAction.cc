@@ -436,8 +436,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	    double dMom=G4RandGauss::shoot(0,MomSpread);
 	    double pz = Pa + dMom;
 	    //	  std::cout << "Pa = " << Pa << ", dMom = " << dMom << std::endl;
-	    double px = G4RandGauss::shoot(0, 0.052*pz);
-	    double py = G4RandGauss::shoot(0, 0.054*pz);
+	    double px = G4RandGauss::shoot(0, 0.044*pz);
+	    double py = G4RandGauss::shoot(0, 0.018*pz);
 	    double p_tot = std::sqrt(px*px + py*py + pz*pz);
 	    //	    std::cout << "Before: (px, py, pz) = (" << px << ", " << py << ", " << pz << ")" << std::endl;
 	    //	    std::cout << "p_tot = " << p_tot << std::endl;
@@ -495,8 +495,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	      }
 	    }
 	    if (DirectionMode == "muPC" || PositionMode == "muPC") {
-	      // Track forward to the FF
-	      double z_pos_beam_pipe = -285.58 + 60;
+	      // Track back to the muSc
+	      double z_pos_beam_pipe = -285.58 - 44;
 	      double n_steps = (z_pos_beam_pipe - muPCPos.z()/mm) / (direction.z()/mm);
 	      //	  std::cout << "n_steps to start of beam pipe: " << n_steps << std::endl;
 	      G4ThreeVector start_pos = muPCPos + n_steps*direction;
