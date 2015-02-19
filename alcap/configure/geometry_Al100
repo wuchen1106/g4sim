@@ -3,4 +3,4 @@
 
 #ServiceName        ServiceType         FileName
 	World           Simple              world_AlCap
-	PSI             Simple              sub_all/subgeo_Al100
+	PSI             Simple              sub_all/subgeo_Al100_obtain-stopping-distribution
