@@ -11,7 +11,7 @@
 /g4sim/myAnalysisSvc/set_out_card output/output_default
 
 # Set Gen
-/g4sim/gun/ResetGen               gen/gen_mu_1.07_muPC
+/g4sim/gun/ResetGen               gen/gen_mu_1.07_target_hist
 
 # Set Geo
 /g4sim/det/ReloadGeo              geometry_Al50
