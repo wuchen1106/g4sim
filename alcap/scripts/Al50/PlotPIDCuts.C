@@ -5,9 +5,11 @@
 
 #include "TTree.h"
 #include "TH1.h"
+#include "TCanvas.h"
 
 struct Arm {
   std::string armname;
+  TCanvas* canvas;
 } LeftArm, RightArm;
 
 struct ParticleType {
@@ -53,7 +55,11 @@ void PlotPIDCuts() {
   particle_types.push_back(alpha);
 
   // Loop through the arms
-  for (std::vector<Arm>::const_iterator i_arm = arms.begin(); i_arm != arms.end(); ++i_arm) {
+  for (std::vector<Arm>::iterator i_arm = arms.begin(); i_arm != arms.end(); ++i_arm) {
+    // Create the canvas for this arm
+    std::string canvasname = "c_" + i_arm->armname;
+    i_arm->canvas = new TCanvas(canvasname.c_str(), canvasname.c_str());
+
     std::string input_filename = "pid-cuts-" + i_arm->armname + ".txt";
     TTree* tree = new TTree();
     tree->ReadFile(input_filename.c_str());
@@ -95,6 +101,8 @@ void PlotPIDCuts() {
     for (std::vector<ParticleType>::iterator i_type = particle_types.begin(); i_type != particle_types.end(); ++i_type) {
       i_type->profile->Draw("SAME E");
     }
+    std::string pdfname = "pid-profiles-" + i_arm->armname + ".pdf";
+    i_arm->canvas->Print(pdfname.c_str());
   }
 
 }
