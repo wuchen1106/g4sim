@@ -10,7 +10,7 @@
 struct Arm {
   std::string armname;
   TCanvas* canvas;
-} LeftArm, RightArm;
+};
 
 struct ParticleType {
   std::string particle_type_name;
@@ -23,19 +23,31 @@ struct ParticleType {
   TBranch* br_rms;
 
   TH1D* profile;
-} p_stop, proton, deuteron, triton, alpha;
+};
 
-void PlotPIDCuts() {
+void PlotPIDCuts(std::string identifier, std::string location, std::string left_name, std::string right_name);
+
+void AllPIDCuts() {
+
+  // MC
+  PlotPIDCuts("MC");
+  // Data
+  PlotPIDCuts("data", "/gpfs/home/edmonds_a/AlcapDAQ/analyzer/rootana/scripts/Al50/");
+}
+
+void PlotPIDCuts(std::string identifier, std::string location = "") {
 
   // Set up the arms
-  LeftArm.armname = "left";
-  RightArm.armname = "right";
+  Arm LeftArm, RightArm;
+  LeftArm.armname = "SiL";
+  RightArm.armname = "SiR";
 
   std::vector<Arm> arms;
   arms.push_back(LeftArm);
   arms.push_back(RightArm);
 
   // Set up the particle types
+  ParticleType  p_stop, proton, deuteron, triton, alpha;
   p_stop.particle_type_name = "p_stop";
   p_stop.mean = 0; p_stop.rms = 0; p_stop.colour = kRed;
   proton.particle_type_name = "proton";
@@ -60,7 +72,7 @@ void PlotPIDCuts() {
     std::string canvasname = "c_" + i_arm->armname;
     i_arm->canvas = new TCanvas(canvasname.c_str(), canvasname.c_str());
 
-    std::string input_filename = "pid-cuts-" + i_arm->armname + ".txt";
+    std::string input_filename = location + "pid-cuts-" + i_arm->armname + ".txt";
     TTree* tree = new TTree();
     tree->ReadFile(input_filename.c_str());
 
@@ -79,7 +91,7 @@ void PlotPIDCuts() {
       i_type->br_rms = tree->GetBranch(branchname.c_str());
       i_type->br_rms->SetAddress(&i_type->rms);
 
-      std::string profilename = "profile_" + i_type->particle_type_name;
+      std::string profilename = "profile_" + identifier + "_" + i_arm->armname + "_" + i_type->particle_type_name;
       i_type->profile = new TH1D(profilename.c_str(), profilename.c_str(), tree->GetEntries(),0,25000);
       i_type->profile->SetLineColor(i_type->colour);
       i_type->profile->SetLineWidth(2);
@@ -88,20 +100,29 @@ void PlotPIDCuts() {
     // Loop through the entries in this arm's tree and create the profile plot
     for (int i_entry = 0; i_entry < tree->GetEntries(); ++i_entry) {
       tree->GetEntry(i_entry);
-      //      std::cout << energy << " "; 
+      //      std::cout << energy << " ";
+      double stopped_proton_mean = -1; // a nonsensical number so that we only store the mean of the first particle type
       for (std::vector<ParticleType>::iterator i_type = particle_types.begin(); i_type != particle_types.end(); ++i_type) {
 	//	std::cout << i_type->mean << " " << i_type->rms << std::endl;
-	i_type->profile->SetBinContent(i_type->profile->FindBin(energy), i_type->mean);
-	i_type->profile->SetBinError(i_type->profile->FindBin(energy), i_type->rms);
+	if (stopped_proton_mean == -1) {
+	  stopped_proton_mean = i_type->mean;
+
+	  if (stopped_proton_mean == 0) {
+	    stopped_proton_mean = 1; // avoid dividing by 0 later
+	  }
+	}
+
+	i_type->profile->SetBinContent(i_type->profile->FindBin(energy), i_type->mean / stopped_proton_mean);
+	i_type->profile->SetBinError(i_type->profile->FindBin(energy), i_type->rms / stopped_proton_mean);
       }
       //      std::cout << std::endl;
     }
 
-    // Now loop through and draw all the profile plots together (draw backwards so that we get the alpha band in)
-    for (std::vector<ParticleType>::reverse_iterator i_type = particle_types.rbegin(); i_type != particle_types.rend(); ++i_type) {
+    // Now loop through and draw all the profile plots together
+    for (std::vector<ParticleType>::iterator i_type = particle_types.begin(); i_type != particle_types.end(); ++i_type) {
       i_type->profile->Draw("SAME E");
     }
-    std::string pdfname = "pid-profiles-" + i_arm->armname + ".pdf";
+    std::string pdfname = "pid-profiles-" + identifier + "-" + i_arm->armname + ".pdf";
     i_arm->canvas->Print(pdfname.c_str());
   }
 
