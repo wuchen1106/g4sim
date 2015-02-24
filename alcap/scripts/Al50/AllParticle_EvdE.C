@@ -12,6 +12,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <algorithm>
 
 struct ParticleType {
   std::string type;
@@ -22,8 +23,6 @@ struct ParticleType {
   TH1D* hProjection;
   TF1* fit;
   int colour;
-
-  double probability;
 } stopped_protons, not_stop_protons, deuterons, tritons, alphas;
 
 struct Arm {
@@ -100,8 +99,9 @@ void AllParticle_EvdE(std::string filename) {
 
     std::string histtitle = "EvdE plot for the " + arms[i_arm].detname + " detector";
     arms[i_arm].hAllEvdE = new TH2F("All", histtitle.c_str(), n_bins,lower_limit,upper_limit, n_bins,lower_limit,upper_limit);
-    arms[i_arm].hAllEvdE->SetXTitle("E+dE [keV]");
-    arms[i_arm].hAllEvdE->SetYTitle("dE [keV]");
+    arms[i_arm].hAllEvdE->SetXTitle("E_{1} + E_{2} [keV]");
+    arms[i_arm].hAllEvdE->GetYaxis()->SetTitleOffset(1.4);
+    arms[i_arm].hAllEvdE->SetYTitle("E_{1} [keV]");
 
     for (std::vector<ParticleType>::iterator i_type = arms[i_arm].hists.begin(); i_type != arms[i_arm].hists.end(); ++i_type) {
       std::string histname = "hEvdE_"+ arms[i_arm].detname +"_" + i_type->type;
@@ -110,8 +110,9 @@ void AllParticle_EvdE(std::string filename) {
       temp->SetLineWidth(2);
       temp->SetMarkerColor(i_type->colour);
       temp->SetMarkerStyle(7);
-      temp->SetXTitle("E+dE [keV]");
-      temp->SetYTitle("dE [keV]");
+      temp->SetXTitle("E_{1} + E_{2} [keV]");
+      temp->GetYaxis()->SetTitleOffset(1.4);
+      temp->SetYTitle("E_{1} [keV]");
       i_type->hEvdE = temp;
     }
   }
@@ -179,18 +180,21 @@ void AllParticle_EvdE(std::string filename) {
   legend->SetTextSize(0.04);
   legend->SetFillColor(kWhite);
   for (std::vector<ParticleType>::iterator i_type = arms[0].hists.begin(); i_type != arms[0].hists.end(); ++i_type) {
-    legend->AddEntry(i_type->hEvdE, (i_type->type).c_str(), "p");
+    std::string label = i_type->type;
+    std::replace(label.begin(), label.end(), '_', ' ');
+    legend->AddEntry(i_type->hEvdE, label.c_str(), "p");
   }
 
 
   for (int i_arm = 0; i_arm < n_arms; ++i_arm) {
     // For each E bin plot the range of dEs for each particle
     std::ofstream output(arms[i_arm].outfilename.c_str(), std::ofstream::out);
-    output << "energy/D:dEnergy/D:p_stop_prob/D:proton_prob/D:deuteron_prob/D:triton_prob/D:alpha_prob/D" << std::endl;
+    output << "energy/D:p_stop_mean/D:p_stop_rms/D:proton_mean/D:proton_rms/D:deuteron_mean/D:deuteron_rms/D:triton_mean/D:triton_rms/D:alpha_mean/D:alpha_rms/D";
    
     for (int i_energy = lower_limit; i_energy <= upper_limit; i_energy += bin_width) {
-      //    output << i_energy << " ";
+      output << std::endl << i_energy << " ";
       TCanvas* c1 = new TCanvas("c1", "c1");
+      c1->SetLeftMargin(0.11);
   
       // Loop through the histograms
       double maximum = 0;
@@ -205,9 +209,10 @@ void AllParticle_EvdE(std::string filename) {
 	i_type->hProjection = i_type->hEvdE->ProjectionY(projection_name.c_str(), bin, bin+1);
 	i_type->hProjection->SetLineColor(i_type->colour);
 	i_type->hProjection->SetLineWidth(2);
-	i_type->hProjection->SetXTitle("dE [keV]");
+	i_type->hProjection->SetXTitle("E_{1} [keV]");
 	i_type->hProjection->SetTitle(projection_name.c_str());
-
+	
+	output << i_type->hProjection->GetMean() << " " << i_type->hProjection->GetRMS() << " ";
 	/*	
 	TFitResultPtr fit;
 	if (i_type->hProjection->GetEntries() > 0) {
@@ -253,39 +258,6 @@ void AllParticle_EvdE(std::string filename) {
 
       delete c1;
 
-
-      // Loop through projections and store the values at each dE (we will divide to get the probablities later
-      for (int i_dE = lower_limit; i_dE < upper_limit; i_dE += bin_width) {
-	output << i_energy << " " << i_dE << " ";
-	double total = 0;
-	for (std::vector<ParticleType>::iterator i_type = arms[i_arm].hists.begin(); i_type != arms[i_arm].hists.end(); ++i_type) {
-	  i_type->probability = 0;
-	  int bin_content = i_type->hEvdE->GetBinContent(i_type->hEvdE->FindBin(i_energy, i_dE));
-	  
-	  if (bin_content > 1) {
-	    i_type->probability = bin_content;
-	    total += i_type->probability;
-	  }
-	  /*	  if (i_type->fit) {
-	    double prob_dE = i_type->fit->Eval(i_dE); // probability that this type of particle will have this dE
-	    i_type->probability = prob_dE;
-	    total += prob_dE;
-	  }
-	  */
-	}
-	
-	// Now calculate and print probabilities
-	for (std::vector<ParticleType>::iterator i_type = arms[i_arm].hists.begin(); i_type != arms[i_arm].hists.end(); ++i_type) {
-	  if (total != 0) {
-	    i_type->probability /= total;
-	    output << i_type->probability << " ";
-	  }
-	  else {
-	    output << "0 ";
-	  }
-	}
-	output << std::endl;
-      }
     }
   }
 
@@ -297,7 +269,7 @@ void AllParticle_EvdE(std::string filename) {
       i_type->hEvdE->Draw("SAME");
       i_type->hEvdE->Write();
       std::string histtitle = "dE/dx Plot for the "+ arms[i_arm].detname+ " Detector";
-      i_type->hEvdE->SetTitle(histtitle.c_str());
+      i_type->hEvdE->SetTitle("");
     }
     legend->Draw();
 
