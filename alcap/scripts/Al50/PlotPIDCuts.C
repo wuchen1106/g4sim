@@ -9,14 +9,44 @@ struct Arm {
   std::string armname;
 } LeftArm, RightArm;
 
+struct ParticleType {
+  std::string particle_type_name;
+
+  double mean;
+  TBranch* br_mean;
+
+  double rms;
+  TBranch* br_rms;
+} p_stop, proton, deuteron, triton, alpha;
+
 void PlotPIDCuts() {
 
+  // Set up the arms
   LeftArm.armname = "left";
   RightArm.armname = "right";
 
   std::vector<Arm> arms;
   arms.push_back(LeftArm);
   arms.push_back(RightArm);
+
+  // Set up the particle types
+  p_stop.particle_type_name = "p_stop";
+  p_stop.mean = 0; p_stop.rms = 0;
+  proton.particle_type_name = "proton";
+  proton.mean = 0; proton.rms = 0;
+  deuteron.particle_type_name = "deuteron";
+  deuteron.mean = 0; deuteron.rms = 0;
+  triton.particle_type_name = "triton";
+  triton.mean = 0; triton.rms = 0;
+  alpha.particle_type_name = "alpha";
+  alpha.mean = 0; alpha.rms = 0;
+
+  std::vector<ParticleType> particle_types;
+  particle_types.push_back(p_stop);
+  particle_types.push_back(proton);
+  particle_types.push_back(deuteron);
+  particle_types.push_back(triton);
+  particle_types.push_back(alpha);
 
   // Loop through the arms
   for (std::vector<Arm>::const_iterator i_arm = arms.begin(); i_arm != arms.end(); ++i_arm) {
@@ -28,17 +58,23 @@ void PlotPIDCuts() {
     TBranch* br_energy = tree->GetBranch("energy");
     br_energy->SetAddress(&energy);
 
-    double p_stop_mean = 0;
-    TBranch* br_mean = tree->GetBranch("p_stop_mean");
-    br_mean->SetAddress(&p_stop_mean);
+    for (std::vector<ParticleType>::iterator i_type = particle_types.begin(); i_type != particle_types.end(); ++i_type) {
+      std::string branchname = i_type->particle_type_name + "_mean";
+      i_type->br_mean = tree->GetBranch(branchname.c_str());
+      i_type->br_mean->SetAddress(&i_type->mean);
 
-    double p_stop_rms = 0;
-    TBranch* br_rms = tree->GetBranch("p_stop_rms");
-    br_rms->SetAddress(&p_stop_rms);
+      branchname = i_type->particle_type_name + "_rms";
+      i_type->br_rms = tree->GetBranch(branchname.c_str());
+      i_type->br_rms->SetAddress(&i_type->rms);
+    }
 
     for (int i_entry = 0; i_entry < tree->GetEntries(); ++i_entry) {
       tree->GetEntry(i_entry);
-      std::cout << energy << " " << p_stop_mean << " " << p_stop_rms << std::endl;
+      std::cout << energy << " "; 
+      for (std::vector<ParticleType>::iterator i_type = particle_types.begin(); i_type != particle_types.end(); ++i_type) {
+	std::cout << i_type->mean << " " << i_type->rms << " ";
+      }
+      std::cout << std::endl;
     }
   }
 
