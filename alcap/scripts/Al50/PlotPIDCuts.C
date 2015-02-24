@@ -97,8 +97,8 @@ void PlotPIDCuts() {
       //      std::cout << std::endl;
     }
 
-    // Now loop through and draw all the profile plots together
-    for (std::vector<ParticleType>::iterator i_type = particle_types.begin(); i_type != particle_types.end(); ++i_type) {
+    // Now loop through and draw all the profile plots together (draw backwards so that we get the alpha band in)
+    for (std::vector<ParticleType>::reverse_iterator i_type = particle_types.rbegin(); i_type != particle_types.rend(); ++i_type) {
       i_type->profile->Draw("SAME E");
     }
     std::string pdfname = "pid-profiles-" + i_arm->armname + ".pdf";
