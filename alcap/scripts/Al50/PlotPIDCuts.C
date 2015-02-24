@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "TTree.h"
+#include "TH1.h"
 
 struct Arm {
   std::string armname;
@@ -67,15 +68,20 @@ void PlotPIDCuts() {
       i_type->br_rms = tree->GetBranch(branchname.c_str());
       i_type->br_rms->SetAddress(&i_type->rms);
     }
+    
+    TH1D* profile = new TH1D("profile", "profile", tree->GetEntries(),0,25000);
 
     for (int i_entry = 0; i_entry < tree->GetEntries(); ++i_entry) {
       tree->GetEntry(i_entry);
-      std::cout << energy << " "; 
-      for (std::vector<ParticleType>::iterator i_type = particle_types.begin(); i_type != particle_types.end(); ++i_type) {
-	std::cout << i_type->mean << " " << i_type->rms << " ";
+      //      std::cout << energy << " "; 
+      for (std::vector<ParticleType>::iterator i_type = particle_types.begin(); i_type != particle_types.begin()+1; ++i_type) {
+	std::cout << i_type->mean << " " << i_type->rms << std::endl;
+	profile->SetBinContent(profile->FindBin(energy), i_type->mean);
+	profile->SetBinError(profile->FindBin(energy), i_type->rms);
       }
-      std::cout << std::endl;
+      //      std::cout << std::endl;
     }
+    profile->Draw("E");
   }
 
 }
