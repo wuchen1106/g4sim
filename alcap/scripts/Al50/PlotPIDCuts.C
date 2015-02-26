@@ -6,6 +6,7 @@
 #include "TTree.h"
 #include "TH1.h"
 #include "TCanvas.h"
+#include "TFile.h"
 
 struct Arm {
   std::string armname;
@@ -27,26 +28,27 @@ struct ParticleType {
   TH1D* profile;
 };
 
-void PlotPIDCuts(std::string identifier, std::string location);
+void PlotPIDCuts(std::string identifier, std::string location, double left_mean_x, double left_mean_y, double right_mean_x, double right_mean_y);
 
 void AllPIDCuts() {
 
+  TFile* out_file = new TFile("PIDProfiles.root", "RECREATE");
   // MC
-  PlotPIDCuts("MC", "");
+  PlotPIDCuts("MC-scaled", "", 8074.28,739.873, 7991.57,754.439);
+  PlotPIDCuts("MC-not-scaled", "", 1,1, 1,1);
   // Data
-  PlotPIDCuts("data", "/gpfs/home/edmonds_a/AlcapDAQ/analyzer/rootana/scripts/Al50/");
+  PlotPIDCuts("data", "/gpfs/home/edmonds_a/AlcapDAQ/analyzer/rootana/scripts/Al50/", 5847,856.4, 5951,779.1);
+
+  out_file->Write();
+  out_file->Close();
 }
 
-void PlotPIDCuts(std::string identifier, std::string location) {
+void PlotPIDCuts(std::string identifier, std::string location, double left_mean_x, double left_mean_y, double right_mean_x, double right_mean_y) {
 
   // Set up the arms
   Arm LeftArm, RightArm;
-  // Mean of x- and y-axes of the proton band (MC)
-  LeftArm.armname = "SiL"; LeftArm.stopped_proton_band_mean_x = 8074.28; LeftArm.stopped_proton_band_mean_y = 739.873;
-  RightArm.armname = "SiR"; RightArm.stopped_proton_band_mean_x = 7991.57; RightArm.stopped_proton_band_mean_y = 754.439;
-  // Mean of x- and y-axes of the proton band (Data - graphical proton cut)
-  //  LeftArm.armname = "SiL"; LeftArm.stopped_proton_band_mean_x = 5847; LeftArm.stopped_proton_band_mean_y = 856.4;
-  //  RightArm.armname = "SiR"; RightArm.stopped_proton_band_mean_x = 5951; RightArm.stopped_proton_band_mean_y = 779.1;
+  LeftArm.armname = "SiL"; LeftArm.stopped_proton_band_mean_x = left_mean_x; LeftArm.stopped_proton_band_mean_y = left_mean_y;
+  RightArm.armname = "SiR"; RightArm.stopped_proton_band_mean_x = right_mean_x; RightArm.stopped_proton_band_mean_y = right_mean_y;
 
 
   std::vector<Arm> arms;
