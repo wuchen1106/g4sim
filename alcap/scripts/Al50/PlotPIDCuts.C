@@ -10,6 +10,8 @@
 struct Arm {
   std::string armname;
   TCanvas* canvas;
+  double stopped_proton_band_mean_x;
+  double stopped_proton_band_mean_y;
 };
 
 struct ParticleType {
@@ -25,22 +27,27 @@ struct ParticleType {
   TH1D* profile;
 };
 
-void PlotPIDCuts(std::string identifier, std::string location, std::string left_name, std::string right_name);
+void PlotPIDCuts(std::string identifier, std::string location);
 
 void AllPIDCuts() {
 
   // MC
-  PlotPIDCuts("MC");
+  PlotPIDCuts("MC", "");
   // Data
   PlotPIDCuts("data", "/gpfs/home/edmonds_a/AlcapDAQ/analyzer/rootana/scripts/Al50/");
 }
 
-void PlotPIDCuts(std::string identifier, std::string location = "") {
+void PlotPIDCuts(std::string identifier, std::string location) {
 
   // Set up the arms
   Arm LeftArm, RightArm;
-  LeftArm.armname = "SiL";
-  RightArm.armname = "SiR";
+  // Mean of x- and y-axes of the proton band (MC)
+  LeftArm.armname = "SiL"; LeftArm.stopped_proton_band_mean_x = 8074.28; LeftArm.stopped_proton_band_mean_y = 739.873;
+  RightArm.armname = "SiR"; RightArm.stopped_proton_band_mean_x = 7991.57; RightArm.stopped_proton_band_mean_y = 754.439;
+  // Mean of x- and y-axes of the proton band (Data - graphical proton cut)
+  //  LeftArm.armname = "SiL"; LeftArm.stopped_proton_band_mean_x = 5847; LeftArm.stopped_proton_band_mean_y = 856.4;
+  //  RightArm.armname = "SiR"; RightArm.stopped_proton_band_mean_x = 5951; RightArm.stopped_proton_band_mean_y = 779.1;
+
 
   std::vector<Arm> arms;
   arms.push_back(LeftArm);
@@ -69,7 +76,7 @@ void PlotPIDCuts(std::string identifier, std::string location = "") {
   // Loop through the arms
   for (std::vector<Arm>::iterator i_arm = arms.begin(); i_arm != arms.end(); ++i_arm) {
     // Create the canvas for this arm
-    std::string canvasname = "c_" + i_arm->armname;
+    std::string canvasname = "c_" + identifier + "_" + i_arm->armname;
     i_arm->canvas = new TCanvas(canvasname.c_str(), canvasname.c_str());
 
     std::string input_filename = location + "pid-cuts-" + i_arm->armname + ".txt";
@@ -92,7 +99,7 @@ void PlotPIDCuts(std::string identifier, std::string location = "") {
       i_type->br_rms->SetAddress(&i_type->rms);
 
       std::string profilename = "profile_" + identifier + "_" + i_arm->armname + "_" + i_type->particle_type_name;
-      i_type->profile = new TH1D(profilename.c_str(), profilename.c_str(), tree->GetEntries(),0,25000);
+      i_type->profile = new TH1D(profilename.c_str(), profilename.c_str(), tree->GetEntries(),0.0 / i_arm->stopped_proton_band_mean_x, 25000 / i_arm->stopped_proton_band_mean_x);
       i_type->profile->SetLineColor(i_type->colour);
       i_type->profile->SetLineWidth(2);
     }
@@ -101,19 +108,12 @@ void PlotPIDCuts(std::string identifier, std::string location = "") {
     for (int i_entry = 0; i_entry < tree->GetEntries(); ++i_entry) {
       tree->GetEntry(i_entry);
       //      std::cout << energy << " ";
-      double stopped_proton_mean = -1; // a nonsensical number so that we only store the mean of the first particle type
       for (std::vector<ParticleType>::iterator i_type = particle_types.begin(); i_type != particle_types.end(); ++i_type) {
 	//	std::cout << i_type->mean << " " << i_type->rms << std::endl;
-	if (stopped_proton_mean == -1) {
-	  stopped_proton_mean = i_type->mean;
+	int energy_bin = i_type->profile->FindBin(energy / i_arm->stopped_proton_band_mean_x);
 
-	  if (stopped_proton_mean == 0) {
-	    stopped_proton_mean = 1; // avoid dividing by 0 later
-	  }
-	}
-
-	i_type->profile->SetBinContent(i_type->profile->FindBin(energy), i_type->mean / stopped_proton_mean);
-	i_type->profile->SetBinError(i_type->profile->FindBin(energy), i_type->rms / stopped_proton_mean);
+	i_type->profile->SetBinContent(energy_bin, i_type->mean / i_arm->stopped_proton_band_mean_y);
+	i_type->profile->SetBinError(energy_bin, i_type->rms / i_arm->stopped_proton_band_mean_y);
       }
       //      std::cout << std::endl;
     }
