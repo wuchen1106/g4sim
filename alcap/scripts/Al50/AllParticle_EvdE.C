@@ -23,6 +23,8 @@ struct ParticleType {
   TH1D* hProjection;
   TF1* fit;
   int colour;
+
+  int n_entries_covered;
 } stopped_protons, not_stop_protons, deuterons, tritons, alphas;
 
 struct Arm {
@@ -66,18 +68,18 @@ void AllParticle_EvdE(std::string filename) {
   br_Ot->SetAddress(&Ot);
   br_charge->SetAddress(&charge);
 
-  const double bin_width = 250;
+  const double bin_width = 100;
   const double lower_limit = 0;
   const double upper_limit = 25000;
   int n_bins = (upper_limit - lower_limit) / bin_width;
 
   const int n_arms = 2;
-  LeftArm.outfilename = "pid-cuts-left.txt";
+  LeftArm.outfilename = "pid-cuts-SiL.txt";
   LeftArm.detname = "SiL";
   LeftArm.monname = "ESi2";
   LeftArm.lower_time_cut = 0;
   LeftArm.upper_time_cut = 9999999;
-  RightArm.outfilename = "pid-cuts-right.txt";
+  RightArm.outfilename = "pid-cuts-SiR.txt";
   RightArm.detname = "SiR";
   RightArm.monname = "ESi1";
   RightArm.lower_time_cut = 0;
@@ -114,6 +116,8 @@ void AllParticle_EvdE(std::string filename) {
       temp->GetYaxis()->SetTitleOffset(1.4);
       temp->SetYTitle("E_{1} [keV]");
       i_type->hEvdE = temp;
+
+      i_type->n_entries_covered = 0;
     }
   }
 
@@ -187,10 +191,11 @@ void AllParticle_EvdE(std::string filename) {
 
 
   for (int i_arm = 0; i_arm < n_arms; ++i_arm) {
+
     // For each E bin plot the range of dEs for each particle
     std::ofstream output(arms[i_arm].outfilename.c_str(), std::ofstream::out);
     output << "energy/D:p_stop_mean/D:p_stop_rms/D:proton_mean/D:proton_rms/D:deuteron_mean/D:deuteron_rms/D:triton_mean/D:triton_rms/D:alpha_mean/D:alpha_rms/D";
-   
+    
     for (int i_energy = lower_limit; i_energy <= upper_limit; i_energy += bin_width) {
       output << std::endl << i_energy << " ";
       TCanvas* c1 = new TCanvas("c1", "c1");
@@ -206,13 +211,19 @@ void AllParticle_EvdE(std::string filename) {
 
 	std::string projection_name = i_type->type + append.str();
 	std::string projection_title = "hProjection_" + arms[i_arm].detname + append.str();
-	i_type->hProjection = i_type->hEvdE->ProjectionY(projection_name.c_str(), bin, bin+1);
+	i_type->hProjection = i_type->hEvdE->ProjectionY(projection_name.c_str(), bin, bin);
 	i_type->hProjection->SetLineColor(i_type->colour);
 	i_type->hProjection->SetLineWidth(2);
 	i_type->hProjection->SetXTitle("E_{1} [keV]");
 	i_type->hProjection->SetTitle(projection_name.c_str());
 	
-	output << i_type->hProjection->GetMean() << " " << i_type->hProjection->GetRMS() << " ";
+	double mean = i_type->hProjection->GetMean();
+	double rms = i_type->hProjection->GetRMS();
+	output << mean << " " << rms << " ";
+
+	int integral_low = i_type->hProjection->FindBin(mean - 2*rms);
+	int integral_high = i_type->hProjection->FindBin(mean + 2*rms);
+	i_type->n_entries_covered += i_type->hProjection->Integral(integral_low, integral_high);
 	/*	
 	TFitResultPtr fit;
 	if (i_type->hProjection->GetEntries() > 0) {
@@ -257,7 +268,11 @@ void AllParticle_EvdE(std::string filename) {
       //      c1->SaveAs(pngname.c_str());
 
       delete c1;
+    }
 
+    for (std::vector<ParticleType>::iterator i_type = arms[i_arm].hists.begin(); i_type != arms[i_arm].hists.end(); ++i_type) {
+      std::cout << "AE: " << arms[i_arm].detname << ": " << i_type->type << ": Fraction covered by profile = " << i_type->n_entries_covered << " / " << i_type->hEvdE->GetEntries() << " = " << (double) i_type->n_entries_covered / i_type->hEvdE->GetEntries() << std::endl;
+      i_type->n_entries_covered = 0;
     }
   }
 
@@ -268,6 +283,7 @@ void AllParticle_EvdE(std::string filename) {
       i_type->hEvdE->SetStats(false);
       i_type->hEvdE->Draw("SAME");
       i_type->hEvdE->Write();
+      std::cout << "AE: " << i_type->type << " mean x = " << i_type->hEvdE->GetMean(1) << ", mean y = " << i_type->hEvdE->GetMean(2) << std::endl;
       std::string histtitle = "dE/dx Plot for the "+ arms[i_arm].detname+ " Detector";
       i_type->hEvdE->SetTitle("");
     }
