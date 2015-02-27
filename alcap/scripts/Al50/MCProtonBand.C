@@ -45,11 +45,23 @@ void MCProtonBand() {
       int n_peaks = GetNPeaks(hProjection);
       hNPeaks->Fill(n_peaks);
 
-      //      if (n_peaks >= 2)
+      if (n_peaks >= 2) {
+	// Get the location of the start of the second peak
+	int peak_start = 1;
+	int counter = 0;
+	while (counter < 2) {
+	  peak_start = FindNextPeak(hProjection, peak_start);
+	  ++counter;
+	}
+	int bin_content = hProjection->GetBinContent(peak_start);
+	i_arm->hEvdEBand->SetBinContent(i_bin, peak_start, bin_content);
+	std::cout << "Bin #" << i_bin << ": bin_location = " << peak_start << std::endl;
+      }
       //      std::cout << "Bin # " << i_bin << ": " << GetNPeaks(hProjection) << " peaks" << std::endl;
     }
-    hNPeaks->Draw();
+    //    hNPeaks->Draw();
     //    i_arm->hEvdEAll->Draw("COLZ");
+    i_arm->hEvdEBand->Draw("COLZ");
   }
 }
 
