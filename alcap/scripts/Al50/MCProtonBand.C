@@ -9,6 +9,11 @@ struct Arm{
   std::string armnumber;
   TH2F* hEvdEAll;
   TH2F* hEvdEBand;
+  TH1F* hBandProfile;
+
+  TH2F* hEvdEStoppedProtons;
+
+  int n_selected;
 } LeftArm, RightArm;
 
 int GetNPeaks(TH1* hist);
@@ -24,6 +29,9 @@ void MCProtonBand() {
   TFile* file = new TFile("plots.root", "READ");
   
   for (std::vector<Arm>::iterator i_arm = arms.begin(); i_arm != arms.end(); ++i_arm) {
+
+    i_arm->n_selected = 0;
+    
     std::string histname = "All;" + i_arm->armnumber;
     i_arm->hEvdEAll = (TH2F*) file->Get(histname.c_str());
 
@@ -34,12 +42,19 @@ void MCProtonBand() {
     int min_y = i_arm->hEvdEAll->GetYaxis()->GetXmin();
     int max_y = i_arm->hEvdEAll->GetYaxis()->GetXmax();
 
+    histname = "hEvdE_" + i_arm->armname + "_proton_stopped";
+    i_arm->hEvdEStoppedProtons = (TH2F*) file->Get(histname.c_str());
+
     histname = "hEvdEBand_" + i_arm->armname;
     i_arm->hEvdEBand = new TH2F(histname.c_str(), histname.c_str(), n_bins_x,min_x,max_x, n_bins_y,min_y,max_y);
+
+    histname = "hBandProfile_" + i_arm->armname;
+    i_arm->hBandProfile = new TH1F(histname.c_str(), histname.c_str(), n_bins_x,min_x,max_x);
     TH1F* hNPeaks = new TH1F("hNPeaks", "hNPeaks", 5,0,5);
 
     // Loop through the projection of each energy to try and find the proton band
     for (int i_bin = 1; i_bin <= n_bins_x; ++i_bin) {
+      double i_energy = i_arm->hEvdEAll->GetXaxis()->GetBinCenter(i_bin);
       TH1* hProjection = i_arm->hEvdEAll->ProjectionY("_py", i_bin, i_bin);
 
       int n_peaks = GetNPeaks(hProjection);
@@ -62,20 +77,34 @@ void MCProtonBand() {
 	  i_arm->hEvdEBand->SetBinContent(i_bin, j_bin, bin_content);
 	  ++j_bin;
 	}
+	TH1* hProjection = i_arm->hEvdEBand->ProjectionY("_py", i_bin, i_bin);
+	double mean = hProjection->GetMean();
+	double rms = hProjection->GetRMS();
+	//	std::cout << "Energy = " << i_energy << ", Mean = " << mean << ", rms = " << rms << std::endl;
+	i_arm->hBandProfile->SetBinContent(i_bin, mean);
+	i_arm->hBandProfile->SetBinError(i_bin, rms);
 	//	std::cout << "Bin #" << i_bin << ": bin_location = " << peak_start << std::endl;
+
+	// What fraction of what we know to be stopped protons by this profile
+	int integral_low = hProjection->FindBin(mean - 2*rms);
+	int integral_high = hProjection->FindBin(mean + 2*rms);
+	i_arm->n_selected += i_arm->hEvdEStoppedProtons->ProjectionY("_py", i_bin, i_bin)->Integral(integral_low, integral_high);
       }
-      //      std::cout << "Bin # " << i_bin << ": " << GetNPeaks(hProjection) << " peaks" << std::endl;
     }
+
+    std::cout << i_arm->armname << ": Fraction selected = " << i_arm->n_selected << " / " << i_arm->hEvdEStoppedProtons->GetEntries() << " = " << (double) i_arm->n_selected / i_arm->hEvdEStoppedProtons->GetEntries() << std::endl;
+    
     //    hNPeaks->Draw();
     //    i_arm->hEvdEAll->Draw("COLZ");
     i_arm->hEvdEBand->Draw("COLZ");
+    //    i_arm->hBandProfile->Draw();
+    //    i_arm->hEvdEStoppedProtons->Draw("COLZ");
   }
 }
 
 // Gets the number of "peaks", just based on the number of times we go to zero entries
 int GetNPeaks(TH1* hist) {
   int n_bins = hist->GetNbinsX();
-  int prev_bin_content = 0;
   int n_peaks = -1; // start at -1 since we will always go through the while loop once, even if we don't find the next peak
   int peak_start = 1;
 
