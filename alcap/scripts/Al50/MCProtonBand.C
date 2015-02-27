@@ -20,6 +20,9 @@ int GetNPeaks(TH1* hist);
 int FindNextPeak(TH1* hist, int start_bin);
 
 void MCProtonBand() {
+
+  double low_energy_cut = 2000; // keV
+  double high_energy_cut = 10000; // keV
   
   LeftArm.armname = "SiL"; RightArm.armname = "SiR";
   LeftArm.armnumber = "1"; RightArm.armnumber = "2";
@@ -53,7 +56,9 @@ void MCProtonBand() {
     TH1F* hNPeaks = new TH1F("hNPeaks", "hNPeaks", 5,0,5);
 
     // Loop through the projection of each energy to try and find the proton band
-    for (int i_bin = 1; i_bin <= n_bins_x; ++i_bin) {
+    int start_bin = i_arm->hEvdEAll->GetXaxis()->FindBin(low_energy_cut);
+    int stop_bin = i_arm->hEvdEAll->GetXaxis()->FindBin(high_energy_cut);
+    for (int i_bin = start_bin; i_bin <= stop_bin; ++i_bin) {
       double i_energy = i_arm->hEvdEAll->GetXaxis()->GetBinCenter(i_bin);
       TH1* hProjection = i_arm->hEvdEAll->ProjectionY("_py", i_bin, i_bin);
 
@@ -86,17 +91,20 @@ void MCProtonBand() {
 	//	std::cout << "Bin #" << i_bin << ": bin_location = " << peak_start << std::endl;
 
 	// What fraction of what we know to be stopped protons by this profile
-	int integral_low = hProjection->FindBin(mean - 2*rms);
-	int integral_high = hProjection->FindBin(mean + 2*rms);
+	int integral_low = hProjection->FindBin(mean - 1*rms);
+	int integral_high = hProjection->FindBin(mean + 1*rms);
 	i_arm->n_selected += i_arm->hEvdEStoppedProtons->ProjectionY("_py", i_bin, i_bin)->Integral(integral_low, integral_high);
       }
     }
 
-    std::cout << i_arm->armname << ": Fraction selected = " << i_arm->n_selected << " / " << i_arm->hEvdEStoppedProtons->GetEntries() << " = " << (double) i_arm->n_selected / i_arm->hEvdEStoppedProtons->GetEntries() << std::endl;
+    TH1D* hStoppedProtonProjection = i_arm->hEvdEStoppedProtons->ProjectionX();
+    int n_total_stopped_protons = hStoppedProtonProjection->Integral(start_bin, stop_bin);
+    std::cout << i_arm->armname << ": Fraction selected = " << i_arm->n_selected << " / " << n_total_stopped_protons << " = " << (double) i_arm->n_selected / n_total_stopped_protons << std::endl;
     
     //    hNPeaks->Draw();
     //    i_arm->hEvdEAll->Draw("COLZ");
     i_arm->hEvdEBand->Draw("COLZ");
+    hStoppedProtonProjection->Draw();
     //    i_arm->hBandProfile->Draw();
     //    i_arm->hEvdEStoppedProtons->Draw("COLZ");
   }
