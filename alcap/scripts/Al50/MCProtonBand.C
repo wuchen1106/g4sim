@@ -14,10 +14,12 @@ struct Arm{
   TH2F* hEvdEStoppedProtons;
 
   int n_selected;
+
+  int n_trough; // the number of entries in the trough between peaks
 } LeftArm, RightArm;
 
-int GetNPeaks(TH1* hist);
-int FindNextPeak(TH1* hist, int start_bin);
+int GetNPeaks(TH1* hist, int n_trough);
+int FindNextPeak(TH1* hist, int start_bin, int n_trough);
 
 void MCProtonBand() {
 
@@ -26,6 +28,7 @@ void MCProtonBand() {
   
   LeftArm.armname = "SiL"; RightArm.armname = "SiR";
   LeftArm.armnumber = "1"; RightArm.armnumber = "2";
+  LeftArm.n_trough = 0; RightArm.n_trough = 0;
   std::vector<Arm> arms;
   arms.push_back(LeftArm); arms.push_back(RightArm);
 
@@ -62,7 +65,7 @@ void MCProtonBand() {
       double i_energy = i_arm->hEvdEAll->GetXaxis()->GetBinCenter(i_bin);
       TH1* hProjection = i_arm->hEvdEAll->ProjectionY("_py", i_bin, i_bin);
 
-      int n_peaks = GetNPeaks(hProjection);
+      int n_peaks = GetNPeaks(hProjection, i_arm->n_trough);
       hNPeaks->Fill(n_peaks);
 
       if (n_peaks >= 2) {
@@ -70,14 +73,14 @@ void MCProtonBand() {
 	int peak_start = 1;
 	int counter = 0;
 	while (counter < 2) {
-	  peak_start = FindNextPeak(hProjection, peak_start);
+	  peak_start = FindNextPeak(hProjection, peak_start, i_arm->n_trough);
 	  ++counter;
 	}
 
-	// Now fill in the bins until we get a bin content of 0
+	// Now fill in the bins until we get a bin content that is not part of the peak
 	int j_bin = peak_start;
 	int bin_content = hProjection->GetBinContent(j_bin);
-	while (bin_content != 0) {
+	while (bin_content > i_arm->n_trough) {
 	  bin_content = hProjection->GetBinContent(j_bin);
 	  i_arm->hEvdEBand->SetBinContent(i_bin, j_bin, bin_content);
 	  ++j_bin;
@@ -104,34 +107,34 @@ void MCProtonBand() {
     //    hNPeaks->Draw();
     //    i_arm->hEvdEAll->Draw("COLZ");
     i_arm->hEvdEBand->Draw("COLZ");
-    hStoppedProtonProjection->Draw();
+    //    hStoppedProtonProjection->Draw();
     //    i_arm->hBandProfile->Draw();
     //    i_arm->hEvdEStoppedProtons->Draw("COLZ");
   }
 }
 
 // Gets the number of "peaks", just based on the number of times we go to zero entries
-int GetNPeaks(TH1* hist) {
+int GetNPeaks(TH1* hist, int n_trough) {
   int n_bins = hist->GetNbinsX();
   int n_peaks = -1; // start at -1 since we will always go through the while loop once, even if we don't find the next peak
   int peak_start = 1;
 
   while (peak_start != n_bins) {
-    peak_start = FindNextPeak(hist, peak_start);
+    peak_start = FindNextPeak(hist, peak_start, n_trough);
     ++n_peaks;
   }
   return n_peaks;
 }
 
 // Finds the next peak and returns the bin number
-int FindNextPeak(TH1* hist, int start_bin) {
+int FindNextPeak(TH1* hist, int start_bin, int n_trough) {
   int n_bins = hist->GetNbinsX();
   int return_bin = n_bins;
   int prev_bin_content = hist->GetBinContent(start_bin);
 
   for (int i_bin = start_bin+1; i_bin <= n_bins; ++i_bin) {
     int bin_content = hist->GetBinContent(i_bin);
-    if (prev_bin_content == 0 && bin_content != 0) {
+    if (prev_bin_content <= n_trough && bin_content > n_trough) {
       return_bin = i_bin;
       break;
     }   
