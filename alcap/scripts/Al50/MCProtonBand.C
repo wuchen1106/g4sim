@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "TCanvas.h"
 #include "TFile.h"
 #include "TH1.h"
 #include "TH2.h"
@@ -16,6 +17,7 @@ struct Arm{
   int n_selected;
 
   int n_trough; // the number of entries in the trough between peaks
+  int peak_to_take; // which peak should we take (first, second, third etc.)
 } LeftArm, RightArm;
 
 int GetNPeaks(TH1* hist, int n_trough);
@@ -28,17 +30,22 @@ void MCProtonBand() {
   
   LeftArm.armname = "SiL"; RightArm.armname = "SiR";
   LeftArm.armnumber = "1"; RightArm.armnumber = "2";
-  LeftArm.n_trough = 0; RightArm.n_trough = 0;
+  LeftArm.n_trough = 20; RightArm.n_trough = 20;
+  LeftArm.peak_to_take = 1; RightArm.peak_to_take = 1;
   std::vector<Arm> arms;
   arms.push_back(LeftArm); arms.push_back(RightArm);
 
-  TFile* file = new TFile("plots.root", "READ");
+  //  std::string filename = "plots.root";
+  std::string filename = "~/data/out/v92/total.root";
+  TFile* file = new TFile(filename.c_str(), "READ");
   
   for (std::vector<Arm>::iterator i_arm = arms.begin(); i_arm != arms.end(); ++i_arm) {
-
+    std::string canvasname = "c_" + i_arm->armname;
+    TCanvas* c = new TCanvas(canvasname.c_str(), canvasname.c_str());
     i_arm->n_selected = 0;
     
-    std::string histname = "All;" + i_arm->armnumber;
+    //    std::string histname = "All;" + i_arm->armnumber;
+    std::string histname = "TME_Al50_EvdE/all_particles/" + i_arm->armname + "_EvdE";
     i_arm->hEvdEAll = (TH2F*) file->Get(histname.c_str());
 
     int n_bins_x = i_arm->hEvdEAll->GetXaxis()->GetNbins();
@@ -68,11 +75,11 @@ void MCProtonBand() {
       int n_peaks = GetNPeaks(hProjection, i_arm->n_trough);
       hNPeaks->Fill(n_peaks);
 
-      if (n_peaks >= 2) {
+      if (n_peaks >= i_arm->peak_to_take) {
 	// Get the location of the start of the second peak
 	int peak_start = 1;
 	int counter = 0;
-	while (counter < 2) {
+	while (counter < i_arm->peak_to_take) {
 	  peak_start = FindNextPeak(hProjection, peak_start, i_arm->n_trough);
 	  ++counter;
 	}
@@ -96,13 +103,17 @@ void MCProtonBand() {
 	// What fraction of what we know to be stopped protons by this profile
 	int integral_low = hProjection->FindBin(mean - 1*rms);
 	int integral_high = hProjection->FindBin(mean + 1*rms);
-	i_arm->n_selected += i_arm->hEvdEStoppedProtons->ProjectionY("_py", i_bin, i_bin)->Integral(integral_low, integral_high);
+	if (i_arm->hEvdEStoppedProtons) {
+	  i_arm->n_selected += i_arm->hEvdEStoppedProtons->ProjectionY("_py", i_bin, i_bin)->Integral(integral_low, integral_high);
+	}
       }
     }
 
-    TH1D* hStoppedProtonProjection = i_arm->hEvdEStoppedProtons->ProjectionX();
-    int n_total_stopped_protons = hStoppedProtonProjection->Integral(start_bin, stop_bin);
-    std::cout << i_arm->armname << ": Fraction selected = " << i_arm->n_selected << " / " << n_total_stopped_protons << " = " << (double) i_arm->n_selected / n_total_stopped_protons << std::endl;
+    if (i_arm->hEvdEStoppedProtons) {
+      TH1D* hStoppedProtonProjection = i_arm->hEvdEStoppedProtons->ProjectionX();
+      int n_total_stopped_protons = hStoppedProtonProjection->Integral(start_bin, stop_bin);
+      std::cout << i_arm->armname << ": Fraction selected = " << i_arm->n_selected << " / " << n_total_stopped_protons << " = " << (double) i_arm->n_selected / n_total_stopped_protons << std::endl;
+    }
     
     //    hNPeaks->Draw();
     //    i_arm->hEvdEAll->Draw("COLZ");
