@@ -4,6 +4,7 @@
 #include "TTree.h"
 #include "TH1.h"
 #include "TCanvas.h"
+#include "TF1.h"
 
 struct Case {
 
@@ -14,6 +15,8 @@ struct Case {
   TH1F* hArrivalTime;
   TH1F* hArrivalTime_ovolNameTarget;
   TH1F* hArrivalTime_ovolNameNotTarget;
+
+  double time_resolution;
 } TrueArrivals, FastPulses, SlowPulses;
 
 void LeadSystematic(std::string filename) {
@@ -22,6 +25,7 @@ void LeadSystematic(std::string filename) {
   TTree* tree = (TTree*) file->Get("tree");
 
   TrueArrivals.casename = "true"; FastPulses.casename = "fast"; SlowPulses.casename = "slow";
+  TrueArrivals.time_resolution = 0; FastPulses.time_resolution = 100; SlowPulses.time_resolution = 500;
   std::vector<Case> cases;
   cases.push_back(TrueArrivals);
   cases.push_back(FastPulses);
@@ -44,7 +48,7 @@ void LeadSystematic(std::string filename) {
 
 
   double bin_width = 50;
-  double min_time = 0;
+  double min_time = -1000;
   double max_time = 5000;
   int n_bins = (max_time - min_time) / bin_width;
 
@@ -52,6 +56,9 @@ void LeadSystematic(std::string filename) {
   for (std::vector<Case>::iterator i_case = cases.begin(); i_case != cases.end(); ++i_case) {
     std::string canvasname = "c_" + i_case->casename;
     i_case->canvas = new TCanvas(canvasname.c_str(), canvasname.c_str());
+
+    TF1* gaussian = new TF1("gaussian", "TMath::Gaus(x, 0, [0])", -1000,1000);
+    gaussian->SetParameter(0, i_case->time_resolution);
 
     std::string histname = "hArrivalTime_" + i_case->casename;
     i_case->hArrivalTime = new TH1F(histname.c_str(), histname.c_str(), n_bins,min_time,max_time);
@@ -78,6 +85,16 @@ void LeadSystematic(std::string filename) {
 	std::string i_ovolName = ovolName->at(i_element);
 	std::string i_particleName = particleName->at(i_element);
 	double i_Ot = Ot->at(i_element);
+
+	double smear;
+	if (gaussian->GetParameter(0) == 0) {
+	  smear = 0;
+	}
+	else {
+	  smear = gaussian->GetRandom();
+	}
+	std::cout << i_case->casename << ": smear = " << smear << std::endl;
+	i_Ot += smear;
 
 	if (i_volName=="ESi1" && i_particleName=="proton") {
 	
