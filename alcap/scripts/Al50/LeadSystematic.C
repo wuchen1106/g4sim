@@ -71,7 +71,7 @@ void LeadSystematic(std::string filename) {
     i_case->hArrivalTime_ovolNameTarget->SetLineColor(kBlue);
     i_case->hArrivalTime_ovolNameNotTarget->SetLineColor(kRed);
 
-    int n_entries = 10000;
+    int n_entries = 100000;
     for (int i_entry = 0; i_entry < n_entries; ++i_entry) {
       tree->GetEvent(i_entry);
      
@@ -93,7 +93,7 @@ void LeadSystematic(std::string filename) {
 	else {
 	  smear = gaussian->GetRandom();
 	}
-	std::cout << i_case->casename << ": smear = " << smear << std::endl;
+	//	std::cout << i_case->casename << ": smear = " << smear << std::endl;
 	i_Ot += smear;
 
 	if (i_volName=="ESi1" && i_particleName=="proton") {
