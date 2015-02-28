@@ -120,8 +120,10 @@ void LeadSystematic(std::string filename) {
     i_case->canvas->SetLogy(1);
     std::stringstream picname;
     picname << "LeadSystematic_" << i_case->casename << "_time-res-" << i_case->time_resolution << "ns_log-y";
-    picname << ".pdf";
-    i_case->canvas->Print(picname.str().c_str());
+    std::string pdfname = picname.str() + ".pdf";
+    std::string pngname = picname.str() + ".png";
+    i_case->canvas->Print(pdfname.c_str());
+    i_case->canvas->Print(pngname.c_str());
   } // end loop through cases
 
   // Summmarise the reults right at the end
@@ -132,13 +134,25 @@ void LeadSystematic(std::string filename) {
     int low_integral_bin = i_case->hArrivalTime->FindBin(low_time_cut);
     int high_integral_bin = i_case->hArrivalTime->FindBin(high_time_cut);
 
+    double total = i_case->hArrivalTime->GetEntries();
+    double total_from_target = i_case->hArrivalTime_ovolNameTarget->GetEntries();
+    double total_not_from_target = i_case->hArrivalTime_ovolNameNotTarget->GetEntries();
+
     double total_in_cut = i_case->hArrivalTime->Integral(low_integral_bin, high_integral_bin);
     double from_target_in_cut = i_case->hArrivalTime_ovolNameTarget->Integral(low_integral_bin, high_integral_bin);
     double not_from_target_in_cut = i_case->hArrivalTime_ovolNameNotTarget->Integral(low_integral_bin, high_integral_bin);
 
     std::cout << i_case->casename << ": " << std::endl;
-    std::cout << "\tFraction from target = " << from_target_in_cut << " / " << total_in_cut << " = " << from_target_in_cut / total_in_cut << std::endl;
-    std::cout << "\tFraction not from target = " << not_from_target_in_cut << " / " << total_in_cut << " = " << not_from_target_in_cut / total_in_cut << std::endl;
+
+    std::cout << "\tFraction from target (full histogram) = " << total_from_target << " / " << total << " = " << total_from_target / total << std::endl;
+    std::cout << "\tFraction not from target (full histogram) = " << total_not_from_target << " / " << total << " = " << total_not_from_target / total << std::endl;
     std::cout << std::endl;
+    std::cout << "\tFraction of total within cut = " << total_in_cut << " / " << total << " = " << total_in_cut / total << std::endl;
+    std::cout << "\tFraction of those from target within cut = " << from_target_in_cut << " / " << total_from_target << " = " << from_target_in_cut / total_from_target << std::endl;
+    std::cout << "\tFraction of those not from target within cut = " << not_from_target_in_cut << " / " << total_not_from_target << " = " << not_from_target_in_cut / total_not_from_target << std::endl;
+    std::cout << std::endl;
+    std::cout << "\tFraction within cut that are from target = " << from_target_in_cut << " / " << total_in_cut << " = " << from_target_in_cut / total_in_cut << std::endl;
+    std::cout << "\tFraction within cut that are not from target = " << not_from_target_in_cut << " / " << total_in_cut << " = " << not_from_target_in_cut / total_in_cut << std::endl;
+    std::cout << "=======================================" << std::endl;
   }
 }
