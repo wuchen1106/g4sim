@@ -72,11 +72,11 @@ void LeadSystematic(std::string filename) {
     i_case->hArrivalTime_ovolNameTarget->SetLineColor(kBlue);
     i_case->hArrivalTime_ovolNameNotTarget->SetLineColor(kRed);
 
-    int n_entries = 100000; // tree->GetEntries();
+    int n_entries = tree->GetEntries();
     for (int i_entry = 0; i_entry < n_entries; ++i_entry) {
       tree->GetEvent(i_entry);
      
-      if (i_entry % 10000 == 0) {
+      if (i_entry % 1000000 == 0) {
 	std::cout << i_entry << " / " << n_entries << std::endl;
       }
     
@@ -123,4 +123,22 @@ void LeadSystematic(std::string filename) {
     picname << ".pdf";
     i_case->canvas->Print(picname.str().c_str());
   } // end loop through cases
+
+  // Summmarise the reults right at the end
+  for (std::vector<Case>::iterator i_case = cases.begin(); i_case != cases.end(); ++i_case) {
+    // Determine the fraction of target and non-target within a time cut
+    double low_time_cut = 100; // ns
+    double high_time_cut = max_time;
+    int low_integral_bin = i_case->hArrivalTime->FindBin(low_time_cut);
+    int high_integral_bin = i_case->hArrivalTime->FindBin(high_time_cut);
+
+    double total_in_cut = i_case->hArrivalTime->Integral(low_integral_bin, high_integral_bin);
+    double from_target_in_cut = i_case->hArrivalTime_ovolNameTarget->Integral(low_integral_bin, high_integral_bin);
+    double not_from_target_in_cut = i_case->hArrivalTime_ovolNameNotTarget->Integral(low_integral_bin, high_integral_bin);
+
+    std::cout << i_case->casename << ": " << std::endl;
+    std::cout << "\tFraction from target = " << from_target_in_cut << " / " << total_in_cut << " = " << from_target_in_cut / total_in_cut << std::endl;
+    std::cout << "\tFraction not from target = " << not_from_target_in_cut << " / " << total_in_cut << " = " << not_from_target_in_cut / total_in_cut << std::endl;
+    std::cout << std::endl;
+  }
 }
