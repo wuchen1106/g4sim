@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 
 #include "TFile.h"
 #include "TTree.h"
@@ -71,7 +72,7 @@ void LeadSystematic(std::string filename) {
     i_case->hArrivalTime_ovolNameTarget->SetLineColor(kBlue);
     i_case->hArrivalTime_ovolNameNotTarget->SetLineColor(kRed);
 
-    int n_entries = 100000;
+    int n_entries = 100000; // tree->GetEntries();
     for (int i_entry = 0; i_entry < n_entries; ++i_entry) {
       tree->GetEvent(i_entry);
      
@@ -114,5 +115,12 @@ void LeadSystematic(std::string filename) {
     i_case->hArrivalTime->Draw();
     i_case->hArrivalTime_ovolNameTarget->Draw("SAME");
     i_case->hArrivalTime_ovolNameNotTarget->Draw("SAME");
+
+    // Save the canvases
+    i_case->canvas->SetLogy(1);
+    std::stringstream picname;
+    picname << "LeadSystematic_" << i_case->casename << "_time-res-" << i_case->time_resolution << "ns_log-y";
+    picname << ".pdf";
+    i_case->canvas->Print(picname.str().c_str());
   } // end loop through cases
 }
