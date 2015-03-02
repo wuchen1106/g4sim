@@ -7,7 +7,6 @@
 
 struct Arm{
   std::string armname;
-  std::string armnumber;
   TH2F* hEvdEAll;
   TH2F* hEvdEBand;
   TH1F* hBandProfile;
@@ -20,33 +19,41 @@ struct Arm{
   int peak_to_take; // which peak should we take (first, second, third etc.)
 } LeftArm, RightArm;
 
+void ProtonBand(std::string id, std::string filename, std::string baseplotname, int n_trough, int peak_to_take);
 int GetNPeaks(TH1* hist, int n_trough);
 int FindNextPeak(TH1* hist, int start_bin, int n_trough);
 
-void MCProtonBand() {
+void DataAndMC() {
+  // Data
+  ProtonBand("data", "~/data/out/v92/total.root", "TME_Al50_EvdE/all_particles/ARM_EvdE", 20, 1);
+  
+  // MC
+  ProtonBand("MC", "plots.root", "hAll_EvdE_ARM", 0, 2);
+}
+
+void ProtonBand(std::string id, std::string filename, std::string baseplotname, int n_trough, int peak_to_take) {
 
   double low_energy_cut = 2000; // keV
   double high_energy_cut = 10000; // keV
   
   LeftArm.armname = "SiL"; RightArm.armname = "SiR";
-  LeftArm.armnumber = "1"; RightArm.armnumber = "2";
-  LeftArm.n_trough = 20; RightArm.n_trough = 20;
-  LeftArm.peak_to_take = 1; RightArm.peak_to_take = 1;
+  LeftArm.n_trough = n_trough; RightArm.n_trough = n_trough;
+  LeftArm.peak_to_take = peak_to_take; RightArm.peak_to_take = peak_to_take;
   std::vector<Arm> arms;
   arms.push_back(LeftArm); arms.push_back(RightArm);
 
-  //  std::string filename = "plots.root";
-  std::string filename = "~/data/out/v92/total.root";
   TFile* file = new TFile(filename.c_str(), "READ");
   
   for (std::vector<Arm>::iterator i_arm = arms.begin(); i_arm != arms.end(); ++i_arm) {
-    std::string canvasname = "c_" + i_arm->armname;
+    std::string canvasname = "c_" + id + "_" + i_arm->armname;
     TCanvas* c = new TCanvas(canvasname.c_str(), canvasname.c_str());
     i_arm->n_selected = 0;
     
-    //    std::string histname = "All;" + i_arm->armnumber;
-    std::string histname = "TME_Al50_EvdE/all_particles/" + i_arm->armname + "_EvdE";
+    std::string histname = baseplotname;
+    histname.replace(baseplotname.find("ARM"), 3, i_arm->armname);
     i_arm->hEvdEAll = (TH2F*) file->Get(histname.c_str());
+    //    i_arm->hEvdEAll->RebinX(2);
+    //    i_arm->hEvdEAll->RebinY(2);
 
     int n_bins_x = i_arm->hEvdEAll->GetXaxis()->GetNbins();
     int min_x = i_arm->hEvdEAll->GetXaxis()->GetXmin();
@@ -63,7 +70,9 @@ void MCProtonBand() {
 
     histname = "hBandProfile_" + i_arm->armname;
     i_arm->hBandProfile = new TH1F(histname.c_str(), histname.c_str(), n_bins_x,min_x,max_x);
-    TH1F* hNPeaks = new TH1F("hNPeaks", "hNPeaks", 5,0,5);
+    
+    histname = "hNPeaks_" + i_arm->armname;
+    TH1F* hNPeaks = new TH1F(histname.c_str(), "", n_bins_x,min_x,max_x);
 
     // Loop through the projection of each energy to try and find the proton band
     int start_bin = i_arm->hEvdEAll->GetXaxis()->FindBin(low_energy_cut);
@@ -73,7 +82,7 @@ void MCProtonBand() {
       TH1* hProjection = i_arm->hEvdEAll->ProjectionY("_py", i_bin, i_bin);
 
       int n_peaks = GetNPeaks(hProjection, i_arm->n_trough);
-      hNPeaks->Fill(n_peaks);
+      hNPeaks->Fill(i_energy, n_peaks);
 
       if (n_peaks >= i_arm->peak_to_take) {
 	// Get the location of the start of the second peak
@@ -104,7 +113,10 @@ void MCProtonBand() {
 	int integral_low = hProjection->FindBin(mean - 1*rms);
 	int integral_high = hProjection->FindBin(mean + 1*rms);
 	if (i_arm->hEvdEStoppedProtons) {
-	  i_arm->n_selected += i_arm->hEvdEStoppedProtons->ProjectionY("_py", i_bin, i_bin)->Integral(integral_low, integral_high);
+	  int n_selected_this_bin = i_arm->hEvdEStoppedProtons->ProjectionY("_py", i_bin, i_bin)->Integral(integral_low, integral_high);
+	  int n_proton_stopped_this_bin = i_arm->hEvdEStoppedProtons->ProjectionY("_py", i_bin, i_bin)->Integral();
+	  //	  std::cout << "Bin #" << i_bin << ": " << n_selected_this_bin << " / " << n_proton_stopped_this_bin << " = " << (double)n_selected_this_bin / n_proton_stopped_this_bin << std::endl;
+	  i_arm->n_selected += n_selected_this_bin;
 	}
       }
     }
@@ -117,7 +129,7 @@ void MCProtonBand() {
     
     //    hNPeaks->Draw();
     //    i_arm->hEvdEAll->Draw("COLZ");
-    i_arm->hEvdEBand->Draw("COLZ");
+    //    i_arm->hEvdEBand->Draw("COLZ");
     //    hStoppedProtonProjection->Draw();
     //    i_arm->hBandProfile->Draw();
     //    i_arm->hEvdEStoppedProtons->Draw("COLZ");
