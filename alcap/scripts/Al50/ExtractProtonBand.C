@@ -84,13 +84,20 @@ void DataAndMC() {
   TH1F* hProfile_MC = left_arm_MC->hBandProfile;
 
   int n_bins = hProfile_data->GetNbinsX();
+  double total_det_rms = 0;
+  int n_good_det_rms = 0;
   for (int i_bin = 1; i_bin <= n_bins; ++i_bin) {
     double data_rms = hProfile_data->GetBinError(i_bin);
     double MC_rms = hProfile_MC->GetBinError(i_bin);
 
-    double det_rms = std::sqrt(data_rms*data_rms - MC_rms*MC_rms);
-    std::cout << "Bin #" << i_bin << ": data_rms = " << data_rms << ", MC = " << MC_rms << ", det_rms = " << det_rms << std::endl;
+    if (data_rms > MC_rms) {
+      ++n_good_det_rms;
+      double det_rms = std::sqrt(data_rms*data_rms - MC_rms*MC_rms);
+      total_det_rms += det_rms;
+      std::cout << "Bin #" << i_bin << ": data_rms = " << data_rms << ", MC = " << MC_rms << ", det_rms = " << det_rms << std::endl;
+    }
   }
+  std::cout << "Average Det RMS = " << total_det_rms / n_good_det_rms << std::endl;
   
 
   CalculateEfficienciesAndPurities(&MC);
