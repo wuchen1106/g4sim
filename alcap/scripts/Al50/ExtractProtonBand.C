@@ -27,7 +27,7 @@ int FindNextPeak(TH1* hist, int start_bin, int n_entry_threshold);
 
 void DataAndMC() {
   // Data
-  ExtractProtonBand("data", "~/data/out/v92/total.root", "TME_Al50_EvdE/all_particles/ARM_EvdE", 20, 2000);
+  ExtractProtonBand("data", "~/data/out/v92/total.root", "TME_Al50_EvdE/all_particles/ARM_EvdE", 15, 1900);
   
   // MC
   ExtractProtonBand("MC", "plots.root", "hAll_EvdE_ARM", 1, 2000);
