@@ -17,29 +17,29 @@ struct Arm{
 
   int n_selected;
 
-  int n_trough; // the number of entries in the trough between peaks
+  int n_entry_threshold; // the number of entries that we determine as the start of a peak
   int first_dE_of_band; // which is the dE value at the start of the band
 } LeftArm, RightArm;
 
-void ProtonBand(std::string id, std::string filename, std::string baseplotname, int n_trough, int first_dE_of_band);
-int GetNPeaks(TH1* hist, int n_trough);
-int FindNextPeak(TH1* hist, int start_bin, int n_trough);
+void ExtractProtonBand(std::string id, std::string filename, std::string baseplotname, int n_entry_threshold, int first_dE_of_band);
+int GetNPeaks(TH1* hist, int n_entry_threshold);
+int FindNextPeak(TH1* hist, int start_bin, int n_entry_threshold);
 
 void DataAndMC() {
   // Data
-  ProtonBand("data", "~/data/out/v92/total.root", "TME_Al50_EvdE/all_particles/ARM_EvdE", 20, 2000);
+  ExtractProtonBand("data", "~/data/out/v92/total.root", "TME_Al50_EvdE/all_particles/ARM_EvdE", 20, 2000);
   
   // MC
-  ProtonBand("MC", "plots.root", "hAll_EvdE_ARM", 1, 2000);
+  ExtractProtonBand("MC", "plots.root", "hAll_EvdE_ARM", 1, 2000);
 }
 
-void ProtonBand(std::string id, std::string filename, std::string baseplotname, int n_trough, int first_dE_of_band) {
+void ExtractProtonBand(std::string id, std::string filename, std::string baseplotname, int n_entry_threshold, int first_dE_of_band) {
 
   double low_energy_cut = 1000; // keV
   double high_energy_cut = 10000; // keV
   
   LeftArm.armname = "SiL"; RightArm.armname = "SiR";
-  LeftArm.n_trough = n_trough; RightArm.n_trough = n_trough;
+  LeftArm.n_entry_threshold = n_entry_threshold; RightArm.n_entry_threshold = n_entry_threshold;
   LeftArm.first_dE_of_band = first_dE_of_band; RightArm.first_dE_of_band = first_dE_of_band;
   std::vector<Arm> arms;
   arms.push_back(LeftArm); arms.push_back(RightArm);
@@ -87,7 +87,7 @@ void ProtonBand(std::string id, std::string filename, std::string baseplotname, 
 
       TH1* hProjection = i_arm->hEvdEAll->ProjectionY("_py", i_bin, i_bin);
       
-      int n_peaks = GetNPeaks(hProjection, i_arm->n_trough);
+      int n_peaks = GetNPeaks(hProjection, i_arm->n_entry_threshold);
       hNPeaks->Fill(i_energy, n_peaks);
       
       // Loop through the peaks
@@ -98,7 +98,7 @@ void ProtonBand(std::string id, std::string filename, std::string baseplotname, 
 	int counter = 0;
 	peak_start_bin = 1;
       	while (counter <= i_peak) {
-	  peak_start_bin = FindNextPeak(hProjection, peak_start_bin, i_arm->n_trough);
+	  peak_start_bin = FindNextPeak(hProjection, peak_start_bin, i_arm->n_entry_threshold);
 	  ++counter;
 	}
 	  
@@ -120,7 +120,7 @@ void ProtonBand(std::string id, std::string filename, std::string baseplotname, 
       // Now fill in the bins until we get a bin content that is not part of the peak
       int j_bin = peak_start_bin;
       int bin_content = hProjection->GetBinContent(j_bin);
-      while (bin_content > i_arm->n_trough) {
+      while (bin_content > i_arm->n_entry_threshold) {
 	bin_content = hProjection->GetBinContent(j_bin);
 	i_arm->hEvdEBand->SetBinContent(i_bin, j_bin, bin_content);
 	++j_bin;
@@ -160,20 +160,20 @@ void ProtonBand(std::string id, std::string filename, std::string baseplotname, 
 }
 
 // Gets the number of "peaks", just based on the number of times we go to zero entries
-int GetNPeaks(TH1* hist, int n_trough) {
+int GetNPeaks(TH1* hist, int n_entry_threshold) {
   int n_bins = hist->GetNbinsX();
   int n_peaks = -1; // start at -1 since we will always go through the while loop once, even if we don't find the next peak
   int peak_start_bin = 1;
 
   while (peak_start_bin != n_bins) {
-    peak_start_bin = FindNextPeak(hist, peak_start_bin, n_trough);
+    peak_start_bin = FindNextPeak(hist, peak_start_bin, n_entry_threshold);
     ++n_peaks;
   }
   return n_peaks;
 }
 
 // Finds the next peak and returns the bin number
-int FindNextPeak(TH1* hist, int start_bin, int n_trough) {
+int FindNextPeak(TH1* hist, int start_bin, int n_entry_threshold) {
   int n_bins = hist->GetNbinsX();
   int return_bin = n_bins;
   int prev_bin_content = hist->GetBinContent(start_bin);
@@ -181,7 +181,7 @@ int FindNextPeak(TH1* hist, int start_bin, int n_trough) {
   for (int i_bin = start_bin+1; i_bin <= n_bins; ++i_bin) {
     int bin_content = hist->GetBinContent(i_bin);
 
-    if (prev_bin_content <= n_trough && bin_content > n_trough) {
+    if (prev_bin_content <= n_entry_threshold && bin_content > n_entry_threshold) {
       return_bin = i_bin;
       break;
     }   
