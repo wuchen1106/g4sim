@@ -76,6 +76,23 @@ void DataAndMC() {
     ExtractProtonBand(*i_case);
   }
 
+  // Calculate the detector smear for the left arm
+  Arm* left_arm_data = &(data.arms.at(0));
+  Arm* left_arm_MC = &(MC.arms.at(0));
+
+  TH1F* hProfile_data = left_arm_data->hBandProfile;
+  TH1F* hProfile_MC = left_arm_MC->hBandProfile;
+
+  int n_bins = hProfile_data->GetNbinsX();
+  for (int i_bin = 1; i_bin <= n_bins; ++i_bin) {
+    double data_rms = hProfile_data->GetBinError(i_bin);
+    double MC_rms = hProfile_MC->GetBinError(i_bin);
+
+    double det_rms = std::sqrt(data_rms*data_rms - MC_rms*MC_rms);
+    std::cout << "Bin #" << i_bin << ": data_rms = " << data_rms << ", MC = " << MC_rms << ", det_rms = " << det_rms << std::endl;
+  }
+  
+
   CalculateEfficienciesAndPurities(&MC);
 }
 
