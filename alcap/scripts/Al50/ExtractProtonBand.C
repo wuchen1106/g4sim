@@ -182,7 +182,9 @@ void ExtractProtonBand(Case* this_case) {
       int bin_content = hProjection->GetBinContent(j_bin);
       while (bin_content > i_arm->n_entry_threshold) {
 	bin_content = hProjection->GetBinContent(j_bin);
-	i_arm->hEvdEBand->SetBinContent(i_bin, j_bin, bin_content);
+	if (bin_content > i_arm->n_entry_threshold) {
+	  i_arm->hEvdEBand->SetBinContent(i_bin, j_bin, bin_content);
+	}
 	++j_bin;
       }
     
