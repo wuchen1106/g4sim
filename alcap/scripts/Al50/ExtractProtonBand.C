@@ -50,6 +50,7 @@ void ExtractProtonBand(Arm* this_arm);
 int GetNPeaks(TH1* hist, int n_entry_threshold);
 int FindNextPeak(TH1* hist, int start_bin, int n_entry_threshold);
 int CalculateEfficienciesAndPurities(Arm* this_arm);
+TH2F* ScaleEvdEPlot(TH2F* hist, double scale_factor);
 
 void DataAndMC() {
   data.identifier = "data"; data.input_filename = "~/data/out/v92/total.root";
@@ -86,6 +87,9 @@ void DataAndMC() {
       (*i_arm)->hEvdEAll = (TH2F*) (file->Get(histname.c_str()))->Clone();
       (*i_arm)->hEvdEAll->SetDirectory(0);
 
+      // Scale the total EvdE plot
+      (*i_arm)->hEvdEAll = ScaleEvdEPlot((*i_arm)->hEvdEAll, (*i_case)->dE_scale_factor);
+
       ParticleType* proton_stopped = new ParticleType; proton_stopped->type_name = "proton_stopped";
       ParticleType* proton_not_stopped = new ParticleType; proton_not_stopped->type_name = "proton_not_stopped";
       ParticleType* deuteron = new ParticleType; deuteron->type_name = "deuteron";
@@ -99,10 +103,22 @@ void DataAndMC() {
 	(*i_particle_type)->hParticleEvdE = (TH2F*) file->Get(histname.c_str());
 	if ( (*i_particle_type)->hParticleEvdE) {
 	  (*i_particle_type)->hParticleEvdE->SetDirectory(0);
-	}
-      }
+	  (*i_particle_type)->hParticleEvdE = ScaleEvdEPlot((*i_particle_type)->hParticleEvdE, (*i_case)->dE_scale_factor);
 
-      // Scale EvdEs in here later....
+	  int n_bins = (*i_particle_type)->hParticleEvdE->GetXaxis()->GetNbins();
+	  double min_x = (*i_particle_type)->hParticleEvdE->GetXaxis()->GetXmin();
+	  double max_x = (*i_particle_type)->hParticleEvdE->GetXaxis()->GetXmax();
+
+	  histname += "_profile";
+	  (*i_particle_type)->hProfile = new TH1F(histname.c_str(), histname.c_str(), n_bins,min_x,max_x);
+	  (*i_particle_type)->hProfile->SetDirectory(0);
+
+	}
+	else {
+	  (*i_particle_type)->hProfile = NULL;
+	}
+      }      
+
       std::string canvasname = "c_" + (*i_case)->identifier + "_" + (*i_arm)->armname;
       TCanvas* c = new TCanvas(canvasname.c_str(), canvasname.c_str());
 
@@ -146,7 +162,9 @@ void DataAndMC() {
   TFile* output_file = new TFile("proton_band.root", "RECREATE");
 
   for (std::vector<Case*>::iterator i_case = cases.begin(); i_case != cases.end(); ++i_case) {
+
     for (std::vector<Arm*>::iterator i_arm = (*i_case)->arms.begin(); i_arm != (*i_case)->arms.end(); ++i_arm) {
+
       if ((*i_arm)->hEvdEAll) {
 	(*i_arm)->hEvdEAll->Write();
       }
@@ -168,12 +186,36 @@ void DataAndMC() {
 	if ((*i_particle_type)->hProfile) {
 	  (*i_particle_type)->hProfile->Write();
 	}
-	if ((*i_particle_type)->particle_band_gaussian) {
+	/*	if ((*i_particle_type)->particle_band_gaussian) {
 	  (*i_particle_type)->particle_band_gaussian->Write();
 	}
+	*/
       }
     }
   }
+}
+
+TH2F* ScaleEvdEPlot(TH2F* hist, double scale_factor) {
+
+  // Go through each bin and change the y-axis
+  int n_bins_x = hist->GetXaxis()->GetNbins(); double min_x = hist->GetXaxis()->GetXmin(); double max_x = hist->GetXaxis()->GetXmax();
+  int n_bins_y = hist->GetYaxis()->GetNbins(); double min_y = hist->GetYaxis()->GetXmin(); double max_y = hist->GetYaxis()->GetXmax();
+  std::string histname = hist->GetName();
+  histname += "_scaled";
+  TH2F* hist_scaled = new TH2F(histname.c_str(), "", n_bins_x,min_x,max_x, n_bins_y,min_y,max_y);
+  hist_scaled->SetDirectory(0);
+
+  for (int i_bin = 1; i_bin <= n_bins_x; ++i_bin) {
+    double x_energy = hist->GetXaxis()->GetBinCenter(i_bin);
+    for (int j_bin = 1; j_bin <= n_bins_y; ++j_bin) {
+      double old_y_energy = hist->GetYaxis()->GetBinCenter(j_bin);
+      double new_y_energy = old_y_energy * scale_factor;
+      //      std::cout << old_y_energy << " --> " << new_y_energy << std::endl;
+      double old_bin_content = hist->GetBinContent(i_bin, j_bin);
+      hist_scaled->Fill(x_energy, new_y_energy, old_bin_content);
+    }
+  }
+  return hist_scaled;
 }
 
 void ExtractProtonBand(Arm* this_arm) {
@@ -295,9 +337,6 @@ int CalculateEfficienciesAndPurities(Arm* this_arm) {
   // Want to know the efficiency and purity of the cut based on MC
 
   TH1F* hExtractedBand = this_arm->hBandProfile;
-  int n_bins = hExtractedBand->GetNbinsX();
-  double min_x = hExtractedBand->GetXaxis()->GetXmin();
-  double max_x = hExtractedBand->GetXaxis()->GetXmax();
 
   double det_rms = this_arm->average_det_rms; // the extra detector smearing
   std::cout << this_arm->armname << std::endl;
@@ -307,18 +346,15 @@ int CalculateEfficienciesAndPurities(Arm* this_arm) {
     (*i_particle_type)->n_selected = 0;
     (*i_particle_type)->n_total = 0;
     
-    std::string histname = (*i_particle_type)->hParticleEvdE->GetName();
-    histname += "_profile";
-    (*i_particle_type)->hProfile = new TH1F(histname.c_str(), "", n_bins,min_x,max_x);
-      
     if (!(*i_particle_type)->hParticleEvdE) {
       std::cout << "ERROR: Need histograms of each particle type to calculate efficiencies" << std::endl;
       std::cout << "Quitting" << std::endl;
       return 1;
     }	
   }
-
+    
   // Loop through the extracted band profile
+  int n_bins = hExtractedBand->GetNbinsX();
   for (int i_bin = 1; i_bin <= n_bins; ++i_bin) {
     double mean = hExtractedBand->GetBinContent(i_bin);
     double rms = hExtractedBand->GetBinError(i_bin);
@@ -369,7 +405,7 @@ int CalculateEfficienciesAndPurities(Arm* this_arm) {
   double total_in_cut = 0;
   for (std::vector<ParticleType*>::iterator i_particle_type = this_arm->particle_types.begin(); 
        i_particle_type != this_arm->particle_types.end(); ++i_particle_type) {
-      
+
     std::cout << this_arm->armname 
 	      << ": (n_" << (*i_particle_type)->type_name << "_in_cut / n_total_" << (*i_particle_type)->type_name + ") = " 
 	      << (*i_particle_type)->n_selected << " / " << (*i_particle_type)->n_total << " = " 
