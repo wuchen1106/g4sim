@@ -13,13 +13,15 @@ struct Arm{
   TH2F* hEvdEBand;
   TH1F* hBandProfile;
 
-  TH2F* hEvdEStoppedProtons;
-
-  int n_selected;
-
   int n_entry_threshold; // the number of entries that we determine as the start of a peak
   int first_dE_of_band; // which is the dE value at the start of the band
 } LeftArm, RightArm;
+
+struct ParticleType {
+  std::string type_name;
+  int n_selected;
+  int n_total;
+} proton_stopped, proton_not_stopped, deuteron, triton, alpha;
 
 void ExtractProtonBand(std::string id, std::string filename, std::string baseplotname, int n_entry_threshold, int first_dE_of_band);
 int GetNPeaks(TH1* hist, int n_entry_threshold);
@@ -30,7 +32,7 @@ void DataAndMC() {
   ExtractProtonBand("data", "~/data/out/v92/total.root", "TME_Al50_EvdE/all_particles/ARM_EvdE", 15, 1900);
   
   // MC
-  ExtractProtonBand("MC", "plots.root", "hAll_EvdE_ARM", 1, 2000);
+  ExtractProtonBand("MC", "plots.root", "hAll_EvdE_ARM", 2, 2000);
 }
 
 void ExtractProtonBand(std::string id, std::string filename, std::string baseplotname, int n_entry_threshold, int first_dE_of_band) {
@@ -44,19 +46,36 @@ void ExtractProtonBand(std::string id, std::string filename, std::string baseplo
   std::vector<Arm> arms;
   arms.push_back(LeftArm); arms.push_back(RightArm);
 
+  proton_stopped.type_name = "proton_stopped";
+  proton_not_stopped.type_name = "proton_not_stopped";
+  deuteron.type_name = "deuteron";
+  triton.type_name = "triton";
+  alpha.type_name = "alpha";
+  std::vector<ParticleType> particle_types;
+  particle_types.push_back(proton_stopped); particle_types.push_back(proton_not_stopped); 
+  particle_types.push_back(deuteron); particle_types.push_back(triton); particle_types.push_back(alpha);
+
   TFile* file = new TFile(filename.c_str(), "READ");
-  std::string debug_filename = "output_" + id + ".txt";
-  std::ofstream output(debug_filename.c_str(), std::ofstream::out);
+  //  std::string debug_filename = "output_" + id + ".txt";
+  //  std::ofstream output(debug_filename.c_str(), std::ofstream::out);
   
   for (std::vector<Arm>::iterator i_arm = arms.begin(); i_arm != arms.end(); ++i_arm) {
     std::string canvasname = "c_" + id + "_" + i_arm->armname;
     TCanvas* c = new TCanvas(canvasname.c_str(), canvasname.c_str());
-    i_arm->n_selected = 0;
+
+    std::string profile_filename = "pid-profile-" + id + "-" + i_arm->armname + ".txt";
+    std::ofstream output(profile_filename.c_str(), std::ofstream::out);
+
+    // Reset these counters
+    for (std::vector<ParticleType>::iterator i_particle_type = particle_types.begin(); i_particle_type != particle_types.end(); ++i_particle_type) {
+      i_particle_type->n_selected = 0;
+      i_particle_type->n_total = 0;
+    }
     
     std::string histname = baseplotname;
     histname.replace(baseplotname.find("ARM"), 3, i_arm->armname);
     i_arm->hEvdEAll = (TH2F*) file->Get(histname.c_str());
-    output << id << " " << i_arm->armname << std::endl;
+    //    output << id << " " << i_arm->armname << std::endl;
     //    i_arm->hEvdEAll->RebinX(2);
     //    i_arm->hEvdEAll->RebinY(2);
     
@@ -66,10 +85,7 @@ void ExtractProtonBand(std::string id, std::string filename, std::string baseplo
     int n_bins_y = i_arm->hEvdEAll->GetYaxis()->GetNbins();
     int min_y = i_arm->hEvdEAll->GetYaxis()->GetXmin();
     int max_y = i_arm->hEvdEAll->GetYaxis()->GetXmax();
-    
-    histname = "hEvdE_" + i_arm->armname + "_proton_stopped";
-    i_arm->hEvdEStoppedProtons = (TH2F*) file->Get(histname.c_str());
-    
+        
     histname = "hEvdEBand_" + i_arm->armname;
     i_arm->hEvdEBand = new TH2F(histname.c_str(), histname.c_str(), n_bins_x,min_x,max_x, n_bins_y,min_y,max_y);
     
@@ -106,7 +122,7 @@ void ExtractProtonBand(std::string id, std::string filename, std::string baseplo
 	double peak_start_dE = hProjection->GetBinLowEdge(peak_start_bin);
 	int content = hProjection->GetBinContent(peak_start_bin);
 	double difference = std::fabs(peak_start_dE - i_arm->first_dE_of_band);
-	output << i_energy << ": Peak #" << i_peak+1 << " of " << n_peaks << ": Peak Start = " << peak_start_bin << ": " << i_arm->first_dE_of_band << " - " << peak_start_dE << " = " << difference << " (" << content << " entries)" << std::endl;
+	//	output << i_energy << ": Peak #" << i_peak+1 << " of " << n_peaks << ": Peak Start = " << peak_start_bin << ": " << i_arm->first_dE_of_band << " - " << peak_start_dE << " = " << difference << " (" << content << " entries)" << std::endl;
 	if (difference < 250) {
 	  // This is the peak we want to take for the selected band
 	  found_peak = true;
@@ -126,9 +142,10 @@ void ExtractProtonBand(std::string id, std::string filename, std::string baseplo
 	++j_bin;
       }
     
+      hProjection = i_arm->hEvdEBand->ProjectionY("_py", i_bin, i_bin);
       double mean = hProjection->GetMean();
       double rms = hProjection->GetRMS();
-      //	std::cout << "Energy = " << i_energy << ", Mean = " << mean << ", rms = " << rms << std::endl;
+      output << i_energy << " " << mean << " " << rms << std::endl;
       i_arm->hBandProfile->SetBinContent(i_bin, mean);
       i_arm->hBandProfile->SetBinError(i_bin, rms);
       //	std::cout << "Bin #" << i_bin << ": bin_location = " << peak_start_bin << std::endl;
@@ -136,18 +153,38 @@ void ExtractProtonBand(std::string id, std::string filename, std::string baseplo
       // What fraction of what we know to be stopped protons by this profile
       int integral_low = hProjection->FindBin(mean - 1*rms);
       int integral_high = hProjection->FindBin(mean + 1*rms);
-      if (i_arm->hEvdEStoppedProtons) {
-	int n_selected_this_bin = i_arm->hEvdEStoppedProtons->ProjectionY("_py", i_bin, i_bin)->Integral(integral_low, integral_high);
-	int n_proton_stopped_this_bin = i_arm->hEvdEStoppedProtons->ProjectionY("_py", i_bin, i_bin)->Integral();
-	//	  std::cout << "Bin #" << i_bin << ": " << n_selected_this_bin << " / " << n_proton_stopped_this_bin << " = " << (double)n_selected_this_bin / n_proton_stopped_this_bin << std::endl;
-	i_arm->n_selected += n_selected_this_bin;
+      if (id == "MC") {
+	for (std::vector<ParticleType>::iterator i_particle_type = particle_types.begin(); 
+	     i_particle_type != particle_types.end(); ++i_particle_type) {
+
+	  histname = "hEvdE_" + i_arm->armname + "_" + i_particle_type->type_name;
+	  TH2F* hParticleEvdE = (TH2F*) file->Get(histname.c_str());
+
+	  int n_selected_this_bin = hParticleEvdE->ProjectionY("_py", i_bin, i_bin)->Integral(integral_low, integral_high);
+	  int n_total_this_bin = hParticleEvdE->ProjectionY("_py", i_bin, i_bin)->Integral();
+
+	  i_particle_type->n_selected += n_selected_this_bin;
+	  i_particle_type->n_total += n_total_this_bin;
+	} // end loop through particle types
       }
-    }
+    } // end loop through energy bins
       
-    if (i_arm->hEvdEStoppedProtons) {
-      TH1D* hStoppedProtonProjection = i_arm->hEvdEStoppedProtons->ProjectionX();
-      int n_total_stopped_protons = hStoppedProtonProjection->Integral(start_bin, stop_bin);
-      std::cout << i_arm->armname << ": Fraction selected = " << i_arm->n_selected << " / " << n_total_stopped_protons << " = " << (double) i_arm->n_selected / n_total_stopped_protons << std::endl;
+    if (id == "MC") {
+      std::cout << "Efficiencies: " << std::endl;
+      int total_in_cut = 0;
+      for (std::vector<ParticleType>::iterator i_particle_type = particle_types.begin(); 
+	   i_particle_type != particle_types.end(); ++i_particle_type) {
+
+	std::cout << id << " " << i_arm->armname << ": (n_" + i_particle_type->type_name + "_in_cut / n_total_" + i_particle_type->type_name + ") = " << i_particle_type->n_selected << " / " << i_particle_type->n_total << " = " << (double) i_particle_type->n_selected / i_particle_type->n_total << std::endl;
+	total_in_cut += i_particle_type->n_selected;
+      }
+
+      std::cout << "Purities: " << std::endl;
+      for (std::vector<ParticleType>::iterator i_particle_type = particle_types.begin(); 
+	   i_particle_type != particle_types.end(); ++i_particle_type) {
+
+	std::cout << id << " " << i_arm->armname << ": (n_" + i_particle_type->type_name + "_in_cut / n_total_selected) = " << i_particle_type->n_selected << " / " << total_in_cut << " = " << (double) i_particle_type->n_selected / total_in_cut << std::endl;
+      }
     }
   
     //    hNPeaks->Draw();
@@ -155,7 +192,6 @@ void ExtractProtonBand(std::string id, std::string filename, std::string baseplo
     i_arm->hEvdEBand->Draw("COLZ");
     //    hStoppedProtonProjection->Draw();
     //    i_arm->hBandProfile->Draw();
-    //    i_arm->hEvdEStoppedProtons->Draw("COLZ");
   }
 }
 
