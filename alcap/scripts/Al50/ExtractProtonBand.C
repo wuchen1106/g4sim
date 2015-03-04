@@ -431,6 +431,7 @@ int CalculateEfficienciesAndPurities(Arm* this_arm) {
   // Loop through the extracted band profile
   int n_bins = hExtractedBand->GetNbinsX();
   for (int i_bin = 1; i_bin <= n_bins; ++i_bin) {
+    double i_energy = hExtractedBand->GetBinLowEdge(i_bin);
     double mean = hExtractedBand->GetBinContent(i_bin);
     double rms = hExtractedBand->GetBinError(i_bin);
     
@@ -470,6 +471,13 @@ int CalculateEfficienciesAndPurities(Arm* this_arm) {
 
       double n_selected_this_bin = (*i_particle_type)->particle_band_gaussian->Integral(integral_low, integral_high);
       double n_total_this_bin = 1; // should be normalised...
+
+      /*      if ((*i_particle_type)->type_name == "proton_stopped") {
+	std::cout << i_energy << std::endl;
+	std::cout << "Extracted Band: mean = " << mean << ", rms = " << new_rms << "Stopped Proton: mean = " << particle_mean << ", rms = " << new_particle_rms << std::endl;
+	std::cout << "Integrating between " << integral_low << " and " << integral_high << " gives " << n_selected_this_bin << std::endl;
+      }
+      */
 
       (*i_particle_type)->n_selected += n_selected_this_bin;
       (*i_particle_type)->n_total += n_total_this_bin;
