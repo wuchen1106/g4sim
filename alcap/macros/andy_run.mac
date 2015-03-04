@@ -11,10 +11,10 @@
 /g4sim/myAnalysisSvc/set_out_card output/output_default
 
 # Set Gen
-/g4sim/gun/ResetGen               gen/gen_mu_1.07_muPC
+/g4sim/gun/ResetGen               gen/gen_mu_1.09_muPC
 
 # Set Geo
-/g4sim/det/ReloadGeo              geometry_Al50
+/g4sim/det/ReloadGeo              geometry_Al100
 
 #	For this run
 /random/setSeeds 5 6
