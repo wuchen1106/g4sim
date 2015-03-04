@@ -69,9 +69,12 @@ void AllParticle_EvdE(std::string filename) {
   br_charge->SetAddress(&charge);
 
   const double bin_width = 100;
-  const double lower_limit = 0;
-  const double upper_limit = 25000;
-  int n_bins = (upper_limit - lower_limit) / bin_width;
+  const double x_lower_limit = 0;
+  const double x_upper_limit = 25000;
+  int n_bins_x = (x_upper_limit - x_lower_limit) / bin_width;
+  const double y_lower_limit = 0;
+  const double y_upper_limit = 10000;
+  int n_bins_y = (y_upper_limit - y_lower_limit) / bin_width;
 
   const int n_arms = 2;
   LeftArm.outfilename = "pid-cuts-SiL.txt";
@@ -99,15 +102,16 @@ void AllParticle_EvdE(std::string filename) {
     arms[i_arm].hists.push_back(tritons);
     arms[i_arm].hists.push_back(alphas);
 
+    std::string histname = "hAll_EvdE_" + arms[i_arm].detname;
     std::string histtitle = "EvdE plot for the " + arms[i_arm].detname + " detector";
-    arms[i_arm].hAllEvdE = new TH2F("All", histtitle.c_str(), n_bins,lower_limit,upper_limit, n_bins,lower_limit,upper_limit);
+    arms[i_arm].hAllEvdE = new TH2F(histname.c_str(), histtitle.c_str(), n_bins_x,x_lower_limit,x_upper_limit, n_bins_y,y_lower_limit,y_upper_limit);
     arms[i_arm].hAllEvdE->SetXTitle("E_{1} + E_{2} [keV]");
     arms[i_arm].hAllEvdE->GetYaxis()->SetTitleOffset(1.4);
     arms[i_arm].hAllEvdE->SetYTitle("E_{1} [keV]");
 
     for (std::vector<ParticleType>::iterator i_type = arms[i_arm].hists.begin(); i_type != arms[i_arm].hists.end(); ++i_type) {
-      std::string histname = "hEvdE_"+ arms[i_arm].detname +"_" + i_type->type;
-      TH2F* temp = new TH2F(histname.c_str(), histname.c_str(), n_bins,lower_limit,upper_limit, n_bins,lower_limit,upper_limit);
+      std::string histname = "hEvdE_"+ arms[i_arm].detname + "_" + i_type->type;
+      TH2F* temp = new TH2F(histname.c_str(), histname.c_str(), n_bins_x,x_lower_limit,x_upper_limit, n_bins_y,y_lower_limit,y_upper_limit);
       temp->SetLineColor(i_type->colour);
       temp->SetLineWidth(2);
       temp->SetMarkerColor(i_type->colour);
@@ -142,6 +146,7 @@ void AllParticle_EvdE(std::string filename) {
 
       // Loop through the arms
       for (int i_arm = 0; i_arm < n_arms; ++i_arm) {
+
 	if (i_charge != 0) {
 	  if (i_volName == arms[i_arm].monname && i_ovolName == "Target") {
 	  //	  std::cout << "Ot = " << Ot->at(iElement) << std::endl;
@@ -175,7 +180,7 @@ void AllParticle_EvdE(std::string filename) {
 	    thin_hit = false; // reset to false in case there is another proton in this event
 	  }
 	}
-      }
+      } // end loop through arms
     }
   }
 
@@ -196,7 +201,7 @@ void AllParticle_EvdE(std::string filename) {
     std::ofstream output(arms[i_arm].outfilename.c_str(), std::ofstream::out);
     output << "energy/D:p_stop_mean/D:p_stop_rms/D:proton_mean/D:proton_rms/D:deuteron_mean/D:deuteron_rms/D:triton_mean/D:triton_rms/D:alpha_mean/D:alpha_rms/D";
     
-    for (int i_energy = lower_limit; i_energy <= upper_limit; i_energy += bin_width) {
+    for (int i_energy = x_lower_limit; i_energy <= x_upper_limit; i_energy += bin_width) {
       output << std::endl << i_energy << " ";
       TCanvas* c1 = new TCanvas("c1", "c1");
       c1->SetLeftMargin(0.11);
