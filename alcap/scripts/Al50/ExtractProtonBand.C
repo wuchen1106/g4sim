@@ -46,11 +46,12 @@ struct Case {
   double dE_scale_factor; // want to scale the MC to the data
 } data, MC;
 
-void ExtractProtonBand(Arm* this_arm);
+void ExtractProtonBand_Algorithm(Arm* this_arm);
 int GetNPeaks(TH1* hist, int n_entry_threshold);
 int FindNextPeak(TH1* hist, int start_bin, int n_entry_threshold);
 int CalculateEfficienciesAndPurities(Arm* this_arm);
 TH2F* ScaleEvdEPlot(TH2F* hist, double scale_factor);
+void ExtractProtonBand_GraphicalCut(Arm* this_arm);
 
 void DataAndMC() {
   data.identifier = "data"; data.input_filename = "~/data/out/v92/total.root";
@@ -122,9 +123,10 @@ void DataAndMC() {
       std::string canvasname = "c_" + (*i_case)->identifier + "_" + (*i_arm)->armname;
       TCanvas* c = new TCanvas(canvasname.c_str(), canvasname.c_str());
 
-      ExtractProtonBand(*i_arm);
+      //      ExtractProtonBand_Algorithm(*i_arm);
+      ExtractProtonBand_GraphicalCut(*i_arm);
 
-      (*i_arm)->hEvdEAll->Draw("COLZ");
+      //      (*i_arm)->hEvdEBand->Draw("COLZ");
 
     } // end loop through arms
     file->Close();
@@ -218,7 +220,80 @@ TH2F* ScaleEvdEPlot(TH2F* hist, double scale_factor) {
   return hist_scaled;
 }
 
-void ExtractProtonBand(Arm* this_arm) {
+void ExtractProtonBand_GraphicalCut(Arm* this_arm) {
+
+  int n_bins_x = this_arm->hEvdEAll->GetXaxis()->GetNbins();
+  int min_x = this_arm->hEvdEAll->GetXaxis()->GetXmin();
+  int max_x = this_arm->hEvdEAll->GetXaxis()->GetXmax();
+  int n_bins_y = this_arm->hEvdEAll->GetYaxis()->GetNbins();
+  int min_y = this_arm->hEvdEAll->GetYaxis()->GetXmin();
+  int max_y = this_arm->hEvdEAll->GetYaxis()->GetXmax();
+        
+  std::string histname = "hEvdEBand_" + this_arm->armname;
+  this_arm->hEvdEBand = new TH2F(histname.c_str(), histname.c_str(), n_bins_x,min_x,max_x, n_bins_y,min_y,max_y);
+  this_arm->hEvdEBand->SetDirectory(0);
+    
+  histname = "hBandProfile_" + this_arm->armname;
+  this_arm->hBandProfile = new TH1F(histname.c_str(), histname.c_str(), n_bins_x,min_x,max_x);
+  this_arm->hBandProfile->SetDirectory(0);
+
+  // The cuts
+  double x_1 = 0, y_1 = 2000, x_2 = 4000, y_2 = 0;
+  double gradient = (y_2 - y_1) / (x_2 - x_1);
+  double offset = y_1;
+  TF1* electron_spot_cut = new TF1("electron_spot_cut", "[0]*x + [1]", 0, 15000);
+  electron_spot_cut->SetLineColor(kBlue);
+  electron_spot_cut->SetParameter(0, gradient);
+  electron_spot_cut->SetParameter(1, offset);
+
+  double punch_through_yoffset = 300;
+  TF1* punch_through_cut = new TF1("punch_through_cut", "[0]", 0, 25000);
+  punch_through_cut->SetLineColor(kBlue);
+  punch_through_cut->SetParameter(0, punch_through_yoffset);
+
+  // Cut to remove the remaining deuteron band                                                                                                      
+  TF1* deuteron_cut = new TF1("deuteron_cut", "[0]*TMath::Exp([1]*x) + [2]", 0, 25000);
+  deuteron_cut->SetLineColor(kBlue);
+  deuteron_cut->SetParameter(0, 4500);
+  deuteron_cut->SetParameter(1, -0.0004);
+  deuteron_cut->SetParameter(2, 500);
+  //    evde_hists[i_arm]->Fit(deuteron_cut, "R");
+
+  for (int i_bin = 1; i_bin <= n_bins_x; ++i_bin) {
+    for (int j_bin = 1; j_bin <= n_bins_y; ++j_bin) {
+
+      double x_coord = this_arm->hEvdEBand->GetXaxis()->GetBinCenter(i_bin);
+      double y_coord = this_arm->hEvdEBand->GetYaxis()->GetBinCenter(j_bin);
+      double bin_content = this_arm->hEvdEAll->GetBinContent(i_bin, j_bin);
+      if (bin_content < 20 ||                                                                         
+	  y_coord < electron_spot_cut->Eval(x_coord) ||                                                                                             
+	  y_coord < punch_through_cut->Eval(x_coord) ||                                                                                             
+	  y_coord > deuteron_cut->Eval(x_coord) ) {
+	
+	this_arm->hEvdEBand->SetBinContent(i_bin, j_bin, 0);                                                                                       
+      }
+      else {
+	this_arm->hEvdEBand->SetBinContent(i_bin, j_bin, bin_content);
+      }
+    }
+
+    // Now create fill the profile plot for this energy bin
+    TH1D* hProjection = this_arm->hEvdEBand->ProjectionY("_py", i_bin, i_bin);
+    double mean = hProjection->GetMean();
+    double rms = hProjection->GetRMS();
+    //    output << i_energy << " " << mean << " " << rms << std::endl;
+    this_arm->hBandProfile->SetBinContent(i_bin, mean);
+    this_arm->hBandProfile->SetBinError(i_bin, rms);
+
+  }
+  this_arm->hEvdEBand->ResetStats();
+  this_arm->hEvdEAll->Draw("COLZ");
+  electron_spot_cut->Draw("LSAME");                                                                                                           
+  punch_through_cut->Draw("LSAME");                                                                                                           
+  deuteron_cut->Draw("LSAME");
+}
+
+void ExtractProtonBand_Algorithm(Arm* this_arm) {
 
   double low_energy_cut = 1000; // keV
   double high_energy_cut = 10000; // keV
