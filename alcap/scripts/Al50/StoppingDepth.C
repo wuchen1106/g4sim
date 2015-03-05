@@ -3,7 +3,7 @@ void StoppingDepth(std::string filename) {
 
   TCanvas* c1 = new TCanvas("c1", "c1");
   c1->SetRightMargin(0.15);
-  int n_entries = 1000000000;
+  int n_entries = 1000;
 
   TFile* file = new TFile(filename.c_str(), "READ");
   TTree* tree = (TTree*) file->Get("tree");
@@ -21,20 +21,20 @@ void StoppingDepth(std::string filename) {
   hStopDepth->Scale(1.0 / n_input_muons);
   hStopDepth->SetStats(false);
 
-  tree->Draw("M_local_Oz*10000:M_local_Ox>>hStopDepth", "M_particleName==\"mu-\" && M_volName==\"Target\" && M_stopped == 1", "COLZ", n_entries);
+  tree->Draw("-1*(M_local_Oz*10000-25000):M_local_Ox>>hStopDepth", "M_particleName==\"mu-\" && M_volName==\"Target\" && M_stopped == 1", "COLZ", n_entries);
   
   c1->Update();
   std::string canvasname = "hStopDepth_" + base_filename + ".png";
-  c1->Print(canvasname.c_str());
+  //  c1->Print(canvasname.c_str());
 
   TH1D* hStopZDepth = hStopDepth->ProjectionY();
   hStopZDepth->Draw();
   hStopZDepth->SetStats(false);
   hStopZDepth->GetYaxis()->SetTitle("N_{stop-#mu} / N_{input-#mu}");
-  hStopZDepth->Scale(1.0 / n_input_muons);
+  //  hStopZDepth->Scale(1.0 / n_input_muons);
   c1->Update();
   canvasname = "hStopZDepth_" + base_filename + ".png";
-  c1->Print(canvasname.c_str());
+  //  c1->Print(canvasname.c_str());
 
   TH2F* hStopDepthVsTime = new TH2F("hStopDepthVsTime", histtitle.c_str(), 120,-30,30, 120,0,12);
   hStopDepthVsTime->GetXaxis()->SetTitle("Local Z [#mum]");
@@ -43,11 +43,11 @@ void StoppingDepth(std::string filename) {
   hStopDepthVsTime->Scale(1.0 / n_input_muons);
   hStopDepthVsTime->SetStats(false);
 
-  tree->Draw("M_Ot:M_local_Oz*10000>>hStopDepthVsTime", "M_particleName==\"mu-\" && M_volName==\"Target\" && M_stopped == 1", "COLZ", n_entries);
+  //  tree->Draw("M_Ot:M_local_Oz*10000>>hStopDepthVsTime", "M_particleName==\"mu-\" && M_volName==\"Target\" && M_stopped == 1", "COLZ", n_entries);
   
   c1->Update();
   canvasname = "hStopDepthVsTime_" + base_filename + ".png";
-  c1->Print(canvasname.c_str());
+  //  c1->Print(canvasname.c_str());
 
   TH2F* hStopDepthVsMomentum = new TH2F("hStopDepthVsMomentum", histtitle.c_str(), 120,-30,30, 120,0,30);
   hStopDepthVsMomentum->GetXaxis()->SetTitle("Local Z [#mum]");
@@ -56,11 +56,11 @@ void StoppingDepth(std::string filename) {
   hStopDepthVsMomentum->Scale(1.0 / n_input_muons);
   hStopDepthVsMomentum->SetStats(false);
 
-  tree->Draw("sqrt(M_px*M_px + M_py*M_py+ M_pz*M_pz)*1000:M_local_Oz*10000>>hStopDepthVsMomentum", "M_particleName==\"mu-\" && M_volName==\"Target\" && M_stopped == 1", "COLZ", n_entries);
+  //  tree->Draw("sqrt(M_px*M_px + M_py*M_py+ M_pz*M_pz)*1000:M_local_Oz*10000>>hStopDepthVsMomentum", "M_particleName==\"mu-\" && M_volName==\"Target\" && M_stopped == 1", "COLZ", n_entries);
   
   c1->Update();
   canvasname = "hStopDepthVsMomentum_" + base_filename + ".png";
-  c1->Print(canvasname.c_str());
+  //  c1->Print(canvasname.c_str());
   //  file->Close();
 
   std::string outfilename = "plot_" + base_filename + ".root";
