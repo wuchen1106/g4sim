@@ -3,7 +3,7 @@ void StoppingDepth(std::string filename) {
 
   TCanvas* c1 = new TCanvas("c1", "c1");
   c1->SetRightMargin(0.15);
-  int n_entries = 1000;
+  int n_entries = 100000;
 
   TFile* file = new TFile(filename.c_str(), "READ");
   TTree* tree = (TTree*) file->Get("tree");
@@ -14,14 +14,14 @@ void StoppingDepth(std::string filename) {
   size_t n_chars = firstdot - secondslash;
   std::string base_filename = filename.substr(secondslash, n_chars);
   std::string histtitle = "Plot of the Stopping Depth of Muons in " + base_filename;
-  TH2F* hStopDepth = new TH2F("hStopDepth", histtitle.c_str(), 120,-6,6, 120,-30,30);
+  TH2F* hStopDepth = new TH2F("hStopDepth", histtitle.c_str(), 120,-6,6, 120,-5,55);
   hStopDepth->GetYaxis()->SetTitle("Local Z [#mum]");
   hStopDepth->GetXaxis()->SetTitle("Local X [cm]");
   hStopDepth->GetZaxis()->SetTitle("N_{stop-#mu} / N_{input-#mu}");
   hStopDepth->Scale(1.0 / n_input_muons);
   hStopDepth->SetStats(false);
 
-  tree->Draw("-1*(M_local_Oz*10000-25000):M_local_Ox>>hStopDepth", "M_particleName==\"mu-\" && M_volName==\"Target\" && M_stopped == 1", "COLZ", n_entries);
+  tree->Draw("-1*((M_local_Oz*10000)-25):M_local_Ox>>hStopDepth", "M_particleName==\"mu-\" && M_volName==\"Target\" && M_stopped == 1", "COLZ", n_entries);
   
   c1->Update();
   std::string canvasname = "hStopDepth_" + base_filename + ".png";
