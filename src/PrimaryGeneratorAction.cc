@@ -407,13 +407,13 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	    TDirectory* prev_dir = gDirectory;
 	    // Get the relevant functions/histograms
 	    std::string dir_name = getenv("CONFIGUREDATAROOT");
-	    dir_name += "TURTLE_fits.root";
-	    TFile* turtle_file = new TFile(dir_name.c_str(), "READ");
+	    dir_name += "mupc_profile_run3600_Al50.root";
+	    TFile* mupc_profile_file = new TFile(dir_name.c_str(), "READ");
 	    
 	    // Get the histogram of the beam distribution at the muPC
-	    fMuPCBeamDistHist = (TH2F*) turtle_file->Get("hmuPC_XYWires")->Clone(); // need to clone because the file will be closing soon
+	    fMuPCBeamDistHist = (TH2F*) mupc_profile_file->Get("muPC/hmuPC_XYWires")->Clone(); // need to clone because the file will be closing soon
 	    fMuPCBeamDistHist->SetDirectory(0); // need to set directory to 0 so that we can use this histogram after the file is closed
-	    turtle_file->Close();
+	    mupc_profile_file->Close();
 	    gDirectory = prev_dir; // need to go back to where we were so that we can get the tree written to the output file
 	  }
 
@@ -438,8 +438,18 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	    //	  std::cout << "Pa = " << Pa << ", dMom = " << dMom << std::endl;
 	    double px = G4RandGauss::shoot(0, 0.033*pz);
 	    double py = G4RandGauss::shoot(0, 0.11*pz);
-	    //	  std::cout << "(px, py, pz) = (" << px << ", " << py << ", " << pz << ")" << std::endl;
-	    //	  std::cout << "p_tot = " << std::sqrt(px*px + py*py + pz*pz) << std::endl;
+	    double p_tot = std::sqrt(px*px + py*py + pz*pz);
+	    //	    std::cout << "Before: (px, py, pz) = (" << px << ", " << py << ", " << pz << ")" << std::endl;
+	    //	    std::cout << "p_tot = " << p_tot << std::endl;
+	    
+	    // Rescale components so that we get the correct momentum again
+	    double scale_factor = pz / p_tot;
+	    px *= scale_factor;
+	    py *= scale_factor;
+	    pz *= scale_factor;
+	    p_tot = std::sqrt(px*px + py*py + pz*pz);
+	    //	    std::cout << "After: (px, py, pz) = (" << px << ", " << py << ", " << pz << ")" << std::endl;
+	    //	    std::cout << "p_tot = " << p_tot << std::endl;
 	    G4ThreeVector particleMomentum(px, py, pz);
 	    G4ThreeVector direction = particleMomentum.unit();
 
@@ -490,13 +500,13 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	      }
 	    }
 	    if (DirectionMode == "muPC" || PositionMode == "muPC") {
-	      // Track back to exit of beam pipe (z = -304*mm)
+	      // Track back to the end of the beam pipe
 	      double z_pos_beam_pipe = -285.58 - 60;
 	      double n_steps = (z_pos_beam_pipe - muPCPos.z()/mm) / (direction.z()/mm);
 	      //	  std::cout << "n_steps to start of beam pipe: " << n_steps << std::endl;
 	      G4ThreeVector start_pos = muPCPos + n_steps*direction;
 	      //	      std::cout << "AE: PosSpread: " << xSpread << ", " << ySpread << ", " << zSpread << std::endl;
-	      G4ThreeVector move(xSpread, ySpread, zSpread);
+	      G4ThreeVector move(xSpread, ySpread, zSpread); // to translate the whole beam
 	      start_pos += move;
 	      particleGun->SetParticlePosition(start_pos);
 	    }
