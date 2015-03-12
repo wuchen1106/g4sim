@@ -9,9 +9,11 @@
 
 	PSI 		Simple		    geometry_R2013/chamber/subgeo_chamber
 	PSI		Simple		    geometry_R2013/collimator/subgeo_collimator
-	PSI 		Simple		    geometry_R2013/detector_packages/subgeo_detector_packages
+
+	PSI 		Simple		    geometry_R2013/detector_packages/subgeo_common-variables
 	PSI 		Simple		    geometry_R2013/detector_packages/subgeo_left-detector-package
 	PSI 		Simple		    geometry_R2013/detector_packages/subgeo_right-detector-package
+
 	PSI		Simple		    geometry_R2013/targets/subgeo_target_Al50
 
 	PSI		Simple		    geometry_R2013/behind_target/subgeo_back-wall
