@@ -2,58 +2,6 @@
 #	checkoverlap
 
 #==================================================================================================================
-#	Collimators
-#==================================================================================================================
-DEFINE: bXColL		75 # X Dimension of Collimator Lead (main)
-DEFINE: bYColL		360 # Y Dimension of Collimator Lead (main and side)
-DEFINE: thColL		1 # Thickness of Collimator Lead (main and side)
-DEFINE: pRColL		90.5 # R position of Collimator Lead
-DEFINE: bXColS		50 # X Dimension of Collimator Lead (side)
-DEFINE: pXColS		-bXColL/2-bXColS/2/sqrt(2)-thColL/2/sqrt(2) # X position of Collimator Side (Relative to Collimator Lead (main) )
-DEFINE: pZColS		-bXColS/2/sqrt(2) # Z position of Collimator Side (Relative to Collimator Lead (main) )
-DEFINE: bXColP		bXColL # X Dimension of Collimator Plastic
-DEFINE: bYColP		95 # Y Dimension of Collimator Plastic
-DEFINE: thColP		6 # Thickness of Collimator Plastic
-DEFINE: pRColP		pRColL-thColL/2-thColP/2 # R position of Collimator Plastic
-DEFINE: XColH 		34 # Dx of Collimator Hole
-DEFINE: YColH 		50 # Dy of Collimator Hole
-DEFINE: thCLi		1  # Thickness of Collimator Lining
-#EllipticalTube info
-#	Type Dx          Dy          Dz                Name         RepNo MotVolume Material     SDName   posX  posY  posZ  Ephi Ethe Epsi
-#	     mm          mm          mm                                                                   mm    mm    mm    deg  deg  deg
-#	                                                                                          P R     Phi   Z
-#	                                                                                          S R     Phi   Theta 
-	ET   XColH       YColH       thColL+thColP     tColLining
-	ET   XColH-thCLi YColH-thCLi thColP*2+thColP*2 tColLHole    
-	ET   XColH       YColH       thColP+1          tColPHole
-
-#Tubs info
-#	Type RMin RMax   Length  Start Span Name             RepNo  MotVolume Material  SDName    posX posY  posZ  Ephi   Ethe   Epsi  
-#	     mm   mm     mm      deg   deg                                                        mm   mm    mm    deg    deg    deg   
-#	                                                                                  P R    Phi   Z     
-#	                                                                                  S R    Phi   Theta 
-	T    0    40     0.1     0    360   ColMon           1    ChamberIn  VacuumPSI none        P pRColL-20  0 Z0    90     90     0   
-
-#Box info
-#	Type x      y       z      Name         RepNo MotVolume Material     SDName   posX  posY  posZ  Ephi Ethe Epsi
-#	     mm     mm      mm                                                        mm    mm    mm    deg  deg  deg
-#	                                                                      P R     Phi   Z
-#	                                                                      S R     Phi   Theta 
-	B    bXColL bYColL  thColL bColL
-	B    bXColS bYColL  thColL bColSide
-	B    bXColP bYColP  thColP bColP
-#BooleanSolid info
-#	Type type  vol1   vol2        Ephi Ethe Epsi PosX  PosY PosZ   name              RepNo MotVolume  Material    SDName    posX   posY posZ  Ephi Ethe Epsi  
-#	                              deg  deg  deg  mm    mm   mm                                                              mm     mm   mm    deg  deg  deg   
-#	                                           P R     Phi  Z                                                             P R      Phi  Z    
-#	                                           S R     Phi  Theta                                                         S R      Phi  Theta
-	BL   plus  bColL  bColSide   -90   45   90   pXColS 0   pZColS uColL1                  
-	BL   plus  uColL1 bColSide   -90  -45   90  -pXColS 0   pZColS uColL2                  
-	BL   plus  uColL2 tColLining  0    0    0    0      Z0  3.5    uColL3                  
-	BL   minus uColL3 tColLHole   0    0    0    0      Z0  0      CollimatorLead    1     ChamberIn  Lead         none   P pRColL 0    0    -90   90   0  
-	BL   minus bColP  tColPHole   0    0    0    0      0   0      CollimatorPlastic 1     ChamberIn  Scintillator none   P pRColP 0    Z0   -90   90   0  
-
-#==================================================================================================================
 #	Other Detectors
 #==================================================================================================================
 DEFINE: bXVeto		100 # x-y Dimension of Muon Veto Scintillator
@@ -182,11 +130,8 @@ DEFINE: thBW            1 # Thickness of Back Wall
 	vis_VetoPS2                 0      1      1  
 	vis_ESi2                    0      1      1  
 	vis_dESi2                   1      0      0  
-	vis_CollimatorLead          0.5    0.5    0.5
-	vis_CollimatorPlastic       0.8    0.8    0.8
 	vis_DSWall                  0.5    0.5    0.5
 	vis_SourceBoarder           0.6    0.6    0.6   1
 	vis_SourceDisk              1      1      1     0.5
 	vis_Source                  0.2    0.2    0.2
 	vis_GePS                    1      1      0  
-	vis_ColMon		    1	   1	  1
