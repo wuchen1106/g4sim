@@ -9,5 +9,5 @@
 /vis/viewer/set/viewpointThetaPhi 70 90
 /vis/viewer/set/background 1 1 1 0
 
-#/vis/scene/add/trajectories smooth
-#/vis/scene/endOfEventAction accumulate
+/vis/scene/add/trajectories smooth
+/vis/scene/endOfEventAction accumulate
