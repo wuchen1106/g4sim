@@ -1,29 +1,14 @@
 #==================================================================================================================
 #	Other Detectors
 #==================================================================================================================
-DEFINE: bXVeto		100 # x-y Dimension of Muon Veto Scintillator
-DEFINE: thVeto		0.5 # Thickness of Muon Veto Scintillator
-DEFINE: pRVeto		137 # R position of Muon Veto Scintillator
-DEFINE: thdESi		0.058 # Thickness of dEdx Scintillator 
-DEFINE: thESi		1.5 # Thickness of E Scintillator 
-DEFINE: thPS		1 # Thickness of Plastic Charged Veto Scintillator 
-DEFINE: gESi		1 # Gap between dEdx and E Scintillator 
-DEFINE: gPS 		1 # Gap between Plastic Charged Veto and E Scintillator 
-DEFINE: thPack		thPS+thESi+thdESi+gPS+gESi # Thickness of Detector Packages
+DEFINE: thdESi		0.058 # Thickness of thin silicon detector
+DEFINE: thESi		1.5 # Thickness of thick silicon detector
+DEFINE: thPS		1 # Thickness of the veto scintillator on each arm
+DEFINE: gESi		1 # Gap between thin and thick silicon detectors
+DEFINE: gPS 		1 # Gap between thick silicon and the scintillator
+DEFINE: thPack		thPS+thESi+thdESi+gPS+gESi # Total thickness of Detector Packages
 DEFINE: bXPack		50 # x-y Dimension of Detector Packages
 DEFINE: pRPack		120 # R position of Detector Packages
-DEFINE: pZdES		-thPack/2+thdESi/2 # Z position of E Scintillator (Relative to Detector Package)
-DEFINE: pZESi		pZdES+thdESi/2+gESi+thESi/2 # Z position of E Scintillator (Relative to Detector Package)
-DEFINE: pZPS		pZESi+thESi/2+gPS+thPS/2 # Z position of Plastic Charged Veto Scintillator (Relative to Detector Package)
-#Box info
-#	Type x      y      z      Name        RepNo MotVolume Material     SDName        posX    posY  posZ    Ephi Ethe Epsi
-#	     mm     mm     mm                                                            mm      mm    mm      deg  deg  deg
-#	                                                                               P R       Phi   Z
-#	                                                                               S R       Phi   Theta  
-	B    bXVeto bXVeto thVeto MuVetoPS    1     ChamberIn Scintillator none P pRVeto  180    Z0     90   90   0
-
-#visual settings
-	VerboseLevel:    5
-	VISSETTING  #Keep this line to call Reset
-#	Name                        red    green  blue  transparency
-	vis_MuVetoPS                1      1      0
+DEFINE: pZdES		-thPack/2+thdESi/2 # Z position of thin silicon detector (Relative to Detector Package)
+DEFINE: pZESi		pZdES+thdESi/2+gESi+thESi/2 # Z position of thick silicon detector (Relative to Detector Package)
+DEFINE: pZPS		pZESi+thESi/2+gPS+thPS/2 # Z position of veto scintillator (Relative to Detector Package)
