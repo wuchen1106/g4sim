@@ -495,7 +495,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	      }
 	    }
 	    if (DirectionMode == "muPC" || PositionMode == "muPC") {
-	      // Track back to the muSc
+	      // Track back to the end of the beam pipe
 	      double z_pos_beam_pipe = -285.58 - 60;
 	      double n_steps = (z_pos_beam_pipe - muPCPos.z()/mm) / (direction.z()/mm);
 	      //	  std::cout << "n_steps to start of beam pipe: " << n_steps << std::endl;
