@@ -4,4 +4,5 @@
 #ServiceName        ServiceType         FileName
 	World           Simple              world_AlCap
 	PSI 		Simple		    geometry_R2013/chamber/subgeo_chamber
+	PSI		Simple		    geometry_R2013/upstream_counter/subgeo_upstream_counter
 	PSI             Simple              geometry_R2013/sub_all/subgeo_Al50_obtain-stopping-distribution

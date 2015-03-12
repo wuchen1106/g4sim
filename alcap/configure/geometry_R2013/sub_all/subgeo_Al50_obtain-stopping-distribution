@@ -2,68 +2,6 @@
 #	checkoverlap
 
 #==================================================================================================================
-#	Muon Trigger
-#==================================================================================================================
-DEFINE: LTr			120 # Length of Trigger Box (Adjacent to Beam Window)
-DEFINE: XTr			200 # x-y Dimension of Trigger Box
-DEFINE: pRTr		RO+Lp1/2+LTr/2 # R position of Trigger box
-DEFINE: LGas		35 # Length of Gas Chamber
-DEFINE: XGas		50 # x-y Dimension of Gas Chamber
-DEFINE: thwg		0.05 # Thickness of Windows
-DEFINE: pZwg		LGas/2-thwg/2 # z position of Windows (Relative to Gas Chamber)
-DEFINE: gGas		50 # Gap between Gas Chamber and Beam Window
-DEFINE: pZGas		LTr/2-LGas/2-gGas # z position of Gas Chamber (Relative to Trigger Box)
-DEFINE:	thSCT		1.2  
-DEFINE: thSC		0.5 # Thickness of MuSC
-DEFINE: gSC			5 # Gap between MuSC and Gas Chamber
-DEFINE: pZSC		pZGas-LGas/2-gSC-thSCT/2 # z position of MuSC (Relative to Trigger Box)
-DEFINE: pRSC		120 # R position of MuSC
-DEFINE: thSCA		3 # Thickness of MuSCA
-DEFINE: RSCA		17.5 # Radius of The hole on MuSCA
-DEFINE: gSCA		5 # Gap between MuSCA and MuSC
-DEFINE: pZSCA		pZSC-thSC/2-gSCA-thSCA/2 # z position of MuSCA (Relative to Trigger Box)
-DEFINE: gFoil		5 # Gap between Foil and MuSCA
-DEFINE: XFoil		100 # x-y Distance of Foil
-DEFINE: thFoil		0.075 # Thickness of Foil
-DEFINE: pZFoil		pZSCA-thSCA/2-gFoil-thFoil/2 # z position of Foil (Relative to Trigger Box)
-DEFINE: Rwire		0.01 # Radius of wires
-DEFINE: gwire		2 # Gap between wires
-DEFINE: pw  		-XGas/2.+Rwire+(x+1)*gwire # X/Y position of Verticle/Horizental Wires
-#Box info
-#	Type x     y     z      Name         RepNo MotVolume Material     SDName         posX  posY posZ    Ephi Ethe Epsi
-#	     mm    mm    mm                                                              mm    mm   mm      deg  deg  deg
-#	                                                                               P R     Phi  Z
-#	                                                                               S R     Phi  Theta  
-	B    XTr   XTr   LTr    MuTrigger    1     World     Air          none         S pRTr+thTp  0    180     0    0    0 
-#	B    XFoil XFoil thFoil MuFoil       1     MuTrigger Mylar        none           0     0    pZFoil  0    0    0 
-	B    XGas  XGas  LGas   MuPC         1     MuTrigger GasArgEthane none           0     0    pZGas   0    0    0 
-	B    XGas  XGas  thwg   MuPCDSWindow 1     MuPC      Mylar        none           0     0    pZwg    0    0    0 
-	B    XGas  XGas  thwg   MuPCUSWindow 1     MuPC      Mylar        none           0     0   -pZwg    0    0    0 
-	B    XFoil XFoil thSCT  MuSC_T       1     MuTrigger Air          none           0     0    pZSC    0    0    0 
-	B    XFoil XFoil thSC   MuSC         1     MuSC_T    Scintillator M/MonitorSD    0     0    0       0    0    0 
-	#B    XFoil XFoil thSC   MuSC         1     MuSC_T    Scintillator none    0     0    0       0    0    0 
-DEFINE:	pZSCF		thSC/2+thTp/2
-	B    XFoil XFoil thTp   MuSC_FU      1     MuSC_T    Plastic      none           0     0    pZSCF   0    0    0 
-	B    XFoil XFoil thTp   MuSC_FD      1     MuSC_T    Plastic      none           0     0   -pZSCF   0    0    0 
-#	B    XFoil XFoil thSC   MuSC         1     ChamberIn Scintillator none  P pRSC  0    Z0     90   90    0 
-	B    XFoil XFoil thSCA  bMuSCA_Whole          
-#Tubs info
-#	Type RMin RMax  Length  Start Span Name              RepNo MotVolume Material  SDName    posX posY  posZ  Ephi   Ethe   Epsi  
-#	     mm   mm    mm      deg   deg                                                        mm   mm    mm    deg    deg    deg   
-#	                                                                                       P R    Phi   Z     
-#	                                                                                       S R    Phi   Theta 
-	T    0    RSCA  thSCA+1 0     360  tMuSCA_Hole             
-	T    0    Rwire XGas    0     360  WireVer           24    MuPC      Aluminium none      pw   0    -1      0     90     0
-	T    0    Rwire XGas    0     360  WireHor           24    MuPC      Aluminium none      0    pw    1     90     90     0
-#BooleanSolid info
-#	Type type  vol1         vol2              Ephi Ethe Epsi PosX  PosY PosZ   name RepNo MotVolume  Material     SDName            posX posY posZ  Ephi Ethe Epsi  
-#	                                          deg  deg  deg  mm    mm   mm                                                          mm   mm   mm    deg  deg  deg   
-#	                                                       P R     Phi  Z                                                         P R    Phi  Z    
-#	                                                       S R     Phi  Theta                                                     S R    Phi  Theta
-	BL   minus bMuSCA_Whole tMuSCA_Hole       0    0    0    0     0    0      MuSCA 1    MuTrigger  Scintillator none       0    0    pZSCA 0    0    0  
-	#BL   minus bMuSCA_Whole tMuSCA_Hole       0    0    0    0     0    0      MuSCA 1    MuTrigger  Scintillator none       0    0    pZSCA 0    0    0  
-
-#==================================================================================================================
 #	Collimators
 #==================================================================================================================
 DEFINE: bXColL		75 # X Dimension of Collimator Lead (main)
@@ -246,15 +184,6 @@ DEFINE: thBW            1 # Thickness of Back Wall
 	vis_dESi2                   1      0      0  
 	vis_CollimatorLead          0.5    0.5    0.5
 	vis_CollimatorPlastic       0.8    0.8    0.8
-	vis_MuTrigger               1      1      1     0.2
-	vis_MuPC                    0.5    0.5    0.5   0.5  
-	vis_MuSC                    0      1      0     0.5
-	vis_MuPCDSWindow            1      1      0     0.3
-	vis_MuPCUSWindow            1      1      0     0.3
-	vis_MuSCA                   0      1      0 
-	vis_MuFoil                  0.5    0.5    0.5   0.3
-	vis_WireVer                 1      0      0
-	vis_WireHor                 1      0      0
 	vis_DSWall                  0.5    0.5    0.5
 	vis_SourceBoarder           0.6    0.6    0.6   1
 	vis_SourceDisk              1      1      1     0.5
