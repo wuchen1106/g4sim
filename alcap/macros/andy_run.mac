@@ -14,7 +14,7 @@
 /g4sim/gun/ResetGen               gen/gen_mu_1.07_muPC
 
 # Set Geo
-/g4sim/det/ReloadGeo              geometry_simple-test
+/g4sim/det/ReloadGeo              geometry_R2013/geometry_Al50
 
 #	For this run
 /random/setSeeds 5 6

@@ -3,4 +3,4 @@
 
 #ServiceName        ServiceType         FileName
 	World           Simple              world_AlCap
-	PSI             Simple              sub_all/subgeo_1217
+	PSI             Simple              geometry_R2013/archive/sub_all/subgeo_1217
