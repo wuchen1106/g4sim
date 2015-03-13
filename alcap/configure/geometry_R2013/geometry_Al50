@@ -3,22 +3,22 @@
 
 #ServiceName        ServiceType         FileName
 	World           Simple              world_AlCap
-	PSI		Simple		    geometry_R2013/germanium/subgeo_germanium
+	PSI		Simple		    geometry_R2013/germanium/subgeo_germanium_with-monitor
 
 	PSI		Simple		    geometry_R2013/upstream_counter/subgeo_trigger-box
-	PSI		Simple		    geometry_R2013/upstream_counter/subgeo_muPC
-	PSI		Simple		    geometry_R2013/upstream_counter/subgeo_muScA
-	PSI		Simple		    geometry_R2013/upstream_counter/subgeo_muSc
-	PSI		Simple		    geometry_R2013/upstream_counter/subgeo_mu-foil
+	PSI		Simple		    geometry_R2013/upstream_counter/subgeo_muPC_with-monitor
+	PSI		Simple		    geometry_R2013/upstream_counter/subgeo_muScA_with-monitor
+	PSI		Simple		    geometry_R2013/upstream_counter/subgeo_muSc_with-monitor
+	PSI		Simple		    geometry_R2013/upstream_counter/subgeo_mu-foil_with-monitor
 
 	PSI 		Simple		    geometry_R2013/chamber/subgeo_chamber
-	PSI		Simple		    geometry_R2013/collimator/subgeo_collimator
+	PSI		Simple		    geometry_R2013/collimator/subgeo_collimator_with-monitor
 
 	PSI 		Simple		    geometry_R2013/detector_packages/subgeo_common-variables
-	PSI 		Simple		    geometry_R2013/detector_packages/subgeo_left-detector-package
-	PSI 		Simple		    geometry_R2013/detector_packages/subgeo_right-detector-package
+	PSI 		Simple		    geometry_R2013/detector_packages/subgeo_left-detector-package_with-monitor
+	PSI 		Simple		    geometry_R2013/detector_packages/subgeo_right-detector-package_with-monitor
 
-	PSI		Simple		    geometry_R2013/targets/subgeo_target-Al50
+	PSI		Simple		    geometry_R2013/targets/subgeo_target-Al50_with-monitor
 
-	PSI		Simple		    geometry_R2013/behind_target/subgeo_back-wall
-	PSI		Simple		    geometry_R2013/behind_target/subgeo_veto-scintillator
+	PSI		Simple		    geometry_R2013/behind_target/subgeo_back-wall_with-monitor
+	PSI		Simple		    geometry_R2013/behind_target/subgeo_veto-scintillator_with-monitor

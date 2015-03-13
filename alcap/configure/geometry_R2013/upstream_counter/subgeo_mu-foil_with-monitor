@@ -1,0 +1,20 @@
+#==================================================
+# The MuFoil
+#==================================================
+DEFINE: gFoil		5 # Gap between Foil and MuSCA
+DEFINE: XFoil		100 # x-y Distance of Foil
+DEFINE: thFoil		0.075 # Thickness of Foil
+DEFINE: pZFoil		pZSCA-thSCA/2-gFoil-thFoil/2 # z position of Foil (Relative to Trigger Box)
+
+#Box info
+#	Type x     y     z      Name         RepNo MotVolume Material     SDName         posX  posY posZ    Ephi Ethe Epsi
+#	     mm    mm    mm                                                              mm    mm   mm      deg  deg  deg
+#	                                                                               P R     Phi  Z
+#	                                                                               S R     Phi  Theta  
+	B    XFoil XFoil thFoil MuFoil       1     MuTrigger Mylar        M/MonitorSD    0     0    pZFoil  0    0    0 
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name                        red    green  blue  transparency
+	vis_MuFoil                  0.5    0.5    0.5   0.3
