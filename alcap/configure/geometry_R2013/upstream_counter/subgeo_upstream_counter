@@ -4,11 +4,6 @@
 DEFINE: LTr			120 # Length of Trigger Box (Adjacent to Beam Window)
 DEFINE: XTr			200 # x-y Dimension of Trigger Box
 DEFINE: pRTr		RO+Lp1/2+LTr/2 # R position of Trigger box
-DEFINE:	thSCT		1.2  
-DEFINE: thSC		0.5 # Thickness of MuSC
-DEFINE: gSC			5 # Gap between MuSC and Gas Chamber
-DEFINE: pZSC		pZGas-LGas/2-gSC-thSCT/2 # z position of MuSC (Relative to Trigger Box)
-DEFINE: pRSC		120 # R position of MuSC
 DEFINE: gFoil		5 # Gap between Foil and MuSCA
 DEFINE: XFoil		100 # x-y Distance of Foil
 DEFINE: thFoil		0.075 # Thickness of Foil
@@ -20,13 +15,6 @@ DEFINE: pZFoil		pZSCA-thSCA/2-gFoil-thFoil/2 # z position of Foil (Relative to T
 #	                                                                               S R     Phi  Theta  
 	B    XTr   XTr   LTr    MuTrigger    1     World     Air          none         S pRTr+thTp  0    180     0    0    0 
 #	B    XFoil XFoil thFoil MuFoil       1     MuTrigger Mylar        none           0     0    pZFoil  0    0    0 
-	B    XFoil XFoil thSCT  MuSC_T       1     MuTrigger Air          none           0     0    pZSC    0    0    0 
-	B    XFoil XFoil thSC   MuSC         1     MuSC_T    Scintillator M/MonitorSD    0     0    0       0    0    0 
-	#B    XFoil XFoil thSC   MuSC         1     MuSC_T    Scintillator none    0     0    0       0    0    0 
-DEFINE:	pZSCF		thSC/2+thTp/2
-	B    XFoil XFoil thTp   MuSC_FU      1     MuSC_T    Plastic      none           0     0    pZSCF   0    0    0 
-	B    XFoil XFoil thTp   MuSC_FD      1     MuSC_T    Plastic      none           0     0   -pZSCF   0    0    0 
-#	B    XFoil XFoil thSC   MuSC         1     ChamberIn Scintillator none  P pRSC  0    Z0     90   90    0 
 
 
 
@@ -36,5 +24,4 @@ DEFINE:	pZSCF		thSC/2+thTp/2
 	VISSETTING  #Keep this line to call Reset
 #	Name                        red    green  blue  transparency
 	vis_MuTrigger               1      1      1     0.2
-	vis_MuSC                    0      1      0     0.5
 	vis_MuFoil                  0.5    0.5    0.5   0.3

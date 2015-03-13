@@ -8,6 +8,7 @@
 	PSI		Simple		    geometry_R2013/upstream_counter/subgeo_upstream_counter
 	PSI		Simple		    geometry_R2013/upstream_counter/subgeo_muPC
 	PSI		Simple		    geometry_R2013/upstream_counter/subgeo_muScA
+	PSI		Simple		    geometry_R2013/upstream_counter/subgeo_muSc
 
 	PSI 		Simple		    geometry_R2013/chamber/subgeo_chamber
 	PSI		Simple		    geometry_R2013/collimator/subgeo_collimator
