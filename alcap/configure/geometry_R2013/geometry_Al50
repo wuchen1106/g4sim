@@ -6,7 +6,7 @@
 	PSI		Simple		    geometry_R2013/germanium/subgeo_germanium_with-ge-monitor
 
 	PSI		Simple		    geometry_R2013/upstream_counter/subgeo_trigger-box
-	PSI		Simple		    geometry_R2013/upstream_counter/subgeo_muPC_with-mupc-monitor
+	PSI		Simple		    geometry_R2013/upstream_counter/subgeo_muPC_with-monitor
 	PSI		Simple		    geometry_R2013/upstream_counter/subgeo_muScA_with-monitor
 	PSI		Simple		    geometry_R2013/upstream_counter/subgeo_muSc_with-monitor
 	PSI		Simple		    geometry_R2013/upstream_counter/subgeo_mu-foil_with-monitor
