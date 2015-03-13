@@ -1,0 +1,40 @@
+#==================================================================================================================
+#	Germanium Detector
+#==================================================================================================================
+DEFINE: LGe			55.3 # Length of Germanium Detector
+DEFINE: RGe			26.25 # R of Germanium Detector
+DEFINE: RiGe		9.9/2   # R of the hole in Germanium Detector
+DEFINE: dGe			LGe-47.8 # distance from the bottom of the hole to the end of Ge
+#DEFINE: pRGe		RO+Lp2/2+LGe/2 # R position of Germanium Detector
+DEFINE: pRGe		320+LGe/2 # R position of Germanium Detector
+
+#Tubs info
+#	Type RMin RMax  Length Start Span Name              RepNo MotVolume Material  SDName    posX posY  posZ   Ephi   Ethe   Epsi  
+#	     mm   mm    mm     deg   deg                                                        mm   mm    mm     deg    deg    deg   
+#	                                                                                P R    Phi   Z     
+#	                                                                                S R    Phi   Theta 
+	T    0    RGe   LGe    0     360  GeBody
+	T    0    RiGe  LGe    0     360  GeHole
+
+#BooleanSolid info
+#	Type type  vol1         vol2              Ephi Ethe Epsi PosX  PosY PosZ   name         RepNo MotVolume  Material SDName    posX posY posZ Ephi Ethe Epsi  
+#	                                          deg  deg  deg  mm    mm   mm                                                      mm   mm   mm   deg  deg  deg   
+#	                                                       P R     Phi  Z                                               P R    Phi  Z    
+#	                                                       S R     Phi  Theta                                           S R    Phi  Theta
+	BL   minus GeBody       GeHole            0    0    0    0     0   -dGe    Ge           1     World Germanium none  S pRGe  0  135  90   -45    0 
+
+#Box info
+#	Type x      y      z      Name        RepNo MotVolume Material     SDName        posX    posY  posZ    Ephi Ethe Epsi
+#	     mm     mm     mm                                                            mm      mm    mm      deg  deg  deg
+#	                                                                               P R       Phi   Z
+#	                                                                               S R       Phi   Theta  
+	B    bXVeto bXVeto thVeto ScGe        1     World     Scintillator M/MonitorSD S pRGe-10-LGe/2 0    135   90   -45      0 
+
+
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name                        red    green  blue  transparency
+	vis_Ge                      0.5    0      1  
+	vis_ScGe                    1      1      0  

@@ -3,7 +3,7 @@
 
 #ServiceName        ServiceType         FileName
 	World           Simple              world_AlCap
-	PSI		Simple		    geometry_R2013/germanium/subgeo_germanium_with-monitor
+	PSI		Simple		    geometry_R2013/germanium/subgeo_germanium_with-all-monitors
 
 	PSI		Simple		    geometry_R2013/upstream_counter/subgeo_trigger-box
 	PSI		Simple		    geometry_R2013/upstream_counter/subgeo_muPC_with-monitor
