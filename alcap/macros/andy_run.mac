@@ -11,7 +11,7 @@
 /g4sim/myAnalysisSvc/set_out_card output/output_default
 
 # Set Gen
-/g4sim/gun/ResetGen               gen/gen_mu_1.07_muPC
+/g4sim/gun/ResetGen               gen/gen_geantino_test
 
 # Set Geo
 /g4sim/det/ReloadGeo              geometry_R2013/geometry_Al50
@@ -19,6 +19,6 @@
 #	For this run
 /random/setSeeds 5 6
 /g4sim/myAnalysisSvc/printModulo    10000
-/run/beamOn  5
+/run/beamOn  50000
 
 /vis/ogl/printEPS
