@@ -49,4 +49,3 @@ DEFINE: thCLi		1  # Thickness of Collimator Lining
 #	Name                        red    green  blue  transparency
 	vis_CollimatorLead          0.5    0.5    0.5
 	vis_CollimatorPlastic       0.8    0.8    0.8
-	vis_ColMon		    1	   1	  1
