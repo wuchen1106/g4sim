@@ -1,5 +1,5 @@
 #==================================================================================================================
-#	Muon Trigger
+#	Upstream Counter Trigger Box
 #==================================================================================================================
 DEFINE: LTr			120 # Length of Trigger Box (Adjacent to Beam Window)
 DEFINE: XTr			200 # x-y Dimension of Trigger Box
