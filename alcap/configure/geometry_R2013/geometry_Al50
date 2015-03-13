@@ -14,7 +14,7 @@
 	PSI 		Simple		    geometry_R2013/detector_packages/subgeo_left-detector-package
 	PSI 		Simple		    geometry_R2013/detector_packages/subgeo_right-detector-package
 
-	PSI		Simple		    geometry_R2013/targets/subgeo_target_Al50
+	PSI		Simple		    geometry_R2013/targets/subgeo_target-Al50
 
 	PSI		Simple		    geometry_R2013/behind_target/subgeo_back-wall
 	PSI		Simple		    geometry_R2013/behind_target/subgeo_veto-scintillator
