@@ -1,0 +1,18 @@
+#===============================================================================================
+# A Second Simple Test Volume to see if we can insert volumes within others in a different file
+#===============================================================================================
+DEFINE: H			82 # Height of cylinder
+DEFINE: R			62 # Radius of chamber
+
+#Tubs info
+#	Type RMin RMax  Length Start Span Name              RepNo MotVolume Material  SDName    posX posY  posZ   Ephi   Ethe   Epsi  
+#	     mm   mm    mm     deg   deg                                                        mm   mm    mm     deg    deg    deg   
+#	                                                                                P R    Phi   Z     
+#	                                                                                S R    Phi   Theta 
+	T    0    R     H     0     360  tubChamberInside     1     tubChamber Lead M/MonitorSD    0   0   0      0    0     0
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name                        red    green  blue  transparency
+	vis_tubChamberInside        1      0      0

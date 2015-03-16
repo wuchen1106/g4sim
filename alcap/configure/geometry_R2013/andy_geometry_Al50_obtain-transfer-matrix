@@ -1,0 +1,25 @@
+# The Segment which includes World should be put at the first line!!
+	VerboseLevel    1
+
+#ServiceName        ServiceType         FileName
+	World           Simple              world_AlCap
+	PSI		Simple		    geometry_R2013/germanium/subgeo_germanium_with-ge-monitor
+
+	PSI		Simple		    geometry_R2013/upstream_counter/subgeo_trigger-box
+	PSI		Simple		    geometry_R2013/upstream_counter/subgeo_muPC
+	PSI		Simple		    geometry_R2013/upstream_counter/subgeo_muScA
+	PSI		Simple		    geometry_R2013/upstream_counter/subgeo_muSc
+	PSI		Simple		    geometry_R2013/upstream_counter/subgeo_mu-foil
+
+	PSI 		Simple		    geometry_R2013/chamber/subgeo_chamber
+	PSI		Simple		    geometry_R2013/collimator/subgeo_collimator
+#	PSI		Simple		    geometry_R2013/collimator/subgeo_col-mon
+
+	PSI 		Simple		    geometry_R2013/detector_packages/subgeo_common-variables
+	PSI 		Simple		    geometry_R2013/detector_packages/subgeo_left-detector-package_with-si-monitors
+	PSI 		Simple		    geometry_R2013/detector_packages/subgeo_right-detector-package_with-si-monitors
+
+	PSI		Simple		    geometry_R2013/targets/subgeo_target-Al50_with-monitor
+
+	PSI		Simple		    geometry_R2013/behind_target/subgeo_back-wall
+	PSI		Simple		    geometry_R2013/behind_target/subgeo_veto-scintillator
