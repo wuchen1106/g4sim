@@ -54,7 +54,7 @@ typedef HepGeom::Vector3D<double> HepVector3D;
 #endif
 
 	CdcSD::CdcSD(G4String name, MyVGeometryParameter* pointer)
-:MySD(name, pointer), hitsCollection(0)
+:MySD(name, pointer), hitsCollection(0), m_xt_hist(0), m_xt_file(0)
 {
 	m_GeometryParameter= dynamic_cast<CdcGeometryParameter*> (pointer);
 	if (!m_GeometryParameter){
@@ -835,6 +835,7 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 //		std::cout<<"=>Update Hit!"<<std::endl;
 		if(flag_edep) m_edep[pointer] += (edepIoni)/unit_edep;
 		if(flag_edepAll) m_edepAll[pointer] += (edep)/unit_edepAll;
+		if(flag_edepAll) m_edepDelta[pointer] += (edepDelta)/unit_edepAll;
 		if(flag_stepL) m_stepL[pointer] += stepL/unit_stepL;
 		if(flag_driftDtrue) if(driftD<m_driftDtrue[pointer]*unit_driftDtrue) m_driftDtrue[pointer] = driftD/unit_driftDtrue;
 		if (isPrimaryIon){
@@ -859,6 +860,9 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 				if(flag_px) m_px[pointer] = pointIn_mom.x()/unit_px;
 				if(flag_py) m_py[pointer] = pointIn_mom.y()/unit_py;
 				if(flag_pz) m_pz[pointer] = pointIn_mom.z()/unit_pz;
+				if(flag_pid) m_pid[pointer] = pid;
+				if(flag_tid) m_tid[pointer] = trackID;
+				if(flag_tid) m_posflag[pointer] = posflag;
 				(*hitsCollection)[pointer]->SetPos(hitPosition);
 				if(flag_ptid){
 					int ptid = aTrack->GetParentID();

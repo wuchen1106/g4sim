@@ -332,6 +332,8 @@ G4double _current, G4double _gradient) {
     field[3] = thisField[3] * normE * timeE * _gradient/gradient;
     field[4] = thisField[4] * normE * timeE * _gradient/gradient;
     field[5] = thisField[5] * normE * timeE * _gradient/gradient;
+    // FIXME:
+    //printf("@(%lf,%lf,%lf): (%lf,%lf,%lf)\n",local[2],local[1],7650-local[0],field[2],field[1],-field[0]);
 }
 
 bool MyBLFieldMap::readFileROOT(G4String filename) {
@@ -1092,7 +1094,7 @@ int linenumber) {
     if(mapEy) mapEy[m] = Ey;
     if(mapEz) mapEz[m] = Ez;
     // FIXME
-//    printf("@(%lf,%lf,%lf):(%lf,%lf,%lf)\n",X+X0,Y+Y0,Z+Z0,Bx,By,Bz);
+    //printf("@(%lf,%lf,%lf):(%lf,%lf,%lf)\n",X+X0,Y+Y0,Z+Z0,Bx,By,Bz);
 
     return true;
 }
