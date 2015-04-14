@@ -37,22 +37,34 @@ for I_RUN in `seq 1 $N_RUNS`; do
 
     # Create a configure directory to store the configure files that were used
     CONFIGUREDIR=$PWD/configure
+    GEOMDIR=$CONFIGUREDIR/geometry_R2013
+    SUBGEOMDIR=$GEOMDIR/sub_all
     mkdir -p $CONFIGUREDIR
-    mkdir -p $CONFIGUREDIR/sub_all
+    mkdir -p $GEOMDIR
+    mkdir -p $SUBGEOMDIR
 
     ## You may want to change these
-    GEOMFILE="geometry_Al50"
-    SUBGEOMFILE=`cat $ALCAPWORKROOT/configure/$GEOMFILE | grep sub | tr -s ' ' | cut -d ' ' -f 3`
-    GENFILE="gen_mu_1.07_collimated"
+    GEOMFILE="geometry_R2013/andy_geometry_Al50_obtain-transfer-matrix"
+    GENFILE="gen_mu_1.07_target_hist"
     OUT_CONFIG_FILE="output_default"
 
-    cp $ALCAPWORKROOT/configure/$GEOMFILE $CONFIGUREDIR
-    cp $ALCAPWORKROOT/configure/$SUBGEOMFILE $CONFIGUREDIR/sub_all
+    cp $ALCAPWORKROOT/configure/$GEOMFILE $GEOMDIR
     cp $ALCAPWORKROOT/configure/gen/$GENFILE $CONFIGUREDIR
     cp $ALCAPWORKROOT/configure/output/$OUT_CONFIG_FILE $CONFIGUREDIR
 
-    # Change the GEOMFILE so that it looks for the SUBGEOFILE in the CONFIGUREDIR
-    sed -i 's#'$SUBGEOMFILE'#'$CONFIGUREDIR'/'$SUBGEOMFILE'#' $CONFIGUREDIR/$GEOMFILE
+    while read -r line
+    do 
+	SUBGEOMFILE=`echo $line | grep sub | tr -s ' ' | cut -d ' ' -f 3`
+	if [[ $SUBGEOMFILE == *"sub"* ]]; then # Check that the subgeo file contains the string "sub"
+#	    echo $SUBGEOMFILE
+	    cp $ALCAPWORKROOT/configure/$SUBGEOMFILE $SUBGEOMDIR
+	    
+	    SUBGEOMNAME=`echo $SUBGEOMFILE | cut -d '/' -f 3`
+#	    echo $SUBGEOMNAME
+            # Change the GEOMFILE so that it looks for the SUBGEOFILEs in the CONFIGUREDIR
+	    sed -i 's#'$SUBGEOMFILE'#'$SUBGEOMDIR'/'$SUBGEOMNAME'#' $CONFIGUREDIR/$GEOMFILE
+	fi
+    done < "$ALCAPWORKROOT/configure/$GEOMFILE"
 
     # Now write the g4sim input macro
     echo "/control/getEnv ALCAPWORKROOT
