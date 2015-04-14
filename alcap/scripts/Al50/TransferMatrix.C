@@ -17,7 +17,6 @@ extern TSystem* gSystem;
 
 struct Arm {
   std::string detname;
-  std::string monname;
   RooUnfoldResponse response;
   int n_hits;
   int n_misses;
@@ -28,7 +27,7 @@ void TransferMatrix(std::string filename) {
   TFile* file = new TFile(filename.c_str(), "READ");
   TTree* tree = (TTree*) file->Get("tree");
   
-  double bin_width = 200;
+  double bin_width = 500;
   double energy_high = 25000;
   double energy_low = 0;
   int n_bins = (energy_high - energy_low) / bin_width;
@@ -37,13 +36,11 @@ void TransferMatrix(std::string filename) {
   Arm right_arm;
   Arm left_arm;
   right_arm.detname = "SiR";
-  right_arm.monname = "ESi1";
   std::string responsename = right_arm.detname + "_response";
   right_arm.response = RooUnfoldResponse(n_bins,energy_low,energy_high, responsename.c_str());
   right_arm.n_hits = 0;
   right_arm.n_misses = 0;
   left_arm.detname = "SiL";
-  left_arm.monname = "ESi2";
   responsename = left_arm.detname + "_response";
   left_arm.response = RooUnfoldResponse(n_bins,energy_low,energy_high, responsename.c_str());
   left_arm.n_hits = 0;
@@ -135,8 +132,8 @@ void TransferMatrix(std::string filename) {
 	
 	// Loop through the arms
 	for (std::vector<Arm>::iterator i_arm = arms.begin(); i_arm != arms.end(); ++i_arm) {
-	  std::string thick_monname = i_arm->monname;
-	  std::string thin_monname = "d"+i_arm->monname;
+	  std::string thick_monname = i_arm->detname + "2";
+	  std::string thin_monname = i_arm->detname + "1";
 
 	  if (i_particleName == "proton" && i_volName == thick_monname && stopped->at(iElement) == 1) {
 	    thick_hit = true;
