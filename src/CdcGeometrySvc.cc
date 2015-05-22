@@ -211,7 +211,8 @@ void CdcGeometrySvc::ConstructVolumes(){
 		G4ThreeVector centerVec(1.,1.,1.);
 		double layer_Rc = m_GeometryParameter->get_layer_Rc(ilayer);
 		double layer_Re = m_GeometryParameter->get_layer_Re(ilayer);
-//		printf("%d: %lf, %lf, %lf; %lf\n",ilayer,m_GeometryParameter->get_layer_phi0z(ilayer,-layer_length/2),m_GeometryParameter->get_layer_phi0z(ilayer,0),m_GeometryParameter->get_layer_phi0z(ilayer,layer_length/2),m_GeometryParameter->get_layer_SPhi(ilayer));
+		//FIXME: print out the position of wires on the downstream side
+		//printf("%d: %lf, %lf, %lf; %lf\n",ilayer,m_GeometryParameter->get_layer_phi0z(ilayer,-layer_length/2),m_GeometryParameter->get_layer_phi0z(ilayer,0),m_GeometryParameter->get_layer_phi0z(ilayer,layer_length/2),m_GeometryParameter->get_layer_SPhi(ilayer));
 		for ( int holeId = 0; holeId < HoleNo; holeId++ ){
 			//place wire
 			G4double phi0m = m_GeometryParameter->get_layer_phi0z(ilayer,0);

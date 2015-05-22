@@ -334,6 +334,7 @@ G4double _current, G4double _gradient) {
     field[5] = thisField[5] * normE * timeE * _gradient/gradient;
     // FIXME:
     //printf("@(%lf,%lf,%lf): (%lf,%lf,%lf)\n",local[2],local[1],7650-local[0],field[2],field[1],-field[0]);
+    //printf("@(%lf,%lf,%lf): (%lf,%lf,%lf)\n",local[0],local[1],local[2]-5952.5,field[0]*1000,field[1]*1000,field[2]*1000);
 }
 
 bool MyBLFieldMap::readFileROOT(G4String filename) {
@@ -881,6 +882,12 @@ const {
             mapEz[m+nY*nX+nX]*fx*(1.0-fy)*(1.0-fz) +
             mapEz[m+nY*nX+nX+1]*(1.0-fx)*(1.0-fy)*(1.0-fz);
 #endif                                            //STUB
+//    printf("@ %lf %lf %lf:\n",local[0],local[1],local[2]-5952.5,field[0]*1000,field[1]*1000,field[2]*1000);
+//    printf("  %lf %lf %lf %lf %lf %lf %lf %lf\n",mapBz[m]*1000,mapBz[m+1]*1000,mapBz[m+nX]*1000,mapBz[m+nX+1]*1000,mapBz[m+nY*nX]*1000,mapBz[m+nY*nX+1]*1000,mapBz[m+nY*nX+nX]*1000,mapBz[m+nY*nX+nX+1]*1000);
+//    printf("  %lf %lf %lf %lf %lf %lf %lf %lf\n",fx*fy*fz,(1.0-fx)*fy*fz,fx*(1.0-fy)*fz,(1.0-fx)*(1.0-fy)*fz,fx*fy*(1.0-fz),(1.0-fx)*fy*(1.0-fz),fx*(1.0-fy)*(1.0-fz),(1.0-fx)*(1.0-fy)*(1.0-fz));
+//    printf("  %d %d %d\n",i,j,k);
+//    printf("  %d %d %d %d %d %d %d %d\n",m,m+1,m+nX,m+nX+1,m+nY*nX,m+nY*nX+1,m+nY*nX+nX,m+nY*nX+nX+1);
+//    printf("  %lf %lf %lf\n",fx,fy,fz);
 
     field[0] = Bx * factor[0];
     field[1] = By * factor[1];
