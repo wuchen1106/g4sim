@@ -103,7 +103,7 @@ int CdcGeometryParameter::GetValue(G4String s_card){
 	std::string name;
 	buf_card>>name;
 	G4int tlayer_type, tlayer_ID, tlayer_firstWire, tlayer_HoleNo;
-	G4double tlayer_Re, tlayer_SkipHoles, tlayer_length;
+	G4double tlayer_Re, tlayer_SkipHoles, tlayer_length, tlayer_phi0;
 	std::string dump;
 	if( name == "MotherLogicalVolume:" ) buf_card>>MotherLogicalVolume;
 	else if( name == "LayerMaterial:" ) buf_card>>LayerMaterial;
@@ -138,7 +138,7 @@ int CdcGeometryParameter::GetValue(G4String s_card){
 	else{
 		std::stringstream buf_temp;
 		if( name == "F" || name == "S" || name == "G" ){
-			buf_card>>dump>>tlayer_ID>>tlayer_Re>>tlayer_length>>tlayer_HoleNo>>tlayer_SkipHoles>>tlayer_firstWire;
+			buf_card>>dump>>tlayer_ID>>tlayer_Re>>tlayer_length>>tlayer_HoleNo>>tlayer_SkipHoles>>tlayer_firstWire>>tlayer_phi0;
 			tlayer_length *= cm;
 			tlayer_Re *= cm;
 			if (name=="F")
@@ -153,6 +153,7 @@ int CdcGeometryParameter::GetValue(G4String s_card){
 			layer_HoleNo.push_back(tlayer_HoleNo);
 			layer_SkipHoles.push_back(tlayer_SkipHoles);
 			layer_firstWire.push_back(tlayer_firstWire);
+			layer_phi0.push_back(tlayer_phi0*degree);
 			LayerNo++;
 		}
 		else{
@@ -179,7 +180,7 @@ void CdcGeometryParameter::Calculate(){
 		layer_holeDphi[i]=2*pi/layer_HoleNo[i];
 		layer_angle4rotate[i]=layer_SkipHoles[i]*layer_holeDphi[i];
 		layer_angle4stereo[i]=atan(layer_Re[i]*sin(layer_angle4rotate[i]/2)*2/layer_length[i]);
-		layer_SPhi[i]=-layer_holeDphi[i]*layer_firstWire[i];
+		layer_SPhi[i]=-layer_holeDphi[i]*layer_firstWire[i]+layer_phi0[i];
 		layer_Rc[i]=layer_Re[i]*cos(layer_angle4rotate[i]/2);
 	}
 }
@@ -224,6 +225,7 @@ void CdcGeometryParameter::DumpInfo() {
 		<<std::setiosflags(std::ios::left)<<std::setw(5) <<""
 		<<std::setiosflags(std::ios::left)<<std::setw(5) <<""
 		<<std::setiosflags(std::ios::left)<<std::setw(6) <<""
+		<<std::setiosflags(std::ios::left)<<std::setw(6) <<"degree"
 		<<std::setiosflags(std::ios::left)<<std::setw(6) <<"rad"
 		<<std::setiosflags(std::ios::left)<<std::setw(6) <<"rad"
 		<<std::endl;
@@ -237,6 +239,7 @@ void CdcGeometryParameter::DumpInfo() {
 			<<std::setiosflags(std::ios::left)<<std::setw(5) <<layer_HoleNo[i]<<" "
 			<<std::setiosflags(std::ios::left)<<std::setw(5) <<layer_SkipHoles[i]<<" "
 			<<std::setiosflags(std::ios::left)<<std::setw(6) <<layer_firstWire[i]<<" "
+			<<std::setiosflags(std::ios::left)<<std::setw(6) <<layer_phi0[i]/degree<<" "
 			<<std::setiosflags(std::ios::left)<<std::setw(6) <<layer_angle4rotate[i]/rad<<" "
 			<<std::setiosflags(std::ios::left)<<std::setw(6) <<layer_angle4stereo[i]/rad<<" "
 			<<std::endl;

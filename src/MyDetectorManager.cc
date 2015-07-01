@@ -27,6 +27,7 @@
 //supported Svc
 #include "SimpleGeometrySvc.hh"
 #include "CdcGeometrySvc.hh"
+#include "CdcProtoGeometrySvc.hh"
 #include "CdcCellGeometrySvc.hh"
 
 #include "MyVGeometrySvc.hh"
@@ -129,6 +130,9 @@ void MyDetectorManager::ReadCard(G4String file_name){
 			else if( type == "CdcCell" ){
 				aGSvc = new CdcCellGeometrySvc( name );
 			}
+			else if( type == "CdcProto" ){
+				aGSvc = new CdcProtoGeometrySvc( name );
+			}
 			else{
 				std::cout<<"In MyDetectorManager::ReadCard, unsupported GeometrySvc type: "<<type<<"! Will ignore this line!"<<std::endl;
 			}
@@ -156,6 +160,9 @@ void MyDetectorManager::AddGeo(G4String name, G4String file, G4String type){
 	}
 	else if( type == "CdcCell" ){
 		aGSvc = new CdcCellGeometrySvc( name );
+	}
+	else if( type == "CdcProto" ){
+		aGSvc = new CdcProtoGeometrySvc( name );
 	}
 	else{
 		std::cout<<"In MyDetectorManager::ReadCard, unsupported GeometrySvc type: "<<type<<"! Will ignore this line!"<<std::endl;

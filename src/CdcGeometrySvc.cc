@@ -245,6 +245,21 @@ void CdcGeometrySvc::ConstructVolumes(){
 //			if (layer_type==1&&holeId%2==1) std::cout<<"wire["<<m_GeometryParameter->get_layer_ID(ilayer)<<","<<holeId/2<<"] @ up:"<<up/cm<<", down:"<<down/cm<<std::endl;
 		//FIXME
 			new G4PVPlacement(rotMatrix,centerVec,log_wire,Name,log_layer,false,0,checkOverlap);
+			//FIXME: print out the position of wires in the center
+			G4ThreeVector testVec(1.,1.,1.);
+			layer_length = 599.17*mm;
+			double testZ = -layer_length/2.;
+			testVec.setZ(0);
+			G4double testPhi = m_GeometryParameter->get_layer_phi0z(ilayer,testZ) + holeId*holeDphi;
+			testVec.setPhi(testPhi);
+			testVec.setPerp(m_GeometryParameter->get_layer_Rz(ilayer,testZ));
+			printf("%d %d %lf %lf",ilayer,holeId,testVec.x(),testVec.y());
+			printf(" %lf %lf",centerVec.x(),centerVec.y());
+			testZ = layer_length/2.;
+			testPhi = m_GeometryParameter->get_layer_phi0z(ilayer,testZ) + holeId*holeDphi;
+			testVec.setPhi(testPhi);
+			testVec.setPerp(m_GeometryParameter->get_layer_Rz(ilayer,testZ));
+			printf(" %lf %lf\n",testVec.x(),testVec.y());
 		}
 
 		//====>Place layer

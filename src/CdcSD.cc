@@ -579,10 +579,10 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	// how about corner effect?
 	double Rz = m_GeometryParameter->get_layer_Rz(senseLayerId,deltaZ);
 	double RzU = m_GeometryParameter->get_layer_Rz(senseLayerId+1,deltaZ);
-	if (holeId%2==0) // right part
-		posflag = 1;
-	else
-		posflag = -1;
+	//if (holeId%2==0) // right part
+	//	posflag = 1;
+	//else
+	//	posflag = -1;
 	if (m_GeometryParameter->get_layer_type(holeLayerId)==1){ // outer part of a cell
 		int holeIdU = (phi - phi0zU)/holeDphiU;
 		if (holeId%2==0){ // right part
@@ -695,6 +695,27 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	else if (action == 2){
 		if (edepIoni>minedeptemp){isPrimaryIon=true;}
 	}
+
+	// direction of the momentum;
+	G4ThreeVector mom_ori_dir = aTrack->GetVertexMomentumDirection();
+	// direction of sense wire
+	G4double phi0U = m_GeometryParameter->get_layer_phi0z(senseLayerId,-1);
+	G4double phi0D = m_GeometryParameter->get_layer_phi0z(senseLayerId,1);
+	double RU = m_GeometryParameter->get_layer_Rz(senseLayerId,-1);
+	double RD = m_GeometryParameter->get_layer_Rz(senseLayerId,1);
+	G4ThreeVector localWirePositionAtUpEndPlate = G4ThreeVector(1,1,1);
+	G4ThreeVector localWirePositionAtDownEndPlate = G4ThreeVector(1,1,1);
+	localWirePositionAtUpEndPlate.setZ(-1);
+	localWirePositionAtUpEndPlate.setPerp(RU);
+	localWirePositionAtUpEndPlate.setPhi((holeId/2*2+1)*holeDphi+phi0U);
+	localWirePositionAtDownEndPlate.setZ(1);
+	localWirePositionAtDownEndPlate.setPerp(RD);
+	localWirePositionAtDownEndPlate.setPhi((holeId/2*2+1)*holeDphi+phi0D);
+	G4ThreeVector wire_dir = localWirePositionAtDownEndPlate-localWirePositionAtUpEndPlate;
+	// from hit point to sense wire
+	G4ThreeVector hit2wire = localWirePositionAtHitPlane-localHitPosition;
+	double posflagD = (pointIn_mom.cross(wire_dir)).dot(hit2wire);
+	posflag = posflagD/fabs(posflagD);
 
 	//*******************generate or modify hit************************
 	if (action==1){ // this is a new hit
@@ -809,13 +830,12 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 			m_ot.push_back(ot);
 		}
 		if (flag_opx||flag_opy||flag_opz){
-			G4ThreeVector mom_dir = aTrack->GetVertexMomentumDirection();
 			G4double Ekin = aTrack->GetVertexKineticEnergy();
 			G4double mass = aTrack->GetDynamicParticle()->GetMass();
 			G4double mom = sqrt((mass+Ekin)*(mass+Ekin)-mass*mass);
-			double opx = mom*mom_dir.x()/unit_opx;
-			double opy = mom*mom_dir.y()/unit_opy;
-			double opz = mom*mom_dir.z()/unit_opz;
+			double opx = mom*mom_ori_dir.x()/unit_opx;
+			double opy = mom*mom_ori_dir.y()/unit_opy;
+			double opz = mom*mom_ori_dir.z()/unit_opz;
 			if (trackID==1){
 				void *result = pPrimaryGeneratorAction->get_extra("opx");
 				if (result) opx = *((double*)result)*mm/unit_opx;
@@ -931,13 +951,12 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 					m_ot[pointer] = ot;
 				}
 				if (flag_opx||flag_opy||flag_opz){
-					G4ThreeVector mom_dir = aTrack->GetVertexMomentumDirection();
 					G4double Ekin = aTrack->GetVertexKineticEnergy();
 					G4double mass = aTrack->GetDynamicParticle()->GetMass();
 					G4double mom = sqrt((mass+Ekin)*(mass+Ekin)-mass*mass);
-					double opx = mom*mom_dir.x()/unit_opx;
-					double opy = mom*mom_dir.y()/unit_opy;
-					double opz = mom*mom_dir.z()/unit_opz;
+					double opx = mom*mom_ori_dir.x()/unit_opx;
+					double opy = mom*mom_ori_dir.y()/unit_opy;
+					double opz = mom*mom_ori_dir.z()/unit_opz;
 					if (trackID==1){
 						void *result = pPrimaryGeneratorAction->get_extra("opx");
 						if (result) opx = *((double*)result)*mm/unit_opx;

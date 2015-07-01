@@ -189,6 +189,7 @@ class CdcGeometryParameter : public SimpleGeometryParameter
 		std::vector<G4double> layer_Rc;
 		std::vector<G4double> layer_Re;
 		std::vector<G4int> layer_firstWire;
+		std::vector<G4double> layer_phi0;
 		std::vector<G4int> layer_ID;
 		std::vector<G4double> layer_SPhi;
 		std::vector<G4double> layer_SkipHoles;

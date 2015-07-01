@@ -22,9 +22,10 @@
 #include "KillerSD.hh"
 
 //supported Svc
-#include "SimpleGeometrySvc.hh"
-#include "CdcGeometrySvc.hh"
-#include "CdcCellGeometrySvc.hh"
+#include "MyVGeometrySvc.hh"
+//#include "SimpleGeometrySvc.hh"
+//#include "CdcGeometrySvc.hh"
+//#include "CdcCellGeometrySvc.hh"
 
 #include "SimpleGeometryParameter.hh"
 
