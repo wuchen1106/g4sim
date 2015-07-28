@@ -75,6 +75,7 @@ M_SECTION
 	e              GeV
 	edep           GeV
 	edepAll        GeV
+	ekin	       GeV
 	stepL          cm
 	volID
 	volName
