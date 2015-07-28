@@ -5,13 +5,13 @@
 /control/execute {ALCAPWORKROOT}/macros/resetCut.mac
 
 # Get visualisation
-/control/execute {ALCAPWORKROOT}/macros/test_vis.mac
+#/control/execute {ALCAPWORKROOT}/macros/test_vis.mac
 
 # Set Output
 /g4sim/myAnalysisSvc/set_out_card output/output_default
 
 # Set Gen
-/g4sim/gun/ResetGen               gen/gen_mu_1.07_target_hist
+/g4sim/gun/ResetGen               gen/gen_mu_1.07_target_hist_higher-energy
 
 # Set Geo
 /g4sim/det/ReloadGeo              geometry_R2015b/andy_geometry_Al50_default
@@ -19,6 +19,6 @@
 #	For this run
 /random/setSeeds 5 6
 /g4sim/myAnalysisSvc/printModulo    10000
-/run/beamOn  50
+/run/beamOn  1000000
 
-/vis/ogl/printEPS
+#/vis/ogl/printEPS
