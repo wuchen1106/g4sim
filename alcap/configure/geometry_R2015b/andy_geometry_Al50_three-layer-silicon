@@ -15,7 +15,7 @@
 	PSI		Simple		    geometry_R2013/collimator/subgeo_collimator
 	PSI		Simple		    geometry_R2013/collimator/subgeo_col-mon
 
-	PSI 		Simple		    geometry_R2015b/detector_packages/subgeo_common-variables
+	PSI 		Simple		    geometry_R2015b/detector_packages/subgeo_common-variables_three-layer-silicon
 #	PSI 		Simple		    geometry_R2013/detector_packages/subgeo_left-detector-package_with-all-monitors
 	PSI 		Simple		    geometry_R2015b/detector_packages/subgeo_right-detector-package_with-all-monitors_three-layers
 
