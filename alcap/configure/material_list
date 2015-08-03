@@ -20,6 +20,7 @@ TYPE Elements
   Fe      Iron         26   55.845
 	Ni      Nickel       28   58.6934
 #	Mo      Molybdenum   42   95.96
+	Sn	Tin	     50	  118.710
 	I       Iodine       53   126.90447
 #	Pb      Lead         82   207.2
 
@@ -38,6 +39,7 @@ TYPE Simple_Materials
 	Germanium   32  72.630     5.323          1 
 	Strontium   38  87.62      2.64           1 
 	Molybdenum  42  95.96      10.28          1
+	Tin	    50	118.710	   7.365	  1	# density of white tin
 	Europium    63  151.964    5.264          1
 	Tungsten    74  183.84     19.3           1
 	Lead        82  207.2      11.35          1
