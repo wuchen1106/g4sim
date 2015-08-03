@@ -82,7 +82,7 @@ void AllProton_EvdE(std::string filename, bool three_layer = false) {
   TH2F* hEvdE_SiR_not_stopped_true = new TH2F("hEvdE_SiR_not_stopped_true", "hEvdE_SiR_not_stopped_true", n_bins_true_ekin,min_edep,max_true_ekin, n_bins_total_edep,min_edep,max_total_edep);
   hEvdE_SiR_not_stopped_true->SetMarkerColor(kBlue);
   hEvdE_SiR_not_stopped_true->SetMarkerStyle(7);
-  hEvdE_SiR_not_stopped_true->SetYTitle("E_{1} + E_{2} [keV]");
+  hEvdE_SiR_not_stopped_true->SetYTitle("E_{1} + E_{2} + E_{3} [keV]");
   hEvdE_SiR_not_stopped_true->GetYaxis()->SetTitleOffset(1.4);
   hEvdE_SiR_not_stopped_true->SetXTitle("Kinetic Energy at Thin Layer [keV]");
 
@@ -144,7 +144,7 @@ void AllProton_EvdE(std::string filename, bool three_layer = false) {
     }
     else if (combination.str() == "111000") { // three-layer hit and no stop
       hEvdE_SiR_ThreeHits_not_stopped->Fill(edep_layer[0]+edep_layer[1]+edep_layer[2], edep_layer[0]+edep_layer[1]);
-      //      hEvdE_SiR_ThreeHits_not_stopped_true->Fill(ekin_layer[0], edep_layer[0]+edep_layer[1]);
+      hEvdE_SiR_not_stopped_true->Fill(ekin_layer[0], edep_layer[0]+edep_layer[1]+edep_layer[2]);
     }
     else {
       std::cout << "Odd series of hits and stops: " << std::endl;
@@ -162,4 +162,7 @@ void AllProton_EvdE(std::string filename, bool three_layer = false) {
   TCanvas* c2 = new TCanvas("c2", "c2");
   hEvdE_SiR_ThreeHits_stopped->Draw();
   hEvdE_SiR_ThreeHits_not_stopped->Draw("SAMES");
+
+  TCanvas* c3 = new TCanvas("c3", "c3");
+  hEvdE_SiR_not_stopped_true->Draw();
 }
