@@ -225,15 +225,16 @@ void CdcProtoGeometrySvc::ConstructVolumes(){
 		//FIXME: print out the position of wires on the downstream side
 		//printf("%d: %lf, %lf, %lf; %lf\n",ilayer,m_GeometryParameter->get_layer_phi0z(ilayer,-layer_length/2),m_GeometryParameter->get_layer_phi0z(ilayer,0),m_GeometryParameter->get_layer_phi0z(ilayer,layer_length/2),m_GeometryParameter->get_layer_SPhi(ilayer));
 		for ( int holeId = 0; holeId < HoleNo; holeId++ ){
-			if (ilayer<=0) {if (holeId<189||holeId>206) continue;}
-			else if (ilayer<=2) {if (holeId<202||holeId>220) continue;}
-			else if (ilayer<=4) {if (holeId<194||holeId>212) continue;}
-			else if (ilayer<=6) {if (holeId<214||holeId>232) continue;}
-			else if (ilayer<=8) {if (holeId<206||holeId>226) continue;}
-			else if (ilayer<=10) {if (holeId<226||holeId>246) continue;}
-			else if (ilayer<=12) {if (holeId<218||holeId>240) continue;}
-			else if (ilayer<=14) {if (holeId<236||holeId>258) continue;}
-			else if (ilayer<=16) {if (holeId<230||holeId>251) continue;}
+			if (ilayer<=0) {if (holeId<377||holeId>394) continue;}
+			else if (ilayer<=2) {if (holeId<388&&holeId>10) continue;}
+			else if (ilayer<=4) {if (holeId<388||holeId>406) continue;}
+			else if (ilayer<=6) {if (holeId<412&&holeId>10) continue;}
+			else if (ilayer<=8) {if (holeId<410||holeId>430) continue;}
+			else if (ilayer<=10) {if (holeId<434&&holeId>10) continue;}
+			else if (ilayer<=12) {if (holeId<434&&holeId>0) continue;}
+			else if (ilayer<=14) {if (holeId<456&&holeId>10) continue;}
+			else if (ilayer<=15) {if (holeId<458||holeId>479) continue;}
+			else if (ilayer<=16) {if (holeId<457||holeId>478) continue;}
 			//place wire
 			G4double phi0m = m_GeometryParameter->get_layer_phi0z(ilayer,0);
 			G4double phiim = phi0m + holeId*holeDphi;
