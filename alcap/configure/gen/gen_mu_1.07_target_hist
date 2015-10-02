@@ -14,8 +14,8 @@
 #	             MeV
 #	MomAmp:      10
 #	MomSpread:   10
-	Ekin:      10
-	EkinSpread:   20
+	Ekin:      25
+	EkinSpread:   50
 #Default Position     x    y   z
 #	                  mm   mm  mm
 #	Position:         0    0  -355         

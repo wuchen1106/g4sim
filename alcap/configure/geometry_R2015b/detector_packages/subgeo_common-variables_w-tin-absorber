@@ -4,14 +4,19 @@
 DEFINE: thdESi		0.058 # Thickness of thin silicon detector
 DEFINE: thESi		1.5 # Thickness of thick silicon detector
 DEFINE: thPS		1 # Thickness of the veto scintillator on each arm
-DEFINE: thAbs		0.5 # Thickness of the absorber
+DEFINE: nAbs		1 # number of degrader foils
+DEFINE: thAbs		nAbs*0.25 # Thickness of the absorber
 DEFINE:	gAbs		1 # Gap between the absorber and the thin silicon detector
 DEFINE: gESi		1 # Gap between thin and thick silicon detectors
 DEFINE: gPS 		1 # Gap between thick silicon and the scintillator
-DEFINE: thPack		thPS+thESi+thdESi+thAbs+gPS+gESi+gAbs # Total thickness of Detector Packages
+DEFINE: thPack		thPS+thESi+thdESi+nAbs*thAbs+gPS+gESi+nAbs*gAbs+thESi+gESi # Total thickness of Detector Packages
 DEFINE: bXPack		50 # x-y Dimension of Detector Packages
 DEFINE: pRPack		120 # R position of Detector Packages
+
+# Layer configurations (# = silicon layer, d = degrader layer)
+# d123
 DEFINE: pZAbs		-thPack/2+thAbs/2 # Z position of the absorber (relative to detector package)
 DEFINE: pZdES		pZAbs+thAbs/2+gAbs+thdESi/2 # Z position of thin silicon detector (Relative to Detector Package)
 DEFINE: pZESi		pZdES+thdESi/2+gESi+thESi/2 # Z position of thick silicon detector (Relative to Detector Package)
-DEFINE: pZPS		pZESi+thESi/2+gPS+thPS/2 # Z position of veto scintillator (Relative to Detector Package)
+DEFINE: pZESi2		pZESi+thESi/2+gESi+thESi/2 # Z position of thick silicon detector (Relative to Detector Package)
+DEFINE: pZPS		pZESi2+thESi/2+gPS+thPS/2 # Z position of veto scintillator (Relative to Detector Package)
