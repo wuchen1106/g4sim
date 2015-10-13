@@ -7,11 +7,11 @@
 #	                                                                               P R       Phi   Z
 #	                                                                               S R       Phi   Theta  
 	B    bXPack bXPack thPack LeftDetBlock   1     ChamberIn VacuumPSI    none        P pRPack -90     Z0     0    90   0 
-	B    bXPack bXPack thAbs  AbsL		 1     LeftDetBlock Tin	      M/MonitorSD    0	     0	    pZAbs  0    0    0
+	B    bXPack bXPack thAbs  AbsL		 1     LeftDetBlock Vacuum       M/MonitorSD    0	     0	    pZAbs  0    0    0
 	B    bXPack bXPack thPS   ScL		 1     LeftDetBlock Scintillator M/MonitorSD 0       0      pZPS   0    0    0 
 	B    bXPack bXPack thESi  SiL3           1     LeftDetBlock Silicon      M/MonitorSD 0       0      pZESi2  0    0    0 
 	B    bXPack bXPack thESi  SiL2           1     LeftDetBlock Silicon      M/MonitorSD 0       0      pZESi  0    0    0 
-	B    bXPack bXPack thdESi SiL1           1     LeftDetBlock Silicon      M/MonitorSD 0       0      pZdES  0    0    0 
+	B    bXPack bXPack thdESi SiL1           1     LeftDetBlock Vacuum       M/MonitorSD 0       0      pZdES  0    0    0 
 
 #visual settings
 	VerboseLevel:    5
