@@ -11,7 +11,7 @@
 /g4sim/myAnalysisSvc/set_out_card output/output_default
 
 # Set Gen
-/g4sim/gun/ResetGen               gen/gen_mu_1.07_target_hist
+/g4sim/gun/ResetGen               gen/gen_mu_1.07_target_hist_actual-muons
 
 # Set Geo
 /g4sim/det/ReloadGeo              geometry_R2015b/andy_geometry_Al50_w-tin-absorbers
