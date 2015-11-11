@@ -161,10 +161,10 @@ int main(int argc,char** argv)
 #ifdef G4VIS_USE
 		// Initialize visualization
 		visManager->Initialize();
-		UImanager->ApplyCommand("/control/execute "+macros_dir+"/vis.mac"); 
+		UImanager->ApplyCommand("/control/execute "+macros_dir+"/vis.macro"); 
 #endif
 		if (ui->IsGUI())
-			UImanager->ApplyCommand("/control/execute "+macros_dir+"/gui.mac");
+			UImanager->ApplyCommand("/control/execute "+macros_dir+"/gui.macro");
 		ui->SessionStart();
 		delete ui;
 #endif
