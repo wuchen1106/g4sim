@@ -69,6 +69,8 @@
 //#include "HadronPhysicsQGSP_BERT.hh"
 //#include "HadronPhysicsQGSP_BERT_HP.hh"
 
+#include "G4OpticalPhysics.hh"
+
 #include "MyDecayPhysics.hh"
 #include "MyPionPhysics.hh"
 
@@ -103,7 +105,7 @@ PhysicsList::PhysicsList(int ver):  G4VModularPhysicsList()
 
   // Stopping Physics
 //  RegisterPhysics( new G4QStoppingPhysics(ver) );
-  //RegisterPhysics( new G4LHEPStoppingPhysics(ver) );
+//  RegisterPhysics( new G4LHEPStoppingPhysics(ver) );
 
   // Ion Physics
   RegisterPhysics( new G4IonPhysics(ver));
@@ -113,6 +115,14 @@ PhysicsList::PhysicsList(int ver):  G4VModularPhysicsList()
 
   // My Physics
   //RegisterPhysics( new MyPionPhysics(ver) );
+
+  // Optical processes
+  G4OpticalPhysics * pG4OpticalPhysics = new G4OpticalPhysics();
+  pG4OpticalPhysics->SetMaxNumPhotonsPerStep(2000);
+  pG4OpticalPhysics->SetMaxBetaChangePerStep(100);
+  pG4OpticalPhysics->SetScintillationYieldFactor(1);
+  pG4OpticalPhysics->SetTrackSecondariesFirst(kCerenkov,true);
+  RegisterPhysics(pG4OpticalPhysics);
 
 }
 

@@ -318,6 +318,34 @@ void MaterialSvc::AddMaterial( G4String content ){
 	}
 	// Display useful information
 	if (aMaterial){
+		if (aMaterial->GetName()=="Acrylic"){
+			G4double PhotonEnergy[13]={3.88*eV, 3.54*eV, 3.10*eV, 2.76*eV,
+				2.48*eV, 2.25*eV, 2.07*eV, 1.91*eV,
+				1.77*eV, 1.65*eV, 1.55*eV, 1.46*eV, 1.38*eV};
+			G4double RefractiveIndex3[13] = {1.5, 1.5, 1.5, 1.5,
+				1.5, 1.5, 1.5, 1.5,
+				1.5, 1.5, 1.5, 1.5, 1.5};
+			G4double Absorption3_trans[13]  = {0.700, 0.833, 0.911, 0.917,
+				0.921, 0.922, 0.922, 0.922,
+				0.921, 0.921, 0.921, 0.924, 0.902 };
+			G4double Absorption3[13];
+			for(int i=0; i < 13; i++){
+				Absorption3[i]  = -0.33*m/ log(Absorption3_trans[i]);//set absorption length. 
+			}
+			G4double Reflectivity3[13]  = {0.0, 0.0, 0.0, 0.0,
+				0.0, 0.0, 0.0, 0.0,
+				0.0, 0.0, 0.0, 0.0, 0.0};
+			G4double Efficiency3[13]    = {0.0, 0.0, 0.0, 0.0,
+				0.0, 0.0, 0.0, 0.0,
+				0.0, 0.0, 0.0, 0.0, 0.0};
+			//preliminary
+			G4MaterialPropertiesTable * myMPT3 = new G4MaterialPropertiesTable();
+			myMPT3->AddProperty("RINDEX",       PhotonEnergy, RefractiveIndex3,13);
+			myMPT3->AddProperty("ABSLENGTH",    PhotonEnergy, Absorption3,     13);
+			myMPT3->AddProperty("REFLECTIVITY", PhotonEnergy, Reflectivity3, 13);
+			myMPT3->AddProperty("EFFICIENCY", PhotonEnergy, Efficiency3, 13);
+			aMaterial->SetMaterialPropertiesTable(myMPT3);
+		}
 		double Z(0.),A(0.),Ionization(0.),Density(0.),Radlen(0.);
 		for(int i=0; i<aMaterial->GetElementVector()->size(); i++){
 			Z += (aMaterial->GetElement(i)->GetZ())*
