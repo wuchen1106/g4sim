@@ -60,6 +60,7 @@ class MonitorSD : public MySD
 		double Get_m_opz( int i ) { return m_opz[i]; }
 		double Get_m_ekin( int i ) { return m_ekin[i]; }
 		double Get_m_e( int i ) { return m_e[i]; }
+		int Get_m_nph( int i ) { return m_nph[i]; }
 		double Get_m_edep( int i ) { return m_edep[i]; }
 		double Get_m_edepAll( int i ) { return m_edepAll[i]; }
 		double Get_m_stepL( int i ) { return m_stepL[i]; }
@@ -166,6 +167,7 @@ class MonitorSD : public MySD
 		std::vector<double> m_opz;
 		std::vector<double> m_ekin;
 		std::vector<double> m_e;
+		std::vector<int>    m_nph;
 		std::vector<double> m_edep;
 		std::vector<double> m_edepAll;
 		std::vector<double> m_stepL;
@@ -266,6 +268,7 @@ class MonitorSD : public MySD
 		bool flag_opz;
 		bool flag_ekin;
 		bool flag_e;
+		bool flag_nph;
 		bool flag_edep;
 		bool flag_edepAll;
 		bool flag_stepL;
@@ -294,6 +297,7 @@ class MonitorSD : public MySD
 		G4double mint;
 		G4double maxt;
 		G4double minedep;
+		G4int minnph;
 		std::vector<int> white_list;
 		std::vector<int> black_list;
 };

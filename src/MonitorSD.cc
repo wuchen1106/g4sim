@@ -89,6 +89,7 @@ void MonitorSD::Initialize(G4HCofThisEvent* HCE)
 	m_opz.clear();
 	m_ekin.clear();
 	m_e.clear();
+	m_nph.clear();
 	m_edep.clear();
 	m_edepAll.clear();
 	m_stepL.clear();
@@ -138,6 +139,7 @@ void MonitorSD::SetBranch(){
 	if( flag_opz ) myRoot->SetBranch(volName+"_opz", &m_opz);
 	if( flag_ekin ) myRoot->SetBranch(volName+"_ekin", &m_ekin);
 	if( flag_e ) myRoot->SetBranch(volName+"_e", &m_e);
+	if( flag_nph) myRoot->SetBranch(volName+"_nph", &m_nph);
 	if( flag_edep ) myRoot->SetBranch(volName+"_edep", &m_edep);
 	if( flag_edepAll ) myRoot->SetBranch(volName+"_edepAll", &m_edepAll);
 	if( flag_stepL ) myRoot->SetBranch(volName+"_stepL", &m_stepL);
@@ -226,6 +228,7 @@ void MonitorSD::ReadOutputCard(G4String filename){
 			else if( name == "opz" ) {{flag_opz = true; buf_card>>unitName_opz; unit_opz = MyString2Anything::get_U(unitName_opz);}}
 			else if( name == "ekin" ) {{flag_ekin = true; buf_card>>unitName_ekin; unit_ekin = MyString2Anything::get_U(unitName_ekin);}}
 			else if( name == "e" ) {{flag_e = true; buf_card>>unitName_e; unit_e = MyString2Anything::get_U(unitName_e);}}
+			else if( name == "nph" ) {flag_nph= true;}
 			else if( name == "edep" ) {{flag_edep = true; buf_card>>unitName_edep; unit_edep = MyString2Anything::get_U(unitName_edep);}}
 			else if( name == "edepAll" ) {{flag_edepAll = true; buf_card>>unitName_edepAll; unit_edepAll = MyString2Anything::get_U(unitName_edepAll);}}
 			else if( name == "stepL" ) {{flag_stepL = true; buf_card>>unitName_stepL; unit_stepL = MyString2Anything::get_U(unitName_stepL);}}
@@ -279,6 +282,7 @@ void MonitorSD::ReadOutputCard(G4String filename){
 				para *= MyString2Anything::get_U(unit);
 				if( name == "minp" ) minp = para;
 				else if( name == "mine" ) mine = para;
+				else if ( name == "minnph" ) minnph = para;
 				else if ( name == "minedep" ) minedep = para;
 				else if( name == "mint" ) mint = para;
 				else if( name == "maxt" ) maxt = para;
@@ -340,6 +344,7 @@ void MonitorSD::ReSet(){
 	flag_opz = false;
 	flag_ekin = false;
 	flag_e = false;
+	flag_nph = false;
 	flag_edep = false;
 	flag_edepAll = false;
 	flag_stepL = false;
@@ -367,6 +372,7 @@ void MonitorSD::ReSet(){
 	mint = 0;
 	maxt = 0;
 	tres = 0;
+	minnph = 1;
 	minedep = -1*MeV;
 	white_list.clear();
 	black_list.clear();
@@ -458,6 +464,7 @@ void MonitorSD::ShowOutCard(){
 	std::cout<<"output opz?     "<<(flag_opz?" yes":" no")<<", unit: "<<unitName_opz<<std::endl;
 	std::cout<<"output ekin?     "<<(flag_ekin?" yes":" no")<<", unit: "<<unitName_ekin<<std::endl;
 	std::cout<<"output e?       "<<(flag_e?" yes":" no")<<", unit: "<<unitName_e<<std::endl;
+	std::cout<<"output nph?    "<<(flag_nph?" yes":" no")<<std::endl;
 	std::cout<<"output edep?    "<<(flag_edep?" yes":" no")<<", unit: "<<unitName_edep<<std::endl;
 	std::cout<<"output edepAll? "<<(flag_edepAll?" yes":" no")<<", unit: "<<unitName_edepAll<<std::endl;
 	std::cout<<"output stepL?   "<<(flag_stepL?" yes":" no")<<", unit: "<<unitName_stepL<<std::endl;
@@ -485,6 +492,7 @@ void MonitorSD::ShowOutCard(){
 	std::cout<<"mint =          "<<mint/ns<<"ns"<<std::endl;
 	std::cout<<"maxt =          "<<maxt/ns<<"ns"<<std::endl;
 	std::cout<<"tres =          "<<tres/ns<<"ns"<<std::endl;
+	std::cout<<"minnph =        "<<minnph<<std::endl;
 	std::cout<<"minedep =       "<<minedep/MeV<<"MeV"<<std::endl;
 	std::cout<<"white list:     "<<std::endl;
 	for ( int i = 0; i< white_list.size(); i++){
@@ -540,6 +548,14 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	G4double edepNonIoni = aStep->GetNonIonizingEnergyDeposit();
 	G4double edepIoni = edep - edepNonIoni;
 	G4double stepL = aStep->GetStepLength();
+	G4int nph = 0;
+	G4int nsec = aStep->GetSecondaryInCurrentStep()->size();
+	for (int isec = 0; isec<nsec; isec++){
+		if ((*(aStep->GetSecondaryInCurrentStep()))[isec]->GetParticleDefinition()->GetPDGEncoding()==0
+			&&(*(aStep->GetSecondaryInCurrentStep()))[isec]->GetCreatorProcess()
+			&&(*(aStep->GetSecondaryInCurrentStep()))[isec]->GetCreatorProcess()->GetProcessName()=="Cerenkov")
+			nph++;
+	}
 
 	//*************************filter***********************
 	//switch
@@ -582,7 +598,10 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	if ( pointIn_time > maxt && maxt ) return false;
 
 	//minedep
-	if( edepIoni <= minedep ) return false;
+	if( minedep>0&&edepIoni <= 0) return false;
+
+	//minnph
+	if( minnph>0&&nph <= 0 ) return false;
 
 	//****************************Stopped or not****************************************
 //	std::cout<<"tid("<<trackID
@@ -681,6 +700,7 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		if(flag_ekin) m_ekin.push_back(ekin/unit_ekin);
 		if(flag_e) m_e.push_back(total_e/unit_e);
 		if(flag_edep) m_edep.push_back(edepIoni/unit_edep);
+		if(flag_nph) m_nph.push_back(nph);
 		if(flag_edepAll) m_edepAll.push_back(edep/unit_edepAll);
 		if(flag_stepL) m_stepL.push_back(stepL/unit_stepL);
 		m_volID.push_back(ReplicaNo);
@@ -801,6 +821,7 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 			if(flag_killed&&killed) m_killed[index] = killed;// modify only if it got killed at this step
 		}
 		if(flag_edep) m_edep[index] += edepIoni/unit_edep;
+		if(flag_nph) m_nph[index] += nph;
 		if(flag_edepAll) m_edepAll[index] += edep/unit_edepAll;
 	}
 	return true;
