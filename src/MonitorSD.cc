@@ -372,7 +372,7 @@ void MonitorSD::ReSet(){
 	mint = 0;
 	maxt = 0;
 	tres = 0;
-	minnph = 1;
+	minnph = 0;
 	minedep = -1*MeV;
 	white_list.clear();
 	black_list.clear();
