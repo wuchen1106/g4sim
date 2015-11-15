@@ -77,7 +77,6 @@ void CdcGeometrySvc::ConstructVolumes(){
 	G4String LayerMatName=m_GeometryParameter->get_LayerMaterial();
 	G4LogicalVolume* log_CdcContainer = get_logicalVolume(MVol_name);
 	G4VSensitiveDetector* aSD = MyDetectorManager::GetMyDetectorManager()->GetSD(SDVolumeName, SD_name, const_cast<CdcGeometrySvc*>(this) );
-	// FIXME
 	G4VSensitiveDetector* bSD = MyDetectorManager::GetMyDetectorManager()->GetSD("wire", "MonitorSD", const_cast<CdcGeometrySvc*>(this) );
 	G4UserLimits* stepLimit = new G4UserLimits(m_GeometryParameter->get_MaxStepLength());
 	//get wire info
@@ -192,7 +191,7 @@ void CdcGeometrySvc::ConstructVolumes(){
 		G4LogicalVolume * log_layer = new G4LogicalVolume(sol_layer,LayerMat,"CdcLayer",0,0,0);
 		if (layer_type == 1 || (layer_type == 0 && m_GeometryParameter->get_layer_type(ilayer+1) ==1) ){
 			log_layer->SetSensitiveDetector( aSD );
-			// FIXME
+			// FIXME add limit to layers
 			log_layer->SetUserLimits(stepLimit);
 		}
 		//visual option
@@ -226,7 +225,7 @@ void CdcGeometrySvc::ConstructVolumes(){
 				log_wire = log_FieldWire;
 				Name = "CdcFieldWire";
 			}
-			//FIXME
+			// FIXME add SD to wires
 			//log_wire->SetSensitiveDetector( bSD );
 			centerVec.setZ(0);
 			centerVec.setPhi(phiim);
@@ -246,25 +245,25 @@ void CdcGeometrySvc::ConstructVolumes(){
 		//FIXME
 			new G4PVPlacement(rotMatrix,centerVec,log_wire,Name,log_layer,false,0,checkOverlap);
 			//FIXME: print out the position of wires in the center
-			G4ThreeVector testVec(1.,1.,1.);
-			layer_length = 599.17*mm;
-			double testZ = -layer_length/2.;
-			testVec.setZ(0);
-			G4double testPhi = m_GeometryParameter->get_layer_phi0z(ilayer,testZ) + holeId*holeDphi;
-			testVec.setPhi(testPhi);
-			testVec.setPerp(m_GeometryParameter->get_layer_Rz(ilayer,testZ));
-			printf("%d %d %lf %lf",ilayer,holeId,testVec.x(),testVec.y());
-			printf(" %lf %lf",centerVec.x(),centerVec.y());
-			testZ = layer_length/2.;
-			testPhi = m_GeometryParameter->get_layer_phi0z(ilayer,testZ) + holeId*holeDphi;
-			testVec.setPhi(testPhi);
-			testVec.setPerp(m_GeometryParameter->get_layer_Rz(ilayer,testZ));
-			printf(" %lf %lf\n",testVec.x(),testVec.y());
+//			G4ThreeVector testVec(1.,1.,1.);
+//			layer_length = 599.17*mm;
+//			double testZ = -layer_length/2.;
+//			testVec.setZ(0);
+//			G4double testPhi = m_GeometryParameter->get_layer_phi0z(ilayer,testZ) + holeId*holeDphi;
+//			testVec.setPhi(testPhi);
+//			testVec.setPerp(m_GeometryParameter->get_layer_Rz(ilayer,testZ));
+//			printf("%d %d %lf %lf",ilayer,holeId,testVec.x(),testVec.y());
+//			printf(" %lf %lf",centerVec.x(),centerVec.y());
+//			testZ = layer_length/2.;
+//			testPhi = m_GeometryParameter->get_layer_phi0z(ilayer,testZ) + holeId*holeDphi;
+//			testVec.setPhi(testPhi);
+//			testVec.setPerp(m_GeometryParameter->get_layer_Rz(ilayer,testZ));
+//			printf(" %lf %lf\n",testVec.x(),testVec.y());
 		}
 
 		//====>Place layer
 		// FIXME should read this position parameter later
-		new G4PVPlacement(0,G4ThreeVector(0,0,-125*mm),log_layer,"CdcLayer",log_CdcContainer,false,ilayer,checkOverlap);
+		new G4PVPlacement(0,G4ThreeVector(0,0,-122.5*mm),log_layer,"CdcLayer",log_CdcContainer,false,ilayer,checkOverlap);
 	}//end loop in layers
 }
 
