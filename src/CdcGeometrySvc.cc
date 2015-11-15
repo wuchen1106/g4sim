@@ -129,7 +129,7 @@ void CdcGeometrySvc::ConstructVolumes(){
 		startAngle=0.*deg;
 		spanAngle=360.*deg;
 		innerR = 0.;
-		double layer_length = m_GeometryParameter->get_layer_length(ilayer);
+		double layer_length = m_GeometryParameter->get_layer_length(ilayer) - 0.1*mm; // added 1 um safty margine 
 		halfzlen = layer_length/2/cos(angle4stereo) - FieldWireR;
 		if ( get_VerboseLevel() >=10 ){
 			std::cout<<"sol_Wire: innerR = "<<innerR/mm
