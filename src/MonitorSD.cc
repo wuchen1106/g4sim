@@ -774,7 +774,7 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 			double ot;
 			ot = McTruthSvc::GetMcTruthSvc()->tid2time(trackID)/unit_ot;
 			if (trackID==1){
-				void *result = pPrimaryGeneratorAction->get_extra("ox");
+				void *result = pPrimaryGeneratorAction->get_extra("ot");
 				if (result) ot = *((double*)result)*ns/unit_ot;
 			}
 			m_ot.push_back(ot);
