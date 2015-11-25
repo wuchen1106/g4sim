@@ -149,7 +149,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 		G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
 		G4ParticleDefinition* particle = particleTable->FindParticle(root_int[0]);
 		if (!particle){
-			std::cout<<"ERROR: In PrimaryGeneratorAction::PrimaryGeneratorAction() Cannot find particle "<<root_int[0]<<"!!! Will use geantino"<<std::endl;
+			std::cout<<"ERROR: In PrimaryGeneratorAction::PrimaryGeneratorAction() Cannot find particle "<<root_int[0]<<"!!! Will use default: "<<ParticleName<<std::endl;
 //			G4Exception("PrimaryGeneratorAction::PrimaryGeneratorAction()","Run0031",
 //					FatalException, "Cannot find particle.");
 			particle = particleTable->FindParticle(ParticleName);
