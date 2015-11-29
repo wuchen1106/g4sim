@@ -30,6 +30,8 @@
 
 #include "TFile.h"
 #include "TH1D.h"
+#include "TH1F.h"
+#include "TF1.h"
 #include "TCanvas.h"
 #include "TChain.h"
 
@@ -163,6 +165,11 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
 	if ( EnergyMode == "histo"){
 		G4double mom = EM_hist->GetRandom() * MeV;
+		G4double ekin = sqrt(mom*mom+mass*mass)-mass;
+		particleGun->SetParticleEnergy(ekin);
+	}
+	else if ( EnergyMode == "func"){
+		G4double mom = EM_func->GetRandom() * MeV;
 		G4double ekin = sqrt(mom*mom+mass*mass)-mass;
 		particleGun->SetParticleEnergy(ekin);
 	}
@@ -480,7 +487,7 @@ void PrimaryGeneratorAction::BuildHistoFromFile(){
 	if (dir_name[dir_name.size()-1] != '/') dir_name.append("/");
 
 	// EnergyMode
-	if (EnergyMode=="histo"){
+	if (EnergyMode=="histo"||EnergyMode=="func"){
 		G4String full_infile_name = dir_name +  EM_hist_filename;
 //		if (fp) delete fp;
 		fp = new TFile(full_infile_name.c_str());
@@ -490,14 +497,26 @@ void PrimaryGeneratorAction::BuildHistoFromFile(){
 					"InvalidInput", FatalException,
 					"Can not find file");
 		}
-		TH1F* h = (TH1F*)fp->Get(EM_hist_histname.c_str());
-		if(h==NULL){
-			std::cout<<"ERROR: Can not find file: "<<full_infile_name<<"!!!"<<std::endl;
-			G4Exception("PrimaryGeneratorAction::BuildHistoFromFile()",
-					"InvalidInput", FatalException,
-					"Can not find file");
+		if (EnergyMode == "histo"){
+			TH1F* h = (TH1F*)fp->Get(EM_hist_histname.c_str());
+			if(h==NULL){
+				std::cout<<"ERROR: Can not find file: "<<full_infile_name<<"!!!"<<std::endl;
+				G4Exception("PrimaryGeneratorAction::BuildHistoFromFile()",
+						"InvalidInput", FatalException,
+						"Can not find file");
+			}
+			EM_hist = h;
 		}
-		EM_hist = h;
+		else if (EnergyMode == "func"){
+			TF1* h = (TF1*)fp->Get(EM_hist_funcname.c_str());
+			if(h==NULL){
+				std::cout<<"ERROR: Can not find file: "<<full_infile_name<<"!!!"<<std::endl;
+				G4Exception("PrimaryGeneratorAction::BuildFuncFromFile()",
+						"InvalidInput", FatalException,
+						"Can not find file");
+			}
+			EM_func = h;
+		}
 	}
 
 	// DirectionMode
@@ -754,6 +773,9 @@ void PrimaryGeneratorAction::ReadCard(G4String file_name){
 		else if ( keyword == "EMHHN:" ){
 			buf_card>>EM_hist_histname;
 		}
+		else if ( keyword == "EMHFCN:" ){
+			buf_card>>EM_hist_funcname;
+		}
 		else if ( keyword == "DMHFN:" ){
 			buf_card>>DM_hist_filename;
 		}
@@ -812,6 +834,7 @@ void PrimaryGeneratorAction::Reset(){
 	ParticleName = "chargedgeantino";
 	EM_hist_filename = "";
 	EM_hist_histname = "";
+	EM_hist_funcname = "";
 	DM_hist_filename = "";
 	DM_hist_histname = "";
 	root_filename = "";
@@ -848,6 +871,7 @@ void PrimaryGeneratorAction::Reset(){
 	Etheta = 0;
 	Epsi = 0;
 	EM_hist = 0;
+	EM_func = 0;
 	DM_hist = 0;
 	root_num = 0;
 	root_index = 0;
@@ -905,7 +929,7 @@ void PrimaryGeneratorAction::Initialize(){
 	particleGun->SetParticlePosition(G4ThreeVector(x,y,z));
 	particleGun->SetParticleTime(t);
 
-	if (EnergyMode == "histo" || DirectionMode == "histo" ){
+	if (EnergyMode == "histo" || EnergyMode == "func" || DirectionMode == "histo" ){
 		BuildHistoFromFile();
 	}
 	UseRoot = false;
@@ -969,6 +993,7 @@ void PrimaryGeneratorAction::Dump(){
 	std::cout<<"ThetaMode:                                    "<<ThetaMode<<std::endl;
 	std::cout<<"File Name for EnergyMode = histo:             "<<EM_hist_filename<<std::endl;
 	std::cout<<"Histogram Name for EnergyMode = histo:        "<<EM_hist_histname<<std::endl;
+	std::cout<<"Function Name for EnergyMode = func:          "<<EM_hist_funcname<<std::endl;
 	std::cout<<"File Name for DirectionMode = histo:          "<<DM_hist_filename<<std::endl;
 	std::cout<<"Histogram Name for DirectionMode = histo:     "<<DM_hist_histname<<std::endl;
 	std::cout<<"File Name for Energy/Position/TimeMode = root: "<<root_filename<<std::endl;

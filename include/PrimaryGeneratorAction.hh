@@ -22,6 +22,7 @@ class PrimaryGeneratorMessenger;
 class TChain;
 class TFile;
 class TH1F;
+class TF1;
 class G4ParticleDefinition;
 
 class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
@@ -55,6 +56,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
 		void set_pidMode(G4String val) { pidMode= val; }
 		void set_EM_hist_filename(G4String val) { EM_hist_filename= val; }
 		void set_EM_hist_histname(G4String val) { EM_hist_histname= val; }
+		void set_EM_hist_funcname(G4String val) { EM_hist_funcname= val; }
 		void set_DM_hist_filename(G4String val) { DM_hist_filename= val; }
 		void set_DM_hist_histname(G4String val) { DM_hist_histname= val; }
 		void set_root_filename(G4String val) { root_filename= val; }
@@ -123,8 +125,10 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
 
 		//For EnergyMode
 		TH1F*                      EM_hist;
+		TF1*                       EM_func;
 		G4String                   EM_hist_filename;
 		G4String                   EM_hist_histname;
+		G4String                   EM_hist_funcname;
 		TH1F*                      DM_hist;
 		G4String                   DM_hist_filename;
 		G4String                   DM_hist_histname;
