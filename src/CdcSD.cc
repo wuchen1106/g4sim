@@ -133,8 +133,6 @@ void CdcSD::Initialize(G4HCofThisEvent* HCE)
 	//initialize for filter
 	nTracks = 0;
 	prevTrackID = -100;
-	precellID = -1;
-	prelayerID = -1;
 }
 
 //-----------------------------------SetBranch----------------------------------------------
@@ -550,59 +548,59 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	G4double driftV = 0.025*mm/ns;
 	G4double driftT;
 	G4double signalT;
-	// to get layerID and cellID
-	G4int layerID, cellID;
-	G4int holeLayerID, holeID, senseLayerID;
+	// to get layerId and cellId
+	G4int layerId, cellId;
+	G4int holeLayerId, holeId, senseLayerId;
 	// which layer?
 	const G4VTouchable *touchable = prePoint->GetTouchable();
-	holeLayerID= touchable->GetReplicaNumber(0);
-	layerID=m_GeometryParameter->get_layer_ID(holeLayerID);
-	if (m_GeometryParameter->get_layer_type(holeLayerID)==1){ // outer part of a cell
-		senseLayerID = holeLayerID;
+	holeLayerId= touchable->GetReplicaNumber(0);
+	layerId=m_GeometryParameter->get_layer_ID(holeLayerId);
+	if (m_GeometryParameter->get_layer_type(holeLayerId)==1){ // outer part of a cell
+		senseLayerId = holeLayerId;
 	}
 	else{
-		senseLayerID = holeLayerID+1;
+		senseLayerId = holeLayerId+1;
 	}
 	// get layer info
 	G4double phi = localHitPosition.phi();
 	if(phi<0) phi = 2*pi+phi; // (-pi,pi) => (0,2*pi)
-	G4double Length = m_GeometryParameter->get_layer_length(senseLayerID);
-	G4double phi0z = m_GeometryParameter->get_layer_phi0z(senseLayerID,deltaZ);
-	G4double phi0zU = m_GeometryParameter->get_layer_phi0z(senseLayerID+1,deltaZ);
+	G4double Length = m_GeometryParameter->get_layer_length(senseLayerId);
+	G4double phi0z = m_GeometryParameter->get_layer_phi0z(senseLayerId,deltaZ);
+	G4double phi0zU = m_GeometryParameter->get_layer_phi0z(senseLayerId+1,deltaZ);
 	// which cell?
-	int HoleNo = m_GeometryParameter->get_layer_HoleNo(senseLayerID);
-	double holeDphi = m_GeometryParameter->get_layer_holeDphi(senseLayerID);
-	double holeDphiU = m_GeometryParameter->get_layer_holeDphi(senseLayerID+1);
-	holeID = (phi-phi0z)/holeDphi;
-//	std::cout<<"holeID = "<<(phi-phi0z)/pi<<"/"<<holeDphi/pi<<" = "<<holeID<<std::endl;
+	int HoleNo = m_GeometryParameter->get_layer_HoleNo(senseLayerId);
+	double holeDphi = m_GeometryParameter->get_layer_holeDphi(senseLayerId);
+	double holeDphiU = m_GeometryParameter->get_layer_holeDphi(senseLayerId+1);
+	holeId = (phi-phi0z)/holeDphi;
+//	std::cout<<"holeId = "<<(phi-phi0z)/pi<<"/"<<holeDphi/pi<<" = "<<holeId<<std::endl;
 //	std::cout<<"HoleNo = "<<HoleNo<<std::endl;
-	if (holeID<0) holeID+=HoleNo;
-	else if (holeID>=HoleNo) holeID-=HoleNo;
+	if (holeId<0) holeId+=HoleNo;
+	else if (holeId>=HoleNo) holeId-=HoleNo;
 	// how about corner effect?
-	double Rz = m_GeometryParameter->get_layer_Rz(senseLayerID,deltaZ);
-	double RzU = m_GeometryParameter->get_layer_Rz(senseLayerID+1,deltaZ);
-	//if (holeID%2==0) // right part
+	double Rz = m_GeometryParameter->get_layer_Rz(senseLayerId,deltaZ);
+	double RzU = m_GeometryParameter->get_layer_Rz(senseLayerId+1,deltaZ);
+	//if (holeId%2==0) // right part
 	//	posflag = 1;
 	//else
 	//	posflag = -1;
-	if (m_GeometryParameter->get_layer_type(holeLayerID)==1){ // outer part of a cell
-		int holeIDU = (phi - phi0zU)/holeDphiU;
-		if (holeID%2==0){ // right part
+	if (m_GeometryParameter->get_layer_type(holeLayerId)==1){ // outer part of a cell
+		int holeIdU = (phi - phi0zU)/holeDphiU;
+		if (holeId%2==0){ // right part
 			//   o u1 o u0
 			//         .
 			//     x m1 o m0
 			//
 			//     o    o
-			holeIDU++;
-			double phi_u0 = holeIDU*holeDphiU+phi0zU;
-			double phi_m0 = holeID*holeDphi+phi0z;
+			holeIdU++;
+			double phi_u0 = holeIdU*holeDphiU+phi0zU;
+			double phi_m0 = holeId*holeDphi+phi0z;
 			if (phi_u0<0.5*holeDphi+phi_m0){
 				double delta_r = localHitPosition.perp() - Rz;
 				double delta_r2 = RzU - Rz;
 				double delta_phi = phi - phi_m0;
 				double delta_phi2 = phi_u0 - phi_m0;
 				if (delta_r*delta_phi2>delta_r2*delta_phi){
-					holeID--;
+					holeId--;
 				}
 			}
 		}
@@ -612,30 +610,30 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 			//     o m0 x m1
 			//
 			//     o    o
-			double phi_u0 = holeIDU*m_GeometryParameter->get_layer_holeDphi(senseLayerID+1)+phi0zU;
-			double phi_m0 = (holeID+1)*holeDphi+phi0z;
+			double phi_u0 = holeIdU*m_GeometryParameter->get_layer_holeDphi(senseLayerId+1)+phi0zU;
+			double phi_m0 = (holeId+1)*holeDphi+phi0z;
 			if (phi_u0>-0.5*holeDphi+phi_m0){
 				double delta_r = localHitPosition.perp() - Rz;
 				double delta_r2 = RzU - Rz;
 				double delta_phi =  - phi + phi_m0;
 				double delta_phi2 =  - phi_u0 + phi_m0;
 				if (delta_r*delta_phi2>delta_r2*delta_phi){
-					holeID++;
+					holeId++;
 				}
 			}
 		}
 	}
-	if (holeID<0) holeID+=HoleNo;
-	else if (holeID>=HoleNo) holeID-=HoleNo;
-	cellID = holeID/2;
+	if (holeId<0) holeId+=HoleNo;
+	else if (holeId>=HoleNo) holeId-=HoleNo;
+	cellId = holeId/2;
 	//*************************calculate driftD, driftT****************************
 	// position of sense wire at that z plane
 	G4ThreeVector localWirePositionAtHitPlane = G4ThreeVector(1,1,1);
 	localWirePositionAtHitPlane.setZ(deltaZ);
 	localWirePositionAtHitPlane.setPerp(Rz);
-	localWirePositionAtHitPlane.setPhi((holeID/2*2+1)*holeDphi+phi0z);
+	localWirePositionAtHitPlane.setPhi((holeId/2*2+1)*holeDphi+phi0z);
 	driftD = (localHitPosition-localWirePositionAtHitPlane).perp();
-//	std::cout<<"["<<layerID<<","<<cellID<<"]: driftD = "<<localHitPosition/cm<<"-"<<localWirePositionAtHitPlane/cm<<"="<<driftD/cm<<std::endl;
+//	std::cout<<"["<<layerId<<","<<cellId<<"]: driftD = "<<localHitPosition/cm<<"-"<<localWirePositionAtHitPlane/cm<<"="<<driftD/cm<<std::endl;
 
 	G4double vc = 299792458*m/s; // m/s
 	G4double wiredelay = (Length/2-deltaZ)/vc;
@@ -652,41 +650,33 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	G4double pretstart  = -1;
 	double minedeptemp = G4UniformRand()*minedep;
 //	std::cout<<"minedeptemp = "<<minedeptemp/keV<<std::endl;
-//	std::cout<<"@ ["<<layerID<<"]["<<cellID<<"]"<<std::endl;
-	if (prevTrackID==trackID&&prelayerID==layerID&&precellID==cellID){// still in the same cell
-		action = 2;
-	}
-	else{
-		if (hitPointer[layerID][cellID] != -1){ // There is a pulse in this same cell
-			pointer=hitPointer[layerID][cellID];
-//			std::cout<<"hitPointer["<<layerID<<"]["<<cellID<<"] = "<<pointer<<std::endl;
-			pretstop = m_tstop[pointer]*unit_tstop;
-			pretstart  = m_tstart[pointer]*unit_tstart;
-//			if (trackID==m_tid[pointer]&&tres&&signalT-pretstop<tres&&pretstart-signalT<tres) {
-			if (tres==0||(signalT<pretstart-tres||signalT>pretstop+tres)){ // this can be a new hit
-				action = 1;
-			}
-			else{
-				action = 2;
-			}
-		}
-		else{
+//	std::cout<<"@ ["<<layerId<<"]["<<cellId<<"]"<<std::endl;
+	if (hitPointer[layerId][cellId] != -1){ // There is a pulse in this same cell
+		pointer=hitPointer[layerId][cellId];
+//		std::cout<<"hitPointer["<<layerId<<"]["<<cellId<<"] = "<<pointer<<std::endl;
+		pretstop = m_tstop[pointer]*unit_tstop;
+		pretstart  = m_tstart[pointer]*unit_tstart;
+//		if (trackID==m_tid[pointer]&&tres&&signalT-pretstop<tres&&pretstart-signalT<tres) {
+		if (tres>=0&&(signalT<pretstart-tres||signalT>pretstop+tres)){ // this can be a new hit
 			action = 1;
 		}
+		else{
+			action = 2;
+		}
 	}
-	if ( trackID != prevTrackID ){
-		prevTrackID = trackID;
-		nTracks++;
+	else{
+		action = 1;
 	}
-	prelayerID = layerID;
-	precellID = cellID;
-
 	// further cut
 	if (action == 0) return false; // pass
 	else if (action == 1){
 		//maxn
 		if ( maxn && cdc_nHits >= maxn ) return false;
 		//ntracks
+		if ( trackID != prevTrackID ){
+			prevTrackID = trackID;
+			nTracks++;
+		}
 		if ( nTracks > ntracks && ntracks) return false;
 		//minp
 		if ( minp && pointIn_pa < minp ) return false;
@@ -701,8 +691,6 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 //		std::cout<<"edepIoni = "<<edepIoni<<std::endl;
 		if (edepIoni<=minedeptemp) return false;
 //		std::cout<<"Passed!"<<std::endl;
-		precellID = cellID;
-		prelayerID = layerID;
 	}
 	else if (action == 2){
 		if (edepIoni>minedeptemp){isPrimaryIon=true;}
@@ -711,18 +699,18 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	// direction of the momentum;
 	G4ThreeVector mom_ori_dir = aTrack->GetVertexMomentumDirection();
 	// direction of sense wire
-	G4double phi0U = m_GeometryParameter->get_layer_phi0z(senseLayerID,-1);
-	G4double phi0D = m_GeometryParameter->get_layer_phi0z(senseLayerID,1);
-	double RU = m_GeometryParameter->get_layer_Rz(senseLayerID,-1);
-	double RD = m_GeometryParameter->get_layer_Rz(senseLayerID,1);
+	G4double phi0U = m_GeometryParameter->get_layer_phi0z(senseLayerId,-1);
+	G4double phi0D = m_GeometryParameter->get_layer_phi0z(senseLayerId,1);
+	double RU = m_GeometryParameter->get_layer_Rz(senseLayerId,-1);
+	double RD = m_GeometryParameter->get_layer_Rz(senseLayerId,1);
 	G4ThreeVector localWirePositionAtUpEndPlate = G4ThreeVector(1,1,1);
 	G4ThreeVector localWirePositionAtDownEndPlate = G4ThreeVector(1,1,1);
 	localWirePositionAtUpEndPlate.setZ(-1);
 	localWirePositionAtUpEndPlate.setPerp(RU);
-	localWirePositionAtUpEndPlate.setPhi((holeID/2*2+1)*holeDphi+phi0U);
+	localWirePositionAtUpEndPlate.setPhi((holeId/2*2+1)*holeDphi+phi0U);
 	localWirePositionAtDownEndPlate.setZ(1);
 	localWirePositionAtDownEndPlate.setPerp(RD);
-	localWirePositionAtDownEndPlate.setPhi((holeID/2*2+1)*holeDphi+phi0D);
+	localWirePositionAtDownEndPlate.setPhi((holeId/2*2+1)*holeDphi+phi0D);
 	G4ThreeVector wire_dir = localWirePositionAtDownEndPlate-localWirePositionAtUpEndPlate;
 	// from hit point to sense wire
 	G4ThreeVector hit2wire = localWirePositionAtHitPlane-localHitPosition;
@@ -735,8 +723,8 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 		CDCSD_LINEINFO();
 		CdcHit* newHit = new CdcHit();
 		newHit->SetTrackID(trackID);
-		newHit->SetLayerNo(layerID);
-		newHit->SetCellNo(cellID);
+		newHit->SetLayerNo(layerId);
+		newHit->SetCellNo(cellId);
 		newHit->SetEdep(edepIoni);
 		newHit->SetPos(hitPosition);
 		newHit->SetDriftD(driftD);
@@ -747,7 +735,7 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 		newHit->SetGlobalT(globalT);
 		hitsCollection->insert(newHit);
 		G4int NbHits = hitsCollection->entries();
-		hitPointer[layerID][cellID]=NbHits-1;
+		hitPointer[layerId][cellId]=NbHits-1;
 		//Set for root objects
 		if(flag_x) m_x.push_back(localHitPosition.x()/unit_x);
 		if(flag_y) m_y.push_back(localHitPosition.y()/unit_y);
@@ -771,8 +759,8 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 		if(flag_driftD) m_driftD.push_back(driftD/unit_driftD);
 		if(flag_driftDtrue) m_driftDtrue.push_back(driftD/unit_driftDtrue);
 		if(flag_posflag) m_posflag.push_back(posflag);
-		if(flag_layerID) m_layerID.push_back(layerID);
-		if(flag_cellID) m_cellID.push_back(cellID);
+		if(flag_layerID) m_layerID.push_back(layerId);
+		if(flag_cellID) m_cellID.push_back(cellId);
 		if(flag_tid) m_tid.push_back(trackID);
 		if(flag_pid) m_pid.push_back(pid);
 		if(flag_ptid){
@@ -863,7 +851,7 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 		cdc_nHits++;
 	}
 	else { // update the track
-//		std::cout<<"hitPointer["<<layerID<<"]["<<cellID<<"] = "<<pointer<<std::endl;
+//		std::cout<<"hitPointer["<<layerId<<"]["<<cellId<<"] = "<<pointer<<std::endl;
 //		std::cout<<"=>Update Hit!"<<std::endl;
 		if(flag_edep) m_edep[pointer] += (edepIoni)/unit_edep;
 		if(flag_edepAll) m_edepAll[pointer] += (edep)/unit_edepAll;
@@ -875,6 +863,10 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 			else if (signalT>m_tstop[pointer]*unit_tstop) m_tstop[pointer] = signalT/unit_tstop;
 			if(flag_nPair) m_nPair[pointer]++;
 			if(flag_driftD) if(driftD<m_driftD[pointer]*unit_driftD){
+				if ( trackID != prevTrackID ){
+					prevTrackID = trackID;
+					nTracks++;
+				}
 				m_driftD[pointer] = driftD/unit_driftD;
 				if(flag_wx) m_wx[pointer] = localWirePositionAtHitPlane.x()/unit_x;
 				if(flag_wy) m_wy[pointer] = localWirePositionAtHitPlane.y()/unit_y;
@@ -980,7 +972,7 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 			}
 		}
 	}
-	//	std::cout<<"  "<<hitPosition.x()<<", "<<globalT<<", ("<<layerID<<","<<cellID<<"), "<<edepIoni/eV<<", "<<stepL<<std::endl;
+	//	std::cout<<"  "<<hitPosition.x()<<", "<<globalT<<", ("<<layerId<<","<<cellId<<"), "<<edepIoni/eV<<", "<<stepL<<std::endl;
 	return true;
 }
 
