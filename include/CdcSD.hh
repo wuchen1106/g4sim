@@ -215,6 +215,8 @@ class CdcSD : public MySD
 		G4double tres;
 		int nTracks;
 		int prevTrackID;
+		int precellID;
+		int prelayerID;
 		// xt
 		TFile * m_xt_file;
 		TH1D* m_xt_hist;
