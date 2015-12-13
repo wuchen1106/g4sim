@@ -17,6 +17,7 @@
 #include "CdcHit.hh"
 #include "MySD.hh"
 
+class TF1;
 class TH1D;
 class TFile;
 class G4Step;
@@ -220,6 +221,7 @@ class CdcSD : public MySD
 		// xt
 		TFile * m_xt_file;
 		TH1D* m_xt_hist;
+		TF1* m_xt_func;
 };
 
 #endif

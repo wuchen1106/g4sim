@@ -29,6 +29,7 @@
 #include "TVector3.h"
 #include "TRandom.h"
 #include "TH1D.h"
+#include "TF1.h"
 #include "TFile.h"
 
 #include <iostream>
@@ -54,7 +55,7 @@ typedef HepGeom::Vector3D<double> HepVector3D;
 #endif
 
 	CdcSD::CdcSD(G4String name, MyVGeometryParameter* pointer)
-:MySD(name, pointer), hitsCollection(0), m_xt_hist(0), m_xt_file(0)
+:MySD(name, pointer), hitsCollection(0), m_xt_hist(0), m_xt_func(0), m_xt_file(0)
 {
 	m_GeometryParameter= dynamic_cast<CdcGeometryParameter*> (pointer);
 	if (!m_GeometryParameter){
@@ -271,15 +272,24 @@ void CdcSD::ReadOutputCard(G4String filename){
 			else if( name == "maxn" ) buf_card>>maxn;
 			else if( name == "ntracks" ) buf_card>>ntracks;
 			else if( name == "xt" ){
-				G4String filename, histname;
-				buf_card>>filename>>histname;
+				G4String type,tname,filename;
+				buf_card>>type>>filename>>tname;
 				G4String dir_name = getenv("CONFIGUREDATAROOT");
 				if (dir_name[dir_name.size()-1] != '/') dir_name.append("/");
 				std::string TFile_name = dir_name + filename;
 				if (filename[0] == '/')
 					TFile_name = filename;
 				m_xt_file = new TFile(TFile_name.c_str());
-				if (m_xt_file) m_xt_hist = (TH1D*) m_xt_file->Get(histname.c_str());
+				if (m_xt_file){
+					if (type=="func")
+						m_xt_func= (TF1*) m_xt_file->Get(tname.c_str());
+					else if (type=="hist")
+						m_xt_hist = (TH1D*) m_xt_file->Get(tname.c_str());
+					else{
+						std::cout<<"In CdcSD::ReadOutputCard, unknown xt type name: "<<type<<" in file "<<filename<<std::endl;
+						std::cout<<"Will ignore this line!"<<std::endl;
+					}
+				}
 			}
 			else{
 				G4double para;
@@ -433,6 +443,7 @@ void CdcSD::ReSet(){
 	// xt
 	if (m_xt_file) m_xt_file->Close(); m_xt_file = 0;
 	if (m_xt_hist) delete m_xt_hist; m_xt_hist = 0;
+	if (m_xt_func) delete m_xt_func; m_xt_func = 0;
 }
 
 //-----------------------------------ShowOutCard----------------------------------------------
@@ -637,7 +648,9 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 
 	G4double vc = 299792458*m/s; // m/s
 	G4double wiredelay = (Length/2-deltaZ)/vc;
-	if (m_xt_hist)
+	if (m_xt_func)
+		driftT = m_xt_func->Eval(driftD/cm);
+	else if (m_xt_hist)
 		driftT = m_xt_hist->GetBinContent(m_xt_hist->FindBin(driftD/cm));
 	else
 		driftT = driftD/driftV;
@@ -731,7 +744,7 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 		newHit->SetTheta(theta);
 		newHit->SetPosFlag(0);
 		newHit->SetEnterAngle(0);
-		newHit->SetDriftT (signalT);
+		newHit->SetDriftT (driftT);
 		newHit->SetGlobalT(globalT);
 		hitsCollection->insert(newHit);
 		G4int NbHits = hitsCollection->entries();
