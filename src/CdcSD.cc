@@ -661,7 +661,9 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	G4int pointer=-1;
 	G4double pretstop = -1;
 	G4double pretstart  = -1;
-	double minedeptemp = G4UniformRand()*minedep;
+	// FIXME minedep should not be smaller than one ionization 
+//	double minedeptemp = G4UniformRand()*minedep;
+	double minedeptemp = minedep;
 //	std::cout<<"minedeptemp = "<<minedeptemp/keV<<std::endl;
 //	std::cout<<"@ ["<<layerId<<"]["<<cellId<<"]"<<std::endl;
 	if (hitPointer[layerId][cellId] != -1){ // There is a pulse in this same cell
