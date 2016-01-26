@@ -60,6 +60,8 @@ class CdcSD : public MySD
 		double NewtonRootFinding(G4double a[6], G4double phi, G4int nTry, G4double torl, G4double &error);
 		double calculateDist2(G4double b[4], G4double phi);
 		int findSmallest( double a, double b, double c);
+		double angdiff(double a1, double a2);
+		double angdiff2(double a1, double a2);
 
 	private:
 
@@ -222,6 +224,11 @@ class CdcSD : public MySD
 		TFile * m_xt_file;
 		TH1D* m_xt_hist;
 		TF1* m_xt_func;
+		// esle
+		double prelayerId;
+		double precellId;
+		double edeptemp;
+		double stepLtemp;
 };
 
 #endif

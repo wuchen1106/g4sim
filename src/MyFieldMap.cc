@@ -27,6 +27,25 @@ G4double gradient, G4double timeOffset, G4LogicalVolume* fieldVolume, G4double x
 		fMap->readFileROOT(mapFileName);
     else
 		fMap->readFile(mapFileName);
+	// FIXME: test the field
+	//G4double local[4];
+	//local[3] = 0;
+	//G4double field[6];
+	//for (int i = 0; i<100; i++){
+	//	local[0] = 5*i/sqrt(2.);
+	//	local[1] = 5*i/sqrt(2.);
+	//	for (int j = 0; j<100; j++){
+	//		local[2] = 5*j+5395;
+	//		fMap->getFieldValue(local, field, current, gradient);
+	//		std::cout<<local[0]<<" "
+	//			     <<local[1]<<" "
+	//			     <<local[2]<<" "
+	//			     <<field[0]<<" "
+	//			     <<field[1]<<" "
+	//			     <<field[2]<<std::endl;
+	//	}
+	//}
+
     fCurrent = current;
     fGradient = gradient;
     fRotation = NULL;
