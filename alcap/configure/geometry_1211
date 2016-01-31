@@ -1,6 +1,0 @@
-# The Segment which includes World should be put at the first line!!
-	VerboseLevel    1
-
-#ServiceName        ServiceType         FileName
-	World           Simple              world_AlCap
-	PSI             Simple              sub_all/subgeo_1211
