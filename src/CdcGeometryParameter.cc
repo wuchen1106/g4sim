@@ -147,7 +147,7 @@ int CdcGeometryParameter::GetValue(G4String s_card){
 				layer_type.push_back(1);
 			else if (name=="G")
 				layer_type.push_back(2);
-			layer_ID.push_back(tlayer_ID-1);
+			layer_ID.push_back(tlayer_ID);
 			layer_Re.push_back(tlayer_Re);
 			layer_length.push_back(tlayer_length);
 			layer_HoleNo.push_back(tlayer_HoleNo);
