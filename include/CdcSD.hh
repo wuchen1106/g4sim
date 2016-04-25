@@ -220,6 +220,7 @@ class CdcSD : public MySD
 		int prevTrackID;
 		int precellID;
 		int prelayerID;
+		int preTid;
 		// xt
 		TFile * m_xt_file;
 		TH1D* m_xt_hist;

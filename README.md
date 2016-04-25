@@ -61,6 +61,14 @@ Simulation toolkit based on Geant4 and ROOT
 	cd cmake
 	cmake .
 	make
+
+	Especially if you are working with gcc at a non-standard location, please run 
+	
+		export CC=`which gcc`
+		export CXX=`which g++`
+
+	before you run `cmake .`.
+	If you already called `cmake .` but want to change the gcc directory, please remove CMakeCache.txt and then export `CC` and `CXX` as above and call `cmake .` again.
 	
 #2. How to use
 ##Prerequirements:  
