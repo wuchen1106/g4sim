@@ -47,6 +47,7 @@
 #include "G4RadioactiveDecayPhysics.hh"
 #include "MyStepLimiter.hh"
 #include "QGSP_BERT.hh"
+#include "QGSP_INCLXX.hh"
 #include "QGSP_BERT_HP.hh"
 //#include "myQGSP_BERT_HP.hh"
 
@@ -99,6 +100,10 @@ int main(int argc,char** argv)
 	std::cout<<"PhysicsList: \""<<PhysicsListName<<"\""<<std::endl;
 	if (PhysicsListName=="QGSP_BERT_HP"){
 		physics= new QGSP_BERT_HP;
+		physics->RegisterPhysics(new G4RadioactiveDecayPhysics());
+	}
+	else if (PhysicsListName=="QGSP_INCLXX"){
+		physics = new QGSP_INCLXX;
 		physics->RegisterPhysics(new G4RadioactiveDecayPhysics());
 	}
 	else if (PhysicsListName=="QGSP_BERT_HP_noRadi"){
