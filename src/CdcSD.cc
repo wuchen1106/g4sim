@@ -669,7 +669,6 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	// get POCA
 	G4ThreeVector wireUE2pointIn = -localWirePositionAtUpEndPlate+pointIn_pos_local;
 	G4ThreeVector vAxis = wire_dir.cross(stepVec);
-	driftD=fabs(wireUE2pointIn*(vAxis.unit()));
 	CDCSD_LINEVAR(wireUE2pointIn);
 	CDCSD_LINEVAR(vAxis.unit());
 	CDCSD_LINEVAR(wire_dir.unit());
@@ -691,6 +690,7 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	hitPositionOnWire.setPerp(m_GeometryParameter->get_layer_Rz(senseLayerId,hitZ));
 	hitPositionOnWire.setPhi((holeId/2*2+1)*holeDphi+m_GeometryParameter->get_layer_phi0z(senseLayerId,hitZ));
 	G4ThreeVector hit2wire = hitPositionOnWire-hitPosition;
+	driftD=hit2wire.mag();
 	// from hit point to sense wire
 	double posflagD = (pointIn_mom.cross(wire_dir)).dot(hit2wire);
 	posflag = posflagD/fabs(posflagD);
