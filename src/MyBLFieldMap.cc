@@ -303,6 +303,9 @@ MyBLFieldMap::MyBLFieldMap() {
     normE = 1.0;
     impl = 0;
     time = 0;
+    Xorigin = 0;
+    Yorigin = 0;
+    Zorigin = 0;
 }
 
 
