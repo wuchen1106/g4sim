@@ -33,6 +33,8 @@
 #include "TFile.h"
 
 #include <iostream>
+#include <stdlib.h>
+#include <stdio.h>
 
 #include "CdcGeometryParameter.hh"
 //#include "CdcDigitizer.hh"
@@ -44,6 +46,7 @@
 #include "MyVGeometrySvc.hh"
 #include "MyString2Anything.hh"
 #include "PrimaryGeneratorAction.hh"
+#include "MyAnalysisSvc.hh"
 
 #include "CdcSD.hh"
 
@@ -64,6 +67,8 @@ typedef HepGeom::Vector3D<double> HepVector3D;
 				"InvalidSetup", FatalException,
 				"cannot get CdcGeometryParameter pointer");
 	}
+	fMyAnalysisSvc = MyAnalysisSvc::GetMyAnalysisSvc();
+	min_evt_num = 0;
 }
 
 CdcSD::~CdcSD(){
@@ -73,6 +78,7 @@ CdcSD::~CdcSD(){
 //Will be called by geant4 automatically at the beginning of each event
 void CdcSD::Initialize(G4HCofThisEvent* HCE)
 {
+	min_evt_num = atoi(getenv("MINEVTNUM")); 
 	pPrimaryGeneratorAction = PrimaryGeneratorAction::GetPrimaryGeneratorAction();
 	hitsCollection = new CdcHitsCollection
 		(SensitiveDetectorName,collectionName[0]);
@@ -511,7 +517,8 @@ void CdcSD::ShowOutCard(){
 //Will be called by geant4 automatically everytime a step in CdcSD generated
 G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 {
-	CDCSD_LINEINFO();
+	int evt_num = fMyAnalysisSvc->get_evt_num();
+	CDCSDPH_LINEINFO();
 
 	//*************************get useful variables***********************
 
@@ -552,9 +559,9 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	//neutralCut
 	if ( charge == 0 && neutralCut ) return false;
 
-	CDCSD_LINEVAR(pointIn_pos.x());
-	CDCSD_LINEVAR(pointIn_pos.y());
-	CDCSD_LINEVAR(pointIn_pos.z());
+	CDCSDPH_LINEVAR(pointIn_pos.x());
+	CDCSDPH_LINEVAR(pointIn_pos.y());
+	CDCSDPH_LINEVAR(pointIn_pos.z());
 
 	//*************************Locate the nearest sense wire****************************
 	G4ThreeVector hitPosition = pointIn_pos_local; // first, assume that the hit position is step in point
@@ -646,8 +653,8 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	if (holeId<0) holeId+=HoleNo;
 	else if (holeId>=HoleNo) holeId-=HoleNo;
 	cellId = holeId/2;
-	CDCSD_LINEVAR(holeId);
-	CDCSD_LINEVAR(layerId);
+	CDCSDPH_LINEVAR(holeId);
+	CDCSDPH_LINEVAR(layerId);
 
 	//*************************get POCA and posflag****************************
 	// direction of the momentum;
@@ -669,22 +676,22 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	// get POCA
 	G4ThreeVector wireUE2pointIn = -localWirePositionAtUpEndPlate+pointIn_pos_local;
 	G4ThreeVector vAxis = wire_dir.cross(stepVec);
-	CDCSD_LINEVAR(wireUE2pointIn);
-	CDCSD_LINEVAR(vAxis.unit());
-	CDCSD_LINEVAR(wire_dir.unit());
+	CDCSDPH_LINEVAR(wireUE2pointIn);
+	CDCSDPH_LINEVAR(vAxis.unit());
+	CDCSDPH_LINEVAR(wire_dir.unit());
 	G4ThreeVector wireUE2pointInVertical = wireUE2pointIn-wire_dir.unit()*(wireUE2pointIn*(wire_dir.unit()));
 	wireUE2pointInVertical = wireUE2pointInVertical-vAxis.unit()*(wireUE2pointInVertical*(vAxis.unit()));
-	CDCSD_LINEVAR(wireUE2pointInVertical);
-	CDCSD_LINEVAR(wireUE2pointInVertical.mag());
-	CDCSD_LINEVAR(stepVec.mag());
+	CDCSDPH_LINEVAR(wireUE2pointInVertical);
+	CDCSDPH_LINEVAR(wireUE2pointInVertical.mag());
+	CDCSDPH_LINEVAR(stepVec.mag());
 	double hitPositionK = wireUE2pointInVertical.mag()/stepVec.mag();
 	if (hitPositionK>1) hitPosition = pointOut_pos_local;
 	else if (hitPositionK<0) hitPosition = pointIn_pos_local;
 	else hitPosition = (1-hitPositionK)*pointIn_pos_local+hitPositionK*pointOut_pos_local;
-	CDCSD_LINEVAR(hitPositionK);
-	CDCSD_LINEVAR(pointIn_pos_local);
-	CDCSD_LINEVAR(pointOut_pos_local);
-	CDCSD_LINEVAR(hitPosition);
+	CDCSDPH_LINEVAR(hitPositionK);
+	CDCSDPH_LINEVAR(pointIn_pos_local);
+	CDCSDPH_LINEVAR(pointOut_pos_local);
+	CDCSDPH_LINEVAR(hitPosition);
 	double hitZ = hitPosition.z();
 	hitPositionOnWire.setZ(hitZ);
 	hitPositionOnWire.setPerp(m_GeometryParameter->get_layer_Rz(senseLayerId,hitZ));
@@ -694,7 +701,7 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	// from hit point to sense wire
 	double posflagD = (pointIn_mom.cross(wire_dir)).dot(hit2wire);
 	posflag = posflagD/fabs(posflagD);
-	CDCSD_LINEVAR(driftD/cm);
+	CDCSDPH_LINEVAR(driftD/cm);
 
 	//*************************accumulate step info********************************
 	bool stillIn = false;
@@ -736,19 +743,19 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	double minedeptemp = minedep;
 //	std::cout<<"minedeptemp = "<<minedeptemp/keV<<std::endl;
 //	std::cout<<"@ ["<<layerId<<"]["<<cellId<<"]"<<std::endl;
-	CDCSD_LINEVAR(stillIn);
-	CDCSD_LINEVAR(layerId);
-	CDCSD_LINEVAR(cellId);
-	CDCSD_LINEVAR(hitPointer[layerId].size());
+	CDCSDPH_LINEVAR(stillIn);
+	CDCSDPH_LINEVAR(layerId);
+	CDCSDPH_LINEVAR(cellId);
+	CDCSDPH_LINEVAR(hitPointer[layerId].size());
 	if (stillIn){// same track in same cell
 		action = 2;
 		pointer = m_driftD.size()-1;
-		CDCSD_LINEVAR(pointer);
+		CDCSDPH_LINEVAR(pointer);
 	}
 	else if (hitPointer[layerId][cellId] != -1){ // There is a pulse in this same cell
-		CDCSD_LINEVAR(layerId);
+		CDCSDPH_LINEVAR(layerId);
 		pointer=hitPointer[layerId][cellId];
-		CDCSD_LINEVAR(pointer);
+		CDCSDPH_LINEVAR(pointer);
 //		std::cout<<"hitPointer["<<layerId<<"]["<<cellId<<"] = "<<pointer<<std::endl;
 		pretstop = m_tstop[pointer]*unit_tstop;
 		pretstart  = m_tstart[pointer]*unit_tstart;
@@ -761,13 +768,13 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 		}
 	}
 	else{
-		CDCSD_LINEINFO();
+		CDCSDPH_LINEINFO();
 		action = 1;
 	}
 	// further cut
 	if (action == 0) return false; // pass
 	else if (action == 1){
-		CDCSD_LINEINFO();
+		CDCSDPH_LINEINFO();
 		//maxn
 		if ( maxn && cdc_nHits >= maxn ) return false;
 		//ntracks
@@ -789,19 +796,19 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 //		std::cout<<"edepIoni = "<<edepIoni<<std::endl;
 		if (edeptemp<=minedeptemp) return false;
 //		std::cout<<"Passed!"<<std::endl;
-		CDCSD_LINEINFO();
+		CDCSDPH_LINEINFO();
 	}
 	else if (action == 2){
-		CDCSD_LINEVAR(edepIoni);
+		CDCSDPH_LINEVAR(edepIoni);
 		if (edepIoni>minedeptemp){isPrimaryIon=true;}
 	}
 	// FIXME:
-	CDCSD_LINEVAR(action);
+	CDCSDPH_LINEVAR(action);
 
 	//*******************generate or modify hit************************
 	if (action==1){ // this is a new hit
 //		std::cout<<"=>New Hit!"<<std::endl;
-		CDCSD_LINEINFO();
+		CDCSDPH_LINEINFO();
 		CdcHit* newHit = new CdcHit();
 		newHit->SetTrackID(trackID);
 		newHit->SetLayerNo(layerId);
@@ -930,12 +937,12 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 			if(flag_opz) m_opz.push_back(opz);
 		}
 		cdc_nHits++;
-	CDCSD_LINEINFO();
+	CDCSDPH_LINEINFO();
 	}
 	else { // update the track
 //		std::cout<<"hitPointer["<<layerId<<"]["<<cellId<<"] = "<<pointer<<std::endl;
 //		std::cout<<"=>Update Hit!"<<std::endl;
-		CDCSD_LINEVAR(pointer);
+		CDCSDPH_LINEVAR(pointer);
 		if(flag_edep) m_edep[pointer] += (edepIoni)/unit_edep;
 		if(flag_edepAll) m_edepAll[pointer] += (edep)/unit_edepAll;
 		if(flag_edepAll) m_edepDelta[pointer] += (edepDelta)/unit_edepAll;
@@ -1054,13 +1061,13 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 				}
 			}
 		}
-	CDCSD_LINEINFO();
+	CDCSDPH_LINEINFO();
 	}
 	//	std::cout<<"  "<<hitPosition.x()<<", "<<globalT<<", ("<<layerId<<","<<cellId<<"), "<<edepIoni/eV<<", "<<stepL<<std::endl;
 	// FIXME:
 	if (pointer<0) pointer=m_driftD.size()-1;
 //	std::cout<<"  "<<pointer<<":"<<m_driftD[pointer]<<", "<<m_driftDtrue[pointer]<<", "<<m_stepL[pointer]<<", "<<m_edep[pointer]<<std::endl;
-	CDCSD_LINEINFO();
+	CDCSDPH_LINEINFO();
 	return true;
 }
 

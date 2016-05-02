@@ -43,6 +43,8 @@ class MyAnalysisSvc
 		void set_minT(double val){m_minT=val;};
 		void set_maxT(double val){m_maxT=val;};
 
+		int get_evt_num(){return evt_num;};
+
 		void ReadOutputCard(G4String filename);
 		int  GetRunID(){return run_num;};
 
@@ -70,6 +72,7 @@ class MyAnalysisSvc
 		int fCircular;
 		int fVerbose;
 		int fPrintModulo;
+		int evt_num;
 
 		double m_minT;
 		double m_maxT;

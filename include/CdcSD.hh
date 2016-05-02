@@ -25,6 +25,7 @@ class G4HCofThisEvent;
 class CdcGeometryParameter;
 class MyVGeometryParameter;
 class PrimaryGeneratorAction;
+class MyAnalysisSvc;
 
 class CdcSD : public MySD
 {
@@ -230,6 +231,9 @@ class CdcSD : public MySD
 		double precellId;
 		double edeptemp;
 		double stepLtemp;
+		// ana
+		int min_evt_num;
+		MyAnalysisSvc * fMyAnalysisSvc;
 };
 
 #endif

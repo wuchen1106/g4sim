@@ -92,6 +92,7 @@ void MyAnalysisSvc::set_out_card(G4String file_name){
 }
 
 void MyAnalysisSvc::BeginOfRunAction(){
+	evt_num = 0;
 	//deal with log
 	std::string log_name = getenv("LOGFILEROOT");
 	if ( std::strlen(log_name.c_str()) != 0 ){
@@ -145,7 +146,7 @@ void MyAnalysisSvc::BeginOfEventAction(){
 }
 
 void MyAnalysisSvc::EndOfEventAction(const G4Event* evt){
-	int evt_num = evt->GetEventID();
+	evt_num = evt->GetEventID();
 	//Digitze
 	pMyDetectorManager->Digitize();
 	//Set event header 
