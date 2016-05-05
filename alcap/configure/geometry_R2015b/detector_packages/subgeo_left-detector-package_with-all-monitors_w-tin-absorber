@@ -11,6 +11,7 @@
 	B    bXPack bXPack thPS   ScL		 1     LeftDetBlock Scintillator M/MonitorSD 0       0      pZPS   0    0    0 
 	B    bXPack bXPack thESi  SiL3           1     LeftDetBlock Silicon      M/MonitorSD 0       0      pZESi2  0    0    0 
 	B    bXPack bXPack thESi  SiL2           1     LeftDetBlock Silicon      M/MonitorSD 0       0      pZESi  0    0    0 
+	B    bXPack bXPack thDL  DL_L		 1     LeftDetBlock Silicon	 M/MonitorSD 0	     0	    pZDL   0	0    0
 	B    bXPack bXPack thdESi SiL1           1     LeftDetBlock Vacuum       M/MonitorSD 0       0      pZdES  0    0    0 
 
 #visual settings

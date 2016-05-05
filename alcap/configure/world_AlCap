@@ -6,8 +6,8 @@
 #	   mm      mm      mm                                                mm     mm     mm     deg  deg    deg
 #	                                                                                  P R     
 #	                                                                                  S R     
-#	B  620     800     620    World   1     None      Vacuum     none   0.     0.     0.      0    0      0
-	B  620     800     820    World   1     None      Air        none   0.     0.     0.      0    0      0
+	B  620     800     620    World   1     None      Vacuum     none   0.     0.     0.      0    0      0
+#	B  620     800     820    World   1     None      Air        none   0.     0.     0.      0    0      0
 
 #visual settings
 	VerboseLevel:    5

@@ -11,15 +11,15 @@
 /g4sim/myAnalysisSvc/set_out_card output/output_default
 
 # Set Gen
-/g4sim/gun/ResetGen               gen/gen_mu_1.07_target_hist_actual-muons
+/g4sim/gun/ResetGen               gen/gen_mu_0.90
 
 # Set Geo
-/g4sim/det/ReloadGeo              geometry_R2015b/andy_geometry_Al50_w-tin-absorbers
+/g4sim/det/ReloadGeo              geometry_R2015b/geometry_Sn
 
 #	For this run
 #/tracking/verbose 2
 /random/setSeeds 5 6
 /g4sim/myAnalysisSvc/printModulo    10000
-/run/beamOn  1000000
+/run/beamOn  50000
 
-#/vis/ogl/printEPS
+/vis/ogl/printEPS

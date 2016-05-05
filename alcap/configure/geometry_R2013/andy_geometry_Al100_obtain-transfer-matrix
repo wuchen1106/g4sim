@@ -15,9 +15,9 @@
 	PSI		Simple		    geometry_R2013/collimator/subgeo_collimator
 #	PSI		Simple		    geometry_R2013/collimator/subgeo_col-mon
 
-	PSI 		Simple		    geometry_R2013/detector_packages/subgeo_common-variables
-	PSI 		Simple		    geometry_R2013/detector_packages/subgeo_left-detector-package_with-si-monitors
-	PSI 		Simple		    geometry_R2013/detector_packages/subgeo_right-detector-package_with-si-monitors
+	PSI 		Simple		    geometry_R2013/detector_packages/subgeo_common-variables_w-dead-layer
+	PSI 		Simple		    geometry_R2013/detector_packages/subgeo_left-detector-package_with-si-monitors_w-dead-layer
+	PSI 		Simple		    geometry_R2013/detector_packages/subgeo_right-detector-package_with-si-monitors_w-dead-layer
 
 	PSI		Simple		    geometry_R2013/targets/subgeo_target-Al100_with-monitor
 

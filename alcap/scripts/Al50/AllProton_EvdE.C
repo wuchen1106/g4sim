@@ -58,14 +58,14 @@ void AllProton_EvdE(std::string filename, bool three_layer = false) {
   int n_bins_true_ekin = (max_true_ekin - min_edep) / edep_width;
   
   //  TH2F* hEvdE_SiR_stopped = new TH2F("hEvdE_SiR_stopped", "hEvdE_SiR_stopped", n_bins_total_edep,min_edep,max_total_edep, n_bins_thin_edep,min_edep,max_thin_edep);
-  TH2F* hEvdE_SiR_TwoHits_stopped = new TH2F("hEvdE_SiR_TwoHits_stopped", "hEvdE_SiR_TwoHits_stopped", n_bins_total_edep,min_edep,max_total_edep, n_bins_thin_edep,min_edep,max_thin_edep);
+  TH2F* hEvdE_SiR_TwoHits_stopped = new TH2F("hEvdE_SiR_TwoHits_stopped", "Two Hits", n_bins_total_edep,min_edep,max_total_edep, n_bins_thin_edep,min_edep,max_thin_edep);
   hEvdE_SiR_TwoHits_stopped->SetMarkerColor(kRed);
   hEvdE_SiR_TwoHits_stopped->SetMarkerStyle(7);
   hEvdE_SiR_TwoHits_stopped->SetXTitle("E_{1} + E_{2} [keV]");
   hEvdE_SiR_TwoHits_stopped->GetYaxis()->SetTitleOffset(1.4);
   hEvdE_SiR_TwoHits_stopped->SetYTitle("E_{1} [keV]");
 
-  TH2F* hEvdE_SiR_TwoHits_not_stopped = new TH2F("hEvdE_SiR_TwoHits_not_stopped", "hEvdE_SiR_TwoHits_not_stopped", n_bins_total_edep,min_edep,max_total_edep, n_bins_thin_edep,min_edep,max_thin_edep);
+  TH2F* hEvdE_SiR_TwoHits_not_stopped = new TH2F("hEvdE_SiR_TwoHits_not_stopped", "Two Hits", n_bins_total_edep,min_edep,max_total_edep, n_bins_thin_edep,min_edep,max_thin_edep);
   hEvdE_SiR_TwoHits_not_stopped->SetMarkerColor(kBlue);
   hEvdE_SiR_TwoHits_not_stopped->SetMarkerStyle(7);
   hEvdE_SiR_TwoHits_not_stopped->SetXTitle("E_{1} + E_{2} [keV]");
@@ -73,14 +73,14 @@ void AllProton_EvdE(std::string filename, bool three_layer = false) {
   hEvdE_SiR_TwoHits_not_stopped->SetYTitle("E_{1} [keV]");
 
 
-  TH2F* hEvdE_SiR_ThreeHits_stopped = new TH2F("hEvdE_SiR_ThreeHits_stopped", "hEvdE_SiR_ThreeHits_stopped", n_bins_total_edep,min_edep,max_total_edep, n_bins_total_edep,min_edep,max_total_edep);
+  TH2F* hEvdE_SiR_ThreeHits_stopped = new TH2F("hEvdE_SiR_ThreeHits_stopped", "Three Hits", n_bins_total_edep,min_edep,max_total_edep, n_bins_total_edep,min_edep,max_total_edep);
   hEvdE_SiR_ThreeHits_stopped->SetMarkerColor(kRed);
   hEvdE_SiR_ThreeHits_stopped->SetMarkerStyle(7);
   hEvdE_SiR_ThreeHits_stopped->SetXTitle("E_{1} + E_{2} + E_{3} [keV]");
   hEvdE_SiR_ThreeHits_stopped->GetYaxis()->SetTitleOffset(1.4);
   hEvdE_SiR_ThreeHits_stopped->SetYTitle("E_{1} + E_{2} [keV]");
 
-  TH2F* hEvdE_SiR_ThreeHits_not_stopped = new TH2F("hEvdE_SiR_ThreeHits_not_stopped", "hEvdE_SiR_ThreeHits_not_stopped", n_bins_total_edep,min_edep,max_total_edep, n_bins_total_edep,min_edep,max_total_edep);
+  TH2F* hEvdE_SiR_ThreeHits_not_stopped = new TH2F("hEvdE_SiR_ThreeHits_not_stopped", "Three Hits", n_bins_total_edep,min_edep,max_total_edep, n_bins_total_edep,min_edep,max_total_edep);
   hEvdE_SiR_ThreeHits_not_stopped->SetMarkerColor(kBlue);
   hEvdE_SiR_ThreeHits_not_stopped->SetMarkerStyle(7);
   hEvdE_SiR_ThreeHits_not_stopped->SetXTitle("E_{1} + E_{2} + E_{3} [keV]");
@@ -88,33 +88,33 @@ void AllProton_EvdE(std::string filename, bool three_layer = false) {
   hEvdE_SiR_ThreeHits_not_stopped->SetYTitle("E_{1} + E_{2} [keV]");
 
 
-  TH2F* hEvdE_SiR_TwoHits_not_stopped_true = new TH2F("hEvdE_SiR_TwoHits_not_stopped_true", "hEvdE_SiR_TwoHits_not_stopped_true", n_bins_true_ekin,min_edep,max_true_ekin, n_bins_total_edep,min_edep,max_total_edep);
+  TH2F* hEvdE_SiR_TwoHits_not_stopped_true = new TH2F("hEvdE_SiR_TwoHits_not_stopped_true", "Two Hits", n_bins_true_ekin,min_edep,max_true_ekin, n_bins_total_edep,min_edep,max_total_edep);
   hEvdE_SiR_TwoHits_not_stopped_true->SetMarkerColor(kBlue);
   hEvdE_SiR_TwoHits_not_stopped_true->SetMarkerStyle(7);
   hEvdE_SiR_TwoHits_not_stopped_true->SetYTitle("E_{1} + E_{2} [keV]");
   hEvdE_SiR_TwoHits_not_stopped_true->GetYaxis()->SetTitleOffset(1.4);
-  hEvdE_SiR_TwoHits_not_stopped_true->SetXTitle("Kinetic Energy at Thin Layer [keV]");
+  hEvdE_SiR_TwoHits_not_stopped_true->SetXTitle("Initial Kinetic Energy [keV]");
 
-  TH2F* hEvdE_SiR_TwoHits_stopped_true = new TH2F("hEvdE_SiR_TwoHits_stopped_true", "hEvdE_SiR_TwoHits_stopped_true", n_bins_true_ekin,min_edep,max_true_ekin, n_bins_total_edep,min_edep,max_total_edep);
+  TH2F* hEvdE_SiR_TwoHits_stopped_true = new TH2F("hEvdE_SiR_TwoHits_stopped_true", "Two Hits", n_bins_true_ekin,min_edep,max_true_ekin, n_bins_total_edep,min_edep,max_total_edep);
   hEvdE_SiR_TwoHits_stopped_true->SetMarkerColor(kRed);
   hEvdE_SiR_TwoHits_stopped_true->SetMarkerStyle(7);
   hEvdE_SiR_TwoHits_stopped_true->SetYTitle("E_{1} + E_{2} [keV]");
   hEvdE_SiR_TwoHits_stopped_true->GetYaxis()->SetTitleOffset(1.4);
-  hEvdE_SiR_TwoHits_stopped_true->SetXTitle("Kinetic Energy at Thin Layer [keV]");
+  hEvdE_SiR_TwoHits_stopped_true->SetXTitle("Initial Kinetic Energy [keV]");
 
-  TH2F* hEvdE_SiR_ThreeHits_not_stopped_true = new TH2F("hEvdE_SiR_ThreeHits_not_stopped_true", "hEvdE_SiR_ThreeHits_not_stopped_true", n_bins_true_ekin,min_edep,max_true_ekin, n_bins_total_edep,min_edep,max_total_edep);
+  TH2F* hEvdE_SiR_ThreeHits_not_stopped_true = new TH2F("hEvdE_SiR_ThreeHits_not_stopped_true", "Three Hits", n_bins_true_ekin,min_edep,max_true_ekin, n_bins_total_edep,min_edep,max_total_edep);
   hEvdE_SiR_ThreeHits_not_stopped_true->SetMarkerColor(kBlue);
   hEvdE_SiR_ThreeHits_not_stopped_true->SetMarkerStyle(7);
   hEvdE_SiR_ThreeHits_not_stopped_true->SetYTitle("E_{1} + E_{2} + E_{3} [keV]");
   hEvdE_SiR_ThreeHits_not_stopped_true->GetYaxis()->SetTitleOffset(1.4);
-  hEvdE_SiR_ThreeHits_not_stopped_true->SetXTitle("Kinetic Energy at Thin Layer [keV]");
+  hEvdE_SiR_ThreeHits_not_stopped_true->SetXTitle("Initial Kinetic Energy [keV]");
 
-  TH2F* hEvdE_SiR_ThreeHits_stopped_true = new TH2F("hEvdE_SiR_ThreeHits_stopped_true", "hEvdE_SiR_ThreeHits_stopped_true", n_bins_true_ekin,min_edep,max_true_ekin, n_bins_total_edep,min_edep,max_total_edep);
+  TH2F* hEvdE_SiR_ThreeHits_stopped_true = new TH2F("hEvdE_SiR_ThreeHits_stopped_true", "Three Hits", n_bins_true_ekin,min_edep,max_true_ekin, n_bins_total_edep,min_edep,max_total_edep);
   hEvdE_SiR_ThreeHits_stopped_true->SetMarkerColor(kRed);
   hEvdE_SiR_ThreeHits_stopped_true->SetMarkerStyle(7);
   hEvdE_SiR_ThreeHits_stopped_true->SetYTitle("E_{1} + E_{2} + E_{3} [keV]");
   hEvdE_SiR_ThreeHits_stopped_true->GetYaxis()->SetTitleOffset(1.4);
-  hEvdE_SiR_ThreeHits_stopped_true->SetXTitle("Kinetic Energy at Thin Layer [keV]");
+  hEvdE_SiR_ThreeHits_stopped_true->SetXTitle("Initial Kinetic Energy [keV]");
 
   const int n_combinations = 64;
   TH1F* hCombinations = new TH1F("hCombinations", "Combinations of Hits and Stops in Three Layers", n_combinations,0,n_combinations);
@@ -190,17 +190,20 @@ void AllProton_EvdE(std::string filename, bool three_layer = false) {
   }
 
   TCanvas* c1 = new TCanvas("c1", "c1");
+  hEvdE_SiR_TwoHits_stopped->SetTitle("E_{1} vs E_{1} + E_{2} for hits in first two layers");
   hEvdE_SiR_TwoHits_stopped->Draw();
   hEvdE_SiR_TwoHits_not_stopped->Draw("SAMES");
 
   TCanvas* c2 = new TCanvas("c2", "c2");
+  hEvdE_SiR_ThreeHits_stopped->SetTitle("E_{1} + E_{2} vs E_{1} + E_{2} + E_{3} for hits in all layers");
   hEvdE_SiR_ThreeHits_stopped->Draw();
   hEvdE_SiR_ThreeHits_not_stopped->Draw("SAMES");
 
   TCanvas* c3 = new TCanvas("c3", "c3");
-  hEvdE_SiR_TwoHits_stopped_true->Draw();
+  hEvdE_SiR_ThreeHits_stopped_true->SetTitle("E_{1} + E_{2} + E_{3} vs true initial kinetic energy for both two hit and three hit protons");
+  hEvdE_SiR_ThreeHits_stopped_true->Draw();
   hEvdE_SiR_TwoHits_not_stopped_true->Draw("SAMES");
-  hEvdE_SiR_ThreeHits_stopped_true->Draw("SAMES");
+  hEvdE_SiR_TwoHits_stopped_true->Draw("SAMES");
   hEvdE_SiR_ThreeHits_not_stopped_true->Draw("SAMES");
 
 }
