@@ -1,0 +1,27 @@
+#==================================================================================================================
+#       Back Shield (NB no legs in this geometry)
+#==================================================================================================================
+DEFINE: wdthBW          300 # width of Back Wall
+DEFINE: hgtBW           375 # height of Back Wall
+DEFINE: hgtBWHole       60  # height of the hole in the back wall
+DEFINE: wdthBWHole      60  # width of the hole in the back wall
+DEFINE: thBW            1 # Thickness of Back Wall
+#Box info
+#       Type x      y     z       Name        RepNo MotVolume   Material     SDName       posX  posY  posZ   Ephi Ethe Epsi
+#            mm     mm    mm                                                              mm    mm    mm     deg  deg  deg
+#                                                                                       P R     Phi   Z
+#                                                                                       S R     Phi   Theta 
+        B    wdthBW  hgtBW thBW   FullBW          
+        B    wdthBWHole hgtBWHole thBW  BWHole          
+#BooleanSolid info
+#       Type type  vol1       vol2        Ephi Ethe Epsi PosX PosY PosZ   name                  RepNo MotVolume   Material SDName  posX posY posZ  Ephi Ethe Epsi  
+#                                         deg  deg  deg  mm   mm   mm                                                              mm   mm   mm    deg  deg  deg   
+                                                       P R    Phi  Z                                                             P R    Phi  Z    
+                                                       S R    Phi  Theta                                                         S R    Phi  Theta
+        BL   minus FullBW   BWHole    0    0    0    0    77.5    0      BackWall          1     World Lead      none    -50    0    0     90    90    0  
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name                        red    green  blue  transparency
+	vis_BackWall                  0.5    0.5    0.5
