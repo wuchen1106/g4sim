@@ -15,4 +15,5 @@
 #	PSI		Simple		    geometry_R2015b/Al50
 #	PSI		Simple		    geometry_R2015b/Al100
 #	PSI		Simple		    geometry_R2015b/Ti50
-	PSI		Simple		    geometry_R2015b/back_wall
+#	PSI		Simple		    geometry_R2015b/back_wall
+	PSI		Simple		    geometry_R2015b/collimator
