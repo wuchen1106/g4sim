@@ -1,0 +1,97 @@
+DEFINE: thTp		0.080 # Thickness of black tape
+#==================================================================================================================
+#	Chamber Body
+#==================================================================================================================
+DEFINE: HO			382 # Height of Chamber (Outside)
+DEFINE: HI			380 # Height of Chamber (Inside)
+DEFINE: RO			162 # RMax of Chamber (Outside)
+DEFINE: RI			157 # RMax of Chamber (Inside)
+DEFINE: Ht			31.75 # Height of Chamber Cover
+DEFINE: Rt			182.4 # RMax of Chamber Cover
+DEFINE: Z0			80 # Z position of Beam Plain (Relative to Chamber)
+DEFINE: ZLo			-49 # Z position of Lower Plain (Relative to Chamber)
+
+DEFINE: Lp1			127 # (double) Length of Beam Port 
+DEFINE: Rp1O		57.25 # R of Beam Port (Outside)
+DEFINE: Rp1I		51 # R of Beam Port (Inside)
+
+DEFINE: Lp2			330.2 # (double) Length of Detector Port 
+DEFINE: Rp2O		86 # R of Detector Port (Outside)
+DEFINE: Rp2I		76 # R of Detector Port (Inside)
+
+DEFINE: thw0		0.100 # Thickness of Beam Window
+#DEFINE: thw0		0.1 # Thickness of Beam Window ( with black paper )
+DEFINE: pRw0		RO+Lp1/2-thw0/2 # R position of Beam Window
+DEFINE: pBlackTape pRw0+thw0/2+thTp/2 
+DEFINE: thw1		0.1   # Thickness of Detector Window
+DEFINE: pRw1		RO+Lp2/2-thw1/2 # R position of Detector Window
+
+DEFINE: Rp0O		46 # R of 45 degree Ports (Outside)
+DEFINE: Rp0I		36 # R of 45 degree Ports (Inside)
+DEFINE: thp0		10 # Thickness of endplates of 45 degree Ports
+DEFINE: R0  		RO-thp0 # R position of cut components of 45 degree Ports
+DEFINE: LpUR 		88.9 # (double) Length of Upstream Right Port
+DEFINE: LpUL 		222.25 # (double) Length of Upstream Left Port
+DEFINE: LpDR 		177.8 # (double) Length of Downstream Right Port
+DEFINE: LpLo 		82.55 # (double) Length of Lower Port
+
+DEFINE: thUL        10 # Thickness of Upstream Left Flange
+DEFINE: pRUL		RO+LpUL/2-thUL/2 # R position of Upstream Left Flange
+DEFINE: thUR        2 # Thickness of Upstream Right Flange milled out to be 2 mm thick (elog:385)
+DEFINE: pRUR		RO+LpUR/2-thUR/2 # R position of Upstream Right Flange
+
+#Tubs info
+#	Type RMin RMax  Length Start Span Name              RepNo MotVolume Material  SDName    posX posY  posZ   Ephi   Ethe   Epsi  
+#	     mm   mm    mm     deg   deg                                                        mm   mm    mm     deg    deg    deg   
+#	                                                                                P R    Phi   Z     
+#	                                                                                S R    Phi   Theta 
+	T    0    RO    HO     0     360  tubChamber
+	T    0    Rt    Ht     0     360  tubChamberCover
+	T    0    Rp1O  Lp1    0     360  tubBeamPort 
+	T    0    Rp1I  Lp1+1  0     360  cutBeamPort 
+	T    0    Rp2O  Lp2    0     360  tubDetectorPort
+	T    0    Rp2I  Lp2+1  0     360  cutDetectorPort
+	T    0    Rp0O  LpUR   0     360  tubURPort   
+	T    0    Rp0I  LpUR   0     360  cutURPort   
+	T    0    Rp0O  LpUL   0     360  tubULPort   
+	T    0    Rp0I  LpUL   0     360  cutULPort   
+	T    0    Rp0O  LpDR   0     360  tubDRPort   
+	T    0    Rp0I  LpDR   0     360  cutDRPort   
+	T    0    Rp0O  LpLo   0     360  tubLowerPort
+	T    0    Rp0I  LpLo   0     360  cutLowerPort
+	T    0    RI    HI     0     360  ChamberIn         1     World     VacuumPSI none         0  -Z0   0      0    -90     90
+	T    0    Rp1I  thw0   0     360  BeamWindow        1     World     Mylar     none    S pRw0   0    180    0      0      0
+	T    0    Rp1I  thTp   0     360  BeamWindowT       1     World     PVF       none    S pBlackTape   0    180    0      0      0
+	T    0    Rp2I  thw1   0     360  DetectorWindow    1     World     Mylar     none    S pRw1   0    45    90   -135      0 
+	T    0    Rp0I  thUL   0     360  flUL              1     World     Aluminium none        S pRUL   0    135   90   -45      0 
+	T    0    Rp0I  thUR   0     360  flUR              1     World     Aluminium none        S pRUR   180    135   90   -45      0 
+#BooleanSolid info
+#	Type type  vol1         vol2              Ephi Ethe Epsi PosX  PosY PosZ   name         RepNo MotVolume  Material SDName    posX posY posZ Ephi Ethe Epsi  
+#	                                          deg  deg  deg  mm    mm   mm                                                      mm   mm   mm   deg  deg  deg   
+#	                                                       P R     Phi  Z                                               P R    Phi  Z    
+#	                                                       S R     Phi  Theta                                           S R    Phi  Theta
+	BL   plus  tubChamber   tubChamberCover   0    0    0  P 0     0    HI/2   blChamber1
+	BL   plus  blChamber1   tubBeamPort       90   90   0  P RO    0    Z0     blChamber2
+	BL   plus  blChamber2   tubDetectorPort  -45   90   0  P RO   -135  Z0     blChamber3
+	BL   plus  blChamber3   tubURPort        -45   90   0  P RO    45   Z0     blChamber4
+	BL   plus  blChamber4   tubULPort         45   90   0  P RO   -45   Z0     blChamber5
+	BL   plus  blChamber5   tubDRPort         45   90   0  P RO    135  Z0     blChamber6
+	BL   plus  blChamber6   tubLowerPort      45   90   0  P RO    135  ZLo    blChamber7
+	BL   minus blChamber7   cutBeamPort       90   90   0  P RO    0    Z0     blChamber8 
+	BL   minus blChamber8   cutDetectorPort  -45   90   0  P RO   -135  Z0     blChamber9 
+	BL   minus blChamber9   cutURPort        -45   90   0  P R0    45   Z0     blChamber10
+	BL   minus blChamber10  cutULPort         45   90   0  P RO   -45   Z0     blChamber11
+	BL   minus blChamber11  cutDRPort         45   90   0  P R0    135  Z0     blChamber12
+	BL   minus blChamber12  cutLowerPort      45   90   0  P R0    135  ZLo    blChamber13
+	BL   minus blChamber13  ChamberIn         0    0    0  P 0     0    0      Chamber      1     World      Steel    none      0   -Z0   0    0   -90   90
+
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name                        red    green  blue  transparency
+	vis_Chamber                 0.1    0.75   1
+	vis_flUL                    0.1    0.55   1
+	vis_BeamWindow              0.5    0.25   0     0.3
+	vis_BeamWindowT             0.2    0.55   0     0.3
+	vis_DetectorWindow          0.5    0.25   0     0.3
