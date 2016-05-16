@@ -3,7 +3,7 @@
 
 #ServiceName        ServiceType         FileName
 	World           Simple              world_AlCap
-#	PSI		Simple		    geometry_R2015b/chamber
+	PSI		Simple		    geometry_R2015b/chamber
 #	PSI		Simple		    geometry_R2015b/germanium_detector
 #	PSI		Simple		    geometry_R2015b/SiL1
 #	PSI		Simple		    geometry_R2015b/SiL2
