@@ -8,7 +8,7 @@ DEFINE: RO			162 # RMax of Chamber (Outside)
 DEFINE: RI			157 # RMax of Chamber (Inside)
 DEFINE: Ht			31.75 # Height of Chamber Cover
 DEFINE: Rt			182.4 # RMax of Chamber Cover
-DEFINE: Z0			80 # Z position of Beam Plain (Relative to Chamber)
+DEFINE: Z0			84.5 # Z position of Beam Plain (Relative to Chamber)
 DEFINE: ZLo			-49 # Z position of Lower Plain (Relative to Chamber)
 
 DEFINE: Lp1			127 # (double) Length of Beam Port 
