@@ -4,7 +4,7 @@
 #ServiceName        ServiceType         FileName
 	World           Simple              world_AlCap
 	PSI		Simple		    geometry_R2015b/chamber
-#	PSI		Simple		    geometry_R2015b/germanium_detector
+	PSI		Simple		    geometry_R2015b/germanium_detector
 #	PSI		Simple		    geometry_R2015b/SiL1
 #	PSI		Simple		    geometry_R2015b/SiL2
 #	PSI		Simple		    geometry_R2015b/SiL3
@@ -12,9 +12,7 @@
 #	PSI		Simple		    geometry_R2015b/SiR1
 #	PSI		Simple		    geometry_R2015b/SiR2
 #	PSI		Simple		    geometry_R2015b/SiR3
-#	PSI		Simple		    geometry_R2015b/Al50
-#	PSI		Simple		    geometry_R2015b/Al100
-#	PSI		Simple		    geometry_R2015b/Ti50
-#	PSI		Simple		    geometry_R2015b/back_wall
+	PSI		Simple		    geometry_R2015b/Al100
+	PSI		Simple		    geometry_R2015b/back_wall
 	PSI		Simple		    geometry_R2015b/collimator
 	PSI		Simple		    geometry_R2015b/muScA

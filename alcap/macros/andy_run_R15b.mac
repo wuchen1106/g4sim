@@ -11,10 +11,10 @@
 /g4sim/myAnalysisSvc/set_out_card output/output_default
 
 # Set Gen
-/g4sim/gun/ResetGen               gen/gen_mu_0.90
+/g4sim/gun/ResetGen               gen/gen_geantino_test
 
 # Set Geo
-/g4sim/det/ReloadGeo              geometry_R2015b/geometry_test
+/g4sim/det/ReloadGeo              geometry_R2015b/geometry_P2
 
 #	For this run
 #/tracking/verbose 2
