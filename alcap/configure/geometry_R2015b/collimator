@@ -6,7 +6,7 @@ DEFINE: thColL		1 # thickness of the lead
 DEFINE: bXColP		75 # X Dimension of Collimator Plastic
 DEFINE: bYColP		95 # Y Dimension of Collimator Plastic
 DEFINE: thColP		6 # Thickness of Collimator Plastic
-DEFINE: pRColP		pRColL-thColL/2-thColP/2 # R position of Collimator Plastic
+DEFINE: pRColP		RI-80 # in-chamber collimator is 8.0 cm from upstream inner chamber wall (elog:385)
 DEFINE: XColH 		34 # Dx of Collimator Hole
 DEFINE: YColH 		50 # Dy of Collimator Hole
 
