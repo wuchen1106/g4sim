@@ -1,0 +1,77 @@
+checkoverlap
+#==================================================================================================================
+#	SiR1
+#       - 58 microns thick (elog:Capture/29 attachment 3 and 4)
+#	- 50 x 50 mm active area (Micron website)
+#	- 4 quadrants
+#
+#	SiR2
+#       - 1545 microns thick (elog:Capture/29 attachment 6)
+#	- 50 x 50 mm active area (Micron catalogue)
+#
+#	SiR3
+#       - 1500 microns thick (nominal elog:R2015b/22)
+#	- 50 x 50 mm active area (elog:R2015b/22))
+#
+# For P2 the order was SiR1, SiR2, SiR3 (SiR3 is OFF)
+#==================================================================================================================
+DEFINE: thSiR1  0.058 # SiR1 thickness
+DEFINE: wSiR1   50  # SiR1 width
+DEFINE: hSiR1   50  # SiR1 height
+DEFINE: nQuads 4    # SiR1 channels
+
+DEFINE: wQuad  wSiR1/(nQuads/2) # width of 1 quad
+DEFINE: hQuad  hSiR1/(nQuads/2)         # height of 1 quad
+DEFINE: thQuad thSiR1	      # thickness of 1 quad
+
+DEFINE: thSiR2  1.545 # SiR2 thickness
+DEFINE: wSiR2   50  # SiR2 width
+DEFINE: hSiR2   50  # SiR2 height
+
+DEFINE: thSiR3  1.500 # SiR3 thickness
+DEFINE: wSiR3   50  # SiR3 width
+DEFINE: hSiR3   50  # SiR3 height
+
+DEFINE: RBlockGaps 1 # 1 mm between silicon layers (?)
+
+DEFINE: wRDetBlock wSiR1+1 # the width of the right detector block mother volume
+DEFINE: hRDetBlock hSiR1+1 # the height of the right detector block mother volume
+DEFINE: thRDetBlock thSiR1+thSiR3+thSiR2+2*RBlockGaps # the width of the right detector block mother volume
+
+DEFINE: xSiR1 0
+DEFINE: ySiR1 0
+DEFINE: zSiR1 -thRDetBlock/2+thSiR1/2
+DEFINE: xQuad xSiR1-0.5*wQuad+(int(x/2)*wQuad)
+DEFINE: yQuad ySiR1+0.5*hQuad-((x==1||x==2)*hQuad) # want first channel in top left and then move clockwise
+DEFINE: zQuad zSiR1
+
+DEFINE: xSiR2 0
+DEFINE: ySiR2 0
+DEFINE: zSiR2 zSiR1+thSiR1/2+RBlockGaps+thSiR2/2
+
+DEFINE: xSiR3 0
+DEFINE: ySiR3 0
+DEFINE: zSiR3 zSiR2+thSiR2/2+RBlockGaps+thSiR3/2
+
+DEFINE: SiR1ToChamberWall 40 # see elog:385
+DEFINE: xRDetBlock 0 # "nicely centred" (see elog:302, NB for Al50) (relative to ChamberIn)
+DEFINE: yRDetBlock RO-zSiR1-SiR1ToChamberWall # beam right of target
+DEFINE: zRDetBlock Z0 # distance above floor
+
+#Box info
+#	Type x      y      z      Name        RepNo MotVolume Material     SDName        posX    posY  posZ    Ephi Ethe Epsi
+#	     mm     mm     mm                                                            mm      mm    mm      deg  deg  deg
+#	                                                                               P R       Phi   Z
+#	                                                                               S R       Phi   Theta  
+        B    wRDetBlock hRDetBlock thRDetBlock RightDetBlock 1 ChamberIn Vacuum none      xRDetBlock yRDetBlock zRDetBlock 0 -90 0
+	B    wQuad hQuad thQuad SiR1       4   RightDetBlock Silicon M/MonitorSD      xQuad  yQuad zQuad  0    0   0   
+	B    wSiR2 hSiR2 thSiR2 SiR2       1   RightDetBlock Silicon M/MonitorSD      xSiR2  ySiR2 zSiR2  0    0   0 
+	B    wSiR3 hSiR3 thSiR3 SiR3       1   RightDetBlock Silicon none       xSiR3  ySiR3 zSiR3  0    0   0 
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name                red    green  blue  transparency
+	vis_SiR1	    1      0      0  
+	vis_SiR2	    0      1      0  
+	vis_SiR3	    0      0      1  
