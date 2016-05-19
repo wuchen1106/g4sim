@@ -2,9 +2,9 @@ checkoverlap
 #==================================================================================================================
 #	Target
 #==================================================================================================================
-DEFINE: XT 		100 # x Dimension of Target
 DEFINE: XTB		100 # x Dimension of Target Border
 DEFINE: XTBHole		87 # X Dimension of the Hole in the Target Border
+DEFINE: XT 		XTBHole # x Dimension of Target (nominally it's 100 mm x 100 mm but to avoid overlaps need to define it as big as the hole)
 DEFINE: thPb		2
 DEFINE: XTBS		XTB+2*thPb # x Dimension of Target Border Shielding
 DEFINE: XTBSHole	XTBHole-2*thPb # X Dimension of the Hole in the Target Border

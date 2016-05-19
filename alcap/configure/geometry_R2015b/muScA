@@ -15,7 +15,7 @@ DEFINE: hFrame1 145 # height of Frame1
 DEFINE: tFrame1 6.79 # thickness of Frame1
 DEFINE: wHoleFrame1 96 # width of the hole in Frame1
 DEFINE: hHoleFrame1 96 # height of the hole in Frame1
-DEFINE: zPosFrame1 tMuScAMother-tFrame1/2 # z-position of Frame1 (wrt MuScAMother volume)
+DEFINE: zPosFrame1 tMuScAMother/2-tFrame1/2 # z-position of Frame1 (wrt MuScAMother volume)
 
 # Pb collimator (esc_col_JFA.idw.pdf)
 DEFINE: wPbColl 101 # width of the Pb frame part
