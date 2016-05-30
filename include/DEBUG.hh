@@ -9,7 +9,7 @@
 //#define DEBUG_MYDETM //MyDetectorManager
 #define DEBUG_EM //G4EventManager
 //#define DEBUG_MAT // MaterialSvc
-#define DEBUG_CDCSD //CdcSD
+//#define DEBUG_CDCSD //CdcSD
 //#define DEBUG_MTA //MyTrackingAction
 //#define DEBUG_SA //SteppingAction
 //#define DEBUG_EA //EventAction
@@ -54,6 +54,9 @@
 	#define CDCSD_LINEINFO()
 	#define CDCSD_LINEVAR( var )
 	#define CDCSD_LINECONT( var )
+	#define CDCSDPH_LINEINFO()
+	#define CDCSDPH_LINEVAR( var )
+	#define CDCSDPH_LINECONT( var )
 #endif
 
 #ifdef DEBUG_EM

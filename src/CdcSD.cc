@@ -78,7 +78,8 @@ CdcSD::~CdcSD(){
 //Will be called by geant4 automatically at the beginning of each event
 void CdcSD::Initialize(G4HCofThisEvent* HCE)
 {
-	min_evt_num = atoi(getenv("MINEVTNUM")); 
+	char * minevtnumstr = getenv("MINEVTNUM");
+	if (minevtnumstr!=NULL) min_evt_num = atoi(minevtnumstr);
 	pPrimaryGeneratorAction = PrimaryGeneratorAction::GetPrimaryGeneratorAction();
 	hitsCollection = new CdcHitsCollection
 		(SensitiveDetectorName,collectionName[0]);
@@ -705,6 +706,12 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 
 	//*************************accumulate step info********************************
 	bool stillIn = false;
+	CDCSDPH_LINEVAR(layerId);
+	CDCSDPH_LINEVAR(prelayerId);
+	CDCSDPH_LINEVAR(cellId);
+	CDCSDPH_LINEVAR(precellId);
+	CDCSDPH_LINEVAR(trackID);
+	CDCSDPH_LINEVAR(preTid);
 	if (layerId==prelayerId&&cellId==precellId&&trackID==preTid){
 		edeptemp+=edepIoni;
 		stepLtemp+=stepL;
@@ -713,11 +720,8 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 //		std::cout<<"  Same cell! "<<edeptemp<<","<<stepLtemp<<std::endl;
 	}
 	else{
-		edeptemp = 0;
-		stepLtemp = 0;
-		precellId = cellId;
-		prelayerId = layerId;
-		preTid = trackID;
+		edeptemp = edepIoni;
+		stepLtemp = stepL;
 		// FIXME:
 //		std::cout<<"  new cell!"<<std::endl;
 	}
@@ -776,16 +780,20 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	else if (action == 1){
 		CDCSDPH_LINEINFO();
 		//maxn
+		CDCSDPH_LINEVAR(cdc_nHits);
 		if ( maxn && cdc_nHits >= maxn ) return false;
 		//ntracks
 		if ( trackID != prevTrackID ){
 			prevTrackID = trackID;
 			nTracks++;
 		}
+		CDCSDPH_LINEVAR(nTracks);
 		if ( nTracks > ntracks && ntracks) return false;
 		//minp
+		CDCSDPH_LINEVAR(pointIn_pa);
 		if ( minp && pointIn_pa < minp ) return false;
 		//time_window
+		CDCSDPH_LINEVAR(globalT);
 		if(isnan(globalT)){
 			G4cout<<"CdcSD:error, globalT is nan "<<G4endl;
 			return false;
@@ -794,6 +802,7 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 		if ( globalT > maxt && maxt ) return false;
 		//edep
 //		std::cout<<"edepIoni = "<<edepIoni<<std::endl;
+		CDCSDPH_LINEVAR(edeptemp);
 		if (edeptemp<=minedeptemp) return false;
 //		std::cout<<"Passed!"<<std::endl;
 		CDCSDPH_LINEINFO();
@@ -943,16 +952,25 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 //		std::cout<<"hitPointer["<<layerId<<"]["<<cellId<<"] = "<<pointer<<std::endl;
 //		std::cout<<"=>Update Hit!"<<std::endl;
 		CDCSDPH_LINEVAR(pointer);
+		CDCSDPH_LINEVAR(m_edep[pointer]);
 		if(flag_edep) m_edep[pointer] += (edepIoni)/unit_edep;
+		CDCSDPH_LINEVAR(m_edepAll[pointer]);
 		if(flag_edepAll) m_edepAll[pointer] += (edep)/unit_edepAll;
+		CDCSDPH_LINEVAR(m_edepDelta[pointer]);
 		if(flag_edepAll) m_edepDelta[pointer] += (edepDelta)/unit_edepAll;
+		CDCSDPH_LINEVAR(m_stepL[pointer]);
 		if(flag_stepL) m_stepL[pointer] += stepL/unit_stepL;
+		CDCSDPH_LINEVAR(driftD);
+		CDCSDPH_LINEVAR(m_driftDtrue[pointer]*unit_driftDtrue);
 		if(flag_driftDtrue) if(driftD<m_driftDtrue[pointer]*unit_driftDtrue) m_driftDtrue[pointer] = driftD/unit_driftDtrue;
+		CDCSDPH_LINEVAR(pointer);
 		if (isPrimaryIon){
+		CDCSDPH_LINEVAR(pointer);
 			if (signalT<m_tstart[pointer]*unit_tstart) m_tstart[pointer] = signalT/unit_tstart;
 			else if (signalT>m_tstop[pointer]*unit_tstop) m_tstop[pointer] = signalT/unit_tstop;
 			if(flag_nPair) m_nPair[pointer]++;
 			if(flag_driftD) if(driftD<m_driftD[pointer]*unit_driftD){
+		CDCSDPH_LINEVAR(pointer);
 				if ( trackID != prevTrackID ){
 					prevTrackID = trackID;
 					nTracks++;
@@ -1059,7 +1077,9 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 					if(flag_opy) m_opy[pointer] = opy;
 					if(flag_opz) m_opz[pointer] = opz;
 				}
+		CDCSDPH_LINEVAR(pointer);
 			}
+		CDCSDPH_LINEVAR(pointer);
 		}
 	CDCSDPH_LINEINFO();
 	}
@@ -1068,6 +1088,9 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	if (pointer<0) pointer=m_driftD.size()-1;
 //	std::cout<<"  "<<pointer<<":"<<m_driftD[pointer]<<", "<<m_driftDtrue[pointer]<<", "<<m_stepL[pointer]<<", "<<m_edep[pointer]<<std::endl;
 	CDCSDPH_LINEINFO();
+	precellId = cellId;
+	prelayerId = layerId;
+	preTid = trackID;
 	return true;
 }
 
