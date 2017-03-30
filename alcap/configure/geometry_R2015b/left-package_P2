@@ -1,0 +1,78 @@
+checkoverlap
+#==================================================================================================================
+#	SiL1
+#       - 52 microns thick (elog:181)
+#	- 50.5 x 50.5 mm active area (drawing A-2338.pdf)
+#	- 16 strips
+#
+#	SiL2
+#       - 1535 microns thick (elog:Capture/29 attachment 5)
+#	- 50 x 50 mm active area (Micron catalogue)
+#
+#	SiL3
+#       - 1500 microns thick (nominal elog:R2015b/22)
+#	- 50 x 50 mm active area (elog:R2015b/22))
+#
+# For P2 the order was SiL1, SiL3, SiL2 (SiL2 is at 20 V)
+#==================================================================================================================
+DEFINE: thSiL1  0.052 # SiL1 thickness
+DEFINE: wSiL1   50.5  # SiL1 width
+DEFINE: hSiL1   50.5  # SiL1 height
+DEFINE: nStrips 16    # SiL1 channels
+
+DEFINE: wStrip  wSiL1/nStrips # width of 1 strip
+DEFINE: hStrip  hSiL1         # height of 1 strip
+DEFINE: thStrip thSiL1	      # thickness of 1 strip
+
+DEFINE: thSiL2  1.535 # SiL2 thickness
+DEFINE: wSiL2   50  # SiL2 width
+DEFINE: hSiL2   50  # SiL2 height
+
+DEFINE: thSiL3  1.500 # SiL3 thickness
+DEFINE: wSiL3   50  # SiL3 width
+DEFINE: hSiL3   50  # SiL3 height
+
+DEFINE: LBlockGaps 1 # 1 mm between silicon layers (?)
+
+DEFINE: wLDetBlock wSiL1+1 # the width of the left detector block mother volume
+DEFINE: hLDetBlock hSiL1+1 # the height of the left detector block mother volume
+DEFINE: thLDetBlock thSiL1+thSiL3+thSiL2+2*LBlockGaps # the width of the left detector block mother volume
+
+DEFINE: xSiL1 0
+DEFINE: ySiL1 0
+DEFINE: zSiL1 -thLDetBlock/2+thSiL1/2
+DEFINE: xStrip xSiL1-(nStrips/2)*wStrip+0.5*wStrip+(x*wStrip)
+DEFINE: yStrip ySiL1
+DEFINE: zStrip zSiL1
+
+DEFINE: xSiL3 0
+DEFINE: ySiL3 0
+DEFINE: zSiL3 zSiL1+thSiL1/2+LBlockGaps+thSiL3/2
+DEFINE: SiL3ToChamberWall 27 # see elog:385
+
+DEFINE: xSiL2 0
+DEFINE: ySiL2 0
+DEFINE: zSiL2 zSiL3+thSiL3/2+LBlockGaps+thSiL2/2
+
+
+DEFINE: xLDetBlock -5 # 5 mm upstream (see elog:302, NB for Al50) (relative to ChamberIn)
+DEFINE: yLDetBlock -RO+zSiL3+SiL3ToChamberWall # beam left of target
+DEFINE: zLDetBlock Z0 # distance above floor
+
+#Box info
+#	Type x      y      z      Name        RepNo MotVolume Material     SDName        posX    posY  posZ    Ephi Ethe Epsi
+#	     mm     mm     mm                                                            mm      mm    mm      deg  deg  deg
+#	                                                                               P R       Phi   Z
+#	                                                                               S R       Phi   Theta  
+        B    wLDetBlock hLDetBlock thLDetBlock LeftDetBlock 1 ChamberIn Vacuum none      xLDetBlock yLDetBlock zLDetBlock 0 90 0
+	B    wStrip hStrip thStrip SiL1       16    LeftDetBlock Silicon  M/MonitorSD      xStrip  yStrip zStrip  0    0   0 
+	B    wSiL2 hSiL2 thSiL2 SiL2       1    LeftDetBlock Silicon  M/MonitorSD      xSiL2  ySiL2 zSiL2  0    0   0 
+	B    wSiL3 hSiL3 thSiL3 SiL3       1    LeftDetBlock Silicon  M/MonitorSD      xSiL3  ySiL3 zSiL3  0    0   0 
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name                red    green  blue  transparency
+	vis_SiL1	    1      0      0  
+	vis_SiL2	    0      1      0  
+	vis_SiL3	    0      0      1  

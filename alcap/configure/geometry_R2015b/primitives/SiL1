@@ -1,0 +1,34 @@
+#==================================================================================================================
+#	SiL1
+#       - 52 microns thick (elog:181)
+#	- 50.5 x 50.5 mm active area (drawing A-2338.pdf)
+#	- 16 strips
+#==================================================================================================================
+DEFINE: thSiL1  0.052 # SiL1 thickness
+DEFINE: wSiL1   50.5  # SiL1 width
+DEFINE: hSiL1   50.5  # SiL1 height
+DEFINE: nStrips 16    # SiL1 channels
+
+DEFINE: wStrip  wSiL1/nStrips # width of 1 strip
+DEFINE: hStrip  hSiL1         # height of 1 strip
+DEFINE: thStrip thSiL1	      # thickness of 1 strip
+
+DEFINE: centralX 0
+DEFINE: centralY 0
+DEFINE: centralZ 0
+DEFINE: xStrip centralX-(nStrips/2)*wStrip+0.5*wStrip+(x*wStrip)
+DEFINE: yStrip centralY
+DEFINE: zStrip centralZ
+
+#Box info
+#	Type x      y      z      Name        RepNo MotVolume Material     SDName        posX    posY  posZ    Ephi Ethe Epsi
+#	     mm     mm     mm                                                            mm      mm    mm      deg  deg  deg
+#	                                                                               P R       Phi   Z
+#	                                                                               S R       Phi   Theta  
+	B    wStrip hStrip thStrip SiL1       16    World VacuumPSI  none      xStrip  yStrip zStrip  0    0   0 
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name                red    green  blue  transparency
+	vis_SiL1	    1      0      0  

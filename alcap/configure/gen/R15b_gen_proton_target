@@ -14,17 +14,17 @@
 #	             MeV
 #	MomAmp:      10
 #	MomSpread:   10
-	Ekin:      25
-	EkinSpread:   50
+	Ekin:      5
+	EkinSpread:   10
 #Default Position     x    y   z
 #	                  mm   mm  mm
-#	Position:         0    0  -355         
-#	PosSpread:        8.33 5   0
+	Position:         0  0  10
+	PosSpread:        8.33 5   1
 #	PosLimit:         17.5
 
 	RandMode:       none #(none/root)
 	EnergyMode:     uRand #(root/histo/none)
-	PositionMode:   histo  #(uniform/root/none/gRand/uRand/turtle/muPC)
+	PositionMode:   target #(uniform/root/none/gRand/uRand/turtle/muPC)
 	DirectionMode:  uniform #(none/uniform/histo/turtle/muPC)
 	ThetaMode:      none #(none/gRand/uRand)
 	PhiMode:        none #(none/gRand/uRand)
@@ -36,8 +36,6 @@
 #
 # Position histogram and file
 #
-        PMHFN:       input_gen_hists_Al50_THnSparse_2.root
-        PMHHN:       hGlobalStoppingPositions
 
 #Scale Momentum  Spread
 #1.03  28.84     0.368

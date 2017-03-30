@@ -1,0 +1,62 @@
+checkoverlap
+#==================================================================================================================
+#	SiT
+#       - 58 microns thick (elog:Capture/29 attachment 3 and 4)
+#	- 50 x 50 mm active area (Micron website)
+#	- 4 quadrants
+#==================================================================================================================
+DEFINE: thSiT  0.058 # SiT thickness
+DEFINE: wSiT   50  # SiT width
+DEFINE: hSiT   50  # SiT height
+DEFINE: nSiTQuads 4    # SiT channels
+
+DEFINE: wSiTQuad  wSiT/(nSiTQuads/2) # width of 1 quad
+DEFINE: hSiTQuad  hSiT/(nSiTQuads/2)         # height of 1 quad
+DEFINE: thSiTQuad thSiT	      # thickness of 1 quad
+
+# The full Ag collimator, if there was no hole
+DEFINE: wAgFull wSiT*2
+DEFINE: hAgFull hSiT*2
+DEFINE: thAgFull 1 # TODO:find actual thickness
+# The dimensions of the hole
+DEFINE: wAgHole 46 # elog:247 (order determined from elog:257)
+DEFINE: hAgHole 35 # elog:247
+
+# Relative to chamber
+DEFINE: centralX RI-37 # upstream inner chamber wall to siT is 3.7 cm (elog:358)
+DEFINE: centralY 0 # left-right displacement
+DEFINE: centralZ Z0 # distance above floor of chamber
+
+# Relative to SiTMother
+DEFINE: xSiTQuad -0.5*wSiTQuad+(int(x/2)*wSiTQuad)
+DEFINE: ySiTQuad +0.5*hSiTQuad-((x==1||x==2)*hSiTQuad) # want first channel in top left and then move clockwise
+DEFINE: zSiTQuad 0
+
+# Relative to SiTMother
+DEFINE: zAgShield zSiTQuad+thSiTQuad/2+thAgFull/2
+
+#Box info
+#	Type x      y      z      Name        RepNo MotVolume Material     SDName        posX    posY  posZ    Ephi Ethe Epsi
+#	     mm     mm     mm                                                            mm      mm    mm      deg  deg  deg
+#	                                                                               P R       Phi   Z
+#	                                                                               S R       Phi   Theta  
+	B    wAgFull+1 hAgFull+1 thAgFull+2 SiTMother   1    ChamberIn Vacuum  M/MonitorSD    centralX centralY centralZ  90   90   0 
+	B    wSiTQuad hSiTQuad thSiTQuad SiT       4    SiTMother Silicon  M/MonitorSD            xSiTQuad  ySiTQuad zSiTQuad  0    0   0 
+	B    wAgFull hAgFull thAgFull AgFull
+	B    wAgHole hAgHole thAgFull+1 AgHole
+
+#BooleanSolid info
+#       Type type  vol1       vol2        Ephi Ethe Epsi PosX PosY PosZ   name                  RepNo MotVolume   Material SDName  posX posY posZ  Ephi Ethe Epsi  
+#                                         deg  deg  deg  mm   mm   mm                                                              mm   mm   mm    deg  deg  deg   
+#                                                       P R    Phi  Z                                                             P R    Phi  Z    
+#                                                       S R    Phi  Theta                                                         S R    Phi  Theta
+        BL   minus AgFull   AgHole         0    0    0    0    0    0    AgShield               1     SiTMother   Silver   none    0    0   zAgShield   0    0    0  
+
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name                red    green  blue  transparency
+#	vis_SiTMother 0 1 0
+	vis_SiT	    1      0      0  
+	vis_AgShield 0 	   0 	  1

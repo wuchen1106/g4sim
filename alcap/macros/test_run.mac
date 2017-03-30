@@ -14,7 +14,7 @@
 /g4sim/gun/ResetGen               gen/gen_gam_tgt
 
 # Set Geo
-/g4sim/det/ReloadGeo              geometry_1217
+/g4sim/det/ReloadGeo             geometry_R2013/archive/geometry_1217
 
 
 #	For this run

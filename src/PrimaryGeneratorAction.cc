@@ -712,21 +712,27 @@ void PrimaryGeneratorAction::SetRandomPosition(){
 
 	  // Get a random position based on the spread (copied code from gRand)
 	  do {
-			//dx=G4RandGauss::shoot(0,xSpread);
-			//dy=G4RandGauss::shoot(0,ySpread);
-			//dz=G4RandGauss::shoot(0,zSpread);
-	    dx=G4RandFlat::shoot(-xSpread,xSpread);
-	    dy=G4RandFlat::shoot(-ySpread,ySpread);
-	    dz=G4RandFlat::shoot(-xSpread,zSpread);
+			dx=G4RandGauss::shoot(0,xSpread);
+			dy=G4RandGauss::shoot(0,ySpread);
+			dz=G4RandGauss::shoot(0,zSpread);
+			//			std::cout << "AE: xspread = " << xSpread << ", dx = " << dx << std::endl;
+			//			std::cout << "AE: yspread = " << ySpread << ", dy = " << dy << std::endl;
+			//			std::cout << "AE: zspread = " << zSpread << ", dz = " << dz << std::endl;
+			//	    dx=G4RandFlat::shoot(-xSpread,xSpread);
+			//	    dy=G4RandFlat::shoot(-ySpread,ySpread);
+			//	    dz=G4RandFlat::shoot(-xSpread,zSpread);
 
 	    G4ThreeVector position(x+dx, y+dy, z+dz);
-	    CLHEP::HepEulerAngles rotation(45*deg, 90*deg, 0*deg);
-	    G4ThreeVector new_position = position.rotate(rotation);
-	    G4VPhysicalVolume* phys_volume = theNavigator->LocateGlobalPointAndSetup(new_position);
+	    //	    std::cout << "AE (before rotation): " << position << std::endl;
+	    position.rotateY(135*deg);
+	    G4VPhysicalVolume* phys_volume = theNavigator->LocateGlobalPointAndSetup(position);
 
 	    if (!phys_volume) {
 	      continue; // if theNavigator didn't return a physical volume
 	    }
+
+	    //	    std::cout << "AE (after rotation): " << position << std::endl;
+	    //	    std::cout << "AE vol name: " << phys_volume->GetName() << std::endl;
 
 	    if ( (PositionMode=="source" && phys_volume->GetName() == "Source") ||
 		 (PositionMode=="target" && phys_volume->GetName() == "Target") ) {
@@ -737,8 +743,7 @@ void PrimaryGeneratorAction::SetRandomPosition(){
 
   G4ThreeVector position(x+dx, y+dy, z+dz);
   if (PositionMode == "source" || PositionMode == "target") {
-    CLHEP::HepEulerAngles rotation(45*deg, 90*deg, 0*deg);
-    position = position.rotate(rotation);
+    position.rotateY(135*deg);
   }
   particleGun->SetParticlePosition(position);
 }

@@ -2,7 +2,7 @@
 
 #General setting  
 	Type:      simple #(simple/stable/ion)
-	Particle:  proton #(e+/e-/deuteron/chargedgeantino/gamma/...)
+	Particle:  mu- #(e+/e-/deuteron/chargedgeantino/gamma/...)
 
 #Default Direction
 #	           Theta    Phi
@@ -14,8 +14,8 @@
 #	             MeV
 #	MomAmp:      10
 #	MomSpread:   10
-	Ekin:      25
-	EkinSpread:   50
+	Ekin:      0
+	EkinSpread:   0
 #Default Position     x    y   z
 #	                  mm   mm  mm
 #	Position:         0    0  -355         

@@ -14,8 +14,8 @@
 #	             MeV
 #	MomAmp:      10
 #	MomSpread:   10
-	Ekin:      25
-	EkinSpread:   50
+	Ekin:        8.2
+	EkinSpread:   13.6
 #Default Position     x    y   z
 #	                  mm   mm  mm
 #	Position:         0    0  -355         
@@ -36,7 +36,7 @@
 #
 # Position histogram and file
 #
-        PMHFN:       input_gen_hists_Al50_THnSparse_2.root
+        PMHFN:       input_gen_hists_Al100_THnSparse_2.root
         PMHHN:       hGlobalStoppingPositions
 
 #Scale Momentum  Spread
