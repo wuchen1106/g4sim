@@ -1,6 +1,6 @@
 void PlotBeamline() {
 
-  TFile* file = new TFile("output/raw_g4sim.root", "READ");
+  TFile* file = new TFile("../output/raw_g4sim.root", "READ");
   TTree* tree = (TTree*) file->Get("tree");
 
   const int n_monitors = 17;

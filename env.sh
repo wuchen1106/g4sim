@@ -9,7 +9,7 @@ fi
 
 source geant4-install/bin/geant4.sh
 source geant4-install/share/Geant4-*/geant4make/geant4make.sh
-source ../AlcapDAQ/root-install/bin/thisroot.sh
+#source ../AlcapDAQ/root-install/bin/thisroot.sh
 
 
 export ALCAPWORKROOT=$MYG4SIMROOT/alcap

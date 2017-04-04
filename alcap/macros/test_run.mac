@@ -14,10 +14,11 @@
 /g4sim/gun/ResetGen               gen/gen_gam_tgt
 
 # Set Geo
-/g4sim/det/ReloadGeo             geometry_R2013/archive/geometry_1217
+#/g4sim/det/ReloadGeo             geometry_R2013/archive/geometry_1217
+/g4sim/det/ReloadGeo             geometry_R2015b/geometry_P5
 
 
 #	For this run
-/run/beamOn  1
+/run/beamOn  10000
 
 /vis/ogl/printEPS

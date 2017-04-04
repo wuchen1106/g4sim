@@ -104,12 +104,12 @@ void EvdE_protonsAsPrimary_ben(std::string filename) {
        double i_edep = edep->at(iElement)*1e3; // convert to MeV
 
        // If this is a hit in the SiL thick or thin:
-       if(volName->at(iElement)=="ESi2"){
+       if(volName->at(iElement)=="SiR2"){
          ++N_thick; 
          E+=i_edep;
          // Since this is thick, check if the proton stopped
          if(stopped->at(iElement)) thick_stop=true;
-       } else if(volName->at(iElement)=="dESi2"){
+       } else if(volName->at(iElement)=="SiR1"){
          ++N_thin; 
          dE+=i_edep;
        } else {
