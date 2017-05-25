@@ -262,7 +262,7 @@ G4bool KillerSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	if (mine&&aTrack->GetTotalEnergy()<mine) return false;
 
 	//time_window
-	if(isnan(pointOut_time)){
+	if(std::isnan(pointOut_time)){
 		G4cout<<"KillerSD:error, pointOut_time is nan "<<G4endl;
 		return false;
 	}

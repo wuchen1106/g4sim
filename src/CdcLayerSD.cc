@@ -408,7 +408,7 @@ G4bool CdcLayerSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistor
 	if ( minp && hitPoint_pa < minp ) return false;
 
 	//time_window
-  if(isnan(hitPoint_time)){
+  if(std::isnan(hitPoint_time)){
     G4cout<<"CdcLayerSD:error, hitPoint_time is nan "<<G4endl;
     return false;
   }

@@ -794,7 +794,7 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 		if ( minp && pointIn_pa < minp ) return false;
 		//time_window
 		CDCSDPH_LINEVAR(globalT);
-		if(isnan(globalT)){
+		if(std::isnan(globalT)){
 			G4cout<<"CdcSD:error, globalT is nan "<<G4endl;
 			return false;
 		}

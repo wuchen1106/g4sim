@@ -386,7 +386,7 @@ G4bool CdcIonSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	if ( minC && pointIn_pa < minC ) return false;
 
 	//time_window
-  if(isnan(globalT)){
+  if(std::isnan(globalT)){
     G4cout<<"CdcIonSD:error, globalT is nan "<<G4endl;
     return false;
   }

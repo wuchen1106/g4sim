@@ -360,7 +360,7 @@ G4bool CdcSimpleSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHisto
 	CDCSD_LINEINFO();
 
 	//time_window
-	if(isnan(globalT)){
+	if(std::isnan(globalT)){
 		G4cout<<"CdcSimpleSD:error, globalT is nan "<<G4endl;
 		return false;
 	}

@@ -590,7 +590,7 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	if (mine&&aTrack->GetTotalEnergy()<mine) return false;
 
 	//time_window
-	if(isnan(pointIn_time)){
+	if(std::isnan(pointIn_time)){
 		G4cout<<"MonitorSD:error, pointIn_time is nan "<<G4endl;
 		return false;
 	}
