@@ -343,10 +343,14 @@ G4double _current, G4double _gradient) {
 bool MyBLFieldMap::readFileROOT(G4String filename) {
     printf("MyBLFieldMap: reading ROOT file '%s'\n",filename.c_str());
     TFile * inputfile = new TFile(filename.c_str());
+    if (!inputfile) {
+        G4Exception("MyBLFieldMap","Cannot find ROOT file!!!",FatalException,
+            filename.c_str());
+    }
     TTree * param = (TTree*) inputfile->Get("param");
     if (!param) {
-		std::cout<<"Cannot find param tree in \""<<filename<<"\" !!!"<<std::endl;
-		return false;
+        G4Exception("MyBLFieldMap","Cannot find tree param!!!",FatalException,
+            filename.c_str());
     }
     char type[256];
     param->SetBranchAddress("type",type);
