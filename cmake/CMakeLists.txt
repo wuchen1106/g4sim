@@ -3,8 +3,8 @@
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 project(G4SIM)
 
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --std=c++11")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+# for ROOT6 compilation, use c++11
+#set(CMAKE_CXX_STANDARD 11)
 
 #----------------------------------------------------------------------------
 # Find Geant4 package, activating all available UI and Vis drivers by default
@@ -76,7 +76,8 @@ add_library(g4simlib SHARED ${sources})
 set(libsuffix .so)
 set(ROOT_LIBRARY_PROPERTIES ${ROOT_LIBRARY_PROPERTIES} SUFFIX ${libsuffix})
 set_target_properties(g4simlib PROPERTIES ${ROOT_LIBRARY_PROPERTIES})
-target_link_libraries(g4simlib ${Geant4_LIBRARIES} ${ROOT_LIBRARIES} Cintex Reflex)
+#target_link_libraries(g4simlib ${Geant4_LIBRARIES} ${ROOT_LIBRARIES} Cintex Reflex)
+target_link_libraries(g4simlib ${Geant4_LIBRARIES} ${ROOT_LIBRARIES})
 
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries

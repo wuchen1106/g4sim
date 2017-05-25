@@ -7,7 +7,7 @@
 
 //#define DEBUG_MYTRI //MyTriggerSvc
 //#define DEBUG_MYDETM //MyDetectorManager
-#define DEBUG_EM //G4EventManager
+//#define DEBUG_EM //G4EventManager
 //#define DEBUG_MAT // MaterialSvc
 //#define DEBUG_CDCSD //CdcSD
 //#define DEBUG_MTA //MyTrackingAction
