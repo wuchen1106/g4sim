@@ -89,11 +89,6 @@ int main(int argc,char** argv)
 	//
 	G4RunManager * runManager = new G4RunManager;
 
-	// Set mandatory initialization classes
-	//
-	runManager->SetUserInitialization(new DetectorConstruction);
-	//
-
 	// get physicslist
 	G4VModularPhysicsList* physics;
 	G4String PhysicsListName = getenv("PHYSICSLIST");
@@ -136,11 +131,17 @@ int main(int argc,char** argv)
 	//
 	runManager->SetUserAction(new MyStackingAction());
 
+    // Get analysis service
+	MyAnalysisSvc* myAnalysisSvc = new MyAnalysisSvc();
+
+	// Set mandatory initialization classes
+	//
+	runManager->SetUserInitialization(new DetectorConstruction);
+	//
+
 	// Initialize G4 kernel
 	//
 	runManager->Initialize();
-
-	MyAnalysisSvc* myAnalysisSvc = new MyAnalysisSvc();
 
 	// Get the pointer to the User Interface manager
 	G4UImanager* UImanager = G4UImanager::GetUIpointer();
