@@ -366,10 +366,10 @@ bool MyBLFieldMap::readFileROOT(G4String filename) {
 	else if ((std::string)type=="cylinder"){
 		impl = new CylinderImpl(param);
     }
-	else if ((std::string)type=="time"){
-		G4cerr<<"time mode for readFileROOT not supported yet!"<<G4endl;
+    else{
+		G4cerr<<"mode \""<<type<<"\" for readFileROOT not supported yet!"<<G4endl;
 		return false;
-	}
+    }
 	impl->SetOrigin(Xorigin,Yorigin,Zorigin);
 	delete param;
 	param = 0;
