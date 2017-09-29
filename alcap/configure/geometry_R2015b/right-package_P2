@@ -15,7 +15,9 @@ checkoverlap
 #
 # For P2 the order was SiR1, SiR2, SiR3 (SiR3 is OFF)
 #==================================================================================================================
-DEFINE: thSiR1  0.058 # SiR1 thickness
+
+DEFINE: nomThSiR1 0.058 # nominal SiR1 thickness (dead layer needs to be included in this)
+DEFINE: thSiR1  nomThSiR1-2*thDLSi # active SiR1 thickness
 DEFINE: wSiR1   50  # SiR1 width
 DEFINE: hSiR1   50  # SiR1 height
 DEFINE: nR1Quads 4    # SiR1 channels
@@ -24,11 +26,13 @@ DEFINE: wR1Quad  wSiR1/(nR1Quads/2) # width of 1 quad
 DEFINE: hR1Quad  hSiR1/(nR1Quads/2)         # height of 1 quad
 DEFINE: thR1Quad thSiR1	      # thickness of 1 quad
 
-DEFINE: thSiR2  1.545 # SiR2 thickness
+DEFINE: nomThSiR2  1.545 # SiR2 thickness
+DEFINE: thSiR2  nomThSiR2-2*thDLSi # SiR2 thickness
 DEFINE: wSiR2   50  # SiR2 width
 DEFINE: hSiR2   50  # SiR2 height
 
-DEFINE: thSiR3  1.500 # SiR3 thickness
+DEFINE: nomThSiR3  1.500 # SiR3 thickness
+DEFINE: thSiR3  nomThSiR3-2*thDLSi # SiR3 thickness
 DEFINE: wSiR3   50  # SiR3 width
 DEFINE: hSiR3   50  # SiR3 height
 
@@ -36,22 +40,40 @@ DEFINE: RBlockGaps 1 # 1 mm between silicon layers (?)
 
 DEFINE: wRDetBlock wSiR1+1 # the width of the right detector block mother volume
 DEFINE: hRDetBlock hSiR1+1 # the height of the right detector block mother volume
-DEFINE: thRDetBlock thSiR1+thSiR3+thSiR2+2*RBlockGaps # the width of the right detector block mother volume
+DEFINE: thRDetBlock nomThSiR1+nomThSiR3+nomThSiR2+2*RBlockGaps+2*3*thDLAl # the width of the left detector block mother volume
+
+DEFINE: zSiR1DLAl1 -thRDetBlock/2+thDLAl/2
+DEFINE: zSiR1DLSi1 zSiR1DLAl1+thDLAl/2+thDLSi/2
 
 DEFINE: xSiR1 0
 DEFINE: ySiR1 0
-DEFINE: zSiR1 -thRDetBlock/2+thSiR1/2
+DEFINE: zSiR1 zSiR1DLSi1+thDLSi/2+thSiR1/2
 DEFINE: xR1Quad xSiR1-0.5*wR1Quad+(int(x/2)*wR1Quad)
 DEFINE: yR1Quad ySiR1+0.5*hR1Quad-((x==1||x==2)*hR1Quad) # want first channel in top left and then move clockwise
 DEFINE: zR1Quad zSiR1
 
+DEFINE: zSiR1DLSi2 zSiR1+thSiR1/2+thDLSi/2
+DEFINE: zSiR1DLAl2 zSiR1DLSi2+thDLSi/2+thDLAl/2
+
+DEFINE: zSiR2DLAl1 zSiR1DLSi2+thDLAl/2+LBlockGaps+thDLAl/2
+DEFINE: zSiR2DLSi1 zSiR2DLAl1+thDLAl/2+thDLSi/2
+
 DEFINE: xSiR2 0
 DEFINE: ySiR2 0
-DEFINE: zSiR2 zSiR1+thSiR1/2+RBlockGaps+thSiR2/2
+DEFINE: zSiR2 zSiR2DLSi1+thDLSi/2+thSiR2/2
+
+DEFINE: zSiR2DLSi2 zSiR2+thSiR2/2+thDLSi/2
+DEFINE: zSiR2DLAl2 zSiR2DLSi2+thDLSi/2+thDLAl/2
+
+DEFINE: zSiR3DLAl1 zSiR2DLSi2+thDLAl/2+LBlockGaps+thDLAl/2
+DEFINE: zSiR3DLSi1 zSiR3DLAl1+thDLAl/2+thDLSi/2
 
 DEFINE: xSiR3 0
 DEFINE: ySiR3 0
-DEFINE: zSiR3 zSiR2+thSiR2/2+RBlockGaps+thSiR3/2
+DEFINE: zSiR3 zSiR3DLSi1+thDLSi/2+thSiR3/2
+
+DEFINE: zSiR3DLSi2 zSiR3+thSiR3/2+thDLSi/2
+DEFINE: zSiR3DLAl2 zSiR3DLSi2+thDLSi/2+thDLAl/2
 
 DEFINE: SiR1ToChamberWall 40 # see elog:385
 DEFINE: xRDetBlock 0 # "nicely centred" (see elog:302, NB for Al50) (relative to ChamberIn)
@@ -64,9 +86,24 @@ DEFINE: zRDetBlock Z0 # distance above floor
 #	                                                                               P R       Phi   Z
 #	                                                                               S R       Phi   Theta  
         B    wRDetBlock hRDetBlock thRDetBlock RightDetBlock 1 ChamberIn Vacuum none      xRDetBlock yRDetBlock zRDetBlock 0 -90 0
+
+	B    wSiR1  hSiR1  thDLAl  SiR1DeadAl_1 1 RightDetBlock Aluminium none          xSiR1  ySiR1 zSiR1DLAl1 0 0 0 
+	B    wSiR1  hSiR1  thDLSi  SiR1DeadSi_1 1 RightDetBlock Silicon none          xSiR1  ySiR1 zSiR1DLSi1 0 0 0 
 	B    wR1Quad hR1Quad thR1Quad SiR1       4   RightDetBlock Silicon M/MonitorSD      xR1Quad  yR1Quad zR1Quad  0    0   0   
-	B    wSiR2 hSiR2 thSiR2 SiR2       1   RightDetBlock Silicon M/MonitorSD      xSiR2  ySiR2 zSiR2  0    0   0 
-	B    wSiR3 hSiR3 thSiR3 SiR3       1   RightDetBlock Silicon none       xSiR3  ySiR3 zSiR3  0    0   0 
+	B    wSiR1  hSiR1  thDLSi  SiR1DeadSi_2 1 RightDetBlock Silicon none          xSiR1  ySiR1 zSiR1DLSi2 0 0 0 
+	B    wSiR1  hSiR1  thDLAl  SiR1DeadAl_2 1 RightDetBlock Aluminium none          xSiR1  ySiR1 zSiR1DLAl2 0 0 0 
+
+	B    wSiR2  hSiR2  thDLAl  SiR2DeadAl_1 1 RightDetBlock Aluminium none          xSiR2  ySiR2 zSiR2DLAl1 0 0 0 
+	B    wSiR2  hSiR2  thDLSi  SiR2DeadSi_1 1 RightDetBlock Silicon none          xSiR2  ySiR2 zSiR2DLSi1 0 0 0 
+	B    wSiR2  hSiR2  thSiR2  SiR2    1    RightDetBlock Silicon  M/MonitorSD        xSiR2  ySiR2  zSiR2   0    0   0 
+	B    wSiR2  hSiR2  thDLSi  SiR2DeadSi_2 1 RightDetBlock Silicon none          xSiR2  ySiR2 zSiR2DLSi2 0 0 0 
+	B    wSiR2  hSiR2  thDLAl  SiR2DeadAl_2 1 RightDetBlock Aluminium none          xSiR2  ySiR2 zSiR2DLAl2 0 0 0 
+
+	B    wSiR3  hSiR3  thDLAl  SiR3DeadAl_1 1 RightDetBlock Aluminium none          xSiR3  ySiR3 zSiR3DLAl1 0 0 0 
+	B    wSiR3  hSiR3  thDLSi  SiR3DeadSi_1 1 RightDetBlock Silicon none          xSiR3  ySiR3 zSiR3DLSi1 0 0 0 
+	B    wSiR3  hSiR3  thSiR3  SiR3    1    RightDetBlock Silicon  M/MonitorSD        xSiR3  ySiR3  zSiR3   0    0   0 
+	B    wSiR3  hSiR3  thDLSi  SiR3DeadSi_2 1 RightDetBlock Silicon none          xSiR3  ySiR3 zSiR3DLSi2 0 0 0 
+	B    wSiR3  hSiR3  thDLAl  SiR3DeadAl_2 1 RightDetBlock Aluminium none          xSiR3  ySiR3 zSiR3DLAl2 0 0 0 
 
 #visual settings
 	VerboseLevel:    5
