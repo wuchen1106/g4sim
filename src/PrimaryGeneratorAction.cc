@@ -749,6 +749,7 @@ void PrimaryGeneratorAction::SetRandomPosition(){
 }
 
 void PrimaryGeneratorAction::SetUniformPosition(){
+
 	MyVGeometryParameter* pMyVGeometryParameter = MyDetectorManager::GetMyDetectorManager()->GetSvc(UP_SubDet)->get_GeometryParameter();
 	if (!pMyVGeometryParameter){
 		std::cout<<"ERROR: in PrimaryGeneratorAction::SetUniformPosition cannot find : "<<UP_SubDet<<"!!!"<<std::endl;
@@ -799,11 +800,26 @@ void PrimaryGeneratorAction::SetUniformPosition(){
 					"InvalidInput", FatalException,
 					"unsupported solid type");
 		}
+		//		std::cout << "AE1: " << pos << std::endl;
+
+		//		std::cout << "Index = " << index << ", ivol = " << ivol << std::endl;
+		G4double Ephi, Etheta, Epsi;
+		Ephi = pSimpleGeometryParameter->get_Ephi(index,ivol);
+		Etheta = pSimpleGeometryParameter->get_Etheta(index,ivol);
+		Epsi = pSimpleGeometryParameter->get_Epsi(index,ivol);
+		G4RotationMatrix rot(Ephi,Etheta,Epsi);
+		//		std::cout << "AERot1: " << rot << std::endl;
+		pos = rot.inverse()*pos; // rotate to the mother volume coordinate system
+		//		std::cout << "AE2: " << pos << std::endl;
+
 		G4double xp,yp,zp;
 		xp = pSimpleGeometryParameter->get_PosX(index,ivol);
 		yp = pSimpleGeometryParameter->get_PosY(index,ivol);
 		zp = pSimpleGeometryParameter->get_PosZ(index,ivol);
+		//		std::cout << "xp, yp, zp = " << xp << ", " << yp << ", " << zp << std::endl;
 		pos += G4ThreeVector(xp,yp,zp);
+
+		//		std::cout << "AE2: " << pos << std::endl;
 		G4String mot_volume = pSimpleGeometryParameter->get_MotherName(index);
 		SimpleGeometryParameter * pmotSimpleGeometryParameter = 0;
 		int temp_index = index;
@@ -811,13 +827,28 @@ void PrimaryGeneratorAction::SetUniformPosition(){
 		while (mot_volume!="None"){
 			pmotSimpleGeometryParameter = MyDetectorManager::GetMyDetectorManager()->GetParaFromVolume(mot_volume);
 			int mot_index = pmotSimpleGeometryParameter->get_VolIndex(mot_volume);
+
+			G4double mot_Ephi, mot_Etheta, mot_Epsi;
+			mot_Ephi = pmotSimpleGeometryParameter->get_Ephi(mot_index);
+			mot_Etheta = pmotSimpleGeometryParameter->get_Etheta(mot_index);
+			mot_Epsi = pmotSimpleGeometryParameter->get_Epsi(mot_index);
+			G4RotationMatrix rot(mot_Ephi,mot_Etheta,mot_Epsi);
+			pos = rot.inverse()*pos; // rotate to the mother volume
+			//			std::cout << "AERot2: " << rot << std::endl;
+			//			std::cout << "AE2: " << pos << std::endl;
+
 			G4double mot_xp = pmotSimpleGeometryParameter->get_PosX(mot_index);
 			G4double mot_yp = pmotSimpleGeometryParameter->get_PosY(mot_index);
 			G4double mot_zp = pmotSimpleGeometryParameter->get_PosZ(mot_index);
+			//			std::cout << "Index = " << index << ", mot_index = " << mot_index << ", " << mot_volume << std::endl;
+			//			std::cout << "mot_xp, yp, zp = " << mot_xp << ", " << mot_yp << ", " << mot_zp << std::endl;
 			pos += G4ThreeVector(mot_xp,mot_yp,mot_zp);
+
+			//			std::cout << "AE3: " << pos << "(" << mot_volume << ")" << std::endl;
 			temp_index = mot_index;
 			mot_volume = pmotSimpleGeometryParameter->get_MotherName(temp_index);
 		}
+		//		std::cout << "AEFinal: " << pos << std::endl;
 		particleGun->SetParticlePosition(pos);
 	}
 	else{

@@ -13,7 +13,8 @@ checkoverlap
 #       - 1500 microns thick (nominal elog:R2015b/22)
 #	- 50 x 50 mm active area (elog:R2015b/22))
 #
-# For P2 the order was SiL1, SiL3, SiL2 (SiL2 is at 20 V)
+# For P5 only SiL1 is in the centre, SiL3 is in it's correct position
+# for the time being jsut turn off the SiL3 detector
 #==================================================================================================================
 DEFINE: thDLSi 0.0005 # thickness of the Si dead layer
 DEFINE: thDLAl 0.0005 # thickness of the Al dead layer
@@ -78,9 +79,8 @@ DEFINE: zSiL2DLSi2 zSiL2+thSiL2/2+thDLSi/2
 DEFINE: zSiL2DLAl2 zSiL2DLSi2+thDLSi/2+thDLAl/2
 
 
-DEFINE: SiL3ToChamberWall 27 # see elog:385
-DEFINE: xLDetBlock -5 # 5 mm upstream (see elog:302, NB for Al50) (relative to ChamberIn)
-DEFINE: yLDetBlock -RO+zSiL3+SiL3ToChamberWall # beam left of target
+DEFINE: xLDetBlock 0 # now the target
+DEFINE: yLDetBlock 0
 DEFINE: zLDetBlock Z0 # distance above floor
 
 #Box info
@@ -88,7 +88,7 @@ DEFINE: zLDetBlock Z0 # distance above floor
 #	     mm     mm     mm                                                            mm      mm    mm      deg  deg  deg
 #	                                                                               P R       Phi   Z
 #	                                                                               S R       Phi   Theta  
-        B    wLDetBlock hLDetBlock thLDetBlock LeftDetBlock 1 ChamberIn Vacuum none      xLDetBlock yLDetBlock zLDetBlock 0 90 0
+        B    wLDetBlock hLDetBlock thLDetBlock LeftDetBlock 1 ChamberIn Vacuum none      xLDetBlock yLDetBlock zLDetBlock -90 90 0
 
 	B    wSiL1  hSiL1  thDLAl  SiL1DeadAl_1 1 LeftDetBlock Aluminium none          xSiL1  ySiL1 zSiL1DLAl1 0 0 0 
 	B    wSiL1  hSiL1  thDLSi  SiL1DeadSi_1 1 LeftDetBlock Silicon none          xSiL1  ySiL1 zSiL1DLSi1 0 0 0 
@@ -96,22 +96,23 @@ DEFINE: zLDetBlock Z0 # distance above floor
 	B    wSiL1  hSiL1  thDLSi  SiL1DeadSi_2 1 LeftDetBlock Silicon none          xSiL1  ySiL1 zSiL1DLSi2 0 0 0 
 	B    wSiL1  hSiL1  thDLAl  SiL1DeadAl_2 1 LeftDetBlock Aluminium none          xSiL1  ySiL1 zSiL1DLAl2 0 0 0 
 
-	B    wSiL3  hSiL3  thDLAl  SiL3DeadAl_1 1 LeftDetBlock Aluminium none          xSiL3  ySiL3 zSiL3DLAl1 0 0 0 
-	B    wSiL3  hSiL3  thDLSi  SiL3DeadSi_1 1 LeftDetBlock Silicon none          xSiL3  ySiL3 zSiL3DLSi1 0 0 0 
-	B    wSiL3  hSiL3  thSiL3  SiL3    1    LeftDetBlock Silicon  M/MonitorSD        xSiL3  ySiL3  zSiL3   0    0   0 
-	B    wSiL3  hSiL3  thDLSi  SiL3DeadSi_2 1 LeftDetBlock Silicon none          xSiL3  ySiL3 zSiL3DLSi2 0 0 0 
-	B    wSiL3  hSiL3  thDLAl  SiL3DeadAl_2 1 LeftDetBlock Aluminium none          xSiL3  ySiL3 zSiL3DLAl2 0 0 0 
+#	B    wSiL3  hSiL3  thDLAl  SiL3DeadAl_1 1 LeftDetBlock Aluminium none          xSiL3  ySiL3 zSiL3DLAl1 0 0 0 
+#	B    wSiL3  hSiL3  thDLSi  SiL3DeadSi_1 1 LeftDetBlock Silicon none          xSiL3  ySiL3 zSiL3DLSi1 0 0 0 
+#	B    wSiL3  hSiL3  thSiL3  SiL3    1    LeftDetBlock Silicon  M/MonitorSD        xSiL3  ySiL3  zSiL3   0    0   0 
+#	B    wSiL3  hSiL3  thDLSi  SiL3DeadSi_2 1 LeftDetBlock Silicon none          xSiL3  ySiL3 zSiL3DLSi2 0 0 0 
+#	B    wSiL3  hSiL3  thDLAl  SiL3DeadAl_2 1 LeftDetBlock Aluminium none          xSiL3  ySiL3 zSiL3DLAl2 0 0 0 
 
-	B    wSiL2  hSiL2  thDLAl  SiL2DeadAl_1 1 LeftDetBlock Aluminium none          xSiL2  ySiL2 zSiL2DLAl1 0 0 0 
-	B    wSiL2  hSiL2  thDLSi  SiL2DeadSi_1 1 LeftDetBlock Silicon none          xSiL2  ySiL2 zSiL2DLSi1 0 0 0 
-	B    wSiL2  hSiL2  thSiL2  SiL2    1    LeftDetBlock Silicon  M/MonitorSD        xSiL2  ySiL2  zSiL2   0    0   0 
-	B    wSiL2  hSiL2  thDLSi  SiL2DeadSi_2 1 LeftDetBlock Silicon none          xSiL2  ySiL2 zSiL2DLSi2 0 0 0 
-	B    wSiL2  hSiL2  thDLAl  SiL2DeadAl_2 1 LeftDetBlock Aluminium none          xSiL2  ySiL2 zSiL2DLAl2 0 0 0 
+#	B    wSiL2  hSiL2  thDLAl  SiL2DeadAl_1 1 LeftDetBlock Aluminium none          xSiL2  ySiL2 zSiL2DLAl1 0 0 0 
+#	B    wSiL2  hSiL2  thDLSi  SiL2DeadSi_1 1 LeftDetBlock Silicon none          xSiL2  ySiL2 zSiL2DLSi1 0 0 0 
+#	B    wSiL2  hSiL2  thSiL2  SiL2    1    LeftDetBlock Silicon  M/MonitorSD        xSiL2  ySiL2  zSiL2   0    0   0 
+#	B    wSiL2  hSiL2  thDLSi  SiL2DeadSi_2 1 LeftDetBlock Silicon none          xSiL2  ySiL2 zSiL2DLSi2 0 0 0 
+#	B    wSiL2  hSiL2  thDLAl  SiL2DeadAl_2 1 LeftDetBlock Aluminium none          xSiL2  ySiL2 zSiL2DLAl2 0 0 0 
 
 #visual settings
 	VerboseLevel:    5
 	VISSETTING  #Keep this line to call Reset
 #	Name                red    green  blue  transparency
+	vis_Target	    1	   0	  0
 	vis_SiL1	    1      0      0  
 	vis_SiL2	    0      1      0  
 	vis_SiL3	    0      0      1  

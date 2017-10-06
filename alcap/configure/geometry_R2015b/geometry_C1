@@ -1,0 +1,14 @@
+# The Segment which includes World should be put at the first line!!
+	VerboseLevel    1
+	checkoverlap
+#ServiceName        ServiceType         FileName
+	World           Simple              world_AlCap
+	Chamber		Simple		    geometry_R2015b/chamber
+	GeDetector		Simple		    geometry_R2015b/germanium_detector
+	LeftPackage		Simple		    geometry_R2015b/left-package_C1
+	RightPackage		Simple		    geometry_R2015b/right-package_P2
+	SiT		Simple		    geometry_R2015b/SiT_C1
+#	BackWall	Simple		    geometry_R2015b/back_wall
+#	Collimator	Simple		    geometry_R2015b/collimator
+	MuScA		Simple		    geometry_R2015b/muScA
+	Am241Source	Simple		    geometry_R2015b/Am241_source
