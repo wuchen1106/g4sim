@@ -1,6 +1,6 @@
 #----------------------------------------------------------------------------
 # Setup the project
-cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.3 FATAL_ERROR)
 project(G4SIM)
 
 #----------------------------------------------------------------------------
@@ -33,6 +33,21 @@ endif()
 #   message(STATUS "G4 Examples: GCCXML not found. --> P01 example disabled")
 #   return()
 #endif() 
+
+#----------------------------------------------------------------------------
+# Set policy
+# If Policy CMP0042 exists, use OLD to prefer the use of install names
+# instead of the new @rpath default. This is temporary to suppress warnings
+# on newer CMake versions.
+if(POLICY CMP0042)
+  cmake_policy(SET CMP0042 NEW)
+endif()
+if(POLICY CMP0065)
+  cmake_policy(SET CMP0065 NEW)
+endif()
+
+set(CMAKE_USER_MAKE_RULES_OVERRIDE_CXX
+   ${CMAKE_SOURCE_DIR}/cmake/Modules/Geant4MakeRules_cxx.cmake)
 
 #----------------------------------------------------------------------------
 # P01 requires shared libraries
@@ -101,7 +116,7 @@ endforeach()
 # Add program to the project targets
 # (this avoids the need of typing the program name after make)
 #
-add_custom_target(G4SIM DEPENDS g4sim)
+#add_custom_target(G4SIM DEPENDS g4sim)
 
 #----------------------------------------------------------------------------
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX

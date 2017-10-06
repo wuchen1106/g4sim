@@ -69,6 +69,11 @@
 //#include "HadronPhysicsQGSP_BERT.hh"
 //#include "HadronPhysicsQGSP_BERT_HP.hh"
 
+#include "G4MuonicAtomDecayPhysics.hh"
+#include "G4HadronHElasticPhysics.hh"
+#include "G4StoppingPhysics.hh"
+
+
 #include "MyDecayPhysics.hh"
 #include "MyPionPhysics.hh"
 
@@ -99,10 +104,12 @@ PhysicsList::PhysicsList(int ver):  G4VModularPhysicsList()
 
   // Hadron Physics
   //RegisterPhysics( new HadronPhysicsQGSP_BERT_HP(ver));
-//  RegisterPhysics( new HadronPhysicsQGSP_BERT(ver));
+  //RegisterPhysics( new HadronPhysicsQGSP_BERT(ver));
+  RegisterPhysics( new G4HadronHElasticPhysics(ver) );
 
   // Stopping Physics
-//  RegisterPhysics( new G4QStoppingPhysics(ver) );
+  RegisterPhysics( new G4StoppingPhysics(ver) );
+  //RegisterPhysics( new G4QStoppingPhysics(ver) );
   //RegisterPhysics( new G4LHEPStoppingPhysics(ver) );
 
   // Ion Physics
@@ -114,6 +121,7 @@ PhysicsList::PhysicsList(int ver):  G4VModularPhysicsList()
   // My Physics
   //RegisterPhysics( new MyPionPhysics(ver) );
 
+  RegisterPhysics( new G4MuonicAtomDecayPhysics(ver) );
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

@@ -179,7 +179,7 @@ void KillerSD::ShowOutCard(){
 	std::cout<<"tres =          "<<tres/ns<<"ns"<<std::endl;
 	std::cout<<"minedep =       "<<minedep/MeV<<"MeV"<<std::endl;
 	std::cout<<"white list:     "<<std::endl;
-	for ( int i = 0; i< white_list.size(); i++){
+	for ( unsigned long i = 0; i< white_list.size(); i++){
 		std::cout <<"  Only tracks with these following PDGCodes will be killed:"<<std::endl;
 		std::cout<<"            "<<i<<": "<<white_list[i]<<std::endl;
 	}
@@ -187,7 +187,7 @@ void KillerSD::ShowOutCard(){
 		std::cout <<"  Empty! So all tracks will be killed!"<<std::endl;
 	}
 	std::cout<<"black list:     "<<std::endl;
-	for ( int i = 0; i< black_list.size(); i++){
+	for ( unsigned long i = 0; i< black_list.size(); i++){
 		std::cout <<"  Tracks with these following PDGCodes will NOT be killed:"<<std::endl;
 		std::cout<<"            "<<i<<": "<<black_list[i]<<std::endl;
 	}
@@ -209,11 +209,11 @@ G4bool KillerSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 
 	// get information at the beginning and at the end of step
 	G4StepPoint* prePoint  = aStep->GetPreStepPoint() ;
-	G4double total_e = prePoint->GetTotalEnergy();
+//	G4double total_e = prePoint->GetTotalEnergy();
 	G4ThreeVector pointIn_mom = prePoint->GetMomentum();
-	G4double pointIn_pa = pointIn_mom.mag();
+//	G4double pointIn_pa = pointIn_mom.mag();
 	G4ThreeVector pointIn_pos = prePoint->GetPosition();
-	G4double pointIn_time = prePoint->GetGlobalTime();//Time since the event in which the track belongs is created
+//	G4double pointIn_time = prePoint->GetGlobalTime();//Time since the event in which the track belongs is created
 	G4StepPoint* postPoint  = aStep->GetPostStepPoint() ;
 	G4double pointOut_time = postPoint->GetGlobalTime();//Time since the event in which the track belongs is created
 	G4ThreeVector pointOut_mom = postPoint->GetMomentum();
@@ -222,12 +222,12 @@ G4bool KillerSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 
 	// get volume info
 	const G4VTouchable *touchable = prePoint->GetTouchable();
-	G4int ReplicaNo = touchable->GetVolume(0)->GetCopyNo();
+//	G4int ReplicaNo = touchable->GetVolume(0)->GetCopyNo();
 	G4String VolName = touchable->GetVolume(0)->GetName();
 
 	// get step info
 	G4double edep = aStep->GetTotalEnergyDeposit();
-	G4double stepL = aStep->GetStepLength();
+//	G4double stepL = aStep->GetStepLength();
 
 	//*************************filter***********************
 	//switch
@@ -241,7 +241,7 @@ G4bool KillerSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 
 	// white_list
 	bool foundit = false;
-	for (int i = 0; i<white_list.size(); i++){
+	for (unsigned long i = 0; i<white_list.size(); i++){
 		if (pid == white_list[i]) foundit=true;
 		if (white_list[i]==0&&pid<1e7) foundit = true;
 		if (white_list[i]==-1&&trackID==1) foundit = true;
@@ -249,7 +249,7 @@ G4bool KillerSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	if (!foundit&&white_list.size()) return false;
 	// black_list
 	foundit = false;
-	for (int i = 0; i<black_list.size(); i++){
+	for (unsigned long i = 0; i<black_list.size(); i++){
 		if (pid == black_list[i]) foundit=true;
 		if (black_list[i]==0&&pid<1e7) foundit = true;
 		if (black_list[i]==-1&&trackID==1) foundit = true;

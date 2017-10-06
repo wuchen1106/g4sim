@@ -1,5 +1,5 @@
 /control/getEnv ALCAPWORKROOT
-/control/execute {ALCAPWORKROOT}/macros/SiR2.mac
+/control/execute {ALCAPWORKROOT}/macros/andy_run_R15b.mac
 #/control/execute {ALCAPWORKROOT}/macros/GeCallibration.mac
 #/control/execute {ALCAPWORKROOT}/macros/CheckEu152.mac
 

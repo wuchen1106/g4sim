@@ -14,12 +14,20 @@
 #	             MeV
 #	MomAmp:      10
 #	MomSpread:   10
-	Ekin:      5
-	EkinSpread:   10
+
+# triton 9,14
+# deuteron 7, 12
+# proton 5, 10
+#
+# proton_pt 5, 30
+# deuteron_pt 7, 34
+# triton_pt 9, 36
+	Ekin:   5
+	EkinSpread: 30
 #Default Position     x    y   z
 #	                  mm   mm  mm
-	Position:         0  0  10
-	PosSpread:        8.33 5   1
+	Position:         0  0  0
+	PosSpread:        8.33 5   0.01
 #	PosLimit:         17.5
 
 	RandMode:       none #(none/root)

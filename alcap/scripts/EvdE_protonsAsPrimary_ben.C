@@ -99,7 +99,7 @@ void EvdE_protonsAsPrimary_ben(std::string filename) {
        if(particleName->at(iElement)!=particle) continue;
 
        // Check it came from the target or as a primary particle
-       if(oprocess->at(iElement)!="NULL" && ovolName->at(iElement)!="ESi1") continue;
+       if(oprocess->at(iElement)!="NULL" && ovolName->at(iElement)!="SiL1") continue;
 
        double i_edep = edep->at(iElement)*1e3; // convert to MeV
 

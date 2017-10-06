@@ -70,6 +70,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
 		void SetUniformDirection();
 		void SetRandomDirection();
 		void SetRandomPosition();
+		void SetPosition(G4double *parameters, G4double rotation);
 		void SetRandomEnergy();
 		void SetUniformPosition();
 		void BuildHistoFromFile();
@@ -187,8 +188,8 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
 
   TH2F* fMuPCBeamDistHist;
 
-  TH2F* fMuPCBeamDistRandom;
-  TH2F* fFFBeamDistRandom;
+//  TH2F* fMuPCBeamDistRandom;
+//  TH2F* fFFBeamDistRandom;
 
   // For "collimated" position and energy modes
   TH3F* fCollimatedInputHist_XYPz;

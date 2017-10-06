@@ -12,8 +12,8 @@
 #	PhiSpread:          180
 #Default Momentum Amplitude
 #	             MeV
-	MomAmp:      26.3
-	MomSpread:   0.335
+	MomAmp:      26.3 #26.3
+	MomSpread:   0.335 #0.335
 #Default Position     x    y   z
 #	                  mm   mm  mm
 #	Position:         -0.06    0  -355         
@@ -22,7 +22,7 @@
 
 	RandMode:       none #(none/root)
 	EnergyMode:     none #(root/histo/none/collimated)
-	PositionMode:   muPC  #(uniform/root/none/gRand/uRand/turtle/muPC)
+	PositionMode:   muPC #(uniform/root/none/gRand/uRand/turtle/muPC)
 	DirectionMode:  muPC #(none/uniform/histo/turtle/muPC)
 	ThetaMode:      none #(none/gRand/uRand)
 	PhiMode:        none #(none/gRand/uRand)

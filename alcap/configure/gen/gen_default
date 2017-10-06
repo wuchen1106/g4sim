@@ -1,29 +1,29 @@
 # A default generator file that shouldn't be used
-	PhysicsList: QGSP_BERT
+#	PhysicsList: QGSP_BERT
 
 #General setting  
 	Type:      simple #(simple/stable/ion)
-	Particle:  geantino #(e+/e-/deuteron/chargedgeantino/gamma/...)
+	Particle:  mu- #(e+/e-/deuteron/chargedgeantino/gamma/...)
 
 #Default Direction
 #	           Theta    Phi
 #	           deg      deg
-	Direction: 0        180
-#	ThetaSpread:        1.71887
-#	PhiSpread:          180
+	Direction: 0        0
+	ThetaSpread:        0
+	PhiSpread:          0 
 #Default Momentum Amplitude
 #	             MeV
-	MomAmp:      0
-	MomSpread:   0
+	MomAmp:      26.3
+	MomSpread:   0.335
 #Default Position     x    y   z
 #	                  mm   mm  mm
-	Position:         0    0   0         
-	PosSpread:        0    0   0
+	Position:         0    0   0
+	PosSpread:        7    7   0
 	PosLimit:         0
 
 	RandMode:       none #(none/root)
 	EnergyMode:     none #(root/histo/none)
-	PositionMode:   none  #(uniform/root/none/gRand/uRand)
+	PositionMode:   gRand #(uniform/root/none/gRand/uRand)
 	DirectionMode:  none #(none/uniform/histo)
 	ThetaMode:      none #(none/gRand/uRand)
 	PhiMode:        none #(none/gRand/uRand)

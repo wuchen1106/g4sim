@@ -41,7 +41,7 @@ class McTruthSvc
 		double get_pz( int i ){ if(i<m_nTracks) return m_pz[i]; else return 0; }
 
 		int tid2pid(int tid){
-			for (int i = 0; i< m_dicttid.size(); i++){
+			for (unsigned long i = 0; i< m_dicttid.size(); i++){
 				if (tid==m_dicttid[i])
 					return m_dictpid[i];
 			}
@@ -49,7 +49,7 @@ class McTruthSvc
 		}
 
 		double tid2time(int tid){
-			for (int i = 0; i< m_dicttid.size(); i++){
+			for (unsigned long i = 0; i< m_dicttid.size(); i++){
 				if (tid==m_dicttid[i])
 					return m_dicttime[i];
 			}

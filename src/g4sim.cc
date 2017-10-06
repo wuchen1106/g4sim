@@ -74,7 +74,7 @@
 int main(int argc,char** argv)
 {
 
-	MyRoot* myRoot = new MyRoot();
+//	MyRoot* myRoot = new MyRoot();
 
 	// Choose the Random engine
 	//
@@ -112,7 +112,7 @@ int main(int argc,char** argv)
 	}
 	else{
 		physics = new QGSP_BERT;
-		physics ->RegisterPhysics(new G4RadioactiveDecayPhysics());
+		physics->RegisterPhysics(new G4RadioactiveDecayPhysics());
 	}
 	physics->RegisterPhysics(new MyStepLimiter());
 	runManager->SetUserInitialization(physics);

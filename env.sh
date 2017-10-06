@@ -14,14 +14,14 @@ source geant4-install/share/Geant4-*/geant4make/geant4make.sh
 
 export ALCAPWORKROOT=$MYG4SIMROOT/alcap
 
-export PHYSICSLIST=QGSP_BERT           # QGSP_BERT;QGSP_BERT_HP;QGSP_BERT_noRadi;QGSP_BERT_HP_noRadi
+export PHYSICSLIST=QGSP_BERT #QGSP_BERT;QGSP_BERT_HP;QGSP_BERT_noRadi;QGSP_BERT_HP_noRadi
 
 #for configuration cards
 export MATERIALLISTROOT=material_list
 export MAGFIELDCARDROOT=mag/MagField_none
 export OUTCARDROOT=output/output_default
-export GEOCARDROOT=geometry_R2013/archive/geometry_1217
-export GENFILEROOT=gen/gen_default
+export GEOCARDROOT=geometry_R2015b/geometry_P2
+export GENFILEROOT=gen/gen_R15b_26.3_muPC
 
 #for directories
 export MACROSROOT=$ALCAPWORKROOT/macros
@@ -29,6 +29,7 @@ export MACROSCOMMONROOT=$MACROSROOT/common
 export CONFIGUREROOT=$ALCAPWORKROOT/configure/
 export ALCAPDATAROOT="$ALCAPWORKROOT/data/"
 export CONFIGUREDATAROOT=$ALCAPDATAROOT
+export MUONBEAMROOT="R15b_Al100_muon_profile.root"
 export ALCAPFIELDMAPSROOT="$ALCAPWORKROOT/fieldMaps/"
 export FIELDMAPSROOT=$ALCAPFIELDMAPSROOT
 export OFILENAMEROOT=$ALCAPWORKROOT/output/raw_g4sim.root

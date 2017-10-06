@@ -45,7 +45,7 @@ class PhysicsList: public G4VModularPhysicsList
 public:
   PhysicsList(int ver = 1);
   virtual ~PhysicsList();
-
+protected:
   void SetCuts();
 };
 

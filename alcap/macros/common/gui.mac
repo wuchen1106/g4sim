@@ -13,20 +13,22 @@
 # Vis menu :
 /gui/addMenu vis Vis
 /gui/addButton vis setvis            "/control/execute {ALCAPWORKROOT}/macros/common/setvis.mac"
-/control/execute {ALCAPWORKROOT}/macros/Al100.mac
+/control/execute {ALCAPWORKROOT}/macros/R15b_Al100.mac
+#/control/execute {ALCAPWORKROOT}/macros/CheckEu152.mac
+#control/execute {ALCAPWORKROOT}/macros/CheckAm241.mac
 
 #
 # Run menu :
 /gui/addMenu run Run
-/gui/addButton run "beamOn 1" "/run/beamOn 1"
-/gui/addButton run run                   "/control/execute {ALCAPWORKROOT}/macros/run.mac"
-/gui/addButton run grid_ol               "/control/execute {ALCAPWORKROOT}/macros/common/grid_ol.mac"
-/gui/addButton run line_ol               "/control/execute {ALCAPWORKROOT}/macros/common/line_ol.mac"
+/gui/addButton run "beamOn 1"		"/run/beamOn 1"
+/gui/addButton run run                  "/control/execute {ALCAPWORKROOT}/macros/run.mac"
+/gui/addButton run grid_ol              "/control/execute {ALCAPWORKROOT}/macros/common/grid_ol.mac"
+/gui/addButton run line_ol              "/control/execute {ALCAPWORKROOT}/macros/common/line_ol.mac"
 #
 # ResetMisc menu :
 /gui/addMenu reset ResetMisc
 /gui/addButton reset SiR2                "/control/execute {ALCAPWORKROOT}/macros/SiR2.mac"
-/gui/addButton reset Al100                "/control/execute {ALCAPWORKROOT}/macros/Al100.mac"
+/gui/addButton reset Al100               "/control/execute {ALCAPWORKROOT}/macros/Al100.mac"
 /gui/addButton reset GeCallibration      "/control/execute {ALCAPWORKROOT}/macros/GeCallibration.mac"
 /gui/addButton reset GeCalibration_Si16p_target      "/control/execute {ALCAPWORKROOT}/macros/GeCalibration_Si16p_target.mac"
 /gui/addButton reset resetVerbose        "/control/execute {ALCAPWORKROOT}/macros/resetVerbose.mac"
@@ -39,14 +41,11 @@
 #
 # ReloadGeo menu :
 /gui/addMenu reGeo ReloadGeo
-/gui/addButton reGeo 1205                "/g4sim/det/ReloadGeo              geometry_1205"
-/gui/addButton reGeo 1207                "/g4sim/det/ReloadGeo              geometry_1207"
-/gui/addButton reGeo 1210                "/g4sim/det/ReloadGeo              geometry_1210"
-/gui/addButton reGeo 1211                "/g4sim/det/ReloadGeo              geometry_1211"
-/gui/addButton reGeo 1215                "/g4sim/det/ReloadGeo              geometry_1215"
-/gui/addButton reGeo 1217                "/g4sim/det/ReloadGeo              geometry_1217"
-/gui/addButton reGeo SiR2                "/g4sim/det/ReloadGeo              geometry_SiR2"
-/gui/addButton reGeo GeCallibration      "/g4sim/det/ReloadGeo              geometry_GeCalibration_Si16p_target"
+/gui/addButton reGeo geometry_P1         "/g4sim/det/ReloadGeo              geometry_R2015b/geometry_P1"
+/gui/addButton reGeo geometry_P2         "/g4sim/det/ReloadGeo              geometry_R2015b/geometry_P2"
+/gui/addButton reGeo geometry_P3         "/g4sim/det/ReloadGeo              geometry_R2015b/geometry_P3"
+/gui/addButton reGeo geometry_P4         "/g4sim/det/ReloadGeo              geometry_R2015b/geometry_P4"
+/gui/addButton reGeo geometry_P5         "/g4sim/det/ReloadGeo              geometry_R2015b/geometry_P5"
 #
 # ResetGen menu :
 /gui/addMenu reGen ResetGen
@@ -55,15 +54,21 @@
 #
 # Gun menu :
 /gui/addMenu gun Gun
-/gui/addButton gun "50 MeV"  "/gun/energy 50 MeV"
-/gui/addButton gun "1 GeV"   "/gun/energy 1 GeV"
-/gui/addButton gun "10 GeV"  "/gun/energy 10 GeV"
+/gui/addButton gun "10 MeV"  "/gun/energy 10 MeV"
+/gui/addButton gun "20 MeV"  "/gun/energy 20 MeV"
+/gui/addButton gun "30 MeV"  "/gun/energy 30 MeV"
 /gui/addButton gun "e-"      "/gun/particle e-"
+/gui/addButton gun "mu-"     "/gun/particle mu-"
 /gui/addButton gun "pi0"     "/gun/particle pi0"
 /gui/addButton gun "pi+"     "/gun/particle pi+"
 /gui/addButton gun "neutron" "/gun/particle neutron"
 /gui/addButton gun "proton"  "/gun/particle proton"
 #
+# Gun particle position
+/gui/addMenu gpos GunPosition
+/gui/addButton gpos "Target"		"/gun/position 0 0 0"
+/gui/addButton gpos "Off-Target"	"/gun/position 0 0 -10 mm"
+
 # Viewer menu :
 /gui/addMenu viewer Viewer
 /gui/addButton viewer "Set style surface" "/vis/viewer/set/style surface"
@@ -75,3 +80,6 @@
 #
 # To limit the output flow in the "dump" widget :
 #/XXX/event/printModulo 100
+
+#/vis/open OGL
+#/vis/viewer/create
