@@ -794,6 +794,21 @@ void PrimaryGeneratorAction::SetUniformPosition(){
 			pos.setRho(ir);
 			pos.setZ(iz);
 		}
+		else if ( sol_type == "Box" ) {
+		  G4double x, y, z;
+		  G4int iBox = pSimpleGeometryParameter->get_SolidIndex(index);
+		  x = pSimpleGeometryParameter->get_Box_X(iBox,ivol);
+		  y = pSimpleGeometryParameter->get_Box_Y(iBox,ivol);
+		  z = pSimpleGeometryParameter->get_Box_Z(iBox,ivol);
+
+		  G4double ix, iy, iz;
+		  ix = G4UniformRand()*x - x/2;
+		  iy = G4UniformRand()*y - y/2;
+		  iz = G4UniformRand()*z - z/2;
+		  pos.setX(ix);
+		  pos.setY(iy);
+		  pos.setZ(iz);
+		}
 		else{
 			std::cout<<"ERROR: in PrimaryGeneratorAction::SetUniformPosition unsupported solid type: "<<sol_type<<"!!!"<<std::endl;
 			G4Exception("PrimaryGeneratorAction::SetUniformPosition()",

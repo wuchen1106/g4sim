@@ -1,0 +1,69 @@
+checkoverlap
+
+#==================================================================================================================
+#	Am241 Source
+# -- taken from attachments in elog:AnalysisR2015b/68
+# -- the base refers to the part the Am241 is embedded in and the mount refers to what the base is attached to
+#==================================================================================================================
+DEFINE: AmSourceThickness 0.01 # The thickness of the Am241
+DEFINE: AlMountThickness 3    # The thickness of the Al mount
+DEFINE: FullAlBaseThickness  0.3
+DEFINE: TrueAlBaseThickness FullAlBaseThickness-AmSourceThickness  # The thickness of the Al base
+DEFINE: RMaxAlMount      25/2
+DEFINE: RMaxAlBase       16/2
+DEFINE: MountX 0
+
+DEFINE: BaseZ -AlMountThickness/2+AmSourceThickness+TrueAlBaseThickness/2
+DEFINE: FullBaseZ -AlMountThickness/2+FullAlBaseThickness/2
+DEFINE: SourceZ -AlMountThickness/2+AmSourceThickness/2
+
+# Rotations needed to have the source facing downstream (i.e. towards where the target should be)
+DEFINE: rotToTgtPhi 90
+DEFINE: rotToTgtThe 90
+DEFINE: rotToTgtPsi 0
+
+# Rotations needed to have the source facing SiR (in the beam right position)
+DEFINE: rotToSiRPhi 0
+DEFINE: rotToSiRThe 90
+DEFINE: rotToSiRPsi 0
+
+# Rotations needed to have the source facing SiT (in the beam left position)
+DEFINE: rotToSiTPhi 0
+DEFINE: rotToSiTThe -90
+DEFINE: rotToSiTPsi 0
+
+# Rotations needed to have the source facing SiL (in the upstream beam position)
+DEFINE: rotToSiLPhi 90
+DEFINE: rotToSiLThe -90
+DEFINE: rotToSiLPsi 0
+
+DEFINE: rotPhi rotToSiLPhi
+DEFINE: rotThe rotToSiLThe
+DEFINE: rotPsi rotToSiLPsi
+
+#Tubs info
+#	Type RMin RMax  Length Start Span Name              RepNo MotVolume Material  SDName    posX posY  posZ   Ephi   Ethe   Epsi  
+#	     mm   mm    mm     deg   deg                                                        mm   mm    mm     deg    deg    deg   
+#	                                                                                P R     Phi   Z     
+#	                                                                                S R     Phi  Theta 
+	T    0    RMaxAlMount AlMountThickness  0 360  TheSource 1 ChamberIn  Vacuum   none    MountX  0  Z0 rotPhi rotThe rotPsi
+	T    0    RMaxAlMount AlMountThickness  0 360  AlMountFull
+	T    0    RMaxAlBase  FullAlBaseThickness   0 360  AlBaseFull
+	T    0    RMaxAlBase  TrueAlBaseThickness   0 360  AlBase   1  TheSource Aluminium    M/MonitorSD 0 0 BaseZ  0 0 0
+	T    0    RMaxAlBase  AmSourceThickness 0 360  AmSource 1  TheSource Aluminium M/MonitorSD 0 0 SourceZ 0 0 0
+
+#BooleanSolid info
+#	Type type  vol1         vol2              Ephi Ethe Epsi PosX  PosY PosZ   name         RepNo MotVolume  Material SDName    posX posY posZ Ephi Ethe Epsi  
+#	                                          deg  deg  deg  mm    mm   mm                                                      mm   mm   mm   deg  deg  deg   
+#	                                                       P R     Phi  Z                                               P R    Phi  Z    
+#	                                                       S R     Phi  Theta                                           S R    Phi  Theta
+	BL   minus  AlMountFull AlBaseFull  0    0    0  P 0     0  FullBaseZ  AlMount  1  TheSource Aluminium M/MonitorSD 0  0  0  0 0 0
+
+
+#visual settings
+	VerboseLevel:    5
+	VISSETTING  #Keep this line to call Reset
+#	Name                        red    green  blue  transparency
+	vis_AlMount                 0.5    0      1  
+	vis_AlBase                  0	   1      0  
+	vis_AmSource                0      0      1  

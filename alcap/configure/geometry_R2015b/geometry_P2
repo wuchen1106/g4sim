@@ -8,7 +8,7 @@
 	PSI		Simple		    geometry_R2015b/left-package_P2
 	PSI		Simple		    geometry_R2015b/right-package_P2
 	PSI		Simple		    geometry_R2015b/SiT
-	PSI		Simple		    geometry_R2015b/Al100
+	Target		Simple		    geometry_R2015b/Al100
 	PSI		Simple		    geometry_R2015b/back_wall
 	PSI		Simple		    geometry_R2015b/collimator
 	PSI		Simple		    geometry_R2015b/muScA
