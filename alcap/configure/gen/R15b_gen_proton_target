@@ -8,8 +8,8 @@
 #	           Theta    Phi
 #	           deg      deg
 #	Direction: 0        180
-#  ThetaSpread:        1.71887
-##	PhiSpread:          180
+	ThetaSpread:        360
+	PhiSpread:          360
 #Default Momentum Amplitude
 #	             MeV
 #	MomAmp:      10
@@ -18,16 +18,17 @@
 	EkinSpread:   10
 #Default Position     x    y   z
 #	                  mm   mm  mm
-	Position:         0  0  10
-	PosSpread:        8.33 5   1
+#	Position:         0  0  10
+#	PosSpread:        8.33 5   1
 #	PosLimit:         17.5
 
 	RandMode:       none #(none/root)
 	EnergyMode:     uRand #(root/histo/none)
-	PositionMode:   target #(uniform/root/none/gRand/uRand/turtle/muPC)
-	DirectionMode:  uniform #(none/uniform/histo/turtle/muPC)
-	ThetaMode:      none #(none/gRand/uRand)
-	PhiMode:        none #(none/gRand/uRand)
+	PositionMode:   uniform #(uniform/root/none/gRand/uRand/turtle/muPC)
+	UIV: Simple Target Target
+	DirectionMode:  none #(none/uniform/histo/turtle/muPC)
+	ThetaMode:      uRand #(none/gRand/uRand)
+	PhiMode:        uRand #(none/gRand/uRand)
 	TimeMode:       none #(none/root)
 	pidMode:        none #(none/root)
 #Default Time

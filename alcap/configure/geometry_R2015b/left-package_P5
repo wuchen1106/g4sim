@@ -92,7 +92,7 @@ DEFINE: zLDetBlock Z0 # distance above floor
 
 	B    wSiL1  hSiL1  thDLAl  SiL1DeadAl_1 1 LeftDetBlock Aluminium none          xSiL1  ySiL1 zSiL1DLAl1 0 0 0 
 	B    wSiL1  hSiL1  thDLSi  SiL1DeadSi_1 1 LeftDetBlock Silicon none          xSiL1  ySiL1 zSiL1DLSi1 0 0 0 
-	B    wStrip hStrip thStrip SiL1    16    LeftDetBlock Silicon  M/MonitorSD     xStrip yStrip zStrip  0    0   0 
+	B    wStrip hStrip thStrip Target    16    LeftDetBlock Silicon  M/MonitorSD     xStrip yStrip zStrip  0    0   0 
 	B    wSiL1  hSiL1  thDLSi  SiL1DeadSi_2 1 LeftDetBlock Silicon none          xSiL1  ySiL1 zSiL1DLSi2 0 0 0 
 	B    wSiL1  hSiL1  thDLAl  SiL1DeadAl_2 1 LeftDetBlock Aluminium none          xSiL1  ySiL1 zSiL1DLAl2 0 0 0 
 
