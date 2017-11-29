@@ -19,6 +19,7 @@
 #include "G4ParticleMomentum.hh"
 #include "G4TransportationManager.hh"
 #include "Randomize.hh"
+#include "G4IonTable.hh"
 
 //supported geometry
 #include "MyDetectorManager.hh"
@@ -44,11 +45,11 @@ PrimaryGeneratorAction* PrimaryGeneratorAction::fPrimaryGeneratorAction = 0;
 
 PrimaryGeneratorAction::PrimaryGeneratorAction()
 	: MyConfigure(),
-	root_index(0),
-	m_TChain(0),
 	particleGun(0),	 //pointer a to G4  class
 	gunMessenger(0),   //messenger of this class
 	fParticle(0),
+	m_TChain(0),
+	root_index(0),
 	fp(0)
 {
 	if (fPrimaryGeneratorAction){
@@ -147,12 +148,13 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
 	// Show Status:
 //	std::cout<<"==>Event "<<root_index<<std::endl;
-//    CLHEP::HepRandom::showEngineStatus();
+//        CLHEP::HepRandom::showEngineStatus();
 
 	if (fType=="ion"){
 		if (!fParticle){
-			G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
-			fParticle = particleTable->GetIon(Z,A,E*keV);
+//			G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
+//			fParticle = particleTable->GetIon(Z,A,E*keV); //use G4RadioactiveDecay instead
+			fParticle = G4IonTable::GetIonTable()->GetIon(Z,A,E*keV);
 			if (!fParticle){
 				std::cout<<"ERROR: In PrimaryGeneratorAction::PrimaryGeneratorAction() Cannot find particle "
 						 <<"Z = "<<Z
@@ -163,9 +165,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 						FatalException, "Cannot find particle.");
 			}
 		}
-		if (fType == "stable"){
-			fParticle->SetPDGStable(true);
-		}
+//		if (fType == "stable"){
+//			fParticle->SetPDGStable(true);
+//		}
 		particleGun->SetParticleDefinition(fParticle);
 		mass = particleGun->GetParticleDefinition()->GetPDGMass();
 		particleGun->SetParticleCharge(C*eplus);
@@ -203,7 +205,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 		particleGun->SetParticleMomentumDirection(G4ThreeVector(root_double[3] * MeV, root_double[4] * MeV, root_double[5] * MeV).unit());
 		particleGun->SetParticleEnergy(ekin);
 	}
-	else if ( EnergyMode == "gRand" || EnergyMode == "uRand" ){
+	else if ( EnergyMode == "gRand" || EnergyMode == "uRand" || EnergyMode == "expRand"){
 		SetRandomEnergy();
 	}
 	else if ( EnergyMode == "collimated") {
@@ -234,7 +236,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	  //  3. Select a random y position based on the values of Py and Pz
 	  //  4. Track this (x, y) pair back to make sure that it passed the ellipse
 	  double px, py, pz; // the variables we want to get
-	  double x, y, z;
+//	  double x, y, z;
 	  z = -7.06*cm; // already set by location of ColMon
 
 	  TH2F* hXPx = NULL; // we will use these to store the projections of the various plots
@@ -313,7 +315,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	  G4ParticleMomentum particleMomentum(px, py, pz);
 
 	  G4double mom = particleMomentum.mag();
-	  G4double mass = particleGun->GetParticleDefinition()->GetPDGMass();
+	  mass = particleGun->GetParticleDefinition()->GetPDGMass();
 	  G4double ekin = sqrt(mom*mom+mass*mass)-mass;
 	  particleGun->SetParticleEnergy(ekin);
 	  particleGun->SetParticleMomentumDirection(particleMomentum.unit());
@@ -333,6 +335,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	if ( DirectionMode == "uniform" ){
 		SetUniformDirection();
 	}
+        else if ( DirectionMode == "random") {
+                SetRandomDirection();
+        }
 	else if ( DirectionMode == "histo" ){
 		G4double theta = DM_hist->GetRandom() * rad;
 		G4double phi = G4UniformRand() * 360. *deg;
@@ -407,11 +412,16 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	    TDirectory* prev_dir = gDirectory;
 	    // Get the relevant functions/histograms
 	    std::string dir_name = getenv("CONFIGUREDATAROOT");
-	    dir_name += "mupc_profile_run3600_Al50.root";
+//	    dir_name += "mupc_profile_run3600_Al50.root";
+            dir_name += getenv("MUONBEAMROOT");
 	    TFile* mupc_profile_file = new TFile(dir_name.c_str(), "READ");
 	    
 	    // Get the histogram of the beam distribution at the muPC
-	    fMuPCBeamDistHist = (TH2F*) mupc_profile_file->Get("muPC/hmuPC_XYWires")->Clone(); // need to clone because the file will be closing soon
+            if(!mupc_profile_file->Get("hmuPC_XYWires") ) {
+               G4cout << "Histogram hmuPC_XYWires does not exist." << G4endl;
+               return;
+            }
+	    fMuPCBeamDistHist = (TH2F*) mupc_profile_file->Get("hmuPC_XYWires")->Clone(); // need to clone because the file will be closing soon
 	    fMuPCBeamDistHist->SetDirectory(0); // need to set directory to 0 so that we can use this histogram after the file is closed
 	    mupc_profile_file->Close();
 	    gDirectory = prev_dir; // need to go back to where we were so that we can get the tree written to the output file
@@ -425,12 +435,12 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	      found = true; // we take anything if we want to start from the beginning
 	    }
 
-	    double x, y, z;
+//	    double x, y, z;
 	    z = -(285.58+7.5)*mm;
 	    fMuPCBeamDistHist->GetRandom2(x, y);
 	    x *= mm; y *= mm;
 	    G4ThreeVector muPCPos(x, y, z);
-	    //	  std::cout << "(x, y, z) = (" << x << ", " << y << ", " << z << ")" << std::endl;
+//	    std::cout << "(x, y, z) = (" << x << ", " << y << ", " << z << ")" << std::endl;
 
 
 	    double dMom=G4RandGauss::shoot(0,MomSpread);
@@ -459,7 +469,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	    //	    std::cout << "AE: scale = " << pz << " / " << particleMomentum.mag() << " = " << scale << std::endl;
 	    particleMomentum *= scale;
 	    //	    std::cout << "AE: Now " << particleMomentum.mag() << std::endl;
-	    G4double mass = particleGun->GetParticleDefinition()->GetPDGMass();
+	    mass = particleGun->GetParticleDefinition()->GetPDGMass();
 	    G4double ekin = sqrt(mom*mom+mass*mass)-mass;
 	    particleGun->SetParticleEnergy(ekin);
 	    particleGun->SetParticleMomentumDirection(direction);
@@ -536,7 +546,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 		//	     <<std::endl;
 		particleGun->SetParticlePosition(G4ThreeVector(root_double[0] * mm, root_double[1] * mm, (root_double[2])*mm));
 	}
-	else if ( PositionMode == "gRand" || PositionMode == "sRand" || PositionMode == "bRand" ){
+	else if ( PositionMode == "gRand" || PositionMode == "sRand" || PositionMode == "bRand" || PositionMode == "mixed" ){
 		SetRandomPosition();
 	}
 	else if ( PositionMode == "target") {
@@ -547,7 +557,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	}
 	else if ( PositionMode == "histo") {
 	  if (PM_hist) { // if we have a TH3F
-		double x=0,y=0,z=0;
+		x=0; y=0; z=0;
 		PM_hist->GetRandom3(x,y,z);
 		G4ThreeVector pos_3Vec(x, y, z);
 		particleGun->SetParticlePosition(pos_3Vec);
@@ -583,7 +593,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 				"unknown TimeMode");
 	}
 
-	//	std::cout << "Particle Momentum: " << particleGun->GetParticleEnergy() << std::endl << std::endl;
+//	std::cout << "Particle Momentum: " << particleGun->GetParticleEnergy() << std::endl << std::endl;
 	particleGun->GeneratePrimaryVertex(anEvent);
 
 //	std::cout.precision(17);
@@ -639,6 +649,10 @@ void PrimaryGeneratorAction::SetRandomEnergy(){
 		else if(EnergyMode=="uRand"){
 			dE=(G4UniformRand()-0.5)*EkinSpread;
 		}
+                else if(EnergyMode=="expRand"){
+                        dE=G4RandExponential::shoot(EkinSpread);
+                }
+		//std::cout << "Ekin: " << Ekin << " dE: " << dE << " EkinSpread: " << EkinSpread << std::endl;
 		particleGun->SetParticleEnergy(Ekin+dE);
 	}
 	else if (EnergyType == 0 ){
@@ -663,6 +677,9 @@ void PrimaryGeneratorAction::SetRandomDirection(){
 	else if (PhiMode=="uRand"){
 		if (PhiSpread) {dPhi=(G4UniformRand()-0.5)*PhiSpread;} 
 	}
+	else if (PhiMode=="mixed") {
+		if (PhiSpread) {dPhi=(G4UniformRand()-0.5)*PhiSpread;}
+	}
 	if(ThetaMode=="gRand"){
 		if (ThetaSpread) dTheta=G4RandGauss::shoot(Theta,ThetaSpread);
 	}
@@ -672,11 +689,28 @@ void PrimaryGeneratorAction::SetRandomDirection(){
 	G4ThreeVector dir(1,1,1);
 	dir.setTheta(Theta+dTheta);
 	dir.setPhi(Phi+dPhi);
+	if(PhiMode=="mixed") {
+		if(G4UniformRand() < 0.5) 
+			dir.setPhi(0+dPhi);
+		else
+			dir.setPhi(180/57.3+dPhi);
+	}
 	G4RotationMatrix rot(Ephi,Etheta,Epsi);
 	dir = rot*dir;
 	particleGun->SetParticleMomentumDirection(dir.unit());
 }
-
+void PrimaryGeneratorAction::SetPosition(G4double *parameters, G4double rotation) {
+        G4double fx = parameters[0];
+        G4double fy = parameters[1];
+        G4double fz = parameters[2];
+        G4double fdx = parameters[3];
+        G4double fdy = parameters[4];
+        G4double fdz = parameters[5];
+        G4ThreeVector gPosition(fx+fdx, fy+fdy, fz+fdz);
+        gPosition.rotateY(rotation*deg);
+        particleGun->SetParticlePosition(gPosition);
+	//std::cout << "Set Position: " << fx << " " << fy << " " << fz << std::endl;
+}
 void PrimaryGeneratorAction::SetRandomPosition(){
 	G4double dx=0;
 	G4double dy=0;
@@ -687,9 +721,36 @@ void PrimaryGeneratorAction::SetRandomPosition(){
 	bool gotit=false;
 	if(PositionMode=="gRand"){
 		do {
-			dx=G4RandGauss::shoot(0,xSpread);
-			dy=G4RandGauss::shoot(0,ySpread);
-			dz=G4RandGauss::shoot(0,zSpread);
+			//dx=G4RandGauss::shoot(x,xSpread);
+			dx=G4RandGauss::shoot(x,xSpread);
+			dy=G4RandGauss::shoot(y,ySpread);
+			dz=G4RandGauss::shoot(z,zSpread);
+			if (dx2+dy2+dz2<=PosLimit2) gotit = true;
+		} while (!gotit);
+	}
+	else if(PositionMode=="mixed"){
+		do {
+			//dx=G4RandGauss::shoot(x,xSpread);
+	                TF1 *fGausLand = new TF1("fGausLand", "gaus(0)+landau(3)", -0.05, 0.05);
+			fGausLand->SetParameter(0,  5.36210e+03);
+			fGausLand->SetParameter(1, -1.99607e-02);
+			fGausLand->SetParameter(2, -1.15798e-02);
+			fGausLand->SetParameter(3,  1.36434e+04);
+			fGausLand->SetParameter(4, -3.39090e-02);
+			fGausLand->SetParameter(5,  9.66437e-03);
+                	dx = fGausLand->GetRandom(); // in mm
+
+			TF1 *fGaussY = new TF1("fGaussY", "gaus", -25, 25);
+			fGaussY->SetParameter(0, 1.707e+04);
+			fGaussY->SetParameter(1, 8.775 * 3.16);
+			fGaussY->SetParameter(2, 7.379 * 3.16);
+			dy = fGaussY->GetRandom(); //in mm
+
+			TF1 *fGaussZ = new TF1("fGaussZ", "gaus", -25, 25);
+			fGaussZ->SetParameter(0, 1.707e+04);
+			fGaussZ->SetParameter(1, 9.967 * 3.16);
+			fGaussZ->SetParameter(2, 4.994 * 3.16);
+			dz = fGaussZ->GetRandom(); //in mm
 			if (dx2+dy2+dz2<=PosLimit2) gotit = true;
 		} while (!gotit);
 	}
@@ -709,21 +770,20 @@ void PrimaryGeneratorAction::SetRandomPosition(){
 	else if (PositionMode=="source" || PositionMode=="target"){
 	  // Make sure that the random position chosen is within the Target volume
 	  G4Navigator* theNavigator = G4TransportationManager::GetTransportationManager()->GetNavigatorForTracking();
-
 	  // Get a random position based on the spread (copied code from gRand)
 	  do {
-			dx=G4RandGauss::shoot(0,xSpread);
-			dy=G4RandGauss::shoot(0,ySpread);
-			dz=G4RandGauss::shoot(0,zSpread);
+			dx=G4RandGauss::shoot(0, xSpread);
+			dy=G4RandGauss::shoot(0, ySpread);
+			dz=G4RandGauss::shoot(0, zSpread);
 			//			std::cout << "AE: xspread = " << xSpread << ", dx = " << dx << std::endl;
 			//			std::cout << "AE: yspread = " << ySpread << ", dy = " << dy << std::endl;
 			//			std::cout << "AE: zspread = " << zSpread << ", dz = " << dz << std::endl;
-			//	    dx=G4RandFlat::shoot(-xSpread,xSpread);
-			//	    dy=G4RandFlat::shoot(-ySpread,ySpread);
-			//	    dz=G4RandFlat::shoot(-xSpread,zSpread);
+			//dx=G4RandFlat::shoot(-xSpread,xSpread);
+			//dy=G4RandFlat::shoot(-ySpread,ySpread);
+			//dz=G4RandFlat::shoot(-xSpread,zSpread);
 
 	    G4ThreeVector position(x+dx, y+dy, z+dz);
-	    //	    std::cout << "AE (before rotation): " << position << std::endl;
+   	    //std::cout << "AE (before rotation): " << position << std::endl;
 	    position.rotateY(135*deg);
 	    G4VPhysicalVolume* phys_volume = theNavigator->LocateGlobalPointAndSetup(position);
 
@@ -740,16 +800,14 @@ void PrimaryGeneratorAction::SetRandomPosition(){
 	    }
 	  } while (!gotit);
 	}
-
-  G4ThreeVector position(x+dx, y+dy, z+dz);
-  if (PositionMode == "source" || PositionMode == "target") {
-    position.rotateY(135*deg);
-  }
-  particleGun->SetParticlePosition(position);
+        G4ThreeVector position(x+dx, y+dy, z+dz);
+        if (PositionMode == "mixed" || PositionMode == "bRand" || PositionMode == "source" || PositionMode == "target") {
+          position.rotateY(135*deg);
+        }
+        particleGun->SetParticlePosition(position);
 }
 
 void PrimaryGeneratorAction::SetUniformPosition(){
-
 	MyVGeometryParameter* pMyVGeometryParameter = MyDetectorManager::GetMyDetectorManager()->GetSvc(UP_SubDet)->get_GeometryParameter();
 	if (!pMyVGeometryParameter){
 		std::cout<<"ERROR: in PrimaryGeneratorAction::SetUniformPosition cannot find : "<<UP_SubDet<<"!!!"<<std::endl;
@@ -815,55 +873,25 @@ void PrimaryGeneratorAction::SetUniformPosition(){
 					"InvalidInput", FatalException,
 					"unsupported solid type");
 		}
-		//		std::cout << "AE1: " << pos << std::endl;
-
-		//		std::cout << "Index = " << index << ", ivol = " << ivol << std::endl;
-		G4double Ephi, Etheta, Epsi;
-		Ephi = pSimpleGeometryParameter->get_Ephi(index,ivol);
-		Etheta = pSimpleGeometryParameter->get_Etheta(index,ivol);
-		Epsi = pSimpleGeometryParameter->get_Epsi(index,ivol);
-		G4RotationMatrix rot(Ephi,Etheta,Epsi);
-		//		std::cout << "AERot1: " << rot << std::endl;
-		pos = rot.inverse()*pos; // rotate to the mother volume coordinate system
-		//		std::cout << "AE2: " << pos << std::endl;
-
 		G4double xp,yp,zp;
 		xp = pSimpleGeometryParameter->get_PosX(index,ivol);
 		yp = pSimpleGeometryParameter->get_PosY(index,ivol);
 		zp = pSimpleGeometryParameter->get_PosZ(index,ivol);
-		//		std::cout << "xp, yp, zp = " << xp << ", " << yp << ", " << zp << std::endl;
 		pos += G4ThreeVector(xp,yp,zp);
-
-		//		std::cout << "AE2: " << pos << std::endl;
 		G4String mot_volume = pSimpleGeometryParameter->get_MotherName(index);
 		SimpleGeometryParameter * pmotSimpleGeometryParameter = 0;
 		int temp_index = index;
 		int mot_index = -1;
 		while (mot_volume!="None"){
 			pmotSimpleGeometryParameter = MyDetectorManager::GetMyDetectorManager()->GetParaFromVolume(mot_volume);
-			int mot_index = pmotSimpleGeometryParameter->get_VolIndex(mot_volume);
-
-			G4double mot_Ephi, mot_Etheta, mot_Epsi;
-			mot_Ephi = pmotSimpleGeometryParameter->get_Ephi(mot_index);
-			mot_Etheta = pmotSimpleGeometryParameter->get_Etheta(mot_index);
-			mot_Epsi = pmotSimpleGeometryParameter->get_Epsi(mot_index);
-			G4RotationMatrix rot(mot_Ephi,mot_Etheta,mot_Epsi);
-			pos = rot.inverse()*pos; // rotate to the mother volume
-			//			std::cout << "AERot2: " << rot << std::endl;
-			//			std::cout << "AE2: " << pos << std::endl;
-
+			mot_index = pmotSimpleGeometryParameter->get_VolIndex(mot_volume);
 			G4double mot_xp = pmotSimpleGeometryParameter->get_PosX(mot_index);
 			G4double mot_yp = pmotSimpleGeometryParameter->get_PosY(mot_index);
 			G4double mot_zp = pmotSimpleGeometryParameter->get_PosZ(mot_index);
-			//			std::cout << "Index = " << index << ", mot_index = " << mot_index << ", " << mot_volume << std::endl;
-			//			std::cout << "mot_xp, yp, zp = " << mot_xp << ", " << mot_yp << ", " << mot_zp << std::endl;
 			pos += G4ThreeVector(mot_xp,mot_yp,mot_zp);
-
-			//			std::cout << "AE3: " << pos << "(" << mot_volume << ")" << std::endl;
 			temp_index = mot_index;
 			mot_volume = pmotSimpleGeometryParameter->get_MotherName(temp_index);
 		}
-		//		std::cout << "AEFinal: " << pos << std::endl;
 		particleGun->SetParticlePosition(pos);
 	}
 	else{
@@ -1215,7 +1243,7 @@ void PrimaryGeneratorAction::ReadCard(G4String file_name){
 //			std::cout<<"found DEFINE:"<<std::endl; // to be deleted
 			MacroValue = ReplaceMacro(MacroValue);
 			bool foundName = false;
-			for (int i = 0; i < knownValueNames.size(); i++){
+			for (int i = 0; i < static_cast<int>(knownValueNames.size() ); i++){
 				if (knownValueNames[i]==MacroName){ // If this name occurred once, replace the value
 					foundName = true;
 					knownValues[i]=MacroValue;
@@ -1336,7 +1364,7 @@ void PrimaryGeneratorAction::Initialize(){
 	}
 	particleGun->SetParticleDefinition(particle);
 	mass = particleGun->GetParticleDefinition()->GetPDGMass();
-	G4ThreeVector dir(1,0,0);
+	G4ThreeVector dir(0,0,1);
 	dir.setTheta(Theta);
 	dir.setPhi(Phi);
 	particleGun->SetParticleMomentumDirection(dir.unit());
@@ -1370,7 +1398,7 @@ void PrimaryGeneratorAction::Initialize(){
 }
 
 void PrimaryGeneratorAction::Dump(){
-	std::cout<<"---------------PrimaryGeneratorAction---------------------"<<std::endl;
+	std::cout<<"---------------PrimaryGeneratorAction Configuration Dump---------------------"<<std::endl;
 	std::cout<<"Type:                                         "<<fType<<std::endl;
 	if (fType=="ion"){
 	std::cout<<"Z:                                            "<<Z<<std::endl;

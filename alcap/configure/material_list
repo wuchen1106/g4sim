@@ -1,7 +1,7 @@
 TYPE Elements
 #	symbol  name         z    a(g/mol)
 	H       Hydrogen     1.   1.00794 
-  He      Helium       2    4.002602
+	He      Helium       2    4.002602
 	B       Boron        5    10.811
 	C       Carbon       6.   12.0107
 	N       Nitrogen     7    14.0067
@@ -9,21 +9,22 @@ TYPE Elements
 	F       Fluorine     9    18.99
 	Na      Sodium       11   22.98976928
 	Mg      Magnesium    12   24.3050
-  Al      Aluminium    13   26.9815386
+	Al      Aluminium    13   26.9815386
 	Si      Silicon      14   28.085
-  Cl      Chlorine     17   35.453     
+	Cl      Chlorine     17   35.453     
 	Ar      Argon        18   39.948
 	K       Potassium    19   39.0983
 	Ca      Calcium      20   40.078 
 	Cr      Chromium     24   51.9961
 	Mn      Manganese    25   54.938045
-  Fe      Iron         26   55.845
+	Fe      Iron         26   55.845
 	Ni      Nickel       28   58.6934
 #	Mo      Molybdenum   42   95.96
 	Ag	Silver	     47	  107.8682
 	Sn	Tin	     50	  118.710
 	I       Iodine       53   126.90447
 #	Pb      Lead         82   207.2
+        Ti	Titanium     22   47.867
 
 TYPE Simple_Materials
 #	name        z   a(g/mol)   density(g/cm3) rel_dens

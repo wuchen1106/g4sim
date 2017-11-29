@@ -21,7 +21,7 @@ export MATERIALLISTROOT=material_list
 export MAGFIELDCARDROOT=mag/MagField_none
 export OUTCARDROOT=output/output_default
 export GEOCARDROOT=geometry_R2015b/geometry_P2
-export GENFILEROOT=gen/gen_R15b_26.3_muPC
+export GENFILEROOT=gen/R15b_gen_proton_target
 
 #for directories
 export MACROSROOT=$ALCAPWORKROOT/macros
