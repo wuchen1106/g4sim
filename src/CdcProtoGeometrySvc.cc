@@ -70,9 +70,9 @@ void CdcProtoGeometrySvc::ConstructVolumes(){
 	double r, g, b;
 
 	//*************for proto type 4***********************
-	double Lproto = 648.37-10*2*mm;
+	double Lproto = (648.37-10*2)*mm;
 	int iLayer_min = 0;
-	int iLayer_max = 16;
+	int iLayer_max = 39;
 	G4RotationMatrix* rot =new G4RotationMatrix(0,0,0);
 	G4ThreeVector trans(0,572*mm,0);
 
@@ -257,14 +257,17 @@ void CdcProtoGeometrySvc::ConstructVolumes(){
 			rotMatrix->rotateX(-angle4stereo);
 			G4ThreeVector up(1.,1.,1.);
 			//FIXME: print out the position of wires in the center
-			printf("%d %d %lf %lf\n",ilayer,holeId,centerVec.x(),centerVec.y());
-//			up.setZ(-layer_length/2);
-//			up.setPhi(m_GeometryParameter->get_layer_phi0z(ilayer,up.z())+holeId*holeDphi);
-//			up.setPerp(layer_Re);
-//			G4ThreeVector down(1.,1.,1.);
-//			down.setZ(layer_length/2);
-//			down.setPhi(m_GeometryParameter->get_layer_phi0z(ilayer,down.z())+holeId*holeDphi);
-//			down.setPerp(layer_Re);
+			if (layer_type==1&&holeId%2==1&&centerVec.x()>-100*mm&&centerVec.x()<100*mm){
+				up.setZ(-599.17/2);
+				up.setPhi(m_GeometryParameter->get_layer_phi0z(ilayer,up.z())+holeId*holeDphi);
+				up.setPerp(m_GeometryParameter->get_layer_Rz(ilayer,up.z()));
+				printf("%d %d %lf %lf %lf %lf ",ilayer,holeId,up.x(),up.y(),centerVec.x(),centerVec.y());
+				G4ThreeVector down(1.,1.,1.);
+				down.setZ(599.17/2);
+				down.setPhi(m_GeometryParameter->get_layer_phi0z(ilayer,down.z())+holeId*holeDphi);
+				down.setPerp(m_GeometryParameter->get_layer_Rz(ilayer,down.z()));
+				printf("%lf %lf\n",down.x(),down.y());
+			}
 //			if (layer_type==1&&holeId%2==1) std::cout<<"wire["<<m_GeometryParameter->get_layer_ID(ilayer)<<","<<holeId/2<<"] @ up:"<<up/cm<<", down:"<<down/cm<<std::endl;
 			new G4PVPlacement(rotMatrix,centerVec,log_wire,Name,log_layer,false,0,checkOverlap);
 		}
