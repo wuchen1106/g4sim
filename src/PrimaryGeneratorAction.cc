@@ -164,13 +164,17 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	}
 
 	if ( EnergyMode == "histo"){
-		G4double mom = EM_hist->GetRandom() * MeV;
-		G4double ekin = sqrt(mom*mom+mass*mass)-mass;
+//		G4double mom = EM_hist->GetRandom() * MeV;
+//		G4double ekin = sqrt(mom*mom+mass*mass)-mass;
+		G4double e = EM_hist->GetRandom() * MeV;
+		G4double ekin = e-mass;
 		particleGun->SetParticleEnergy(ekin);
 	}
 	else if ( EnergyMode == "func"){
-		G4double mom = EM_func->GetRandom() * MeV;
-		G4double ekin = sqrt(mom*mom+mass*mass)-mass;
+//		G4double mom = EM_func->GetRandom() * MeV;
+//		G4double ekin = sqrt(mom*mom+mass*mass)-mass;
+		G4double e = EM_func->GetRandom() * MeV;
+		G4double ekin = e-mass;
 		particleGun->SetParticleEnergy(ekin);
 	}
 	else if ( EnergyMode == "root" ){
