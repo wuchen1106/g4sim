@@ -27,7 +27,7 @@ include(${Geant4_USE_FILE})
 #----------------------------------------------------------------------------
 # Find ROOT (required package)
 #
-find_package(ROOT)
+find_package(ROOT REQUIRED COMPONENTS RIO Net Hist Graf Graf3d Gpad Tree Rint Postscript Matrix Physics MathCore Thread)
 if(NOT ROOT_FOUND)
   message(STATUS "G4 Examples: ROOT package not found. --> P01 example disabled")  
   return()
