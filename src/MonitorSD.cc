@@ -77,6 +77,7 @@ void MonitorSD::Initialize(G4HCofThisEvent* HCE)
 	m_Opx.clear();
 	m_Opy.clear();
 	m_Opz.clear();
+	m_Oekin.clear();
 	m_px.clear();
 	m_py.clear();
 	m_pz.clear();
@@ -92,6 +93,8 @@ void MonitorSD::Initialize(G4HCofThisEvent* HCE)
 	m_nph.clear();
 	m_edep.clear();
 	m_edepAll.clear();
+	m_edepDelta.clear();
+	m_edepSec.clear();
 	m_stepL.clear();
 	m_volID.clear();
 	m_volName.clear();
@@ -127,6 +130,7 @@ void MonitorSD::SetBranch(){
 	if( flag_Opx ) myRoot->SetBranch(volName+"_Opx", &m_Opx);
 	if( flag_Opy ) myRoot->SetBranch(volName+"_Opy", &m_Opy);
 	if( flag_Opz ) myRoot->SetBranch(volName+"_Opz", &m_Opz);
+	if( flag_Oekin ) myRoot->SetBranch(volName+"_Oekin", &m_Oekin);
 	if( flag_px ) myRoot->SetBranch(volName+"_px", &m_px);
 	if( flag_py ) myRoot->SetBranch(volName+"_py", &m_py);
 	if( flag_pz ) myRoot->SetBranch(volName+"_pz", &m_pz);
@@ -142,6 +146,8 @@ void MonitorSD::SetBranch(){
 	if( flag_nph) myRoot->SetBranch(volName+"_nph", &m_nph);
 	if( flag_edep ) myRoot->SetBranch(volName+"_edep", &m_edep);
 	if( flag_edepAll ) myRoot->SetBranch(volName+"_edepAll", &m_edepAll);
+	if( flag_edepDelta ) myRoot->SetBranch(volName+"_edepDelta", &m_edepDelta);
+	if( flag_edepSec ) myRoot->SetBranch(volName+"_edepSec", &m_edepSec);
 	if( flag_stepL ) myRoot->SetBranch(volName+"_stepL", &m_stepL);
 	if( flag_volID ) myRoot->SetBranch(volName+"_volID", &m_volID);
 	if( flag_volName ) myRoot->SetBranch(volName+"_volName", &m_volName);
@@ -216,6 +222,7 @@ void MonitorSD::ReadOutputCard(G4String filename){
 			else if( name == "Opx" ) {{flag_Opx = true; buf_card>>unitName_Opx; unit_Opx = MyString2Anything::get_U(unitName_Opx);}}
 			else if( name == "Opy" ) {{flag_Opy = true; buf_card>>unitName_Opy; unit_Opy = MyString2Anything::get_U(unitName_Opy);}}
 			else if( name == "Opz" ) {{flag_Opz = true; buf_card>>unitName_Opz; unit_Opz = MyString2Anything::get_U(unitName_Opz);}}
+			else if( name == "Oekin" ) {{flag_Oekin = true; buf_card>>unitName_Oekin; unit_Oekin = MyString2Anything::get_U(unitName_Oekin);}}
 			else if( name == "px" ) {{flag_px = true; buf_card>>unitName_px; unit_px = MyString2Anything::get_U(unitName_px);}}
 			else if( name == "py" ) {{flag_py = true; buf_card>>unitName_py; unit_py = MyString2Anything::get_U(unitName_py);}}
 			else if( name == "pz" ) {{flag_pz = true; buf_card>>unitName_pz; unit_pz = MyString2Anything::get_U(unitName_pz);}}
@@ -231,6 +238,8 @@ void MonitorSD::ReadOutputCard(G4String filename){
 			else if( name == "nph" ) {flag_nph= true;}
 			else if( name == "edep" ) {{flag_edep = true; buf_card>>unitName_edep; unit_edep = MyString2Anything::get_U(unitName_edep);}}
 			else if( name == "edepAll" ) {{flag_edepAll = true; buf_card>>unitName_edepAll; unit_edepAll = MyString2Anything::get_U(unitName_edepAll);}}
+			else if( name == "edepDelta" ) {{flag_edepDelta = true; buf_card>>unitName_edepDelta; unit_edepDelta = MyString2Anything::get_U(unitName_edepDelta);}}
+			else if( name == "edepSec" ) {{flag_edepSec = true; buf_card>>unitName_edepSec; unit_edepSec = MyString2Anything::get_U(unitName_edepSec);}}
 			else if( name == "stepL" ) {{flag_stepL = true; buf_card>>unitName_stepL; unit_stepL = MyString2Anything::get_U(unitName_stepL);}}
 			else if( name == "volID" ) {flag_volID = true;}
 			else if( name == "volName" ) {flag_volName = true;}
@@ -332,6 +341,7 @@ void MonitorSD::ReSet(){
 	flag_Opx = false;
 	flag_Opy = false;
 	flag_Opz = false;
+	flag_Oekin = false;
 	flag_px = false;
 	flag_py = false;
 	flag_pz = false;
@@ -347,6 +357,8 @@ void MonitorSD::ReSet(){
 	flag_nph = false;
 	flag_edep = false;
 	flag_edepAll = false;
+	flag_edepDelta = false;
+	flag_edepSec = false;
 	flag_stepL = false;
 	flag_volID = false;
 	flag_volName = false;
@@ -388,6 +400,7 @@ void MonitorSD::ReSet(){
 	unitName_Opx = "GeV";
 	unitName_Opy = "GeV";
 	unitName_Opz = "GeV";
+	unitName_Oekin = "GeV";
 	unitName_px = "GeV";
 	unitName_py = "GeV";
 	unitName_pz = "GeV";
@@ -402,6 +415,8 @@ void MonitorSD::ReSet(){
 	unitName_e = "GeV";
 	unitName_edep = "GeV";
 	unitName_edepAll = "GeV";
+	unitName_edepDelta = "GeV";
+	unitName_edepSec = "GeV";
 	unitName_stepL = "cm";
 	unitName_stop_time = "ns";
 	unitName_kill_time = "ns";
@@ -416,6 +431,7 @@ void MonitorSD::ReSet(){
 	unit_Opx = MyString2Anything::get_U(unitName_Opx);
 	unit_Opy = MyString2Anything::get_U(unitName_Opy);
 	unit_Opz = MyString2Anything::get_U(unitName_Opz);
+	unit_Oekin = MyString2Anything::get_U(unitName_Oekin);
 	unit_px = MyString2Anything::get_U(unitName_px);
 	unit_py = MyString2Anything::get_U(unitName_py);
 	unit_pz = MyString2Anything::get_U(unitName_pz);
@@ -430,6 +446,8 @@ void MonitorSD::ReSet(){
 	unit_e = MyString2Anything::get_U(unitName_e);
 	unit_edep = MyString2Anything::get_U(unitName_edep);
 	unit_edepAll = MyString2Anything::get_U(unitName_edepAll);
+	unit_edepDelta = MyString2Anything::get_U(unitName_edepDelta);
+	unit_edepSec = MyString2Anything::get_U(unitName_edepSec);
 	unit_stepL = MyString2Anything::get_U(unitName_stepL);
 	unit_stop_time = MyString2Anything::get_U(unitName_stop_time);
 	unit_kill_time = MyString2Anything::get_U(unitName_kill_time);
@@ -448,6 +466,7 @@ void MonitorSD::ShowOutCard(){
 	std::cout<<"output Opx?      "<<(flag_Opx?" yes":" no")<<", unit: "<<unitName_Opx<<std::endl;
 	std::cout<<"output Opy?      "<<(flag_Opy?" yes":" no")<<", unit: "<<unitName_Opy<<std::endl;
 	std::cout<<"output Opz?      "<<(flag_Opz?" yes":" no")<<", unit: "<<unitName_Opz<<std::endl;
+	std::cout<<"output Oekin?    "<<(flag_Oekin?" yes":" no")<<", unit: "<<unitName_Oekin<<std::endl;
 	std::cout<<"output x?       "<<(flag_x?" yes":" no")<<", unit: "<<unitName_x<<std::endl;
 	std::cout<<"output y?       "<<(flag_y?" yes":" no")<<", unit: "<<unitName_y<<std::endl;
 	std::cout<<"output z?       "<<(flag_z?" yes":" no")<<", unit: "<<unitName_z<<std::endl;
@@ -467,6 +486,8 @@ void MonitorSD::ShowOutCard(){
 	std::cout<<"output nph?    "<<(flag_nph?" yes":" no")<<std::endl;
 	std::cout<<"output edep?    "<<(flag_edep?" yes":" no")<<", unit: "<<unitName_edep<<std::endl;
 	std::cout<<"output edepAll? "<<(flag_edepAll?" yes":" no")<<", unit: "<<unitName_edepAll<<std::endl;
+	std::cout<<"output edepDelta? "<<(flag_edepDelta?" yes":" no")<<", unit: "<<unitName_edepDelta<<std::endl;
+	std::cout<<"output edepSec? "<<(flag_edepSec?" yes":" no")<<", unit: "<<unitName_edepSec<<std::endl;
 	std::cout<<"output stepL?   "<<(flag_stepL?" yes":" no")<<", unit: "<<unitName_stepL<<std::endl;
 	std::cout<<"output volID?   "<<(flag_volID?" yes":" no")<<std::endl;
 	std::cout<<"output volName? "<<(flag_volName?" yes":" no")<<std::endl;
@@ -537,6 +558,7 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	G4ThreeVector pointOut_mom = postPoint->GetMomentum();
 	G4double pointOut_pa = pointOut_mom.mag();
 	G4ThreeVector pointOut_pos = postPoint->GetPosition();
+	G4double Oekin = postPoint->GetKineticEnergy();
 
 	// get volume info
 	const G4VTouchable *touchable = prePoint->GetTouchable();
@@ -547,6 +569,8 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	G4double edep = aStep->GetTotalEnergyDeposit();
 	G4double edepNonIoni = aStep->GetNonIonizingEnergyDeposit();
 	G4double edepIoni = edep - edepNonIoni;
+	G4double edepDelta = aStep->GetDeltaEnergy();
+	G4double edepSec = 0;
 	G4double stepL = aStep->GetStepLength();
 	G4int nph = 0;
 	G4int nsec = aStep->GetSecondaryInCurrentStep()->size();
@@ -555,6 +579,7 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 			&&(*(aStep->GetSecondaryInCurrentStep()))[isec]->GetCreatorProcess()
 			&&(*(aStep->GetSecondaryInCurrentStep()))[isec]->GetCreatorProcess()->GetProcessName()=="Cerenkov")
 			nph++;
+		edepSec += (*(aStep->GetSecondaryInCurrentStep()))[isec]->GetKineticEnergy();
 	}
 
 	//*************************filter***********************
@@ -689,6 +714,7 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		if(flag_Opx) m_Opx.push_back(pointOut_mom.x()/unit_Opx);
 		if(flag_Opy) m_Opy.push_back(pointOut_mom.y()/unit_Opy);
 		if(flag_Opz) m_Opz.push_back(pointOut_mom.z()/unit_Opz);
+		if(flag_Oekin) m_Oekin.push_back(Oekin/unit_Oekin);
 		if(flag_x) m_x.push_back(pointIn_pos.x()/unit_x);
 		if(flag_y) m_y.push_back(pointIn_pos.y()/unit_y);
 		if(flag_z) m_z.push_back(pointIn_pos.z()/unit_z);
@@ -702,6 +728,8 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		if(flag_edep) m_edep.push_back(edepIoni/unit_edep);
 		if(flag_nph) m_nph.push_back(nph);
 		if(flag_edepAll) m_edepAll.push_back(edep/unit_edepAll);
+		if(flag_edepDelta) m_edepDelta.push_back(edepDelta/unit_edepDelta);
+		if(flag_edepSec) m_edepSec.push_back(edepSec/unit_edepSec);
 		if(flag_stepL) m_stepL.push_back(stepL/unit_stepL);
 		m_volID.push_back(ReplicaNo);
 		m_volName.push_back(VolName);
@@ -823,6 +851,8 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		if(flag_edep) m_edep[index] += edepIoni/unit_edep;
 		if(flag_nph) m_nph[index] += nph;
 		if(flag_edepAll) m_edepAll[index] += edep/unit_edepAll;
+		if(flag_edepDelta) m_edepDelta[index] += edepDelta/unit_edepDelta;
+		if(flag_edepSec) m_edepSec[index] += edepSec/unit_edepSec;
 	}
 	return true;
 }

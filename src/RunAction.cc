@@ -95,13 +95,13 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
         }
     }
 
-	/*
+    /*
 //#################################################################################333	
 	//Print dE/dx tables with binning identical to the Geant3 JMATE bank.
 	//The printout is readable as Geant3 ffread data cards (by the program g4mat).
 	//
-	const G4double tkmin=10*keV, tkmax=20*GeV;
-	const G4int nbin=100;
+	const G4double tkmin=1*keV, tkmax=10000*GeV;
+	const G4int nbin=1000;
 	G4double tk[nbin];
 
 	const G4int ncolumn = 1;
@@ -123,37 +123,40 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
 	//
 	G4cout.setf(std::ios::scientific,std::ios::floatfield);
 
-	G4ParticleDefinition*
-	//	part = G4ParticleTable::GetParticleTable()->FindParticle("e-");
-			part = G4ParticleTable::GetParticleTable()->FindParticle("mu-");
+    std::vector<G4ParticleDefinition*> particles;
+	particles.push_back(G4ParticleTable::GetParticleTable()->FindParticle("mu-"));
+	particles.push_back(G4ParticleTable::GetParticleTable()->FindParticle("e-"));
 
 	G4ProductionCutsTable* theCoupleTable =
 		G4ProductionCutsTable::GetProductionCutsTable();
 	size_t numOfCouples = theCoupleTable->GetTableSize();
 	const G4MaterialCutsCouple* couple = 0;
 
-	for (size_t i=0; i<numOfCouples; i++) {
-		couple = theCoupleTable->GetMaterialCutsCouple(i);
-		const G4Material* mat = couple->GetMaterial();
-		G4cout << "\nLIST";
-		G4cout << "\nC \nC  dE/dx (MeV/cm) for " << part->GetParticleName()
-			<< " in " << mat ->GetName() << "\nC";
-		G4cout.precision(6);
-		G4cout << "\nEnergy/MeV   dE/dx (MeV/cm)\n ";
-		for (G4int l=0;l<nbin; ++l)
-		{
-			G4cout << tk[l]/MeV<< "\t";
-			G4double dedx = G4LossTableManager::Instance()
-				->GetDEDX(part,tk[l],couple);
-			G4cout << dedx/(MeV/cm) << "\n";
-		}
-		G4cout << G4endl;
-	}
+    for (size_t ipart=0; ipart<particles.size(); ipart++){
+        for (size_t i=0; i<numOfCouples; i++) {
+            G4ParticleDefinition* part = particles.at(ipart);
+            couple = theCoupleTable->GetMaterialCutsCouple(i);
+            const G4Material* mat = couple->GetMaterial();
+            G4cout << "\nLIST";
+            G4cout << "\nC \nC  dE/dx (MeV/cm) for " << part->GetParticleName()
+                << " in " << mat ->GetName() << "\nC";
+            G4cout.precision(6);
+            G4cout << "\nEnergy/MeV   dE/dx (MeV/cm)\n ";
+            for (G4int l=0;l<nbin; ++l)
+            {
+                G4cout << tk[l]/MeV<< "\t";
+                G4double dedx = G4LossTableManager::Instance()
+                    ->GetDEDX(part,tk[l],couple);
+                G4cout << dedx/(MeV/cm) << "\n";
+            }
+            G4cout << G4endl;
+        }
+    }
 
 	G4cout.precision(prec);
 	G4cout.setf(mode,std::ios::floatfield);
 //#################################################################################333	
-	*/
+    */
 
 
 }
