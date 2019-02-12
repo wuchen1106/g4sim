@@ -891,8 +891,8 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 			G4String tPosPhi;
 			G4String tPosType;
 			G4String tRepCont;
-			G4int tRepNo = 1;
-			G4int tSRepNo = 0;
+			G4String tRepNo;
+			G4String tSRepNo;
 			G4String tSDName;
 			G4String tEphi;
 			G4String tEtheta;
@@ -936,8 +936,8 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 			MotherName.push_back(tMotherName);
 			Material.push_back(tMaterial);
 			SDName.push_back(tSDName);
-			SRepNo.push_back(tSRepNo);
-			RepNo.push_back(tRepNo);
+			SRepNo.push_back(CalFormula(ReplaceMacro(tSRepNo)));
+			RepNo.push_back(CalFormula(ReplaceMacro(tRepNo)));
 			fEphi.push_back(ReplaceMacro(tEphi));;
 			fEtheta.push_back(ReplaceMacro(tEtheta));;
 			fEpsi.push_back(ReplaceMacro(tEpsi));;

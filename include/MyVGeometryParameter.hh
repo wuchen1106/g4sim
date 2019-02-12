@@ -48,6 +48,7 @@ class MyVGeometryParameter : public MyConfigure
 		//"2,29" means replica number count from 2 to 30
 		//"1-29" or "1~29" means replica number count from 1 to 29
 		void get_RepCont(G4String RepCont, G4int& SRepNo, G4int& RepNo);
+		void get_RepCont(G4String RepCont, G4String& SRepNo, G4String& RepNo);
 
 		bool ISEMPTY(G4String);
 

@@ -110,6 +110,30 @@ void MyVGeometryParameter::get_RepCont( G4String RepCont, G4int& SRepNo, G4int& 
 //	std::cout<<"in get_RepCont: \""<<RepCont<<"\" -> ("<<SRepNo<<","<<RepNo<<")"<<std::endl; // to be deleted
 }
 
+void MyVGeometryParameter::get_RepCont( G4String RepCont, G4String& SRepNo, G4String& RepNo ){
+	size_t sLast = RepCont.last(',');
+	if(sLast!=G4String::npos){
+		SRepNo = RepCont.substr(0,sLast);
+		RepNo = RepCont.substr(sLast+1,RepCont.length()-sLast-1);
+	}
+	else{ // not found
+		sLast = RepCont.last('-');
+		if (sLast==G4String::npos){// not found
+			sLast = RepCont.last('~');
+		}
+		if (sLast!=G4String::npos){
+			SRepNo = RepCont.substr(0,sLast);
+			G4String endNo = RepCont.substr(sLast+1,RepCont.length()-sLast-1);
+			RepNo = endNo+"-"+SRepNo+"+1";
+		}
+		else{// not found
+			SRepNo = "0";
+			RepNo = RepCont;
+		}
+	}
+//	std::cout<<"in get_RepCont: \""<<RepCont<<"\" -> ("<<SRepNo<<","<<RepNo<<")"<<std::endl; // to be deleted
+}
+
 //=> ISEMPTY
 //Tell whether this string is empty or commented(by # or //)
 bool MyVGeometryParameter::ISEMPTY(G4String s_card){
