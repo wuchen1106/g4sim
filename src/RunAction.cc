@@ -125,7 +125,11 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
 
     std::vector<G4ParticleDefinition*> particles;
 	particles.push_back(G4ParticleTable::GetParticleTable()->FindParticle("mu-"));
+	particles.push_back(G4ParticleTable::GetParticleTable()->FindParticle("mu+"));
 	particles.push_back(G4ParticleTable::GetParticleTable()->FindParticle("e-"));
+	particles.push_back(G4ParticleTable::GetParticleTable()->FindParticle("e+"));
+	particles.push_back(G4ParticleTable::GetParticleTable()->FindParticle("proton"));
+	particles.push_back(G4ParticleTable::GetParticleTable()->FindParticle("anti_proton"));
 
 	G4ProductionCutsTable* theCoupleTable =
 		G4ProductionCutsTable::GetProductionCutsTable();
