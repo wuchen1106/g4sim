@@ -10,6 +10,7 @@
 #include "G4UnitsTable.hh"
 #include "myglobals.hh"
 
+#include "G4SimpleEMField.hh"
 #include "G4UniformElectricField.hh"
 #include "G4UniformMagField.hh"
 #include "G4MagneticField.hh"
@@ -46,7 +47,7 @@
 MyFieldSvc* MyFieldSvc::fMyFieldSvc = 0;
 
 	MyFieldSvc::MyFieldSvc()
-: fChordFinder(0), fStepper(0), fIntgrDriver(0), fMagField(0), fEleField(0)
+: fChordFinder(0), fStepper(0), fIntgrDriver(0), fEMField(0), fType("none"), fEType(""), fMType("")
 {
 	if (fMyFieldSvc){
 		G4Exception("MyFieldSvc::MyFieldSvc()","Run0031",
@@ -59,14 +60,14 @@ MyFieldSvc* MyFieldSvc::fMyFieldSvc = 0;
     (void)MyGlobalField::getObject();
 
 	//Electric Field
-	fEquation = new G4EqMagElectricField(fEleField); 
+	fEquation = new G4EqMagElectricField(fEMField); 
 
 	fMyFieldSvcMessenger= new MyFieldSvcMessenger(this);
 }
 
 MyFieldSvc::~MyFieldSvc()
 {
-	if(fMagField) delete fMagField;
+	if(fEMField) delete fEMField;
 	delete fMyFieldSvcMessenger;
 }
 
@@ -80,9 +81,7 @@ MyFieldSvc* MyFieldSvc::GetMyFieldSvc(){
 void MyFieldSvc::SetField(G4LogicalVolume* fLogicWorld){
 	Dump();
 	//Setup the field
-	G4String opt = "";
-	if(fMagField) delete fMagField;
-	if(fEleField) delete fEleField;
+	if(fEMField) delete fEMField;
 	if(fFieldMaps.size()>0){
 		for (int ifm = 0; ifm < fFieldMaps.size(); ifm++){
 			if (fFieldMaps[ifm]) delete fFieldMaps[ifm];
@@ -90,41 +89,39 @@ void MyFieldSvc::SetField(G4LogicalVolume* fLogicWorld){
 		fFieldMaps.clear();
 	}
 
-	if ( fType == "Uniform" ){
-		G4ThreeVector MagField_vec(1,0,0);
-		MagField_vec.setTheta(UniF_Theta);
-		MagField_vec.setPhi(UniF_Phi);
-		MagField_vec = MagField_vec.unit() * UniF_Intensity;
-		if(MagField_vec!= G4ThreeVector(0.,0.,0.))
-		{ 
-			fMagField = new G4UniformMagField(MagField_vec);
-			opt = "Mag";
-		}
-		else{
-			fMagField = 0;
-			opt = "Mag_0";
-		}
+	if ( fType == "none" ){
+        fEMField = 0;
 	}
-	else if ( fType == "Electric_Uniform" ){
-		G4ThreeVector EleField_vec(1,0,0);
-		EleField_vec.setTheta(UniEF_Theta);
-		EleField_vec.setPhi(UniEF_Phi);
-		EleField_vec = EleField_vec.unit() * UniEF_Intensity;
-		if(EleField_vec!= G4ThreeVector(0.,0.,0.))
-		{ 
-			fEleField = new  G4UniformElectricField(EleField_vec);
-			fEquation->SetFieldObj(fEleField);  // must now point to the new field
-			opt = "Ele";
-		}
-		else 
-		{
-			// If the new field's value is Zero, then it is best to
-			//  insure that it is not used for propagation.
-			fEleField = 0;
-			fEquation->SetFieldObj(fEleField);   // As a double check ...
-			fEleField = 0;
-			opt = "Ele_0";
-		}
+    else if ( fType == "simple" ){
+        fEMField = new G4SimpleEMField();
+        if ( fMType == "uniform" ){
+            G4ThreeVector MagField_vec(1,0,0);
+            MagField_vec.setTheta(UniM_Theta);
+            MagField_vec.setPhi(UniM_Phi);
+            MagField_vec = MagField_vec.unit() * UniM_Intensity;
+            if(MagField_vec!= G4ThreeVector(0.,0.,0.))
+            { 
+                fEMField->SetMagUniformVector(MagField_vec);
+            }
+        }
+
+        if ( fEType == "uniform" ){
+            G4ThreeVector EleField_vec(1,0,0);
+            EleField_vec.setTheta(UniE_Theta);
+            EleField_vec.setPhi(UniE_Phi);
+            EleField_vec = EleField_vec.unit() * UniE_Intensity;
+            if(EleField_vec!= G4ThreeVector(0.,0.,0.))
+            { 
+                fEMField->SetEleUniformVector(EleField_vec);
+            }
+        }
+        else if ( fEType == "cylinder" ){
+            if (CylE_VoltScaled){
+                fEMField->SetEleCylinderVoltScaled(CylE_VoltScaled);
+            }
+        }
+        fEMField->SetField();
+        fEquation->SetFieldObj(fEMField);
 	}
 	else if ( fType == "fieldMap" ){
 		for(G4int ifieldmap = 0; ifieldmap < fFieldMapFilenames.size(); ifieldmap++){
@@ -144,14 +141,9 @@ void MyFieldSvc::SetField(G4LogicalVolume* fLogicWorld){
 					<<", "<<fFieldMapZ0[ifieldmap]
 					<<G4endl;
 		}
-		opt = "fieldMap";
 	}
-	else if ( fType != "None" && fType != "none" && fType != "NONE"){
-		std::cout<<"Field Type "<<fType<<" is not not supported yet!!!"<<std::endl;
-		G4Exception("MyFieldSvc::SetField()","Run0031",
-				FatalException, "Field Type is not not supported.");
-	}
-	UpdateField(opt);
+
+	UpdateField();
 }
 
 void MyFieldSvc::AddMap(G4String name, double scale, double x, double y, double z){
@@ -179,28 +171,30 @@ void MyFieldSvc::Reset(){
 // Create Stepper and Chord Finder with predefined type, minstep (resp.)
 //
 
-void MyFieldSvc::UpdateField(G4String opt)
+void MyFieldSvc::UpdateField()
 {
-	if ( opt == "Mag_0" || opt == "Mag" ){
-		fFieldManager->SetDetectorField(fMagField);
-		if (opt == "Mag"){
-			fFieldManager->CreateChordFinder(fMagField);
-		}
-	} 
-	else if ( opt == "Ele" || opt == "Ele_0" ){
-		SetStepper();
-		fFieldManager->SetDetectorField(fEleField );
-		if ( opt == "Ele" ){
-			if(fChordFinder) delete fChordFinder;
-			// fChordFinder = new G4ChordFinder( fEleField, UniEF_StepL, fStepper);
-			fIntgrDriver = new G4MagInt_Driver(UniEF_StepL,fStepper,fStepper->GetNumberOfVariables() );
-			fChordFinder = new G4ChordFinder(fIntgrDriver);
-			fFieldManager->SetChordFinder( fChordFinder );
-		}
-	}
-	else if ( opt == "fieldMap" ){
+    if (fType == "simple" ){
+        if (fEType!="none"){
+            SetStepper();
+            if(fChordFinder) delete fChordFinder;
+            // fChordFinder = new G4ChordFinder( fEMField, EF_StepL, fStepper);
+            fIntgrDriver = new G4MagInt_Driver(EF_StepL,fStepper,fStepper->GetNumberOfVariables() );
+            fChordFinder = new G4ChordFinder(fIntgrDriver);
+            fFieldManager->SetChordFinder( fChordFinder )
+        }
+        else if (fMType!="none"){
+            fFieldManager->CreateChordFinder(fEMField);
+        } 
+        else{
+            fFieldManager->SetDetectorField(fEMField);
+        }
+    }
+	else if ( fType == "fieldMap" ){
 		// Nothing else should be done. this part is handled by RunAction instead
 	}
+	else if ( fType == "none" ){
+        fFieldManager->SetDetectorField(fEMField);
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -214,7 +208,7 @@ void MyFieldSvc::SetStepper()
 
 	if(fStepper) delete fStepper;
 
-	switch ( UniEF_StepT ) 
+	switch ( EF_StepT ) 
 	{
 		case 0:  
 			fStepper = new G4ExplicitEuler( fEquation, nvar ); 
@@ -304,24 +298,34 @@ void MyFieldSvc::ReadCard( G4String file_name ){
 		else if ( length - offset == 0 ) continue;
 		std::string keyword;
 		buf_card>>keyword;
-		if ( keyword == "TYPE:" ){
+		if ( keyword == "TYPE:"){
 			buf_card>>fType;
 			continue;
 		}
-		else if ( keyword == "UniF:" ){
-			buf_card>>UniF_Intensity>>UniF_Theta>>UniF_Phi;
-			UniF_Intensity *= tesla;
-			UniF_Theta *= deg;
-			UniF_Phi *= deg;
+		else if ( keyword == "Step:" ){
+			buf_card>>EF_StepL>>EF_StepT;
+			EF_StepL *= mm;
+        }
+		else if ( keyword == "UniM:" ){
+			buf_card>>UniM_Intensity>>UniM_Theta>>UniM_Phi;
+			UniM_Intensity *= tesla;
+			UniM_Theta *= deg;
+			UniM_Phi *= deg;
+			fMType = "Uniform";
 		}
-		else if ( keyword == "UniEF:" ){
-			buf_card>>UniEF_Intensity>>UniEF_Theta>>UniEF_Phi>>UniEF_StepL>>UniEF_StepT;
-			UniEF_Intensity *= kilovolt/cm;
-			UniEF_Theta *= deg;
-			UniEF_Phi *= deg;
-			UniEF_StepL *= mm;
+		else if ( keyword == "UniE:" ){
+			buf_card>>UniE_Intensity>>UniE_Theta>>UniE_Phi;
+			UniE_Intensity *= kilovolt/cm;
+			UniE_Theta *= deg;
+			UniE_Phi *= deg;
+			fEType = "Uniform";
 		}
-		else if ( keyword == "fMap:" ){
+		else if ( keyword == "CylE:" ){
+		    buf_card>>CylE_VoltScaled;
+		    CylE_VoltScaled *= volt;
+			fEType = "Cylinder";
+        }
+		else if ( keyword == "Map:" ){
 			G4String name;
 			G4double scale;
 			buf_card>>name>>scale;
@@ -336,6 +340,9 @@ void MyFieldSvc::ReadCard( G4String file_name ){
 			std::cout<<"Will ignore this line!"<<std::endl;
 		}
 	}
+	fType.toLower();
+	fEType.toLower();
+	fMType.toLower();
 	fin_card.close();
 	buf_card.str("");
 	buf_card.clear();
@@ -343,38 +350,54 @@ void MyFieldSvc::ReadCard( G4String file_name ){
 
 void MyFieldSvc::Dump(){
 	std::cout<<"**********************MagField Settings***************************"<<std::endl;
-	std::cout<<"Type: "<<fType<<std::endl;
-	if ( fType == "Uniform" ){
-		std::cout<<std::setiosflags(std::ios::left)<<std::setw(10) <<"Intensity"
-			<<std::setiosflags(std::ios::left)<<std::setw(10) <<"Direction(Theta, Phi)"
-			<<std::endl;
-		std::cout<<std::setiosflags(std::ios::left)<<std::setw(10)<<"T"
-			<<std::setiosflags(std::ios::left)<<std::setw(5) <<"deg"
-			<<std::setiosflags(std::ios::left)<<std::setw(5) <<"deg"
-			<<std::endl;
-		std::cout<<std::setiosflags(std::ios::left)<<std::setw(10)<<UniF_Intensity/tesla
-			<<std::setiosflags(std::ios::left)<<std::setw(5) <<UniF_Theta/deg
-			<<std::setiosflags(std::ios::left)<<std::setw(5) <<UniF_Phi/deg
-			<<std::endl;
-	}
-	else if ( fType == "Electric_Uniform" ){
-		std::cout<<std::setiosflags(std::ios::left)<<std::setw(10) <<"Intensity"
-			<<std::setiosflags(std::ios::left)<<std::setw(20) <<"Dir(Theta,Phi)"
-			<<std::setiosflags(std::ios::left)<<std::setw(6)  <<"StepL"
-			<<std::setiosflags(std::ios::left)<<std::setw(6)  <<"StepT"
-			<<std::endl;
-		std::cout<<std::setiosflags(std::ios::left)<<std::setw(10)<<"kV/cm"
-			<<std::setiosflags(std::ios::left)<<std::setw(10)<<"deg"
-			<<std::setiosflags(std::ios::left)<<std::setw(10)<<"deg"
-			<<std::setiosflags(std::ios::left)<<std::setw(6) <<"mm"
-			<<std::endl;
-		std::cout<<std::setiosflags(std::ios::left)<<std::setw(10)<<UniEF_Intensity/kilovolt*cm
-			<<std::setiosflags(std::ios::left)<<std::setw(10)<<UniEF_Theta/deg
-			<<std::setiosflags(std::ios::left)<<std::setw(10)<<UniEF_Phi/deg
-			<<std::setiosflags(std::ios::left)<<std::setw(6) <<UniEF_StepL/mm
-			<<std::setiosflags(std::ios::left)<<std::setw(6) <<UniEF_StepT
-			<<std::endl;
-	}
+	std::cout<<"Electric Magnetic Field Type: "<<fType<<std::endl;
+	if ( fType == "simple" ){
+        if ( fMType == "uniform" ){
+            std::cout<<std::setiosflags(std::ios::left)<<std::setw(10) <<"Intensity"
+                <<std::setiosflags(std::ios::left)<<std::setw(10) <<"Direction(Theta, Phi)"
+                <<std::endl;
+            std::cout<<std::setiosflags(std::ios::left)<<std::setw(10)<<"T"
+                <<std::setiosflags(std::ios::left)<<std::setw(5) <<"deg"
+                <<std::setiosflags(std::ios::left)<<std::setw(5) <<"deg"
+                <<std::endl;
+            std::cout<<std::setiosflags(std::ios::left)<<std::setw(10)<<UniM_Intensity/tesla
+                <<std::setiosflags(std::ios::left)<<std::setw(5) <<UniM_Theta/deg
+                <<std::setiosflags(std::ios::left)<<std::setw(5) <<UniM_Phi/deg
+                <<std::endl;
+        }
+
+        if ( fEType == "uniform" ){
+            std::cout<<std::setiosflags(std::ios::left)<<std::setw(10) <<"Intensity"
+                <<std::setiosflags(std::ios::left)<<std::setw(20) <<"Dir(Theta,Phi)"
+                <<std::setiosflags(std::ios::left)<<std::setw(6)  <<"StepL"
+                <<std::setiosflags(std::ios::left)<<std::setw(6)  <<"StepT"
+                <<std::endl;
+            std::cout<<std::setiosflags(std::ios::left)<<std::setw(10)<<"kV/cm"
+                <<std::setiosflags(std::ios::left)<<std::setw(10)<<"deg"
+                <<std::setiosflags(std::ios::left)<<std::setw(10)<<"deg"
+                <<std::setiosflags(std::ios::left)<<std::setw(6) <<"mm"
+                <<std::endl;
+            std::cout<<std::setiosflags(std::ios::left)<<std::setw(10)<<UniE_Intensity/kilovolt*cm
+                <<std::setiosflags(std::ios::left)<<std::setw(10)<<UniE_Theta/deg
+                <<std::setiosflags(std::ios::left)<<std::setw(10)<<UniE_Phi/deg
+                <<std::setiosflags(std::ios::left)<<std::setw(6) <<EF_StepL/mm
+                <<std::setiosflags(std::ios::left)<<std::setw(6) <<EF_StepT
+                <<std::endl;
+        }
+        else if ( fEType == "cylinder" ){
+            std::cout<<std::setiosflags(std::ios::left)<<std::setw(10) <<"VoltageScaled"
+                <<std::setiosflags(std::ios::left)<<std::setw(6)  <<"StepL"
+                <<std::setiosflags(std::ios::left)<<std::setw(6)  <<"StepT"
+                <<std::endl;
+            std::cout<<std::setiosflags(std::ios::left)<<std::setw(10)<<"kV"
+                <<std::setiosflags(std::ios::left)<<std::setw(6) <<"mm"
+                <<std::endl;
+            std::cout<<std::setiosflags(std::ios::left)<<std::setw(10)<<CylE_VoltScaled/volt
+                <<std::setiosflags(std::ios::left)<<std::setw(6) <<EF_StepL/mm
+                <<std::setiosflags(std::ios::left)<<std::setw(6) <<EF_StepT
+                <<std::endl;
+        }
+    }
 	else if ( fType == "fieldMap" ){
 		for(G4int ifieldmap = 0; ifieldmap < fFieldMapFilenames.size(); ifieldmap++){
 			std::cout<<std::setiosflags(std::ios::left)<<std::setw(30) <<fFieldMapFilenames[ifieldmap]<<" "
@@ -382,7 +405,7 @@ void MyFieldSvc::Dump(){
 				<<std::endl;
 		}
 	}
-	else if ( fType == "none" || fType == "NONE" || fType == "None" ){
+	else if ( fType == "none" ){
 		std::cout<<"No Field!"<<std::endl;
 	}
 	std::cout<<"******************************************************************"<<std::endl;

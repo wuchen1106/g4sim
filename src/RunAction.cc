@@ -38,9 +38,11 @@
 #include "G4UnitsTable.hh"
 
 #include "G4EnergyLossTables.hh"
+#include "G4PhysicalVolumeStore.hh"
 #include "G4ProductionCutsTable.hh"
 #include "G4ParticleDefinition.hh"
 #include "G4LossTableManager.hh"
+#include "G4RegionStore.hh"
 
 #include "G4EmCalculator.hh"
 #include "G4ParticleTable.hh"
@@ -94,6 +96,72 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
             }
         }
     }
+
+//#################################################################################333	
+	//Print range/energy table
+	const G4double cutmin=1*um, cutmax=1*m;
+	const G4int nbin=1000;
+	G4double cut[nbin];
+	const G4double dp = std::log10(cutmax/cutmin)/nbin;
+	const G4double dt = std::pow(10.,dp);
+	cut[0] = cutmin;
+	for (G4int i=1; i<nbin; ++i) cut[i] = cut[i-1]*dt;
+
+    // get the region of the world and its cuts
+	G4Region* region = G4RegionStore::GetInstance()->GetRegion("DefaultRegionForTheWorld", false);
+	G4ProductionCuts* pcuts = region->GetProductionCuts();
+
+	//set precisions
+	std::ios::fmtflags mode = G4cout.flags();
+	G4cout.setf(std::ios::fixed,std::ios::floatfield);
+	G4int  prec = G4cout.precision(3);
+	G4cout.setf(std::ios::scientific,std::ios::floatfield);
+
+    std::vector<G4ParticleDefinition*> particles;
+	particles.push_back(G4ParticleTable::GetParticleTable()->FindParticle("gamma"));
+	particles.push_back(G4ParticleTable::GetParticleTable()->FindParticle("e-"));
+	particles.push_back(G4ParticleTable::GetParticleTable()->FindParticle("e+"));
+	particles.push_back(G4ParticleTable::GetParticleTable()->FindParticle("proton"));
+
+	G4ProductionCutsTable* theCoupleTable =
+		G4ProductionCutsTable::GetProductionCutsTable();
+	size_t numOfCouples = theCoupleTable->GetTableSize();
+	const G4MaterialCutsCouple* couple = 0;
+
+    G4ProductionCutsTable::GetProductionCutsTable()->SetEnergyRange(1*eV,100*GeV);
+    for (size_t i=0; i<numOfCouples; i++) {
+        couple = theCoupleTable->GetMaterialCutsCouple(i);
+
+        const G4Material* mat = couple->GetMaterial();
+        G4cout << "Range (mm)/Energy (MeV) in " << mat ->GetName() << G4endl;
+        G4cout.precision(6);
+        G4cout << "Range";
+        for (size_t ipart=0; ipart<particles.size(); ipart++){
+            G4ParticleDefinition* part = particles.at(ipart);
+            G4cout << " E_" << part->GetParticleName();
+        }
+        G4cout << G4endl;
+        for (G4int l=0;l<nbin; ++l)
+        {
+            for (size_t ipart=0; ipart<particles.size(); ipart++){
+                G4ParticleDefinition* part = particles.at(ipart);
+                pcuts->SetProductionCut(cut[l],part->GetParticleName());
+            }
+
+            G4ProductionCutsTable::GetProductionCutsTable()->UpdateCoupleTable(G4PhysicalVolumeStore::GetInstance()->GetVolume("World"));
+
+            G4cout << " " << cut[l];
+            for (size_t ipart=0; ipart<particles.size(); ipart++){
+                G4double* energies = G4ProductionCutsTable::GetProductionCutsTable()->GetEnergyCutsDoubleVector(ipart);
+                G4cout << " " << energies[i]/(MeV);
+            }
+            G4cout << G4endl;
+        }
+    }
+
+	G4cout.precision(prec);
+	G4cout.setf(mode,std::ios::floatfield);
+//#################################################################################333	
 
     /*
 //#################################################################################333	
