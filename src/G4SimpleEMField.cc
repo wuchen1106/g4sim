@@ -31,8 +31,14 @@
 #include "G4SimpleEMField.hh"
 
 G4SimpleEMField::G4SimpleEMField():
-    fVoltageScaled(0)
+    fEleCylinderVoltageScaled(0)
 {
+    fFieldComponents[0] = 0;
+    fFieldComponents[1] = 0;
+    fFieldComponents[2] = 0;
+    fFieldComponents[3] = 0;
+    fFieldComponents[4] = 0;
+    fFieldComponents[5] = 0;
 }
 
 G4SimpleEMField::~G4SimpleEMField()
@@ -46,17 +52,17 @@ G4SimpleEMField::G4SimpleEMField(const G4SimpleEMField &p)
     {
         fFieldComponents[i] = p.fFieldComponents[i];
     }
-    fVoltageScaled = p.fVoltageScaled;
+    fEleCylinderVoltageScaled = p.fEleCylinderVoltageScaled;
 }
 
-G4SimpleEMField::SetEleUniformVector(const G4ThreeVector FieldVector )
+void G4SimpleEMField::SetEleUniformVector(const G4ThreeVector FieldVector )
 {
     fFieldComponents[3] += FieldVector.x();
     fFieldComponents[4] += FieldVector.y();
     fFieldComponents[5] += FieldVector.z();
 }
 
-G4SimpleEMField::SetEleUniformVector(G4double vField,
+void G4SimpleEMField::SetEleUniformVector(G4double vField,
                                      G4double vTheta,
                                      G4double vPhi    )
 {
@@ -65,14 +71,14 @@ G4SimpleEMField::SetEleUniformVector(G4double vField,
     fFieldComponents[5] += vField*std::cos(vTheta) ;
 }
 
-G4SimpleEMField::SetMagUniformVector(const G4ThreeVector FieldVector )
+void G4SimpleEMField::SetMagUniformVector(const G4ThreeVector FieldVector )
 {
     fFieldComponents[0] += FieldVector.x();
     fFieldComponents[1] += FieldVector.y();
     fFieldComponents[2] += FieldVector.z();
 }
    
-G4SimpleEMField::SetMagUniformVector(G4double vField,
+void G4SimpleEMField::SetMagUniformVector(G4double vField,
                                      G4double vTheta,
                                      G4double vPhi    )
 {
@@ -84,7 +90,7 @@ G4SimpleEMField::SetMagUniformVector(G4double vField,
 G4SimpleEMField& G4SimpleEMField::operator = (const G4SimpleEMField &p)
 {
   if (&p == this) return *this;
-  fVoltageScaled = p.fVoltageScaled;
+  fEleCylinderVoltageScaled = p.fEleCylinderVoltageScaled;
   for (G4int i=0; i<6; i++)
   {
     fFieldComponents[i] = p.fFieldComponents[i];
@@ -96,18 +102,17 @@ void G4SimpleEMField::GetFieldValue( const G4double Point[4],
         G4double *field ) const{
 
     // Uniform magnetic field and electric field
-    fieldBandE[0] += fFieldComponents[0] ;
-    fieldBandE[1] += fFieldComponents[1] ;
-    fieldBandE[2] += fFieldComponents[2] ;
-    fieldBandE[3] += fFieldComponents[3] ;
-    fieldBandE[4] += fFieldComponents[4] ;
-    fieldBandE[5] += fFieldComponents[5] ;
+    field[0] = fFieldComponents[0] ;
+    field[1] = fFieldComponents[1] ;
+    field[2] = fFieldComponents[2] ;
+    field[3] = fFieldComponents[3] ;
+    field[4] = fFieldComponents[4] ;
+    field[5] = fFieldComponents[5] ;
 
     // Cylinder electric field
     double r = sqrt(Point[0]*Point[0]+Point[1]*Point[1]);
-    double E = fVoltageScaled/r;
+    double E = fEleCylinderVoltageScaled/r;
+    if (r==0) r = 1e-13;
     field[3] += E*Point[0]/r;
     field[4] += E*Point[1]/r;
-
-    std::cout<<"GetFieldValue "<<Point[0]<<" "<<Point[1]<<" "<<Point[2]<<" = "<<field[0]<<" "<<field[1]<<" "<<field[2]<<field[3]<<" "<<field[4]<<" "<<field[5]<<std::endl;
 }

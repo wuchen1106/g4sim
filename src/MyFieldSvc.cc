@@ -93,7 +93,7 @@ void MyFieldSvc::SetField(G4LogicalVolume* fLogicWorld){
         fEMField = 0;
 	}
     else if ( fType == "simple" ){
-        fEMField = new G4SimpleEMField();
+        G4SimpleEMField * simpleField = new G4SimpleEMField();
         if ( fMType == "uniform" ){
             G4ThreeVector MagField_vec(1,0,0);
             MagField_vec.setTheta(UniM_Theta);
@@ -101,7 +101,7 @@ void MyFieldSvc::SetField(G4LogicalVolume* fLogicWorld){
             MagField_vec = MagField_vec.unit() * UniM_Intensity;
             if(MagField_vec!= G4ThreeVector(0.,0.,0.))
             { 
-                fEMField->SetMagUniformVector(MagField_vec);
+                simpleField->SetMagUniformVector(MagField_vec);
             }
         }
 
@@ -112,15 +112,15 @@ void MyFieldSvc::SetField(G4LogicalVolume* fLogicWorld){
             EleField_vec = EleField_vec.unit() * UniE_Intensity;
             if(EleField_vec!= G4ThreeVector(0.,0.,0.))
             { 
-                fEMField->SetEleUniformVector(EleField_vec);
+                simpleField->SetEleUniformVector(EleField_vec);
             }
         }
         else if ( fEType == "cylinder" ){
             if (CylE_VoltScaled){
-                fEMField->SetEleCylinderVoltScaled(CylE_VoltScaled);
+                simpleField->SetEleCylinderVoltageScaled(CylE_VoltScaled);
             }
         }
-        fEMField->SetField();
+        fEMField = simpleField;
         fEquation->SetFieldObj(fEMField);
 	}
 	else if ( fType == "fieldMap" ){
@@ -174,16 +174,13 @@ void MyFieldSvc::Reset(){
 void MyFieldSvc::UpdateField()
 {
     if (fType == "simple" ){
-        if (fEType!="none"){
+        if (fEType!="none"||fMType!="none"){
             SetStepper();
             if(fChordFinder) delete fChordFinder;
             // fChordFinder = new G4ChordFinder( fEMField, EF_StepL, fStepper);
             fIntgrDriver = new G4MagInt_Driver(EF_StepL,fStepper,fStepper->GetNumberOfVariables() );
             fChordFinder = new G4ChordFinder(fIntgrDriver);
-            fFieldManager->SetChordFinder( fChordFinder )
-        }
-        else if (fMType!="none"){
-            fFieldManager->CreateChordFinder(fEMField);
+            fFieldManager->SetChordFinder( fChordFinder );
         } 
         else{
             fFieldManager->SetDetectorField(fEMField);

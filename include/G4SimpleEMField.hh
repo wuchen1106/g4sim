@@ -40,6 +40,7 @@
 #define G4SIMPLEEM_FIELD_DEF
 
 #include "G4Types.hh"
+#include "G4ThreeVector.hh"
 #include "G4ElectroMagneticField.hh"
 
 class G4SimpleEMField : public G4ElectroMagneticField
@@ -55,19 +56,24 @@ class G4SimpleEMField : public G4ElectroMagneticField
      G4SimpleEMField& operator = (const G4SimpleEMField &p);
        // Copy constructor & assignment operator.
 
-     G4bool   DoesFieldChangeEnergy() const { return true; }
+     G4bool   DoesFieldChangeEnergy() const { if (fFieldComponents[3]||fFieldComponents[4]||fFieldComponents[5]||fEleCylinderVoltageScaled) return true; else return false; }
        // Since an electric field can change track energy
 
-     G4UniformElectricField(const G4ThreeVector FieldVector );
-     // A field with value equal to FieldVector.
+     void SetMagUniformVector(const G4ThreeVector FieldVector );
 
-     G4UniformElectricField(G4double vField,
+     void SetMagUniformVector(G4double vField,
                             G4double vTheta,
                             G4double vPhi     ) ;
 
-     virtual void  GetFieldValue( const G4double Point[4],G4double *field ) const;
+     void SetEleUniformVector(const G4ThreeVector FieldVector );
+
+     void SetEleUniformVector(G4double vField,
+                            G4double vTheta,
+                            G4double vPhi     ) ;
 
 	 void SetEleCylinderVoltageScaled(double v){fEleCylinderVoltageScaled = v;};
+
+     virtual void  GetFieldValue( const G4double Point[4],G4double *field ) const;
 
   private:
     

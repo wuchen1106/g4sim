@@ -66,7 +66,7 @@ class MyFieldSvc
 		//ElectroMagnetic Field
 		G4ChordFinder*          fChordFinder;
 		G4FieldManager*         fFieldManager;
-		G4ElectroMagneticField* fMagField;
+		G4ElectroMagneticField* fEMField;
 		G4MagIntegratorStepper* fStepper;
 		G4MagInt_Driver*        fIntgrDriver;
 		G4EqMagElectricField*   fEquation;
