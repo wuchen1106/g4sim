@@ -108,6 +108,7 @@ void SimpleGeometrySvc::ConstructVolumes(){
 				halfY = m_GeometryParameter->get_Box_Y(SolidIndex,i)/2;
 				halfZ = m_GeometryParameter->get_Box_Z(SolidIndex,i)/2;
 				sol_Vol=new G4Box(iname,halfX,halfY,halfZ);
+                                std::cout<<"Created box "<<iname<<" @ "<<(void*)sol_Vol<<std::endl;
 			}
 			else if ( SolidType == "EllipticalTube" ){
 				G4double halfX, halfY, halfZ;

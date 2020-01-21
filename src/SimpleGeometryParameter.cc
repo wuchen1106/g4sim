@@ -902,6 +902,7 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 			G4String tMaterial;
 			G4bool   tSolidBoolean = true;
 			buf_card>>tName>>tRepCont;
+			if (tRepCont == "" ) tRepCont = "1"; // in the past the RepNo of a boolean component is not provided so we have to consider this situiation
 			get_RepCont(tRepCont,tSRepNo,tRepNo);
 			if(buf_card>>tMotherName){
 				tSolidBoolean = false;
