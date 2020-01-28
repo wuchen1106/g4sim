@@ -227,7 +227,7 @@ bool MyTriggerSvc::TriggerIt( const G4Event* evt ){
 		else if (myCdcCellSD){
 			nHits_CDC = myCdcCellSD->Get_nHits();
 		}
-		else{
+		else if (myMonitorSD){
 			nHits_CDC = myMonitorSD->Get_nHits();
 		}
 		if ( nHits_CDC < minCdcHits) return false;
@@ -264,7 +264,7 @@ bool MyTriggerSvc::TriggerIt( const G4Event* evt ){
 		else if (myCdcCellSD){
 			nHits_CDC = myCdcCellSD->Get_nHits();
 		}
-		else{
+		else if (myMonitorSD){
 			nHits_CDC = myMonitorSD->Get_nHits();
 		}
 		if ( nHits+nHits_CDC < minCorM_Hits ) return false;
