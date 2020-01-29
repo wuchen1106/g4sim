@@ -97,6 +97,7 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
         }
     }
 
+    /*
 //#################################################################################333	
 	//Print range/energy table
 	const G4double cutmin=1*um, cutmax=1*m;
@@ -162,6 +163,7 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
 	G4cout.precision(prec);
 	G4cout.setf(mode,std::ios::floatfield);
 //#################################################################################333	
+    */
 
     /*
 //#################################################################################333	

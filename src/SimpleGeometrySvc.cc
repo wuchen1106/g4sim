@@ -34,7 +34,6 @@
 #include "G4PVPlacement.hh"
 #include "G4RotationMatrix.hh"
 #include "G4VisAttributes.hh"
-#include "G4UserLimits.hh"
 
 #include <iostream>
 #include <vector>
@@ -108,7 +107,6 @@ void SimpleGeometrySvc::ConstructVolumes(){
 				halfY = m_GeometryParameter->get_Box_Y(SolidIndex,i)/2;
 				halfZ = m_GeometryParameter->get_Box_Z(SolidIndex,i)/2;
 				sol_Vol=new G4Box(iname,halfX,halfY,halfZ);
-                                std::cout<<"Created box "<<iname<<" @ "<<(void*)sol_Vol<<std::endl;
 			}
 			else if ( SolidType == "EllipticalTube" ){
 				G4double halfX, halfY, halfZ;
@@ -282,8 +280,6 @@ void SimpleGeometrySvc::ConstructVolumes(){
 			}
 			G4LogicalVolume* log_Vol;
 			log_Vol = new G4LogicalVolume(sol_Vol, pttoMaterial, iname,0,0,0);
-            G4UserLimits* stepLimit = new G4UserLimits(200*um);
-			log_Vol->SetUserLimits(stepLimit);
 			G4VSensitiveDetector* aSD;
 			aSD = MyDetectorManager::GetMyDetectorManager()->GetSD(iname, SDName, const_cast<SimpleGeometrySvc*>(this) );
 			log_Vol->SetSensitiveDetector(aSD);

@@ -31,7 +31,6 @@ class MyFieldSvcMessenger: public G4UImessenger
     
     G4UIdirectory*             g4simDir;
     G4UIdirectory*             magDir;
-    G4UIdirectory*             eleDir;
     G4UIcmdWithoutParameter*   SetFieldCmd;
     G4UIcmdWithAString*        ReadCardCmd;
     G4UIcmdWithAString*        AddMapCmd;
@@ -39,9 +38,7 @@ class MyFieldSvcMessenger: public G4UImessenger
     G4UIcmdWithADoubleAndUnit* SetMagIntensityCmd;
     G4UIcmdWithADoubleAndUnit* SetMagThetaCmd;
     G4UIcmdWithADoubleAndUnit* SetMagPhiCmd;
-    G4UIcmdWithADoubleAndUnit* SetEleIntensityCmd;
-    G4UIcmdWithADoubleAndUnit* SetEleThetaCmd;
-    G4UIcmdWithADoubleAndUnit* SetElePhiCmd;
+
 };
 
 #endif

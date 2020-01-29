@@ -62,28 +62,6 @@ MyFieldSvcMessenger::MyFieldSvcMessenger(MyFieldSvc* magFieldSvc)
   SetMagPhiCmd->SetParameterName("Phi",false);
   SetMagPhiCmd->SetUnitCategory("Angle");
   SetMagPhiCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
-
-  eleDir = new G4UIdirectory("/g4sim/ele/");
-  eleDir->SetGuidance("electric field control");
-
-  SetEleIntensityCmd = new G4UIcmdWithADoubleAndUnit("/g4sim/ele/setIntensity",this);
-  SetEleIntensityCmd->SetGuidance("SetEleIntensity.");
-  SetEleIntensityCmd->SetParameterName("intensity",false);
-  SetEleIntensityCmd->SetRange("intensity>=0.");
-  SetEleIntensityCmd->SetUnitCategory("Electric flux density");
-  SetEleIntensityCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
-
-  SetEleThetaCmd = new G4UIcmdWithADoubleAndUnit("/g4sim/ele/setTheta",this);
-  SetEleThetaCmd->SetGuidance("SetEleTheta.");
-  SetEleThetaCmd->SetParameterName("Theta",false);
-  SetEleThetaCmd->SetUnitCategory("Angle");
-  SetEleThetaCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
-
-  SetElePhiCmd = new G4UIcmdWithADoubleAndUnit("/g4sim/ele/setPhi",this);
-  SetElePhiCmd->SetGuidance("SetElePhi.");
-  SetElePhiCmd->SetParameterName("Phi",false);
-  SetElePhiCmd->SetUnitCategory("Angle");
-  SetElePhiCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 }
 
 MyFieldSvcMessenger::~MyFieldSvcMessenger()
@@ -97,9 +75,6 @@ MyFieldSvcMessenger::~MyFieldSvcMessenger()
   delete SetMagIntensityCmd;
   delete SetMagThetaCmd;
   delete SetMagPhiCmd;
-  delete SetEleIntensityCmd;
-  delete SetEleThetaCmd;
-  delete SetElePhiCmd;
 }
 
 void MyFieldSvcMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
@@ -115,7 +90,4 @@ void MyFieldSvcMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
   if( command == SetMagIntensityCmd ) { fMyFieldSvc->SetMagIntensity(SetMagIntensityCmd->GetNewDoubleValue(newValue)); }
   if( command == SetMagThetaCmd ) { fMyFieldSvc->SetMagTheta(SetMagThetaCmd->GetNewDoubleValue(newValue)); }
   if( command == SetMagPhiCmd ) { fMyFieldSvc->SetMagPhi(SetMagPhiCmd->GetNewDoubleValue(newValue)); }
-  if( command == SetEleIntensityCmd ) { fMyFieldSvc->SetEleIntensity(SetEleIntensityCmd->GetNewDoubleValue(newValue)); }
-  if( command == SetEleThetaCmd ) { fMyFieldSvc->SetEleTheta(SetEleThetaCmd->GetNewDoubleValue(newValue)); }
-  if( command == SetElePhiCmd ) { fMyFieldSvc->SetElePhi(SetElePhiCmd->GetNewDoubleValue(newValue)); }
 }
