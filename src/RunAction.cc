@@ -76,15 +76,15 @@ RunAction::~RunAction()
 
 void RunAction::BeginOfRunAction(const G4Run* aRun)
 { 
-  G4cout << "### Run " << aRun->GetRunID() << " start." << G4endl;
+    G4cout << "### Run " << aRun->GetRunID() << " start." << G4endl;
 
-  //inform the runManager to save random number seed
-  G4RunManager::GetRunManager()->SetRandomNumberStore(true);
+    //inform the runManager to save random number seed
+    G4RunManager::GetRunManager()->SetRandomNumberStore(true);
 
-	//deal with analysis
-	MyAnalysisSvc::GetMyAnalysisSvc()->BeginOfRunAction();
+    //deal with analysis
+    MyAnalysisSvc::GetMyAnalysisSvc()->BeginOfRunAction();
 
-	//t_begin = (double)clock();
+    t_begin = (double)clock();
 
     FieldList* fields = MyGlobalField::getObject()->getFields();
     if (fields) {
@@ -97,11 +97,57 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
         }
     }
 
-    /*
+/*
+//#################################################################################333	
+    //Print gamma attenuation coefficient
+    G4EmCalculator emCal;
+    const G4double tkmin=1*eV, tkmax=1000*GeV;
+    const G4int nbin=1000;
+    G4double tk[nbin];
+
+    const G4int ncolumn = 1;
+
+    //compute the kinetic energies
+    //
+    const G4double dp = std::log10(tkmax/tkmin)/nbin;
+    const G4double dt = std::pow(10.,dp);
+    tk[0] = tkmin;
+    for (G4int i=1; i<nbin; ++i) tk[i] = tk[i-1]*dt;
+
+    G4ProductionCutsTable::GetProductionCutsTable()->SetEnergyRange(1*eV,100*GeV);
+
+    std::ios::fmtflags mode = G4cout.flags();
+    G4cout.setf(std::ios::fixed,std::ios::floatfield);
+    G4int  prec = G4cout.precision(3);
+    G4cout.setf(std::ios::scientific,std::ios::floatfield);
+
+    G4ProductionCutsTable* theCoupleTable =
+        G4ProductionCutsTable::GetProductionCutsTable();
+    size_t numOfCouples = theCoupleTable->GetTableSize();
+    const G4MaterialCutsCouple* couple = 0;
+
+    for (size_t i=0; i<numOfCouples; i++) {
+        couple = theCoupleTable->GetMaterialCutsCouple(i);
+        const G4Material* mat = couple->GetMaterial();
+        double density = mat->GetDensity();
+        G4cout << "# mass attenuation coefficient in " << mat ->GetName() << G4endl;
+        G4cout.precision(6);
+        G4cout << "E        mu       l" << G4endl;
+        G4cout << "# MeV      cm2/g    cm\n " << G4endl;
+        for (G4int l=0;l<nbin; ++l)
+        {
+            double length = emCal.ComputeGammaAttenuationLength(tk[l],mat);
+            G4cout << tk[l]/MeV<< "\t"<<1/density/length/cm/cm*g<<"\t"<<length<<G4endl;
+        }
+    }
+//#################################################################################333	
+*/
+
+/*
 //#################################################################################333	
 	//Print range/energy table
-	const G4double cutmin=1*um, cutmax=1*m;
-	const G4int nbin=1000;
+	const G4double cutmin=1*um, cutmax=1000*m;
+	const G4int nbin=100000;
 	G4double cut[nbin];
 	const G4double dp = std::log10(cutmax/cutmin)/nbin;
 	const G4double dt = std::pow(10.,dp);
@@ -163,48 +209,50 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
 	G4cout.precision(prec);
 	G4cout.setf(mode,std::ios::floatfield);
 //#################################################################################333	
-    */
+*/
 
-    /*
+/*
 //#################################################################################333	
-	//Print dE/dx tables with binning identical to the Geant3 JMATE bank.
-	//The printout is readable as Geant3 ffread data cards (by the program g4mat).
-	//
-	const G4double tkmin=1*keV, tkmax=10000*GeV;
-	const G4int nbin=1000;
-	G4double tk[nbin];
+    //Print dE/dx tables with binning identical to the Geant3 JMATE bank.
+    //The printout is readable as Geant3 ffread data cards (by the program g4mat).
+    //
+    const G4double tkmin=1*keV, tkmax=10000*GeV;
+    const G4int nbin=1000;
+    G4double tk[nbin];
 
-	const G4int ncolumn = 1;
+    const G4int ncolumn = 1;
 
-	//compute the kinetic energies
-	//
-	const G4double dp = std::log10(tkmax/tkmin)/nbin;
-	const G4double dt = std::pow(10.,dp);
-	tk[0] = tkmin;
-	for (G4int i=1; i<nbin; ++i) tk[i] = tk[i-1]*dt;
+    //compute the kinetic energies
+    //
+    const G4double dp = std::log10(tkmax/tkmin)/nbin;
+    const G4double dt = std::pow(10.,dp);
+    tk[0] = tkmin;
+    for (G4int i=1; i<nbin; ++i) tk[i] = tk[i-1]*dt;
 
-	//print the kinetic energies
-	//
-	std::ios::fmtflags mode = G4cout.flags();
-	G4cout.setf(std::ios::fixed,std::ios::floatfield);
-	G4int  prec = G4cout.precision(3);
+    //print the kinetic energies
+    //
+    std::ios::fmtflags mode = G4cout.flags();
+    G4cout.setf(std::ios::fixed,std::ios::floatfield);
+    G4int  prec = G4cout.precision(3);
 
-	//print the dE/dx tables
-	//
-	G4cout.setf(std::ios::scientific,std::ios::floatfield);
+    //print the dE/dx tables
+    //
+    G4cout.setf(std::ios::scientific,std::ios::floatfield);
 
     std::vector<G4ParticleDefinition*> particles;
-	particles.push_back(G4ParticleTable::GetParticleTable()->FindParticle("mu-"));
-	particles.push_back(G4ParticleTable::GetParticleTable()->FindParticle("mu+"));
-	particles.push_back(G4ParticleTable::GetParticleTable()->FindParticle("e-"));
-	particles.push_back(G4ParticleTable::GetParticleTable()->FindParticle("e+"));
-	particles.push_back(G4ParticleTable::GetParticleTable()->FindParticle("proton"));
-	particles.push_back(G4ParticleTable::GetParticleTable()->FindParticle("anti_proton"));
+    particles.push_back(G4ParticleTable::GetParticleTable()->FindParticle("mu-"));
+    particles.push_back(G4ParticleTable::GetParticleTable()->FindParticle("mu+"));
+    particles.push_back(G4ParticleTable::GetParticleTable()->FindParticle("e-"));
+    particles.push_back(G4ParticleTable::GetParticleTable()->FindParticle("e+"));
+    particles.push_back(G4ParticleTable::GetParticleTable()->FindParticle("pi-"));
+    particles.push_back(G4ParticleTable::GetParticleTable()->FindParticle("pi+"));
+    particles.push_back(G4ParticleTable::GetParticleTable()->FindParticle("proton"));
+    particles.push_back(G4ParticleTable::GetParticleTable()->FindParticle("anti_proton"));
 
-	G4ProductionCutsTable* theCoupleTable =
-		G4ProductionCutsTable::GetProductionCutsTable();
-	size_t numOfCouples = theCoupleTable->GetTableSize();
-	const G4MaterialCutsCouple* couple = 0;
+    G4ProductionCutsTable* theCoupleTable =
+        G4ProductionCutsTable::GetProductionCutsTable();
+    size_t numOfCouples = theCoupleTable->GetTableSize();
+    const G4MaterialCutsCouple* couple = 0;
 
     for (size_t ipart=0; ipart<particles.size(); ipart++){
         for (size_t i=0; i<numOfCouples; i++) {
@@ -227,10 +275,10 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
         }
     }
 
-	G4cout.precision(prec);
-	G4cout.setf(mode,std::ios::floatfield);
+    G4cout.precision(prec);
+    G4cout.setf(mode,std::ios::floatfield);
 //#################################################################################333	
-    */
+*/
 
 
 }
@@ -240,16 +288,16 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
 void RunAction::EndOfRunAction(const G4Run* aRun)
 {
 
-	//deal with analysis
-	MyAnalysisSvc::GetMyAnalysisSvc()->EndOfRunAction(aRun);
+    //deal with analysis
+    MyAnalysisSvc::GetMyAnalysisSvc()->EndOfRunAction(aRun);
 
-  G4int NbOfEvents = aRun->GetNumberOfEvent();
-  if (NbOfEvents == 0) return;
+    G4int NbOfEvents = aRun->GetNumberOfEvent();
+    if (NbOfEvents == 0) return;
 
-	//t_end = clock();
-	//double duration = (t_end-t_begin)/CLOCKS_PER_SEC;
-	//std::cout<<"TOTAL TIME COST FOR THIS RUN:     "<<duration<<"s"<<std::endl;
-	//std::cout<<"TIME COST PER EVENT FOR THIS RUN: "<<duration/NbOfEvents<<"s"<<std::endl;
+    t_end = clock();
+    double duration = (t_end-t_begin)/CLOCKS_PER_SEC;
+    std::cout<<"TOTAL TIME COST FOR THIS RUN:     "<<duration<<"s"<<std::endl;
+    std::cout<<"TIME COST PER EVENT FOR THIS RUN: "<<duration/NbOfEvents<<"s"<<std::endl;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
