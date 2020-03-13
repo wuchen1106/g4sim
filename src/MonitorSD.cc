@@ -842,7 +842,7 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 			if(flag_Opx) m_Opx[index] = pointOut_mom.x()/unit_Opx;
 			if(flag_Opy) m_Opy[index] = pointOut_mom.y()/unit_Opy;
 			if(flag_Opz) m_Opz[index] = pointOut_mom.z()/unit_Opz;
-			if(flag_Oekin) m_Oekin[index] = Oekin/unit_Opz;
+			if(flag_Oekin) m_Oekin[index] = Oekin/unit_Oekin;
 			if(flag_stepL) m_stepL[index] += stepL/unit_stepL;
 			if(flag_stop_time&&stopped) m_stop_time[index] = stop_time/unit_stop_time; // modify only if it got stopped at this step
 			if(flag_kill_time&&killed) m_kill_time[index] = kill_time/unit_kill_time;// modify only if it got killed at this step
