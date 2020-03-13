@@ -56,7 +56,7 @@ bool LogSvc::CheckFileAvailable(){
 	return isOK;
 }
 
-void LogSvc::SetLogFile( const char* file_name ){
+void LogSvc::SetLogFile( const G4String& file_name ){
 	fFileName = file_name;
 }
 

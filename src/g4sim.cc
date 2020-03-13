@@ -79,19 +79,25 @@ G4String PhysicsListName = "";
 G4bool   WithPAI = false;
 G4bool   WithRadi = false;
 G4double LowEnergyCut = 990*eV;
+G4String OutputFileName = "";
 
 int main(int argc,char** argv)
 {
+    G4String HOME = getenv("MYG4SIMWORKROOT");
     G4String MacroName = "";
     WithPAI = false;
     WithRadi = false;
     PhysicsListName = "QGSP_BERT_HP";
+    OutputFileName = HOME+"/output/raw_g4sim.root";
     // Load options
     int    opt_result;
-    while((opt_result=getopt(argc,argv,"L:pP:rh"))!=-1){
+    while((opt_result=getopt(argc,argv,"L:O:pP:rh"))!=-1){
         switch(opt_result){
             case 'L':
                 LowEnergyCut = atof(optarg)*eV;
+                break;
+            case 'O':
+                OutputFileName = optarg;
                 break;
             case 'p':
                 WithPAI = true;
@@ -178,6 +184,7 @@ int main(int argc,char** argv)
 
     // Get analysis service
     MyAnalysisSvc* myAnalysisSvc = new MyAnalysisSvc();
+    myAnalysisSvc->set_ofile_name(OutputFileName);
 
     // Set mandatory initialization classes
     //
@@ -254,6 +261,8 @@ void print_usage(char * prog_name){
     fprintf(stderr,"\t\t Apply PAI to world\n");
     fprintf(stderr,"\t -r\n");
     fprintf(stderr,"\t\t Register G4RadioactiveDecayPhysics\n");
+    fprintf(stderr,"\t -O file\n");
+    fprintf(stderr,"\t\t Set output file name [%s]\n",OutputFileName.data());
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo.....

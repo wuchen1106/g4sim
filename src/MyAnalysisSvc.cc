@@ -47,12 +47,12 @@ MyAnalysisSvc::MyAnalysisSvc()
 	pMyProcessManager = MyProcessManager::GetMyProcessManager();
 
 	//default logfile
-	run_name = getenv("RUNNAMEROOT");
+	G4String HOME = getenv("MYG4SIMWORKROOT");
+	run_name = "TEST";
 	//default output file
-	ofile_name = getenv("OFILENAMEROOT");
-	//set default output card, read it, and inform relative files.
-	std::string out_card = getenv("OUTCARDROOT");
-	set_out_card(out_card.c_str());
+	ofile_name = HOME+"/output/raw_g4sim.root";
+	// set log file
+        LogSvc::GetLogSvc()->SetLogFile(HOME+"/runlog/logfile");
 	//default trigger card
 	m_minT = -1;
 	m_maxT = -1;
@@ -94,12 +94,7 @@ void MyAnalysisSvc::set_out_card(G4String file_name){
 void MyAnalysisSvc::BeginOfRunAction(){
 	evt_num = 0;
 	//deal with log
-	std::string log_name = getenv("LOGFILEROOT");
-	if ( std::strlen(log_name.c_str()) != 0 ){
-		LogSvc::GetLogSvc()->SetLogFile( log_name.c_str() );
-	}
 	run_num = LogSvc::GetLogSvc()->AddLog( run_name.c_str() );
-	std::cout<<"logfile finished for "<<run_name<<", "<<run_num<<std::endl;
 
 	//set root file
 	pMyRoot->OpenFile(ofile_name);
@@ -210,15 +205,15 @@ void MyAnalysisSvc::InitialStepAction(const G4Step* aStep){
 	pProcessCountingSvc->InitialStep(aStep);
 }
 
-void MyAnalysisSvc::ASDI(G4String name){
+void MyAnalysisSvc::ASDI(const G4String& name){
 	pProcessCountingSvc->AddASDI(name);
 }
 
-void MyAnalysisSvc::PSDI(G4String name){
+void MyAnalysisSvc::PSDI(const G4String& name){
 	pProcessCountingSvc->AddPSDI(name);
 }
 
-void MyAnalysisSvc::ReadOutputCard(G4String file_name){
+void MyAnalysisSvc::ReadOutputCard(const G4String& file_name){
 	std::ifstream fin_card(file_name);
 	if(!fin_card){
 		std::cout<<"In MyAnalysisSvc::ReadOutputCard, cannot open "<<file_name<<"!!!"<<std::endl;

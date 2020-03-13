@@ -36,16 +36,16 @@ class MyAnalysisSvc
 
 		void set_PrintModulo(int i){fPrintModulo = i;};
 
-		void set_ofile_name(G4String& val){ ofile_name = val; };
-		void set_tree_name(G4String& val){ tree_name = val; };
-		void set_run_name(G4String& val){ run_name = val; };
+		void set_ofile_name(const G4String& val){ ofile_name = val; };
+		void set_tree_name(const G4String& val){ tree_name = val; };
+		void set_run_name(const G4String& val){ run_name = val; };
 
 		void set_minT(double val){m_minT=val;};
 		void set_maxT(double val){m_maxT=val;};
 
 		int get_evt_num(){return evt_num;};
 
-		void ReadOutputCard(G4String filename);
+		void ReadOutputCard(const G4String& filename);
 		int  GetRunID(){return run_num;};
 
 		void BeginOfRunAction();
@@ -56,8 +56,8 @@ class MyAnalysisSvc
 		void EndOfEventAction(const G4Event*);
 		void InitialStepAction(const G4Step*);
 		void SteppingAction(const G4Step*);
-		void ASDI(G4String);
-		void PSDI(G4String);
+		void ASDI(const G4String&);
+		void PSDI(const G4String&);
 
 	private:
 		static MyAnalysisSvc* fMyAnalysisSvc;

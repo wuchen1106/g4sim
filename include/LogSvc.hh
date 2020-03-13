@@ -8,7 +8,7 @@
 #ifndef LogSvc_h
 #define LogSvc_h 1
 
-#include <string>
+#include <G4String.hh>
 
 //for locking file
 #include <unistd.h>
@@ -30,7 +30,7 @@ class LogSvc
 
     bool CheckFileAvailable();
 
-    void SetLogFile( const char* file_name );
+    void SetLogFile( const G4String& file_name );
 
     int AddLog( const char* run_name);
 
@@ -46,7 +46,7 @@ class LogSvc
 
     static LogSvc* fLogSvc;
 
-    std::string fFileName;
+    G4String fFileName;
 
 		int fd;
 
