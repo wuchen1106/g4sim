@@ -58,6 +58,7 @@ MyStackingAction::ClassifyNewTrack(const G4Track* aTrack) {
         }
         else {
             aClassification = fKill;
+            McTruthSvc::GetMcTruthSvc()->SetValuePre(aTrack);
         }
 
     } else if ( aPDGEncoding ==
@@ -67,6 +68,7 @@ MyStackingAction::ClassifyNewTrack(const G4Track* aTrack) {
         }
         else {
             aClassification = fKill;
+            McTruthSvc::GetMcTruthSvc()->SetValuePre(aTrack);
         }
     } else if ( aPDGEncoding ==
     particleTable->FindParticle("gamma")->GetPDGEncoding() ) {
@@ -75,6 +77,7 @@ MyStackingAction::ClassifyNewTrack(const G4Track* aTrack) {
         }
         else {
             aClassification = fKill;
+            McTruthSvc::GetMcTruthSvc()->SetValuePre(aTrack);
         }
 
     }
@@ -114,6 +117,7 @@ MyStackingAction::ClassifyNewTrack(const G4Track* aTrack) {
 			}
 			if (!foundit){
 				aClassification = fKill;
+                                McTruthSvc::GetMcTruthSvc()->SetValuePre(aTrack);
 			}
 		}
 		foundit=false;
@@ -125,6 +129,7 @@ MyStackingAction::ClassifyNewTrack(const G4Track* aTrack) {
 		}
 		if (foundit){
 			aClassification = fKill;
+			McTruthSvc::GetMcTruthSvc()->SetValuePre(aTrack);
 		}
 	}
 
