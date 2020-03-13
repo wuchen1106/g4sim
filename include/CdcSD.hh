@@ -85,6 +85,8 @@ class CdcSD : public MySD
 		std::vector<double> m_px;
 		std::vector<double> m_py;
 		std::vector<double> m_pz;
+		std::vector<double> m_e;
+		std::vector<double> m_ekin;
 		std::vector<double> m_ox;
 		std::vector<double> m_oy;
 		std::vector<double> m_oz;
@@ -92,8 +94,6 @@ class CdcSD : public MySD
 		std::vector<double> m_opx;
 		std::vector<double> m_opy;
 		std::vector<double> m_opz;
-		std::vector<double> m_e;
-		std::vector<double> m_ekin;
 		std::vector<double> m_edep;
 		std::vector<double> m_edepAll;
 		std::vector<double> m_edepDelta;

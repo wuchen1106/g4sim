@@ -123,6 +123,13 @@ void CdcSD::Initialize(G4HCofThisEvent* HCE)
 	m_pz.clear();
 	m_e.clear();
 	m_ekin.clear();
+	m_ox.clear();
+	m_oy.clear();
+	m_oz.clear();
+	m_ot.clear();
+	m_opx.clear();
+	m_opy.clear();
+	m_opz.clear();
 	m_edep.clear();
 	m_edepAll.clear();
 	m_edepDelta.clear();
@@ -135,11 +142,51 @@ void CdcSD::Initialize(G4HCofThisEvent* HCE)
 	m_cellID.clear();
 	m_tid.clear();
 	m_pid.clear();
-	m_particleName.clear();
 	m_ppid.clear();
 	m_ptid.clear();
 	m_oprocess.clear();
 	m_ovolName.clear();
+	m_particleName.clear();
+	// reserve
+	int toReserve = maxn?maxn:10000;
+	m_x.reserve(toReserve);
+	m_y.reserve(toReserve);
+	m_z.reserve(toReserve);
+	m_wx.reserve(toReserve);
+	m_wy.reserve(toReserve);
+	m_wz.reserve(toReserve);
+	m_t.reserve(toReserve);
+	m_tstart.reserve(toReserve);
+	m_tstop.reserve(toReserve);
+	m_px.reserve(toReserve);
+	m_py.reserve(toReserve);
+	m_pz.reserve(toReserve);
+	m_e.reserve(toReserve);
+	m_ekin.reserve(toReserve);
+	m_ox.reserve(toReserve);
+	m_oy.reserve(toReserve);
+	m_oz.reserve(toReserve);
+	m_ot.reserve(toReserve);
+	m_opx.reserve(toReserve);
+	m_opy.reserve(toReserve);
+	m_opz.reserve(toReserve);
+	m_edep.reserve(toReserve);
+	m_edepAll.reserve(toReserve);
+	m_edepDelta.reserve(toReserve);
+	m_stepL.reserve(toReserve);
+	m_nPair.reserve(toReserve);
+	m_driftD.reserve(toReserve);
+	m_driftDtrue.reserve(toReserve);
+	m_posflag.reserve(toReserve);
+	m_layerID.reserve(toReserve);
+	m_cellID.reserve(toReserve);
+	m_tid.reserve(toReserve);
+	m_pid.reserve(toReserve);
+	m_ppid.reserve(toReserve);
+	m_ptid.reserve(toReserve);
+	m_oprocess.reserve(toReserve);
+	m_ovolName.reserve(toReserve);
+	m_particleName.reserve(toReserve);
 	//initialize for filter
 	nTracks = 0;
 	prevTrackID = -100;
@@ -165,6 +212,13 @@ void CdcSD::SetBranch(){
 	if( flag_pz ) myRoot->SetBranch(volName+"_pz", &m_pz);
 	if( flag_e ) myRoot->SetBranch(volName+"_e", &m_e);
 	if( flag_ekin ) myRoot->SetBranch(volName+"_ekin", &m_ekin);
+	if( flag_ox ) myRoot->SetBranch(volName+"_ox", &m_ox);
+	if( flag_oy ) myRoot->SetBranch(volName+"_oy", &m_oy);
+	if( flag_oz ) myRoot->SetBranch(volName+"_oz", &m_oz);
+	if( flag_ot ) myRoot->SetBranch(volName+"_ot", &m_ot);
+	if( flag_opx ) myRoot->SetBranch(volName+"_opx", &m_opx);
+	if( flag_opy ) myRoot->SetBranch(volName+"_opy", &m_opy);
+	if( flag_opz ) myRoot->SetBranch(volName+"_opz", &m_opz);
 	if( flag_edep ) myRoot->SetBranch(volName+"_edep", &m_edep);
 	if( flag_edepAll ) myRoot->SetBranch(volName+"_edepAll", &m_edepAll);
 	if( flag_edepDelta ) myRoot->SetBranch(volName+"_edepDelta", &m_edepDelta);
@@ -519,7 +573,6 @@ void CdcSD::ShowOutCard(){
 G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 {
 	int evt_num = fMyAnalysisSvc->get_evt_num();
-	CDCSDPH_LINEINFO();
 
 	//*************************get useful variables***********************
 
@@ -559,10 +612,6 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 
 	//neutralCut
 	if ( charge == 0 && neutralCut ) return false;
-
-	CDCSDPH_LINEVAR(pointIn_pos.x());
-	CDCSDPH_LINEVAR(pointIn_pos.y());
-	CDCSDPH_LINEVAR(pointIn_pos.z());
 
 	//*************************Locate the nearest sense wire****************************
 	G4ThreeVector hitPosition = pointIn_pos_local; // first, assume that the hit position is step in point
@@ -654,8 +703,12 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	if (holeId<0) holeId+=HoleNo;
 	else if (holeId>=HoleNo) holeId-=HoleNo;
 	cellId = holeId/2;
-	CDCSDPH_LINEVAR(holeId);
-	CDCSDPH_LINEVAR(layerId);
+	if (layerId<0||layerId>=hitPointer.size()||cellId<0||cellId>=hitPointer[layerId].size()){
+            std::cout<<"ERROR! ("<<layerId<<","<<cellId<<") outside of range!"<<std::endl;
+                G4Exception("CdcSD::ProcessHits()",
+                        "cell out of range", FatalException,
+                        "cell out of range");
+	}
 
 	//*************************get POCA and posflag****************************
 	// direction of the momentum;
@@ -677,22 +730,12 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	// get POCA
 	G4ThreeVector wireUE2pointIn = -localWirePositionAtUpEndPlate+pointIn_pos_local;
 	G4ThreeVector vAxis = wire_dir.cross(stepVec);
-	CDCSDPH_LINEVAR(wireUE2pointIn);
-	CDCSDPH_LINEVAR(vAxis.unit());
-	CDCSDPH_LINEVAR(wire_dir.unit());
 	G4ThreeVector wireUE2pointInVertical = wireUE2pointIn-wire_dir.unit()*(wireUE2pointIn*(wire_dir.unit()));
 	wireUE2pointInVertical = wireUE2pointInVertical-vAxis.unit()*(wireUE2pointInVertical*(vAxis.unit()));
-	CDCSDPH_LINEVAR(wireUE2pointInVertical);
-	CDCSDPH_LINEVAR(wireUE2pointInVertical.mag());
-	CDCSDPH_LINEVAR(stepVec.mag());
 	double hitPositionK = wireUE2pointInVertical.mag()/stepVec.mag();
 	if (hitPositionK>1) hitPosition = pointOut_pos_local;
 	else if (hitPositionK<0) hitPosition = pointIn_pos_local;
 	else hitPosition = (1-hitPositionK)*pointIn_pos_local+hitPositionK*pointOut_pos_local;
-	CDCSDPH_LINEVAR(hitPositionK);
-	CDCSDPH_LINEVAR(pointIn_pos_local);
-	CDCSDPH_LINEVAR(pointOut_pos_local);
-	CDCSDPH_LINEVAR(hitPosition);
 	double hitZ = hitPosition.z();
 	hitPositionOnWire.setZ(hitZ);
 	hitPositionOnWire.setPerp(m_GeometryParameter->get_layer_Rz(senseLayerId,hitZ));
@@ -702,16 +745,9 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	// from hit point to sense wire
 	double posflagD = (pointIn_mom.cross(wire_dir)).dot(hit2wire);
 	posflag = posflagD/fabs(posflagD);
-	CDCSDPH_LINEVAR(driftD/cm);
 
 	//*************************accumulate step info********************************
 	bool stillIn = false;
-	CDCSDPH_LINEVAR(layerId);
-	CDCSDPH_LINEVAR(prelayerId);
-	CDCSDPH_LINEVAR(cellId);
-	CDCSDPH_LINEVAR(precellId);
-	CDCSDPH_LINEVAR(trackID);
-	CDCSDPH_LINEVAR(preTid);
 	if (layerId==prelayerId&&cellId==precellId&&trackID==preTid){
 		edeptemp+=edepIoni;
 		stepLtemp+=stepL;
@@ -746,20 +782,12 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 //	double minedeptemp = G4UniformRand()*minedep;
 	double minedeptemp = minedep;
 //	std::cout<<"minedeptemp = "<<minedeptemp/keV<<std::endl;
-//	std::cout<<"@ ["<<layerId<<"]["<<cellId<<"]"<<std::endl;
-	CDCSDPH_LINEVAR(stillIn);
-	CDCSDPH_LINEVAR(layerId);
-	CDCSDPH_LINEVAR(cellId);
-	CDCSDPH_LINEVAR(hitPointer[layerId].size());
 	if (stillIn){// same track in same cell
 		action = 2;
 		pointer = m_driftD.size()-1;
-		CDCSDPH_LINEVAR(pointer);
 	}
 	else if (hitPointer[layerId][cellId] != -1){ // There is a pulse in this same cell
-		CDCSDPH_LINEVAR(layerId);
 		pointer=hitPointer[layerId][cellId];
-		CDCSDPH_LINEVAR(pointer);
 //		std::cout<<"hitPointer["<<layerId<<"]["<<cellId<<"] = "<<pointer<<std::endl;
 		pretstop = m_tstop[pointer]*unit_tstop;
 		pretstart  = m_tstart[pointer]*unit_tstart;
@@ -772,28 +800,22 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 		}
 	}
 	else{
-		CDCSDPH_LINEINFO();
 		action = 1;
 	}
 	// further cut
 	if (action == 0) return false; // pass
 	else if (action == 1){
-		CDCSDPH_LINEINFO();
 		//maxn
-		CDCSDPH_LINEVAR(cdc_nHits);
 		if ( maxn && cdc_nHits >= maxn ) return false;
 		//ntracks
 		if ( trackID != prevTrackID ){
 			prevTrackID = trackID;
 			nTracks++;
 		}
-		CDCSDPH_LINEVAR(nTracks);
 		if ( nTracks > ntracks && ntracks) return false;
 		//minp
-		CDCSDPH_LINEVAR(pointIn_pa);
 		if ( minp && pointIn_pa < minp ) return false;
 		//time_window
-		CDCSDPH_LINEVAR(globalT);
 		if(std::isnan(globalT)){
 			G4cout<<"CdcSD:error, globalT is nan "<<G4endl;
 			return false;
@@ -802,22 +824,14 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 		if ( globalT > maxt && maxt ) return false;
 		//edep
 //		std::cout<<"edepIoni = "<<edepIoni<<std::endl;
-		CDCSDPH_LINEVAR(edeptemp);
 		if (edeptemp<=minedeptemp) return false;
 //		std::cout<<"Passed!"<<std::endl;
-		CDCSDPH_LINEINFO();
 	}
 	else if (action == 2){
-		CDCSDPH_LINEVAR(edepIoni);
 		if (edepIoni>minedeptemp){isPrimaryIon=true;}
 	}
-	// FIXME:
-	CDCSDPH_LINEVAR(action);
-
 	//*******************generate or modify hit************************
 	if (action==1){ // this is a new hit
-//		std::cout<<"=>New Hit!"<<std::endl;
-		CDCSDPH_LINEINFO();
 		CdcHit* newHit = new CdcHit();
 		newHit->SetTrackID(trackID);
 		newHit->SetLayerNo(layerId);
@@ -831,8 +845,8 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 		newHit->SetDriftT (driftT);
 		newHit->SetGlobalT(globalT);
 		hitsCollection->insert(newHit);
-		G4int NbHits = hitsCollection->entries();
-		hitPointer[layerId][cellId]=NbHits-1;
+		hitPointer[layerId][cellId]=cdc_nHits;
+		cdc_nHits++;
 		//Set for root objects
 		if(flag_x) m_x.push_back(hitPosition.x()/unit_x);
 		if(flag_y) m_y.push_back(hitPosition.y()/unit_y);
@@ -840,9 +854,9 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 		if(flag_wx) m_wx.push_back(hitPositionOnWire.x()/unit_wx);
 		if(flag_wy) m_wy.push_back(hitPositionOnWire.y()/unit_wy);
 		if(flag_wz) m_wz.push_back(hitPositionOnWire.z()/unit_wz);
-		if(flag_t) m_t.push_back(globalT/unit_t);
-		if(flag_t) m_tstart.push_back(signalT/unit_tstart);
-		if(flag_t) m_tstop.push_back(signalT/unit_tstop);
+		m_t.push_back(globalT/unit_t);
+		m_tstart.push_back(signalT/unit_tstart);
+		m_tstop.push_back(signalT/unit_tstop);
 		if(flag_px) m_px.push_back(pointIn_mom.x()/unit_px);
 		if(flag_py) m_py.push_back(pointIn_mom.y()/unit_py);
 		if(flag_pz) m_pz.push_back(pointIn_mom.z()/unit_pz);
@@ -945,32 +959,18 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 			if(flag_opy) m_opy.push_back(opy);
 			if(flag_opz) m_opz.push_back(opz);
 		}
-		cdc_nHits++;
-	CDCSDPH_LINEINFO();
 	}
 	else { // update the track
-//		std::cout<<"hitPointer["<<layerId<<"]["<<cellId<<"] = "<<pointer<<std::endl;
-//		std::cout<<"=>Update Hit!"<<std::endl;
-		CDCSDPH_LINEVAR(pointer);
-		CDCSDPH_LINEVAR(m_edep[pointer]);
 		if(flag_edep) m_edep[pointer] += (edepIoni)/unit_edep;
-		CDCSDPH_LINEVAR(m_edepAll[pointer]);
 		if(flag_edepAll) m_edepAll[pointer] += (edep)/unit_edepAll;
-		CDCSDPH_LINEVAR(m_edepDelta[pointer]);
-		if(flag_edepAll) m_edepDelta[pointer] += (edepDelta)/unit_edepAll;
-		CDCSDPH_LINEVAR(m_stepL[pointer]);
+		if(flag_edepDelta) m_edepDelta[pointer] += (edepDelta)/unit_edepAll;
 		if(flag_stepL) m_stepL[pointer] += stepL/unit_stepL;
-		CDCSDPH_LINEVAR(driftD);
-		CDCSDPH_LINEVAR(m_driftDtrue[pointer]*unit_driftDtrue);
 		if(flag_driftDtrue) if(driftD<m_driftDtrue[pointer]*unit_driftDtrue) m_driftDtrue[pointer] = driftD/unit_driftDtrue;
-		CDCSDPH_LINEVAR(pointer);
 		if (isPrimaryIon){
-		CDCSDPH_LINEVAR(pointer);
 			if (signalT<m_tstart[pointer]*unit_tstart) m_tstart[pointer] = signalT/unit_tstart;
 			else if (signalT>m_tstop[pointer]*unit_tstop) m_tstop[pointer] = signalT/unit_tstop;
 			if(flag_nPair) m_nPair[pointer]++;
 			if(flag_driftD) if(driftD<m_driftD[pointer]*unit_driftD){
-		CDCSDPH_LINEVAR(pointer);
 				if ( trackID != prevTrackID ){
 					prevTrackID = trackID;
 					nTracks++;
@@ -982,7 +982,7 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 				if(flag_x) m_x[pointer] = hitPosition.x()/unit_x;
 				if(flag_y) m_y[pointer] = hitPosition.y()/unit_y;
 				if(flag_z) m_z[pointer] = hitPosition.z()/unit_z;
-				if(flag_t) m_t[pointer] = globalT/unit_t;
+				m_t[pointer] = globalT/unit_t;
 				if(flag_e) m_e[pointer] = total_e/unit_e;
 				if(flag_ekin) m_ekin[pointer] = ekin/unit_ekin;
 				if(flag_px) m_px[pointer] = pointIn_mom.x()/unit_px;
@@ -990,7 +990,7 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 				if(flag_pz) m_pz[pointer] = pointIn_mom.z()/unit_pz;
 				if(flag_pid) m_pid[pointer] = pid;
 				if(flag_tid) m_tid[pointer] = trackID;
-				if(flag_tid) m_posflag[pointer] = posflag;
+				if(flag_posflag) m_posflag[pointer] = posflag;
 				(*hitsCollection)[pointer]->SetPos(pointIn_pos);
 				if(flag_ptid){
 					int ptid = aTrack->GetParentID();
@@ -1077,17 +1077,9 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 					if(flag_opy) m_opy[pointer] = opy;
 					if(flag_opz) m_opz[pointer] = opz;
 				}
-		CDCSDPH_LINEVAR(pointer);
 			}
-		CDCSDPH_LINEVAR(pointer);
 		}
-	CDCSDPH_LINEINFO();
 	}
-	//	std::cout<<"  "<<hitPosition.x()<<", "<<globalT<<", ("<<layerId<<","<<cellId<<"), "<<edepIoni/eV<<", "<<stepL<<std::endl;
-	// FIXME:
-	if (pointer<0) pointer=m_driftD.size()-1;
-//	std::cout<<"  "<<pointer<<":"<<m_driftD[pointer]<<", "<<m_driftDtrue[pointer]<<", "<<m_stepL[pointer]<<", "<<m_edep[pointer]<<std::endl;
-	CDCSDPH_LINEINFO();
 	precellId = cellId;
 	prelayerId = layerId;
 	preTid = trackID;
