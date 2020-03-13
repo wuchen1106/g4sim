@@ -91,7 +91,7 @@ int main(int argc,char** argv)
     while((opt_result=getopt(argc,argv,"L:pP:rh"))!=-1){
         switch(opt_result){
             case 'L':
-                LowEnergyCut = atof(optarg);
+                LowEnergyCut = atof(optarg)*eV;
                 break;
             case 'p':
                 WithPAI = true;
@@ -245,7 +245,7 @@ void print_usage(char * prog_name){
     fprintf(stderr,"\t\t In case [macro] is not given, UI mode will be activated\n");
     fprintf(stderr,"[options]\n");
     fprintf(stderr,"\t -L cut\n");
-    fprintf(stderr,"\t\t Change the low energy bound of production cuts to cut (%.3e eV)\n",LowEnergyCut/eV);
+    fprintf(stderr,"\t\t Change the low energy bound of production cuts to [cut] eV (%.3e eV)\n",LowEnergyCut/eV);
     fprintf(stderr,"\t -P physics\n");
     fprintf(stderr,"\t\t Change the physics List (%s)\n",PhysicsListName.data());
     fprintf(stderr,"\t\t Available options: QGSP_BERT QGSP_BERT_HP QGSP_INCLXX PhysicsList\n");
