@@ -407,9 +407,16 @@ void PrimaryGeneratorAction::SetRandomPosition(){
 }
 
 void PrimaryGeneratorAction::SetUniformPosition(){
-	MyVGeometryParameter* pMyVGeometryParameter = MyDetectorManager::GetMyDetectorManager()->GetSvc(UP_SubDet)->get_GeometryParameter();
+        MyVGeometrySvc * pMyVGeometrySvc = MyDetectorManager::GetMyDetectorManager()->GetSvc(UP_SubDet);
+        if (!pMyVGeometrySvc){
+            std::cout<<"ERROR: cannot find MyVGeometrySvc for "<<UP_SubDet<<std::endl;
+            G4Exception("PrimaryGeneratorAction::SetUniformPosition()",
+                    "InvalidInput", FatalException,
+                    "cannot ");
+        }
+	MyVGeometryParameter* pMyVGeometryParameter = pMyVGeometrySvc->get_GeometryParameter();
 	if (!pMyVGeometryParameter){
-		std::cout<<"ERROR: in PrimaryGeneratorAction::SetUniformPosition cannot find : "<<UP_SubDet<<"!!!"<<std::endl;
+		std::cout<<"ERROR: cannot find MyVGeometryParameter for "<<UP_SubDet<<"!!!"<<std::endl;
 		G4Exception("PrimaryGeneratorAction::SetUniformPosition()",
 				"InvalidInput", FatalException,
 				"cannot ");
