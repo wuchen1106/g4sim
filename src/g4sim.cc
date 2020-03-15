@@ -46,6 +46,8 @@
 #include "SteppingVerbose.hh"
 #include "G4RadioactiveDecayPhysics.hh"
 #include "G4EmParameters.hh"
+#include "G4EmExtraPhysics.hh"
+#include "G4OpticalPhysics.hh"
 #include "MyStepLimiter.hh"
 #include "QGSP_BERT.hh"
 #include "QGSP_INCLXX.hh"
@@ -78,6 +80,8 @@ void print_usage(char* prog_name);
 G4String PhysicsListName = "";
 G4bool   WithPAI = false;
 G4bool   WithRadi = false;
+G4bool   WithOptical = false;
+G4int    UseEmType = 0;
 G4double LowEnergyCut = 990*eV;
 G4String OutputFileName = "";
 
@@ -91,10 +95,20 @@ int main(int argc,char** argv)
     OutputFileName = HOME+"/output/raw_g4sim.root";
     // Load options
     int    opt_result;
-    while((opt_result=getopt(argc,argv,"L:O:pP:rh"))!=-1){
+    while((opt_result=getopt(argc,argv,"e:L:oO:pP:rh"))!=-1){
         switch(opt_result){
+            case 'e':
+                UseEmType = atoi(optarg);
+                if (UseEmType!=0&&UseEmType!=3&&UseEmType!=4&&UseEmType!=-1&&UseEmType!=-2){
+                    std::cout<<" EmType "<<UseEmType<<" is not supported yet! Will use type 0 (EmStandard) as default"<<std::endl;
+                    UseEmType = 0;
+                }
+                break;
             case 'L':
                 LowEnergyCut = atof(optarg)*eV;
+                break;
+            case 'o':
+                WithOptical = true;
                 break;
             case 'O':
                 OutputFileName = optarg;
@@ -118,7 +132,9 @@ int main(int argc,char** argv)
     }
     std::cout<<"PhysicsList: \""<<PhysicsListName<<"\""<<std::endl;
     std::cout<<"  with PAI? "<<(WithPAI?"yes":"no")<<std::endl;
-    std::cout<<"  with Radiation? "<<(WithRadi?"yes":"no")<<std::endl;
+    std::cout<<"  with Radiatiacitve decay? "<<(WithRadi?"yes":"no")<<std::endl;
+    std::cout<<"  with Optical Processes? "<<(WithOptical?"yes":"no")<<std::endl;
+    std::cout<<"  use EmType "<<UseEmType<<" (ONLY VALID when the \"PhysicsList\" is chosen"<<std::endl;
     std::cout<<"Low energy cut = "<<LowEnergyCut/eV<<" eV"<<std::endl;
 
     if (argc-optind>0){
@@ -148,7 +164,7 @@ int main(int argc,char** argv)
         physics = new QGSP_INCLXX;
     }
     else if (PhysicsListName=="PhysicsList"){
-        physics = new PhysicsList;
+        physics = new PhysicsList(1,UseEmType);
     }
     else{
         physics = new QGSP_BERT;
@@ -160,6 +176,16 @@ int main(int argc,char** argv)
 
     if (WithPAI){
         G4EmParameters::Instance()->AddPAIModel("all","world","pai");
+    }
+
+    // Optical processes
+    if (WithOptical){
+        G4OpticalPhysics * pG4OpticalPhysics = new G4OpticalPhysics();
+        pG4OpticalPhysics->SetMaxNumPhotonsPerStep(2000);
+        pG4OpticalPhysics->SetMaxBetaChangePerStep(100);
+        pG4OpticalPhysics->SetScintillationYieldFactor(1);
+        pG4OpticalPhysics->SetTrackSecondariesFirst(kCerenkov,true);
+        physics->RegisterPhysics(pG4OpticalPhysics);
     }
 
     physics->RegisterPhysics(new MyStepLimiter());
@@ -251,12 +277,17 @@ void print_usage(char * prog_name){
     fprintf(stderr,"Usage %s [options] [macro]\n",prog_name);
     fprintf(stderr,"\t\t In case [macro] is not given, UI mode will be activated\n");
     fprintf(stderr,"[options]\n");
+    fprintf(stderr,"\t -e TYPE\n");
+    fprintf(stderr,"\t\t Change the EmType. By default it's 0 (EmStandard). Only valid when the \"PhysicsList\" is chosen\n");
+    fprintf(stderr,"\t\t Available types: -1, EmLivermore; -2, EmCustomised; 0,3,4 EmStandard with the type number as option\n");
     fprintf(stderr,"\t -L cut\n");
     fprintf(stderr,"\t\t Change the low energy bound of production cuts to [cut] eV (%.3e eV)\n",LowEnergyCut/eV);
     fprintf(stderr,"\t -P physics\n");
     fprintf(stderr,"\t\t Change the physics List (%s)\n",PhysicsListName.data());
     fprintf(stderr,"\t\t Available options: QGSP_BERT QGSP_BERT_HP QGSP_INCLXX PhysicsList\n");
     fprintf(stderr,"\t\t If the provided option is not supported, then QGSP_BERT_HP will be used as default\n");
+    fprintf(stderr,"\t -o\n");
+    fprintf(stderr,"\t\t Register G4OpticalPhysics\n");
     fprintf(stderr,"\t -p\n");
     fprintf(stderr,"\t\t Apply PAI to world\n");
     fprintf(stderr,"\t -r\n");

@@ -50,80 +50,90 @@
 #include "G4BaryonConstructor.hh"
 #include "G4IonConstructor.hh"
 
-#include "G4DecayPhysics.hh"
-#include "G4EmStandardPhysics.hh"
-#include "G4EmExtraPhysics.hh"
-#include "G4IonPhysics.hh"
-// TODO:
-// /home/chen/MyWorkArea/g4sim/src/PhysicsList.cc:57:33: fatal error: G4QStoppingPhysics.hh: No such file or directory
-//#include "G4QStoppingPhysics.hh"
-#include "G4HadronElasticPhysics.hh"
-#include "G4NeutronTrackingCut.hh"
-// TODO:
-// /home/chen/MyWorkArea/g4sim/src/PhysicsList.cc:62:36: fatal error: G4LHEPStoppingPhysics.hh: No such file or directory
-//#include "G4LHEPStoppingPhysics.hh"
-
 #include "G4DataQuestionaire.hh"
-// TODO:
-// /home/chen/MyWorkArea/g4sim/src/PhysicsList.cc:67:37: fatal error: HadronPhysicsQGSP_BERT.hh: No such file or directory
+
+// TODO: add version case
+// These are files for older versions
+//#include "G4QStoppingPhysics.hh"
+//#include "G4LHEPStoppingPhysics.hh"
 //#include "HadronPhysicsQGSP_BERT.hh"
 //#include "HadronPhysicsQGSP_BERT_HP.hh"
 
-#include "G4OpticalPhysics.hh"
+#include "G4DecayPhysics.hh"
+#include "G4EmStandardPhysics.hh"
+#include "G4EmStandardPhysics_option3.hh"
+#include "G4EmStandardPhysics_option4.hh"
+#include "G4EmLivermorePhysics.hh"
+#include "EmCustomisedPhysics.hh"
+#include "G4EmExtraPhysics.hh"
+#include "G4IonPhysics.hh"
+#include "G4StoppingPhysics.hh"
+#include "G4HadronElasticPhysics.hh"
+#include "G4NeutronTrackingCut.hh"
+#include "G4HadronPhysicsQGSP_BERT.hh"
+#include "G4HadronPhysicsQGSP_BERT_HP.hh"
 
 #include "MyDecayPhysics.hh"
 #include "MyPionPhysics.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-PhysicsList::PhysicsList(int ver):  G4VModularPhysicsList()
+PhysicsList::PhysicsList(int ver, int EmType):  G4VModularPhysicsList()
 {
 
   G4DataQuestionaire it(photon);
   G4cout << "<<< Geant4 Physics List simulation engine: My Own  physics list based on QGSP_BERT 3.4"<<G4endl;
   G4cout <<G4endl;
 
-  defaultCutValue = 1e-3*m;
-  SetVerboseLevel(ver);
+  this->defaultCutValue = 0.7*CLHEP::mm;  
+  this->SetVerboseLevel(ver);
 
   // EM Physics
-  RegisterPhysics( new G4EmStandardPhysics(ver) );
+  if (EmType==-1){
+      this->RegisterPhysics( new G4EmLivermorePhysics(ver) );
+  }
+  else if (EmType==-2){
+      this->RegisterPhysics( new EmCustomisedPhysics(ver) );
+  }
+  else{
+      if (EmType == 0){
+          this->RegisterPhysics( new G4EmStandardPhysics(ver) );
+      }
+      else if (EmType == 3){
+          this->RegisterPhysics( new G4EmStandardPhysics_option3(ver) );
+      }
+      else if (EmType == 4){
+          this->RegisterPhysics( new G4EmStandardPhysics_option4(ver) );
+      }
+  }
 
   // Synchroton Radiation & GN Physics
-  RegisterPhysics( new G4EmExtraPhysics(ver) );
+  this->RegisterPhysics( new G4EmExtraPhysics(ver) );
 
   // Decays
-  //RegisterPhysics( new MyDecayPhysics(ver) );
-  RegisterPhysics( new G4DecayPhysics(ver) );
+  this->RegisterPhysics( new G4DecayPhysics(ver) );
+  //this->RegisterPhysics( new MyDecayPhysics(ver) );
 
-  // Hadron Elastic scattering
-  RegisterPhysics( new G4HadronElasticPhysics(ver) );
+   // Hadron Elastic scattering
+  this->RegisterPhysics( new G4HadronElasticPhysics(ver) );
 
   // Hadron Physics
-  //RegisterPhysics( new HadronPhysicsQGSP_BERT_HP(ver));
-//  RegisterPhysics( new HadronPhysicsQGSP_BERT(ver));
+  this->RegisterPhysics( new G4HadronPhysicsQGSP_BERT(ver));
+  //this->RegisterPhysics( new G4HadronPhysicsQGSP_BERT_HP(ver));
 
   // Stopping Physics
-//  RegisterPhysics( new G4QStoppingPhysics(ver) );
-//  RegisterPhysics( new G4LHEPStoppingPhysics(ver) );
+  //this->RegisterPhysics( new G4QStoppingPhysics(ver) );
+  //this->RegisterPhysics( new G4LHEPStoppingPhysics(ver) );
+  this->RegisterPhysics( new G4StoppingPhysics(ver) );
 
   // Ion Physics
-  RegisterPhysics( new G4IonPhysics(ver));
+  this->RegisterPhysics( new G4IonPhysics(ver));
   
   // Neutron tracking cut
-  RegisterPhysics( new G4NeutronTrackingCut(ver));
+  this->RegisterPhysics( new G4NeutronTrackingCut(ver));
 
   // My Physics
   //RegisterPhysics( new MyPionPhysics(ver) );
-
-  // Optical processes
-  G4OpticalPhysics * pG4OpticalPhysics = new G4OpticalPhysics();
-  pG4OpticalPhysics->SetMaxNumPhotonsPerStep(2000);
-  pG4OpticalPhysics->SetMaxBetaChangePerStep(100);
-  pG4OpticalPhysics->SetScintillationYieldFactor(1);
-  pG4OpticalPhysics->SetTrackSecondariesFirst(kCerenkov,true);
-  RegisterPhysics(pG4OpticalPhysics);
-
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -139,8 +149,8 @@ void PhysicsList::SetCuts()
   //  " G4VModularPhysicsList::SetCutsWithDefault" method sets 
   //   the default cut value for all particle types 
 
-  SetCutsWithDefault();   
-  
+  this->SetCutsWithDefault();   
+
   if (verboseLevel >0)
     G4VModularPhysicsList::DumpCutValuesTable();  
 }
