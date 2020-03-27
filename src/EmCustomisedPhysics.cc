@@ -115,9 +115,13 @@ G4_DECLARE_PHYSCONSTR_FACTORY(EmCustomisedPhysics);
 EmCustomisedPhysics::EmCustomisedPhysics(G4int ver, const G4String&)
   : G4VPhysicsConstructor("EmCustomised"), verbose(ver)
 {
+#if G4VERSION_NUMBER >= 1040
   G4EmParameters* param = G4EmParameters::Instance();
   param->SetDefaults();
   param->SetVerbose(verbose);
+#else
+  G4EmParameters::Instance()->SetVerbose(verbose);
+#endif
   SetPhysicsType(bElectromagnetic);
 }
 
