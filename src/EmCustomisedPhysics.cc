@@ -82,7 +82,6 @@
 #include "G4ionIonisation.hh"
 #include "G4alphaIonisation.hh"
 
-#include "G4ParticleTable.hh"
 #include "G4Gamma.hh"
 #include "G4Electron.hh"
 #include "G4Positron.hh"
@@ -102,7 +101,9 @@
 
 #include "G4PhysicsListHelper.hh"
 #include "G4BuilderType.hh"
+#if G4VERSION_NUMBER >= 1040
 #include "G4EmModelActivator.hh"
+#endif
 
 // factory
 #include "G4PhysicsConstructorFactory.hh"
@@ -112,7 +113,7 @@ G4_DECLARE_PHYSCONSTR_FACTORY(EmCustomisedPhysics);
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 EmCustomisedPhysics::EmCustomisedPhysics(G4int ver, const G4String&)
-  : G4VPhysicsConstructor("G4EmStandard"), verbose(ver)
+  : G4VPhysicsConstructor("EmCustomised"), verbose(ver)
 {
   G4EmParameters* param = G4EmParameters::Instance();
   param->SetDefaults();
@@ -199,10 +200,17 @@ void EmCustomisedPhysics::ConstructProcess()
   G4double highEnergyLimit = 100*MeV;
 
   // Add standard EM Processes
+#if G4VERSION_NUMBER >= 1040
   G4ParticleTable* table = G4ParticleTable::GetParticleTable();
   for(const auto& particleName : partList.PartNames()) {
     G4ParticleDefinition* particle = table->FindParticle(particleName);
     if (!particle) { continue; }
+#else
+  aParticleIterator->reset();
+  while( (*aParticleIterator)() ){
+    G4ParticleDefinition* particle = aParticleIterator->value();
+    G4String particleName = particle->GetParticleName();
+#endif
     if (particleName == "gamma") {
 
       G4PhotoElectricEffect* pee = new G4PhotoElectricEffect();
@@ -377,7 +385,9 @@ void EmCustomisedPhysics::ConstructProcess()
   G4VAtomDeexcitation* de = new G4UAtomicDeexcitation();
   G4LossTableManager::Instance()->SetAtomDeexcitation(de);
 
+#if G4VERSION_NUMBER >= 1040
   G4EmModelActivator mact(GetPhysicsName());
+#endif
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

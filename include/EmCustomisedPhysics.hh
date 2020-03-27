@@ -44,8 +44,11 @@
 #ifndef EmCustomisedPhysics_h
 #define EmCustomisedPhysics_h 1
 
+#include "G4Version.hh"
 #include "G4VPhysicsConstructor.hh"
+#if G4VERSION_NUMBER >= 1040
 #include "G4EmParticleList.hh"
+#endif
 #include "globals.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -63,7 +66,9 @@ public:
 
 private:
   G4int  verbose;
+#if G4VERSION_NUMBER >= 1040
   G4EmParticleList partList;
+#endif
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
