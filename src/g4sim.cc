@@ -72,6 +72,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>  /* stringstream */
 #include <unistd.h> /* getopt */
 #include <stdlib.h> /* atoi, atof */
 
@@ -93,9 +94,10 @@ int main(int argc,char** argv)
     WithRadi = false;
     PhysicsListName = "QGSP_BERT_HP";
     OutputFileName = HOME+"/output/raw_g4sim.root";
+    int nEvents = 0;
     // Load options
     int    opt_result;
-    while((opt_result=getopt(argc,argv,"e:L:oO:pP:rh"))!=-1){
+    while((opt_result=getopt(argc,argv,"e:L:N:oO:pP:rh"))!=-1){
         switch(opt_result){
             case 'e':
                 UseEmType = atoi(optarg);
@@ -106,6 +108,9 @@ int main(int argc,char** argv)
                 break;
             case 'L':
                 LowEnergyCut = atof(optarg)*eV;
+                break;
+            case 'N':
+                nEvents = atoi(optarg);
                 break;
             case 'o':
                 WithOptical = true;
@@ -136,6 +141,7 @@ int main(int argc,char** argv)
     std::cout<<"  with Optical Processes? "<<(WithOptical?"yes":"no")<<std::endl;
     std::cout<<"  use EmType "<<UseEmType<<" (ONLY VALID when the \"PhysicsList\" is chosen"<<std::endl;
     std::cout<<"Low energy cut = "<<LowEnergyCut/eV<<" eV"<<std::endl;
+    std::cout<<"Run beamOn: "<<nEvents<<" events"<<std::endl;
 
     if (argc-optind>0){
         MacroName = argv[optind];
@@ -235,6 +241,11 @@ int main(int argc,char** argv)
     {
         G4String command = "/control/execute "+MacroName;
         UImanager->ApplyCommand(command);
+        if (nEvents>0){
+            std::ostringstream command;
+            command << "/run/beamOn " << nEvents;
+            UImanager->ApplyCommand(command.str());
+        }
     }
     else
     {  // interactive mode : define UI session
