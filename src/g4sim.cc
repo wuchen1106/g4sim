@@ -33,6 +33,7 @@
 
 #include "G4RunManager.hh"
 #include "G4UImanager.hh"
+#include "G4Version.hh"
 
 #include "Randomize.hh"
 
@@ -78,6 +79,18 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 void print_usage(char* prog_name);
+#if G4VERSION_NUMBER < 1040
+#include "G4EmConfigurator.hh"
+#include "G4LossTableManager.hh"
+#include "G4PAIPhotModel.hh"
+#include "G4PAIModel.hh"
+#include "G4ParticleTable.hh"
+void AddPAIModel(const G4String& modname);
+void NewPAIModel(const G4ParticleDefinition* part, 
+                              const G4String& modname,
+                              const G4String& procname);
+#endif
+
 G4String PhysicsListName = "";
 G4bool   WithPAI = false;
 G4bool   WithRadi = false;
@@ -181,7 +194,11 @@ int main(int argc,char** argv)
     }
 
     if (WithPAI){
+#if G4VERSION_NUMBER >= 1040
         G4EmParameters::Instance()->AddPAIModel("all","world","pai");
+#else
+        AddPAIModel("pai"); // can choose pai_photon as well
+#endif
     }
 
     // Optical processes
@@ -283,6 +300,49 @@ int main(int argc,char** argv)
 
     return 0;
 }
+
+#if G4VERSION_NUMBER < 1040
+void AddPAIModel(const G4String& modname)
+{
+  G4ParticleTable::G4PTblDicIterator* anotherParticleIterator = G4ParticleTable::GetParticleTable()->GetIterator();
+  anotherParticleIterator->reset();
+  while ((*anotherParticleIterator)())
+  {
+    G4ParticleDefinition* particle = anotherParticleIterator->value();
+    G4String partname = particle->GetParticleName();
+    if(partname == "e-" || partname == "e+") {
+      NewPAIModel(particle, modname, "eIoni");
+
+    } else if(partname == "mu-" || partname == "mu+") {
+      NewPAIModel(particle, modname, "muIoni");
+
+    } else if(partname == "proton" ||
+              partname == "pi+" ||
+              partname == "pi-"   
+              ) {
+      NewPAIModel(particle, modname, "hIoni");
+    }
+  }
+}
+
+void NewPAIModel(const G4ParticleDefinition* part, 
+                              const G4String& modname,
+                              const G4String& procname)
+{
+  G4EmConfigurator* config = G4LossTableManager::Instance()->EmConfigurator();
+  G4String partname = part->GetParticleName();
+  if(modname == "pai") {
+    G4PAIModel* pai = new G4PAIModel(part,"PAIModel");
+    config->SetExtraEmModel(partname,procname,pai,"GasDetector",
+                            0.0,100.*TeV,pai);
+  } else if(modname == "pai_photon") {
+    G4PAIPhotModel* pai = new G4PAIPhotModel(part,"PAIPhotModel");
+    config->SetExtraEmModel(partname,procname,pai,"GasDetector",
+                            0.0,100.*TeV,pai);
+  }
+}
+
+#endif
 
 void print_usage(char * prog_name){
     fprintf(stderr,"Usage %s [options] [macro]\n",prog_name);
