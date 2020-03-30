@@ -353,6 +353,8 @@ void print_usage(char * prog_name){
     fprintf(stderr,"\t\t Available types: -1, EmLivermore; -2, EmCustomised; 0,3,4 EmStandard with the type number as option\n");
     fprintf(stderr,"\t -L cut\n");
     fprintf(stderr,"\t\t Change the low energy bound of production cuts to [cut] eV (%.3e eV)\n",LowEnergyCut/eV);
+    fprintf(stderr,"\t -N nEvents \n");
+    fprintf(stderr,"\t\t Added /run/beamOn nEvents command after the execution of the given macro. Will not be invoked if macro file is not given though.\n",LowEnergyCut/eV);
     fprintf(stderr,"\t -P physics\n");
     fprintf(stderr,"\t\t Change the physics List (%s)\n",PhysicsListName.data());
     fprintf(stderr,"\t\t Available options: QGSP_BERT QGSP_BERT_HP QGSP_INCLXX PhysicsList\n");
