@@ -61,7 +61,7 @@ void LogSvc::SetLogFile( const G4String& file_name ){
 }
 
 int LogSvc::OpenFile(){
-	fd = open(fFileName.c_str(), O_RDWR|O_CREAT);
+	fd = open(fFileName.c_str(), O_RDWR|O_CREAT, 0600);
 	if ( fd<0 ){
 		return -1;
 	}
