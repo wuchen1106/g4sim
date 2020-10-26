@@ -50,8 +50,6 @@
 #include "G4BaryonConstructor.hh"
 #include "G4IonConstructor.hh"
 
-#include "G4DataQuestionaire.hh"
-
 // TODO: add version case
 // These are files for older versions
 //#include "G4QStoppingPhysics.hh"
@@ -81,7 +79,6 @@
 PhysicsList::PhysicsList(int ver, int EmType):  G4VModularPhysicsList()
 {
 
-  G4DataQuestionaire it(photon);
   G4cout << "<<< Geant4 Physics List simulation engine: My Own  physics list based on QGSP_BERT 3.4"<<G4endl;
   G4cout <<G4endl;
 
