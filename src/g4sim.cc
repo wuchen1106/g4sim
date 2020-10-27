@@ -55,11 +55,13 @@
 #include "QGSP_BERT_HP.hh"
 //#include "myQGSP_BERT_HP.hh"
 
-#ifdef G4VIS_USE
+#ifdef G4VIS_USE || G4VIS_USE_OPENGL || G4VIS_USE_OPENGLX || G4VIS_USE_OPENGLQT
+#define VIS_USE
 #include "G4VisExecutive.hh"
 #endif
 
-#ifdef G4UI_USE
+#ifdef G4UI_USE || G4UI_USE_QT || G4UI_USE_TCSH
+#define UI_USE
 #include "G4UIExecutive.hh"
 #endif
 
@@ -247,7 +249,7 @@ int main(int argc,char** argv)
     // Get the pointer to the User Interface manager
     G4UImanager* UImanager = G4UImanager::GetUIpointer();
 
-#ifdef G4VIS_USE
+#ifdef VIS_USE
     // Initialize visualization
     // G4VisExecutive can take a verbosity argument - see /vis/verbose guidance.
     // G4VisManager* visManager = new G4VisExecutive("Quiet");
@@ -266,10 +268,10 @@ int main(int argc,char** argv)
     }
     else
     {  // interactive mode : define UI session
-#ifdef G4UI_USE
+#ifdef UI_USE
         G4UIExecutive* ui = new G4UIExecutive(argc, argv);
         G4String macros_dir = getenv("MACROSCOMMONROOT");
-#ifdef G4VIS_USE
+#ifdef VIS_USE
         // Initialize visualization
         visManager->Initialize();
         UImanager->ApplyCommand("/control/execute "+macros_dir+"/vis.macro"); 
@@ -285,7 +287,7 @@ int main(int argc,char** argv)
     // Free the store: user actions, physics_list and detector_description are
     //                 owned and deleted by the run manager, so they should not
     //                 be deleted in the main() program !
-#ifdef G4VIS_USE
+#ifdef VIS_USE
     delete visManager;
     std::cout<<"visManager deleted!!"<<std::endl;
 #endif
