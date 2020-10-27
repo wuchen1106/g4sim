@@ -55,12 +55,12 @@
 #include "QGSP_BERT_HP.hh"
 //#include "myQGSP_BERT_HP.hh"
 
-#ifdef G4VIS_USE || G4VIS_USE_OPENGL || G4VIS_USE_OPENGLX || G4VIS_USE_OPENGLQT
+#if defined(G4VIS_USE) || defined(G4VIS_USE_OPENGL) || defined(G4VIS_USE_OPENGLX) || defined(G4VIS_USE_OPENGLQT)
 #define VIS_USE
 #include "G4VisExecutive.hh"
 #endif
 
-#ifdef G4UI_USE || G4UI_USE_QT || G4UI_USE_TCSH
+#if defined(G4UI_USE) || defined(G4UI_USE_QT) || defined(G4UI_USE_TCSH)
 #define UI_USE
 #include "G4UIExecutive.hh"
 #endif
