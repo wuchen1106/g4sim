@@ -106,10 +106,12 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	// 
 	if (UseRoot){
 		root_get_para();
-                if ( pidMode == "root"){
-                    while (root_int[0]>1e6){ // ion, cannot be generated from pid yet
-                        root_get_para(); // get the next one
-                    }
+                if ( pidMode == "root" && root_int[0]>1e6){ // ion, cannot be generated from pid yet
+                    // it's better to generate an empty event, i.e. a photon with no energy (should not be harmful)
+                    root_int[0] = 22;
+                    root_double[17] = 0;
+                    root_double[18] = 0;
+                    root_double[19] = 0;
                 }
 	}
 	if (RandMode=="root"){
