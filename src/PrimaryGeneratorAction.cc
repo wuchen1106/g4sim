@@ -106,6 +106,11 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	// 
 	if (UseRoot){
 		root_get_para();
+                if ( pidMode == "root"){
+                    while (root_int[0]>1e6){ // ion, cannot be generated from pid yet
+                        root_get_para(); // get the next one
+                    }
+                }
 	}
 	if (RandMode=="root"){
 		long seeds[3];
