@@ -35,6 +35,8 @@
 #include "G4SteppingManager.hh"
 #include "G4UnitsTable.hh"
 
+#include "MyGlobalField.hh"
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 SteppingVerbose::SteppingVerbose()
@@ -154,11 +156,19 @@ void SteppingVerbose::TrackingStarted()
 			<< std::setw( 9) << "dEtot"     << " "
 			<< std::setw( 9) << "dEIon"     << " "
 			<< std::setw( 9) << "dEdel"     << " "
+			<< std::setw( 9) << "B"         << " "
 			<< std::setw(10) << "StepLeng"  << " "
 			<< std::setw(10) << "TrakLeng"  << " "
 			<< std::setw(10) << "Volume"    << " "
 			<< std::setw(10) << "Process"   << std::endl;	          
 
+                double field[6] = {0};
+                double point[4] = {0};
+                point[0] = fTrack->GetPosition().x();
+                point[1] = fTrack->GetPosition().y();
+                point[2] = fTrack->GetPosition().z();
+                MyGlobalField::getObject()->GetFieldValue(point,field);
+                double fieldMag = sqrt(field[3]*field[3]+field[4]*field[4]+field[5]*field[5]);
 		std::cout << std::setw(6) << fTrack->GetCurrentStepNumber() << " "
 			<< std::setw(5) << G4BestUnit(fTrack->GetPosition().x(),"Length")<< " "
 			<< std::setw(5) << G4BestUnit(fTrack->GetPosition().y(),"Length")<< " "
@@ -171,6 +181,7 @@ void SteppingVerbose::TrackingStarted()
 			<< std::setw(5) << G4BestUnit(fStep->GetTotalEnergyDeposit(),"Energy")<< " "
 			<< std::setw(5) << G4BestUnit(fStep->GetTotalEnergyDeposit()-fStep->GetNonIonizingEnergyDeposit(),"Energy")<< " "
 			<< std::setw(5) << G4BestUnit(fStep->GetDeltaEnergy(),"Energy")<< " "
+			<< std::setw(5) << G4BestUnit(fieldMag,"Magnetic flux density")<<  " "
 			<< std::setw(6) << G4BestUnit(fStep->GetStepLength(),"Length")<< " "
 			<< std::setw(6) << G4BestUnit(fTrack->GetTrackLength(),"Length")<< " "
 			<< std::setw(6) << fTrack->GetVolume()->GetName()<< " "
