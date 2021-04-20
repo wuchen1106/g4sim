@@ -65,7 +65,7 @@ void ProcessCountingSvc::Initialize(){
 	m_edepT.clear();
 	m_edepN.clear();
 	m_edepI.clear();
-	m_e.clear();
+	m_preEkin.clear();
 	m_preX.clear();
 	m_preY.clear();
 	m_preZ.clear();
@@ -117,7 +117,7 @@ void ProcessCountingSvc::SetBranch(){
 	if( flag_edepT ) myRoot->SetBranch("ProcessCounting_edepT", &m_edepT);
 	if( flag_edepN ) myRoot->SetBranch("ProcessCounting_edepN", &m_edepN);
 	if( flag_edepI ) myRoot->SetBranch("ProcessCounting_edepI", &m_edepI);
-	if( flag_e ) myRoot->SetBranch("ProcessCounting_e", &m_e);
+	if( flag_preEkin ) myRoot->SetBranch("ProcessCounting_preEkin", &m_preEkin);
 	if( flag_preX ) myRoot->SetBranch("ProcessCounting_preX", &m_preX);
 	if( flag_preY ) myRoot->SetBranch("ProcessCounting_preY", &m_preY);
 	if( flag_preZ ) myRoot->SetBranch("ProcessCounting_preZ", &m_preZ);
@@ -210,7 +210,7 @@ void ProcessCountingSvc::ReadOutputCard(G4String filename){
 			else if( name == "edepT" ) {flag_edepT = true; buf_card>>unitName_edepT; unit_edepT = MyString2Anything::get_U(unitName_edepT);}
 			else if( name == "edepN" ) {flag_edepN = true; buf_card>>unitName_edepN; unit_edepN = MyString2Anything::get_U(unitName_edepN);}
 			else if( name == "edepI" ) {flag_edepI = true; buf_card>>unitName_edepI; unit_edepI = MyString2Anything::get_U(unitName_edepI);}
-			else if( name == "e" ) {flag_e = true; buf_card>>unitName_e; unit_e = MyString2Anything::get_U(unitName_e);}
+			else if( name == "preEkin" ) {flag_preEkin = true; buf_card>>unitName_preEkin; unit_preEkin = MyString2Anything::get_U(unitName_preEkin);}
 			else if( name == "preX" ) {flag_preX = true; buf_card>>unitName_preX; unit_preX = MyString2Anything::get_U(unitName_preX);}
 			else if( name == "preY" ) {flag_preY = true; buf_card>>unitName_preY; unit_preY = MyString2Anything::get_U(unitName_preY);}
 			else if( name == "preZ" ) {flag_preZ = true; buf_card>>unitName_preZ; unit_preZ = MyString2Anything::get_U(unitName_preZ);}
@@ -324,7 +324,7 @@ void ProcessCountingSvc::ReSet(){
 	flag_edepT = false;
 	flag_edepN = false;
 	flag_edepI = false;
-	flag_e = false;
+	flag_preEkin = false;
 	flag_preX = false;
 	flag_preY = false;
 	flag_preZ = false;
@@ -378,7 +378,7 @@ void ProcessCountingSvc::ReSet(){
 	unitName_edepT	="GeV";
 	unitName_edepN	="GeV";
 	unitName_edepI	="GeV";
-	unitName_e	="GeV";
+	unitName_preEkin ="GeV";
 	unitName_preX	="cm";
 	unitName_preY	="cm";
 	unitName_preZ	="cm";
@@ -398,7 +398,7 @@ void ProcessCountingSvc::ReSet(){
 	unit_edepT	=GeV;
 	unit_edepN	=GeV;
 	unit_edepI	=GeV;
-	unit_e	=GeV;
+	unit_preEkin	=GeV;
 	unit_preX	=cm;
 	unit_preY	=cm;
 	unit_preZ	=cm;
@@ -426,7 +426,7 @@ void ProcessCountingSvc::ShowOutCard(){
 	std::cout<<"output edepT?         "<<(flag_edepT?" yes":" no")<<", unit: "<<unitName_edepT<<std::endl;
 	std::cout<<"output edepN?         "<<(flag_edepN?" yes":" no")<<", unit: "<<unitName_edepN<<std::endl;
 	std::cout<<"output edepI?         "<<(flag_edepI?" yes":" no")<<", unit: "<<unitName_edepI<<std::endl;
-	std::cout<<"output e?             "<<(flag_e?" yes":" no")<<", unit: "<<unitName_e<<std::endl;
+	std::cout<<"output preEkin?       "<<(flag_preEkin?" yes":" no")<<", unit: "<<unitName_preEkin<<std::endl;
 	std::cout<<"output preX?          "<<(flag_preX?" yes":" no")<<", unit: "<<unitName_preX<<std::endl;
 	std::cout<<"output preY?          "<<(flag_preY?" yes":" no")<<", unit: "<<unitName_preY<<std::endl;
 	std::cout<<"output preZ?          "<<(flag_preZ?" yes":" no")<<", unit: "<<unitName_preZ<<std::endl;
@@ -562,11 +562,11 @@ void ProcessCountingSvc::SetValue(const G4Step* aStep){
 	G4StepPoint* prePoint  = aStep->GetPreStepPoint() ;
 	G4ThreeVector pointIn_pos = prePoint->GetPosition();
 	G4ThreeVector pointIn_mom = prePoint->GetMomentum();
-	G4double pointIn_e = prePoint->GetTotalEnergy();
+	G4double pointIn_ekin = prePoint->GetKineticEnergy();
 	G4double pointIn_pa = pointIn_mom.mag();
 	G4double pointIn_time = prePoint->GetGlobalTime();//Time since the event in which the track belongs is created
 	G4StepPoint* postPoint = aStep->GetPostStepPoint() ;
-	G4double pointOut_e = postPoint->GetTotalEnergy();
+	G4double pointOut_ekin = postPoint->GetKineticEnergy();
 	G4ThreeVector pointOut_pos = postPoint->GetPosition();
 	G4ThreeVector pointOut_mom = postPoint->GetMomentum();
 	G4String processName;
@@ -612,7 +612,7 @@ void ProcessCountingSvc::SetValue(const G4Step* aStep){
 	//	}
 
 	G4double deltaTheta = pointOut_mom.theta(pointIn_mom);
-	G4double deltaE = pointIn_e - pointOut_e;
+	G4double deltaE = pointIn_ekin - pointOut_ekin;
 	G4double edep_total = aStep->GetTotalEnergyDeposit();
 	G4double edep_nonIoni = aStep->GetNonIonizingEnergyDeposit();
 	G4double edep_Ioni = edep_total - edep_nonIoni;
@@ -634,7 +634,7 @@ void ProcessCountingSvc::SetValue(const G4Step* aStep){
 	if(flag_edepT) m_edepT.push_back(edep_total/unit_edepT);
 	if(flag_edepN) m_edepN.push_back(edep_Ioni/unit_edepN);
 	if(flag_edepI) m_edepI.push_back(edep_nonIoni/unit_edepI);
-	if(flag_e) m_e.push_back(pointIn_e/unit_e);
+	if(flag_preEkin) m_preEkin.push_back(pointIn_ekin/unit_preEkin);
 	if(flag_preX) m_preX.push_back(pointIn_pos.x()/unit_preX);
 	if(flag_preY) m_preY.push_back(pointIn_pos.y()/unit_preY);
 	if(flag_preZ) m_preZ.push_back(pointIn_pos.z()/unit_preZ);
@@ -655,7 +655,7 @@ void ProcessCountingSvc::CheckFilter(const G4Step* aStep){
 	// get information at the beginning and at the end of step
 	G4StepPoint* prePoint  = aStep->GetPreStepPoint() ;
 	G4ThreeVector pointIn_mom = prePoint->GetMomentum();
-	G4double pointIn_e = prePoint->GetTotalEnergy();
+	G4double pointIn_ekin = prePoint->GetTotalEnergy();
 	G4double pointIn_pa = pointIn_mom.mag();
 	G4double pointIn_time = prePoint->GetGlobalTime();//Time since the event in which the track belongs is created
 
@@ -667,7 +667,7 @@ void ProcessCountingSvc::CheckFilter(const G4Step* aStep){
 	//momentum
 	if (m_minp&&pointIn_pa<m_minp) {PASSEDFILTER = false; return;}
 	//energy
-	if (m_mine&&pointIn_e<m_mine) {PASSEDFILTER = false; return;}
+	if (m_mine&&pointIn_ekin<m_mine) {PASSEDFILTER = false; return;}
 	//time window
 	if (m_mint&&pointIn_time<m_mint) {PASSEDFILTER = false; return;}
 	if (m_maxt&&pointIn_time>m_maxt) {PASSEDFILTER = false; return;}

@@ -68,7 +68,7 @@ class ProcessCountingSvc
     bool flag_edepT;
     bool flag_edepN;
     bool flag_edepI;
-    bool flag_e;
+    bool flag_preEkin;
     bool flag_preX;
     bool flag_preY;
     bool flag_preZ;
@@ -131,7 +131,7 @@ class ProcessCountingSvc
     std::vector<double> m_edepT;
     std::vector<double> m_edepN;
     std::vector<double> m_edepI;
-    std::vector<double> m_e;
+    std::vector<double> m_preEkin;
     std::vector<double> m_preX;
     std::vector<double> m_preY;
     std::vector<double> m_preZ;
@@ -177,7 +177,7 @@ class ProcessCountingSvc
     std::string unitName_edepT;
     std::string unitName_edepN;
     std::string unitName_edepI;
-    std::string unitName_e;
+    std::string unitName_preEkin;
     std::string unitName_preX;
     std::string unitName_preY;
     std::string unitName_preZ;
@@ -197,7 +197,7 @@ class ProcessCountingSvc
     double unit_edepT;
     double unit_edepN;
     double unit_edepI;
-    double unit_e;
+    double unit_preEkin;
     double unit_preX;
     double unit_preY;
     double unit_preZ;
