@@ -185,7 +185,7 @@ int main(int argc,char** argv)
         physics = new QGSP_INCLXX;
     }
     else if (PhysicsListName=="PhysicsList"){
-        physics = new PhysicsList(1,UseEmType);
+        physics = new PhysicsList(0,UseEmType);
     }
     else{
         physics = new QGSP_BERT;
