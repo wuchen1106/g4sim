@@ -10,8 +10,8 @@
 
 # Mag:
 /g4sim/mag/Reset
-/g4sim/mag/ReadCard         mag/MagField_none
-#/g4sim/mag/ReadCard         mag/MagField_uniform
+#/g4sim/mag/ReadCard         mag/MagField_none
+/g4sim/mag/ReadCard         mag/MagField_uniform
 #/g4sim/mag/AddMap           IHEP_A9_141022_BSDS.root   1
 #/g4sim/mag/AddMap           IHEP_A9_141022_TS3.root    1
 #/g4sim/mag/AddMap           IHEP_A9_140905.root        1

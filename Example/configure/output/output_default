@@ -40,7 +40,7 @@ MCTRUTH_SECTION
 
 MCTRUTHFILTER_SECTION
 	Switch                     //if commented, then program wil not generate any hit
-	nTracks       1
+#	nTracks       1
 MCTRUTHFILTER_SECTION
 
 V_SECTION
@@ -50,15 +50,15 @@ V_SECTION
 	pid
 	tid
 	t              ns
-	e              keV
-	ekin           keV
+	e              MeV
+	ekin           MeV
 	x              mm
 	y              mm
 	z              mm
-	px             keV
-	py             keV
-	pz             keV
-	edep           keV
+	px             MeV
+	py             MeV
+	pz             MeV
+	edep           MeV
 	stepL          nm
 V_SECTION
 
@@ -67,33 +67,6 @@ V_FILTERSECTION
 #	neutralCut                   //if not commented, then neutral tracks will not be recorded
 V_FILTERSECTION
 
-M_SECTION
-	nHits
-	volID
-	particleName
-	pid
-	tid
-	t              ns
-	e              keV
-	ekin           keV
-	x              mm
-	y              mm
-	z              mm
-	px             keV
-	py             keV
-	pz             keV
-	edep           keV
-	stepL          nm
-M_SECTION
-
-M_FILTERSECTION
-	Switch                       //if commented, then program wil not generate any hit
-#	neutralCut                   //if not commented, then neutral tracks will not be recorded
-	tres          50    ns       //time resolution
-	minedep       0.001 eV       //minimum energy deposition cut
-M_FILTERSECTION
-
 TRIGGERSECTION
-#	minCdcHits         1           # minimum required Cdc nHits. Would be set invalid if minCdcHits = -1
 #	minCorM_Hits       1            # minimum required M nHits. Would be set invalid if = -1
 TRIGGERSECTION
