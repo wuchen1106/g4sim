@@ -1,4 +1,4 @@
-tree_name                   tree
+tree_name                   t
 AutoSave                    0         //0: no auto save; n(n>0): call m_tree->AutoSave() every n events
 Circular                    0         //0: do not set circular; n(n>0): call m_tree->SetCircular(n)
 Verbose                     0         //for classes related to output, including MyRoot, Cdc*SD, etc.
@@ -16,67 +16,84 @@ EVENTHEADER_SECTION
 EVENTHEADER_SECTION
 
 MCTRUTH_SECTION
-#	nTracks
+	nTracks
+	particleName
 	pid
-#	tid
-#	ptid
-#	ttid
+	tid
 	time              ns
-	px                GeV
-	py                GeV
-	pz                GeV
-	x                 cm
-	y                 cm
-	z                 cm
-#	charge
-#	particleName
-#	process
-#	volume
+	px                MeV
+	py                MeV
+	pz                MeV
+	e                 MeV
+	ekin              MeV
+	x                 mm
+	y                 mm
+	z                 mm
+	charge
+	ppid
+	ptid
+	process
+	volume
 	tid2pid
 	tid2time
 MCTRUTH_SECTION
 
 MCTRUTHFILTER_SECTION
-#	Switch                     //if commented, then program wil not generate any hit
-#	nTracks       1            //maximum tracks cut
-#	minp          0      MeV   //minimum momentum cut
-#	mine          80     MeV   //minimum momentum cut
-#	mint          0      ns    //left end of time window, 0 means no lower limit
-#	maxt          0      ns    //right end of time window, 0 means no upper limit
-#	WL            11
-#	BL            2112
+	Switch                     //if commented, then program wil not generate any hit
+	nTracks       1
 MCTRUTHFILTER_SECTION
 
 V_SECTION
 	nHits
+	volID
+	particleName
 	pid
-#	tid
-	t                 ns
-	px                GeV
-	py                GeV
-	pz                GeV
-	opx               GeV
-	opy               GeV
-	opz               GeV
-	ox                cm
-	oy                cm
-	oz                cm
-	x                 cm
-	y                 cm
-	z                 cm
-#	volName
-#	ovolName
-	oprocess
+	tid
+	t              ns
+	e              keV
+	ekin           keV
+	x              mm
+	y              mm
+	z              mm
+	px             keV
+	py             keV
+	pz             keV
+	edep           keV
+	stepL          nm
 V_SECTION
 
 V_FILTERSECTION
-	Switch                        //if commented, then program wil not generate any hit
+	Switch                       //if commented, then program wil not generate any hit
+#	neutralCut                   //if not commented, then neutral tracks will not be recorded
 V_FILTERSECTION
 
+M_SECTION
+	nHits
+	volID
+	particleName
+	pid
+	tid
+	t              ns
+	e              keV
+	ekin           keV
+	x              mm
+	y              mm
+	z              mm
+	px             keV
+	py             keV
+	pz             keV
+	edep           keV
+	stepL          nm
+M_SECTION
+
+M_FILTERSECTION
+	Switch                       //if commented, then program wil not generate any hit
+#	neutralCut                   //if not commented, then neutral tracks will not be recorded
+	tres          50    ns       //time resolution
+	minedep       0.001 eV       //minimum energy deposition cut
+M_FILTERSECTION
+
 TRIGGERSECTION
-	minV_Hits         1            # minimum required V nHits. Would be set invalid if = -1
-	minM_Hits         -1            # minimum required M nHits. Would be set invalid if = -1
-	minCdcHits        -1           # minimum required Cdc nHits. Would be set invalid if minCdcHits = -1
-	minEleMom         -1  MeV      // minimum required Electron momentum. Would be set invalid if minEleMom = -1 MeV
-	minAntipNum       -1           // minimum required Anti-Proton number. Would be set invalid if minAntipNum = -1
+#	minCdcHits         1           # minimum required Cdc nHits. Would be set invalid if minCdcHits = -1
+#	minCorM_Hits       1            # minimum required M nHits. Would be set invalid if = -1
 TRIGGERSECTION
