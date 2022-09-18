@@ -46,6 +46,7 @@ MyAnalysisSvc::MyAnalysisSvc()
 	pPrimaryGeneratorAction  = PrimaryGeneratorAction::GetPrimaryGeneratorAction();
 	pMyProcessManager = MyProcessManager::GetMyProcessManager();
 
+        tree_name = "t";
 	//default logfile
 	G4String HOME = getenv("MYG4SIMWORKROOT");
 	run_name = "TEST";
