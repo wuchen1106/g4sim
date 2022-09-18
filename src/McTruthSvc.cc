@@ -83,7 +83,7 @@ void McTruthSvc::SetBranch(){
 	if( flag_py ) myRoot->SetBranch("McTruth_py", &m_py);
 	if( flag_pz ) myRoot->SetBranch("McTruth_pz", &m_pz);
 	if( flag_e ) myRoot->SetBranch("McTruth_e", &m_e);
-	if( flag_e ) myRoot->SetBranch("McTruth_ekin", &m_ekin);
+	if( flag_ekin ) myRoot->SetBranch("McTruth_ekin", &m_ekin);
 	if( flag_x ) myRoot->SetBranch("McTruth_x", &m_x);
 	if( flag_y ) myRoot->SetBranch("McTruth_y", &m_y);
 	if( flag_z ) myRoot->SetBranch("McTruth_z", &m_z);
@@ -145,6 +145,7 @@ void McTruthSvc::ReadOutputCard(G4String filename){
 			else if( name == "py" ) {flag_py = true; buf_card>>unitName_py; unit_py = MyString2Anything::get_U(unitName_py);}
 			else if( name == "pz" ) {flag_pz = true; buf_card>>unitName_pz; unit_pz = MyString2Anything::get_U(unitName_pz);}
 			else if( name == "e" ) {flag_e = true; buf_card>>unitName_e; unit_e = MyString2Anything::get_U(unitName_e);}
+			else if( name == "ekin" ) {flag_ekin = true; buf_card>>unitName_ekin; unit_ekin = MyString2Anything::get_U(unitName_ekin);}
 			else if( name == "x" ) {flag_x = true; buf_card>>unitName_x; unit_x = MyString2Anything::get_U(unitName_x);}
 			else if( name == "y" ) {flag_y = true; buf_card>>unitName_y; unit_y = MyString2Anything::get_U(unitName_y);}
 			else if( name == "z" ) {flag_z = true; buf_card>>unitName_z; unit_z = MyString2Anything::get_U(unitName_z);}
@@ -230,6 +231,7 @@ void McTruthSvc::ReSet(){
 	flag_py = false;
 	flag_pz = false;
 	flag_e = false;
+	flag_ekin = false;
 	flag_x = false;
 	flag_y = false;
 	flag_z = false;
@@ -277,6 +279,7 @@ void McTruthSvc::ShowOutCard(){
 	std::cout<<"output py?            "<<(flag_py?" yes":" no")<<", unit: "<<unitName_py<<std::endl;
 	std::cout<<"output pz?            "<<(flag_pz?" yes":" no")<<", unit: "<<unitName_pz<<std::endl;
 	std::cout<<"output e?             "<<(flag_e?" yes":" no")<<", unit: "<<unitName_e<<std::endl;
+	std::cout<<"output ekin?          "<<(flag_ekin?" yes":" no")<<", unit: "<<unitName_e<<std::endl;
 	std::cout<<"output x?             "<<(flag_x?" yes":" no")<<", unit: "<<unitName_x<<std::endl;
 	std::cout<<"output y?             "<<(flag_y?" yes":" no")<<", unit: "<<unitName_y<<std::endl;
 	std::cout<<"output z?             "<<(flag_z?" yes":" no")<<", unit: "<<unitName_z<<std::endl;
@@ -379,7 +382,7 @@ void McTruthSvc::SetValuePre(const G4Track* aTrack){
 	if(flag_py) m_py.push_back(mom_3vec.y()/unit_py);
 	if(flag_pz) m_pz.push_back(mom_3vec.z()/unit_pz);
 	if(flag_e) m_e.push_back(energy/unit_e);
-	if(flag_e) m_ekin.push_back(kinenergy/unit_e);
+	if(flag_ekin) m_ekin.push_back(kinenergy/unit_ekin);
 	if(flag_x) m_x.push_back(pos_3vec.x()/unit_x);
 	if(flag_y) m_y.push_back(pos_3vec.y()/unit_y);
 	if(flag_z) m_z.push_back(pos_3vec.z()/unit_z);

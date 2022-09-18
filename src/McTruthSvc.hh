@@ -76,6 +76,7 @@ class McTruthSvc
 		bool flag_py;
 		bool flag_pz;
 		bool flag_e;
+		bool flag_ekin;
 		bool flag_x;
 		bool flag_y;
 		bool flag_z;
@@ -120,6 +121,7 @@ class McTruthSvc
 		std::string unitName_py;
 		std::string unitName_pz;
 		std::string unitName_e;
+		std::string unitName_ekin;
 		std::string unitName_x;
 		std::string unitName_y;
 		std::string unitName_z;
@@ -128,6 +130,7 @@ class McTruthSvc
 		double unit_py;
 		double unit_pz;
 		double unit_e;
+		double unit_ekin;
 		double unit_x;
 		double unit_y;
 		double unit_z;
