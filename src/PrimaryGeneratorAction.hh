@@ -64,6 +64,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
 		void set_root_index(int val){root_index=val;}
 
 		void set_defaultPosition(double ix, double iy, double iz){x=ix;y=iy;z=iz;}
+		void set_defaultEnergy(double e){Ekin=e;}
 
 		void SetUniformDirection();
 		void SetRandomDirection();

@@ -114,6 +114,11 @@ PrimaryGeneratorMessenger::PrimaryGeneratorMessenger(
   defaultPosition_cmd->SetParameterName("defaultPosition",false);
   defaultPosition_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
+  defaultEnergy_cmd = new G4UIcmdWithAString("/g4sim/gun/defaultEnergy",this);
+  defaultEnergy_cmd->SetGuidance("set default energy: double string(unit)");
+  defaultEnergy_cmd->SetParameterName("defaultEnergy",false);
+  defaultEnergy_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
   root_index_cmd = new G4UIcmdWithAnInteger("/g4sim/gun/root_index",this);
   root_index_cmd->SetGuidance("root_index");
   root_index_cmd->SetParameterName("root_index",false);
@@ -152,6 +157,7 @@ PrimaryGeneratorMessenger::~PrimaryGeneratorMessenger()
   delete DM_hist_histname_cmd;
   delete root_filename_cmd;
   delete defaultPosition_cmd;
+  delete defaultEnergy_cmd;
   delete root_index_cmd;
   delete histo_build_cmd;
   delete root_build_cmd;
@@ -173,6 +179,11 @@ void PrimaryGeneratorMessenger::SetNewValue(
   	  double x,y,z;
 	  MyString2Anything::get_DDDU(newValue,x,y,z);
   	  Action->set_defaultPosition(x,y,z);
+  }
+  if( command == defaultEnergy_cmd )    {
+  	  double e;
+	  MyString2Anything::get_DU(newValue,e);
+  	  Action->set_defaultEnergy(e);
   }
   if( command == root_index_cmd )    { Action->set_root_index(root_index_cmd->GetNewIntValue(newValue));}
   if( command == EM_hist_filename_cmd )    { Action->set_EM_hist_filename(newValue);}

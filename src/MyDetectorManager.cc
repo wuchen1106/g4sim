@@ -249,7 +249,7 @@ G4VSensitiveDetector* MyDetectorManager::GetSD(G4String VolName, G4String SDName
 	//check SDName
 	G4String newVolName;
 	G4String newSDName;
-	size_t sLast = SDName.last('/');
+	size_t sLast = SDName.rfind('/');
 	if(sLast==std::string::npos){ // Sensitive Detector name only
 		newVolName = VolName;
 		newSDName = SDName;
@@ -371,7 +371,7 @@ G4VSensitiveDetector* MyDetectorManager::GetSD(G4String VolName, G4String SDName
 	//check SDName
 	G4String newVolName;
 	G4String newSDName;
-	size_t sLast = SDName.last('/');
+	size_t sLast = SDName.rfind('/');
 	if(sLast==std::string::npos){ // Sensitive Detector name only
 		newVolName = VolName;
 		newSDName = SDName;

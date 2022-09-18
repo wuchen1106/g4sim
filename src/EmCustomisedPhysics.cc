@@ -45,7 +45,9 @@
 #include "EmCustomisedPhysics.hh"
 #include "G4SystemOfUnits.hh"
 #include "G4ParticleDefinition.hh"
+#if G4VERSION_NUMBER >= 1000
 #include "G4EmParameters.hh"
+#endif
 #include "G4LossTableManager.hh"
 
 #include "G4ComptonScattering.hh"
@@ -60,7 +62,11 @@
 #include "G4CoulombScattering.hh"
 #include "G4eCoulombScatteringModel.hh"
 #include "G4WentzelVIModel.hh"
+#if G4VERSION_NUMBER >= 1000
 #include "G4UrbanMscModel.hh"
+#else
+#include "G4UrbanMscModel96.hh"
+#endif
 
 #include "G4MuBremsstrahlungModel.hh"
 #include "G4MuPairProductionModel.hh"
@@ -80,7 +86,6 @@
 
 #include "G4hIonisation.hh"
 #include "G4ionIonisation.hh"
-#include "G4alphaIonisation.hh"
 
 #include "G4Gamma.hh"
 #include "G4Electron.hh"
@@ -119,7 +124,7 @@ EmCustomisedPhysics::EmCustomisedPhysics(G4int ver, const G4String&)
   G4EmParameters* param = G4EmParameters::Instance();
   param->SetDefaults();
   param->SetVerbose(verbose);
-#else
+#elif G4VERSION_NUMBER >= 1000
   G4EmParameters::Instance()->SetVerbose(verbose);
 #endif
   SetPhysicsType(bElectromagnetic);
@@ -210,6 +215,9 @@ void EmCustomisedPhysics::ConstructProcess()
     G4ParticleDefinition* particle = table->FindParticle(particleName);
     if (!particle) { continue; }
 #else
+#if G4VERSION_NUMBER < 1000
+  G4ParticleTable::G4PTblDicIterator* aParticleIterator = G4ParticleTable::GetParticleTable()->GetIterator();
+#endif
   aParticleIterator->reset();
   while( (*aParticleIterator)() ){
     G4ParticleDefinition* particle = aParticleIterator->value();
@@ -231,7 +239,11 @@ void EmCustomisedPhysics::ConstructProcess()
     } else if (particleName == "e-") {
 
       G4eMultipleScattering* msc = new G4eMultipleScattering;
+#if G4VERSION_NUMBER >= 1000
       G4UrbanMscModel* msc1 = new G4UrbanMscModel();
+#else
+      G4UrbanMscModel96* msc1 = new G4UrbanMscModel96();
+#endif
       G4WentzelVIModel* msc2 = new G4WentzelVIModel();
       msc1->SetHighEnergyLimit(highEnergyLimit);
       msc2->SetLowEnergyLimit(highEnergyLimit);
@@ -256,7 +268,11 @@ void EmCustomisedPhysics::ConstructProcess()
     } else if (particleName == "e+") {
 
       G4eMultipleScattering* msc = new G4eMultipleScattering;
+#if G4VERSION_NUMBER >= 1000
       G4UrbanMscModel* msc1 = new G4UrbanMscModel();
+#else
+      G4UrbanMscModel96* msc1 = new G4UrbanMscModel96();
+#endif
       G4WentzelVIModel* msc2 = new G4WentzelVIModel();
       msc1->SetHighEnergyLimit(highEnergyLimit);
       msc2->SetLowEnergyLimit(highEnergyLimit);

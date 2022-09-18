@@ -82,7 +82,7 @@ void MyVGeometryParameter::DumpInfo() {
 //"2,29" means replica number count from 2 to 30
 //"1-29" or "1~29" means replica number count from 1 to 29
 void MyVGeometryParameter::get_RepCont( G4String RepCont, G4int& SRepNo, G4int& RepNo ){
-	size_t sLast = RepCont.last(',');
+	size_t sLast = RepCont.rfind(',');
 	if(sLast!=G4String::npos){
 		G4String part1 = RepCont.substr(0,sLast);
 		G4String part2 = RepCont.substr(sLast+1,RepCont.length()-sLast-1);
@@ -90,9 +90,9 @@ void MyVGeometryParameter::get_RepCont( G4String RepCont, G4int& SRepNo, G4int& 
 		MyString2Anything::get_I(part2,RepNo);
 	}
 	else{ // not found
-		sLast = RepCont.last('-');
+		sLast = RepCont.rfind('-');
 		if (sLast==G4String::npos){// not found
-			sLast = RepCont.last('~');
+			sLast = RepCont.rfind('~');
 		}
 		if (sLast!=G4String::npos){
 			G4String part1 = RepCont.substr(0,sLast);
@@ -111,15 +111,15 @@ void MyVGeometryParameter::get_RepCont( G4String RepCont, G4int& SRepNo, G4int& 
 }
 
 void MyVGeometryParameter::get_RepCont( G4String RepCont, G4String& SRepNo, G4String& RepNo ){
-	size_t sLast = RepCont.last(',');
+	size_t sLast = RepCont.rfind(',');
 	if(sLast!=G4String::npos){
 		SRepNo = RepCont.substr(0,sLast);
 		RepNo = RepCont.substr(sLast+1,RepCont.length()-sLast-1);
 	}
 	else{ // not found
-		sLast = RepCont.last('-');
+		sLast = RepCont.rfind('-');
 		if (sLast==G4String::npos){// not found
-			sLast = RepCont.last('~');
+			sLast = RepCont.rfind('~');
 		}
 		if (sLast!=G4String::npos){
 			SRepNo = RepCont.substr(0,sLast);

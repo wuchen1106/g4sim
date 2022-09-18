@@ -225,7 +225,7 @@ void CdcCellGeometrySvc::ConstructVolumes(){
 		//visual option
 		vis = m_GeometryParameter->get_vis_SignalWire();
 		if (!vis){
-			log_SignalWire->SetVisAttributes(G4VisAttributes::Invisible);
+			log_SignalWire->SetVisAttributes(G4VisAttributes::GetInvisible());
 		}
 		else{
 			r = m_GeometryParameter->get_r_SignalWire();
@@ -238,9 +238,9 @@ void CdcCellGeometrySvc::ConstructVolumes(){
 		}
 		vis = m_GeometryParameter->get_vis_FieldWire();
 		if (!vis){
-			log_FieldWire_in->SetVisAttributes(G4VisAttributes::Invisible);
-			log_FieldWire_mid->SetVisAttributes(G4VisAttributes::Invisible);
-			log_FieldWire_out->SetVisAttributes(G4VisAttributes::Invisible);
+			log_FieldWire_in->SetVisAttributes(G4VisAttributes::GetInvisible());
+			log_FieldWire_mid->SetVisAttributes(G4VisAttributes::GetInvisible());
+			log_FieldWire_out->SetVisAttributes(G4VisAttributes::GetInvisible());
 		}
 		else{
 			r = m_GeometryParameter->get_r_FieldWire();
@@ -342,7 +342,7 @@ void CdcCellGeometrySvc::ConstructVolumes(){
 		//visual option
 		vis = m_GeometryParameter->get_vis_cell();
 		if (!vis){
-			log_cell->SetVisAttributes(G4VisAttributes::Invisible);
+			log_cell->SetVisAttributes(G4VisAttributes::GetInvisible());
 		}
 		else{
 			r = m_GeometryParameter->get_r_cell();

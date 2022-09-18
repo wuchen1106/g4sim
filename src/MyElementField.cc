@@ -155,7 +155,7 @@ G4VisAttributes* MyElementField::getVisAttribute(G4String color) {
         }
     }
 
-    if (!p) p = new G4VisAttributes(G4VisAttributes::Invisible);
+    if (!p) p = new G4VisAttributes(G4VisAttributes::GetInvisible());
     p->SetDaughtersInvisible(false);
 
     return p;

@@ -110,6 +110,13 @@ class MyString2Anything
 			m_dou *= G4UnitDefinition::GetValueOf(m_unit);
 		}
 
+		static void get_DU( G4String cont, G4double& m_dou ){
+			G4String m_unit;
+			std::stringstream buf(cont);
+			buf>>m_dou>>m_unit;
+			m_dou *= G4UnitDefinition::GetValueOf(m_unit);
+		}
+
 		static void get_IIDU( G4String cont, G4int& m_int1, G4int& m_int2, G4double& m_dou ){
 			G4String m_unit;
 			std::stringstream buf(cont);

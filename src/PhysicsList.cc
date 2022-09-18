@@ -34,6 +34,8 @@
 
 #include "PhysicsList.hh"
 
+#include "G4Version.hh"
+
 #include "G4ProcessManager.hh"
 #include "G4ProcessVector.hh"
 #include "G4ParticleTypes.hh"
@@ -50,26 +52,27 @@
 #include "G4BaryonConstructor.hh"
 #include "G4IonConstructor.hh"
 
-// TODO: add version case
-// These are files for older versions
-//#include "G4QStoppingPhysics.hh"
-//#include "G4LHEPStoppingPhysics.hh"
-//#include "HadronPhysicsQGSP_BERT.hh"
-//#include "HadronPhysicsQGSP_BERT_HP.hh"
-
 #include "G4DecayPhysics.hh"
 #include "G4EmStandardPhysics.hh"
 #include "G4EmStandardPhysics_option3.hh"
 #include "G4EmStandardPhysics_option4.hh"
 #include "G4EmLivermorePhysics.hh"
+#if G4VERSION_NUMBER >= 1000 // at least Geant4.10.00.p00
+#include "G4EmParameters.hh"
 #include "EmCustomisedPhysics.hh"
-#include "G4EmExtraPhysics.hh"
-#include "G4IonPhysics.hh"
 #include "G4StoppingPhysics.hh"
-#include "G4HadronElasticPhysics.hh"
-#include "G4NeutronTrackingCut.hh"
 #include "G4HadronPhysicsQGSP_BERT.hh"
 #include "G4HadronPhysicsQGSP_BERT_HP.hh"
+#else
+#include "G4QStoppingPhysics.hh"
+#include "G4LHEPStoppingPhysics.hh"
+#include "HadronPhysicsQGSP_BERT.hh"
+#include "HadronPhysicsQGSP_BERT_HP.hh"
+#endif
+#include "G4HadronElasticPhysics.hh"
+#include "G4EmExtraPhysics.hh"
+#include "G4IonPhysics.hh"
+#include "G4NeutronTrackingCut.hh"
 
 #include "MyDecayPhysics.hh"
 #include "MyPionPhysics.hh"
@@ -89,9 +92,11 @@ PhysicsList::PhysicsList(int ver, int EmType):  G4VModularPhysicsList()
   if (EmType==-1){
       this->RegisterPhysics( new G4EmLivermorePhysics(ver) );
   }
+#if G4VERSION_NUMBER >= 1000 // at least Geant4.10.00.p00
   else if (EmType==-2){
       this->RegisterPhysics( new EmCustomisedPhysics(ver) );
   }
+#endif
   else{
       if (EmType == 0){
           this->RegisterPhysics( new G4EmStandardPhysics(ver) );
@@ -115,13 +120,21 @@ PhysicsList::PhysicsList(int ver, int EmType):  G4VModularPhysicsList()
   this->RegisterPhysics( new G4HadronElasticPhysics(ver) );
 
   // Hadron Physics
+#if G4VERSION_NUMBER >= 1000 // at least Geant4.10.00.p00
   this->RegisterPhysics( new G4HadronPhysicsQGSP_BERT(ver));
   //this->RegisterPhysics( new G4HadronPhysicsQGSP_BERT_HP(ver));
+#else
+  this->RegisterPhysics( new HadronPhysicsQGSP_BERT(ver));
+  //this->RegisterPhysics( new HadronPhysicsQGSP_BERT_HP(ver));
+#endif
 
   // Stopping Physics
-  //this->RegisterPhysics( new G4QStoppingPhysics(ver) );
-  //this->RegisterPhysics( new G4LHEPStoppingPhysics(ver) );
+#if G4VERSION_NUMBER >= 1000 // at least Geant4.10.00.p00
   this->RegisterPhysics( new G4StoppingPhysics(ver) );
+#else
+  this->RegisterPhysics( new G4QStoppingPhysics(ver) );
+  //this->RegisterPhysics( new G4LHEPStoppingPhysics(ver) );
+#endif
 
   // Ion Physics
   this->RegisterPhysics( new G4IonPhysics(ver));

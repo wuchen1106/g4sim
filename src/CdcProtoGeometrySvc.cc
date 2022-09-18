@@ -157,7 +157,7 @@ void CdcProtoGeometrySvc::ConstructVolumes(){
 		log_FieldWire = new G4LogicalVolume(sol_FieldWire, FieldWireMat,"CdcFieldWire",0,0,0);
 		//visual option
 		if (!fvis){
-			log_FieldWire->SetVisAttributes(G4VisAttributes::Invisible);
+			log_FieldWire->SetVisAttributes(G4VisAttributes::GetInvisible());
 		}
 		else{
 			G4VisAttributes* visAttributes = new G4VisAttributes;
@@ -170,7 +170,7 @@ void CdcProtoGeometrySvc::ConstructVolumes(){
 			log_SignalWire = new G4LogicalVolume(sol_SignalWire, SignalWireMat,"CdcSenseWire",0,0,0);
 			//visual option
 			if (!svis){
-				log_SignalWire->SetVisAttributes(G4VisAttributes::Invisible);
+				log_SignalWire->SetVisAttributes(G4VisAttributes::GetInvisible());
 			}
 			else{
 				G4VisAttributes* visAttributes = new G4VisAttributes;
@@ -208,7 +208,7 @@ void CdcProtoGeometrySvc::ConstructVolumes(){
 		}
 		//visual option
 		if (!lvis){
-			log_layer->SetVisAttributes(G4VisAttributes::Invisible);
+			log_layer->SetVisAttributes(G4VisAttributes::GetInvisible());
 		}
 		else{
 			G4VisAttributes* visAttributes = new G4VisAttributes;

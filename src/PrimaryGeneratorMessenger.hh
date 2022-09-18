@@ -43,6 +43,7 @@ private:
   G4UIcmdWithAString*       DM_hist_histname_cmd;
   G4UIcmdWithAString*       root_filename_cmd;
   G4UIcmdWithAString*       defaultPosition_cmd;
+  G4UIcmdWithAString*       defaultEnergy_cmd;
   G4UIcmdWithAString*       root_treename_cmd;
   G4UIcmdWithAString*       ResetGenCmd;
   G4UIcmdWithAString*       ReadCardCmd;

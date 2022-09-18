@@ -46,8 +46,9 @@
 #include "SteppingAction.hh"
 #include "SteppingVerbose.hh"
 #include "G4RadioactiveDecayPhysics.hh"
+#if G4VERSION_NUMBER >= 1000
 #include "G4EmParameters.hh"
-#include "G4EmExtraPhysics.hh"
+#endif
 #include "G4OpticalPhysics.hh"
 #include "MyStepLimiter.hh"
 #include "QGSP_BERT.hh"
@@ -81,7 +82,9 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 void print_usage(char* prog_name);
-#if G4VERSION_NUMBER < 1040
+#if G4VERSION_NUMBER < 1000
+#include "G4PAIPhotonModel.hh"
+#elif G4VERSION_NUMBER < 1040
 #include "G4EmConfigurator.hh"
 #include "G4LossTableManager.hh"
 #include "G4PAIPhotModel.hh"
@@ -110,9 +113,11 @@ int main(int argc,char** argv)
     PhysicsListName = "QGSP_BERT_HP";
     OutputFileName = HOME+"/output/raw_g4sim.root";
     int nEvents = 0;
+    bool setEnergy = false;
+    double fPrimaryEnergy = 0;
     // Load options
     int    opt_result;
-    while((opt_result=getopt(argc,argv,"e:L:N:oO:pP:rh"))!=-1){
+    while((opt_result=getopt(argc,argv,"e:E:L:N:oO:pP:rh"))!=-1){
         switch(opt_result){
             case 'e':
                 UseEmType = atoi(optarg);
@@ -120,6 +125,10 @@ int main(int argc,char** argv)
                     std::cout<<" EmType "<<UseEmType<<" is not supported yet! Will use type 0 (EmStandard) as default"<<std::endl;
                     UseEmType = 0;
                 }
+                break;
+            case 'E':
+                setEnergy = true;
+                fPrimaryEnergy = atof(optarg);
                 break;
             case 'L':
                 LowEnergyCut = atof(optarg)*eV;
@@ -196,20 +205,24 @@ int main(int argc,char** argv)
     }
 
     if (WithPAI){
-#if G4VERSION_NUMBER >= 1040
-        G4EmParameters::Instance()->AddPAIModel("all","world","pai");
-#else
+#if G4VERSION_NUMBER < 1000
+// to be added
+#elif G4VERSION_NUMBER < 1040
         AddPAIModel("pai"); // can choose pai_photon as well
+#else
+        G4EmParameters::Instance()->AddPAIModel("all","world","pai");
 #endif
     }
 
     // Optical processes
     if (WithOptical){
         G4OpticalPhysics * pG4OpticalPhysics = new G4OpticalPhysics();
+#if G4VERSION_NUMBER < 1100 // FIXME: should find the solution for versions since G4.11.00
         pG4OpticalPhysics->SetMaxNumPhotonsPerStep(2000);
         pG4OpticalPhysics->SetMaxBetaChangePerStep(100);
         pG4OpticalPhysics->SetScintillationYieldFactor(1);
         pG4OpticalPhysics->SetTrackSecondariesFirst(kCerenkov,true);
+#endif
         physics->RegisterPhysics(pG4OpticalPhysics);
     }
 
@@ -236,6 +249,7 @@ int main(int argc,char** argv)
     // Get analysis service
     MyAnalysisSvc* myAnalysisSvc = new MyAnalysisSvc();
     myAnalysisSvc->set_ofile_name(OutputFileName);
+    std::cout<<"myAnalysisSvc->set_ofile_name \""<<OutputFileName<<"\""<<std::endl;
 
     // Set mandatory initialization classes
     //
@@ -260,6 +274,15 @@ int main(int argc,char** argv)
     {
         G4String command = "/control/execute "+MacroName;
         UImanager->ApplyCommand(command);
+        if (setEnergy){
+            std::ostringstream command;
+            command << "/g4sim/gun/defaultEnergy " << fPrimaryEnergy << " MeV";
+            UImanager->ApplyCommand(command.str());
+            command.str("");
+            command.clear();
+            command << "/g4sim/gun/initialize";
+            UImanager->ApplyCommand(command.str());
+        }
         if (nEvents>0){
             std::ostringstream command;
             command << "/run/beamOn " << nEvents;
@@ -303,7 +326,9 @@ int main(int argc,char** argv)
     return 0;
 }
 
-#if G4VERSION_NUMBER < 1040
+#if G4VERSION_NUMBER < 1000
+// to be added
+#elif G4VERSION_NUMBER < 1040
 void AddPAIModel(const G4String& modname)
 {
   G4ParticleTable::G4PTblDicIterator* anotherParticleIterator = G4ParticleTable::GetParticleTable()->GetIterator();
@@ -352,6 +377,8 @@ void print_usage(char * prog_name){
     fprintf(stderr,"[options]\n");
     fprintf(stderr,"\t -e TYPE\n");
     fprintf(stderr,"\t\t Change the EmType. By default it's 0 (EmStandard). Only valid when the \"PhysicsList\" is chosen\n");
+    fprintf(stderr,"\t -E energy\n");
+    fprintf(stderr,"\t\t Change the default kinetic energy of the primary generator. Unit is MeV.\n");
     fprintf(stderr,"\t\t Available types: -1, EmLivermore; -2, EmCustomised; 0,3,4 EmStandard with the type number as option\n");
     fprintf(stderr,"\t -L cut\n");
     fprintf(stderr,"\t\t Change the low energy bound of production cuts to [cut] eV (%.3e eV)\n",LowEnergyCut/eV);

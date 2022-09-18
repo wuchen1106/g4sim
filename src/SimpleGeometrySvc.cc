@@ -286,7 +286,7 @@ void SimpleGeometrySvc::ConstructVolumes(){
 			//visual
 			vis = m_GeometryParameter->get_vis(i_Vol);
 			if (!vis){
-				log_Vol->SetVisAttributes(G4VisAttributes::Invisible);
+				log_Vol->SetVisAttributes(G4VisAttributes::GetInvisible());
 			}
 			else{
 				r = m_GeometryParameter->get_r(i_Vol);
