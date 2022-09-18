@@ -814,7 +814,7 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 	G4double vc = 299792458*m/s; // m/s
 	G4double wiredelay = (Length/2-deltaZ)/vc;
 	if (m_xt_func)
-		driftT = m_xt_func->Eval(driftD/cm);
+		driftT = m_xt_func->Eval(driftD/mm);
 	else if (m_xt_hist)
 		driftT = m_xt_hist->GetBinContent(m_xt_hist->FindBin(driftD/cm));
 	else
@@ -1049,7 +1049,7 @@ G4bool CdcSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory)
 				if(flag_pid) m_pid[pointer] = pid;
 				if(flag_tid) m_tid[pointer] = trackID;
 				if(flag_posflag) m_posflag[pointer] = posflag;
-				(*hitsCollection)[pointer]->SetPos(pointIn_pos);
+				if (pointer<hitsCollection->GetSize()&&pointer>0)(*hitsCollection)[pointer]->SetPos(pointIn_pos);
 				if(flag_ptid){
 					int ptid = aTrack->GetParentID();
 					if (trackID==1){
