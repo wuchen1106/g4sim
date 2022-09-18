@@ -46,7 +46,6 @@ MyAnalysisSvc::MyAnalysisSvc()
 	pPrimaryGeneratorAction  = PrimaryGeneratorAction::GetPrimaryGeneratorAction();
 	pMyProcessManager = MyProcessManager::GetMyProcessManager();
 
-        tree_name = "t";
 	//default logfile
 	G4String HOME = getenv("MYG4SIMWORKROOT");
 	run_name = "TEST";
@@ -59,6 +58,8 @@ MyAnalysisSvc::MyAnalysisSvc()
 	m_maxT = -1;
 	fPrintModulo = 100;
 
+	G4String CardName = getenv("OUTCARDROOT");
+	set_out_card( CardName );
 }
 
 MyAnalysisSvc::~MyAnalysisSvc()
