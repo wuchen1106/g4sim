@@ -161,4 +161,35 @@ You can either set the environment variable `$GENFILEROOT` or use macro command 
 
 Here are a couple of macro commands we can use:
 
-	
+### Field options
+By default there is no field in the simulation.
+
+To add in field we have 2 options.
+1. Using uniform field. Just add the following lines to the macro file before the `/g4sim/det/update` command:
+```
+/g4sim/mag/Reset
+/g4sim/mag/ReadCard         mag/MagField_uniform
+```
+In the configure card `mag/MagField_uniform` you can set the field value.
+
+2. Using a field map. In this case add the following lines to the macro file before the `/g4sim/det/update` command:
+```
+/g4sim/mag/Reset
+/g4sim/mag/AddMap           cap1.map 1
+```
+Here the `cap1.map` must be presentated in a certain format under the `fieldMaps` directory.  
+The number `1` in the end of the line denotes the scaling factor for the field values given in the map.  
+Here is an example of a field map (`cap1.map`):
+```
+param normB=-1
+grid X0=-600.0 Y0=0.0 Z0=-1000.0 nX=13 nY=7 nZ=41 dX=100.0 dY=100.0 dZ=100.0
+extendY flip=By
+data
+600.0 0.0 -1000.0 1.70498279459 0.0 -2.94780127359
+...
+```
+Here the first line is optional. It denotes the normalization factor.  
+The second line is necessary. It defines the sampling grid, where `X0, Y0, Z0` are the start point of the field map, `dx dY dZ` are the grid sizes on the 3 directions. `nX nY nZ` are the total number of points on each direction. Please be careful that when your map contains `N` grids, the number of points is `N+1`. The unit here is `mm`.  
+The third line is also optional. It defines how to extend the map. In this case the map is extended on the `Y` direction. With `flip=By` this means the `By` values in the extended side will be flipped. This is a mirror extention.
+The forth line here denotes that following lines are data points.
+The data points should be given in the order of `X Y Z Bx By Bz` where the units are `mm` and `Tesla`
