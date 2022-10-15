@@ -3,7 +3,7 @@ export MYG4SIMWORKROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 #for configuration cards
 export PHYSICSLIST=QGSP_BERT                 # QGSP_BERT;QGSP_BERT_HP;QGSP_BERT_noRadi;QGSP_BERT_HP_noRadi
 export MATERIALLISTROOT=material_list
-export MAGFIELDCARDROOT=mag/MagField_uniform
+export MAGFIELDCARDROOT=mag/MagField_none
 export OUTCARDROOT=output/output_default
 export GEOCARDROOT=geometry_simpleTarget
 export GENFILEROOT=gen/gen_beam
