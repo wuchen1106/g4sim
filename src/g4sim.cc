@@ -115,9 +115,14 @@ int main(int argc,char** argv)
     int nEvents = 0;
     bool setEnergy = false;
     double fPrimaryEnergy = 0;
+    int randomSeed = -1;
+    int randomSeedIndex = -1;
     // Load options
     int    opt_result;
-    while((opt_result=getopt(argc,argv,"e:E:L:N:oO:pP:rh"))!=-1){
+    std::stringstream stream;
+    while((opt_result=getopt(argc,argv,"e:E:L:N:oO:pP:rR:h"))!=-1){
+        stream.clear();
+        if(optarg) stream.str(optarg);
         switch(opt_result){
             case 'e':
                 UseEmType = atoi(optarg);
@@ -151,6 +156,10 @@ int main(int argc,char** argv)
             case 'r':
                 WithRadi = true;
                 break;
+            case 'R':
+                stream>>randomSeed>>randomSeedIndex;
+                std::cerr<<"Random seed and index set to "<<randomSeed<<" "<<randomSeedIndex<<std::endl;
+                break;
             case '?':
                 printf("Wrong option! optopt=%c, optarg=%s\n", optopt, optarg);
             case 'h':
@@ -176,6 +185,9 @@ int main(int argc,char** argv)
     // Choose the Random engine
     //
     CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine);
+    if (randomSeed!=-1){
+        CLHEP::HepRandom::setTheSeed(randomSeed,randomSeedIndex);
+    }
 
     // User Verbose output class
     //
@@ -394,6 +406,8 @@ void print_usage(char * prog_name){
     fprintf(stderr,"\t\t Apply PAI to world\n");
     fprintf(stderr,"\t -r\n");
     fprintf(stderr,"\t\t Register G4RadioactiveDecayPhysics\n");
+    fprintf(stderr,"\t -R \"randomSeed randomSeedIndex\"\n");
+    fprintf(stderr,"\t\t Send random seed and index CLHEP::HepRandom by the start of the main function\n");
     fprintf(stderr,"\t -O file\n");
     fprintf(stderr,"\t\t Set output file name [%s]\n",OutputFileName.data());
 }
