@@ -214,6 +214,9 @@ int main(int argc,char** argv)
     else if (PhysicsListName=="PhysicsListHP"){
         physics = new PhysicsList(1,UseEmType,1);
     }
+    else if (PhysicsListName=="PhysicsListHPnone"){
+        physics = new PhysicsList(1,UseEmType,-1);
+    }
     else{
         std::cerr<<"Cannot recognize the PhysicsList name \""<<PhysicsListName<<"\""<<std::endl;
         return 1;
@@ -396,9 +399,9 @@ void print_usage(char * prog_name){
     fprintf(stderr,"[options]\n");
     fprintf(stderr,"\t -e TYPE\n");
     fprintf(stderr,"\t\t Change the EmType. By default it's 0 (EmStandard). Only valid when the \"PhysicsList\" or \"PhysicsListHP\" is chosen\n");
+    fprintf(stderr,"\t\t Available types: -3, no EM at all, -1, EmLivermore; -2, EmCustomised; 0,3,4 EmStandard with the type number as option\n");
     fprintf(stderr,"\t -E energy\n");
     fprintf(stderr,"\t\t Change the default kinetic energy of the primary generator. Unit is MeV.\n");
-    fprintf(stderr,"\t\t Available types: -1, EmLivermore; -2, EmCustomised; 0,3,4 EmStandard with the type number as option\n");
     fprintf(stderr,"\t -L cut\n");
     fprintf(stderr,"\t\t Change the low energy bound of production cuts to [cut] eV (%.3e eV)\n",LowEnergyCut/eV);
     fprintf(stderr,"\t -N nEvents \n");

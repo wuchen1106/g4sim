@@ -90,6 +90,9 @@ PhysicsList::PhysicsList(int ver, int EmType, int HPType):  G4VModularPhysicsLis
   this->SetVerboseLevel(ver);
 
   // EM Physics
+  if (EmType==-3){
+      // no EM
+  }
   if (EmType==-1){
       this->RegisterPhysics( new G4EmLivermorePhysics(ver) );
   }
@@ -111,6 +114,7 @@ PhysicsList::PhysicsList(int ver, int EmType, int HPType):  G4VModularPhysicsLis
   }
 
   // Synchroton Radiation & GN Physics
+  if (EmType!=-3){
   G4EmExtraPhysics* extraEMPhys = new G4EmExtraPhysics(ver);
   extraEMPhys->GammaNuclear(true);
   extraEMPhys->MuonNuclear(true);
@@ -119,6 +123,7 @@ PhysicsList::PhysicsList(int ver, int EmType, int HPType):  G4VModularPhysicsLis
   extraEMPhys->GammaToMuMu(true);
 #endif
   this->RegisterPhysics( extraEMPhys );
+  }
 
   // Decays
   this->RegisterPhysics( new G4DecayPhysics(ver) );
@@ -128,7 +133,7 @@ PhysicsList::PhysicsList(int ver, int EmType, int HPType):  G4VModularPhysicsLis
    if (HPType==0){
   this->RegisterPhysics( new G4HadronElasticPhysics(ver) );
    }
-   else{
+   else if (HPType==1){
   this->RegisterPhysics( new G4HadronElasticPhysicsHP(ver) );
    }
 
@@ -137,14 +142,14 @@ PhysicsList::PhysicsList(int ver, int EmType, int HPType):  G4VModularPhysicsLis
   if (HPType==0){
       this->RegisterPhysics( new G4HadronPhysicsQGSP_BERT(ver));
   }
-  else{
+  else if (HPType==1){
       this->RegisterPhysics( new G4HadronPhysicsQGSP_BERT_HP(ver));
   }
 #else
   if (HPType==0){
       this->RegisterPhysics( new HadronPhysicsQGSP_BERT(ver));
   }
-  else{
+  else if (HPType==1){
       this->RegisterPhysics( new HadronPhysicsQGSP_BERT_HP(ver));
   }
 #endif
