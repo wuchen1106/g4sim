@@ -43,7 +43,7 @@
 class PhysicsList: public G4VModularPhysicsList
 {
 public:
-  PhysicsList(int ver = 1, int EmType = 0);
+  PhysicsList(int ver = 1, int EmType = 0, int HPType = 0);
   virtual ~PhysicsList();
 
   void SetCuts();

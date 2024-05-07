@@ -70,6 +70,7 @@
 #include "HadronPhysicsQGSP_BERT_HP.hh"
 #endif
 #include "G4HadronElasticPhysics.hh"
+#include "G4HadronElasticPhysicsHP.hh"
 #include "G4EmExtraPhysics.hh"
 #include "G4IonPhysics.hh"
 #include "G4NeutronTrackingCut.hh"
@@ -79,7 +80,7 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-PhysicsList::PhysicsList(int ver, int EmType):  G4VModularPhysicsList()
+PhysicsList::PhysicsList(int ver, int EmType, int HPType):  G4VModularPhysicsList()
 {
 
   G4cout << "<<< Geant4 Physics List simulation engine: My Own  physics list based on QGSP_BERT 3.4"<<G4endl;
@@ -110,22 +111,39 @@ PhysicsList::PhysicsList(int ver, int EmType):  G4VModularPhysicsList()
   }
 
   // Synchroton Radiation & GN Physics
-  this->RegisterPhysics( new G4EmExtraPhysics(ver) );
+  G4EmExtraPhysics* extraEMPhys = new G4EmExtraPhysics(ver);
+  extraEMPhys->GammaNuclear(true);
+  extraEMPhys->MuonNuclear(true);
+  extraEMPhys->Synch(true);
+  this->RegisterPhysics( extraEMPhys );
 
   // Decays
   this->RegisterPhysics( new G4DecayPhysics(ver) );
   //this->RegisterPhysics( new MyDecayPhysics(ver) );
 
    // Hadron Elastic scattering
+   if (HPType==0){
   this->RegisterPhysics( new G4HadronElasticPhysics(ver) );
+   }
+   else{
+  this->RegisterPhysics( new G4HadronElasticPhysicsHP(ver) );
+   }
 
   // Hadron Physics
 #if G4VERSION_NUMBER >= 1000 // at least Geant4.10.00.p00
-  this->RegisterPhysics( new G4HadronPhysicsQGSP_BERT(ver));
-  //this->RegisterPhysics( new G4HadronPhysicsQGSP_BERT_HP(ver));
+  if (HPType==0){
+      this->RegisterPhysics( new G4HadronPhysicsQGSP_BERT(ver));
+  }
+  else{
+      this->RegisterPhysics( new G4HadronPhysicsQGSP_BERT_HP(ver));
+  }
 #else
-  this->RegisterPhysics( new HadronPhysicsQGSP_BERT(ver));
-  //this->RegisterPhysics( new HadronPhysicsQGSP_BERT_HP(ver));
+  if (HPType==0){
+      this->RegisterPhysics( new HadronPhysicsQGSP_BERT(ver));
+  }
+  else{
+      this->RegisterPhysics( new HadronPhysicsQGSP_BERT_HP(ver));
+  }
 #endif
 
   // Stopping Physics
