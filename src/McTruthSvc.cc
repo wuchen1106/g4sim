@@ -338,18 +338,17 @@ void McTruthSvc::SetValuePre(const G4Track* aTrack){
 	bool foundit = false;
 	for (int i = 0; i<white_list.size(); i++){
 		if (pid == white_list[i]) foundit=true;
-		if (white_list[i]==0&&pid<1e7) foundit = true;
+		if (white_list[i]==0&&pid<1e6) foundit = true;
+		if (white_list[i]==1e6&&pid>=1e6) foundit = true;
 		if (white_list[i]==-1&&trackID==1) foundit = true;
-	}
-	if (white_list.size()==1&&white_list[0]==0){
-		if (pid<1e7) foundit = true;
 	}
 	if (!foundit&&white_list.size()) return;
 	// black_list
 	foundit = false;
 	for (int i = 0; i<black_list.size(); i++){
 		if (pid == black_list[i]) foundit=true;
-		if (black_list[i]==0&&pid<1e7) foundit = true;
+		if (black_list[i]==0&&pid<1e6) foundit = true;
+		if (black_list[i]==1e6&&pid>=1e6) foundit = true;
 		if (black_list[i]==-1&&trackID==1) foundit = true;
 	}
 	if (foundit) return;
