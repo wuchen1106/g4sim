@@ -110,7 +110,14 @@ PhysicsList::PhysicsList(int ver, int EmType):  G4VModularPhysicsList()
   }
 
   // Synchroton Radiation & GN Physics
-  this->RegisterPhysics( new G4EmExtraPhysics(ver) );
+  G4EmExtraPhysics * extraEMPhys = new G4EmExtraPhysics(ver);
+  extraEMPhys->GammaNuclear(true);
+  extraEMPhys->MuonNuclear(true);
+  extraEMPhys->Synch(true);
+#if G4VERSION_NUMBER >= 1040 // at least Geant4.10.04.p00
+  extraEMPhys->GammaToMuMu(true);
+#endif
+  this->RegisterPhysics(extraEMPhys);
 
   // Decays
   this->RegisterPhysics( new G4DecayPhysics(ver) );
