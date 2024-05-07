@@ -115,6 +115,9 @@ PhysicsList::PhysicsList(int ver, int EmType, int HPType):  G4VModularPhysicsLis
   extraEMPhys->GammaNuclear(true);
   extraEMPhys->MuonNuclear(true);
   extraEMPhys->Synch(true);
+#if G4VERSION_NUMBER >= 1040 // at least Geant4.10.04.p00
+  extraEMPhys->GammaToMuMu(true);
+#endif
   this->RegisterPhysics( extraEMPhys );
 
   // Decays
