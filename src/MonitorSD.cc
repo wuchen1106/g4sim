@@ -671,6 +671,11 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	G4double dt = 1e10*s;
 	//std::cout<<"At first, dt = "<<dt/ns<<"ns"<<std::endl;
 	//std::cout<<"pointOut_time = "<<pointOut_time/ns<<"ns"<<std::endl;
+	if (nHits>=1&&m_tid[nHits-1] == trackID){
+	    dt = 0;
+	    index = nHits-1;
+	}
+        else{
 	for ( int i = 0; i < nHits; i++ ){
 		if ( m_volName[i] == VolName && m_volID[i] == ReplicaNo ){
 			//std::cout<<"m_t["<<i<<"] = "<<m_t[i]*unit_t/ns<<"ns"<<std::endl;
@@ -678,10 +683,11 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 			if ( fabs(dtime) < fabs(dt) ){
 				index = i;
 				dt = dtime;
-				//std::cout<<"dtime = "<<dtime/ns<<"ns < dt = "<<dt/ns<<"ns"<<std::endl;
+				//std::cout<<i<<": tid "<<m_tid[i]<<" dtime = "<<pointOut_time<<" - "<<m_t[i]<<" = "<<dtime/ns<<"ns < dt = "<<dt/ns<<"ns"<<std::endl;
 			}
 		}
 	}
+        }
 //	std::cout<<"At last, dt = "<<dt/ns<<"ns"<<std::endl;
 	if ( index != -1 ){// found a previous hit in the same volume
 //		std::cout<<"found a previous hit in the same volume!"<<std::endl;
@@ -689,13 +695,10 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 //			std::cout<<"dt too small, will not push"<<std::endl;
 			willPush = false;
 		}
-		if ( m_tid[index] == trackID&& prePoint->GetStepStatus() != fGeomBoundary || killed){ // If this particle was in this volume in last step, don't generate a new hit
+		if ( m_tid[index] == trackID){ // If this particle was in this volume in last step, don't generate a new hit
 //			std::cout<<"Was here last step"<<std::endl;
 			willPush = false;
 		}
-		//if ( m_tid[index] == trackID ){
-		//	willPush = false;
-		//}
 	}
 
 	if (willPush){
