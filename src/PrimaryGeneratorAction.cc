@@ -81,6 +81,7 @@ PrimaryGeneratorAction* PrimaryGeneratorAction::GetPrimaryGeneratorAction(){
 }
 
 void* PrimaryGeneratorAction::get_extra(G4String name){
+        if (!UseRoot) return NULL;
 	if (name=="weight") {if(!flag_weight)  return &root_double[9];}
 	else if (name=="ox") {if(!flag_ox)  return &root_double[10];}
 	else if (name=="oy") {if(!flag_oy)  return &root_double[11];}
@@ -894,23 +895,23 @@ void PrimaryGeneratorAction::Reset(){
 	root_num = 0;
 	root_index = 0;
 	UseRoot = false;
-	flag_weight = false;
-	flag_ox = false;
-	flag_oy = false;
-	flag_oz = false;
-	flag_opx = false;
-	flag_opy = false;
-	flag_opz = false;
-	flag_ipx = false;
-	flag_ipy = false;
-	flag_ipz = false;
-	flag_ot = false;
-	flag_process = false;
-	flag_volume = false;
-	flag_R0 = false;
-	flag_R1 = false;
-	flag_ppid = false;
-	flag_ptid = false;
+	flag_weight = true;
+	flag_ox = true;
+	flag_oy = true;
+	flag_oz = true;
+	flag_opx = true;
+	flag_opy = true;
+	flag_opz = true;
+	flag_ipx = true;
+	flag_ipy = true;
+	flag_ipz = true;
+	flag_ot = true;
+	flag_process = true;
+	flag_volume = true;
+	flag_R0 = true;
+	flag_R1 = true;
+	flag_ppid = true;
+	flag_ptid = true;
 }
 
 void PrimaryGeneratorAction::Initialize(){
