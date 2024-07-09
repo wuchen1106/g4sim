@@ -126,7 +126,7 @@ int main(int argc,char** argv)
         switch(opt_result){
             case 'e':
                 UseEmType = atoi(optarg);
-                if (UseEmType!=0&&UseEmType!=3&&UseEmType!=4&&UseEmType!=-1&&UseEmType!=-2){
+                if (UseEmType!=0&&UseEmType!=3&&UseEmType!=4&&UseEmType!=-1&&UseEmType!=-2&&UseEmType!=-3){
                     std::cout<<" EmType "<<UseEmType<<" is not supported yet! Will use type 0 (EmStandard) as default"<<std::endl;
                     UseEmType = 0;
                 }
