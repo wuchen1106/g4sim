@@ -95,7 +95,7 @@ PhysicsList::PhysicsList(int ver, int EmType, int HPType):  G4VModularPhysicsLis
   if (EmType==-3){
       // no EM
   }
-  if (EmType==-1){
+  else if (EmType==-1){
       this->RegisterPhysics( new G4EmLivermorePhysics(ver) );
   }
 #if G4VERSION_NUMBER >= 1000 // at least Geant4.10.00.p00
