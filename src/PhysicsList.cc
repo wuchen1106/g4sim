@@ -69,6 +69,8 @@
 #include "HadronPhysicsQGSP_BERT.hh"
 #include "HadronPhysicsQGSP_BERT_HP.hh"
 #endif
+#include "G4HadronPhysicsINCLXX.hh"
+#include "G4IonINCLXXPhysics.hh"
 #include "G4HadronElasticPhysics.hh"
 #include "G4HadronElasticPhysicsHP.hh"
 #include "G4EmExtraPhysics.hh"
@@ -141,16 +143,28 @@ PhysicsList::PhysicsList(int ver, int EmType, int HPType):  G4VModularPhysicsLis
 #if G4VERSION_NUMBER >= 1000 // at least Geant4.10.00.p00
   if (HPType==0){
       this->RegisterPhysics( new G4HadronPhysicsQGSP_BERT(ver));
+      this->RegisterPhysics( new G4IonPhysics(ver));
   }
   else if (HPType==1){
       this->RegisterPhysics( new G4HadronPhysicsQGSP_BERT_HP(ver));
+      this->RegisterPhysics( new G4IonPhysics(ver));
+  }
+  else if (HPType==2){
+      this->RegisterPhysics( new G4HadronPhysicsINCLXX(ver));
+      this->RegisterPhysics( new G4IonINCLXXPhysics(ver));
   }
 #else
   if (HPType==0){
       this->RegisterPhysics( new HadronPhysicsQGSP_BERT(ver));
+      this->RegisterPhysics( new G4IonPhysics(ver));
   }
   else if (HPType==1){
       this->RegisterPhysics( new HadronPhysicsQGSP_BERT_HP(ver));
+      this->RegisterPhysics( new G4IonPhysics(ver));
+  }
+  else if (HPType==2){
+      this->RegisterPhysics( new G4HadronPhysicsINCLXX(ver));
+      this->RegisterPhysics( new G4IonINCLXXPhysics(ver));
   }
 #endif
 
@@ -161,9 +175,6 @@ PhysicsList::PhysicsList(int ver, int EmType, int HPType):  G4VModularPhysicsLis
   this->RegisterPhysics( new G4QStoppingPhysics(ver) );
   //this->RegisterPhysics( new G4LHEPStoppingPhysics(ver) );
 #endif
-
-  // Ion Physics
-  this->RegisterPhysics( new G4IonPhysics(ver));
   
   // Neutron tracking cut
   this->RegisterPhysics( new G4NeutronTrackingCut(ver));

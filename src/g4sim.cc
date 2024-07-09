@@ -53,6 +53,7 @@
 #include "MyStepLimiter.hh"
 #include "QGSP_BERT.hh"
 #include "QGSP_INCLXX.hh"
+#include "QGSP_INCLXX_HP.hh"
 #include "QGSP_BERT_HP.hh"
 //#include "myQGSP_BERT_HP.hh"
 
@@ -207,6 +208,9 @@ int main(int argc,char** argv)
     }
     else if (PhysicsListName=="QGSP_INCLXX"){
         physics = new QGSP_INCLXX;
+    }
+    else if (PhysicsListName=="QGSP_INCLXX_HP"){
+        physics = new QGSP_INCLXX_HP;
     }
     else if (PhysicsListName=="PhysicsList"){
         physics = new PhysicsList(1,UseEmType,0);
