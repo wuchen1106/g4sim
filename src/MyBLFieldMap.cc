@@ -137,11 +137,9 @@ class GridImpl : public FieldMapImpl {
 		Xorigin = x;
 		Yorigin = y;
 		Zorigin = z;
-		X0-=Xorigin;
-		Y0-=Yorigin;
-		//FIXME
-//		printf("Z0 = %lf - %lf = %lf\n",Z0,Zorigin,Z0-Zorigin);
-		Z0-=Zorigin;
+		X0+=Xorigin;
+		Y0+=Yorigin;
+		Z0+=Zorigin;
     }
     public:
         GridImpl(TTree* param);
@@ -183,9 +181,7 @@ class CylinderImpl : public FieldMapImpl {
 		Xorigin = x;
 		Yorigin = y;
 		Zorigin = z;
-		Z0-=Zorigin;
-		//FIXME
-//		printf("Z0 = %lf - %lf = %lf\n",Z0,Zorigin,Z0-Zorigin);
+		Z0+=Zorigin;
     }
     public:
         CylinderImpl(TTree* param);
@@ -919,7 +915,7 @@ bool GridImpl::readData(TTree* data) {
 	data->SetBranchAddress("Ez",&Ez);
 	for(long int iEt = 0; iEt<data->GetEntries(); iEt++) {
 		data->GetEntry(iEt);
-		setField(X-Xorigin,Y-Yorigin,Z-Zorigin,Bx*tesla,By*tesla,Bz*tesla,
+		setField(X+Xorigin,Y+Yorigin,Z+Zorigin,Bx*tesla,By*tesla,Bz*tesla,
 				Ex*megavolt/meter,Ey*megavolt/meter,
 				Ez*megavolt/meter,iEt);
 	}
@@ -984,8 +980,7 @@ MyBLArgumentMap &namedArgs) {
                     << in.linenumber() << G4endl;
                 continue;
             }
-            setField(X-Xorigin,Y-Yorigin,Z-Zorigin,Bx*tesla,By*tesla,Bz*tesla,
-                Ex*megavolt/meter,Ey*megavolt/meter,
+            setField(X+Xorigin,Y+Yorigin,Z+Zorigin,Bx*tesla,By*tesla,Bz*tesla, Ex*megavolt/meter,Ey*megavolt/meter,
                 Ez*megavolt/meter,in.linenumber());
         }
         return true;
