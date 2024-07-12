@@ -40,6 +40,14 @@ PrimaryGeneratorMessenger::PrimaryGeneratorMessenger(
   ReadCardCmd->SetGuidance("You have to call update before you start a new run.");
   ReadCardCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
    
+  RandomMode_cmd = new G4UIcmdWithAString("/g4sim/gun/RandomMode",this);
+  RandomMode_cmd->SetGuidance("Choose energy model:");
+  RandomMode_cmd->SetGuidance("  Choice : none(default), root");
+  RandomMode_cmd->SetParameterName("choice",true);
+  RandomMode_cmd->SetDefaultValue("none");
+  RandomMode_cmd->SetCandidates("none histo root gRand uRand");
+  RandomMode_cmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+   
   EnergyMode_cmd = new G4UIcmdWithAString("/g4sim/gun/EnergyMode",this);
   EnergyMode_cmd->SetGuidance("Choose energy model:");
   EnergyMode_cmd->SetGuidance("  Choice : none(default), histo, root, gRand, uRand");
@@ -146,6 +154,7 @@ PrimaryGeneratorMessenger::~PrimaryGeneratorMessenger()
   delete InitializeCmd;
   delete ResetGenCmd;
   delete ReadCardCmd;
+  delete RandomMode_cmd;
   delete EnergyMode_cmd;
   delete DirectionMode_cmd;
   delete PositionMode_cmd;
@@ -169,6 +178,7 @@ PrimaryGeneratorMessenger::~PrimaryGeneratorMessenger()
 void PrimaryGeneratorMessenger::SetNewValue(
                                         G4UIcommand* command, G4String newValue)
 { 
+  if( command == RandomMode_cmd )    { Action->set_RandomMode(newValue);}
   if( command == EnergyMode_cmd )    { Action->set_EnergyMode(newValue);}
   if( command == DirectionMode_cmd )    { Action->set_DirectionMode(newValue);}
   if( command == PositionMode_cmd )    { Action->set_PositionMode(newValue);}

@@ -49,6 +49,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction,
 		void Reset();
 
 		void set_ParticleName(G4String val) { ParticleName= val; }
+		void set_RandomMode(G4String val) { RandMode = val; }
 		void set_EnergyMode(G4String val) { EnergyMode= val; }
 		void set_DirectionMode(G4String val) { DirectionMode= val; }
 		void set_PositionMode(G4String val) { PositionMode= val; }

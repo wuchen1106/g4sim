@@ -33,6 +33,7 @@ private:
   G4UIdirectory*            gunDir; 
   G4UIcmdWithAString*       ParticleName_cmd;
   G4UIcmdWithAnInteger*     root_index_cmd;
+  G4UIcmdWithAString*       RandomMode_cmd;
   G4UIcmdWithAString*       EnergyMode_cmd;
   G4UIcmdWithAString*       DirectionMode_cmd;
   G4UIcmdWithAString*       PositionMode_cmd;
