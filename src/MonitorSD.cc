@@ -293,6 +293,7 @@ void MonitorSD::ReadOutputCard(G4String filename){
 				else if( name == "mine" ) mine = para;
 				else if ( name == "minnph" ) minnph = para;
 				else if ( name == "minedep" ) minedep = para;
+				else if ( name == "maxOekin" ) maxOekin = para;
 				else if( name == "mint" ) mint = para;
 				else if( name == "maxt" ) maxt = para;
 				else if( name == "tres" ) tres = para;
@@ -386,6 +387,7 @@ void MonitorSD::ReSet(){
 	tres = 0;
 	minnph = 0;
 	minedep = -1*MeV;
+	maxOekin = -1*MeV;
 	white_list.clear();
 	black_list.clear();
 	//for units
@@ -515,6 +517,7 @@ void MonitorSD::ShowOutCard(){
 	std::cout<<"tres =          "<<tres/ns<<"ns"<<std::endl;
 	std::cout<<"minnph =        "<<minnph<<std::endl;
 	std::cout<<"minedep =       "<<minedep/MeV<<"MeV"<<std::endl;
+	std::cout<<"maxOekin =       "<<maxOekin/MeV<<"MeV"<<std::endl;
 	std::cout<<"white list:     "<<std::endl;
 	for ( int i = 0; i< white_list.size(); i++){
 		std::cout <<"  Only tracks with these following PDGCodes will be recorded:"<<std::endl;
@@ -624,6 +627,9 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 
 	//minedep
 	if( minedep>0&&edepIoni <= 0) return false;
+
+	//maxOekin
+        if ( maxOekin>=0&&maxOekin < Oekin ) return false;
 
 	//minnph
 	if( minnph>0&&nph <= 0 ) return false;

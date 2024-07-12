@@ -318,6 +318,7 @@ class MonitorSD : public MySD
 		G4double mint;
 		G4double maxt;
 		G4double minedep;
+		G4double maxOekin;
 		G4int minnph;
 		std::vector<int> white_list;
 		std::vector<int> black_list;
