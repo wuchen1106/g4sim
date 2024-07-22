@@ -313,6 +313,7 @@ class MonitorSD : public MySD
 		bool needstopped;
 		G4int maxn;
 		G4double minp;
+		G4double maxp;
 		G4double mine;
 		G4double tres;
 		G4double mint;
