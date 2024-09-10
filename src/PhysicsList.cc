@@ -75,6 +75,7 @@
 #include "G4HadronElasticPhysicsHP.hh"
 #include "G4EmExtraPhysics.hh"
 #include "G4IonPhysics.hh"
+#include "G4IonQMDPhysics.hh"
 #include "G4NeutronTrackingCut.hh"
 
 #include "MyDecayPhysics.hh"
@@ -121,8 +122,14 @@ PhysicsList::PhysicsList(int ver, int EmType, int HPType):  G4VModularPhysicsLis
   extraEMPhys->GammaNuclear(true);
   extraEMPhys->MuonNuclear(true);
   extraEMPhys->Synch(true);
+//  extraEMPhys->LENDGammaNuclear(true);
+//  extraEMPhys->SynchAll(true);
+//  extraEMPhys->PositronToHadrons(true);
+//  extraEMPhys->NeutrinoActivated(true);
+//  extraEMPhys->NuETotXscActivated(true);
 #if G4VERSION_NUMBER >= 1040 // at least Geant4.10.04.p00
   extraEMPhys->GammaToMuMu(true);
+//  extraEMPhys->PositronToMuMu(true);
 #endif
   this->RegisterPhysics( extraEMPhys );
   }
@@ -135,7 +142,8 @@ PhysicsList::PhysicsList(int ver, int EmType, int HPType):  G4VModularPhysicsLis
    if (HPType==0){
   this->RegisterPhysics( new G4HadronElasticPhysics(ver) );
    }
-   else if (HPType==1){
+   //else if (HPType==1){
+   else{ // should we use this for INCLXX?
   this->RegisterPhysics( new G4HadronElasticPhysicsHP(ver) );
    }
 
@@ -148,6 +156,7 @@ PhysicsList::PhysicsList(int ver, int EmType, int HPType):  G4VModularPhysicsLis
   else if (HPType==1){
       this->RegisterPhysics( new G4HadronPhysicsQGSP_BERT_HP(ver));
       this->RegisterPhysics( new G4IonPhysics(ver));
+      //this->RegisterPhysics( new G4IonQMDPhysics(ver));
   }
   else if (HPType==2){
       this->RegisterPhysics( new G4HadronPhysicsINCLXX(ver));
@@ -161,6 +170,7 @@ PhysicsList::PhysicsList(int ver, int EmType, int HPType):  G4VModularPhysicsLis
   else if (HPType==1){
       this->RegisterPhysics( new HadronPhysicsQGSP_BERT_HP(ver));
       this->RegisterPhysics( new G4IonPhysics(ver));
+      //this->RegisterPhysics( new G4IonQMDPhysics(ver));
   }
   else if (HPType==2){
       this->RegisterPhysics( new G4HadronPhysicsINCLXX(ver));

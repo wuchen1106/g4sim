@@ -218,6 +218,9 @@ int main(int argc,char** argv)
     else if (PhysicsListName=="PhysicsListHP"){
         physics = new PhysicsList(1,UseEmType,1);
     }
+    else if (PhysicsListName=="PhysicsListINCLXX"){
+        physics = new PhysicsList(1,UseEmType,2);
+    }
     else if (PhysicsListName=="PhysicsListHPnone"){
         physics = new PhysicsList(1,UseEmType,-1);
     }
@@ -402,7 +405,7 @@ void print_usage(char * prog_name){
     fprintf(stderr,"\t\t In case [macro] is not given, UI mode will be activated\n");
     fprintf(stderr,"[options]\n");
     fprintf(stderr,"\t -e TYPE\n");
-    fprintf(stderr,"\t\t Change the EmType. By default it's 0 (EmStandard). Only valid when the \"PhysicsList\" or \"PhysicsListHP\" is chosen\n");
+    fprintf(stderr,"\t\t Change the EmType. By default it's 0 (EmStandard). Only valid when the \"PhysicsList\" or \"PhysicsListHP\" or \"PhysicsListHPnone\" or \"PhysicsListINCLXX\" is chosen\n");
     fprintf(stderr,"\t\t Available types: -3, no EM at all, -1, EmLivermore; -2, EmCustomised; 0,3,4 EmStandard with the type number as option\n");
     fprintf(stderr,"\t -E energy\n");
     fprintf(stderr,"\t\t Change the default kinetic energy of the primary generator. Unit is MeV.\n");
@@ -412,7 +415,7 @@ void print_usage(char * prog_name){
     fprintf(stderr,"\t\t Added /run/beamOn nEvents command after the execution of the given macro. Will not be invoked if macro file is not given though.\n",LowEnergyCut/eV);
     fprintf(stderr,"\t -P physics\n");
     fprintf(stderr,"\t\t Change the physics List (%s)\n",PhysicsListName.data());
-    fprintf(stderr,"\t\t Available options: QGSP_BERT QGSP_BERT_HP QGSP_INCLXX PhysicsList PhysicsListHP\n");
+    fprintf(stderr,"\t\t Available options: QGSP_BERT QGSP_BERT_HP QGSP_INCLXX PhysicsList PhysicsListHP PhysicsListHPnone PhysicsListINCLXX\n");
     fprintf(stderr,"\t\t If the provided option is not supported, then QGSP_BERT_HP will be used as default\n");
     fprintf(stderr,"\t -o\n");
     fprintf(stderr,"\t\t Register G4OpticalPhysics\n");
