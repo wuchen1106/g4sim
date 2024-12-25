@@ -588,6 +588,13 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		edepSec += (*(aStep->GetSecondaryInCurrentStep()))[isec]->GetKineticEnergy();
 	}
 
+	McTruthSvc::GetMcTruthSvc()->AddEdep2Map(
+	        edep
+	        ,(pointIn_pos.x()+pointOut_pos.x())/2
+	        ,(pointIn_pos.y()+pointOut_pos.y())/2
+	        ,(pointIn_pos.z()+pointOut_pos.z())/2
+	        );
+
 	//*************************filter***********************
 	//switch
 	if (!Switch) return false;

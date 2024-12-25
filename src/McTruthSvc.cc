@@ -70,6 +70,10 @@ void McTruthSvc::Initialize(){
 	m_volume.clear();
 }
 
+void McTruthSvc::InitializeRun(){
+    m_xyz2edep.clear();
+}
+
 void McTruthSvc::SetBranch(){
 	if (!m_Switch) return;
 	MyRoot* myRoot = MyRoot::GetMyRoot();
@@ -263,6 +267,7 @@ void McTruthSvc::ReSet(){
 	unit_x	=cm;
 	unit_y	=cm;
 	unit_z	=cm;
+	m_map_step = 1*mm;
 }
 
 void McTruthSvc::ShowOutCard(){
@@ -306,6 +311,7 @@ void McTruthSvc::ShowOutCard(){
 		std::cout <<"  Tracks with these following PDGCodes will NOT be recorded:"<<std::endl;
 		std::cout<<"            "<<i<<": "<<black_list[i]<<std::endl;
 	}
+        std::cout<<"edep map step         "<<m_map_step/mm<<" mm"<<std::endl;
 	std::cout<<"******************************************************************************"<<std::endl;
 }
 
@@ -398,4 +404,41 @@ void McTruthSvc::SetValuePre(const G4Track* aTrack){
 void McTruthSvc::SetValuePost(const G4Track* aTrack){
 	//	G4int   nbSteps = aTrack->GetCurrentStepNumber();
 	//	G4double trackLength = aTrack->GetTrackLength();
+}
+
+void McTruthSvc::AddEdep2Map(double edep, double x, double y, double z){
+    if (edep>0){
+        int ix = (x+m_map_step/2)/m_map_step;
+        int iy = (y+m_map_step/2)/m_map_step;
+        int iz = (z+m_map_step/2)/m_map_step;
+        m_xyz2edep[ix][iy][iz] += edep;
+    }
+    return;
+}
+
+void McTruthSvc::EndOfRunAction(){
+    if (m_xyz2edep.size()==0) return;
+    TTree * otree = new TTree("mapEdep","map of energy deposit");
+    double x,y,z,edep;
+    otree->Branch("edep",&edep);
+    otree->Branch("x",&x);
+    otree->Branch("y",&y);
+    otree->Branch("z",&z);
+    for (std::map<int, std::map<int, std::map<int, double> > >::const_iterator itx = m_xyz2edep.begin(); itx!=m_xyz2edep.end(); itx++){
+        int ix = itx->first;
+        for (std::map<int, std::map<int, double> >::const_iterator ity = itx->second.begin(); ity!=itx->second.end(); ity++){
+            int iy = ity->first;
+            for (std::map<int, double>::const_iterator itz = ity->second.begin(); itz!=ity->second.end(); itz++){
+                int iz = itz->first;
+                x = ix*m_map_step;
+                y = iy*m_map_step;
+                z = iz*m_map_step;
+                edep = itz->second;
+                otree->Fill();
+            }
+        }
+    }
+    otree->Write();
+
+    return;
 }

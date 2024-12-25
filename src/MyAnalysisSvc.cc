@@ -106,6 +106,7 @@ void MyAnalysisSvc::BeginOfRunAction(){
 	pMyDetectorManager->SetBranch();
 	pEventHeaderSvc->SetBranch();
 	pMcTruthSvc->SetBranch();
+	pMcTruthSvc->InitializeRun();
 	pProcessCountingSvc->SetBranch();
 
 	t_begin = (double)clock();
@@ -130,6 +131,7 @@ void MyAnalysisSvc::EndOfRunAction(const G4Run* aRun){
 	std::cout<<"TOTAL TIME COST IS:  "<<(double)(t_end-t_begin)/CLOCKS_PER_SEC*1000<<"ms"<<std::endl;
 	std::cout<<"TIME COST PER EVENT: "<<(double)(t_end-t_begin)/CLOCKS_PER_SEC/NbOfEvents*1000<<"ms"<<std::endl;
 	std::cout<<"##############################################\n"<<std::endl;
+	pMcTruthSvc->EndOfRunAction();
 	pMyRoot->Write();
 	pMyRoot->Close();
 }

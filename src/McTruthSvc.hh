@@ -12,6 +12,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 class G4Event;
 class G4Track;
@@ -32,6 +33,11 @@ class McTruthSvc
 		void SetValuePost(const G4Track*);
 
 		void Initialize();
+		void InitializeRun();
+
+                void EndOfRunAction();
+
+                void AddEdep2Map(double edep, double x, double y, double z);
 
 		int get_nTracks(){return m_nTracks;}
 		int get_nTracksAll(){return m_nTracksAll;}
@@ -134,6 +140,9 @@ class McTruthSvc
 		double unit_x;
 		double unit_y;
 		double unit_z;
+
+                std::map<int, std::map<int, std::map<int, double> > > m_xyz2edep;
+                double m_map_step;
 };
 
 #endif
