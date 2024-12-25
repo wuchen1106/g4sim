@@ -631,7 +631,7 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 	if ( pointIn_time > maxt && maxt ) return false;
 
 	//minedep
-	if( edepIoni < minedep) return false;
+	if( edepIoni <= minedep) return false;
 
 	//maxOekin
         if ( maxOekin>=0&&maxOekin < Oekin ) return false;
