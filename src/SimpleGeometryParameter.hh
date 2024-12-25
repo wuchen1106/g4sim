@@ -179,6 +179,9 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		G4double get_b(G4int VolId){if( check_VolId(VolId) ) return vB[VolId]; else return 0;}
 		G4double get_t(G4int VolId){if( check_VolId(VolId) ) return vT[VolId]; else return 0;}
 
+		// about step limit
+		G4double GetStepLimit(){return fStepLimit;}
+
 		//=>Modify
 		//General info for volume
 		void set_PosX(G4String type, G4int i,G4double val, G4int j = 0) { int k = get_index(type, i); Pos[k][j].setX(val);}
@@ -765,6 +768,9 @@ class SimpleGeometryParameter : public MyVGeometryParameter
 		//visual settings
 		std::vector<bool> vVis;
 		std::vector<G4double> vR, vG, vB, vT;
+
+		// for step limit
+		double fStepLimit;
 
 		//to control
 		bool notReSetVis;

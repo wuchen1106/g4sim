@@ -34,6 +34,7 @@
 #include "G4PVPlacement.hh"
 #include "G4RotationMatrix.hh"
 #include "G4VisAttributes.hh"
+#include "G4UserLimits.hh"
 
 #include <iostream>
 #include <vector>
@@ -50,10 +51,12 @@ SimpleGeometrySvc::SimpleGeometrySvc(G4String name, G4String opt )
 //		std::cout<<"======>In SimpleGeometrySvc, new SimpleGeometryParameter at ("<<(void*)pointer<<")!"<<std::endl;
 		set_GeometryParameter(pointer);
 	}
+        fStepLimit = new G4UserLimits(m_GeometryParameter->GetStepLimit());
 }
 
 SimpleGeometrySvc::~SimpleGeometrySvc(){
 	printf("~SimpleGeometrySvc");
+	delete fStepLimit;
 }
 
 //------------------------Modify-------------------------------
@@ -79,6 +82,7 @@ void SimpleGeometrySvc::ConstructVolumes(){
 	double r, g, b, t;
 	std::stringstream buffer;
 	G4Material* pttoMaterial;
+        if (m_GeometryParameter->GetStepLimit()>0) fStepLimit->SetMaxAllowedStep(m_GeometryParameter->GetStepLimit());
 
 	int nVol = m_GeometryParameter->get_VolNo();
 	for ( int i_Vol = 0; i_Vol < nVol; i_Vol++ ){
@@ -283,6 +287,7 @@ void SimpleGeometrySvc::ConstructVolumes(){
 			G4VSensitiveDetector* aSD;
 			aSD = MyDetectorManager::GetMyDetectorManager()->GetSD(iname, SDName, const_cast<SimpleGeometrySvc*>(this) );
 			log_Vol->SetSensitiveDetector(aSD);
+                        if (m_GeometryParameter->GetStepLimit()>0) log_Vol->SetUserLimits(fStepLimit);
 			//visual
 			vis = m_GeometryParameter->get_vis(i_Vol);
 			if (!vis){

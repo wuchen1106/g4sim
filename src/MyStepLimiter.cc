@@ -55,15 +55,16 @@ void MyStepLimiter::ConstructProcess()
 //				particleName == "mu+" ||
 //				particleName == "proton"
 //		   ) {
-		if (particleName != "gamma"
-			&& particleName != "neutron"
-			&& particleName != "geantino"
-			&& particleName != "nu_e"
+		if (
+			   particleName != "nu_e"
 			&& particleName != "nu_mu"
 			&& particleName != "nu_tau"
 			&& particleName != "anti_nu_e"
 			&& particleName != "anti_nu_mu"
 			&& particleName != "anti_nu_tau"
+//		        && particleName != "gamma"
+//			&& particleName != "neutron"
+//			&& particleName != "geantino"
 		   ) {
 			pmanager->AddDiscreteProcess(fStepLimiter);
 		}   

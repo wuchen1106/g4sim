@@ -23,6 +23,7 @@
 
 class G4VPhysicalVolume;
 class SimpleGeometryParameter;
+class G4UserLimits;
 
 class SimpleGeometrySvc : public MyVGeometrySvc
 {
@@ -46,6 +47,7 @@ class SimpleGeometrySvc : public MyVGeometrySvc
 	private:
 
 		SimpleGeometryParameter* m_GeometryParameter;
+                G4UserLimits * fStepLimit; 
 
 };
 

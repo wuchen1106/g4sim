@@ -373,6 +373,7 @@ bool SimpleGeometryParameter::CheckInfo(){
 
 void SimpleGeometryParameter::Preset(){
 	MyVGeometryParameter::Preset();// Call its Parent class to preset
+	fStepLimit = 0; // 0 means don't set step limit
 	notReSetVis = true;
 	VolNo = 0;
 	BoxNo = 0;
@@ -583,6 +584,12 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 	G4String s_para;
 	int iVol = VolNo;
 	bool GoOn = true;
+	if (name=="StepLimit"){
+	    buf_card>>fStepLimit;
+	    fStepLimit*=mm;
+            std::cout<<"Step limit for geometry \""<<get_Name()<<"\" set to "<<fStepLimit/mm<<" mm"<<std::endl;
+	    return 0;
+	}
 //	std::cout<<"==> "<<s_card<<std::endl; // to be deleted
 	if (waited_Polycone_iVol>=0){
 		GoOn = false;
