@@ -75,6 +75,8 @@
 #include "MyRoot.hh"
 #include "MyAnalysisSvc.hh"
 
+#include "MaterialDensityScanner.hh"
+
 #include <iostream>
 #include <fstream>
 #include <sstream>  /* stringstream */
@@ -118,10 +120,22 @@ int main(int argc,char** argv)
     double fPrimaryEnergy = 0;
     int randomSeed = -1;
     int randomSeedIndex = -1;
+    std::string scanOutput("");
+    float mdScan_xmin = 0;
+    float mdScan_xmax = 0;
+    float mdScan_dx = 1;
+    float mdScan_ymin = 0;
+    float mdScan_ymax = 0;
+    float mdScan_dy = 1;
+    float mdScan_zmin = 0;
+    float mdScan_zmax = 0;
+    float mdScan_dz = 1;
+    std::map<float,bool> mdScan_z4XY;
+    std::map<float,bool> mdScan_x4ZY;
     // Load options
     int    opt_result;
     std::stringstream stream;
-    while((opt_result=getopt(argc,argv,"e:E:L:N:oO:pP:rR:h"))!=-1){
+    while((opt_result=getopt(argc,argv,"e:E:L:N:oO:pP:rR:S:X:Y:Z:x:z:h"))!=-1){
         stream.clear();
         if(optarg) stream.str(optarg);
         switch(opt_result){
@@ -160,6 +174,33 @@ int main(int argc,char** argv)
             case 'R':
                 stream>>randomSeed>>randomSeedIndex;
                 std::cerr<<"Random seed and index set to "<<randomSeed<<" "<<randomSeedIndex<<std::endl;
+                break;
+            case 'S':
+                scanOutput = optarg;
+                break;
+            case 'X':
+                stream>>mdScan_dx>>mdScan_xmin>>mdScan_xmax;
+                printf("Set x axis : dx %.1f, xmin %.1f, xmax %.1f\n",mdScan_dx,mdScan_xmin,mdScan_xmax);
+                break;
+            case 'Y':
+                stream>>mdScan_dy>>mdScan_ymin>>mdScan_ymax;
+                printf("Set y axis : dy %.1f, ymin %.1f, ymax %.1f\n",mdScan_dy,mdScan_ymin,mdScan_ymax);
+                break;
+            case 'Z':
+                stream>>mdScan_dz>>mdScan_zmin>>mdScan_zmax;
+                printf("Set z axis : dz %.1f, zmin %.1f, zmax %.1f\n",mdScan_dz,mdScan_zmin,mdScan_zmax);
+                break;
+            case 'z':
+                float z;
+                stream>>z;
+                mdScan_z4XY[z] = true;
+                printf("Set z for x-y scan: z = %.1f\n",z);
+                break;
+            case 'x':
+                float x;
+                stream>>x;
+                mdScan_x4ZY[x] = true;
+                printf("Set x for z-y scan: x = %.1f\n",x);
                 break;
             case '?':
                 printf("Wrong option! optopt=%c, optarg=%s\n", optopt, optarg);
@@ -288,6 +329,22 @@ int main(int argc,char** argv)
     // Initialize G4 kernel
     //
     runManager->Initialize();
+
+    // Perform a grid scan (50x50x1 points, at z=0 plane)
+    if (scanOutput!=""){
+        MaterialDensityScanner scanner;
+        scanner.SetX(mdScan_dx,mdScan_xmin,mdScan_xmax);
+        scanner.SetY(mdScan_dy,mdScan_ymin,mdScan_ymax);
+        scanner.SetZ(mdScan_dz,mdScan_zmin,mdScan_zmax);
+        for (std::map<float,bool>::const_iterator it = mdScan_z4XY.begin(); it!=mdScan_z4XY.end(); it++){
+            if (it->second) scanner.AddZ4XY(it->first);
+        }
+        for (std::map<float,bool>::const_iterator it = mdScan_x4ZY.begin(); it!=mdScan_x4ZY.end(); it++){
+            if (it->second) scanner.AddX4ZY(it->first);
+        }
+        std::cout<<"GridScan:"<<std::endl;
+        scanner.GridScan(scanOutput);
+    }
 
     // Get the pointer to the User Interface manager
     G4UImanager* UImanager = G4UImanager::GetUIpointer();
