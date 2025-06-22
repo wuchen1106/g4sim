@@ -991,6 +991,11 @@ int SimpleGeometryParameter::GetValue(G4String s_card){
 						G4double vTT = 0;
 						buf_card>>vTr>>vTg>>vTb>>vTT;
 						if (!vTT) vTT = 1;
+						if (vTr>1||vTg>1||vTb>1){
+						    vTr/=255.;
+						    vTg/=255.;
+						    vTb/=255.;
+						}
 						set_r(i,vTr);
 						set_g(i,vTg);
 						set_b(i,vTb);
