@@ -387,7 +387,6 @@ void McTruthSvc::SetValuePre(const G4Track* aTrack){
 	}
 	if(flag_time) m_time.push_back(globalT/unit_time);
 	if(flag_px) m_px.push_back(mom_3vec.x()/unit_px);
-//	std::cout<<"m_px.push_back("<<(mom_3vec.x()/unit_px)<<")"<<std::endl;
 	if(flag_py) m_py.push_back(mom_3vec.y()/unit_py);
 	if(flag_pz) m_pz.push_back(mom_3vec.z()/unit_pz);
 	if(flag_e) m_e.push_back(energy/unit_e);
@@ -408,9 +407,12 @@ void McTruthSvc::SetValuePost(const G4Track* aTrack){
 
 void McTruthSvc::AddEdep2Map(double edep, double x, double y, double z){
     if (edep>0){
-        int ix = (x+m_map_step/2)/m_map_step;
-        int iy = (y+m_map_step/2)/m_map_step;
-        int iz = (z+m_map_step/2)/m_map_step;
+        if (x<0) x-=m_map_step/2; else x+=m_map_step/2;
+        if (y<0) y-=m_map_step/2; else y+=m_map_step/2;
+        if (z<0) z-=m_map_step/2; else z+=m_map_step/2;
+        short int ix = x/m_map_step;
+        short int iy = y/m_map_step;
+        short int iz = z/m_map_step;
         m_xyz2edep[ix][iy][iz] += edep;
     }
     return;
@@ -419,17 +421,18 @@ void McTruthSvc::AddEdep2Map(double edep, double x, double y, double z){
 void McTruthSvc::EndOfRunAction(){
     if (m_xyz2edep.size()==0) return;
     TTree * otree = new TTree("mapEdep","map of energy deposit");
-    double x,y,z,edep;
+    short int x,y,z;
+    float edep;
     otree->Branch("edep",&edep);
     otree->Branch("x",&x);
     otree->Branch("y",&y);
     otree->Branch("z",&z);
-    for (std::map<int, std::map<int, std::map<int, double> > >::const_iterator itx = m_xyz2edep.begin(); itx!=m_xyz2edep.end(); itx++){
-        int ix = itx->first;
-        for (std::map<int, std::map<int, double> >::const_iterator ity = itx->second.begin(); ity!=itx->second.end(); ity++){
-            int iy = ity->first;
-            for (std::map<int, double>::const_iterator itz = ity->second.begin(); itz!=ity->second.end(); itz++){
-                int iz = itz->first;
+    for (std::map<short int, std::map<short int, std::map<short int, float> > >::const_iterator itx = m_xyz2edep.begin(); itx!=m_xyz2edep.end(); itx++){
+        short int ix = itx->first;
+        for (std::map<short int, std::map<short int, float> >::const_iterator ity = itx->second.begin(); ity!=itx->second.end(); ity++){
+            short int iy = ity->first;
+            for (std::map<short int, float>::const_iterator itz = ity->second.begin(); itz!=ity->second.end(); itz++){
+                short int iz = itz->first;
                 x = ix*m_map_step;
                 y = iy*m_map_step;
                 z = iz*m_map_step;

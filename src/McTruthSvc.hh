@@ -141,7 +141,7 @@ class McTruthSvc
 		double unit_y;
 		double unit_z;
 
-                std::map<int, std::map<int, std::map<int, double> > > m_xyz2edep;
+                std::map<short int, std::map<short int, std::map<short int, float> > > m_xyz2edep;
                 double m_map_step;
 };
 
