@@ -74,6 +74,7 @@
 #include "MyTrackingAction.hh"
 #include "MyRoot.hh"
 #include "MyAnalysisSvc.hh"
+#include "McTruthSvc.hh"
 
 #include "MaterialDensityScanner.hh"
 
@@ -130,12 +131,19 @@ int main(int argc,char** argv)
     float mdScan_zmin = 0;
     float mdScan_zmax = 0;
     float mdScan_dz = 1;
+    double mapEdep_step = 0;
+    double mapEdep_xmin = 0;
+    double mapEdep_xmax = 0;
+    double mapEdep_ymin = 0;
+    double mapEdep_ymax = 0;
+    double mapEdep_zmin = 0;
+    double mapEdep_zmax = 0;
     std::map<float,bool> mdScan_z4XY;
     std::map<float,bool> mdScan_x4ZY;
     // Load options
     int    opt_result;
     std::stringstream stream;
-    while((opt_result=getopt(argc,argv,"e:E:L:N:oO:pP:rR:S:X:Y:Z:x:z:h"))!=-1){
+    while((opt_result=getopt(argc,argv,"e:E:L:N:oO:pP:rR:S:X:Y:Z:x:z:M:h"))!=-1){
         stream.clear();
         if(optarg) stream.str(optarg);
         switch(opt_result){
@@ -189,6 +197,10 @@ int main(int argc,char** argv)
             case 'Z':
                 stream>>mdScan_dz>>mdScan_zmin>>mdScan_zmax;
                 printf("Set z axis : dz %.1f, zmin %.1f, zmax %.1f\n",mdScan_dz,mdScan_zmin,mdScan_zmax);
+                break;
+            case 'M':
+                stream>>mapEdep_step>>mapEdep_xmin>>mapEdep_xmax>>mapEdep_ymin>>mapEdep_ymax>>mapEdep_zmin>>mapEdep_zmax;
+                printf("Set mapEdep step size %.1f, x %.1f ~ %.1f, y %.1f ~ %.1f, z %.1f ~ %.1f\n",mapEdep_step,mapEdep_xmin,mapEdep_xmax,mapEdep_ymin,mapEdep_ymax,mapEdep_zmin,mapEdep_zmax);
                 break;
             case 'z':
                 float z;
@@ -345,6 +357,8 @@ int main(int argc,char** argv)
         std::cout<<"GridScan:"<<std::endl;
         scanner.GridScan(scanOutput);
     }
+
+    McTruthSvc::GetMcTruthSvc()->SetMapEdep(mapEdep_step,mapEdep_xmin,mapEdep_xmax,mapEdep_ymin,mapEdep_ymax,mapEdep_zmin,mapEdep_zmax);
 
     // Get the pointer to the User Interface manager
     G4UImanager* UImanager = G4UImanager::GetUIpointer();

@@ -299,7 +299,14 @@ void McTruthSvc::ReSet(){
 	unit_x	=cm;
 	unit_y	=cm;
 	unit_z	=cm;
-	m_map_step = 1*mm;
+	// Below are put into SetMapEdep function, not available in card. Consider to move them to card-setting style in the future.
+//	m_map_step = 0*mm;
+//	m_map_xmin = 0;
+//	m_map_xmax = 0;
+//	m_map_ymin = 0;
+//	m_map_ymax = 0;
+//	m_map_zmin = 0;
+//	m_map_zmax = 0;
 }
 
 void McTruthSvc::ShowOutCard(){
@@ -352,6 +359,9 @@ void McTruthSvc::ShowOutCard(){
 		std::cout<<"            "<<i<<": "<<black_list[i]<<std::endl;
 	}
         std::cout<<"edep map step         "<<m_map_step/mm<<" mm"<<std::endl;
+        std::cout<<"edep map x range      "<<m_map_xmin/mm<<" ~ "<<m_map_xmax<<" mm"<<std::endl;
+        std::cout<<"edep map y range      "<<m_map_ymin/mm<<" ~ "<<m_map_ymax<<" mm"<<std::endl;
+        std::cout<<"edep map z range      "<<m_map_zmin/mm<<" ~ "<<m_map_zmax<<" mm"<<std::endl;
 	std::cout<<"******************************************************************************"<<std::endl;
 }
 
@@ -465,7 +475,11 @@ void McTruthSvc::AddStep(const G4StepPoint* aStepPoint){
 }
 
 void McTruthSvc::AddEdep2Map(double edep, double x, double y, double z){
+    if (m_map_step<=0) return;
     if (edep>0){
+        if (m_map_xmin!=m_map_xmax&&(x<m_map_xmin||x>m_map_xmax)) return;
+        if (m_map_ymin!=m_map_ymax&&(y<m_map_ymin||y>m_map_ymax)) return;
+        if (m_map_zmin!=m_map_zmax&&(z<m_map_zmin||z>m_map_zmax)) return;
         if (x<0) x-=m_map_step/2; else x+=m_map_step/2;
         if (y<0) y-=m_map_step/2; else y+=m_map_step/2;
         if (z<0) z-=m_map_step/2; else z+=m_map_step/2;
@@ -478,7 +492,7 @@ void McTruthSvc::AddEdep2Map(double edep, double x, double y, double z){
 }
 
 void McTruthSvc::EndOfRunAction(){
-    if (m_xyz2edep.size()==0) return;
+    if (m_map_step<=0) return;
     TTree * otree = new TTree("mapEdep","map of energy deposit");
     short int x,y,z;
     float edep;

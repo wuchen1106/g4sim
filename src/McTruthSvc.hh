@@ -33,6 +33,15 @@ class McTruthSvc
 		void SetValuePre(const G4Track*);
 		void SetValuePost(const G4Track*);
 		void AddStep(const G4StepPoint*);
+		void SetMapEdep(double step, double xmin, double xmax, double ymin, double ymax, double zmin, double zmax){
+		    m_map_step = step;
+		    m_map_xmin = xmin;
+		    m_map_xmax = xmax;
+		    m_map_ymin = ymin;
+		    m_map_ymax = ymax;
+		    m_map_zmin = zmin;
+		    m_map_zmax = zmax;
+		}
 
 		void Initialize();
 		void InitializeRun();
@@ -177,6 +186,12 @@ class McTruthSvc
 
                 std::map<short int, std::map<short int, std::map<short int, float> > > m_xyz2edep;
                 double m_map_step;
+                double m_map_xmin;
+                double m_map_xmax;
+                double m_map_ymin;
+                double m_map_ymax;
+                double m_map_zmin;
+                double m_map_zmax;
 };
 
 #endif
