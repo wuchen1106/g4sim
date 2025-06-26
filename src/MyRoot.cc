@@ -115,6 +115,16 @@ void MyRoot::Close(){
 	}
 }
 
+void MyRoot::SetBranch(std::string name, std::vector<std::vector<double> >* pVecV){
+  m_tree->Branch(name.c_str(), pVecV);
+	if ( fVerbose >= 5 ){
+		std::cout<<"In MyRoot::SetBranch"<<std::endl;
+		std::cout<<"  New branch created!!"<<std::endl;
+		std::cout<<"  Name: "<<name<<std::endl;
+		std::cout<<"  Type: vector<vector<double> >"<<std::endl;
+	}
+}
+
 void MyRoot::SetBranch(std::string name, std::vector<double>* pVecD){
   m_tree->Branch(name.c_str(), pVecD);
 	if ( fVerbose >= 5 ){

@@ -183,6 +183,7 @@ void MyAnalysisSvc::SteppingAction(const G4Step* aStep){
 	double current_time = (double) clock();
 //	std::cout<<"current_time = "<<current_time<<", deltaT = "<<(current_time - event_start_time)/CLOCKS_PER_SEC<<std::endl;
 	pProcessCountingSvc->SetValue(aStep);
+	pMcTruthSvc->AddStep(aStep->GetPreStepPoint());
 	G4Track* aTrack = aStep->GetTrack() ;
 	G4int nSteps = aTrack->GetCurrentStepNumber();
 	bool needStopAndKill = false;

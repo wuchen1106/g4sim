@@ -28,6 +28,7 @@ public:
 
   void Fill();
 
+  void SetBranch(std::string name, std::vector<std::vector<double> >* pVecV);
   void SetBranch(std::string name, std::vector<double>* pVecD);
   void SetBranch(std::string name, std::vector<int>* pVecI);
   void SetBranch(std::string name, int* pI);

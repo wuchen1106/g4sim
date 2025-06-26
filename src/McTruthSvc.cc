@@ -64,6 +64,14 @@ void McTruthSvc::Initialize(){
 	m_x.clear();
 	m_y.clear();
 	m_z.clear();
+	m_step_t.clear();
+	m_step_x.clear();
+	m_step_y.clear();
+	m_step_z.clear();
+	m_step_px.clear();
+	m_step_py.clear();
+	m_step_pz.clear();
+	m_step_ekin.clear();
 	m_particleName.clear();
 	m_charge.clear();
 	m_process.clear();
@@ -91,6 +99,14 @@ void McTruthSvc::SetBranch(){
 	if( flag_x ) myRoot->SetBranch("McTruth_x", &m_x);
 	if( flag_y ) myRoot->SetBranch("McTruth_y", &m_y);
 	if( flag_z ) myRoot->SetBranch("McTruth_z", &m_z);
+	if( flag_step_t ) myRoot->SetBranch("McTruth_step_t", &m_step_t);
+	if( flag_step_x ) myRoot->SetBranch("McTruth_step_x", &m_step_x);
+	if( flag_step_y ) myRoot->SetBranch("McTruth_step_y", &m_step_y);
+	if( flag_step_z ) myRoot->SetBranch("McTruth_step_z", &m_step_z);
+	if( flag_step_px ) myRoot->SetBranch("McTruth_step_px", &m_step_px);
+	if( flag_step_py ) myRoot->SetBranch("McTruth_step_py", &m_step_py);
+	if( flag_step_pz ) myRoot->SetBranch("McTruth_step_pz", &m_step_pz);
+	if( flag_step_ekin ) myRoot->SetBranch("McTruth_step_ekin", &m_step_ekin);
 	if( flag_charge ) myRoot->SetBranch("McTruth_charge", &m_charge);
 	if( flag_particleName ) myRoot->SetBranch("McTruth_particleName", &m_particleName);
 	if( flag_process ) myRoot->SetBranch("McTruth_process", &m_process);
@@ -153,6 +169,14 @@ void McTruthSvc::ReadOutputCard(G4String filename){
 			else if( name == "x" ) {flag_x = true; buf_card>>unitName_x; unit_x = MyString2Anything::get_U(unitName_x);}
 			else if( name == "y" ) {flag_y = true; buf_card>>unitName_y; unit_y = MyString2Anything::get_U(unitName_y);}
 			else if( name == "z" ) {flag_z = true; buf_card>>unitName_z; unit_z = MyString2Anything::get_U(unitName_z);}
+			else if( name == "step_t" ) {flag_step_t = true; buf_card>>unitName_step_t; unit_step_t = MyString2Anything::get_U(unitName_step_t);}
+			else if( name == "step_x" ) {flag_step_x = true; buf_card>>unitName_step_x; unit_step_x = MyString2Anything::get_U(unitName_step_x);}
+			else if( name == "step_y" ) {flag_step_y = true; buf_card>>unitName_step_y; unit_step_y = MyString2Anything::get_U(unitName_step_y);}
+			else if( name == "step_z" ) {flag_step_z = true; buf_card>>unitName_step_z; unit_step_z = MyString2Anything::get_U(unitName_step_z);}
+			else if( name == "step_px" ) {flag_step_px = true; buf_card>>unitName_step_px; unit_step_px = MyString2Anything::get_U(unitName_step_px);}
+			else if( name == "step_py" ) {flag_step_py = true; buf_card>>unitName_step_py; unit_step_py = MyString2Anything::get_U(unitName_step_py);}
+			else if( name == "step_pz" ) {flag_step_pz = true; buf_card>>unitName_step_pz; unit_step_pz = MyString2Anything::get_U(unitName_step_pz);}
+			else if( name == "step_ekin" ) {flag_step_ekin = true; buf_card>>unitName_step_ekin; unit_step_ekin = MyString2Anything::get_U(unitName_step_ekin);}
 			else if( name == "particleName" ) flag_particleName = true;
 			else if( name == "charge" ) flag_charge = true;
 			else if( name == "process" ) flag_process = true;
@@ -239,6 +263,14 @@ void McTruthSvc::ReSet(){
 	flag_x = false;
 	flag_y = false;
 	flag_z = false;
+	flag_step_t = false;
+	flag_step_x = false;
+	flag_step_y = false;
+	flag_step_z = false;
+	flag_step_px = false;
+	flag_step_py = false;
+	flag_step_pz = false;
+	flag_step_ekin = false;
 	flag_charge = false;
 	flag_particleName = false;
 	flag_process = false;
@@ -288,6 +320,14 @@ void McTruthSvc::ShowOutCard(){
 	std::cout<<"output x?             "<<(flag_x?" yes":" no")<<", unit: "<<unitName_x<<std::endl;
 	std::cout<<"output y?             "<<(flag_y?" yes":" no")<<", unit: "<<unitName_y<<std::endl;
 	std::cout<<"output z?             "<<(flag_z?" yes":" no")<<", unit: "<<unitName_z<<std::endl;
+	std::cout<<"output step t?        "<<(flag_step_t?" yes":" no")<<", unit: "<<unitName_step_t<<std::endl;
+	std::cout<<"output step x?        "<<(flag_step_x?" yes":" no")<<", unit: "<<unitName_step_x<<std::endl;
+	std::cout<<"output step y?        "<<(flag_step_y?" yes":" no")<<", unit: "<<unitName_step_y<<std::endl;
+	std::cout<<"output step z?        "<<(flag_step_z?" yes":" no")<<", unit: "<<unitName_step_z<<std::endl;
+	std::cout<<"output step px?        "<<(flag_step_px?" yes":" no")<<", unit: "<<unitName_step_px<<std::endl;
+	std::cout<<"output step py?        "<<(flag_step_py?" yes":" no")<<", unit: "<<unitName_step_py<<std::endl;
+	std::cout<<"output step pz?        "<<(flag_step_pz?" yes":" no")<<", unit: "<<unitName_step_pz<<std::endl;
+	std::cout<<"output step ekin?        "<<(flag_step_ekin?" yes":" no")<<", unit: "<<unitName_step_ekin<<std::endl;
 	std::cout<<"output particleName?  "<<(flag_particleName?" yes":" no")<<std::endl;
 	std::cout<<"output charge?        "<<(flag_charge?" yes":" no")<<std::endl;
 	std::cout<<"output process?       "<<(flag_process?" yes":" no")<<std::endl;
@@ -395,6 +435,14 @@ void McTruthSvc::SetValuePre(const G4Track* aTrack){
 	if(flag_x) m_x.push_back(pos_3vec.x()/unit_x);
 	if(flag_y) m_y.push_back(pos_3vec.y()/unit_y);
 	if(flag_z) m_z.push_back(pos_3vec.z()/unit_z);
+	if(flag_step_t) {std::vector<double> step_t;m_step_t.push_back(step_t);}
+	if(flag_step_x) {std::vector<double> step_x;m_step_x.push_back(step_x);}
+	if(flag_step_y) {std::vector<double> step_y;m_step_y.push_back(step_y);}
+	if(flag_step_z) {std::vector<double> step_z;m_step_z.push_back(step_z);}
+	if(flag_step_px) {std::vector<double> step_px;m_step_px.push_back(step_px);}
+	if(flag_step_py) {std::vector<double> step_py;m_step_py.push_back(step_py);}
+	if(flag_step_pz) {std::vector<double> step_pz;m_step_pz.push_back(step_pz);}
+	if(flag_step_ekin) {std::vector<double> step_ekin;m_step_ekin.push_back(step_ekin);}
 	if(flag_charge) m_charge.push_back(charge);
 	if(flag_particleName) m_particleName.push_back(particleName);
 	if(flag_process) m_process.push_back(processName);
@@ -404,6 +452,17 @@ void McTruthSvc::SetValuePre(const G4Track* aTrack){
 void McTruthSvc::SetValuePost(const G4Track* aTrack){
 	//	G4int   nbSteps = aTrack->GetCurrentStepNumber();
 	//	G4double trackLength = aTrack->GetTrackLength();
+}
+
+void McTruthSvc::AddStep(const G4StepPoint* aStepPoint){
+    if (flag_step_t) m_step_t.back().push_back(aStepPoint->GetGlobalTime()/unit_step_t);
+    if (flag_step_x) m_step_x.back().push_back(aStepPoint->GetPosition().x()/unit_step_x);
+    if (flag_step_y) m_step_y.back().push_back(aStepPoint->GetPosition().y()/unit_step_y);
+    if (flag_step_z) m_step_z.back().push_back(aStepPoint->GetPosition().z()/unit_step_z);
+    if (flag_step_px) m_step_px.back().push_back(aStepPoint->GetMomentum().x()/unit_step_px);
+    if (flag_step_py) m_step_py.back().push_back(aStepPoint->GetMomentum().y()/unit_step_py);
+    if (flag_step_pz) m_step_pz.back().push_back(aStepPoint->GetMomentum().z()/unit_step_pz);
+    if (flag_step_ekin) m_step_ekin.back().push_back(aStepPoint->GetKineticEnergy()/unit_step_ekin);
 }
 
 void McTruthSvc::AddEdep2Map(double edep, double x, double y, double z){

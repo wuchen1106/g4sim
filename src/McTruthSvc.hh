@@ -16,6 +16,7 @@
 
 class G4Event;
 class G4Track;
+class G4StepPoint;
 
 class McTruthSvc
 {
@@ -31,6 +32,7 @@ class McTruthSvc
 
 		void SetValuePre(const G4Track*);
 		void SetValuePost(const G4Track*);
+		void AddStep(const G4StepPoint*);
 
 		void Initialize();
 		void InitializeRun();
@@ -86,6 +88,14 @@ class McTruthSvc
 		bool flag_x;
 		bool flag_y;
 		bool flag_z;
+		bool flag_step_t;
+		bool flag_step_x;
+		bool flag_step_y;
+		bool flag_step_z;
+		bool flag_step_px;
+		bool flag_step_py;
+		bool flag_step_pz;
+		bool flag_step_ekin;
 		bool flag_charge;
 		bool flag_particleName;
 		bool flag_process;
@@ -118,6 +128,14 @@ class McTruthSvc
 		std::vector<double> m_x;
 		std::vector<double> m_y;
 		std::vector<double> m_z;
+                std::vector<std::vector<double> > m_step_t;
+                std::vector<std::vector<double> > m_step_x;
+		std::vector<std::vector<double> > m_step_y;
+		std::vector<std::vector<double> > m_step_z;
+                std::vector<std::vector<double> > m_step_px;
+		std::vector<std::vector<double> > m_step_py;
+		std::vector<std::vector<double> > m_step_pz;
+		std::vector<std::vector<double> > m_step_ekin;
 		std::vector<std::string> m_particleName;
 		std::vector<int> m_charge;
 		std::vector<std::string> m_process;
@@ -131,6 +149,14 @@ class McTruthSvc
 		std::string unitName_x;
 		std::string unitName_y;
 		std::string unitName_z;
+		std::string unitName_step_t;
+		std::string unitName_step_x;
+		std::string unitName_step_y;
+		std::string unitName_step_z;
+		std::string unitName_step_px;
+		std::string unitName_step_py;
+		std::string unitName_step_pz;
+		std::string unitName_step_ekin;
 		double unit_time;
 		double unit_px;
 		double unit_py;
@@ -140,6 +166,14 @@ class McTruthSvc
 		double unit_x;
 		double unit_y;
 		double unit_z;
+		double unit_step_t;
+		double unit_step_x;
+		double unit_step_y;
+		double unit_step_z;
+		double unit_step_px;
+		double unit_step_py;
+		double unit_step_pz;
+		double unit_step_ekin;
 
                 std::map<int, std::map<int, std::map<int, double> > > m_xyz2edep;
                 double m_map_step;
