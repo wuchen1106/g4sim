@@ -80,6 +80,7 @@ class MyAnalysisSvc
 		clock_t t_begin;
 		clock_t t_end;
 		double event_start_time;
+		double track_start_time;
 
 		MyRoot* pMyRoot;
 		EventHeaderSvc* pEventHeaderSvc;

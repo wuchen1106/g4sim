@@ -116,12 +116,14 @@ void MyAnalysisSvc::BeginOfRunAction(){
 
 void MyAnalysisSvc::PreUserTrackingAction(const G4Track* aTrack){
 	//set McTruth
+        track_start_time = (double)clock();
 	pMcTruthSvc->SetValuePre(aTrack);
 }
 
 void MyAnalysisSvc::PostUserTrackingAction(const G4Track* aTrack) {
 	//set McTruth
-	pMcTruthSvc->SetValuePost(aTrack);
+        double end_time = (double)clock();
+	pMcTruthSvc->SetValuePost(aTrack,(end_time-track_start_time)/CLOCKS_PER_SEC);
 }
 
 void MyAnalysisSvc::EndOfRunAction(const G4Run* aRun){
@@ -196,7 +198,7 @@ void MyAnalysisSvc::SteppingAction(const G4Step* aStep){
 		std::cout<<"### This track is killed for that globalT < "<<m_minT<<" || globalT > "<<m_maxT<<" ###"<<std::endl;
 		needStopAndKill = true;
 	}
-	if (( current_time - event_start_time > 5*CLOCKS_PER_SEC)){
+	if (( current_time - track_start_time > 5*CLOCKS_PER_SEC)){
 		std::cout<<"### This track is killed for that elapsed time in this event is larger than 5 sec ###"<<std::endl;
 		needStopAndKill = true;
 	}

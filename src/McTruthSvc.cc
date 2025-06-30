@@ -56,6 +56,7 @@ void McTruthSvc::Initialize(){
 	m_ptid.clear();
 	m_ppid.clear();
 	m_time.clear();
+	m_tcost.clear();
 	m_px.clear();
 	m_py.clear();
 	m_pz.clear();
@@ -91,6 +92,7 @@ void McTruthSvc::SetBranch(){
 	if( flag_ptid ) myRoot->SetBranch("McTruth_ptid", &m_ptid);
 	if( flag_ppid ) myRoot->SetBranch("McTruth_ppid", &m_ppid);
 	if( flag_time ) myRoot->SetBranch("McTruth_time", &m_time);
+	if( flag_tcost ) myRoot->SetBranch("McTruth_tcost", &m_tcost);
 	if( flag_px ) myRoot->SetBranch("McTruth_px", &m_px);
 	if( flag_py ) myRoot->SetBranch("McTruth_py", &m_py);
 	if( flag_pz ) myRoot->SetBranch("McTruth_pz", &m_pz);
@@ -161,6 +163,7 @@ void McTruthSvc::ReadOutputCard(G4String filename){
 			else if( name == "ptid" ) flag_ptid = true;
 			else if( name == "ppid" ) flag_ppid = true;
 			else if( name == "time" ) {flag_time = true; buf_card>>unitName_time; unit_time = MyString2Anything::get_U(unitName_time);}
+			else if( name == "tcost" ) {flag_tcost = true; buf_card>>unitName_time;}
 			else if( name == "px" ) {flag_px = true; buf_card>>unitName_px; unit_px = MyString2Anything::get_U(unitName_px);}
 			else if( name == "py" ) {flag_py = true; buf_card>>unitName_py; unit_py = MyString2Anything::get_U(unitName_py);}
 			else if( name == "pz" ) {flag_pz = true; buf_card>>unitName_pz; unit_pz = MyString2Anything::get_U(unitName_pz);}
@@ -255,6 +258,7 @@ void McTruthSvc::ReSet(){
 	flag_ptid = false;
 	flag_ppid = false;
 	flag_time = false;
+	flag_tcost = false;
 	flag_px = false;
 	flag_py = false;
 	flag_pz = false;
@@ -319,6 +323,7 @@ void McTruthSvc::ShowOutCard(){
 	std::cout<<"output ptid?          "<<(flag_ptid?" yes":" no")<<std::endl;
 	std::cout<<"output ppid?          "<<(flag_ppid?" yes":" no")<<std::endl;
 	std::cout<<"output time?          "<<(flag_time?" yes":" no")<<", unit: "<<unitName_time<<std::endl;
+	std::cout<<"output CPU time cost? "<<(flag_tcost?" yes":" no")<<", unit: CPU second"<<std::endl;
 	std::cout<<"output px?            "<<(flag_px?" yes":" no")<<", unit: "<<unitName_px<<std::endl;
 	std::cout<<"output py?            "<<(flag_py?" yes":" no")<<", unit: "<<unitName_py<<std::endl;
 	std::cout<<"output pz?            "<<(flag_pz?" yes":" no")<<", unit: "<<unitName_pz<<std::endl;
@@ -436,6 +441,7 @@ void McTruthSvc::SetValuePre(const G4Track* aTrack){
 		m_ppid.push_back(ppid);
 	}
 	if(flag_time) m_time.push_back(globalT/unit_time);
+	if(flag_tcost) m_tcost.push_back(0);
 	if(flag_px) m_px.push_back(mom_3vec.x()/unit_px);
 	if(flag_py) m_py.push_back(mom_3vec.y()/unit_py);
 	if(flag_pz) m_pz.push_back(mom_3vec.z()/unit_pz);
@@ -458,9 +464,10 @@ void McTruthSvc::SetValuePre(const G4Track* aTrack){
 	if(flag_volume) m_volume.push_back(volume);
 }
 
-void McTruthSvc::SetValuePost(const G4Track* aTrack){
+void McTruthSvc::SetValuePost(const G4Track* aTrack,double dt){
 	//	G4int   nbSteps = aTrack->GetCurrentStepNumber();
 	//	G4double trackLength = aTrack->GetTrackLength();
+    if (flag_tcost) m_tcost.back() = dt;
 }
 
 void McTruthSvc::AddStep(const G4StepPoint* aStepPoint){

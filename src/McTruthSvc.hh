@@ -31,7 +31,7 @@ class McTruthSvc
 		void ReadOutputCard(G4String filename);
 
 		void SetValuePre(const G4Track*);
-		void SetValuePost(const G4Track*);
+		void SetValuePost(const G4Track*,double dt = 0);
 		void AddStep(const G4StepPoint*);
 		void SetMapEdep(double step, double xmin, double xmax, double ymin, double ymax, double zmin, double zmax){
 		    m_map_step = step;
@@ -89,6 +89,7 @@ class McTruthSvc
 		bool flag_ptid;
 		bool flag_ppid;
 		bool flag_time;
+		bool flag_tcost;
 		bool flag_px;
 		bool flag_py;
 		bool flag_pz;
@@ -129,6 +130,7 @@ class McTruthSvc
 		std::vector<int> m_ptid;
 		std::vector<int> m_ppid;
 		std::vector<double> m_time;
+		std::vector<double> m_tcost;
 		std::vector<double> m_px;
 		std::vector<double> m_py;
 		std::vector<double> m_pz;
