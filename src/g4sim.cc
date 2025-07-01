@@ -112,6 +112,7 @@ int main(int argc,char** argv)
 {
     G4String HOME = getenv("MYG4SIMWORKROOT");
     G4String MacroName = "";
+    G4String Hstar10Directory = getenv("MYG4SIMHSTAR10ROOT");
     WithPAI = false;
     WithRadi = false;
     PhysicsListName = "QGSP_BERT_HP";
@@ -144,7 +145,7 @@ int main(int argc,char** argv)
     // Load options
     int    opt_result;
     std::stringstream stream;
-    while((opt_result=getopt(argc,argv,"e:E:L:N:oO:pP:rR:S:X:Y:Z:x:y:z:M:h"))!=-1){
+    while((opt_result=getopt(argc,argv,"e:E:L:N:oO:pP:rR:S:X:Y:Z:x:y:z:M:H:h"))!=-1){
         stream.clear();
         if(optarg) stream.str(optarg);
         switch(opt_result){
@@ -202,6 +203,10 @@ int main(int argc,char** argv)
             case 'M':
                 stream>>mapEdep_step>>mapEdep_xmin>>mapEdep_xmax>>mapEdep_ymin>>mapEdep_ymax>>mapEdep_zmin>>mapEdep_zmax;
                 printf("Set mapEdep step size %.1f, x %.1f ~ %.1f, y %.1f ~ %.1f, z %.1f ~ %.1f\n",mapEdep_step,mapEdep_xmin,mapEdep_xmax,mapEdep_ymin,mapEdep_ymax,mapEdep_zmin,mapEdep_zmax);
+                break;
+            case 'H':
+                stream>>Hstar10Directory;
+                printf("Will load Hstar10 coefficients from this directory \"%s\"\n",Hstar10Directory.c_str());
                 break;
             case 'y':
                 float y;
@@ -369,6 +374,7 @@ int main(int argc,char** argv)
     }
 
     McTruthSvc::GetMcTruthSvc()->SetMapEdep(mapEdep_step,mapEdep_xmin,mapEdep_xmax,mapEdep_ymin,mapEdep_ymax,mapEdep_zmin,mapEdep_zmax);
+    if (Hstar10Directory!="") McTruthSvc::GetMcTruthSvc()->SetHstar10ConverterDirectory(Hstar10Directory);
 
     // Get the pointer to the User Interface manager
     G4UImanager* UImanager = G4UImanager::GetUIpointer();

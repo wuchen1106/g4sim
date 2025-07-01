@@ -9,6 +9,8 @@
 #define McTruthSvc_h 1
 
 #include "myglobals.hh"
+#include "SurfacePlane.hh"
+#include "G4String.hh"
 
 #include <string>
 #include <vector>
@@ -16,7 +18,9 @@
 
 class G4Event;
 class G4Track;
+class G4Step;
 class G4StepPoint;
+class Hstar10Converter;
 
 class McTruthSvc
 {
@@ -42,6 +46,8 @@ class McTruthSvc
 		    m_map_zmin = zmin;
 		    m_map_zmax = zmax;
 		}
+		void SetHstar10ConverterDirectory(G4String dir){m_fluence2H10_directory = dir;}
+		void RegisterStep2Dose(const G4Step* step);
 
 		void Initialize();
 		void InitializeRun();
@@ -194,6 +200,20 @@ class McTruthSvc
                 double m_map_ymax;
                 double m_map_zmin;
                 double m_map_zmax;
+
+                Hstar10Converter * m_fluence2H10_neutron;
+                Hstar10Converter * m_fluence2H10_photon;
+                Hstar10Converter * m_fluence2H10_proton;
+                Hstar10Converter * m_fluence2H10_electron;
+                Hstar10Converter * m_fluence2H10_positron;
+                Hstar10Converter * m_fluence2H10_muonp;
+                Hstar10Converter * m_fluence2H10_muonm;
+                Hstar10Converter * m_fluence2H10_pionp;
+                Hstar10Converter * m_fluence2H10_pionm;
+
+                G4String m_fluence2H10_directory;
+
+                std::vector<SurfacePlane*> m_flux_surfaces;
 };
 
 #endif

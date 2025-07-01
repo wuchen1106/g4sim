@@ -16,8 +16,10 @@
 #include "G4Event.hh"
 #include "G4Track.hh"
 #include "G4VProcess.hh"
+#include "G4Step.hh"
 
 #include "MyString2Anything.hh"
+#include "Hstar10Converter.hh"
 
 #include "MyRoot.hh"
 
@@ -31,6 +33,17 @@ McTruthSvc::McTruthSvc()
 	}
 	fMcTruthSvc = this;
 	ReSet();
+
+	m_fluence2H10_neutron  = new Hstar10Converter();
+	m_fluence2H10_photon   = new Hstar10Converter();
+	m_fluence2H10_proton   = new Hstar10Converter();
+	m_fluence2H10_electron = new Hstar10Converter();
+	m_fluence2H10_positron = new Hstar10Converter();
+	m_fluence2H10_muonp    = new Hstar10Converter();
+	m_fluence2H10_muonm    = new Hstar10Converter();
+	m_fluence2H10_pionp    = new Hstar10Converter();
+	m_fluence2H10_pionm    = new Hstar10Converter();
+	m_fluence2H10_directory = "";
 }
 
 McTruthSvc::~McTruthSvc()
@@ -81,6 +94,45 @@ void McTruthSvc::Initialize(){
 
 void McTruthSvc::InitializeRun(){
     m_xyz2edep.clear();
+    m_flux_surfaces.clear();
+    if (m_fluence2H10_directory!=""){
+        m_fluence2H10_neutron ->LoadFromFile(m_fluence2H10_directory+"/adene.dat");  
+        m_fluence2H10_photon  ->LoadFromFile(m_fluence2H10_directory+"/adeph.dat");  
+        m_fluence2H10_proton  ->LoadFromFile(m_fluence2H10_directory+"/adepr.dat");  
+        m_fluence2H10_electron->LoadFromFile(m_fluence2H10_directory+"/adeel.dat");  
+        m_fluence2H10_positron->LoadFromFile(m_fluence2H10_directory+"/adepo.dat");  
+        m_fluence2H10_muonp   ->LoadFromFile(m_fluence2H10_directory+"/ademp.dat");  
+        m_fluence2H10_muonm   ->LoadFromFile(m_fluence2H10_directory+"/ademm.dat");  
+        m_fluence2H10_pionp   ->LoadFromFile(m_fluence2H10_directory+"/adepp.dat");  
+        m_fluence2H10_pionm   ->LoadFromFile(m_fluence2H10_directory+"/adepm.dat");  
+
+        SurfacePlane* myPlane = new SurfacePlane(
+                "XY",
+                G4ThreeVector(0, 0, 0),
+                G4ThreeVector(0, 0, 1),
+                -2000,2000,-1600,4000,
+                400,560
+                );
+        m_flux_surfaces.push_back(myPlane);
+
+        myPlane = new SurfacePlane(
+                "ZY",
+                G4ThreeVector(0, 0, 0),
+                G4ThreeVector(1, 0, 0),
+                -1700,3300,-1600,4000,
+                500,560
+                );
+        m_flux_surfaces.push_back(myPlane);
+
+        myPlane = new SurfacePlane(
+                "ZX",
+                G4ThreeVector(0, 0, 0),
+                G4ThreeVector(0, 1, 0),
+                -1700,3300,-2000,2000,
+                500,400
+                );
+        m_flux_surfaces.push_back(myPlane);
+    }
 }
 
 void McTruthSvc::SetBranch(){
@@ -498,7 +550,38 @@ void McTruthSvc::AddEdep2Map(double edep, double x, double y, double z){
     return;
 }
 
+void McTruthSvc::RegisterStep2Dose(const G4Step* step){
+    double E_MeV = step->GetPreStepPoint()->GetKineticEnergy() / MeV;
+    int pid = step->GetTrack()->GetParticleDefinition()->GetPDGEncoding();
+    double coeff_pSvcm2 = 0;
+    if (pid==2112) coeff_pSvcm2 = m_fluence2H10_neutron->GetHstar10(E_MeV);
+    else if (pid==22) coeff_pSvcm2 = m_fluence2H10_photon->GetHstar10(E_MeV);
+    else if (pid==2212) coeff_pSvcm2 = m_fluence2H10_proton->GetHstar10(E_MeV);
+    else if (pid==11) coeff_pSvcm2 = m_fluence2H10_electron->GetHstar10(E_MeV);
+    else if (pid==-11) coeff_pSvcm2 = m_fluence2H10_positron->GetHstar10(E_MeV);
+    else if (pid==13) coeff_pSvcm2 = m_fluence2H10_muonm->GetHstar10(E_MeV);
+    else if (pid==-13) coeff_pSvcm2 = m_fluence2H10_muonp->GetHstar10(E_MeV);
+    else if (pid==211) coeff_pSvcm2 = m_fluence2H10_pionp->GetHstar10(E_MeV);
+    else if (pid==-211) coeff_pSvcm2 = m_fluence2H10_pionm->GetHstar10(E_MeV);
+    else return;
+    G4ThreeVector midPoint = 0.5 * (step->GetPreStepPoint()->GetPosition() + step->GetPostStepPoint()->GetPosition());
+
+    for (auto plane : m_flux_surfaces) {
+        if (plane->IsCrossing(step)) {
+            // Use midpoint for binning
+            plane->Fill(midPoint, coeff_pSvcm2); // 1 particle crossing → add H*(10)
+        }
+    }
+
+    return;
+
+}
+
 void McTruthSvc::EndOfRunAction(){
+    for (auto plane : m_flux_surfaces) {
+        plane->Write();
+    }
+
     if (m_map_step<=0) return;
     TTree * otree = new TTree("mapEdep","map of energy deposit");
     short int x,y,z;
