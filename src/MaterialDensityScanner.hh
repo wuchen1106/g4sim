@@ -91,19 +91,19 @@ public:
         std::map<float,TH2F*> hmatZX;
         for (std::map<float,bool>::const_iterator it = y4ZX.begin(); it!=y4ZX.end(); it++){
             if (it->second){
-                hmatZX[it->first] = new TH2F(Form("hmatZX%.0f",it->first),Form("Material map on the y = %.0f mm Plane;z [mm];x [mm]",it->second),nz,zmin-dz/2,zmax+dz/2,ny,xmin-dx/2,xmax+dx/2);
+                hmatZX[it->first] = new TH2F(Form("hmatZX%.0f",it->first),Form("Material map on the y = %.0f mm Plane;z [mm];x [mm]",it->first),nz,zmin-dz/2,zmax+dz/2,ny,xmin-dx/2,xmax+dx/2);
             }
         }
         std::map<float,TH2F*> hmatZY;
         for (std::map<float,bool>::const_iterator it = x4ZY.begin(); it!=x4ZY.end(); it++){
             if (it->second){
-                hmatZY[it->first] = new TH2F(Form("hmatZY%.0f",it->first),Form("Material map on the x = %.0f mm Plane;z [mm];y [mm]",it->second),nz,zmin-dz/2,zmax+dz/2,ny,ymin-dy/2,ymax+dy/2);
+                hmatZY[it->first] = new TH2F(Form("hmatZY%.0f",it->first),Form("Material map on the x = %.0f mm Plane;z [mm];y [mm]",it->first),nz,zmin-dz/2,zmax+dz/2,ny,ymin-dy/2,ymax+dy/2);
             }
         }
         std::map<float,TH2F*> hmatXY;
         for (std::map<float,bool>::const_iterator it = z4XY.begin(); it!=z4XY.end(); it++){
             if (it->second){
-                hmatXY[it->first] = new TH2F(Form("hmatXY%.0f",it->first),Form("Material map on the z = %.0f mm Plane;x [mm];y [mm]",it->second),nx,xmin-dx/2,xmax+dx/2,ny,ymin-dy/2,ymax+dy/2);
+                hmatXY[it->first] = new TH2F(Form("hmatXY%.0f",it->first),Form("Material map on the z = %.0f mm Plane;x [mm];y [mm]",it->first),nx,xmin-dx/2,xmax+dx/2,ny,ymin-dy/2,ymax+dy/2);
             }
         }
 
