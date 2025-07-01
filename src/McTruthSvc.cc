@@ -110,6 +110,8 @@ void McTruthSvc::InitializeRun(){
                 "XY",
                 G4ThreeVector(0, 0, 0),
                 G4ThreeVector(0, 0, 1),
+                G4ThreeVector(1, 0, 0),
+                G4ThreeVector(0, 1, 0),
                 -2000,2000,-1600,4000,
                 400,560
                 );
@@ -119,6 +121,8 @@ void McTruthSvc::InitializeRun(){
                 "ZY",
                 G4ThreeVector(0, 0, 0),
                 G4ThreeVector(1, 0, 0),
+                G4ThreeVector(0, 0, 1),
+                G4ThreeVector(0, 1, 0),
                 -1700,3300,-1600,4000,
                 500,560
                 );
@@ -128,6 +132,19 @@ void McTruthSvc::InitializeRun(){
                 "ZX",
                 G4ThreeVector(0, 0, 0),
                 G4ThreeVector(0, 1, 0),
+                G4ThreeVector(0, 0, 1),
+                G4ThreeVector(1, 0, 0),
+                -1700,3300,-2000,2000,
+                500,400
+                );
+        m_flux_surfaces.push_back(myPlane);
+
+        myPlane = new SurfacePlane(
+                "ZX2200",
+                G4ThreeVector(0, 2200, 0),
+                G4ThreeVector(0, 1, 0),
+                G4ThreeVector(0, 0, 1),
+                G4ThreeVector(1, 0, 0),
                 -1700,3300,-2000,2000,
                 500,400
                 );

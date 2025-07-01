@@ -12,17 +12,16 @@ public:
   SurfacePlane(const G4String& name,
                const G4ThreeVector& pos,
                const G4ThreeVector& normal,
+               const G4ThreeVector& vx,
+               const G4ThreeVector& vy,
                G4double xmin, G4double xmax, G4double ymin, G4double ymax,
                G4int nBinX, G4int nBinY)
   : position(pos), normal(normal.unit()),
+    ex(vx.unit()), ey(vy.unit()),
     xmin(xmin), xmax(xmax),
     ymin(ymin), ymax(ymax),
     nBinX(nBinX), nBinY(nBinY)
   {
-    // Local X/Y axes
-    ex = normal.orthogonal().unit();
-    ey = normal.cross(ex);
-
     // Make TH2F
     hist = new TH2F(name,
                     "H*(10) per crossing [pSv]",

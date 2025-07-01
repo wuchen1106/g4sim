@@ -588,17 +588,6 @@ G4bool MonitorSD::ProcessHits(G4Step* aStep,G4TouchableHistory* touchableHistory
 		edepSec += (*(aStep->GetSecondaryInCurrentStep()))[isec]->GetKineticEnergy();
 	}
 
-        McTruthSvc::GetMcTruthSvc()->RegisterStep2Dose(aStep);
-
-    for (int i = 0; i<10; i++){
-        McTruthSvc::GetMcTruthSvc()->AddEdep2Map(
-                edep/10
-                ,(pointIn_pos.x()*(i+0.5)+pointOut_pos.x()*(10-i-0.5))/10
-                ,(pointIn_pos.y()*(i+0.5)+pointOut_pos.y()*(10-i-0.5))/10
-                ,(pointIn_pos.z()*(i+0.5)+pointOut_pos.z()*(10-i-0.5))/10
-                );
-    }
-
 	//*************************filter***********************
 	//switch
 	if (!Switch) return false;
