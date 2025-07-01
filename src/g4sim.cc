@@ -138,12 +138,13 @@ int main(int argc,char** argv)
     double mapEdep_ymax = 0;
     double mapEdep_zmin = 0;
     double mapEdep_zmax = 0;
+    std::map<float,bool> mdScan_y4ZX;
     std::map<float,bool> mdScan_z4XY;
     std::map<float,bool> mdScan_x4ZY;
     // Load options
     int    opt_result;
     std::stringstream stream;
-    while((opt_result=getopt(argc,argv,"e:E:L:N:oO:pP:rR:S:X:Y:Z:x:z:M:h"))!=-1){
+    while((opt_result=getopt(argc,argv,"e:E:L:N:oO:pP:rR:S:X:Y:Z:x:y:z:M:h"))!=-1){
         stream.clear();
         if(optarg) stream.str(optarg);
         switch(opt_result){
@@ -201,6 +202,12 @@ int main(int argc,char** argv)
             case 'M':
                 stream>>mapEdep_step>>mapEdep_xmin>>mapEdep_xmax>>mapEdep_ymin>>mapEdep_ymax>>mapEdep_zmin>>mapEdep_zmax;
                 printf("Set mapEdep step size %.1f, x %.1f ~ %.1f, y %.1f ~ %.1f, z %.1f ~ %.1f\n",mapEdep_step,mapEdep_xmin,mapEdep_xmax,mapEdep_ymin,mapEdep_ymax,mapEdep_zmin,mapEdep_zmax);
+                break;
+            case 'y':
+                float y;
+                stream>>y;
+                mdScan_y4ZX[y] = true;
+                printf("Set y for z-x scan: y = %.1f\n",y);
                 break;
             case 'z':
                 float z;
@@ -348,6 +355,9 @@ int main(int argc,char** argv)
         scanner.SetX(mdScan_dx,mdScan_xmin,mdScan_xmax);
         scanner.SetY(mdScan_dy,mdScan_ymin,mdScan_ymax);
         scanner.SetZ(mdScan_dz,mdScan_zmin,mdScan_zmax);
+        for (std::map<float,bool>::const_iterator it = mdScan_y4ZX.begin(); it!=mdScan_y4ZX.end(); it++){
+            if (it->second) scanner.AddY4ZX(it->first);
+        }
         for (std::map<float,bool>::const_iterator it = mdScan_z4XY.begin(); it!=mdScan_z4XY.end(); it++){
             if (it->second) scanner.AddZ4XY(it->first);
         }
