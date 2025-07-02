@@ -41,7 +41,7 @@ public:
     G4ThreeVector p2 = step->GetPostStepPoint()->GetPosition();
     G4double d1 = (p1 - position).dot(normal);
     G4double d2 = (p2 - position).dot(normal);
-    return (d1 * d2 < 0.0);
+    return (d1==0||d1 * d2 < 0.0);
   }
 
   void Fill(const G4Step* step, int pid, G4double dose) {
