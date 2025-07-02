@@ -5,6 +5,7 @@
 #include "G4ThreeVector.hh"
 #include "G4Step.hh"
 #include "TH2F.h"
+#include "TString.h"
 #include <vector>
 
 class SurfacePlane {
@@ -23,10 +24,13 @@ public:
     nBinX(nBinX), nBinY(nBinY)
   {
     // Make TH2F
-    hist = new TH2F(name,
-                    "H*(10) per crossing [pSv]",
-                    nBinX, xmin, xmax,
-                    nBinY, ymin, ymax);
+    for (int i = 0; i<nP; i++){
+        G4String fullname = Form("%s_%d",name.c_str(),pids[i]);
+        hist[pids[i]] = new TH2F(fullname,
+                Form("H*(10) per crossing [pSv], pid = %d",pids[i]),
+                nBinX, xmin, xmax,
+                nBinY, ymin, ymax);
+    }
     cm2PerGrid = (xmax-xmin)/nBinX*(ymax-ymin)/nBinY/10*10;
   }
 
@@ -40,7 +44,7 @@ public:
     return (d1 * d2 < 0.0);
   }
 
-  void Fill(const G4Step* step, G4double dose) {
+  void Fill(const G4Step* step, int pid, G4double dose) {
       G4ThreeVector p1 = step->GetPreStepPoint()->GetPosition();
       G4ThreeVector p2 = step->GetPostStepPoint()->GetPosition();
 
@@ -66,11 +70,14 @@ public:
       double y = rel.dot(ey);
       if (x > xmax || x< xmin || y < ymin || y > ymax) return;
 
-      hist->Fill(x, y, dose/cm2PerGrid/costheta);
+      if (hist[0]) hist[0]->Fill(x, y, dose/cm2PerGrid/costheta);
+      if (hist[pid]) hist[pid]->Fill(x, y, dose/cm2PerGrid/costheta);
   }
 
   void Write() {
-    hist->Write();
+      for (int i = 0; i<nP; i++){
+          hist[pids[i]]->Write();
+      }
   }
 
   G4ThreeVector position;
@@ -82,7 +89,10 @@ public:
   G4double cm2PerGrid;
   G4int nBinX, nBinY;
 
-  TH2F* hist;
+  std::map<int, TH2F*> hist;
+
+  static const int nP = 12;
+  const int pids[nP] = {0,2112,22,2212,11,-11,13,-13,211,-211,321,-321};
 };
 
 #endif

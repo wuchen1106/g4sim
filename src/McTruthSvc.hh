@@ -210,6 +210,8 @@ class McTruthSvc
                 Hstar10Converter * m_fluence2H10_muonm;
                 Hstar10Converter * m_fluence2H10_pionp;
                 Hstar10Converter * m_fluence2H10_pionm;
+                Hstar10Converter * m_fluence2H10_kaonp;
+                Hstar10Converter * m_fluence2H10_kaonm;
 
                 G4String m_fluence2H10_directory;
 

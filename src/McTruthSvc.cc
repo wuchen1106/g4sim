@@ -43,6 +43,8 @@ McTruthSvc::McTruthSvc()
 	m_fluence2H10_muonm    = new Hstar10Converter();
 	m_fluence2H10_pionp    = new Hstar10Converter();
 	m_fluence2H10_pionm    = new Hstar10Converter();
+	m_fluence2H10_kaonp    = new Hstar10Converter();
+	m_fluence2H10_kaonm    = new Hstar10Converter();
 	m_fluence2H10_directory = "";
 }
 
@@ -105,6 +107,8 @@ void McTruthSvc::InitializeRun(){
         m_fluence2H10_muonm   ->LoadFromFile(m_fluence2H10_directory+"/ademm.dat");  
         m_fluence2H10_pionp   ->LoadFromFile(m_fluence2H10_directory+"/adepp.dat");  
         m_fluence2H10_pionm   ->LoadFromFile(m_fluence2H10_directory+"/adepm.dat");  
+        m_fluence2H10_kaonp   ->LoadFromFile(m_fluence2H10_directory+"/adekp.dat");  
+        m_fluence2H10_kaonm   ->LoadFromFile(m_fluence2H10_directory+"/adekm.dat");  
 
         SurfacePlane* myPlane = new SurfacePlane(
                 "XY",
@@ -580,11 +584,13 @@ void McTruthSvc::RegisterStep2Dose(const G4Step* step){
     else if (pid==-13) coeff_pSvcm2 = m_fluence2H10_muonp->GetHstar10(E_MeV);
     else if (pid==211) coeff_pSvcm2 = m_fluence2H10_pionp->GetHstar10(E_MeV);
     else if (pid==-211) coeff_pSvcm2 = m_fluence2H10_pionm->GetHstar10(E_MeV);
+    else if (pid==321) coeff_pSvcm2 = m_fluence2H10_pionp->GetHstar10(E_MeV);
+    else if (pid==-321) coeff_pSvcm2 = m_fluence2H10_pionm->GetHstar10(E_MeV);
     else return;
 
     for (auto plane : m_flux_surfaces) {
         if (plane->IsCrossing(step)) {
-            plane->Fill(step, coeff_pSvcm2); // 1 particle crossing → add H*(10)
+            plane->Fill(step, pid, coeff_pSvcm2); // 1 particle crossing → add H*(10)
         }
     }
 
