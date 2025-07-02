@@ -9,7 +9,6 @@
 #define McTruthSvc_h 1
 
 #include "myglobals.hh"
-#include "SurfacePlane.hh"
 #include "G4String.hh"
 
 #include <string>
@@ -21,6 +20,7 @@ class G4Track;
 class G4Step;
 class G4StepPoint;
 class Hstar10Converter;
+class ThinSlab;
 
 class McTruthSvc
 {
@@ -215,7 +215,7 @@ class McTruthSvc
 
                 G4String m_fluence2H10_directory;
 
-                std::vector<SurfacePlane*> m_flux_surfaces;
+                std::vector<ThinSlab*> m_flux_surfaces;
 };
 
 #endif

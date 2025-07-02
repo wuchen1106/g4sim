@@ -20,6 +20,7 @@
 
 #include "MyString2Anything.hh"
 #include "Hstar10Converter.hh"
+#include "ThinSlab.hh"
 
 #include "MyRoot.hh"
 
@@ -110,47 +111,47 @@ void McTruthSvc::InitializeRun(){
         m_fluence2H10_kaonp   ->LoadFromFile(m_fluence2H10_directory+"/adekp.dat");  
         m_fluence2H10_kaonm   ->LoadFromFile(m_fluence2H10_directory+"/adekm.dat");  
 
-        SurfacePlane* myPlane = new SurfacePlane(
+        ThinSlab* myPlane = new ThinSlab(
                 "XY",
                 G4ThreeVector(0, 0, 0),
                 G4ThreeVector(0, 0, 1),
                 G4ThreeVector(1, 0, 0),
                 G4ThreeVector(0, 1, 0),
                 -2000,2000,-1600,4000,
-                400,560
+                400,560, 10
                 );
         m_flux_surfaces.push_back(myPlane);
 
-        myPlane = new SurfacePlane(
+        myPlane = new ThinSlab(
                 "ZY",
                 G4ThreeVector(0, 0, 0),
                 G4ThreeVector(1, 0, 0),
                 G4ThreeVector(0, 0, 1),
                 G4ThreeVector(0, 1, 0),
                 -1700,3300,-1600,4000,
-                500,560
+                500,560, 10
                 );
         m_flux_surfaces.push_back(myPlane);
 
-        myPlane = new SurfacePlane(
+        myPlane = new ThinSlab(
                 "ZX",
                 G4ThreeVector(0, 0, 0),
                 G4ThreeVector(0, 1, 0),
                 G4ThreeVector(0, 0, 1),
                 G4ThreeVector(1, 0, 0),
                 -1700,3300,-2000,2000,
-                500,400
+                500,400, 20
                 );
         m_flux_surfaces.push_back(myPlane);
 
-        myPlane = new SurfacePlane(
+        myPlane = new ThinSlab(
                 "ZX2200",
                 G4ThreeVector(0, 2200, 0),
                 G4ThreeVector(0, 1, 0),
                 G4ThreeVector(0, 0, 1),
                 G4ThreeVector(1, 0, 0),
                 -1700,3300,-2000,2000,
-                500,400
+                500,400, 10
                 );
         m_flux_surfaces.push_back(myPlane);
     }
@@ -589,9 +590,7 @@ void McTruthSvc::RegisterStep2Dose(const G4Step* step){
     else return;
 
     for (auto plane : m_flux_surfaces) {
-        if (plane->IsCrossing(step)) {
-            plane->Fill(step, pid, coeff_pSvcm2); // 1 particle crossing → add H*(10)
-        }
+        plane->Fill(step, pid, coeff_pSvcm2); // 1 particle crossing → add H*(10)
     }
 
     return;
