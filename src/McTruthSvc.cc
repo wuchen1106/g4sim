@@ -581,12 +581,10 @@ void McTruthSvc::RegisterStep2Dose(const G4Step* step){
     else if (pid==211) coeff_pSvcm2 = m_fluence2H10_pionp->GetHstar10(E_MeV);
     else if (pid==-211) coeff_pSvcm2 = m_fluence2H10_pionm->GetHstar10(E_MeV);
     else return;
-    G4ThreeVector midPoint = 0.5 * (step->GetPreStepPoint()->GetPosition() + step->GetPostStepPoint()->GetPosition());
 
     for (auto plane : m_flux_surfaces) {
         if (plane->IsCrossing(step)) {
-            // Use midpoint for binning
-            plane->Fill(midPoint, coeff_pSvcm2); // 1 particle crossing → add H*(10)
+            plane->Fill(step, coeff_pSvcm2); // 1 particle crossing → add H*(10)
         }
     }
 

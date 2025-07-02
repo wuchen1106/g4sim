@@ -40,13 +40,33 @@ public:
     return (d1 * d2 < 0.0);
   }
 
-  void Fill(const G4ThreeVector& hitPoint, G4double dose) {
-    G4ThreeVector rel = hitPoint - position;
-    double x = rel.dot(ex);
-    double y = rel.dot(ey);
-    if (x > xmax || x< xmin || y < ymin || y > ymax) return;
+  void Fill(const G4Step* step, G4double dose) {
+      G4ThreeVector p1 = step->GetPreStepPoint()->GetPosition();
+      G4ThreeVector p2 = step->GetPostStepPoint()->GetPosition();
 
-    hist->Fill(x, y, dose/cm2PerGrid);
+      G4ThreeVector n = normal;
+      G4ThreeVector p0 = position; // plane point
+
+      G4ThreeVector crossPoint;
+
+      G4double denom = (p2 - p1).dot(n);
+      if (std::abs(denom) < 1e-9) {
+          // Parallel — fallback
+          crossPoint = 0.5 * (p1 + p2);
+      }
+
+      G4double s = - (p1 - p0).dot(n) / denom;
+
+      G4double costheta = fabs((p1-p0).unit().dot(n));
+
+      crossPoint = p1 + s * (p2 - p1);
+
+      G4ThreeVector rel = crossPoint - position;
+      double x = rel.dot(ex);
+      double y = rel.dot(ey);
+      if (x > xmax || x< xmin || y < ymin || y > ymax) return;
+
+      hist->Fill(x, y, dose/cm2PerGrid/costheta);
   }
 
   void Write() {
