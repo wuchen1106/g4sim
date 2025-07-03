@@ -41,7 +41,7 @@ class ThinSlab {
             G4ThreeVector p2 = step->GetPostStepPoint()->GetPosition();
             G4double d1 = (p1 - position).dot(normal);
             G4double d2 = (p2 - position).dot(normal);
-            if (fabs(d1)>halfThickness&&fabs(d2)>halfThickness){
+            if ((d1>halfThickness&&d2>halfThickness)||(d1<-halfThickness&&d2<-halfThickness)){
                 // not inside the slab
                 return;
             }
