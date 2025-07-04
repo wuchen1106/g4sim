@@ -20,6 +20,7 @@
 
 #include "MyString2Anything.hh"
 #include "Hstar10Converter.hh"
+#include "SurfacePlane.hh"
 #include "ThinSlab.hh"
 
 #include "MyRoot.hh"
@@ -81,6 +82,10 @@ void McTruthSvc::Initialize(){
 	m_x.clear();
 	m_y.clear();
 	m_z.clear();
+	m_recordCurrentTrack = false;
+	m_nSteps.clear();
+	m_step_l.clear();
+	m_step_edep.clear();
 	m_step_t.clear();
 	m_step_x.clear();
 	m_step_y.clear();
@@ -98,6 +103,7 @@ void McTruthSvc::Initialize(){
 void McTruthSvc::InitializeRun(){
     m_xyz2edep.clear();
     m_flux_surfaces.clear();
+    m_flux_slabs.clear();
     if (m_fluence2H10_directory!=""){
         m_fluence2H10_neutron ->LoadFromFile(m_fluence2H10_directory+"/adene.dat");  
         m_fluence2H10_photon  ->LoadFromFile(m_fluence2H10_directory+"/adeph.dat");  
@@ -111,7 +117,40 @@ void McTruthSvc::InitializeRun(){
         m_fluence2H10_kaonp   ->LoadFromFile(m_fluence2H10_directory+"/adekp.dat");  
         m_fluence2H10_kaonm   ->LoadFromFile(m_fluence2H10_directory+"/adekm.dat");  
 
-        ThinSlab* myPlane = new ThinSlab(
+        SurfacePlane* myPlane = new SurfacePlane(
+                "XYs",
+                G4ThreeVector(0, 0, 0),
+                G4ThreeVector(0, 0, 1),
+                G4ThreeVector(1, 0, 0),
+                G4ThreeVector(0, 1, 0),
+                -2000,2000,-1600,4000,
+                400,560
+                );
+        m_flux_surfaces.push_back(myPlane);
+
+        myPlane = new SurfacePlane(
+                "ZYs",
+                G4ThreeVector(0, 0, 0),
+                G4ThreeVector(1, 0, 0),
+                G4ThreeVector(0, 0, 1),
+                G4ThreeVector(0, 1, 0),
+                -1700,3300,-1600,4000,
+                500,560
+                );
+        m_flux_surfaces.push_back(myPlane);
+
+        myPlane = new SurfacePlane(
+                "ZXs",
+                G4ThreeVector(0, 0, 0),
+                G4ThreeVector(0, 1, 0),
+                G4ThreeVector(0, 0, 1),
+                G4ThreeVector(1, 0, 0),
+                -1700,3300,-2000,2000,
+                500,400
+                );
+        m_flux_surfaces.push_back(myPlane);
+
+        ThinSlab* mySlab = new ThinSlab(
                 "XY",
                 G4ThreeVector(0, 0, 0),
                 G4ThreeVector(0, 0, 1),
@@ -120,9 +159,9 @@ void McTruthSvc::InitializeRun(){
                 -2000,2000,-1600,4000,
                 400,560, 10
                 );
-        m_flux_surfaces.push_back(myPlane);
+        m_flux_slabs.push_back(mySlab);
 
-        myPlane = new ThinSlab(
+        mySlab = new ThinSlab(
                 "ZY",
                 G4ThreeVector(0, 0, 0),
                 G4ThreeVector(1, 0, 0),
@@ -131,9 +170,9 @@ void McTruthSvc::InitializeRun(){
                 -1700,3300,-1600,4000,
                 500,560, 10
                 );
-        m_flux_surfaces.push_back(myPlane);
+        m_flux_slabs.push_back(mySlab);
 
-        myPlane = new ThinSlab(
+        mySlab = new ThinSlab(
                 "ZX",
                 G4ThreeVector(0, 0, 0),
                 G4ThreeVector(0, 1, 0),
@@ -142,9 +181,9 @@ void McTruthSvc::InitializeRun(){
                 -1700,3300,-2000,2000,
                 500,400, 20
                 );
-        m_flux_surfaces.push_back(myPlane);
+        m_flux_slabs.push_back(mySlab);
 
-        myPlane = new ThinSlab(
+        mySlab = new ThinSlab(
                 "ZX2200",
                 G4ThreeVector(0, 2200, 0),
                 G4ThreeVector(0, 1, 0),
@@ -153,7 +192,7 @@ void McTruthSvc::InitializeRun(){
                 -1700,3300,-2000,2000,
                 500,400, 10
                 );
-        m_flux_surfaces.push_back(myPlane);
+        m_flux_slabs.push_back(mySlab);
     }
 }
 
@@ -175,6 +214,9 @@ void McTruthSvc::SetBranch(){
 	if( flag_x ) myRoot->SetBranch("McTruth_x", &m_x);
 	if( flag_y ) myRoot->SetBranch("McTruth_y", &m_y);
 	if( flag_z ) myRoot->SetBranch("McTruth_z", &m_z);
+	if( flag_nSteps ) myRoot->SetBranch("McTruth_nSteps", &m_nSteps);
+	if( flag_step_l ) myRoot->SetBranch("McTruth_step_l", &m_step_l);
+	if( flag_step_edep ) myRoot->SetBranch("McTruth_step_edep", &m_step_edep);
 	if( flag_step_t ) myRoot->SetBranch("McTruth_step_t", &m_step_t);
 	if( flag_step_x ) myRoot->SetBranch("McTruth_step_x", &m_step_x);
 	if( flag_step_y ) myRoot->SetBranch("McTruth_step_y", &m_step_y);
@@ -246,6 +288,9 @@ void McTruthSvc::ReadOutputCard(G4String filename){
 			else if( name == "x" ) {flag_x = true; buf_card>>unitName_x; unit_x = MyString2Anything::get_U(unitName_x);}
 			else if( name == "y" ) {flag_y = true; buf_card>>unitName_y; unit_y = MyString2Anything::get_U(unitName_y);}
 			else if( name == "z" ) {flag_z = true; buf_card>>unitName_z; unit_z = MyString2Anything::get_U(unitName_z);}
+			else if( name == "nSteps" ) flag_nSteps = true;
+			else if( name == "step_l" ) {flag_step_l = true; buf_card>>unitName_step_l; unit_step_l = MyString2Anything::get_U(unitName_step_l);}
+			else if( name == "step_edep" ) {flag_step_edep = true; buf_card>>unitName_step_edep; unit_step_edep = MyString2Anything::get_U(unitName_step_edep);}
 			else if( name == "step_t" ) {flag_step_t = true; buf_card>>unitName_step_t; unit_step_t = MyString2Anything::get_U(unitName_step_t);}
 			else if( name == "step_x" ) {flag_step_x = true; buf_card>>unitName_step_x; unit_step_x = MyString2Anything::get_U(unitName_step_x);}
 			else if( name == "step_y" ) {flag_step_y = true; buf_card>>unitName_step_y; unit_step_y = MyString2Anything::get_U(unitName_step_y);}
@@ -341,6 +386,9 @@ void McTruthSvc::ReSet(){
 	flag_x = false;
 	flag_y = false;
 	flag_z = false;
+	flag_nSteps = false;
+	flag_step_l = false;
+	flag_step_edep = false;
 	flag_step_t = false;
 	flag_step_x = false;
 	flag_step_y = false;
@@ -353,6 +401,7 @@ void McTruthSvc::ReSet(){
 	flag_particleName = false;
 	flag_process = false;
 	flag_volume = false;
+	m_recordCurrentTrack = false;
 	m_Switch = false;
 	m_minp = 0;
 	m_mine = 0;
@@ -406,14 +455,17 @@ void McTruthSvc::ShowOutCard(){
 	std::cout<<"output x?             "<<(flag_x?" yes":" no")<<", unit: "<<unitName_x<<std::endl;
 	std::cout<<"output y?             "<<(flag_y?" yes":" no")<<", unit: "<<unitName_y<<std::endl;
 	std::cout<<"output z?             "<<(flag_z?" yes":" no")<<", unit: "<<unitName_z<<std::endl;
+	std::cout<<"output step nSteps?   "<<(flag_nSteps?" yes":" no")<<std::endl;
+	std::cout<<"output step l?        "<<(flag_step_l?" yes":" no")<<", unit: "<<unitName_step_l<<std::endl;
+	std::cout<<"output step edep?     "<<(flag_step_edep?" yes":" no")<<", unit: "<<unitName_step_edep<<std::endl;
 	std::cout<<"output step t?        "<<(flag_step_t?" yes":" no")<<", unit: "<<unitName_step_t<<std::endl;
 	std::cout<<"output step x?        "<<(flag_step_x?" yes":" no")<<", unit: "<<unitName_step_x<<std::endl;
 	std::cout<<"output step y?        "<<(flag_step_y?" yes":" no")<<", unit: "<<unitName_step_y<<std::endl;
 	std::cout<<"output step z?        "<<(flag_step_z?" yes":" no")<<", unit: "<<unitName_step_z<<std::endl;
-	std::cout<<"output step px?        "<<(flag_step_px?" yes":" no")<<", unit: "<<unitName_step_px<<std::endl;
-	std::cout<<"output step py?        "<<(flag_step_py?" yes":" no")<<", unit: "<<unitName_step_py<<std::endl;
-	std::cout<<"output step pz?        "<<(flag_step_pz?" yes":" no")<<", unit: "<<unitName_step_pz<<std::endl;
-	std::cout<<"output step ekin?        "<<(flag_step_ekin?" yes":" no")<<", unit: "<<unitName_step_ekin<<std::endl;
+	std::cout<<"output step px?       "<<(flag_step_px?" yes":" no")<<", unit: "<<unitName_step_px<<std::endl;
+	std::cout<<"output step py?       "<<(flag_step_py?" yes":" no")<<", unit: "<<unitName_step_py<<std::endl;
+	std::cout<<"output step pz?       "<<(flag_step_pz?" yes":" no")<<", unit: "<<unitName_step_pz<<std::endl;
+	std::cout<<"output step ekin?     "<<(flag_step_ekin?" yes":" no")<<", unit: "<<unitName_step_ekin<<std::endl;
 	std::cout<<"output particleName?  "<<(flag_particleName?" yes":" no")<<std::endl;
 	std::cout<<"output charge?        "<<(flag_charge?" yes":" no")<<std::endl;
 	std::cout<<"output process?       "<<(flag_process?" yes":" no")<<std::endl;
@@ -445,6 +497,7 @@ void McTruthSvc::ShowOutCard(){
 }
 
 void McTruthSvc::SetValuePre(const G4Track* aTrack){
+	m_recordCurrentTrack = false;
 	G4int pid = aTrack->GetParticleDefinition()->GetPDGEncoding();
 	G4double globalT=aTrack->GetGlobalTime();//Time since the event in which the track belongs is created
 	G4int trackID= aTrack->GetTrackID(); //G4 track ID of current track.
@@ -487,6 +540,8 @@ void McTruthSvc::SetValuePre(const G4Track* aTrack){
 		if (black_list[i]==-1&&trackID==1) foundit = true;
 	}
 	if (foundit) return;
+	m_nTracks++;
+	m_recordCurrentTrack = true;
 
 	G4String processName;
 	const G4VProcess* process = aTrack->GetCreatorProcess();
@@ -505,7 +560,6 @@ void McTruthSvc::SetValuePre(const G4Track* aTrack){
 	G4double energy = aTrack->GetTotalEnergy();
 	G4double kinenergy = aTrack->GetKineticEnergy();
 
-	m_nTracks++;
 	if(flag_pid) m_pid.push_back(pid);
 	if(flag_tid) m_tid.push_back(trackID);
 	if(flag_ptid) m_ptid.push_back(ptid);
@@ -524,6 +578,9 @@ void McTruthSvc::SetValuePre(const G4Track* aTrack){
 	if(flag_x) m_x.push_back(pos_3vec.x()/unit_x);
 	if(flag_y) m_y.push_back(pos_3vec.y()/unit_y);
 	if(flag_z) m_z.push_back(pos_3vec.z()/unit_z);
+	m_nSteps.push_back(0);
+	if(flag_step_l) {std::vector<double> step_l;m_step_l.push_back(step_l);}
+	if(flag_step_edep) {std::vector<double> step_edep;m_step_edep.push_back(step_edep);}
 	if(flag_step_t) {std::vector<double> step_t;m_step_t.push_back(step_t);}
 	if(flag_step_x) {std::vector<double> step_x;m_step_x.push_back(step_x);}
 	if(flag_step_y) {std::vector<double> step_y;m_step_y.push_back(step_y);}
@@ -544,37 +601,39 @@ void McTruthSvc::SetValuePost(const G4Track* aTrack,double dt){
     if (flag_tcost) m_tcost.back() = dt;
 }
 
-void McTruthSvc::AddStep(const G4StepPoint* aStepPoint){
-    if (flag_step_t) m_step_t.back().push_back(aStepPoint->GetGlobalTime()/unit_step_t);
-    if (flag_step_x) m_step_x.back().push_back(aStepPoint->GetPosition().x()/unit_step_x);
-    if (flag_step_y) m_step_y.back().push_back(aStepPoint->GetPosition().y()/unit_step_y);
-    if (flag_step_z) m_step_z.back().push_back(aStepPoint->GetPosition().z()/unit_step_z);
-    if (flag_step_px) m_step_px.back().push_back(aStepPoint->GetMomentum().x()/unit_step_px);
-    if (flag_step_py) m_step_py.back().push_back(aStepPoint->GetMomentum().y()/unit_step_py);
-    if (flag_step_pz) m_step_pz.back().push_back(aStepPoint->GetMomentum().z()/unit_step_pz);
-    if (flag_step_ekin) m_step_ekin.back().push_back(aStepPoint->GetKineticEnergy()/unit_step_ekin);
-}
-
-void McTruthSvc::AddEdep2Map(double edep, double x, double y, double z){
-    if (m_map_step<=0) return;
-    if (edep>0){
-        if (m_map_xmin!=m_map_xmax&&(x<m_map_xmin||x>m_map_xmax)) return;
-        if (m_map_ymin!=m_map_ymax&&(y<m_map_ymin||y>m_map_ymax)) return;
-        if (m_map_zmin!=m_map_zmax&&(z<m_map_zmin||z>m_map_zmax)) return;
-        if (x<0) x-=m_map_step/2; else x+=m_map_step/2;
-        if (y<0) y-=m_map_step/2; else y+=m_map_step/2;
-        if (z<0) z-=m_map_step/2; else z+=m_map_step/2;
-        short int ix = x/m_map_step;
-        short int iy = y/m_map_step;
-        short int iz = z/m_map_step;
-        m_xyz2edep[ix][iy][iz] += edep;
+void McTruthSvc::AddStep(const G4Step* aStep){
+    G4ThreeVector pointIn_pos = aStep->GetPreStepPoint()->GetPosition();
+    G4ThreeVector pointOut_pos = aStep->GetPostStepPoint()->GetPosition();
+    G4ThreeVector pointIn_mom = aStep->GetPreStepPoint()->GetMomentum();
+    G4ThreeVector pointOut_mom = aStep->GetPostStepPoint()->GetMomentum();
+    if (m_recordCurrentTrack){
+        if (m_nSteps.back()==0){ // this is the first step
+            if (flag_step_l) m_step_l.back().push_back(0);
+            if (flag_step_edep) m_step_edep.back().push_back(0);
+            if (flag_step_t) m_step_t.back().push_back(aStep->GetPreStepPoint()->GetGlobalTime()/unit_step_t);
+            if (flag_step_x) m_step_x.back().push_back(pointIn_pos.x()/unit_step_x);
+            if (flag_step_y) m_step_y.back().push_back(pointIn_pos.y()/unit_step_y);
+            if (flag_step_z) m_step_z.back().push_back(pointIn_pos.z()/unit_step_z);
+            if (flag_step_px) m_step_px.back().push_back(pointIn_mom.x()/unit_step_px);
+            if (flag_step_py) m_step_py.back().push_back(pointIn_mom.y()/unit_step_py);
+            if (flag_step_pz) m_step_pz.back().push_back(pointIn_mom.z()/unit_step_pz);
+            if (flag_step_ekin) m_step_ekin.back().push_back(aStep->GetPreStepPoint()->GetKineticEnergy()/unit_step_ekin);
+        }
+        if (flag_step_l) m_step_l.back().push_back(aStep->GetStepLength()/unit_step_l);
+        if (flag_step_edep) m_step_edep.back().push_back(aStep->GetStepLength()/unit_step_edep);
+        if (flag_step_t) m_step_t.back().push_back(aStep->GetPostStepPoint()->GetGlobalTime()/unit_step_t);
+        if (flag_step_x) m_step_x.back().push_back(pointOut_pos.x()/unit_step_x);
+        if (flag_step_y) m_step_y.back().push_back(pointOut_pos.y()/unit_step_y);
+        if (flag_step_z) m_step_z.back().push_back(pointOut_pos.z()/unit_step_z);
+        if (flag_step_px) m_step_px.back().push_back(pointOut_mom.x()/unit_step_px);
+        if (flag_step_py) m_step_py.back().push_back(pointOut_mom.y()/unit_step_py);
+        if (flag_step_pz) m_step_pz.back().push_back(pointOut_mom.z()/unit_step_pz);
+        if (flag_step_ekin) m_step_ekin.back().push_back(aStep->GetPostStepPoint()->GetKineticEnergy()/unit_step_ekin);
+        m_nSteps.back()++;
     }
-    return;
-}
 
-void McTruthSvc::RegisterStep2Dose(const G4Step* step){
-    double E_MeV = step->GetPreStepPoint()->GetKineticEnergy() / MeV;
-    int pid = step->GetTrack()->GetParticleDefinition()->GetPDGEncoding();
+    double E_MeV = aStep->GetPreStepPoint()->GetKineticEnergy() / MeV;
+    int pid = aStep->GetTrack()->GetParticleDefinition()->GetPDGEncoding();
     double coeff_pSvcm2 = 0;
     if (pid==2112) coeff_pSvcm2 = m_fluence2H10_neutron->GetHstar10(E_MeV);
     else if (pid==22) coeff_pSvcm2 = m_fluence2H10_photon->GetHstar10(E_MeV);
@@ -589,17 +648,52 @@ void McTruthSvc::RegisterStep2Dose(const G4Step* step){
     else if (pid==-321) coeff_pSvcm2 = m_fluence2H10_pionm->GetHstar10(E_MeV);
     else return;
 
-    for (auto plane : m_flux_surfaces) {
-        plane->Fill(step, pid, coeff_pSvcm2); // 1 particle crossing → add H*(10)
+    bool crossSurface = false;
+    for (auto surface: m_flux_surfaces) {
+        crossSurface = surface->Fill(aStep, pid, coeff_pSvcm2); // 1 particle crossing → add H*(10)
+    }
+    for (auto slab: m_flux_slabs) {
+        bool inSlab = false;
+        inSlab = slab->Fill(aStep, pid, coeff_pSvcm2); // 1 particle crossing → add H*(10)
+    }
+
+    if (m_map_step>0){
+        double edep = aStep->GetTotalEnergyDeposit();
+        if (edep>0){
+            for (int i = 0; i<10; i++){
+                AddEdep2Map(
+                        edep/10
+                        ,(pointIn_pos.x()*(i+0.5)+pointOut_pos.x()*(10-i-0.5))/10
+                        ,(pointIn_pos.y()*(i+0.5)+pointOut_pos.y()*(10-i-0.5))/10
+                        ,(pointIn_pos.z()*(i+0.5)+pointOut_pos.z()*(10-i-0.5))/10
+                        );
+            }
+        }
     }
 
     return;
+}
 
+void McTruthSvc::AddEdep2Map(double edep, double x, double y, double z){
+    if (m_map_xmin!=m_map_xmax&&(x<m_map_xmin||x>m_map_xmax)) return;
+    if (m_map_ymin!=m_map_ymax&&(y<m_map_ymin||y>m_map_ymax)) return;
+    if (m_map_zmin!=m_map_zmax&&(z<m_map_zmin||z>m_map_zmax)) return;
+    if (x<0) x-=m_map_step/2; else x+=m_map_step/2;
+    if (y<0) y-=m_map_step/2; else y+=m_map_step/2;
+    if (z<0) z-=m_map_step/2; else z+=m_map_step/2;
+    short int ix = x/m_map_step;
+    short int iy = y/m_map_step;
+    short int iz = z/m_map_step;
+    m_xyz2edep[ix][iy][iz] += edep;
+    return;
 }
 
 void McTruthSvc::EndOfRunAction(){
-    for (auto plane : m_flux_surfaces) {
-        plane->Write();
+    for (auto surface : m_flux_surfaces) {
+        surface->Write();
+    }
+    for (auto slab : m_flux_slabs) {
+        slab->Write();
     }
 
     if (m_map_step<=0) return;

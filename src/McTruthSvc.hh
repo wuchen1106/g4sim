@@ -18,8 +18,8 @@
 class G4Event;
 class G4Track;
 class G4Step;
-class G4StepPoint;
 class Hstar10Converter;
+class SurfacePlane;
 class ThinSlab;
 
 class McTruthSvc
@@ -36,7 +36,7 @@ class McTruthSvc
 
 		void SetValuePre(const G4Track*);
 		void SetValuePost(const G4Track*,double dt = 0);
-		void AddStep(const G4StepPoint*);
+		void AddStep(const G4Step*);
 		void SetMapEdep(double step, double xmin, double xmax, double ymin, double ymax, double zmin, double zmax){
 		    m_map_step = step;
 		    m_map_xmin = xmin;
@@ -47,7 +47,6 @@ class McTruthSvc
 		    m_map_zmax = zmax;
 		}
 		void SetHstar10ConverterDirectory(G4String dir){m_fluence2H10_directory = dir;}
-		void RegisterStep2Dose(const G4Step* step);
 
 		void Initialize();
 		void InitializeRun();
@@ -104,6 +103,9 @@ class McTruthSvc
 		bool flag_x;
 		bool flag_y;
 		bool flag_z;
+		bool flag_nSteps;
+		bool flag_step_l;
+		bool flag_step_edep;
 		bool flag_step_t;
 		bool flag_step_x;
 		bool flag_step_y;
@@ -145,6 +147,10 @@ class McTruthSvc
 		std::vector<double> m_x;
 		std::vector<double> m_y;
 		std::vector<double> m_z;
+		bool m_recordCurrentTrack;
+                std::vector<int> m_nSteps;
+                std::vector<std::vector<double> > m_step_l;
+                std::vector<std::vector<double> > m_step_edep;
                 std::vector<std::vector<double> > m_step_t;
                 std::vector<std::vector<double> > m_step_x;
 		std::vector<std::vector<double> > m_step_y;
@@ -166,6 +172,8 @@ class McTruthSvc
 		std::string unitName_x;
 		std::string unitName_y;
 		std::string unitName_z;
+		std::string unitName_step_l;
+		std::string unitName_step_edep;
 		std::string unitName_step_t;
 		std::string unitName_step_x;
 		std::string unitName_step_y;
@@ -183,6 +191,8 @@ class McTruthSvc
 		double unit_x;
 		double unit_y;
 		double unit_z;
+		double unit_step_l;
+		double unit_step_edep;
 		double unit_step_t;
 		double unit_step_x;
 		double unit_step_y;
@@ -215,7 +225,8 @@ class McTruthSvc
 
                 G4String m_fluence2H10_directory;
 
-                std::vector<ThinSlab*> m_flux_surfaces;
+                std::vector<SurfacePlane*> m_flux_surfaces;
+                std::vector<ThinSlab*> m_flux_slabs;
 };
 
 #endif

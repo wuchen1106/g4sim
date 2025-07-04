@@ -36,14 +36,14 @@ class ThinSlab {
 
         ~ThinSlab() {}
 
-        void Fill(const G4Step* step, int pid, G4double coeff_pSvcm2) {
+        bool Fill(const G4Step* step, int pid, G4double coeff_pSvcm2) {
             G4ThreeVector p1 = step->GetPreStepPoint()->GetPosition();
             G4ThreeVector p2 = step->GetPostStepPoint()->GetPosition();
             G4double d1 = (p1 - position).dot(normal);
             G4double d2 = (p2 - position).dot(normal);
             if ((d1>halfThickness&&d2>halfThickness)||(d1<-halfThickness&&d2<-halfThickness)){
                 // not inside the slab
-                return;
+                return false;
             }
             
             G4double stepLength = (p2 - p1).mag();
@@ -57,19 +57,19 @@ class ThinSlab {
             G4ThreeVector curPos = p1;
 
             for (int i = 0; i<=nLoops; i++){ // loop inside the step by moving 1 mm. Maximum step acceptable: 10 meters
-                G4double d = (curPos - position).dot(normal);
-                if (fabs(d)>halfThickness) continue; // not insid
-                G4double dL = loopStepSize;
-                if (i==nLoops) dL = stepLength-nLoops*loopStepSize;
+                double d = (curPos - position).dot(normal);
                 G4ThreeVector rel = curPos - position;
                 double x = rel.dot(ex);
                 double y = rel.dot(ey);
+                curPos+=dir*loopStepSize;
+                if (fabs(d)>halfThickness) continue; // not insid
+                G4double dL = loopStepSize;
+                if (i==nLoops) dL = stepLength-nLoops*loopStepSize;
                 if (x > xmax || x< xmin || y < ymin || y > ymax) continue; // out of the sampline plane
                 if (hist[0]) hist[0]->Fill(x, y, coeff_pSvcm2*dL/cm2PerGrid/halfThickness/2);// 1 is 1 mm step, cm2PerGrid*halfThickness*2 is volume size
                 if (hist[pid]) hist[pid]->Fill(x, y, coeff_pSvcm2*dL/cm2PerGrid/halfThickness/2);
-                curPos+=dir*1;
             }
-            return;
+            return true;
         }
 
         void Write() {

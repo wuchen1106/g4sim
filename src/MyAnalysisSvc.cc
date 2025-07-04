@@ -185,22 +185,12 @@ void MyAnalysisSvc::SteppingAction(const G4Step* aStep){
 	double current_time = (double) clock();
 //	std::cout<<"current_time = "<<current_time<<", deltaT = "<<(current_time - event_start_time)/CLOCKS_PER_SEC<<std::endl;
 	pProcessCountingSvc->SetValue(aStep);
-	pMcTruthSvc->AddStep(aStep->GetPreStepPoint());
-        McTruthSvc::GetMcTruthSvc()->RegisterStep2Dose(aStep);
+	pMcTruthSvc->AddStep(aStep);
 	G4StepPoint* prePoint  = aStep->GetPreStepPoint() ;
 	G4StepPoint* postPoint  = aStep->GetPostStepPoint() ;
 	G4ThreeVector pointIn_pos = prePoint->GetPosition();
 	G4ThreeVector pointOut_pos = postPoint->GetPosition();
 	G4double edep = aStep->GetTotalEnergyDeposit();
-
-        for (int i = 0; i<10; i++){
-            McTruthSvc::GetMcTruthSvc()->AddEdep2Map(
-                    edep/10
-                    ,(pointIn_pos.x()*(i+0.5)+pointOut_pos.x()*(10-i-0.5))/10
-                    ,(pointIn_pos.y()*(i+0.5)+pointOut_pos.y()*(10-i-0.5))/10
-                    ,(pointIn_pos.z()*(i+0.5)+pointOut_pos.z()*(10-i-0.5))/10
-                    );
-        }
 
         G4Track* aTrack = aStep->GetTrack() ;
 	G4int nSteps = aTrack->GetCurrentStepNumber();

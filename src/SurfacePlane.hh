@@ -36,42 +36,39 @@ public:
 
   ~SurfacePlane() {}
 
-  bool IsCrossing(const G4Step* step) const {
-    G4ThreeVector p1 = step->GetPreStepPoint()->GetPosition();
-    G4ThreeVector p2 = step->GetPostStepPoint()->GetPosition();
-    G4double d1 = (p1 - position).dot(normal);
-    G4double d2 = (p2 - position).dot(normal);
-    return (d1==0||d1 * d2 < 0.0);
-  }
-
-  void Fill(const G4Step* step, int pid, G4double dose) {
+  bool Fill(const G4Step* step, int pid, G4double dose) {
       G4ThreeVector p1 = step->GetPreStepPoint()->GetPosition();
       G4ThreeVector p2 = step->GetPostStepPoint()->GetPosition();
+      G4double d1 = (p1 - position).dot(normal);
+      G4double d2 = (p2 - position).dot(normal);
+      if (d1!=0&&d1 * d2 > 0.0) return false;
 
       G4ThreeVector n = normal;
-      G4ThreeVector p0 = position; // plane point
 
       G4ThreeVector crossPoint;
 
       G4double denom = (p2 - p1).dot(n);
-      if (std::abs(denom) < 1e-9) {
-          // Parallel — fallback
-          crossPoint = 0.5 * (p1 + p2);
+
+      G4double s = 0;
+      if (denom!=0) s = - (p1 - position).dot(n) / denom;
+
+      G4double costheta = fabs((p2-p1).unit().dot(n));
+      if (costheta==0){ 
+          std::cerr<<"ERROR! costheta = 0? step "<<p1<<" -> "<<p2<<std::endl;
+          costheta = 1e14;
       }
-
-      G4double s = - (p1 - p0).dot(n) / denom;
-
-      G4double costheta = fabs((p1-p0).unit().dot(n));
 
       crossPoint = p1 + s * (p2 - p1);
 
       G4ThreeVector rel = crossPoint - position;
       double x = rel.dot(ex);
       double y = rel.dot(ey);
-      if (x > xmax || x< xmin || y < ymin || y > ymax) return;
+      if (x > xmax || x< xmin || y < ymin || y > ymax) return false;
 
       if (hist[0]) hist[0]->Fill(x, y, dose/cm2PerGrid/costheta);
       if (hist[pid]) hist[pid]->Fill(x, y, dose/cm2PerGrid/costheta);
+
+      return true;
   }
 
   void Write() {
