@@ -31,7 +31,7 @@ class ThinSlab {
                         nBinX, xmin, xmax,
                         nBinY, ymin, ymax);
             }
-            cm2PerGrid = (xmax-xmin)/nBinX*(ymax-ymin)/nBinY/10*10;
+            cm2PerGrid = (xmax-xmin)/nBinX*(ymax-ymin)/nBinY/10/10;
         }
 
         ~ThinSlab() {}
