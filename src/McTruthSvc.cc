@@ -161,9 +161,42 @@ void McTruthSvc::InitializeRun(){
                 );
         m_flux_slabs.push_back(mySlab);
 
+        ThinSlab* mySlab = new ThinSlab(
+                "XY830",
+                G4ThreeVector(0, 0, 830),
+                G4ThreeVector(0, 0, 1),
+                G4ThreeVector(1, 0, 0),
+                G4ThreeVector(0, 1, 0),
+                -2000,2000,-1600,4000,
+                400,560, 10
+                );
+        m_flux_slabs.push_back(mySlab);
+
         mySlab = new ThinSlab(
                 "ZY",
                 G4ThreeVector(0, 0, 0),
+                G4ThreeVector(1, 0, 0),
+                G4ThreeVector(0, 0, 1),
+                G4ThreeVector(0, 1, 0),
+                -1700,3300,-1600,4000,
+                500,560, 10
+                );
+        m_flux_slabs.push_back(mySlab);
+
+        mySlab = new ThinSlab(
+                "ZY10cm",
+                G4ThreeVector(0, 0, 0),
+                G4ThreeVector(1, 0, 0),
+                G4ThreeVector(0, 0, 1),
+                G4ThreeVector(0, 1, 0),
+                -1700,3300,-1600,4000,
+                500,560, 100
+                );
+        m_flux_slabs.push_back(mySlab);
+
+        mySlab = new ThinSlab(
+                "ZY500",
+                G4ThreeVector(500, 0, 0),
                 G4ThreeVector(1, 0, 0),
                 G4ThreeVector(0, 0, 1),
                 G4ThreeVector(0, 1, 0),
