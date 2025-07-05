@@ -52,6 +52,9 @@
 #include "G4OpticalPhysics.hh"
 #include "MyStepLimiter.hh"
 #include "QGSP_BERT.hh"
+#include "FTFP_BERT.hh"
+#include "FTF_BIC.hh"
+#include "QGSP_BIC_HP.hh"
 #include "QGSP_INCLXX.hh"
 #include "QGSP_INCLXX_HP.hh"
 #include "QGSP_BERT_HP.hh"
@@ -276,6 +279,15 @@ int main(int argc,char** argv)
     }
     else if (PhysicsListName=="QGSP_INCLXX_HP"){
         physics = new QGSP_INCLXX_HP;
+    }
+    else if (PhysicsListName=="FTFP_BERT"){
+        physics = new FTFP_BERT;
+    }
+    else if (PhysicsListName=="FTF_BIC"){
+        physics = new FTF_BIC;
+    }
+    else if (PhysicsListName=="QGSP_BIC_HP"){
+        physics = new QGSP_BIC_HP;
     }
     else if (PhysicsListName=="PhysicsList"){
         physics = new PhysicsList(1,UseEmType,0);
@@ -502,7 +514,7 @@ void print_usage(char * prog_name){
     fprintf(stderr,"\t\t Added /run/beamOn nEvents command after the execution of the given macro. Will not be invoked if macro file is not given though.\n",LowEnergyCut/eV);
     fprintf(stderr,"\t -P physics\n");
     fprintf(stderr,"\t\t Change the physics List (%s)\n",PhysicsListName.data());
-    fprintf(stderr,"\t\t Available options: QGSP_BERT QGSP_BERT_HP QGSP_INCLXX PhysicsList PhysicsListHP PhysicsListHPnone PhysicsListINCLXX\n");
+    fprintf(stderr,"\t\t Available options: QGSP_BERT QGSP_BERT_HP QGSP_INCLXX FTFP_BERT FTF_BIC QGSP_BIC_HP PhysicsList PhysicsListHP\n");
     fprintf(stderr,"\t\t If the provided option is not supported, then QGSP_BERT_HP will be used as default\n");
     fprintf(stderr,"\t -o\n");
     fprintf(stderr,"\t\t Register G4OpticalPhysics\n");
