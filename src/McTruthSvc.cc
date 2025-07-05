@@ -161,7 +161,7 @@ void McTruthSvc::InitializeRun(){
                 );
         m_flux_slabs.push_back(mySlab);
 
-        ThinSlab* mySlab = new ThinSlab(
+        mySlab = new ThinSlab(
                 "XY830",
                 G4ThreeVector(0, 0, 830),
                 G4ThreeVector(0, 0, 1),
