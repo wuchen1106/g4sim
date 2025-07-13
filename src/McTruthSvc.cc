@@ -102,8 +102,6 @@ void McTruthSvc::Initialize(){
 
 void McTruthSvc::InitializeRun(){
     m_xyz2edep.clear();
-    m_flux_surfaces.clear();
-    m_flux_slabs.clear();
     if (m_fluence2H10_directory!=""){
         m_fluence2H10_neutron ->LoadFromFile(m_fluence2H10_directory+"/adene.dat");  
         m_fluence2H10_photon  ->LoadFromFile(m_fluence2H10_directory+"/adeph.dat");  
@@ -116,116 +114,6 @@ void McTruthSvc::InitializeRun(){
         m_fluence2H10_pionm   ->LoadFromFile(m_fluence2H10_directory+"/adepm.dat");  
         m_fluence2H10_kaonp   ->LoadFromFile(m_fluence2H10_directory+"/adekp.dat");  
         m_fluence2H10_kaonm   ->LoadFromFile(m_fluence2H10_directory+"/adekm.dat");  
-
-        SurfacePlane* myPlane = new SurfacePlane(
-                "XYs",
-                G4ThreeVector(0, 0, 0),
-                G4ThreeVector(0, 0, 1),
-                G4ThreeVector(1, 0, 0),
-                G4ThreeVector(0, 1, 0),
-                -2000,2000,-1600,4000,
-                400,560
-                );
-        m_flux_surfaces.push_back(myPlane);
-
-        myPlane = new SurfacePlane(
-                "ZYs",
-                G4ThreeVector(0, 0, 0),
-                G4ThreeVector(1, 0, 0),
-                G4ThreeVector(0, 0, 1),
-                G4ThreeVector(0, 1, 0),
-                -1700,3300,-1600,4000,
-                500,560
-                );
-        m_flux_surfaces.push_back(myPlane);
-
-        myPlane = new SurfacePlane(
-                "ZXs",
-                G4ThreeVector(0, 0, 0),
-                G4ThreeVector(0, 1, 0),
-                G4ThreeVector(0, 0, 1),
-                G4ThreeVector(1, 0, 0),
-                -1700,3300,-2000,2000,
-                500,400
-                );
-        m_flux_surfaces.push_back(myPlane);
-
-        ThinSlab* mySlab = new ThinSlab(
-                "XY",
-                G4ThreeVector(0, 0, 0),
-                G4ThreeVector(0, 0, 1),
-                G4ThreeVector(1, 0, 0),
-                G4ThreeVector(0, 1, 0),
-                -2000,2000,-1600,4000,
-                400,560, 10
-                );
-        m_flux_slabs.push_back(mySlab);
-
-        mySlab = new ThinSlab(
-                "XY830",
-                G4ThreeVector(0, 0, 830),
-                G4ThreeVector(0, 0, 1),
-                G4ThreeVector(1, 0, 0),
-                G4ThreeVector(0, 1, 0),
-                -2000,2000,-1600,4000,
-                400,560, 10
-                );
-        m_flux_slabs.push_back(mySlab);
-
-        mySlab = new ThinSlab(
-                "ZY",
-                G4ThreeVector(0, 0, 0),
-                G4ThreeVector(1, 0, 0),
-                G4ThreeVector(0, 0, 1),
-                G4ThreeVector(0, 1, 0),
-                -1700,3300,-1600,4000,
-                500,560, 10
-                );
-        m_flux_slabs.push_back(mySlab);
-
-        mySlab = new ThinSlab(
-                "ZY10cm",
-                G4ThreeVector(0, 0, 0),
-                G4ThreeVector(1, 0, 0),
-                G4ThreeVector(0, 0, 1),
-                G4ThreeVector(0, 1, 0),
-                -1700,3300,-1600,4000,
-                500,560, 100
-                );
-        m_flux_slabs.push_back(mySlab);
-
-        mySlab = new ThinSlab(
-                "ZY500",
-                G4ThreeVector(500, 0, 0),
-                G4ThreeVector(1, 0, 0),
-                G4ThreeVector(0, 0, 1),
-                G4ThreeVector(0, 1, 0),
-                -1700,3300,-1600,4000,
-                500,560, 10
-                );
-        m_flux_slabs.push_back(mySlab);
-
-        mySlab = new ThinSlab(
-                "ZX",
-                G4ThreeVector(0, 0, 0),
-                G4ThreeVector(0, 1, 0),
-                G4ThreeVector(0, 0, 1),
-                G4ThreeVector(1, 0, 0),
-                -1700,3300,-2000,2000,
-                500,400, 20
-                );
-        m_flux_slabs.push_back(mySlab);
-
-        mySlab = new ThinSlab(
-                "ZX2200",
-                G4ThreeVector(0, 2200, 0),
-                G4ThreeVector(0, 1, 0),
-                G4ThreeVector(0, 0, 1),
-                G4ThreeVector(1, 0, 0),
-                -1700,3300,-2000,2000,
-                500,400, 10
-                );
-        m_flux_slabs.push_back(mySlab);
     }
 }
 
@@ -336,6 +224,36 @@ void McTruthSvc::ReadOutputCard(G4String filename){
 			else if( name == "charge" ) flag_charge = true;
 			else if( name == "process" ) flag_process = true;
 			else if( name == "volume" ) flag_volume = true;
+			else if( name == "H10Slab" ){
+			    G4String par_name;
+			    double par_px,par_py,par_pz,par_nx,par_ny,par_nz,par_hx,par_hy,par_hz,par_vx,par_vy,par_vz,par_xmin,par_xmax,par_ymin,par_ymax,par_th;
+			    int par_nbx, par_nby;
+			    buf_card>>par_name>>par_px>>par_py>>par_pz>>par_nx>>par_ny>>par_nz>>par_hx>>par_hy>>par_hz>>par_vx>>par_vy>>par_vz>>par_xmin>>par_xmax>>par_ymin>>par_ymax>>par_nbx>>par_nby>>par_th;
+                            m_flux_slabs.push_back(
+                                    new ThinSlab(par_name
+                                        ,G4ThreeVector(par_px,par_py,par_pz)
+                                        ,G4ThreeVector(par_nx,par_ny,par_nz)
+                                        ,G4ThreeVector(par_hx,par_hy,par_hz)
+                                        ,G4ThreeVector(par_vx,par_vy,par_vz)
+                                        ,par_xmin,par_xmax,par_ymin,par_ymax,par_nbx,par_nby,par_th
+                                        )
+                                    );
+			}
+			else if( name == "H10Plane" ){
+			    G4String par_name;
+			    double par_px,par_py,par_pz,par_nx,par_ny,par_nz,par_hx,par_hy,par_hz,par_vx,par_vy,par_vz,par_xmin,par_xmax,par_ymin,par_ymax;
+			    int par_nbx, par_nby;
+			    buf_card>>par_name>>par_px>>par_py>>par_pz>>par_nx>>par_ny>>par_nz>>par_hx>>par_hy>>par_hz>>par_vx>>par_vy>>par_vz>>par_xmin>>par_xmax>>par_ymin>>par_ymax>>par_nbx>>par_nby;
+                            m_flux_surfaces.push_back(
+                                    new SurfacePlane(par_name
+                                        ,G4ThreeVector(par_px,par_py,par_pz)
+                                        ,G4ThreeVector(par_nx,par_ny,par_nz)
+                                        ,G4ThreeVector(par_hx,par_hy,par_hz)
+                                        ,G4ThreeVector(par_vx,par_vy,par_vz)
+                                        ,par_xmin,par_xmax,par_ymin,par_ymax,par_nbx,par_nby
+                                        )
+                                    );
+			}
 			else{
 				std::cout<<"In McTruthSvc::ReadOutputCard, unknown name: "<<name<<" in file "<<filename<<std::endl;
 				std::cout<<"Will ignore this line!"<<std::endl;
@@ -459,6 +377,8 @@ void McTruthSvc::ReSet(){
 	unit_x	=cm;
 	unit_y	=cm;
 	unit_z	=cm;
+	m_flux_slabs.clear();
+	m_flux_surfaces.clear();
 	// Below are put into SetMapEdep function, not available in card. Consider to move them to card-setting style in the future.
 //	m_map_step = 0*mm;
 //	m_map_xmin = 0;
