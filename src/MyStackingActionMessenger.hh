@@ -31,6 +31,7 @@ class MyStackingActionMessenger: public G4UImessenger {
         G4UIcmdWithADoubleAndUnit* fEleCmd;
         G4UIcmdWithADoubleAndUnit* fPosCmd;
         G4UIcmdWithADoubleAndUnit* fGamCmd;
+        G4UIcmdWithADoubleAndUnit* fNeuCmd;
 
         G4UIcmdWithAnInteger* fset_no_secCmd;
         G4UIcmdWithAnInteger* fset_no_MCCmd;

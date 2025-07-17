@@ -114,10 +114,12 @@ class MyStackingAction : public G4UserStackingAction {
         void SetEleCut(G4double val) {fEleCut = val;};
         void SetPosCut(G4double val) {fPosCut = val;};
         void SetGamCut(G4double val) {fGamCut = val;};
+        void SetNeuCut(G4double val) {fNeuCut = val;};
 
         G4double GetEleCut() {return fEleCut;};
         G4double GetPosCut() {return fPosCut;};
         G4double GetGamCut() {return fGamCut;};
+        G4double GetNeuCut() {return fNeuCut;};
 
 		void add_white_list(int val) {m_white_list.push_back(val);};
 		void add_black_list(int val) {m_black_list.push_back(val);};
@@ -146,6 +148,7 @@ class MyStackingAction : public G4UserStackingAction {
         G4double fEleCut;
         G4double fPosCut;
         G4double fGamCut;
+        G4double fNeuCut;
 
 		bool m_no_PC;
 		bool m_no_MC;

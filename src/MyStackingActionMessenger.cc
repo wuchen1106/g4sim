@@ -37,6 +37,12 @@ MyStackingActionMessenger::MyStackingActionMessenger(MyStackingAction* aStack)
     fGamCmd->SetUnitCategory("Energy");
     fGamCmd->AvailableForStates(G4State_Idle);
 
+    fNeuCmd = new G4UIcmdWithADoubleAndUnit("/stacking/setNeuCut",this);
+    fNeuCmd->SetGuidance("Set the minimum energy of neutron to be stacked.");
+    fNeuCmd->SetParameterName("neuCut",false);
+    fNeuCmd->SetUnitCategory("Energy");
+    fNeuCmd->AvailableForStates(G4State_Idle);
+
 	fadd_whiteCmd = new G4UIcmdWithAnInteger("/stacking/add_white_list", this);
 	fadd_whiteCmd->SetGuidance("Add PDGEncoding to white list.");
 	fadd_whiteCmd->SetParameterName("PDGEncoding",false);
@@ -77,6 +83,7 @@ MyStackingActionMessenger::~MyStackingActionMessenger() {
     delete fEleCmd;
     delete fPosCmd;
     delete fGamCmd;
+    delete fNeuCmd;
     delete fadd_whiteCmd;
     delete fadd_blackCmd;
     delete fclear_blackCmd;
@@ -102,6 +109,11 @@ G4String newValue) {
     if( command == fGamCmd ) {
         fStackingAction->
             SetGamCut(fGamCmd->GetNewDoubleValue(newValue));
+    }
+
+    if( command == fNeuCmd ) {
+        fStackingAction->
+            SetNeuCut(fNeuCmd->GetNewDoubleValue(newValue));
     }
 
     if( command == fadd_whiteCmd ) {

@@ -16,7 +16,7 @@ static const char* MyStackingAction_cc =
 #include "G4VProcess.hh"
 
 MyStackingAction::MyStackingAction()
-: fTrackIDMap(NULL), fEleCut(0), fPosCut(0), fGamCut(0) {
+: fTrackIDMap(NULL), fEleCut(0), fPosCut(0), fGamCut(0), fNeuCut(0) {
     fStackingActionMessenger = new MyStackingActionMessenger(this);
     m_white_list.clear();
     m_black_list.clear();
@@ -51,35 +51,27 @@ MyStackingAction::ClassifyNewTrack(const G4Track* aTrack) {
     //
     G4ClassificationOfNewTrack aClassification = fWaiting;
 
-    if ( aPDGEncoding ==
-    particleTable->FindParticle("e-")->GetPDGEncoding() ) {
-        if ( aTrack->GetTotalEnergy() >= fEleCut ) {
-            aClassification = fUrgent;
-        }
-        else {
+    if ( aPDGEncoding == 11 ) {
+        if ( aTrack->GetTotalEnergy() < fEleCut ) {
             aClassification = fKill;
             McTruthSvc::GetMcTruthSvc()->SetValuePre(aTrack);
         }
 
-    } else if ( aPDGEncoding ==
-    particleTable->FindParticle("e+")->GetPDGEncoding() ) {
-        if ( aTrack->GetTotalEnergy() >= fPosCut ) {
-            aClassification = fUrgent;
-        }
-        else {
+    } else if ( aPDGEncoding == -11 ) {
+        if ( aTrack->GetTotalEnergy() < fPosCut ) {
             aClassification = fKill;
             McTruthSvc::GetMcTruthSvc()->SetValuePre(aTrack);
         }
-    } else if ( aPDGEncoding ==
-    particleTable->FindParticle("gamma")->GetPDGEncoding() ) {
-        if ( aTrack->GetTotalEnergy() >= fGamCut ) {
-            aClassification = fUrgent;
-        }
-        else {
+    } else if ( aPDGEncoding == 22 ) {
+        if ( aTrack->GetTotalEnergy() < fGamCut ) {
             aClassification = fKill;
             McTruthSvc::GetMcTruthSvc()->SetValuePre(aTrack);
         }
-
+    } else if ( aPDGEncoding == 2112 ) {
+        if ( aTrack->GetTotalEnergy() < fNeuCut ) {
+            aClassification = fKill;
+            McTruthSvc::GetMcTruthSvc()->SetValuePre(aTrack);
+        }
     }
 
 	if (m_no_MC||m_no_PC||m_no_sec){
