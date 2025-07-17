@@ -52,23 +52,23 @@ MyStackingAction::ClassifyNewTrack(const G4Track* aTrack) {
     G4ClassificationOfNewTrack aClassification = fWaiting;
 
     if ( aPDGEncoding == 11 ) {
-        if ( aTrack->GetTotalEnergy() < fEleCut ) {
+        if ( aTrack->GetKineticEnergy() < fEleCut ) {
             aClassification = fKill;
             McTruthSvc::GetMcTruthSvc()->SetValuePre(aTrack);
         }
 
     } else if ( aPDGEncoding == -11 ) {
-        if ( aTrack->GetTotalEnergy() < fPosCut ) {
+        if ( aTrack->GetKineticEnergy() < fPosCut ) {
             aClassification = fKill;
             McTruthSvc::GetMcTruthSvc()->SetValuePre(aTrack);
         }
     } else if ( aPDGEncoding == 22 ) {
-        if ( aTrack->GetTotalEnergy() < fGamCut ) {
+        if ( aTrack->GetKineticEnergy() < fGamCut ) {
             aClassification = fKill;
             McTruthSvc::GetMcTruthSvc()->SetValuePre(aTrack);
         }
     } else if ( aPDGEncoding == 2112 ) {
-        if ( aTrack->GetTotalEnergy() < fNeuCut ) {
+        if ( aTrack->GetKineticEnergy() < fNeuCut ) {
             aClassification = fKill;
             McTruthSvc::GetMcTruthSvc()->SetValuePre(aTrack);
         }
