@@ -91,7 +91,7 @@ public:
         std::map<float,TH2F*> hmatZX;
         for (std::map<float,bool>::const_iterator it = y4ZX.begin(); it!=y4ZX.end(); it++){
             if (it->second){
-                hmatZX[it->first] = new TH2F(Form("hmatZX%.0f",it->first),Form("Material map on the y = %.0f mm Plane;z [mm];x [mm]",it->first),nz,zmin-dz/2,zmax+dz/2,ny,xmin-dx/2,xmax+dx/2);
+                hmatZX[it->first] = new TH2F(Form("hmatZX%.0f",it->first),Form("Material map on the y = %.0f mm Plane;z [mm];x [mm]",it->first),nz,zmin-dz/2,zmax+dz/2,nx,xmin-dx/2,xmax+dx/2);
             }
         }
         std::map<float,TH2F*> hmatZY;
