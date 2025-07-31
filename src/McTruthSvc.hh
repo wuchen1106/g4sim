@@ -127,6 +127,7 @@ class McTruthSvc
 		double m_maxt;
 		std::vector<int> white_list;
 		std::vector<int> black_list;
+		std::vector<std::string> keywords;
 		//For root objects
 		int m_nTracksAll;
 		int m_nTracks;

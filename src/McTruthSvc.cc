@@ -281,6 +281,11 @@ void McTruthSvc::ReadOutputCard(G4String filename){
 				buf_card>>pid;
 				black_list.push_back(pid);
 			}
+			else if( name == "KEYWORDS" ){
+                            std::string name;
+                            buf_card>>name;
+			    keywords.push_back(name);
+                        }
 			else{
 				G4double para;
 				std::string unit;
@@ -361,6 +366,7 @@ void McTruthSvc::ReSet(){
 	m_maxt = 0;
 	white_list.clear();
 	black_list.clear();
+	keywords.clear();
 	unitName_time="s";
 	unitName_px	="GeV";
 	unitName_py	="GeV";
@@ -442,6 +448,14 @@ void McTruthSvc::ShowOutCard(){
 		std::cout <<"  Tracks with these following PDGCodes will NOT be recorded:"<<std::endl;
 		std::cout<<"            "<<i<<": "<<black_list[i]<<std::endl;
 	}
+	std::cout<<"volume keywords:     "<<std::endl;
+	for ( int i = 0; i< keywords.size(); i++){
+		std::cout <<"  Only tracks origitated from volumes with these following keywords:"<<std::endl;
+		std::cout<<"            "<<i<<": "<<keywords[i]<<std::endl;
+	}
+	if ( keywords.size() == 0 ){
+		std::cout <<"  Empty! So all tracks will be recorded!"<<std::endl;
+	}
         std::cout<<"edep map step         "<<m_map_step/mm<<" mm"<<std::endl;
         std::cout<<"edep map x range      "<<m_map_xmin/mm<<" ~ "<<m_map_xmax<<" mm"<<std::endl;
         std::cout<<"edep map y range      "<<m_map_ymin/mm<<" ~ "<<m_map_ymax<<" mm"<<std::endl;
@@ -493,6 +507,15 @@ void McTruthSvc::SetValuePre(const G4Track* aTrack){
 		if (black_list[i]==-1&&trackID==1) foundit = true;
 	}
 	if (foundit) return;
+	// volume keywords
+	std::string volume = aTrack->GetLogicalVolumeAtVertex()?aTrack->GetLogicalVolumeAtVertex()->GetName():"NULL";
+	foundit = false;
+	for (int i = 0; i<keywords.size(); i++){
+	    if (volume.find(keywords[i]) != std::string::npos){
+	        foundit = true; break;
+	    }
+        }
+        if (!foundit&&keywords.size()) return;
 	m_nTracks++;
 	m_recordCurrentTrack = true;
 
@@ -507,7 +530,6 @@ void McTruthSvc::SetValuePre(const G4Track* aTrack){
 	G4int ptid = aTrack->GetParentID(); //parent G4 track ID of current track.
 	G4ThreeVector mom_3vec = aTrack->GetMomentum();
 	G4ThreeVector pos_3vec = aTrack->GetVertexPosition();
-	std::string volume = aTrack->GetLogicalVolumeAtVertex()?aTrack->GetLogicalVolumeAtVertex()->GetName():"NULL";
 	std::string particleName = aTrack->GetParticleDefinition()->GetParticleName();
 	int charge = aTrack->GetParticleDefinition()->GetPDGCharge();
 	G4double energy = aTrack->GetTotalEnergy();
