@@ -31,6 +31,7 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+#include "G4IonTable.hh"
 #include "G4RunManager.hh"
 #include "G4UImanager.hh"
 #include "G4Version.hh"
@@ -397,6 +398,30 @@ int main(int argc,char** argv)
     // G4VisManager* visManager = new G4VisExecutive("Quiet");
     G4VisManager* visManager = new G4VisExecutive;
 #endif
+
+    /*
+    G4ParticleTable * pTable = G4ParticleTable::GetParticleTable();
+    G4IonTable * ionTable = pTable->GetIonTable();
+    for (int Z=1; Z<=92; Z++){
+        for (int A=Z; A<=Z+50; A++){
+            ionTable->GetIon(Z,A,0.0);
+        }
+    }
+    for (int i = 0; i<ionTable->Entries(); i++){
+        G4ParticleDefinition * ion = ionTable->GetParticle(i);
+        if (!ion) continue;
+
+        G4double lifetime = ion->GetPDGLifeTime();
+        G4String name = ion->GetParticleName();
+
+        if (lifetime/s>1){
+            std::cout<<ion->GetPDGEncoding()<<" "<<name<<" "<<lifetime/s<<" "<<std::endl;
+        }
+        else{
+            //std::cout<<name<<": "<<" stable"<<std::endl;
+        }
+    }
+    */
 
     if (MacroName!="")   // batch mode
     {

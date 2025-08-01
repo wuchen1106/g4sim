@@ -123,6 +123,8 @@ class McTruthSvc
 		double m_minp;
 		double m_mine;
 		int m_maxnTracks;
+		double m_minLT;
+		double m_maxLT;
 		double m_mint;
 		double m_maxt;
 		std::vector<int> white_list;

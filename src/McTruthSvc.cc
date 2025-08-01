@@ -293,6 +293,8 @@ void McTruthSvc::ReadOutputCard(G4String filename){
 				para *= MyString2Anything::get_U(unit);
 				if( name == "minp" ) m_minp = para;
 				else if( name == "mine" ) m_mine = para;
+				else if( name == "minLT" ) m_minLT = para;
+				else if( name == "maxLT" ) m_maxLT = para;
 				else if( name == "mint" ) m_mint = para;
 				else if( name == "maxt" ) m_maxt = para;
 				else{
@@ -362,6 +364,8 @@ void McTruthSvc::ReSet(){
 	m_minp = 0;
 	m_mine = 0;
 	m_maxnTracks = 0;
+	m_minLT = -1;
+	m_maxLT = -1;
 	m_mint = 0;
 	m_maxt = 0;
 	white_list.clear();
@@ -433,6 +437,8 @@ void McTruthSvc::ShowOutCard(){
 	std::cout<<"minp =                "<<m_minp/MeV<<"MeV"<<std::endl;
 	std::cout<<"mine =                "<<m_mine/MeV<<"MeV"<<std::endl;
 	std::cout<<"maxnTracks =          "<<m_maxnTracks<<std::endl;
+	std::cout<<"minLT =                "<<m_minLT/s<<"s"<<std::endl;
+	std::cout<<"maxLT =                "<<m_maxLT/s<<"s"<<std::endl;
 	std::cout<<"mint =                "<<m_mint/ns<<"ns"<<std::endl;
 	std::cout<<"maxt =                "<<m_maxt/ns<<"ns"<<std::endl;
 	std::cout<<"white list:     "<<std::endl;
@@ -486,6 +492,9 @@ void McTruthSvc::SetValuePre(const G4Track* aTrack){
 	if (m_minp&&aTrack->GetMomentum().mag()<m_minp) return;
 	//energy
 	if (m_mine&&aTrack->GetTotalEnergy()<m_mine) return;
+	// life time
+	if (m_minLT>=0&&aTrack->GetParticleDefinition()->GetPDGLifeTime()<m_minLT) return;
+	if (m_maxLT>=0&&aTrack->GetParticleDefinition()->GetPDGLifeTime()>m_maxLT) return;
 	//time window
 	if (m_mint&&globalT<m_mint) return;
 	if (m_maxt&&globalT>m_maxt) return;
