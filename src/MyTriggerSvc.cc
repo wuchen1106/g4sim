@@ -118,6 +118,9 @@ void MyTriggerSvc::SetMyTrigger( G4String filename ){
 			else if ( name == "minTracks" ){
 				minTracks = para;
 			}
+			else if ( name == "minVorTracks" ){
+				minVorTracks = para;
+			}
 			else{
 				std::cout<<"In MyTriggerSvc::SetMyTrigger, unknown name: "<<name<<" in file "<<filename<<std::endl;
 				std::cout<<"Will ignore this line!"<<std::endl;
@@ -206,7 +209,7 @@ void MyTriggerSvc::SetMyTrigger( G4String filename ){
 	if ( minEleMom != -1*MeV ){
 		myMcTruthSvc = McTruthSvc::GetMcTruthSvc();
 	}
-	if ( minAntipNum != -1 || minTracks != -1 ){
+	if ( minAntipNum != -1 || minTracks != -1 || minVorTracks !=-1 ){
 		myMcTruthSvc = McTruthSvc::GetMcTruthSvc();
 	}
 }
@@ -295,6 +298,14 @@ bool MyTriggerSvc::TriggerIt( const G4Event* evt ){
 		int nTracks = myMcTruthSvc->get_nTracks();
 		if (nTracks<minTracks) return false;
 	}
+	if ( minVorTracks!= -1 ){
+		int nTracks = myMcTruthSvc->get_nTracks();
+		int nHits = 0;
+		if (myMonitorSD){
+			nHits = myMonitorSD->Get_nHits();
+		}
+		if (nTracks<minVorTracks&&nHits<minVorTracks) return false;
+	}
 	//std::cout<<"Passed Cut!"<<std::endl;
 
 	return true;
@@ -308,6 +319,7 @@ void MyTriggerSvc::ReSet(){
 	minEleMom = -1*MeV;
 	minAntipNum = -1;
 	minTracks = -1;
+	minVorTracks = -1;
 }
 
 void MyTriggerSvc::ShowOutCard(){
@@ -319,5 +331,6 @@ void MyTriggerSvc::ShowOutCard(){
 	std::cout<<"minEleMom=       "<<minEleMom/MeV<<", MeV"<<std::endl;
 	std::cout<<"minAntipNum=     "<<minAntipNum<<std::endl;
 	std::cout<<"minTracks =      "<<minTracks<<std::endl;
+	std::cout<<"minVorTracks =      "<<minVorTracks<<std::endl;
 	std::cout<<"******************************************************************************"<<std::endl;
 }
