@@ -152,7 +152,7 @@ void MyTriggerSvc::SetMyTrigger( G4String filename ){
 			std::cout<<"myMonitorSD @ ["<<(void*) myMonitorSD<<"]"<<std::endl;
 		}
 	}
-	if ( minV_Hits != -1 ){ 
+	if ( minV_Hits != -1 || minVorTracks != -1 ){ 
 		myVSD = pMyDetectorManager->GetSD("","V/MonitorSD");
 		if (myVSD){
 			myMonitorSD = dynamic_cast<MonitorSD*> (myVSD);
