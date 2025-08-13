@@ -40,6 +40,7 @@ typedef HepGeom::Vector3D<double> HepVector3D;
 	KillerSD::KillerSD(G4String name, MyVGeometryParameter* pointer)
 :MySD(name, pointer)
 {
+    ReSet();
 }
 
 KillerSD::~KillerSD(){
